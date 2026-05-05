@@ -1,0 +1,594 @@
+{
+  "hero": {
+    "title": "The IFA Internet",
+    "subtitle": "Internet Model of the Theory of Everything — iTOE",
+    "tagline": "Where All Kinds of Ideas and Knowledge Meet",
+    "description": "A Unified Meta-Model integrating all fields, including science, mathematics, engineering, and social sciences through a single Consciousness Science (ConSci) Framework. At its core: Consciousness-Energy (CEN), i.e, Ogbe, is everything that really exists.",
+    "cta_primary": { "label": "Explore Platforms", "href": "#platforms" },
+    "cta_secondary": { "label": "IFA Networking", "href": "#networking" }
+  },
+
+  "mission": {
+    "title": "One Framework for Everything",
+    "premise": "Consciousness-Energy (CEN) is everything that really exists. All phenomena — living and non-living — are manifestations of a single, unified Entity, Ogbe Energy.",
+    "pillars": [
+      {
+        "id": "unity",
+        "symbol": "◉",
+        "title": "Universal Unity",
+        "body": "A single unified framework — the Theory of Everything — that integrates all disciplines from physics to philosophy through the lens of Consciousness-Energy."
+      },
+      {
+        "id": "ifa",
+        "symbol": "⊞",
+        "title": "IFA Foundation",
+        "body": "Built on 256 Odu Ifa — ancient Internet Technology developed by the Ifẹ̀ mathematicians Ọrúnmìlà and Ọ̀ṣun — encoded as the IFABit system (Ogbe = IfaZero, Oyeku = IfaOne)."
+      },
+      {
+        "id": "network",
+        "symbol": "⊛",
+        "title": "Internet of Internets",
+        "body": "IfaNet — the Network of Everything — uses IFA Language (IfaLang) as the universal communication protocol, enabling all fields to speak to one another."
+      },
+      {
+        "id": "steamsex",
+        "symbol": "⊕",
+        "title": "STEAMSEX Integration",
+        "body": "Science, Technology, Engineering, Arts, Mathematics, Social sciences, Education, and X (Others) — the interdisciplinary Framework for solving complex societal problems."
+      }
+    ]
+  },
+
+  "stats": [
+    { "value": "256", "label": "Odu Ifa", "sub": "Ancient Knowledge Codes" },
+    { "value": "16",  "label": "IFA Axioms", "sub": "Axioms of Everything" },
+    { "value": "40+", "label": "Platforms", "sub": "Across all disciplines" },
+    { "value": "∞",   "label": "CEN", "sub": "Consciousness-Energy" }
+  ],
+
+  "networking": {
+    "title": "IFA Internetworking",
+    "subtitle": "TOE Networking — Universal Internetworking Technology (UIT)",
+    "description": "IFA is the Internet of internets — a layered network of networks using Odu Ifa as the ancient blueprint for all internetworking methodologies.",
+    "nodes": [
+      {
+        "id": "ifanet",
+        "name": "IfaNet",
+        "subtitle": "Network of Everything",
+        "description": "Primary universal network. Uses interdisciplinary approaches to solve complex societal problems; operates via IfaLang.",
+        "accent": "#f5c518"
+      },
+      {
+        "id": "orisanet",
+        "name": "OrisaNet / OosaNet",
+        "subtitle": "The Dual of IfaNet",
+        "description": "Complementary mirror network — the twin internet architecture: The IFA Internet ↔ The Orisa Internet.",
+        "accent": "#4361ee"
+      },
+      {
+        "id": "ifalang",
+        "name": "IfaLang",
+        "subtitle": "Universal Protocol",
+        "description": "IFA Language — the first Theory of Everything Language (TOEL). The communication protocol enabling every field to connect.",
+        "accent": "#2d9e6b"
+      },
+      {
+        "id": "ifagebra",
+        "name": "IfaGebra / NetGebra",
+        "subtitle": "Network Mathematics",
+        "description": "Metamathematical framework modeling everyhing in existence, every field of knowledge, every network type using Ifabits — the most basic units of the IFA Binary Encoding System.",
+        "accent": "#7c4dff"
+      },
+      {
+        "id": "ifahubs",
+        "name": "IfaHubs / OosaHubs",
+        "subtitle": "Network Nodes",
+        "description": "Interdisciplinary knowledge nodes combining all fields, residing at the intersection of every knowledge field, including the sciences, arts, and engineering.",
+        "accent": "#e63946"
+      },
+      {
+        "id": "ifabridge",
+        "name": "Ifa Bridge",
+        "subtitle": "Ancient ↔ Modern",
+        "description": "The connection layer bridging Ancient African Science and Modern Western Science into a unified knowledge network.",
+        "accent": "#e9498a"
+      }
+    ]
+  },
+
+  "categories": [
+    { "id": "all",        "label": "All Platforms",  "color": "#8b92a5" },
+    { "id": "math",       "label": "Mathematics",     "color": "#f5c518" },
+    { "id": "science",    "label": "Sciences",        "color": "#4361ee" },
+    { "id": "tech",       "label": "Technology",      "color": "#2d9e6b" },
+    { "id": "network",    "label": "Networking",      "color": "#0099ff" },
+    { "id": "language",   "label": "Language",        "color": "#7c4dff" },
+    { "id": "tools",      "label": "Tools",           "color": "#e9498a" },
+    { "id": "philosophy",  "label": "Philosophy",    "color": "#daa520" },
+    { "id": "education",   "label": "Education",     "color": "#e63946" },
+    { "id": "arts",        "label": "Arts",          "color": "#ff6b35" },
+    { "id": "non-science", "label": "Non-Sciences",  "color": "#9b59b6" }
+  ],
+
+  "platforms": [
+    {
+      "id": "ifa-periodic-table",
+      "name": "Ifa Periodic Table",
+      "subtitle": "256 Odu Interactive Explorer",
+      "description": "Explore all 256 Odu Ifa in an interactive Periodic Table — the Blueprint for all knowledge.",
+      "category": "tools",
+      "url": "/ifa-periodic-table/",
+      "featured": true,
+      "local": true
+    },
+    {
+      "id": "ifai",
+      "name": "Ifai",
+      "subtitle": "Ifa Intelligence",
+      "description": "Ifa-Informed AI: The science, technology, art, and practice of Artificial Intelligence in IfaLang.",
+      "category": "tech",
+      "url": "/ifai/",
+      "featured": true,
+      "local": true
+    },
+    {
+      "id": "ifa-lang",
+      "name": "IFA Language",
+      "subtitle": "IfaLang — TOEL",
+      "description": "The first Theory of Everything Language (TOEL) — the universal Communication Protocol across all IfaNets.",
+      "category": "language",
+      "alsoIn": ["arts", "non-science"],
+      "url": "/ifa-language/",
+      "featured": true,
+      "local": true
+    },
+    {
+      "id": "ifa-game",
+      "name": "IFA Game",
+      "subtitle": "Odu Knowledge Game",
+      "description": "Many Ifa Games and Orisa Games to learn all modern fields using the mathematical and holistic approaches of Ifa and Orisa.",
+      "category": "education",
+      "url": "/ifa-game/",
+      "featured": false,
+      "local": true
+    },
+    {
+      "id": "ifa-analysis",
+      "name": "IFA Analysis",
+      "subtitle": "Unified Analytical Engine",
+      "description": "Use the 256 Odu Ifa as Tools/Systems to conduct meta-analysis and meta-modelling in all knowledge fields",
+      "category": "tools",
+      "url": "/ifa-analysis/",
+      "featured": false,
+      "local": true
+    },
+    {
+      "id": "ifa-mechanics",
+      "name": "IFA Mechanics",
+      "subtitle": "TOE Mechanics",
+      "description": "Study, develop, and model all fields, ..., everything as energyforms using the Binary Mechanics of the Odu Ifa and Odu Oosa.",
+      "category": "tech",
+      "alsoIn": ["arts", "science", "non-science"],
+      "url": "/ifa-mechanics-toe-mechanics/",
+      "featured": false,
+      "local": true
+    },
+    {
+      "id": "ifa-math",
+      "name": "IFA Mathematics",
+      "subtitle": "TOE Mathematics",
+      "description": "Temic Algebra, Ifa Algebra (IfaGebra), IFA Numbers, the 16 Ifa Axioms (the Axioms of Everything, AxioE) — the Laws of Nature governing all fields.",
+      "category": "math",
+      "alsoIn": ["arts", "science", "non-science"],
+      "url": "/ifa-mathematics-toe-mathematics/",
+      "featured": true
+    },
+    {
+      "id": "ifagebra",
+      "name": "IfaGebra",
+      "subtitle": "NetGebra — AlgebroE",
+      "description": "The Algebra for Everything (AlgebroE), Metamathematical Framework for modeling all knowledge fields and network types as energyforms using IFABits.",
+      "category": "math",
+      "url": "/ifagebra-overview/",
+      "featured": false
+    },
+    {
+      "id": "ifa-number",
+      "name": "IFA Number",
+      "subtitle": "NumoE",
+      "description": "Temic Numbers — the Number of Everything (NumoE) System encoding all quantities, ..., everything as states of Energy.",
+      "category": "math",
+      "url": "/ifa-number/",
+      "featured": false
+    },
+    {
+      "id": "ifa-logic",
+      "name": "IFA Logic",
+      "subtitle": "Logic of Everything",
+      "description": "The logical foundations of the Theory of Everything derived from IFA principles.",
+      "category": "math",
+      "url": "/ifa-logic/",
+      "featured": false
+    },
+    {
+      "id": "ifalgorithm",
+      "name": "Ifalgorithm",
+      "subtitle": "Algorithm of Everything",
+      "description": "IFA-based algorithms for processing and transforming knowledge.",
+      "category": "math",
+      "url": "/ifa-algorithm/",
+      "featured": false
+    },
+    {
+      "id": "ifa-transform",
+      "name": "IFA Transform",
+      "subtitle": "Transform of Everything",
+      "description": "Mathematical transformations grounded in IFA Logic and IfaGebra.",
+      "category": "math",
+      "url": "/ifa-transform/",
+      "featured": false
+    },
+    {
+      "id": "ifa-set",
+      "name": "IFA Set Theory",
+      "subtitle": "TOE Set Theory",
+      "description": "Universal set theory built on the 256 Odu as the organizing schema.",
+      "category": "math",
+      "url": "/ifa-set-theory-toe-set-theory/",
+      "featured": false
+    },
+    {
+      "id": "ifa-category-theory",
+      "name": "IFA Category Theory",
+      "subtitle": "Categories of Everything",
+      "description": "Category-theoretic approach to building the Theory of Everything.",
+      "category": "math",
+      "url": "/ifa-category-theory/",
+      "featured": false
+    },
+    {
+      "id": "ifa-science",
+      "name": "IFA Science",
+      "subtitle": "Science of Everything",
+      "description": "Empirical disciplines unified under the IFA framework — where science meets Consciousness-Energy.",
+      "category": "science",
+      "url": "/ifa-science/",
+      "featured": true
+    },
+    {
+      "id": "ifa-physics",
+      "name": "IFA Physics",
+      "subtitle": "Physical Science",
+      "description": "Physics interpreted through the Consciousness-Energy (CEN) lens.",
+      "category": "science",
+      "url": "/ifa-physics/",
+      "featured": false
+    },
+    {
+      "id": "ifa-chemistry",
+      "name": "IFA Chemistry",
+      "subtitle": "IfaChemistry",
+      "description": "Chemical science as a manifestation of Consciousness-Energy interactions.",
+      "category": "science",
+      "url": "/ifachemistry/",
+      "featured": false
+    },
+    {
+      "id": "ifa-biology",
+      "name": "IFA Biology",
+      "subtitle": "Biology of Everything",
+      "description": "Life sciences unified within the IFA framework — from cells to ecosystems.",
+      "category": "science",
+      "url": "/ifa-biology/",
+      "featured": false
+    },
+    {
+      "id": "itol",
+      "name": "Igi Iye Ifa",
+      "subtitle": "Tree of Life — iToL Explorer",
+      "description": "The IFA Tree of Life — an interactive explorer of biological diversity and evolution.",
+      "category": "science",
+      "url": "/igi-iye-ifa-the-ifa-tree-of-life-itol-explorer/",
+      "featured": false
+    },
+    {
+      "id": "ifa-neuro",
+      "name": "IFA Neuroscience",
+      "subtitle": "Consciousness Science",
+      "description": "Neuroscience through the lens of Consciousness-Energy — bridging brain and awareness.",
+      "category": "science",
+      "url": "/ifa-neuroscience/",
+      "featured": false
+    },
+    {
+      "id": "ifatlas",
+      "name": "Consciousness Atlas",
+      "subtitle": "Ifatlas",
+      "description": "Map and navigate states of consciousness across the full spectrum of awareness.",
+      "category": "science",
+      "url": "/the-consciousness-atlas/",
+      "featured": false
+    },
+    {
+      "id": "cwo",
+      "name": "Consciousness Wave Observatory",
+      "subtitle": "CWO",
+      "description": "Observe and analyze consciousness wave phenomena in real time.",
+      "category": "science",
+      "url": "/consciousness-wave-observatory/",
+      "featured": false
+    },
+    {
+      "id": "ifa-medicine",
+      "name": "IFA Medicine",
+      "subtitle": "TOE Medicine",
+      "description": "Medical science grounded in the IFA Theory of Everything (iTOE) — holistic healing from the First Principles of Ifa, the Oju Odufa Merindinlogun.",
+      "category": "science",
+      "url": "/ifa-medicine-toe-medicine/",
+      "featured": false
+    },
+    {
+      "id": "ifa-computer",
+      "name": "IFA Computer",
+      "subtitle": "Computer of Everything",
+      "description": "Computing systems based on IFABit binary encoding — from hardware to software.",
+      "category": "tech",
+      "url": "/ifa-computer/",
+      "featured": false
+    },
+    {
+      "id": "ifabit",
+      "name": "IFABit",
+      "subtitle": "IfaBinary Encoding System (IES)",
+      "description": "The Fundamental Binary Encoding Scheme of Odu Ifa: Ogbe (Energy/I) and Oyeku (Anergy/II).",
+      "category": "tech",
+      "url": "/ifabit-overview/",
+      "featured": false
+    },
+    {
+      "id": "ifabitcoin",
+      "name": "IFABitcoin",
+      "subtitle": "ToEBitcoin",
+      "description": "Cryptocurrency grounded in the IFA Theory of Everything.",
+      "category": "tech",
+      "url": "/ifabitcoin/",
+      "featured": false
+    },
+    {
+      "id": "wdse",
+      "name": "World Divination Systems Explorer",
+      "subtitle": "WDSE",
+      "description": "Explore and compare divination systems from cultures around the world.",
+      "category": "tech",
+      "url": "/world-divination-systems-explorer/",
+      "featured": false
+    },
+    {
+      "id": "ifa-engineering",
+      "name": "IFA Engineering",
+      "subtitle": "Engineering of Everything",
+      "description": "Engineering principles and systems unified under the IFA framework.",
+      "category": "tech",
+      "url": "/ifa-engineering/",
+      "featured": false
+    },
+    {
+      "id": "ifa-networking",
+      "name": "IFA Networking",
+      "subtitle": "TOE Networking",
+      "description": "Universal Internetworking Technology — the Internet of internets built on Odu Ifa.",
+      "category": "network",
+      "url": "/ifa-networking-toe-networking/",
+      "featured": true
+    },
+    {
+      "id": "ifa-information",
+      "name": "IFA Information",
+      "subtitle": "Information of Everything",
+      "description": "Information theory based on Consciousness Energy.",
+      "category": "network",
+      "url": "/ifa-information/",
+      "featured": false
+    },
+    {
+      "id": "ifabok",
+      "name": "IFA Body of Knowledge",
+      "subtitle": "IFABOK",
+      "description": "The comprehensive corpus — ancient Odu Ifa as the foundational knowledge network.",
+      "category": "network",
+      "url": "/",
+      "featured": false
+    },
+    {
+      "id": "ifapedia",
+      "name": "IfaPedia",
+      "subtitle": "TOE Encyclopedia",
+      "description": "The Theory of Everything Encyclopedia — a living Compendium of all fields expressed in IfaLang.",
+      "category": "network",
+      "url": "/ifapedia-the-toe-encyclopedia/",
+      "featured": false
+    },
+    {
+      "id": "ifalabs",
+      "name": "IfaLabs / ToELabs",
+      "subtitle": "Interdisciplinary Research Space",
+      "description": "Ifa Space, ToE Space for information, knowledge networks, and interdisciplinary collaboration.",
+      "category": "network",
+      "url": "/ifalabs-toelabs/",
+      "featured": false
+    },
+    {
+      "id": "ifa-linguistics",
+      "name": "IFA Linguistics",
+      "subtitle": "IfaLin — LinoE",
+      "description": "The Linguistics of Everything (LinoE)— Energy-Based Approach to Language Sciences, Engineering, Technology, and Arts.",
+      "category": "language",
+      "alsoIn": ["arts", "non-science", "science"],
+      "url": "/ifa-linguistics-ifalin-the-linguistics-of-everything-linoe/",
+      "featured": false
+    },
+    {
+      "id": "ifa-pl",
+      "name": "IFA Programming Language",
+      "subtitle": "Ifa PL",
+      "description": "IfaPL is not a programming language (PL) itself; it is a PL Generator and Integrator.",
+      "category": "language",
+      "url": "/ifa-programming-language-ifa-pl/",
+      "featured": false
+    },
+    {
+      "id": "ifa-map",
+      "name": "IFA Map",
+      "subtitle": "Map of Everything",
+      "description": "Navigate the complete landscape of the Theory of Everything.",
+      "category": "tools",
+      "url": "/ifa-map/",
+      "featured": false
+    },
+    {
+      "id": "ifa-matrix",
+      "name": "IFA Matrix",
+      "subtitle": "Matrix of Everything",
+      "description": "The IFA Matrix — a structural grid mapping all knowledge domains.",
+      "category": "tools",
+      "url": "/ifa-matrix/",
+      "featured": false
+    },
+    {
+      "id": "ifalens",
+      "name": "IfaLens",
+      "subtitle": "Lens of Everything",
+      "description": "Examine any phenomenon through the IFA framework lens.",
+      "category": "tools",
+      "url": "/ifalens/",
+      "featured": false
+    },
+    {
+      "id": "ifa-spectrum",
+      "name": "IFA Spectrum",
+      "subtitle": "Spectrum of Everything",
+      "description": "Visualize and navigate the full spectrum of knowledge and consciousness.",
+      "category": "tools",
+      "url": "/ifa-spectrum/",
+      "featured": false
+    },
+    {
+      "id": "ifa-trinity",
+      "name": "IFA Trinity",
+      "subtitle": "Trinity of Everything",
+      "description": "The IFA Trinity — the threefold Principle where every Element of the IFA Internet is a field of study, a tech/system, and a research field of IFABOK.",
+      "category": "tools",
+      "url": "/ifa-trinity/",
+      "featured": false
+    },
+    {
+      "id": "ifa-philosophy",
+      "name": "IFA Philosophy",
+      "subtitle": "PhiloE",
+      "description": "The Philosophy of Everything (PhiloE), studying and modelling all kinds of philosophies as mathematical energyforms and elements of the Ifa System, Philosophy Algebra (PhilGebra).",
+      "category": "philosophy",
+      "alsoIn": ["arts", "non-science", "science"],
+      "url": "/ifa-philosophy/",
+      "featured": false
+    },
+    {
+      "id": "ifa-ethics",
+      "name": "IFA Ethics",
+      "subtitle": "Ethics of Everything",
+      "description": "Ọmọlúwàbí values — ethical foundations rooted in ancient African wisdom.",
+      "category": "philosophy",
+      "alsoIn": ["arts", "non-science", "science"],
+      "url": "/ifa-ethics/",
+      "featured": false
+    },
+    {
+      "id": "ifa-non-science",
+      "name": "IFA Non-Science",
+      "subtitle": "Non-Science of Everything",
+      "description": "Philosophy, language, ethics — the domains of knowledge beyond empirical science.",
+      "category": "philosophy",
+      "alsoIn": ["arts", "non-science"],
+      "url": "/ifa-non-science/",
+      "featured": false
+    },
+    {
+      "id": "ifa-education",
+      "name": "IFA System of Education",
+      "subtitle": "Binary System of Education",
+      "description": "Education framework based on IFA Binary principles — learning through the lens of CEN.",
+      "category": "education",
+      "url": "/the-ifa-system-of-education/",
+      "featured": false
+    },
+    {
+      "id": "ifacodemy",
+      "name": "IFA Coding Academy",
+      "subtitle": "Ifacodemy",
+      "description": "The Ifa Academy of Polymaths, where we teach all fields and subjects using the polymathic, mathematical, and holistic methods of Ifa & Orisa.",
+      "category": "education",
+      "url": "https://cenproject.org/the-ifa-coding-academy/",
+      "featured": false,
+      "external": true
+    },
+    {
+      "id": "ifa-script",
+      "name": "Ifa Script",
+      "subtitle": "The Script of Everything (ScriptoE)",
+      "description": "The writing system of the IFA Internet — a universal script encoding all knowledge through Consciousness-Energy principles.",
+      "category": "language",
+      "alsoIn": ["arts", "non-science"],
+      "url": "/ifa-script-the-script-of-everything-scriptoe/",
+      "featured": false
+    },
+    {
+      "id": "ifagraphy",
+      "name": "Ifagraphy",
+      "subtitle": "TOEgraphy",
+      "description": "The Orthography of Everything — The IfaWriting System uses Energy (Ogbe) to unify and integrate all possible writing systems together as One.",
+      "category": "tools",
+      "alsoIn": ["arts", "non-science", "language"],
+      "url": "/ifagraphy-toegraphy/",
+      "featured": false
+    },
+    {
+      "id": "ifa-banking",
+      "name": "Ifa Banking",
+      "subtitle": "TOE Banking",
+      "description": "Banking systems grounded in IFA principles — financial infrastructure unified under Consciousness-Energy.",
+      "category": "tech",
+      "url": "/ifa-banking-toe-banking/",
+      "featured": false
+    },
+    {
+      "id": "ifa-economics",
+      "name": "Ifa Economics",
+      "subtitle": "TOE Economics",
+      "description": "Economic theory and practice unified under the IFA Theory of Everything framework.",
+      "category": "tech",
+      "url": "/ifa-economics-toe-economics/",
+      "featured": false
+    },
+    {
+      "id": "ifa-finance",
+      "name": "Ifa Finance",
+      "subtitle": "TOE Finance",
+      "description": "Finance Algebra (FinGebra): Financial systems and theories rooted in the 16 General Laws of Ifa governing all fields and existence as a whole  — the Finance of Everything (FinoE).",
+      "category": "tech",
+      "url": "/ifa-finance-toe-finance/",
+      "featured": false
+    }
+  ],
+
+  "footer": {
+    "tagline": "The IFA Internet — Internet Model of the Theory of Everything",
+    "links": [
+      { "label": "CENProject", "href": "https://cenproject.org/" },
+      { "label": "IFA Networking", "href": "/ifa-networking-toe-networking/" },
+      { "label": "IfaLabs", "href": "/ifalabs-toelabs/" },
+      { "label": "IfaPedia", "href": "/ifapedia-the-toe-encyclopedia/" },
+      { "label": "IFA Mathematics", "href": "/ifa-mathematics-toe-mathematics/" },
+      { "label": "Ejiodi", "href": "https://ejiodi.com/" }
+    ],
+    "copyright": "CENProject — toe.cenproject.org"
+  }
+}
