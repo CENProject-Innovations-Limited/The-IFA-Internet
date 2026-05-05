@@ -5,7 +5,7 @@
 
 **IFA Internet** is a next-generation Internetworking Paradigm based on the **Odù Ifá**, developed by **CENProject**.
 
-It proposes a unified framework that unifies and integrates all fields, including **mathematics, network engineering, consciousness science (ConSci), and African Indigenous Knowledge Systems (AIKS)** into a single computational and philosophical architecture.
+It proposes a unified Framework that unifies and integrates all fields, including **mathematics, network engineering, consciousness science (ConSci), and African Indigenous Knowledge Systems (AIKS)** into a single computational and philosophical Architecture.
 
 > Also known as the **Internet Model of the Theory of Everything (iTOE)**
 
@@ -13,7 +13,7 @@ It proposes a unified framework that unifies and integrates all fields, includin
 
 ## 🌍 Vision
 
-To build a **semantic, energy-based, and meaning-aware Internet** rooted in African Knowledge Systems, enabling:
+To build a **semantic, Energy-based, and meaning-aware Internet** rooted in African Knowledge Systems, enabling:
 
 * Unified scientific and technological frameworks
 * New computational paradigms (Ifa Mathematics)
@@ -24,21 +24,21 @@ To build a **semantic, energy-based, and meaning-aware Internet** rooted in Afri
 
 ## 🧠 Core Principle
 
-The IFA Internet is built on the **Consciousness-Energy (CEN) Framework**, where:
+The IFA Internet is built on the **Consciousness Energy (CEN) Framework**, where:
 
-> **Consciousness-Energy (CEN), expressed as Ogbe, is the fundamental reality underlying all existence.**
+> **Consciousness-Energy (CEN), expressed as Ogbe, is the most Fundamental Reality underlying all existence.**
 
-All phenomena—physical, biological, social, and informational—are modeled as **transformations of a single unified entity: Ogbe Energy**.
+All phenomena—physical, biological, social, and informational—are modeled as **transformations, forms, or state of a single unified entity: Ogbe Energy**.
 
 This leads to a paradigm shift:
 
-> From **data transmission** → to **energy-state transformation and meaning propagation**
+> From **data transmission** → to **Energy-State transformation and meaning propagation**
 
 ---
 
 ## 🧩 The IFA Theory of Everything (iTOE)
 
-The IFA Internet operationalizes the **iTOE**, a unified meta-framework that:
+The IFA Internet operationalizes the **iTOE**, a unified Meta-Framework that:
 
 * Integrates all domains of knowledge
 * Provides a common language across disciplines
@@ -49,7 +49,7 @@ The IFA Internet operationalizes the **iTOE**, a unified meta-framework that:
 * Reality = Consciousness-Energy (CEN)
 * Structure = Odù state space (256 fundamental configurations)
 * Dynamics = Transformations (Ifa Mathematics)
-* Meaning = Emergent from state relationships
+* Meaning = Emergent from state relationships/transformations
 
 ---
 
@@ -83,41 +83,62 @@ User-facing systems within the Digital IFA Ecosystem
 
 The IFA Internet consists of an expanding ecosystem of interconnected systems:
 
-### 🔢 Ifa Mathematics
+### 🔢 [IFA Mathematics](https://toe.cenproject.org/ifa-mathematics-toe-mathematics/)
 
-A new mathematical framework where:
+The ancient memathematical Framework of Ifa and Orisa for:
 
-* Numbers = energy states
-* Operations = transformations
+* modelling, developing, and studying all knowledge fields, ..., all things in existence as mathematical energyforms, energystates, or energy systems.
 
 ---
 
-### 🤖 Ifai (Ifa AI)
+### 🤖 [Ifai (Ifa AI)](https://ifainternet.org/ifai/)
 
 Indigenous artificial intelligence based on:
 
-* Odù state computation
+* Energy-based, Odù state computation
+* Universal metacomputations
 * Meaning-driven inference
 
 ---
 
-### 🗣️ Ifa Language (IfaLang) / Ifa Programming Language (IfaPL)
+### 🗣️ [Ifa Language (IfaLang)/Ifa Programming Language (IfaPL)](https://ifainternet.org/ifa-language/)
 
-A semantic programming framework for:
+The Language of Energy (LoE) that allows all fields to 'talk to one another' on the IFA Internet:
 
-* Encoding knowledge in Odù structures
-* Building meaning-aware applications
+* Encoding all knowledge fields using Energy-based metamathematics (Odù Ifa Structures)
+* Building meaning-aware applications and systems
 
 ---
 
-### 🔥 Orisa Language (OrisaLang)
+### 🔥 [Orisa Language (OrisaLang)](https://ifainternet.org/ifa-language/)
 
 A complementary symbolic system representing:
 
+* Knowledge Languages (KLs) for all fields
 * dynamic expressions of energy
-* dual structure to the Ifa system
+* Dual Structure to the Ifa system
 
 ---
+
+### 🧪 [Ifa Periodic Table](https://ifainternet.org/ifa-periodic-table/)
+
+A unified structural Framework for organizing all fields of knowledge and all forms of existence mathematically and holisticaly based on the 16 Fundametal Principles of Ifa (Oju Odufa Merindinlogun).
+
+
+The Ifa Periodic Table extends the idea of classification beyond chemical elements into a Universal oOntology of reality, where:
+
+Entities are expressed as configurations of Ogbe Energy, i.e., CEN
+Each Element represents a fundamental State or Pattern of Existence
+Relationships between elements reflect transformational and energetic interactions
+
+It serves as:
+
+A knowledge classification system across all disciplines
+A computational ontology for the IFA Internet
+A bridge between:
+physical sciences
+metaphysical systems
+information structures
 
 ### 🎮 IfaGames
 
@@ -139,15 +160,15 @@ Platforms for every domain:
 * economics
 * culture
 
-All unified under a single computational framework.
+All unified under a single computational Framework.
 
 ---
 
 ### 🔌 Ifa Protocol (IfaP / IFAP)
 
-A proposed internetworking protocol defining:
+A proposed internetworking Protocol defining:
 
-* Odù-based addressing
+* Energy-centric, Odù-based addressing
 * Transformation-based communication
 * Semantic routing mechanisms
 
@@ -197,13 +218,16 @@ We are building a **global, interdisciplinary community**.
 
 We welcome contributors from:
 
-* Mathematics
-* Computer Science
-* Network Engineering
-* Artificial Intelligence
-* Physics
-* African Studies & Anthropology
-* Philosophy of Science
+* Custodians of Odu Ifa: Babalawo and Iyanifa
+* Mathematicians
+* Neuroscientists
+* Computer scientists
+* Network engineers
+* AI experts
+* Physicists
+* African studies scholars & anthropologists
+* African philosophers
+* Philosophers of science
 
 ### How to Contribute
 
@@ -251,7 +275,7 @@ Some components:
 
 * are experimental
 * are under active development
-* require further formalization and validation
+* require further formalization and studies
 
 We are committed to:
 
@@ -269,12 +293,11 @@ MIT License
 
 ## 📬 Contact
 
-**CENProject**
-Website: https://ifainternet.org
+**CENProject Website**: https://cenproject.org
 
-Email: cenproject.org@gmail.com
+**Email**: cenproject.org@gmail.com
 
-Phone Number (WhatsApp only): +234-7082862897
+**Phone Number (WhatsApp only)**: +234-7082862897
 
 ---
 
