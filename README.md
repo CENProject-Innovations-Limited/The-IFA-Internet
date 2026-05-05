@@ -140,7 +140,7 @@ physical sciences
 metaphysical systems
 information structures
 
-### 🎮 IfaGames
+### 🎮 [IfaGames](http://www.playifagames.org/)
 
 Simulation and interaction environments for:
 
