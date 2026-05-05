@@ -587,7 +587,8 @@
       { "label": "IfaLabs", "href": "/ifalabs-toelabs/" },
       { "label": "IfaPedia", "href": "/ifapedia-the-toe-encyclopedia/" },
       { "label": "IFA Mathematics", "href": "/ifa-mathematics-toe-mathematics/" },
-      { "label": "Ejiodi", "href": "https://ejiodi.com/" }
+      { "label": "Ejiodi", "href": "https://ejiodi.com/" },
+      { "label": "GitHub Docs", "href": "https://github.com/CENProject-Innovations-Limited/The-IFA-Internet/tree/main" }
     ],
     "copyright": "CENProject — toe.cenproject.org"
   }
