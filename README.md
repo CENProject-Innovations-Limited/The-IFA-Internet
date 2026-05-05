@@ -305,6 +305,6 @@ MIT License
 
 The current Internet connects **machines and data**.
 
-The IFA Internet aims to connect **meaning, energy, and knowledge**—within a unified framework of reality.
+The IFA Internet aims to connect **meaning, Energy, and knowledge**—within a unified Framework of reality.
 
 ---
