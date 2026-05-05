@@ -85,7 +85,7 @@ The IFA Internet consists of an expanding ecosystem of interconnected systems:
 
 ### 🔢 [IFA Mathematics](https://toe.cenproject.org/ifa-mathematics-toe-mathematics/)
 
-The ancient memathematical Framework of Ifa and Orisa for:
+The ancient metamathematical Frameworks of Ifa and Orisa for:
 
 * modelling, developing, and studying all knowledge fields, ..., all things in existence as mathematical energyforms, energystates, or energy systems.
 
