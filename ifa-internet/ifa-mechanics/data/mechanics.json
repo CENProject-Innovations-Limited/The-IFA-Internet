@@ -1,0 +1,65 @@
+{
+  "binarySystem": {
+    "title": "IFABit Binary System",
+    "description": "IFA uses a binary system with two fundamental symbols: Ogbe (O = 1 = Energy) and Oyeku (| = 0 = Anergy). Each of the 16 principal Odu is encoded as a unique 4-bit IFABit code, giving 2⁴ = 16 distinct states.",
+    "symbols": {
+      "ogbe":  { "value": 1, "name": "Ogbe",  "meaning": "Energy",  "display": "O", "color": "#c9a227", "desc": "Active, light, masculine, creative, yang" },
+      "oyeku": { "value": 0, "name": "Oyeku", "meaning": "Anergy", "display": "|", "color": "#4361ee", "desc": "Receptive, void, feminine, dissolving, yin" }
+    },
+    "note": "The 16 Odu IFABit codes use all unique 4-bit patterns from 0000 to 1111, but NOT in ascending numeric order — they follow a sacred ordering rooted in Ifa tradition dating to ancient Ile-Ife."
+  },
+  "combinationRule": {
+    "title": "256 Odu Combination Mechanics",
+    "description": "The 256 Odu arise from pairing any two of the 16 principal Odu. The left Odu (Osi) and right Odu (Otun) together identify the specific Odu. The 16 Meji are the self-combinations (e.g., Ogbe + Ogbe = Ejiogbe — the most senior Odu).",
+    "formula": "16 × 16 = 256",
+    "mejiCount": 16,
+    "compoundCount": 240,
+    "totalCount": 256
+  },
+  "castingProcess": [
+    {
+      "step": 1,
+      "name": "Intention Setting",
+      "description": "The seeker focuses their question or concern, establishing spiritual resonance with Orunmila, the Orisha of wisdom and divination."
+    },
+    {
+      "step": 2,
+      "name": "Palm Nut Selection",
+      "description": "16 sacred palm nuts (ikin Ifa) are held in both hands. The Babalawo holds all 16 in the right hand, then attempts to grab all of them with the left hand in a single motion."
+    },
+    {
+      "step": 3,
+      "name": "Mark Generation Rule",
+      "description": "The nuts remaining in the right hand determine the mark: 1 nut remaining = double mark (Oyeku / | / 0 = Anergy); 2 nuts remaining = single mark (Ogbe / O / 1 = Energy). Any other result is discarded and retried."
+    },
+    {
+      "step": 4,
+      "name": "Right Column (Otun) — 4 Casts",
+      "description": "The mark-generation gesture is repeated 4 times, recording each result from bottom to top on the divination tray (opon Ifa). This produces the right 4-bit column — the Otun Odu."
+    },
+    {
+      "step": 5,
+      "name": "Left Column (Osi) — 4 Casts",
+      "description": "Four more casts generate the left column — the Osi Odu. Together, Otun and Osi identify one specific Odu from the 256, which the Babalawo reads as binary: the IFABit code."
+    },
+    {
+      "step": 6,
+      "name": "Odu Identification & Recitation",
+      "description": "The Babalawo identifies the resulting Odu by its binary signature and recites the relevant ese Ifa (sacred verses) from memory, interpreting the wisdom for the seeker's situation."
+    }
+  ],
+  "categoryMechanics": {
+    "title": "8 Dual-Category Pairs",
+    "description": "The 16 Odu are organized into 8 complementary categories. Each category contains exactly 2 Odu — a dual pair representing an Energy–Anergy axis within that domain.",
+    "pairs": [
+      { "a": "Ogbe",     "b": "Oyeku",    "category": "primordial", "principle": "Energy ↔ Anergy",     "axis": "The primary duality — creation vs. void" },
+      { "a": "Iwori",    "b": "Odi",      "category": "cognitive",  "principle": "Mind ↔ Mystery",      "axis": "Visible intellect vs. hidden knowledge" },
+      { "a": "Irosun",   "b": "Owonrin",  "category": "vital",      "principle": "Blood ↔ Lightning",   "axis": "Sustaining life force vs. disruptive change" },
+      { "a": "Obara",    "b": "Okanran",  "category": "social",     "principle": "Royalty ↔ Conflict",  "axis": "Noble authority vs. righteous confrontation" },
+      { "a": "Ogunda",   "b": "Osa",      "category": "active",     "principle": "Iron ↔ Wind",         "axis": "Deliberate power vs. swift unpredictability" },
+      { "a": "Ika",      "b": "Oturupon", "category": "strategic",  "principle": "Cunning ↔ Constraint","axis": "Witty navigation vs. necessary limitation" },
+      { "a": "Otura",    "b": "Irete",    "category": "sacred",     "principle": "Word ↔ Roots",        "axis": "Creative speech vs. patient endurance" },
+      { "a": "Ose",      "b": "Ofun",     "category": "abundant",   "principle": "Sweetness ↔ Totality","axis": "Flowing abundance vs. cosmic completion" }
+    ]
+  }
+}

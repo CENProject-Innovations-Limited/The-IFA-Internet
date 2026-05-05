@@ -1,0 +1,89 @@
+{
+  "axioms": {
+    "Duality": {
+      "def": "Every phenomenon has a complementary Energy–Anergy pair",
+      "color": "#c9a227",
+      "symbol": "⊕⊖"
+    },
+    "Symmetry": {
+      "def": "Structural invariance across transformations and perspectives",
+      "color": "#4361ee",
+      "symbol": "⟷"
+    },
+    "Emergence": {
+      "def": "New properties arise irreducibly from component interactions",
+      "color": "#e63946",
+      "symbol": "↑"
+    },
+    "Invariance": {
+      "def": "Core properties preserved under change and transformation",
+      "color": "#2d9e6b",
+      "symbol": "≡"
+    },
+    "Reductionism": {
+      "def": "Complex phenomena reduced to fundamental CEN constituents",
+      "color": "#7c4dff",
+      "symbol": "↓"
+    },
+    "Holism": {
+      "def": "The whole transcends and cannot be derived from its parts",
+      "color": "#e9498a",
+      "symbol": "◯"
+    },
+    "Composition": {
+      "def": "Complex structures built hierarchically from simpler components",
+      "color": "#5e72b4",
+      "symbol": "⊕"
+    },
+    "Simulation": {
+      "def": "Reality as a computational or consciousness-driven process",
+      "color": "#ff6b35",
+      "symbol": "⟳"
+    },
+    "Structuralism": {
+      "def": "Meaning and identity arise from relational structure, not substance",
+      "color": "#00b4d8",
+      "symbol": "⌗"
+    }
+  },
+  "steamsexFields": {
+    "Science":        { "color": "#e63946", "icon": "⚗" },
+    "Technology":     { "color": "#2d9e6b", "icon": "⚙" },
+    "Engineering":    { "color": "#4361ee", "icon": "⚒" },
+    "Art":            { "color": "#e9498a", "icon": "◈" },
+    "Mathematics":    { "color": "#c9a227", "icon": "∑" },
+    "Social Science": { "color": "#5e72b4", "icon": "⊙" },
+    "Ethics":         { "color": "#7c4dff", "icon": "⚖" },
+    "Philosophy":     { "color": "#ff6b35", "icon": "◉" },
+    "Spirituality":   { "color": "#00b4d8", "icon": "✦" },
+    "Medicine":       { "color": "#e63946", "icon": "✚" },
+    "Biology":        { "color": "#2d9e6b", "icon": "◬" },
+    "Chemistry":      { "color": "#c9a227", "icon": "⚛" },
+    "Physics":        { "color": "#4361ee", "icon": "∿" },
+    "Neuroscience":   { "color": "#7c4dff", "icon": "◑" },
+    "Computer Science": { "color": "#5e72b4", "icon": "⌘" },
+    "Economics":      { "color": "#e9498a", "icon": "◆" },
+    "Ecology":        { "color": "#2d9e6b", "icon": "◉" },
+    "Language":       { "color": "#c9a227", "icon": "◈" },
+    "Strategy":       { "color": "#5e72b4", "icon": "◎" },
+    "Meteorology":    { "color": "#00b4d8", "icon": "◌" }
+  },
+  "elements": {
+    "Light":              { "color": "#c9a227", "desc": "Pure radiant energy — consciousness made visible" },
+    "Void":               { "color": "#363C4F", "desc": "Primordial emptiness — the ground of potential" },
+    "Air (Thought)":      { "color": "#4361ee", "desc": "The medium of mind and intellectual movement" },
+    "Earth (Womb)":       { "color": "#8B6914", "desc": "Hidden generative matter — containment and gestation" },
+    "Water (Blood)":      { "color": "#e63946", "desc": "The sacred fluid sustaining all life" },
+    "Lightning":          { "color": "#FFD700", "desc": "Sudden electrical transformation and revelation" },
+    "Gold":               { "color": "#daa520", "desc": "Solar metal — authority, nobility, endurance" },
+    "Fire":               { "color": "#ff6b35", "desc": "Transformative combustion — the purifying force" },
+    "Iron":               { "color": "#7c8fa8", "desc": "The metal of labor, will, and technological power" },
+    "Wind":               { "color": "#00b4d8", "desc": "Rapid invisible movement — speed and impermanence" },
+    "Ether (Mind)":       { "color": "#7c4dff", "desc": "The fifth element — pure conscious space" },
+    "Earth (Dense)":      { "color": "#5e72b4", "desc": "Heavy compacted matter — weight, constraint, endurance" },
+    "Sound (Vibration)":  { "color": "#e9498a", "desc": "Creative acoustic wave — the divine word made manifest" },
+    "Wood (Deep Roots)":  { "color": "#2d9e6b", "desc": "Patient organic structure — deep time and growth" },
+    "Honey (Sweet Water)":{ "color": "#FFB347", "desc": "Sweet abundance — the nectar of prosperity" },
+    "White Clay (Purity)":{ "color": "#E8EAF6", "desc": "Pure creative medium — divine blank slate" }
+  }
+}
