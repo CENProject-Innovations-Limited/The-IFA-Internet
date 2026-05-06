@@ -112,6 +112,16 @@
 
   "platforms": [
     {
+      "id": "ifa-calendar",
+      "name": "IfaCalendar",
+      "subtitle": "World Calendar Explorer",
+      "description": "Explore calendar systems of the world — Kọ́jọ́dá (Yoruba New Year), Gregorian, Islamic, Hebrew, Chinese, Ethiopian, Maya, and more. History, evolution, and modern status.",
+      "category": "education",
+      "url": "/ifa-calendar/",
+      "featured": false,
+      "local": true
+    },
+    {
       "id": "ifa-periodic-table",
       "name": "Ifa Periodic Table",
       "subtitle": "256 Odu Interactive Explorer",
@@ -148,7 +158,7 @@
       "subtitle": "Odu Knowledge Game",
       "description": "Many Ifa Games and Orisa Games to learn all modern fields using the mathematical and holistic approaches of Ifa and Orisa.",
       "category": "education",
-      "url": "/ifa-game/",
+      "url": "https://www.playifagames.org/",
       "featured": false,
       "local": true
     },
