@@ -3,7 +3,7 @@
 
 ### The Internet Model of the Theory of Everything (iTOE)
 
-**IFA Internet** is a next-generation Internetworking Paradigm based on the **Odù Ifá**, developed by **CENProject**.
+**The IFA Internet** is a next-generation Internetworking Paradigm based on the **Odù Ifá**, developed by **CENProject**.
 
 It proposes a unified Framework that unifies and integrates all fields, including **mathematics, network engineering, consciousness science (ConSci), and African Indigenous Knowledge Systems (AIKS)** into a single computational and philosophical Architecture.
 
