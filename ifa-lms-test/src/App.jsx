@@ -26,7 +26,7 @@ function saveState(data) {
 // ─── SEED DATA ────────────────────────────────────────────────────────────────
 
 const SEED_USERS = [
-  { id: 'u0', username: 'admin',    password: 'ifa2026',    name: 'IFA Academy Admin',    role: 'admin',   status: 'approved', program: null,     joinDate: '2026-01-01' },
+  { id: 'u0', username: 'admin',    password: 'OrisaIfa22233.',    name: 'IFA Academy Admin',    role: 'admin',   status: 'approved', program: null,     joinDate: '2026-01-01' },
   { id: 'u1', username: 'adewale',  password: 'student123', name: 'Adewale Okafor',       role: 'student', status: 'approved', program: 'adults', joinDate: '2026-04-10', enrolled: ['c1', 'c3', 'c7', 'c8'] },
   { id: 'u2', username: 'chiamaka', password: 'student123', name: 'Chiamaka Nwosu',       role: 'student', status: 'pending',  program: 'adults', joinDate: '2026-05-10', enrolled: [] },
   { id: 'u3', username: 'tayo',     password: 'student123', name: 'Tayo Adeleke',         role: 'student', status: 'approved', program: 'kids',   joinDate: '2026-03-15', enrolled: ['c2', 'c4', 'c5'] },
@@ -942,6 +942,84 @@ const SEED_COURSES = [
   },
 
   {
+    id: 'c13', title: 'IFA Professional Certification', subtitle: 'Ifacodemy — Applied IFA Knowledge for Professionals',
+    program: 'professionals', color: '#7c3aed', sym: '✦',
+    level: 'Professional', duration: '3 months', price: '₦80,000/month',
+    priceNote: '₦220,000 for 3 months',
+    description: 'A professional-grade certification programme for practitioners, leaders, researchers, and executives seeking to integrate IFA Metascience into their professional fields. Covers advanced IFABOK applications, IFA governance models, and Eboconomic strategy.',
+    weeks: [
+      {
+        id: 'pro_w1', order: 0, title: 'Week 1: IFABOK in Professional Practice',
+        description: 'Applying the IFA Body of Knowledge to professional, organisational, and leadership contexts.',
+        materials: [
+          {
+            id: 'pro1', type: 'text', title: 'IFABOK as a Professional Framework', duration: '14 min read',
+            content: [
+              { type: 'header', text: 'Why Professionals Need IFABOK' },
+              { type: 'paragraph', text: 'The IFA Body of Knowledge (IFABOK) is not merely an academic or spiritual system — it is a complete practical framework for professional decision-making, governance, strategy, and innovation. Its 256 Odu provide a proven meta-system for navigating complexity across any professional domain.' },
+              { type: 'highlight', text: 'IFABOK in Professional Practice: the 256 Odu as a decision matrix, risk framework, and strategic knowledge system for modern professionals.' },
+              { type: 'header', text: 'The Polymath Professional' },
+              { type: 'paragraph', text: 'The Ifacodemy Professionals Programme produces Polymath Professionals — practitioners who combine deep IFA knowledge with professional expertise to create breakthrough innovations, lead ethically, and navigate complexity with precision.' },
+              { type: 'list', items: ['Strategic decision-making grounded in the 256 Odu', 'IFA Ethics (Ọmọlúwàbí) as a professional code of conduct', 'Eboconomic thinking for sustainable value creation', 'IFA Simulation Theory for scenario modelling and risk analysis'] },
+              { type: 'quote', text: 'The Polymath Professional does not specialise to the exclusion of everything else — they go deep into one field while remaining conversant with all fields. That is the Ifa way.', attribution: 'Ifacodemy Professionals Programme' },
+            ]
+          },
+          {
+            id: 'pro2', type: 'text', title: 'IFA Governance — Leadership through the 256 Odu', duration: '12 min read',
+            content: [
+              { type: 'header', text: 'IFA Governance Models' },
+              { type: 'paragraph', text: 'IFA Governance applies the 256 Odu Ifa as a comprehensive leadership and organisational framework. It draws on thousands of years of governance wisdom encoded in the Odu — wisdom about power, responsibility, community, resource allocation, and long-term thinking.' },
+              { type: 'highlight', text: 'IFA Governance is not autocratic or purely democratic — it is consultative, consensus-based, and rooted in Ọmọlúwàbí ethics: governance as the ethical stewardship of the community\'s energy resources.' },
+              { type: 'list', items: ['Odu-based decision frameworks for governance and policy', 'The role of Ifa consultation in strategic planning', 'Community-centred (Ubuntu) leadership models', 'Checks and balances: the Ifa council model applied to modern organisations'] },
+            ]
+          },
+          {
+            id: 'pro3', type: 'video', title: 'IFABOK in Professional Leadership — Overview', duration: '~12 min',
+            videoUrl: 'https://www.youtube.com/watch?v=5qap5aO4i9A',
+            description: 'A professional introduction to applying IFABOK in organisational leadership, strategic decision-making, and professional practice.'
+          },
+        ]
+      },
+      {
+        id: 'pro_w2', order: 1, title: 'Week 2: Eboconomic Strategy for Professionals',
+        description: 'Applying Eboconomics to professional organisations, value chains, and sustainability frameworks.',
+        materials: [
+          {
+            id: 'pro4', type: 'text', title: 'Eboconomics in Organisational Strategy', duration: '13 min read',
+            content: [
+              { type: 'header', text: 'The Ebo Economy and Your Organisation' },
+              { type: 'paragraph', text: 'Eboconomics — the union of Ebology and Economics — provides a powerful new lens for professional strategists. It reframes all value creation, exchange, and distribution as energy exchange governed by the principles of the 256 Odu. From supply chains to HR policy, Eboconomics reveals the energetic dynamics underlying organisational performance.' },
+              { type: 'highlight', text: 'Eboconomic audit: every transaction in your organisation is an energy exchange — some build positive Ẹbọ cycles, others deplete them. The professional\'s task is to design organisations that build more than they deplete.' },
+              { type: 'list', items: ['Eboconomic value mapping: tracking energy exchange across the value chain', 'The IfaWork Function: minimum viable energy investment per outcome', 'Sustainable Ebo Economy models for corporate strategy', 'ESG through an Eboconomic lens: social and environmental energy accounting'] },
+            ]
+          },
+        ]
+      },
+      {
+        id: 'pro_w3', order: 2, title: 'Week 3: IFA Research Methods & Knowledge Synthesis',
+        description: 'Advanced IFA research methodologies for scholars, consultants, and policy professionals.',
+        materials: [
+          {
+            id: 'pro5', type: 'text', title: 'IFA Research Methodology', duration: '15 min read',
+            content: [
+              { type: 'header', text: 'Research Through the IFA Lens' },
+              { type: 'paragraph', text: 'IFA Research Methodology offers a rigorous, holistic framework for knowledge production that integrates empirical, philosophical, artistic, and spiritual dimensions of inquiry. It is a genuine alternative to purely Western scientific methodology — not in opposition to it, but as a complementary and often deeper framework for understanding complex, multi-dimensional phenomena.' },
+              { type: 'list', items: ['Odu-based knowledge mapping: positioning any research topic within the 256-field knowledge space', 'IFA epistemology (EpistoE) as a research philosophy', 'Triangulation: integrating quantitative, qualitative, and Ifa oracle methodologies', 'Synthesis: producing knowledge that serves the community (Ọmọlúwàbí research ethics)'] },
+              { type: 'highlight', text: 'The IFA researcher is also an Ifa practitioner: research is not merely observation — it is participation in the knowledge field. The researcher changes the field by studying it.' },
+              { type: 'quote', text: 'The most important research question is not "what is true?" but "what is wise?" — and wisdom always serves life, community, and the next generation.', attribution: 'IFA Research Methodology' },
+            ]
+          },
+          {
+            id: 'pro6', type: 'video', title: 'IFA Knowledge Synthesis — Research Workshop', duration: '~14 min',
+            videoUrl: 'https://www.youtube.com/watch?v=5qap5aO4i9A',
+            description: 'A workshop on integrating IFA research methods with professional knowledge synthesis — for consultants, policy-makers, and academic researchers.'
+          },
+        ]
+      },
+    ]
+  },
+
+  {
     id: 'c12', title: 'The IFA Model of Education', subtitle: 'IFA Simulation Theory — Odu Ifa Curriculum Design',
     program: 'adults', color: '#14b8d4', sym: '⧠',
     level: 'Advanced', duration: '3 months', price: '₦60,000/month',
@@ -1027,6 +1105,42 @@ const SEED_PROGRESS = {
 };
 
 const DEFAULT_DATA = { users: SEED_USERS, courses: SEED_COURSES, progress: SEED_PROGRESS };
+
+// ─── CLASS CODE HANDLER ───────────────────────────────────────────────────────
+// Each device has its own localStorage. The admin copies a single "class code"
+// (encoding all student accounts) and shares it with the class once. Students
+// paste it on the login screen to register all accounts on their device, then
+// sign in normally with their username and password every time after that.
+
+function applyClassCode(code) {
+  try {
+    const decoded = JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
+    if (!decoded || decoded.type !== 'ifacodemy-class' || !Array.isArray(decoded.students)) return false;
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const state = raw ? JSON.parse(raw) : { users: DEFAULT_DATA.users.slice(), courses: DEFAULT_DATA.courses.slice(), progress: {} };
+    if (!Array.isArray(state.users)) state.users = DEFAULT_DATA.users.slice();
+    if (!state.progress || typeof state.progress !== 'object') state.progress = {};
+    decoded.students.forEach(s => {
+      if (!s.username || !s.password) return;
+      const idx = state.users.findIndex(u => u.username === s.username);
+      if (idx === -1) state.users.push(s);
+      else state.users[idx] = { ...state.users[idx], ...s };
+    });
+    if (decoded.progress && typeof decoded.progress === 'object') {
+      Object.entries(decoded.progress).forEach(([uid, uProg]) => {
+        if (!state.progress[uid]) {
+          state.progress[uid] = uProg;
+        } else {
+          const existingMats = (state.progress[uid] && state.progress[uid].completedMaterials) || {};
+          const incomingMats = (uProg && uProg.completedMaterials) || {};
+          state.progress[uid] = { ...state.progress[uid], ...uProg, completedMaterials: { ...existingMats, ...incomingMats } };
+        }
+      });
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    return true;
+  } catch (e) { return false; }
+}
 
 // ─── ANNOUNCEMENTS ────────────────────────────────────────────────────────────
 
@@ -1223,6 +1337,9 @@ function LoginPage({ onLogin, loginError }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showCode, setShowCode] = useState(false);
+  const [classCode, setClassCode] = useState('');
+  const [codeMsg, setCodeMsg] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -1231,6 +1348,13 @@ function LoginPage({ onLogin, loginError }) {
       setLoading(false);
       onLogin(username.trim(), password);
     }, 650);
+  }
+
+  function handleClassCode() {
+    const ok = applyClassCode(classCode);
+    if (!ok) { setCodeMsg('Invalid code. Ask your admin for the current class code.'); return; }
+    setCodeMsg('✓ Accounts loaded! Signing you in…');
+    setTimeout(() => window.location.reload(), 1200);
   }
 
   return (
@@ -1315,14 +1439,27 @@ function LoginPage({ onLogin, loginError }) {
               {loading ? <span className="login-btn__spinner" /> : 'Sign In to Ifacodemy'}
             </button>
           </form>
-          <div className="login-note">
-            Access is by invitation only. Contact your IFA Academy administrator for an account.
-          </div>
-          <div className="login-demo">
-            <span>Demo:</span>
-            <code>admin / ifa2026</code>
-            <span>·</span>
-            <code>adewale / student123</code>
+          <div className="class-code-section">
+            {!showCode
+              ? <button type="button" className="class-code-toggle" onClick={() => setShowCode(true)}>
+                  First time on this device? Enter class code
+                </button>
+              : <>
+                  <label className="login-label" style={{ marginBottom: '0.35rem', display: 'block' }}>Class Code</label>
+                  <textarea className="class-code-input"
+                    placeholder="Paste the class code from your admin here…"
+                    value={classCode} onChange={e => { setClassCode(e.target.value); setCodeMsg(''); }} />
+                  {codeMsg && <div className={`class-code-msg${codeMsg.startsWith('✓') ? ' class-code-msg--ok' : ' class-code-msg--err'}`}>{codeMsg}</div>}
+                  <div className="class-code-actions">
+                    <button type="button" className="class-code-btn" onClick={handleClassCode} disabled={!classCode.trim()}>
+                      Activate
+                    </button>
+                    <button type="button" className="class-code-cancel" onClick={() => { setShowCode(false); setClassCode(''); setCodeMsg(''); }}>
+                      Cancel
+                    </button>
+                  </div>
+                </>
+            }
           </div>
         </div>
       </div>
@@ -1343,7 +1480,7 @@ function PendingPage({ user, onLogout }) {
           Once your enrolment and payment are confirmed, an administrator will activate your access. You will be able to sign in and begin your programme immediately after activation.
         </p>
         <div className="pending-info">
-          <div className="pending-info__row"><span>Programme</span><span>{user.program === 'kids' ? 'Kids — Ifacodemy' : 'Adults — Polymaths'}</span></div>
+          <div className="pending-info__row"><span>Programme</span><span>{user.program === 'kids' ? 'Kids — Ifacodemy' : user.program === 'professionals' ? 'Professionals — Certification' : 'Adults — Polymaths'}</span></div>
           <div className="pending-info__row"><span>Joined</span><span>{fmtDate(user.joinDate)}</span></div>
           <div className="pending-info__row"><span>Status</span><span className="badge badge--pending">Pending Approval</span></div>
         </div>
@@ -1489,6 +1626,7 @@ function MobileAdminNav({ activeView, setAdminView, onLogout, pendingCount }) {
     { id: 'students',  label: 'Students', sym: '◯' },
     { id: 'courses',   label: 'Courses',  sym: '⬡' },
     { id: 'analytics', label: 'Stats',    sym: '∿' },
+    { id: 'settings',  label: 'Settings', sym: '⚙' },
   ];
   return (
     <nav className="mobile-nav mobile-nav--admin">
@@ -1549,7 +1687,8 @@ function StudentSidebar({ activeView, setStudentView, user, onLogout }) {
           <span className="sidebar__platform-ext">↗</span>
         </a>
         <a className="sidebar__platform-link"
-           href="../ifa-periodic-table/" target="_blank" rel="noopener noreferrer">
+           href={user.program === 'kids' ? 'https://ifainternet.org/ifa-periodic-table/kids/' : 'https://ifainternet.org/ifa-periodic-table/'}
+           target="_blank" rel="noopener noreferrer">
           <span className="sidebar__platform-sym">◎</span>
           <span>Ifa Periodic Table</span>
           <span className="sidebar__platform-ext">↗</span>
@@ -1560,7 +1699,7 @@ function StudentSidebar({ activeView, setStudentView, user, onLogout }) {
         <div className="sidebar__avatar">{user.name.charAt(0)}</div>
         <div className="sidebar__info">
           <div className="sidebar__name">{user.name}</div>
-          <div className="sidebar__prog">{user.program === 'kids' ? 'Kids Programme' : 'Adults Programme'}</div>
+          <div className="sidebar__prog">{user.program === 'kids' ? 'Kids Programme' : user.program === 'professionals' ? 'Professionals Programme' : 'Adults Programme'}</div>
         </div>
         <button className="sidebar__logout" onClick={onLogout} title="Sign out">⏻</button>
       </div>
@@ -1616,8 +1755,8 @@ function StudentHome({ user, courses, completedMats, setStudentView, setSelected
                 <div className="course-card__top">
                   <span className="course-card__sym">{c.sym}</span>
                   <div className="course-card__badges">
-                    <span className={`badge ${c.program === 'kids' ? 'badge--kids' : 'badge--adults'}`}>
-                      {c.program === 'kids' ? 'Kids' : 'Adults'}
+                    <span className={`badge ${c.program === 'kids' ? 'badge--kids' : c.program === 'professionals' ? 'badge--professionals' : 'badge--adults'}`}>
+                      {c.program === 'kids' ? 'Kids' : c.program === 'professionals' ? 'Professionals' : 'Adults'}
                     </span>
                     {c.level && <span className="badge badge--level">{c.level}</span>}
                   </div>
@@ -1676,7 +1815,7 @@ function StudentCourseList({ user, courses, completedMats, setStudentView, setSe
       <div className="s-courses__header">
         <h2 className="s-page-title">My Courses</h2>
         <div className="filter-tabs">
-          {['all', 'adults', 'kids'].map(f => (
+          {['all', 'adults', 'professionals', 'kids'].map(f => (
             <button key={f} className={`filter-tab${filter === f ? ' filter-tab--active' : ''}`}
               onClick={() => setFilter(f)}>
               {f === 'all' ? 'All' : f.charAt(0).toUpperCase() + f.slice(1)}
@@ -1706,8 +1845,8 @@ function StudentCourseList({ user, courses, completedMats, setStudentView, setSe
                 <div className="course-row__meta">
                   <div className="course-row__pct">{pct}%</div>
                   <div className="course-row__weeks">⏱ {c.duration || c.weeks.length + ' wks'}</div>
-                  <span className={`badge ${c.program === 'kids' ? 'badge--kids' : 'badge--adults'}`}>
-                    {c.program === 'kids' ? 'Kids' : 'Adults'}
+                  <span className={`badge ${c.program === 'kids' ? 'badge--kids' : c.program === 'professionals' ? 'badge--professionals' : 'badge--adults'}`}>
+                    {c.program === 'kids' ? 'Kids' : c.program === 'professionals' ? 'Professionals' : 'Adults'}
                   </span>
                 </div>
               </div>
@@ -1848,6 +1987,16 @@ function StudentProfile({ user, courses, completedMats }) {
   const enrolled = courses.filter(c => (user.enrolled || []).includes(c.id));
   const overall = getOverallProgress(enrolled, completedMats);
   const totalDone = Object.keys(completedMats).length;
+  const [showSync, setShowSync] = useState(false);
+  const [syncCode, setSyncCode] = useState('');
+  const [syncMsg,  setSyncMsg]  = useState('');
+
+  function handleSync() {
+    const ok = applyClassCode(syncCode);
+    if (!ok) { setSyncMsg('Invalid code. Ask your admin for the latest class code.'); return; }
+    setSyncMsg('✓ Data synced! Reloading…');
+    setTimeout(() => window.location.reload(), 1200);
+  }
 
   return (
     <div className="s-profile">
@@ -1855,7 +2004,7 @@ function StudentProfile({ user, courses, completedMats }) {
       <div className="profile-card">
         <div className="profile-avatar">{user.name.charAt(0)}</div>
         <h3 className="profile-name">{user.name}</h3>
-        <div className="profile-role">{user.program === 'kids' ? 'Kids — Ifacodemy' : 'Adults — IFA Academy of Polymaths'}</div>
+        <div className="profile-role">{user.program === 'kids' ? 'Kids — Ifacodemy' : user.program === 'professionals' ? 'Professionals — IFA Certification' : 'Adults — IFA Academy of Polymaths'}</div>
         <div className="profile-stats">
           <div className="profile-stat"><div className="profile-stat__val">{overall}%</div><div className="profile-stat__label">Overall Progress</div></div>
           <div className="profile-stat"><div className="profile-stat__val">{enrolled.length}</div><div className="profile-stat__label">Courses Enrolled</div></div>
@@ -1863,10 +2012,37 @@ function StudentProfile({ user, courses, completedMats }) {
         </div>
         <div className="profile-info">
           <div className="profile-info__row"><span>Username</span><span>{user.username}</span></div>
-          <div className="profile-info__row"><span>Programme</span><span>{user.program === 'kids' ? 'Young Polymaths (Kids)' : 'Adult Polymaths'}</span></div>
+          <div className="profile-info__row"><span>Programme</span><span>{user.program === 'kids' ? 'Young Polymaths (Kids)' : user.program === 'professionals' ? 'Professionals Certification' : 'Adult Polymaths'}</span></div>
           <div className="profile-info__row"><span>Joined</span><span>{fmtDate(user.joinDate)}</span></div>
           <div className="profile-info__row"><span>Status</span><span className="badge badge--approved">Active</span></div>
         </div>
+      </div>
+
+      <div className="sync-card">
+        <div className="sync-card__header" onClick={() => { setShowSync(v => !v); setSyncCode(''); setSyncMsg(''); }}>
+          <span className="sync-card__title">↻ Sync My Data</span>
+          <span className="sync-card__hint">Got a new class code from your admin? Paste it here to update your courses and progress on this device.</span>
+          <span className="sync-card__chevron">{showSync ? '▲' : '▼'}</span>
+        </div>
+        {showSync && (
+          <div className="sync-card__body">
+            <textarea
+              className="class-code-input"
+              placeholder="Paste the class code from your admin here…"
+              value={syncCode}
+              onChange={e => { setSyncCode(e.target.value); setSyncMsg(''); }}
+            />
+            {syncMsg && (
+              <div className={`class-code-msg ${syncMsg.startsWith('✓') ? 'class-code-msg--ok' : 'class-code-msg--err'}`}>
+                {syncMsg}
+              </div>
+            )}
+            <div className="class-code-actions">
+              <button className="class-code-btn" onClick={handleSync} disabled={!syncCode.trim()}>Sync Now</button>
+              <button className="class-code-cancel" onClick={() => { setShowSync(false); setSyncCode(''); setSyncMsg(''); }}>Cancel</button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -1941,6 +2117,7 @@ function AdminSidebar({ activeView, setAdminView, onLogout, pendingCount }) {
     { id: 'students',  label: 'Students',  sym: '◯' },
     { id: 'courses',   label: 'Courses',   sym: '⬡' },
     { id: 'analytics', label: 'Analytics', sym: '∿' },
+    { id: 'settings',  label: 'Settings',  sym: '⚙' },
   ];
   return (
     <aside className="sidebar sidebar--admin">
@@ -1974,7 +2151,7 @@ function AdminSidebar({ activeView, setAdminView, onLogout, pendingCount }) {
           <span className="sidebar__platform-ext">↗</span>
         </a>
         <a className="sidebar__platform-link"
-           href="../ifa-periodic-table/" target="_blank" rel="noopener noreferrer">
+           href="https://ifainternet.org/ifa-periodic-table/" target="_blank" rel="noopener noreferrer">
           <span className="sidebar__platform-sym">◎</span>
           <span>Ifa Periodic Table</span>
           <span className="sidebar__platform-ext">↗</span>
@@ -2007,7 +2184,7 @@ function AdminOverview({ users, courses }) {
     { label: 'Pending Approval', value: pending.length,  color: '#f5c518', sym: '⧖' },
     { label: 'Total Courses',    value: courses.length,  color: '#8b5cf6', sym: '⬡' },
     { label: 'Total Materials',  value: totalMats,       color: '#3b9eff', sym: '◈' },
-    { label: 'Programmes',       value: 2,               color: '#e9498a', sym: '⊕' },
+    { label: 'Programmes',       value: 3,               color: '#e9498a', sym: '⊕' },
   ];
 
   return (
@@ -2036,7 +2213,7 @@ function AdminOverview({ users, courses }) {
               {pending.map(s => (
                 <div key={s.id} className="mini-table__row">
                   <div className="mini-table__name">{s.name}</div>
-                  <div className="mini-table__meta">{s.program === 'kids' ? 'Kids' : 'Adults'} · Joined {fmtDate(s.joinDate)}</div>
+                  <div className="mini-table__meta">{s.program === 'kids' ? 'Kids' : s.program === 'professionals' ? 'Professionals' : 'Adults'} · Joined {fmtDate(s.joinDate)}</div>
                   <span className="badge badge--pending">Pending</span>
                 </div>
               ))}
@@ -2063,10 +2240,48 @@ function AdminOverview({ users, courses }) {
 
 // ─── ADMIN STUDENTS ───────────────────────────────────────────────────────────
 
-function AdminStudents({ users, setUsers, saveAll, courses }) {
+function AdminStudents({ users, setUsers, saveAll, courses, progress, setProgress }) {
   const [filter, setFilter] = useState('all');
   const [showAdd, setShowAdd] = useState(false);
   const [addForm, setAddForm] = useState({ name: '', username: '', password: '', program: 'adults' });
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState(null);
+  const [codeCopied, setCodeCopied] = useState(false);
+  const editPanelRef = useRef(null);
+
+  useEffect(() => {
+    if (editingId && editPanelRef.current) {
+      editPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [editingId]);
+
+  function copyClassCode() {
+    const studentList = users.filter(u => u.role === 'student');
+    const studentProgress = {};
+    studentList.forEach(s => { if (progress[s.id]) studentProgress[s.id] = progress[s.id]; });
+    const payload = JSON.stringify({
+      type: 'ifacodemy-class',
+      students: studentList.map(s => ({
+        id: s.id, username: s.username, password: s.password || '',
+        name: s.name, role: 'student', status: s.status,
+        program: s.program || 'adults', joinDate: s.joinDate || '',
+        enrolled: s.enrolled || []
+      })),
+      progress: studentProgress
+    });
+    const code = btoa(unescape(encodeURIComponent(payload)));
+    function fallback() {
+      const el = document.createElement('textarea');
+      el.value = code; el.style.position = 'fixed'; el.style.opacity = '0';
+      document.body.appendChild(el); el.select();
+      try { document.execCommand('copy'); } catch (_) {}
+      document.body.removeChild(el);
+    }
+    if (navigator.clipboard) navigator.clipboard.writeText(code).catch(fallback);
+    else fallback();
+    setCodeCopied(true);
+    setTimeout(() => setCodeCopied(false), 2500);
+  }
 
   const students = users.filter(u => u.role === 'student');
   const filtered = filter === 'all' ? students
@@ -2107,6 +2322,42 @@ function AdminStudents({ users, setUsers, saveAll, courses }) {
     setShowAdd(false);
     setAddForm({ name: '', username: '', password: '', program: 'adults' });
   }
+  function startEdit(s) {
+    setEditingId(s.id);
+    setEditForm({ name: s.name, username: s.username, password: s.password || '', program: s.program || 'adults', joinDate: s.joinDate || '', status: s.status, enrolled: s.enrolled || [] });
+  }
+  function cancelEdit() { setEditingId(null); setEditForm(null); }
+  function saveEdit() {
+    if (!editForm.name.trim() || !editForm.username.trim()) return;
+    const updated = users.map(u => u.id !== editingId ? u : {
+      ...u,
+      name: editForm.name.trim(),
+      username: editForm.username.trim(),
+      ...(editForm.password.trim() ? { password: editForm.password.trim() } : {}),
+      program: editForm.program,
+      joinDate: editForm.joinDate,
+      status: editForm.status,
+      enrolled: editForm.enrolled,
+    });
+    setUsers(updated); saveAll(updated);
+    setEditingId(null); setEditForm(null);
+  }
+  function toggleEditCourse(courseId) {
+    setEditForm(f => {
+      const enrolled = f.enrolled || [];
+      return { ...f, enrolled: enrolled.includes(courseId) ? enrolled.filter(id => id !== courseId) : [...enrolled, courseId] };
+    });
+  }
+  function resetStudentProgress(userId) {
+    if (!confirm('Reset this student\'s course progress and IGA trackers to 0%? This cannot be undone.')) return;
+    const newProgress = { ...progress };
+    delete newProgress[userId];
+    setProgress(newProgress);
+  }
+  function resetAllProgress() {
+    if (!confirm('Reset ALL students\' course progress and IGA trackers to 0%? This cannot be undone.')) return;
+    setProgress({});
+  }
 
   return (
     <div className="admin-students">
@@ -2121,6 +2372,13 @@ function AdminStudents({ users, setUsers, saveAll, courses }) {
           </div>
           <button className="btn btn--primary" onClick={() => setShowAdd(v => !v)}>
             {showAdd ? '✕ Cancel' : '+ Add Student'}
+          </button>
+          <button className={`btn${codeCopied ? ' btn--copied' : ' btn--code'}`} onClick={copyClassCode}
+            title="Copy a single class code encoding all student accounts — share it with your class once">
+            {codeCopied ? '✓ Class Code Copied' : '⬡ Copy Class Code'}
+          </button>
+          <button className="btn btn--danger" onClick={resetAllProgress} title="Reset all students' progress and IGA trackers to 0%">
+            Reset All Progress
           </button>
         </div>
       </div>
@@ -2146,6 +2404,7 @@ function AdminStudents({ users, setUsers, saveAll, courses }) {
             <label className="add-student-form__label">Programme</label>
             <select className="editor-input" value={addForm.program} onChange={e => setAddForm({ ...addForm, program: e.target.value })}>
               <option value="adults">Adults — Polymaths</option>
+              <option value="professionals">Professionals — Certification</option>
               <option value="kids">Kids — Ifacodemy</option>
             </select>
           </div>
@@ -2164,33 +2423,114 @@ function AdminStudents({ users, setUsers, saveAll, courses }) {
         </div>
         {filtered.length === 0 && <div className="empty-state">No students found.</div>}
         {filtered.map(s => (
-          <div key={s.id} className="student-table__row">
-            <div className="student-table__student">
-              <div className="student-table__avatar">{s.name.charAt(0)}</div>
-              <div>
-                <div className="student-table__name">{s.name}</div>
-                <div className="student-table__user">@{s.username}</div>
+          <div key={s.id} className="student-table__entry">
+            <div className={`student-table__row${editingId === s.id ? ' student-table__row--editing' : ''}`}>
+              <div className="student-table__student">
+                <div className="student-table__avatar">{s.name.charAt(0)}</div>
+                <div>
+                  <div className="student-table__name">{s.name}</div>
+                  <div className="student-table__user">@{s.username}</div>
+                </div>
+              </div>
+              <div><span className={`badge ${s.program === 'kids' ? 'badge--kids' : s.program === 'professionals' ? 'badge--professionals' : 'badge--adults'}`}>{s.program === 'kids' ? 'Kids' : s.program === 'professionals' ? 'Professionals' : 'Adults'}</span></div>
+              <div className="student-table__date">{fmtDate(s.joinDate)}</div>
+              <div className="student-table__courses">
+                {courses.map(c => (
+                  <button key={c.id}
+                    className={`course-toggle${(s.enrolled || []).includes(c.id) ? ' course-toggle--on' : ''}`}
+                    style={{ '--cc-color': c.color }}
+                    onClick={() => toggleCourse(s.id, c.id)} title={c.title}>
+                    {c.sym}
+                  </button>
+                ))}
+              </div>
+              <div><span className={`badge ${s.status === 'approved' ? 'badge--approved' : 'badge--pending'}`}>{s.status === 'approved' ? 'Active' : 'Pending'}</span></div>
+              <div className="student-table__actions">
+                <button className={`tbl-btn tbl-btn--edit${editingId === s.id ? ' tbl-btn--active' : ''}`}
+                  onClick={() => editingId === s.id ? cancelEdit() : startEdit(s)}>
+                  {editingId === s.id ? '✕' : 'Edit'}
+                </button>
+                {s.status === 'pending'
+                  ? <button className="tbl-btn tbl-btn--approve" onClick={() => approve(s.id)}>Approve</button>
+                  : <button className="tbl-btn tbl-btn--revoke"  onClick={() => revoke(s.id)}>Revoke</button>}
+                <button className="tbl-btn tbl-btn--remove" onClick={() => remove(s.id)}>Remove</button>
               </div>
             </div>
-            <div><span className={`badge ${s.program === 'kids' ? 'badge--kids' : 'badge--adults'}`}>{s.program === 'kids' ? 'Kids' : 'Adults'}</span></div>
-            <div className="student-table__date">{fmtDate(s.joinDate)}</div>
-            <div className="student-table__courses">
-              {courses.map(c => (
-                <button key={c.id}
-                  className={`course-toggle${(s.enrolled || []).includes(c.id) ? ' course-toggle--on' : ''}`}
-                  style={{ '--cc-color': c.color }}
-                  onClick={() => toggleCourse(s.id, c.id)} title={c.title}>
-                  {c.sym}
-                </button>
-              ))}
-            </div>
-            <div><span className={`badge ${s.status === 'approved' ? 'badge--approved' : 'badge--pending'}`}>{s.status === 'approved' ? 'Active' : 'Pending'}</span></div>
-            <div className="student-table__actions">
-              {s.status === 'pending'
-                ? <button className="tbl-btn tbl-btn--approve" onClick={() => approve(s.id)}>Approve</button>
-                : <button className="tbl-btn tbl-btn--revoke"  onClick={() => revoke(s.id)}>Revoke</button>}
-              <button className="tbl-btn tbl-btn--remove" onClick={() => remove(s.id)}>Remove</button>
-            </div>
+            {editingId === s.id && editForm && (
+              <div className="student-edit-panel" ref={editPanelRef}>
+                <div className="student-edit-panel__grid">
+                  <div className="add-student-form__field">
+                    <label className="add-student-form__label">Full Name</label>
+                    <input className="editor-input" value={editForm.name}
+                      onChange={e => setEditForm({ ...editForm, name: e.target.value })} />
+                  </div>
+                  <div className="add-student-form__field">
+                    <label className="add-student-form__label">Username</label>
+                    <input className="editor-input" value={editForm.username}
+                      onChange={e => setEditForm({ ...editForm, username: e.target.value })} />
+                  </div>
+                  <div className="add-student-form__field">
+                    <label className="add-student-form__label">Password</label>
+                    <input className="editor-input" type="text" value={editForm.password}
+                      placeholder="Leave blank to keep current"
+                      onChange={e => setEditForm({ ...editForm, password: e.target.value })} />
+                  </div>
+                  <div className="add-student-form__field">
+                    <label className="add-student-form__label">Programme</label>
+                    <select className="editor-input" value={editForm.program}
+                      onChange={e => setEditForm({ ...editForm, program: e.target.value })}>
+                      <option value="adults">Adults — Polymaths</option>
+                      <option value="professionals">Professionals — Certification</option>
+                      <option value="kids">Kids — Ifacodemy</option>
+                    </select>
+                  </div>
+                  <div className="add-student-form__field">
+                    <label className="add-student-form__label">Join Date</label>
+                    <input className="editor-input" type="date" value={editForm.joinDate}
+                      onChange={e => setEditForm({ ...editForm, joinDate: e.target.value })} />
+                  </div>
+                  <div className="add-student-form__field">
+                    <label className="add-student-form__label">Status</label>
+                    <select className="editor-input" value={editForm.status}
+                      onChange={e => setEditForm({ ...editForm, status: e.target.value })}>
+                      <option value="approved">Active</option>
+                      <option value="pending">Pending</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="student-edit-panel__section">
+                  <div className="add-student-form__label">Enrolled Courses</div>
+                  <div className="student-edit-courses">
+                    {courses.map(c => {
+                      const on = (editForm.enrolled || []).includes(c.id);
+                      return (
+                        <button key={c.id}
+                          className={`s-course-pill${on ? ' s-course-pill--on' : ''}`}
+                          style={{ '--cc': c.color }}
+                          onClick={() => toggleEditCourse(c.id)}
+                          title={on ? `Remove from ${c.title}` : `Enrol in ${c.title}`}>
+                          <span className="s-course-pill__sym">{c.sym}</span>
+                          <span className="s-course-pill__title">{c.title}</span>
+                          <span className="s-course-pill__state">{on ? '✓' : '+'}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="student-edit-panel__actions">
+                  <button className="btn btn--primary" onClick={saveEdit}
+                    disabled={!editForm.name.trim() || !editForm.username.trim()}>
+                    Save Changes
+                  </button>
+                  <button className="btn btn--ghost" onClick={cancelEdit}>Cancel</button>
+                  <button className="btn btn--danger" style={{ marginLeft: 'auto' }}
+                    onClick={() => resetStudentProgress(s.id)}
+                    title="Reset this student's course progress and IGA trackers to 0%">
+                    Reset Progress
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -2214,6 +2554,10 @@ function AdminCourseEditor({ course, courses, setCourses, saveAll, onBack }) {
   const [editMat, setEditMat] = useState(null);
   const [editBlockType, setEditBlockType] = useState('paragraph');
   const [editBlockText, setEditBlockText] = useState('');
+
+  // Inline block editing state
+  const [editingBlockIdx, setEditingBlockIdx] = useState(null);
+  const [editBlockContent, setEditBlockContent] = useState(null);
 
   // ── Save ──────────────────────────────────────────────────────────────────
   function save() {
@@ -2270,14 +2614,14 @@ function AdminCourseEditor({ course, courses, setCourses, saveAll, onBack }) {
     setEditBlockText(''); setEditBlockType('paragraph');
     setAddingMat(null);
   }
-  function cancelEdit() { setEditingMat(null); setEditMat(null); }
+  function cancelEdit() { setEditingMat(null); setEditMat(null); setEditingBlockIdx(null); setEditBlockContent(null); }
   function saveEdit() {
     setLocal(l => ({ ...l, weeks: l.weeks.map(w =>
       w.id === editingMat.weekId
         ? { ...w, materials: w.materials.map(m => m.id === editingMat.matId ? editMat : m) }
         : w
     )}));
-    setEditingMat(null); setEditMat(null);
+    setEditingMat(null); setEditMat(null); setEditingBlockIdx(null); setEditBlockContent(null);
   }
   function addEditBlock() {
     if (!editBlockText.trim()) return;
@@ -2294,6 +2638,15 @@ function AdminCourseEditor({ course, courses, setCourses, saveAll, onBack }) {
     if (j < 0 || j >= content.length) return;
     [content[i], content[j]] = [content[j], content[i]];
     setEditMat(m => ({ ...m, content }));
+  }
+  function startEditBlock(i) {
+    setEditingBlockIdx(i);
+    setEditBlockContent(JSON.parse(JSON.stringify(editMat.content[i])));
+  }
+  function cancelEditBlock() { setEditingBlockIdx(null); setEditBlockContent(null); }
+  function saveEditBlock() {
+    setEditMat(m => ({ ...m, content: m.content.map((b, j) => j === editingBlockIdx ? editBlockContent : b) }));
+    setEditingBlockIdx(null); setEditBlockContent(null);
   }
 
   // ── Block preview text ────────────────────────────────────────────────────
@@ -2445,14 +2798,46 @@ function AdminCourseEditor({ course, courses, setCourses, saveAll, onBack }) {
                             <div className="editor-content-empty">No content blocks yet — add blocks below.</div>
                           )}
                           {(editMat.content || []).map((block, i) => (
-                            <div key={i} className="editor-block">
-                              <span className="editor-block__type">{block.type}</span>
-                              <span className="editor-block__text">{blockPreview(block)}</span>
-                              <div className="editor-block__actions">
-                                <button className="tbl-btn" onClick={() => moveEditBlock(i, -1)} disabled={i === 0} title="Move up">↑</button>
-                                <button className="tbl-btn" onClick={() => moveEditBlock(i, 1)} disabled={i === (editMat.content || []).length - 1} title="Move down">↓</button>
-                                <button className="tbl-btn tbl-btn--remove" onClick={() => removeEditBlock(i)} title="Remove">✕</button>
-                              </div>
+                            <div key={i} className="editor-block-wrap">
+                              {editingBlockIdx === i && editBlockContent ? (
+                                <div className="editor-block-edit">
+                                  <div className="editor-block-edit__type">{editBlockContent.type}</div>
+                                  {editBlockContent.type === 'list' ? (
+                                    <textarea className="editor-input editor-textarea"
+                                      rows={Math.max(3, (editBlockContent.items || []).length + 1)}
+                                      value={(editBlockContent.items || []).join('\n')}
+                                      onChange={e => setEditBlockContent(b => ({ ...b, items: e.target.value.split('\n') }))}
+                                      placeholder="One item per line" />
+                                  ) : (
+                                    <>
+                                      <textarea className="editor-input editor-textarea" rows={4}
+                                        value={editBlockContent.text || ''}
+                                        onChange={e => setEditBlockContent(b => ({ ...b, text: e.target.value }))} />
+                                      {editBlockContent.type === 'quote' && (
+                                        <input className="editor-input" value={editBlockContent.attribution || ''}
+                                          onChange={e => setEditBlockContent(b => ({ ...b, attribution: e.target.value }))}
+                                          placeholder="Attribution (e.g. IFABOK)"
+                                          style={{ marginTop: '4px' }} />
+                                      )}
+                                    </>
+                                  )}
+                                  <div className="editor-block-edit__actions">
+                                    <button className="btn btn--primary" style={{ fontSize: '0.78rem', padding: '5px 14px' }} onClick={saveEditBlock}>Save Block</button>
+                                    <button className="btn btn--ghost" style={{ fontSize: '0.78rem', padding: '5px 14px' }} onClick={cancelEditBlock}>Cancel</button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="editor-block">
+                                  <span className="editor-block__type">{block.type}</span>
+                                  <span className="editor-block__text">{blockPreview(block)}</span>
+                                  <div className="editor-block__actions">
+                                    <button className="tbl-btn" onClick={() => moveEditBlock(i, -1)} disabled={i === 0} title="Move up">↑</button>
+                                    <button className="tbl-btn" onClick={() => moveEditBlock(i, 1)} disabled={i === (editMat.content || []).length - 1} title="Move down">↓</button>
+                                    <button className="tbl-btn tbl-btn--edit" onClick={() => startEditBlock(i)} title="Edit block content">✎</button>
+                                    <button className="tbl-btn tbl-btn--remove" onClick={() => removeEditBlock(i)} title="Remove">✕</button>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           ))}
                           <div className="editor-content-builder">
@@ -2588,7 +2973,7 @@ function AdminCourses({ courses, setCourses, saveAll }) {
               <div className="admin-course-row__title">{c.title}</div>
               <div className="admin-course-row__sub">{c.subtitle}</div>
               <div className="admin-course-row__meta">
-                <span className={`badge ${c.program === 'kids' ? 'badge--kids' : 'badge--adults'}`}>{c.program}</span>
+                <span className={`badge ${c.program === 'kids' ? 'badge--kids' : c.program === 'professionals' ? 'badge--professionals' : 'badge--adults'}`}>{c.program}</span>
                 <span className="admin-course-row__count">{c.weeks.length} weeks</span>
                 <span className="admin-course-row__count">{c.weeks.reduce((s, w) => s + w.materials.length, 0)} materials</span>
               </div>
@@ -2646,9 +3031,79 @@ function AdminAnalytics({ users, courses, progress }) {
   );
 }
 
+// ─── ADMIN SETTINGS ──────────────────────────────────────────────────────────
+
+function AdminSettings({ users, setUsers, saveAll }) {
+  const [current, setCurrent]   = useState('');
+  const [newPw,   setNewPw]     = useState('');
+  const [confirm, setConfirm]   = useState('');
+  const [msg,     setMsg]       = useState(null); // { ok: bool, text: string }
+  const [showCur, setShowCur]   = useState(false);
+  const [showNew, setShowNew]   = useState(false);
+  const [showCon, setShowCon]   = useState(false);
+
+  function handleSave(e) {
+    e.preventDefault();
+    setMsg(null);
+    const admin = users.find(u => u.role === 'admin');
+    const seedAdmin = SEED_USERS.find(u => u.role === 'admin');
+    const activePassword = (admin && admin.password) || seedAdmin.password;
+    if (current !== activePassword) { setMsg({ ok: false, text: 'Current password is incorrect.' }); return; }
+    if (newPw.length < 6)           { setMsg({ ok: false, text: 'New password must be at least 6 characters.' }); return; }
+    if (newPw !== confirm)          { setMsg({ ok: false, text: 'New passwords do not match.' }); return; }
+    const updated = users.map(u => u.role === 'admin' ? { ...u, password: newPw } : u);
+    setUsers(updated); saveAll(updated);
+    setCurrent(''); setNewPw(''); setConfirm('');
+    setMsg({ ok: true, text: 'Password updated successfully.' });
+  }
+
+  return (
+    <div className="admin-settings">
+      <div className="admin-page-header">
+        <h2 className="admin-page-title">Settings</h2>
+      </div>
+      <div className="settings-card">
+        <h3 className="settings-card__title">Change Admin Password</h3>
+        <p className="settings-card__sub">Update the password used to sign in to the admin account.</p>
+        <form className="settings-form" onSubmit={handleSave}>
+          <div className="settings-field">
+            <label className="settings-label">Current Password</label>
+            <div className="settings-pw-wrap">
+              <input className="settings-input" type={showCur ? 'text' : 'password'}
+                value={current} onChange={e => setCurrent(e.target.value)} placeholder="Enter current password" />
+              <button type="button" className="settings-pw-eye" onClick={() => setShowCur(v => !v)}>{showCur ? '🙈' : '👁'}</button>
+            </div>
+          </div>
+          <div className="settings-field">
+            <label className="settings-label">New Password</label>
+            <div className="settings-pw-wrap">
+              <input className="settings-input" type={showNew ? 'text' : 'password'}
+                value={newPw} onChange={e => setNewPw(e.target.value)} placeholder="Enter new password (min 6 chars)" />
+              <button type="button" className="settings-pw-eye" onClick={() => setShowNew(v => !v)}>{showNew ? '🙈' : '👁'}</button>
+            </div>
+          </div>
+          <div className="settings-field">
+            <label className="settings-label">Confirm New Password</label>
+            <div className="settings-pw-wrap">
+              <input className="settings-input" type={showCon ? 'text' : 'password'}
+                value={confirm} onChange={e => setConfirm(e.target.value)} placeholder="Repeat new password" />
+              <button type="button" className="settings-pw-eye" onClick={() => setShowCon(v => !v)}>{showCon ? '🙈' : '👁'}</button>
+            </div>
+          </div>
+          {msg && <div className={`settings-msg${msg.ok ? ' settings-msg--ok' : ' settings-msg--err'}`}>{msg.text}</div>}
+          <button className="btn btn--primary settings-save" type="submit"
+            disabled={!current || !newPw || !confirm}>
+            Update Password
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 // ─── ADMIN APP ────────────────────────────────────────────────────────────────
 
-function AdminApp({ onLogout, users, setUsers, courses, setCourses, progress, saveAll }) {
+function AdminApp({ onLogout, users, setUsers, courses, setCourses, progress, setProgress, saveAll }) {
   const [adminView, setAdminView] = useState('overview');
   const pendingCount = users.filter(u => u.role === 'student' && u.status === 'pending').length;
 
@@ -2657,9 +3112,10 @@ function AdminApp({ onLogout, users, setUsers, courses, setCourses, progress, sa
       <AdminSidebar activeView={adminView} setAdminView={setAdminView} onLogout={onLogout} pendingCount={pendingCount} />
       <main className="app-main">
         {adminView === 'overview'  && <AdminOverview users={users} courses={courses} />}
-        {adminView === 'students'  && <AdminStudents users={users} setUsers={setUsers} courses={courses} saveAll={saveAll} />}
+        {adminView === 'students'  && <AdminStudents users={users} setUsers={setUsers} courses={courses} progress={progress} setProgress={setProgress} saveAll={saveAll} />}
         {adminView === 'courses'   && <AdminCourses courses={courses} setCourses={setCourses} saveAll={saveAll} />}
         {adminView === 'analytics' && <AdminAnalytics users={users} courses={courses} progress={progress} />}
+        {adminView === 'settings'  && <AdminSettings users={users} setUsers={setUsers} saveAll={saveAll} />}
       </main>
       <MobileAdminNav activeView={adminView} setAdminView={setAdminView} onLogout={onLogout} pendingCount={pendingCount} />
     </div>
@@ -2684,13 +3140,15 @@ function App() {
   function setProgress(p) { setProgressRaw(p); saveAll(null, null, p); }
 
   function handleLogin(username, password) {
-    const adminUser = SEED_USERS.find(u => u.role === 'admin');
-    if (username === adminUser.username && password === adminUser.password) {
-      setCurrentUser(adminUser); setLoginError(''); return;
+    // Check localStorage users first — covers admin password changes
+    const found = users.find(u => u.username === username && u.password === password);
+    if (found) { setCurrentUser(found); setLoginError(''); return; }
+    // Fallback: seed admin credentials in case localStorage was wiped
+    const seedAdmin = SEED_USERS.find(u => u.role === 'admin');
+    if (username === seedAdmin.username && password === seedAdmin.password) {
+      setCurrentUser(seedAdmin); setLoginError(''); return;
     }
-    const found = users.find(u => u.username === username && u.password === password && u.role === 'student');
-    if (!found) { setLoginError('Invalid username or password.'); return; }
-    setCurrentUser(found); setLoginError('');
+    setLoginError('Invalid username or password.');
   }
 
   function handleLogout() { setCurrentUser(null); setLoginError(''); }
@@ -2699,7 +3157,7 @@ function App() {
 
   if (currentUser.role === 'admin') {
     return <AdminApp onLogout={handleLogout} users={users} setUsers={setUsers}
-      courses={courses} setCourses={setCourses} progress={progress} saveAll={saveAll} />;
+      courses={courses} setCourses={setCourses} progress={progress} setProgress={setProgress} saveAll={saveAll} />;
   }
 
   if (currentUser.status === 'pending') return <PendingPage user={currentUser} onLogout={handleLogout} />;

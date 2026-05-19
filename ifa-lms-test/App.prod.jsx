@@ -2340,7 +2340,18 @@ function AdminApp({ onLogout, users, setUsers, courses, setCourses, progress, sa
 // ─── APP ROOT ─────────────────────────────────────────────────────────────────
 
 function App() {
-  const [data]    = useState(() => loadState() || DEFAULT_DATA);
+  const [data] = useState(() => {
+    const stored = loadState() || DEFAULT_DATA;
+    // Always sync admin credentials from SEED_USERS so password changes take effect
+    // on devices that already have old data in localStorage.
+    const adminSeed = SEED_USERS.find(u => u.role === 'admin');
+    if (adminSeed) {
+      stored.users = stored.users.map(u =>
+        u.role === 'admin' ? { ...u, password: adminSeed.password } : u
+      );
+    }
+    return stored;
+  });
   const [users,   setUsersRaw]    = useState(data.users);
   const [courses, setCoursesRaw]  = useState(data.courses);
   const [progress, setProgressRaw] = useState(data.progress);

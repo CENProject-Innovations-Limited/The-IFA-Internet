@@ -878,7 +878,7 @@ function DualSection() {
               side of the Learning Ecosystem.
             </p>
             <ul className="dual-side__list">
-              <li>Ifa Knowledge Matrix (256 Odu)</li>
+              <li>Ifa Knowledge Matrix (256 Odu Ifa)</li>
               <li>Ifa STEAM Curriculum</li>
               <li>Ifa AI Personalization</li>
               <li>Ifacodemy Polymath Tracks</li>
@@ -901,7 +901,7 @@ function DualSection() {
               side of the Learning Ecosystem.
             </p>
             <ul className="dual-side__list">
-              <li>Orisa Knowledge Framework</li>
+              <li>Orisa Knowledge Framework (16 Odu Orisa)</li>
               <li>Orisa Ritual &amp; Practice</li>
               <li>Energy Exchange Pedagogy</li>
               <li>OrisaModel Tracks</li>
