@@ -1,0 +1,395 @@
+{
+  "meta": {
+    "name": "IfaLang",
+    "tagline": "The Universal Meta-Language of Ifa",
+    "description": "Ifa Language (IfaLang) is a Universal Meta-Language for learning all fields mathematically, unifying and integrating all fields together, and building technologies. It is grounded in the 16 Laws of Ifa — 8 primary meta-laws and their 8 Duals — which form the structural grammar of reality across every domain of knowledge.",
+    "ifapl_url": "https://toe.cenproject.org/ifa-programming-language-ifa-pl/",
+    "ifapl_note": "IfaPL (Ifa Programming Language) is the Element of IfaLang for generating, unifying, and integrating programming languages."
+  },
+  "lawPairs": [
+    {
+      "primary": {
+        "id": "symmetry",
+        "name": "Symmetry",
+        "type": "primary",
+        "dualId": "asymmetry",
+        "dualName": "Asymmetry",
+        "odu": "Ogbe",
+        "oduCode": "1111",
+        "color": "#c9a227",
+        "definition": "A system is symmetric when it remains unchanged under a set of transformations. Symmetry encodes invariance of form across operations.",
+        "mathematicalForm": "∀g ∈ G: T(g)·S = S   (Noether: each symmetry ↔ a conservation law)",
+        "principle": "Wherever a quantity is conserved or a law holds across transformations, symmetry is at work. Symmetry is the deepest source of physical law and mathematical structure.",
+        "fields": {
+          "Physics": "Noether's theorem: every continuous symmetry produces a conservation law. Time symmetry → energy conservation. Spatial symmetry → momentum. Rotational symmetry → angular momentum. The Standard Model is defined entirely by its symmetry group SU(3)×SU(2)×U(1).",
+          "Mathematics": "Group theory is the mathematics of symmetry. Galois theory solves polynomial equations by analyzing their symmetry groups. Symmetric functions, self-dual polyhedra, and invariant theory all encode hidden structure through symmetry.",
+          "Biology": "Bilateral body symmetry, left-right axis determination, radial symmetry in sea life. Protein structures exhibit symmetry groups. Symmetric biochemical reactions obey detailed balance.",
+          "Computer Science": "Symmetric data structures (balanced trees, symmetric matrices), symmetric algorithms, self-dual Boolean functions, symmetric cryptographic schemes, commutative operations in parallel computing.",
+          "Economics": "Nash equilibria in symmetric games. Symmetric auctions. Supply-demand equilibrium as a symmetric fixed point. Exchange symmetry in general equilibrium theory.",
+          "Engineering": "Symmetric load distribution in structures, resonant symmetry in circuits, symmetric multiprocessing (SMP), rotationally symmetric designs for stress uniformity."
+        },
+        "technology": "Symmetric encryption (AES), symmetric network topologies, symmetric multiprocessing architectures, load-balanced systems, resonant engineering, crystal-based materials science.",
+        "unification": "Symmetry unifies Physics, Mathematics, Biology, CS, and Economics through the single concept of invariance under transformation — a system that 'looks the same' from multiple angles encodes a deep structural truth."
+      },
+      "dual": {
+        "id": "asymmetry",
+        "name": "Asymmetry",
+        "type": "dual",
+        "dualId": "symmetry",
+        "dualName": "Symmetry",
+        "odu": "Oyeku",
+        "oduCode": "0000",
+        "color": "#a07820",
+        "definition": "A system exhibits asymmetry when its actual state has less symmetry than its underlying law — symmetry is spontaneously broken, producing differentiation, structure, and direction.",
+        "mathematicalForm": "⟨φ⟩ ≠ 0 under symmetric L(φ)   (Spontaneous symmetry breaking)",
+        "principle": "Asymmetry is the generative force that produces structure from symmetry. Without symmetry breaking, the universe would be featureless. Every particle mass, every crystal structure, every left-right difference originates in broken symmetry.",
+        "fields": {
+          "Physics": "Spontaneous symmetry breaking gives particles mass (Higgs mechanism). CP violation explains matter-antimatter imbalance. The arrow of time is a broken time-reversal symmetry. Phase transitions (liquid to crystal) break rotational symmetry.",
+          "Mathematics": "Non-commutative algebras (AB ≠ BA). Directed graphs and asymmetric relations. Chiral geometry. Non-self-dual structures. Asymmetric information in game theory.",
+          "Biology": "DNA is right-handed; all amino acids are L-handed. The heart is asymmetrically positioned. Developmental asymmetry (left-right axis) is genetically programmed. Predator-prey relationships are structurally asymmetric.",
+          "Computer Science": "Asymmetric cryptography (RSA, ECC — public vs. private keys). Asymptotic complexity (P vs. NP). Directed acyclic graphs. Producer-consumer asymmetry in systems.",
+          "Economics": "Information asymmetry (Akerlof's lemons problem). Asymmetric bargaining power. Irreversible investment decisions. Winner-take-all market dynamics.",
+          "Engineering": "Asymmetric wing profiles (airfoil lift). Ratchet mechanisms. Diodes and transistors (asymmetric current flow). Asymmetric error-correcting codes."
+        },
+        "technology": "Asymmetric cryptography (public-key infrastructure), asymmetric network protocols, ratchet-based security (Signal protocol), asymmetric computing architectures, directional materials.",
+        "unification": "Asymmetry unifies the origin of structure across all fields: why there is something rather than nothing, why organisms have handedness, why markets have power imbalances — all are broken symmetries."
+      }
+    },
+    {
+      "primary": {
+        "id": "invariance",
+        "name": "Invariance",
+        "type": "primary",
+        "dualId": "variance",
+        "dualName": "Variance",
+        "odu": "Irete",
+        "oduCode": "1011",
+        "color": "#4361ee",
+        "definition": "A quantity, relationship, or law is invariant when it remains unchanged under a specified class of transformations — it is the same for all observers or frames.",
+        "mathematicalForm": "T*ω = ω   (pullback of invariant form ω under transformation T)",
+        "principle": "Invariants are the bedrock of scientific law: what is true regardless of perspective, coordinate choice, or reference frame. Invariance separates objective reality from subjective description.",
+        "fields": {
+          "Physics": "Lorentz invariance (speed of light constant in all frames). Gauge invariance (electromagnetism, strong/weak forces). CPT invariance. The Lagrangian formulation finds invariant action principles underlying all physical laws.",
+          "Mathematics": "Topological invariants (Euler characteristic, homology groups) are unchanged by continuous deformation. Algebraic invariants (determinant, trace) survive basis change. Invariant theory studies polynomials unchanged by group action.",
+          "Biology": "The genetic code is invariant across all known life. Homeostasis maintains invariant internal conditions. Allometric scaling laws are invariant across body sizes.",
+          "Computer Science": "Loop invariants guarantee algorithm correctness. Referential transparency (pure functions). Type invariants. Protocol invariants in distributed systems. Idempotent operations.",
+          "Economics": "Purchasing power parity (invariant value across currencies). Scale-invariant power laws in income distribution. Index numbers as invariant measures of economic change.",
+          "Engineering": "Dimensional invariance (physical laws hold regardless of unit system). Control system invariants. Invariant manifolds in dynamical systems engineering."
+        },
+        "technology": "Pure functional programming languages, invariant-based formal verification, dimensional analysis tools, gauge-invariant simulation engines, idempotent APIs.",
+        "unification": "Invariance reveals what is real and objective across Physics, Mathematics, Biology, CS, and Economics — it answers the question: what persists when everything else changes?"
+      },
+      "dual": {
+        "id": "variance",
+        "name": "Variance",
+        "type": "dual",
+        "dualId": "invariance",
+        "dualName": "Invariance",
+        "odu": "Owonrin",
+        "oduCode": "1100",
+        "color": "#2a3eb5",
+        "definition": "Variance describes how quantities change and covary under transformations — the structured, lawful way that things differ across frames, contexts, or conditions.",
+        "mathematicalForm": "Var(X) = E[(X−μ)²]   ;   ∂ₜφ = F(φ, ∇φ, …)   (change as the object of study)",
+        "principle": "Where invariance finds what stays the same, variance maps how and why things differ. Variance is the grammar of change — the calculus of transformation that makes differential equations, statistics, and information theory possible.",
+        "fields": {
+          "Physics": "The renormalization group tracks how physical laws vary with energy scale. Running coupling constants. Covariant tensors transform according to precise rules. The path integral sums over all variants.",
+          "Mathematics": "Differential geometry studies how geometric objects vary across a manifold. Variational calculus finds paths of extremal action. Statistical variance quantifies spread. Covariant/contravariant tensor transformation laws.",
+          "Biology": "Genetic variation is the raw material of evolution. Phenotypic plasticity (variance in response to environment). Population variance in fitness. Metabolic flux variation.",
+          "Computer Science": "Covariant and contravariant type parameters. Mutable state and side effects. Sensitivity analysis. Monte Carlo variance reduction. Algorithmic variance in randomized algorithms.",
+          "Economics": "Price elasticity measures variance of demand with price. Risk as variance of returns. Variance decomposition in macroeconomics. Stochastic differential equations model economic change.",
+          "Engineering": "Signal variance (noise). Tolerance analysis (manufacturing variance). PID controllers manage variance from setpoint. Structural variance under load."
+        },
+        "technology": "Statistical inference engines, variational autoencoders (VAE), stochastic optimization, noise-robust engineering, adaptive control systems, Monte Carlo simulation platforms.",
+        "unification": "Variance is the dual engine of invariance: together they form the complete grammar of how reality is structured (invariant) and how it moves and changes (variant)."
+      }
+    },
+    {
+      "primary": {
+        "id": "duality",
+        "name": "Duality",
+        "type": "primary",
+        "dualId": "unity",
+        "dualName": "Unity",
+        "odu": "Ogbe-Oyeku",
+        "oduCode": "1111/0000",
+        "color": "#e63946",
+        "definition": "Two seemingly different descriptions, frameworks, or entities are dual when they are equivalent representations of the same underlying reality — they encode identical information from complementary perspectives.",
+        "mathematicalForm": "D: C → Cᵒᵖ   (duality functor);   V** ≅ V   (double dual isomorphism)",
+        "principle": "Duality is the deepest structural principle: every true theory has a mirror, every space has a dual space, every problem has a dual problem. Solving one gives the other for free. Duality is the universe's self-reflection.",
+        "fields": {
+          "Physics": "Wave-particle duality. T-duality in string theory (large/small radius equivalent). AdS/CFT duality (gravity in n+1 dimensions ↔ field theory on n-dimensional boundary). Electric-magnetic duality (Montonen-Olive). Particle-hole duality in condensed matter.",
+          "Mathematics": "Vector space duality (V and V*). Poincaré duality in topology. Projective duality (points ↔ hyperplanes). De Morgan duality in Boolean algebra. Pontryagin duality for abelian groups. Categorical duality (reversing all arrows).",
+          "Biology": "DNA double helix (sense/antisense strand duality). Predator-prey duality. Parasite-host coevolution. Excitatory-inhibitory neural balance. Anabolic-catabolic metabolic duality.",
+          "Computer Science": "Church-Turing duality (data ↔ program). Syntax-semantics duality. Continuations and control flow. Primal-dual algorithms in optimization. Hardware-software duality. Stack-heap memory duality.",
+          "Economics": "Primal-dual optimization (producer/consumer theory). Supply-demand duality. Risk-return tradeoff. Real-financial economy duality. Micro-macro duality.",
+          "Engineering": "Thevenin-Norton duality in circuits. Force-displacement duality in mechanics. Series-parallel circuit duality. Time-frequency duality in signal processing."
+        },
+        "technology": "Dual optimization solvers, dual representations in ML (primal/kernel), duality in compiler design (source/target), public-key cryptography (dual key structure), dual-channel architectures.",
+        "unification": "Duality is the meta-law that reveals hidden equivalences across all fields — proving that what looks like two different theories is often one theory seen from two angles."
+      },
+      "dual": {
+        "id": "unity",
+        "name": "Unity",
+        "type": "dual",
+        "dualId": "duality",
+        "dualName": "Duality",
+        "odu": "Ofun",
+        "oduCode": "1010",
+        "color": "#a02830",
+        "definition": "Unity is the convergence of multiple descriptions, frameworks, or forces into a single unified structure — the collapse of duality into a common ground.",
+        "mathematicalForm": "lim_{E→∞} g₁(E) = g₂(E) = g   (coupling unification);   colim(F) = U   (categorical colimit)",
+        "principle": "Where duality reveals two sides of the same coin, unity discovers that the coin itself dissolves into a single, deeper reality. Unification is the engine of scientific progress: finding the one law behind many.",
+        "fields": {
+          "Physics": "Grand Unified Theories (GUTs) unify strong/weak/electromagnetic forces. Theory of Everything seeks unity of GUT with gravity. Singularities (Big Bang, black holes) as unity points. Fixed points in renormalization group flow.",
+          "Mathematics": "Category theory reveals unity across all mathematical structures via universal properties. The Langlands program unifies number theory and representation theory. Grothendieck's schemes unify algebraic geometry.",
+          "Biology": "Universal genetic code (unity across all life). Common ancestor (phylogenetic unity). Universal biochemical pathways (glycolysis). Unity of life in cell theory.",
+          "Computer Science": "Universal Turing machine (unity of all computation). Abstract interfaces and polymorphism (unity of behavior). Universal approximation theorem (neural networks). Lambda calculus as unified foundation.",
+          "Economics": "General equilibrium theory (unified market clearing). Social welfare functions. Unified monetary systems. International trade as a unifying mechanism.",
+          "Engineering": "Systems integration. Universal bus standards (USB, PCIe). Unified communication protocols. Platform architectures that unify diverse components."
+        },
+        "technology": "Universal virtual machines, platform APIs, unified authentication systems, general-purpose AI, integration middleware, universal data formats (JSON, XML), standards bodies.",
+        "unification": "Unity is the gravitational attractor of knowledge — every field seeks its unified theory. Unity tells us when the search is over: when the many become one."
+      }
+    },
+    {
+      "primary": {
+        "id": "emergence",
+        "name": "Emergence",
+        "type": "primary",
+        "dualId": "reduction",
+        "dualName": "Reduction",
+        "odu": "Odi",
+        "oduCode": "1001",
+        "color": "#daa520",
+        "definition": "Higher-level properties, patterns, and behaviors arise from lower-level interactions in ways that cannot be predicted or deduced from the components alone.",
+        "mathematicalForm": "Φ(system) ≠ Σᵢ φᵢ   (whole ≠ sum of parts);   P(macro | micro) ≇ ∏ P(partᵢ)",
+        "principle": "Emergence is the universe's creative power: new levels of reality arise at each scale of organization. Wetness from water molecules. Life from chemistry. Consciousness from neurons. Intelligence from computation. Each level has its own laws.",
+        "fields": {
+          "Physics": "Thermodynamic laws emerge from statistical mechanics. Superconductivity emerges from electron correlations. Ferromagnetism from spin interactions. Turbulence from laminar flow. Phase transitions produce qualitatively new macroscopic behavior.",
+          "Mathematics": "Gödel's incompleteness: meta-level truths that cannot be proven at the object level. Chaotic attractors from simple deterministic rules. Fractals and self-similar structures. Complex behavior in cellular automata (Conway's Game of Life).",
+          "Biology": "Life emerges from chemistry. Consciousness from neural firing. Ecosystems from species interactions. Morphogenesis (Turing patterns): spatial structure from uniform chemistry. Evolution: adaptation from random mutation.",
+          "Computer Science": "Intelligence from computation (AI). Internet behavior from TCP/IP. Operating systems from transistors. Collective intelligence from agent interactions. Neural network capabilities from gradient descent on simple operations.",
+          "Economics": "Market prices emerge from individual trades. Business cycles from microeconomic decisions. Institutions emerge from repeated game interactions. Innovation ecosystems from firm competition.",
+          "Engineering": "Swarm robotics: collective behavior from simple agents. Self-organizing networks. Emergent fault tolerance in distributed systems. Smart materials with emergent properties."
+        },
+        "technology": "Neural networks (emergent intelligence), swarm robotics, cellular automata, complex adaptive systems, emergent AI capabilities, self-organizing networks, evolutionary algorithms.",
+        "unification": "Emergence is the universal explanation for why there are levels of reality — why we need Biology in addition to Chemistry, Economics in addition to Psychology, why each science is irreducible to the one below it."
+      },
+      "dual": {
+        "id": "reduction",
+        "name": "Reduction",
+        "type": "dual",
+        "dualId": "emergence",
+        "dualName": "Emergence",
+        "odu": "Iwori",
+        "oduCode": "0110",
+        "color": "#a07010",
+        "definition": "Higher-level phenomena can be fully explained by, and reduced to, more fundamental lower-level descriptions — the whole is completely determined by its parts and their interactions.",
+        "mathematicalForm": "F_macro = f(F_micro)   (exact reduction map);   H_eff = Tr_env(H_total)   (trace-out reduction)",
+        "principle": "Reduction is the analytic power of science: every complex phenomenon has a simpler explanation at a lower level. Find the fundamental constituents and their rules, and you can derive everything above. Reduction is the ladder to foundations.",
+        "fields": {
+          "Physics": "Statistical mechanics fully reduces thermodynamics to particle mechanics. QED reduces electromagnetism to quantum field theory. The Bohr model is reducible to quantum mechanics. Effective field theories show which physics is relevant at each scale.",
+          "Mathematics": "Set-theoretic foundations: all mathematics reduces to sets. Formal proof systems: theorems reduce to axioms. Computational complexity: problems reduce to simpler problems (polynomial reductions, NP-completeness).",
+          "Biology": "Molecular genetics: phenotype reducible to genotype. The central dogma (DNA → RNA → Protein) is a complete reduction chain. Reductive explanation of disease to molecular mechanisms.",
+          "Computer Science": "Turing reductions and NP-completeness. Virtual machine layers (each level reduces to the one below). Lambda calculus as the complete reduction basis for computation. Compiler lowering (high-level → assembly).",
+          "Economics": "Micro-foundations of macroeconomics. Reducing market behavior to individual rational choice. Reducing institutions to incentive structures. Cost-benefit reduction of social choices.",
+          "Engineering": "Fault tree analysis (system failure reduces to component failures). Hierarchical decomposition. Root cause analysis. Protocol stacks (each layer reduces to the one below)."
+        },
+        "technology": "Formal verification systems, proof assistants (Coq, Lean), compiler optimization (reduction passes), microservices decomposition, root cause analysis tools, abstract interpretation.",
+        "unification": "Reduction is the downward arrow that connects levels of reality — it shows how the laws of each field are constrained by and consistent with the laws below, giving science its unity of explanation."
+      }
+    },
+    {
+      "primary": {
+        "id": "composition",
+        "name": "Composition",
+        "type": "primary",
+        "dualId": "decomposition",
+        "dualName": "Decomposition",
+        "odu": "Otura",
+        "oduCode": "1101",
+        "color": "#2d9e6b",
+        "definition": "Complex wholes are built by combining simpler parts through well-defined composition operations — the output of one becomes the input of another, building complexity from simplicity.",
+        "mathematicalForm": "(g ∘ f)(x) = g(f(x))   ;   A ⊗ B   (tensor/monoidal composition)",
+        "principle": "Composition is the constructive law — the syntax of building. Every large system is a composition of smaller systems. Every theorem is a composition of lemmas. Every technology is a composition of components. Composability determines the limits of what can be built.",
+        "fields": {
+          "Physics": "Feynman diagrams compose to give scattering amplitudes. Quantum states compose via tensor products. Classical mechanics: forces compose by superposition. Path integral: probabilities compose by integrating over all paths.",
+          "Mathematics": "Category theory is the mathematics of composition: morphisms compose, functors compose, natural transformations compose. Function composition, product types, monoids, operads — all capture different facets of how things combine.",
+          "Biology": "Protein synthesis: amino acids compose into proteins, proteins compose into complexes. Gene regulatory networks compose. Developmental programs compose. Metabolic pathways chain and compose.",
+          "Computer Science": "The most foundational law of software: functions compose, modules compose, services compose. Monadic composition (Haskell). Unix pipes. Microservices. Type-safe composition prevents errors. Parser combinators.",
+          "Economics": "Supply chains as composition of production stages. Portfolio construction. Financial derivatives (composed payoff structures). Economic value chains. Composite goods and bundling.",
+          "Engineering": "Systems engineering: subsystems compose into systems, systems into systems-of-systems. Circuit composition (series/parallel). Protocol layering. Component-based hardware design."
+        },
+        "technology": "Functional programming, monadic composition, microservices architecture, API composition, modular hardware, composable infrastructure (Nix, containers), protocol stacks.",
+        "unification": "Composition is the universal construction law: it explains how every complex structure — physical, mathematical, biological, computational, economic — is built from simpler pieces, and what makes that building possible."
+      },
+      "dual": {
+        "id": "decomposition",
+        "name": "Decomposition",
+        "type": "dual",
+        "dualId": "composition",
+        "dualName": "Composition",
+        "odu": "Osa",
+        "oduCode": "1110",
+        "color": "#1d6e4a",
+        "definition": "Complex wholes can be systematically broken into constituent parts while preserving structure — revealing the hidden building blocks and their relationships.",
+        "mathematicalForm": "A = UΣVᵀ   (SVD);   f = Σ fₙ eⁱⁿˣ   (Fourier decomposition);   n = p₁^a₁ · p₂^a₂ ···",
+        "principle": "Decomposition is the analytic law — the grammar of understanding by taking apart. Every signal is a sum of frequencies. Every number factors into primes. Every system's behavior can be decomposed into modes. Decomposition reveals hidden structure.",
+        "fields": {
+          "Physics": "Fourier decomposition of waves into frequencies. Normal mode decomposition of oscillators. Multipole expansion (gravitational, electromagnetic fields). Partial fraction decomposition. Spectral decomposition of quantum observables.",
+          "Mathematics": "Spectral theorem (symmetric matrices decompose into eigenspaces). Jordan normal form. Prime factorization (Fundamental Theorem of Arithmetic). CW-complex decomposition of topological spaces. Simplicial decomposition.",
+          "Biology": "Metabolism: catabolism decomposes molecules for energy. Protein degradation (proteasome). Immune system: decomposes antigens into epitopes for recognition. Ecological decomposition (nutrient cycling).",
+          "Computer Science": "Divide-and-conquer algorithms. Parser decomposition (grammar rules). Compiler analysis phase (IR decomposition). Eigendecomposition in PCA/ML. Wavelet decomposition for compression.",
+          "Economics": "GDP decomposition (consumption + investment + government + net exports). Variance decomposition in econometrics. Value chain analysis. Portfolio risk decomposition (factor models).",
+          "Engineering": "Failure mode decomposition (FMEA). Signal processing (FFT). Modal analysis of structures. System identification by decomposing into transfer functions."
+        },
+        "technology": "Fourier/wavelet transforms, SVD/PCA in ML, prime factorization in cryptography, compiler IR decomposition, fault tree analysis tools, spectral analysis instruments.",
+        "unification": "Decomposition is the universal analysis law — it tells us that every field has a natural basis into which complexity dissolves, revealing the irreducible components of reality."
+      }
+    },
+    {
+      "primary": {
+        "id": "holism",
+        "name": "Holism",
+        "type": "primary",
+        "dualId": "atomism",
+        "dualName": "Atomism",
+        "odu": "Obara",
+        "oduCode": "0001",
+        "color": "#5e72b4",
+        "definition": "The whole is primary: it cannot be understood from its parts alone, because the context, relationships, and global structure determine the nature and behavior of each part.",
+        "mathematicalForm": "H(X₁,...,Xₙ) > Σ H(Xᵢ)   (contextual information excess);   sheaf coherence conditions",
+        "principle": "Holism asserts that the global structure is causally primary — context determines meaning. A neuron's role depends on the network. A gene's effect depends on the genome. A price depends on the whole market. You cannot understand the part without the whole.",
+        "fields": {
+          "Physics": "Quantum entanglement: the state of the whole cannot be factored into the states of the parts. General relativity: spacetime is a global entity; local geometry is determined by global mass-energy distribution. Many-body physics: collective modes that have no single-particle analog.",
+          "Mathematics": "Sheaf theory: local data must cohere globally. Cohomology captures global obstructions. Topos theory: logic depends on the whole topos. Non-commutative geometry: global structure before local points.",
+          "Biology": "Ecological holism: organisms are defined by their ecosystem role. Systems biology: gene expression depends on the entire regulatory network. Organismal development: cells are what they are because of their position in the whole organism.",
+          "Computer Science": "Whole-program optimization. Context-dependent type systems (dependent types). Distributed consensus (global agreement before local action). Hypertext as a whole (link context gives meaning). Semantic web.",
+          "Economics": "Macroeconomics is not derivable from microeconomics alone (Keynesian paradox of thrift). Institutional economics: rules of the game determine individual behavior. Network effects: value depends on whole network size.",
+          "Engineering": "Systems engineering: requirements flow from system to subsystem. Safety analysis requires whole-system perspective. Resilience engineering: system-level properties not predictable from components."
+        },
+        "technology": "Distributed consensus protocols, whole-program compilers, system-of-systems engineering, ecological simulation, macroeconomic modeling platforms, global optimization.",
+        "unification": "Holism unifies the sciences by revealing why each field has genuinely emergent, context-dependent phenomena that resist purely bottom-up explanation — and why interdisciplinary thinking is necessary."
+      },
+      "dual": {
+        "id": "atomism",
+        "name": "Atomism",
+        "type": "dual",
+        "dualId": "holism",
+        "dualName": "Holism",
+        "odu": "Okanran",
+        "oduCode": "1000",
+        "color": "#3e5294",
+        "definition": "Reality consists of fundamental, indivisible units whose intrinsic properties and pairwise interactions fully determine all phenomena — the parts are primary.",
+        "mathematicalForm": "S = Σᵢ sᵢ   (additive);   H = Σᵢ Hᵢ + Σᵢⱼ Vᵢⱼ   (individual terms + pairwise interactions)",
+        "principle": "Atomism drives the search for fundamental constituents — the elementary particles, the axioms, the primitive operations. If you know the atoms and their interaction rules, you know everything. Atomism is the reductionist's wager.",
+        "fields": {
+          "Physics": "Standard Model: all matter from 17 fundamental particles. Atomic theory of matter. Quantum field theory: fields as collections of discrete quanta. Discreteness of energy levels (quantization). Planck scale as fundamental atom of spacetime.",
+          "Mathematics": "Axiomatic foundations (ZFC set theory). Primitive recursive functions. Atomic propositions in logic. Generators of groups and algebras. Minimal generating sets (basis vectors).",
+          "Biology": "Gene as unit of inheritance (Mendelian atomism). Cell as unit of life. Codon as unit of genetic code. Protein domain as functional unit. Synaptic weight as unit of neural computation.",
+          "Computer Science": "Bit as fundamental unit of information. Primitive types. Atomic operations in concurrent programming. Transistor as atom of digital logic. Lambda abstraction as atom of computation.",
+          "Economics": "Rational actor as atom of economic analysis. Utility-maximizing individual. Price as atom of market information. Transaction as fundamental economic event.",
+          "Engineering": "Component-based design. Modular hardware (discrete components). Standard cells in VLSI. Atomic sensor readings. Fundamental electrical components (R, L, C)."
+        },
+        "technology": "Low-level hardware design, assembly language, atomic data types in programming languages, transistor-level simulation, discrete event simulation, agent-based models.",
+        "unification": "Atomism provides the foundation that makes the other laws computable: once you have fundamental units and rules, you can simulate, predict, and build — it is the engineer's law."
+      }
+    },
+    {
+      "primary": {
+        "id": "reductionism",
+        "name": "Reductionism",
+        "type": "primary",
+        "dualId": "synthesis",
+        "dualName": "Synthesis",
+        "odu": "Ogunda",
+        "oduCode": "0111",
+        "color": "#7c4dff",
+        "definition": "Complex phenomena are fully explained by appeal to simpler, more fundamental phenomena at a lower level of description — explanation flows downward through levels of organization.",
+        "mathematicalForm": "∃f: L_high → L_low   (surjective reduction map);   A ≤_p B   (polynomial reduction in complexity theory)",
+        "principle": "Reductionism is the explanatory program of science: find the level where the true laws live, and reduce everything above to it. Chemistry reduces to physics. Biology reduces to chemistry. Psychology reduces to neuroscience. Each reduction is a scientific achievement.",
+        "fields": {
+          "Physics": "Statistical mechanics reduces thermodynamics (temperature = mean kinetic energy). QED reduces electromagnetism. Particle physics reduces all matter to fields. The Standard Model is the current endpoint of physical reduction.",
+          "Mathematics": "Proof theory: every theorem reduces to axioms. Computational complexity: problem A reduces to problem B (NP-completeness via polynomial reduction). All mathematical structures reduce to sets (ZFC).",
+          "Biology": "Central dogma (DNA → RNA → Protein): life reduces to information processing. Molecular basis of disease. Pharmacological reduction: drug action explains to receptor binding. Evolution reduces to population genetics.",
+          "Computer Science": "Turing reductions and NP-completeness. Compiler lowering (each level reduces to the one below). Lambda calculus: all computation reduces to function application and abstraction. Recursion theory.",
+          "Economics": "Micro-foundations of macroeconomics. Rational choice theory. Game-theoretic reduction of institutions. Revealed preference reduces preference to observable choice.",
+          "Engineering": "Root cause analysis (failure reduces to component fault). Protocol stack reduction. Hardware description languages (behavior reduces to gates, gates to transistors). FMEA."
+        },
+        "technology": "Proof assistants and formal verification, NP-completeness solvers, compiler optimization frameworks, static analysis tools, molecular dynamics simulation, pharmacokinetic modeling.",
+        "unification": "Reductionism is the vertical law of science — it stitches the levels of reality together by showing how higher levels emerge from, and are constrained by, lower levels. It gives science its explanatory unity."
+      },
+      "dual": {
+        "id": "synthesis",
+        "name": "Synthesis",
+        "type": "dual",
+        "dualId": "reductionism",
+        "dualName": "Reductionism",
+        "odu": "Ose",
+        "oduCode": "0101",
+        "color": "#5c2dcf",
+        "definition": "New, irreducibly complex structures and capabilities arise when simpler elements are combined — synthesis creates genuinely new levels of reality that cannot be derived by analysis alone.",
+        "mathematicalForm": "C = A ⊕ B,   C ⊄ A, C ⊄ B   (synthesis produces irreducible new structure)",
+        "principle": "Synthesis is the constructive complement to reductionism — where reduction analyzes, synthesis creates. Synthetic biology creates life. Synthetic mathematics creates new structures. Synthetic AI creates intelligence. Synthesis is the law of making.",
+        "fields": {
+          "Physics": "Effective field theories: synthesize macroscopic theories from many microscopic degrees of freedom. Condensed matter: new states of matter (topological insulators) synthesized from simple interactions. Laser: synthesis of coherent light from atomic emission.",
+          "Mathematics": "Algebraic topology: synthesizes algebra and topology to create powerful new invariants. Category theory: synthesizes all of mathematics. Grothendieck's scheme theory: revolutionary synthesis in algebraic geometry.",
+          "Biology": "Synthetic biology (construction of synthetic organisms, genetic circuits). Metabolic engineering. Directed evolution. Biosynthesis of drugs and materials. Organ synthesis.",
+          "Computer Science": "High-level programming languages synthesize computational meaning from transistors. Deep learning synthesizes intelligence from training data. Generative AI synthesizes novel artifacts. Compilation as synthesis.",
+          "Economics": "Institutional synthesis (markets synthesized from rules + agents). Innovation as economic synthesis. Venture capital: synthesizes capital, talent, and technology into new firms. Platform economics.",
+          "Engineering": "Systems integration. New materials by synthesis (polymers, alloys, composites). Drug synthesis. Semiconductor fabrication. AI-designed materials and molecules."
+        },
+        "technology": "Generative AI, synthetic biology platforms, material synthesis tools, high-level programming languages, rapid prototyping, no-code/low-code platforms, integrated circuit design.",
+        "unification": "Synthesis is the upward arrow — where reductionism analyzes, synthesis builds. Together they form the complete cycle of scientific understanding: take apart (reduction) and put together in new ways (synthesis)."
+      }
+    },
+    {
+      "primary": {
+        "id": "structuralism",
+        "name": "Structuralism",
+        "type": "primary",
+        "dualId": "dynamism",
+        "dualName": "Dynamism",
+        "odu": "Ika",
+        "oduCode": "0010",
+        "color": "#e9498a",
+        "definition": "Phenomena are best understood through their relational structures — the patterns of relationships between elements — rather than the intrinsic properties of the elements themselves.",
+        "mathematicalForm": "Hom(A, B)   (morphisms define structure);   F: C → D   (structure-preserving functor)",
+        "principle": "Structuralism reveals that identity is relational: what a thing IS is defined by how it relates to everything else. An electron is defined by its charge, mass, and spin — relationships to fields. A word means what it means by its difference from all other words. Structure is the grammar of being.",
+        "fields": {
+          "Physics": "Ontic structural realism: physical reality IS relational structure (not objects with properties). Gauge theory: physics defined by symmetry groups (structures), not substances. Quantum mechanics: observables are operators in a Hilbert space — pure structure.",
+          "Mathematics": "Category theory: mathematics is the study of structure-preserving maps. Abstract algebra (groups, rings, fields defined entirely by structural axioms). Graph theory: structure without labeling. Universal algebra: structures defined by their operations.",
+          "Biology": "Phylogenetics: organisms defined by relational structure of evolutionary tree. Protein fold families: function defined by structural similarity, not sequence. Network biology: gene regulatory networks as structures.",
+          "Computer Science": "Type theory: programs defined by their structural types. Design patterns (structural patterns like Composite, Decorator). Database schemas as structures. Graph databases. Abstract data types.",
+          "Economics": "Input-output analysis (Leontief): economy as a structural matrix. Social network analysis. Market microstructure. Structural econometrics. Game theory: players defined by their strategic position.",
+          "Engineering": "Structural engineering (load paths, topological structure). Data structures. Software architecture patterns. Structural analysis (FEA). Circuit topology."
+        },
+        "technology": "Category-theoretic programming languages (Haskell, Agda), graph databases (Neo4j), structural analysis software, type-theoretic proof assistants, graph neural networks, relational databases.",
+        "unification": "Structuralism provides the deepest cross-field unification: Mathematics, Physics, Biology, CS, Linguistics, and Economics are all shown to be the study of different kinds of structure — and category theory reveals them as instances of a single framework."
+      },
+      "dual": {
+        "id": "dynamism",
+        "name": "Dynamism",
+        "type": "dual",
+        "dualId": "structuralism",
+        "dualName": "Structuralism",
+        "odu": "Oturupon",
+        "oduCode": "0100",
+        "color": "#b93060",
+        "definition": "Phenomena are best understood as processes, flows, and transformations — dynamic change is primary, and structures are temporary crystallizations of underlying flows.",
+        "mathematicalForm": "ẋ = f(x, t)   (dynamical system);   dF/dt = {H, F}   (Poisson flow);   Stochastic: dX = μdt + σdW",
+        "principle": "Dynamism is the process-law: reality is not made of things but of events, flows, and becomings. Heraclitus: 'you cannot step into the same river twice.' Structures are patterns in a flow. A particle is an excitation in a field. A market is a process of discovery. A mind is a process, not a thing.",
+        "fields": {
+          "Physics": "Lagrangian mechanics: the true description of reality is the path of extremal action. Hamiltonian flow on phase space. Quantum evolution (Schrödinger equation): state flows dynamically. Renormalization group flow (theory changes with scale). Non-equilibrium thermodynamics.",
+          "Mathematics": "Dynamical systems theory (flows, attractors, bifurcations). Ergodic theory. Differential topology: smooth flows on manifolds. Stochastic processes (Brownian motion, Markov chains). Topological dynamics.",
+          "Biology": "Developmental biology: organisms are processes of unfolding, not static structures. Metabolic flux (living = flowing). Evolutionary dynamics. Neural dynamics (consciousness as a dynamic process). Ecological dynamics.",
+          "Computer Science": "Reactive programming and event-driven systems. Stream processing. Continuous computation. Process calculi (CCS, π-calculus). Time-varying type systems. Temporal logic. Online algorithms.",
+          "Economics": "Austrian school: market as a discovery process. Dynamic general equilibrium. Evolutionary economics. Business cycles as dynamic phenomena. Real options: value of flexibility in time.",
+          "Engineering": "Control theory: systems as dynamic processes to be regulated. Signal processing (time-domain analysis). Fluid dynamics. Vibration analysis. Real-time systems."
+        },
+        "technology": "Reactive frameworks (RxJS, Akka), stream processing (Kafka, Flink), continuous integration/deployment, real-time control systems, simulation engines, physics engines, online machine learning.",
+        "unification": "Dynamism completes structuralism: together they reveal that every field has both its stable patterns (structures) and its living processes (dynamics). The interplay of structure and dynamics is the pulse of every science."
+      }
+    }
+  ]
+}

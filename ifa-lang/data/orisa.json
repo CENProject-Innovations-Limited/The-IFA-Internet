@@ -1,0 +1,269 @@
+{
+  "meta": {
+    "title": "OrisaLang",
+    "description": "Orisa Language (OrisaLang) is the Dual of Ifa Language — over 20 specialized Knowledge Languages (KLs) using the Energy-based approaches of Orisa to learn all modern fields in sciences and non-sciences and build technologies.",
+    "tagline": "Orisa Language"
+  },
+  "orisa": [
+    {
+      "id": "orunmila",
+      "lang": "OrunmilaLang",
+      "orisa": "Orunmila",
+      "domain": "Wisdom, divination, knowledge, enlightenment",
+      "energy": "Meta-knowledge, prediction, symbolic computation",
+      "color": "#f5c518",
+      "sectors": [
+        "Prediction Analytics",
+        "Symbolic AI",
+        "Knowledge Systems"
+      ]
+    },
+    {
+      "id": "esu",
+      "lang": "EsuLang",
+      "orisa": "Esu",
+      "domain": "Communication, choice, pathways",
+      "energy": "Logic, routing, duality, information flow",
+      "color": "#e05c3c",
+      "sectors": [
+        "Computer Networks",
+        "Logic Systems",
+        "Data Routing"
+      ]
+    },
+    {
+      "id": "ogun",
+      "lang": "OgunLang",
+      "orisa": "Ogun",
+      "domain": "Iron, war, tools",
+      "energy": "Material transformation, creative force, engineering",
+      "color": "#5a9c7a",
+      "sectors": [
+        "Engineering",
+        "Manufacturing",
+        "Materials Science"
+      ]
+    },
+    {
+      "id": "osun",
+      "lang": "OsunLang",
+      "orisa": "Osun",
+      "domain": "Water, beauty, fertility, love",
+      "energy": "Flow, attraction, value exchange, computing",
+      "color": "#f0a800",
+      "sectors": [
+        "Finance",
+        "Fluid Dynamics",
+        "Computing Systems"
+      ]
+    },
+    {
+      "id": "sango",
+      "lang": "SangoLang",
+      "orisa": "Sango",
+      "domain": "Thunder, fire, power",
+      "energy": "Energy discharge, amplification",
+      "color": "#c0392b",
+      "sectors": [
+        "Electrical Systems",
+        "Thermodynamics",
+        "Power Engineering"
+      ]
+    },
+    {
+      "id": "oya",
+      "lang": "OyaLang",
+      "orisa": "Oya",
+      "domain": "Wind, storms, change, cycle",
+      "energy": "Chaos, transitions, transformation",
+      "color": "#9b59b6",
+      "sectors": [
+        "Atmospheric Physics",
+        "Chaos Theory",
+        "Systems Change"
+      ]
+    },
+    {
+      "id": "obatala",
+      "lang": "ObatalaLang",
+      "orisa": "Obatala",
+      "domain": "Creation, purity, form",
+      "energy": "Structure, design, consciousness",
+      "color": "#b8c5d4",
+      "sectors": [
+        "Architecture",
+        "Design Systems",
+        "Consciousness Studies"
+      ]
+    },
+    {
+      "id": "ori",
+      "lang": "OriLang",
+      "orisa": "Ori",
+      "domain": "Destiny, inner self, essence, head",
+      "energy": "Identity, consciousness, internal state",
+      "color": "#00b4d8",
+      "sectors": [
+        "Neuroscience",
+        "Identity Systems",
+        "Cognitive Computing"
+      ]
+    },
+    {
+      "id": "yemoja",
+      "lang": "YemojaLang",
+      "orisa": "Yemoja",
+      "domain": "Motherhood, oceans",
+      "energy": "Nurturing systems, healing, large-scale flow",
+      "color": "#2980b9",
+      "sectors": [
+        "Oceanography",
+        "Healing Systems",
+        "Large-Scale Flow"
+      ]
+    },
+    {
+      "id": "olokun",
+      "lang": "OlokunLang",
+      "orisa": "Olokun",
+      "domain": "Deep ocean, wealth",
+      "energy": "Depth, hidden systems, abundance",
+      "color": "#1a6e9a",
+      "sectors": [
+        "Deep Systems",
+        "Hidden Structures",
+        "Wealth Theory"
+      ]
+    },
+    {
+      "id": "oba",
+      "lang": "ObaLang",
+      "orisa": "Obaluaye",
+      "domain": "Disease, healing",
+      "energy": "Breakdown and repair systems",
+      "color": "#8b6914",
+      "sectors": [
+        "Epidemiology",
+        "Medical Systems",
+        "Repair Engineering"
+      ]
+    },
+    {
+      "id": "osanyin",
+      "lang": "OsanyinLang",
+      "orisa": "Osanyin",
+      "domain": "Herbs, nature healing",
+      "energy": "Biological intelligence",
+      "color": "#27ae60",
+      "sectors": [
+        "Biological Intelligence",
+        "Pharmacology",
+        "Natural Systems"
+      ]
+    },
+    {
+      "id": "osho",
+      "lang": "OshoLang",
+      "orisa": "Orisa Oko",
+      "domain": "Farming, land fertility",
+      "energy": "Growth systems",
+      "color": "#8d9440",
+      "sectors": [
+        "Agriculture",
+        "Earth Sciences",
+        "Growth Systems"
+      ]
+    },
+    {
+      "id": "osoosi",
+      "lang": "OsoosiLang",
+      "orisa": "Osoosi",
+      "domain": "Hunting, tracking",
+      "energy": "Search, targeting, precision",
+      "color": "#3a7a55",
+      "sectors": [
+        "Search Algorithms",
+        "Targeting Systems",
+        "Precision Engineering"
+      ]
+    },
+    {
+      "id": "egun",
+      "lang": "EgunLang",
+      "orisa": "Egungun",
+      "domain": "Ancestors, lineage",
+      "energy": "Historical memory, recursion",
+      "color": "#7f8c8d",
+      "sectors": [
+        "Genealogy",
+        "Historical Systems",
+        "Recursive Algorithms"
+      ]
+    },
+    {
+      "id": "ibeji",
+      "lang": "IbejiLang",
+      "orisa": "Ibeji",
+      "domain": "Twins, duality",
+      "energy": "Symmetry, duplication",
+      "color": "#e91e8c",
+      "sectors": [
+        "Quantum Systems",
+        "Symmetry Theory",
+        "Parallel Computing"
+      ]
+    },
+    {
+      "id": "aje",
+      "lang": "AjeLang",
+      "orisa": "Aje",
+      "domain": "Wealth, markets",
+      "energy": "Value creation, exchange systems",
+      "color": "#d4ac0d",
+      "sectors": [
+        "Economics",
+        "Market Systems",
+        "Value Creation"
+      ]
+    },
+    {
+      "id": "odua",
+      "lang": "OduaLang",
+      "orisa": "Oduduwa",
+      "domain": "Creation of kingdoms",
+      "energy": "Civilization structuring",
+      "color": "#2e4a9b",
+      "sectors": [
+        "Governance",
+        "Civilization Design",
+        "Social Architecture"
+      ]
+    },
+    {
+      "id": "egbe",
+      "lang": "EgbeLang",
+      "orisa": "Egbe",
+      "domain": "Spiritual companions",
+      "energy": "Networked identity",
+      "color": "#7d3c98",
+      "sectors": [
+        "Networked Identity",
+        "Community Systems",
+        "Social Computing"
+      ]
+    },
+    {
+      "id": "aye",
+      "lang": "AyeLang",
+      "orisa": "Yeye Aye",
+      "domain": "Primordial earth, time",
+      "energy": "Origin states, memory of matter",
+      "color": "#b7472a",
+      "sectors": [
+        "Earth Sciences",
+        "Origin States",
+        "Memory Systems"
+      ]
+    }
+  ]
+}

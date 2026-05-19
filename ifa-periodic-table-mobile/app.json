@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Ifa Periodic Table",
+    "slug": "ifa-periodic-table-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/cenproject-logo.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/cenproject-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#07090f"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "org.cenproject.ifaperiodictable"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/cenproject-logo.png",
+        "backgroundColor": "#07090f"
+      },
+      "package": "org.cenproject.ifaperiodictable",
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/cenproject-logo.png"
+    }
+  }
+}
