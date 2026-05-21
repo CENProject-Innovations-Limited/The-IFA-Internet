@@ -209,7 +209,9 @@ function Header({ view, onView }) {
   return (
     <header className="header">
       <div className="header__topbar">
-        <span className="header__topbar-title">The IFA Internet · iTOE</span>
+        <a href="https://ifainternet.org" className="header__topbar-link" target="_blank" rel="noopener noreferrer">
+          <span className="header__topbar-title">← The IFA Internet · ifainternet.org</span>
+        </a>
         <div className="header__exts">
           <a href="../ifa-periodic-table/" className="header__ext">IfaPT</a>
           <a href="../ifa-lang/" className="header__ext">IfaLang</a>

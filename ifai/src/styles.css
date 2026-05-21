@@ -88,6 +88,14 @@ body {
   background: rgba(255, 255, 255, 0.018);
 }
 
+.header__topbar-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+.header__topbar-link:hover .header__topbar-title {
+  color: var(--text-1);
+}
 .header__topbar-title {
   font-size: 0.6rem;
   color: var(--text-3);
