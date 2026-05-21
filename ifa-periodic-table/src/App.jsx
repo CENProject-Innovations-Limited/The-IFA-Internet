@@ -277,7 +277,11 @@ function Header() {
       <PalmSVG className="header__palm header__palm--right" />
       <OponIfaSVG className="header__opon-bg" />
       <div className="header__topbar">
-        <span className="header__topbar-title">The IFA Internet</span>
+        <a href="https://ifainternet.org" className="header__back-link">← The IFA Internet</a>
+        <span className="header__topbar-title">Ifa Periodic Table</span>
+        <a href="/ifa-periodic-table/kids/" className="header__kids-link">
+          ★ Kids &amp; Teens
+        </a>
       </div>
       <div className="header__inner">
         <div className="header__left">
@@ -291,6 +295,9 @@ function Header() {
           <div className="header__title">
             <h1>Ifa Periodic Table</h1>
             <p>IfaPT · ToEPT · Standard Model of Every Knowledge · CENProject</p>
+            <a href="/ifa-periodic-table/kids/" className="header__kids-link--mobile">
+              ★ Kids &amp; Teens Edition
+            </a>
           </div>
         </div>
         <div className="header__stats">
@@ -375,7 +382,7 @@ function Controls({ categories, activeCategory, onCategory, searchTerm, onSearch
 function primaryGlyph(code) {
   if (code === '1111') return 'O';
   if (code === '0000') return '|';
-  return code.split('').map(b => b === '1' ? 'O' : 'I').join('');
+  return code.split('').reverse().map(b => b === '1' ? 'O' : 'I').join('');
 }
 
 // Render glyph string as individual character spans with tight margins so characters touch.
@@ -479,6 +486,11 @@ function PeriodicTable({ odu, categories, activeCategory, searchTerm, onCellClic
           </div>
         </div>
         <div className="pt-table-header">IfaCategory Theory</div>
+      </div>
+
+      {/* Mobile scroll hint */}
+      <div className="table-scroll-hint">
+        <span>←</span><span>Swipe to explore all 256 Ifatoms</span><span>→</span>
       </div>
 
       {/* Grid */}
@@ -864,35 +876,53 @@ function ModalDot({ bit }) {
     : <div className="modal__dot modal__dot--zero" />;
 }
 
-function IFABitDisplay({ code, rightLabel, leftLabel, color }) {
-  // code is 8 bits: first 4 = Àpólà / Right Odu (principal), last 4 = Period / Left Odu (secondary)
-  const rightBits = code.slice(0, 4).split('').map(Number);
-  const leftBits  = code.slice(4, 8).split('').map(Number);
+// IFABitDisplay — shows 4-bit marks for two Odu side by side.
+// Signature matches Ifai: rowCode = Àpólà (principal, left col / Latin LTR),
+//                         colCode = Period  (secondary, right col / Latin LTR).
+// Below each column's marks both conventions are shown:
+//   Ifa RTL glyph  (primaryGlyph reverses the code before mapping O/I)
+//   Latin LTR code (raw 4-bit string as stored)
+function IFABitDisplay({ rowCode, colCode, rowLabel, colLabel, color }) {
+  const leftBits  = rowCode.split('').map(Number);   // Àpólà — left col (Latin LTR)
+  const rightBits = colCode.split('').map(Number);   // Period  — right col (Latin LTR)
+
+  function Mark({ bit }) {
+    return (
+      <div className="ifabit__mark">
+        {bit === 1
+          ? <div className="ifabit__dot" />
+          : <><div className="ifabit__dot ifabit__dot--zero" /><div className="ifabit__dot ifabit__dot--zero" /></>
+        }
+      </div>
+    );
+  }
+
+  function ColCodes({ code }) {
+    return (
+      <div className="ifabit__col-codes">
+        <span className="ifabit__col-glyph" title="Ifa RTL">{renderGlyphChars(primaryGlyph(code))}</span>
+        <span className="ifabit__col-bin"   title="Latin LTR">{code}</span>
+      </div>
+    );
+  }
+
   return (
     <div className="ifabit" style={{ color }}>
       <div className="ifabit__cols">
         <div className="ifabit__col">
-          <div className="ifabit__col-label">{rightLabel || 'Right'}</div>
-          {rightBits.map((b, i) => (
-            <div key={i} className="ifabit__mark">
-              {b === 1
-                ? <div className="ifabit__dot" />
-                : <><div className="ifabit__dot ifabit__dot--zero" /><div className="ifabit__dot ifabit__dot--zero" /></>
-              }
-            </div>
-          ))}
+          <div className="ifabit__col-label">{rowLabel}</div>
+          {leftBits.map((b, i) => <Mark key={i} bit={b} />)}
+          <ColCodes code={rowCode} />
         </div>
         <div className="ifabit__col">
-          <div className="ifabit__col-label">{leftLabel || 'Left'}</div>
-          {leftBits.map((b, i) => (
-            <div key={i} className="ifabit__mark">
-              {b === 1
-                ? <div className="ifabit__dot" />
-                : <><div className="ifabit__dot ifabit__dot--zero" /><div className="ifabit__dot ifabit__dot--zero" /></>
-              }
-            </div>
-          ))}
+          <div className="ifabit__col-label">{colLabel}</div>
+          {rightBits.map((b, i) => <Mark key={i} bit={b} />)}
+          <ColCodes code={colCode} />
         </div>
+      </div>
+      <div className="ifabit__legend">
+        <span>← Ifa RTL</span>
+        <span>Latin LTR →</span>
       </div>
     </div>
   );
@@ -919,7 +949,7 @@ function MejiDetail({ odu, cat, oduById, catMap, onNavigate }) {
 
       <div className="modal__section">
         <div className="modal__section-label">IFABit · Àpólà Code</div>
-        <IFABitDisplay code={odu.code + odu.code} rightLabel={odu.name} leftLabel={odu.name} color={color} />
+        <IFABitDisplay rowCode={odu.code} colCode={odu.code} rowLabel={odu.name} colLabel={odu.name} color={color} />
       </div>
 
       <div className="info-grid modal__section">
@@ -1011,7 +1041,7 @@ function CompositeDetail({ row, col, rowCat, colCat, onNavigate }) {
 
       <div className="modal__section">
         <div className="modal__section-label">IFABit · Àmúlù Composition</div>
-        <IFABitDisplay code={row.code + col.code} rightLabel={row.name} leftLabel={col.name} color={rowCat.color} />
+        <IFABitDisplay rowCode={row.code} colCode={col.code} rowLabel={row.name} colLabel={col.name} color={rowCat.color} />
       </div>
 
       <div className="modal__section">
@@ -1095,7 +1125,7 @@ function App() {
   const [data, setData]           = useState(null);
   const [category, setCategory]   = useState('all');
   const [search, setSearch]       = useState('');
-  const [view, setView]           = useState('table');
+  const [view, setView]           = useState(() => window.innerWidth <= 640 ? 'list' : 'table');
   const [selection, setSelection] = useState(null);
 
   useEffect(() => {

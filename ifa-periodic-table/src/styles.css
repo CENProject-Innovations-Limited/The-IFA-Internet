@@ -142,6 +142,54 @@ body {
   position: relative;
 }
 
+/* Back link — anchored left in the topbar */
+.header__back-link {
+  position: absolute;
+  left: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(232, 192, 64, 0.85);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.header__back-link:hover {
+  color: #f5d978;
+}
+
+/* Kids & Teens edition link — topbar (desktop/tablet) */
+.header__kids-link {
+  position: absolute;
+  right: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.22rem 0.85rem;
+  background: rgba(197,162,39,0.15);
+  border: 1px solid rgba(197,162,39,0.45);
+  border-radius: 20px;
+  color: #e8c040;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background 0.2s, border-color 0.2s;
+}
+.header__kids-link:hover {
+  background: rgba(197,162,39,0.28);
+  border-color: rgba(197,162,39,0.7);
+}
+
+/* Kids & Teens link — inside header title, shown only when topbar is hidden */
+.header__kids-link--mobile {
+  display: none;
+}
+
+/* Scroll hint — mobile only */
+.table-scroll-hint { display: none; }
+
 /* Palm silhouettes in header corners */
 .header__palm {
   position: absolute;
@@ -1434,6 +1482,42 @@ body {
   word-break: break-all;
 }
 
+/* Dual-convention codes shown below each column's marks */
+.ifabit__col-codes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 4px;
+  border-top: 1px solid currentColor;
+  padding-top: 4px;
+  opacity: 0.85;
+}
+.ifabit__col-glyph {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+.ifabit__col-bin {
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  opacity: 0.65;
+  letter-spacing: 0.08em;
+}
+
+/* RTL / LTR legend beside the columns */
+.ifabit__legend {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 9px;
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-left: 8px;
+}
+
 /* Info 2-col */
 .info-grid {
   display: grid;
@@ -2213,6 +2297,20 @@ body {
   .ifa-hero__palm--l2,
   .ifa-hero__palm--r2 { display: none; }
 
+  /* === SCROLL HINT === */
+  .table-scroll-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 10px;
+    color: var(--text-3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 0 4px;
+    opacity: 0.65;
+  }
+
   /* === PERIODIC TABLE: horizontal scroll === */
   .table-scroll {
     overflow-x: auto;
@@ -2298,14 +2396,33 @@ body {
 
 /* ── Small mobile (≤ 480px) ── */
 @media (max-width: 480px) {
-  :root { --header-h: 56px; }
+  :root { --header-h: 64px; }
 
   /* Hide topbar entirely — more room for content */
   .header__topbar { display: none; }
-  .header__inner  { flex: 1; height: 56px; }
+  .header__inner  { flex: 1; height: 64px; align-items: center; }
 
   .header__title h1 { font-size: 14px; }
   .header__title p  { display: none; }
+
+  /* Kids & Teens link in title area (replaces topbar link) */
+  .header__kids-link--mobile {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 4px;
+    padding: 3px 10px;
+    background: rgba(197,162,39,0.18);
+    border: 1px solid rgba(197,162,39,0.5);
+    border-radius: 20px;
+    color: #e8c040;
+    text-decoration: none;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
 
   /* Hero strip compact */
   .ifa-hero { height: 72px; }
@@ -2319,7 +2436,22 @@ body {
   .cell__glyph-sec { font-size: 6.5px; }
   .cell__num  { font-size: 7px; }
 
-  /* Chips hidden — too narrow; use search + view toggle only */
+  /* Scroll hint — visible on mobile */
+  .table-scroll-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 10px;
+    color: var(--text-3);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 0 4px;
+    opacity: 0.65;
+  }
+
+  /* Controls */
+  .controls__heading { font-size: 12px; line-height: 1.35; }
   .chips        { display: none; }
   .search__input { width: 100%; }
   .controls__inner { gap: 6px; flex-wrap: nowrap; overflow-x: visible; }
