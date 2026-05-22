@@ -396,8 +396,6 @@ function OraclePanel({ odus, categories, onOpenOdu }) {
         <p className="oracle__hero-def">Ifacomputations are universal meta-computations</p>
       </div>
       <div className="oracle__form">
-        <textarea className="oracle__input" placeholder="What is your question or intention? (optional — guides the casting)"
-          value={question} onChange={e => setQuestion(e.target.value)} rows={3} disabled={phase === 'casting'} />
         <button className={`cast-btn${phase === 'casting' ? ' cast-btn--active' : ''}`} onClick={handleCast}
           disabled={phase === 'casting' || !odus.length}>
           {phase === 'casting' ? 'Ifacomputing…' : phase === 'revealed' ? 'Ifacompute again' : 'Ifacompute'}

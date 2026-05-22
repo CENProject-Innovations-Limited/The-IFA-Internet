@@ -547,6 +547,116 @@ function PrinciplesSection() {
           </p>
         </div>
 
+        {/* ── SIDECHRX Principle Set ─────────────────────────────────────────── */}
+        <div className="sidechrx-section">
+
+          <div className="sidechrx-intro">
+            <span className="section__eyebrow section__eyebrow--amber">Ojú Odù Ifá Mẹrindínlógún</span>
+            <h3 className="sidechrx-intro__title">SIDECHRX Principle Set</h3>
+            <p className="sidechrx-intro__fullname">
+              Ẹkọ̀ Kíkọ́ Ní Ìlànà Ifá &amp; Òrìṣà — Ifa &amp; Orisa Methods of Learning All Fields
+            </p>
+            <p className="sidechrx-intro__sub">
+              The 16 Laws of Ifa Governing All Fields
+            </p>
+          </div>
+
+          {/* Mnemonic — letter-by-letter breakdown */}
+          <div className="sidechrx-mnemonic">
+            <div className="sidechrx-mnemonic__strip">
+              {[
+                { l: 'S', n: 'Symmetry' },
+                { l: 'I', n: 'Invariance' },
+                { l: 'D', n: 'Duality' },
+                { l: 'E', n: 'Emergence' },
+                { l: 'C', n: 'Composition' },
+                { l: 'H', n: 'Holism' },
+                { l: 'R', n: 'Reductionism' },
+                { l: 'X', n: 'Simulation' },
+              ].map((item, i) => (
+                <div key={i} className="sidechrx-letter">
+                  <div className="sidechrx-letter__char">{item.l}</div>
+                  <div className="sidechrx-letter__name">{item.n}</div>
+                </div>
+              ))}
+            </div>
+            <div className="sidechrx-mnemonic__meta">
+              <span className="sidechrx-mnemonic__yor">Òbirí-Ìlà</span>
+              <span className="sidechrx-mnemonic__sep">·</span>
+              <span className="sidechrx-mnemonic__pron">Pronounced <em>"sidekrics"</em></span>
+            </div>
+          </div>
+
+          {/* Explanatory note */}
+          <div className="sidechrx-note">
+            <span className="sidechrx-note__icon">⚑</span>
+            <p className="sidechrx-note__body">
+              The meta-laws of Ifa in the left column help simplify the{' '}
+              <strong>Ojú Odù Ífá</strong> — the 16 Ifa Energy Vibrations/Patterns — and
+              are not English translations of the Odu names.
+            </p>
+          </div>
+
+          {/* 16 Laws — Primary (SIDECHRX) + Anti */}
+          <div className="sidechrx-tables">
+
+            {/* Primary 8 */}
+            <div className="sidechrx-table sidechrx-table--primary">
+              <div className="sidechrx-table__head">
+                <span>IfaLaw — Modern Language</span>
+                <span>Odu Ifa · Èdè Òpè</span>
+              </div>
+              {[
+                { letter: 'S', name: 'Symmetry',              odu: 'Ogbé',    t: 'O' },
+                { letter: 'I', name: 'Invariance',             odu: 'Òyèkú',   t: 'I' },
+                { letter: 'D', name: 'Duality',                odu: 'Ìwòrì',   t: 'I' },
+                { letter: 'E', name: 'Emergence',              odu: 'Òdí',     t: 'O' },
+                { letter: 'C', name: 'Composition',            odu: 'Ìrosùn',  t: 'I' },
+                { letter: 'H', name: 'Holism',                 odu: 'Òwónrín', t: 'O' },
+                { letter: 'R', name: 'Reductionism',           odu: 'Òbàrà',   t: 'O' },
+                { letter: 'X', name: 'Others (X): Simulation', odu: 'Òkànràn', t: 'O' },
+              ].map((law, i) => (
+                <div key={i} className="sidechrx-row">
+                  <div className="sidechrx-row__badge sidechrx-row__badge--letter">{law.letter}</div>
+                  <div className="sidechrx-row__name">{law.name}</div>
+                  <div className="sidechrx-row__odu">
+                    <span className="sidechrx-row__odu-name">{law.odu}</span>
+                    <span className={`sidechrx-row__odu-pill sidechrx-row__odu-pill--${law.t === 'O' ? 'odu' : 'iyo'}`}>{law.t}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Anti 8 */}
+            <div className="sidechrx-table sidechrx-table--anti">
+              <div className="sidechrx-table__head">
+                <span>Anti-Laws</span>
+                <span>Odu Ifa · Èdè Òpè</span>
+              </div>
+              {[
+                { letter: 'S′', name: 'Anti-symmetry',                 odu: 'Ògúndá',   t: 'O' },
+                { letter: 'I′', name: 'Anti-invariance',               odu: 'Òsá',      t: 'O' },
+                { letter: 'D′', name: 'Anti-duality',                  odu: 'Ìká',      t: 'I' },
+                { letter: 'E′', name: 'Anti-emergence',                odu: 'Òtúrúpòn', t: 'O' },
+                { letter: 'C′', name: 'Anti-composition',              odu: 'Òtúrá',    t: 'O' },
+                { letter: 'H′', name: 'Anti-holism',                   odu: 'Ìrètè',    t: 'I' },
+                { letter: 'R′', name: 'Anti-reductionism',             odu: 'Òsè',      t: 'O' },
+                { letter: 'X′', name: 'Anti-others (Anti-simulation)', odu: 'Òfún',     t: 'O' },
+              ].map((law, i) => (
+                <div key={i} className="sidechrx-row sidechrx-row--anti">
+                  <div className="sidechrx-row__badge sidechrx-row__badge--anti">{law.letter}</div>
+                  <div className="sidechrx-row__name">{law.name}</div>
+                  <div className="sidechrx-row__odu">
+                    <span className="sidechrx-row__odu-name">{law.odu}</span>
+                    <span className={`sidechrx-row__odu-pill sidechrx-row__odu-pill--${law.t === 'O' ? 'odu' : 'iyo'}`}>{law.t}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+          </div>{/* /sidechrx-tables */}
+        </div>{/* /sidechrx-section */}
+
         <div className="principles-layout">
           <div className="principles-tabs">
             {PRINCIPLES.map((pr, i) => (

@@ -49,7 +49,7 @@
   "networking": {
     "title": "IFA Internetworking",
     "subtitle": "TOE Networking — Universal Internetworking Technology (UIT)",
-    "description": "IFA is the Internet of internets — a layered network of networks using Odu Ifa as the ancient blueprint for all internetworking methodologies.",
+    "description": "IFA is the Internet of internets — a layered Network of networks using Odu Ifa as the ancient Blueprint for all internetworking methodologies.",
     "nodes": [
       {
         "id": "ifanet",

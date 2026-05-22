@@ -3,26 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>The IFA Internet — iTOE | Where All Kinds of Ideas and Knowledge Meet</title>
   <meta name="description" content="The IFA Internet — Internet Model of the Theory of Everything (iTOE). A unified meta-model integrating science, mathematics, engineering, and social sciences through Consciousness-Energy (CEN)." />
-  <meta property="og:title" content="The IFA Internet — iTOE" />
-  <meta property="og:description" content="Where All Kinds of Ideas and Knowledge Meet. The Internet of internets, built on 256 Odu Ifa." />
-  <link rel="icon" type="image/png" href="./src/assets/itoe_favicon.png" />
-  <link rel="apple-touch-icon" href="./src/assets/itoe_favicon.png" />
-  <meta name="theme-color" content="#06080e" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://ifainternet.org/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://ifainternet.org/" />
+  <meta property="og:site_name"   content="The IFA Internet" />
+  <meta property="og:title"       content="The IFA Internet — iTOE | Where All Kinds of Ideas and Knowledge Meet" />
+  <meta property="og:description" content="The Internet of Internets, built on 256 Odu Ifa. A unified meta-model integrating science, mathematics, engineering, and social sciences through Consciousness-Energy (CEN)." />
+  <meta property="og:image"       content="https://ifainternet.org/src/assets/itoe_logo.png" />
+  <meta property="og:image:alt"   content="The IFA Internet — iTOE Logo" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card"        content="summary" />
+  <meta name="twitter:title"       content="The IFA Internet — iTOE" />
+  <meta name="twitter:description" content="The Internet of Internets, built on 256 Odu Ifa. Where All Kinds of Ideas and Knowledge Meet." />
+  <meta name="twitter:image"       content="https://ifainternet.org/src/assets/itoe_logo.png" />
+
+  <!-- Icons & PWA -->
+  <link rel="icon"             type="image/png" href="./src/assets/itoe_favicon.png" />
+  <link rel="apple-touch-icon"                  href="./src/assets/itoe_favicon.png" />
+  <meta name="theme-color"                      content="#06080e" />
+  <meta name="mobile-web-app-capable"           content="yes" />
+  <meta name="apple-mobile-web-app-capable"     content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="iTOE" />
+  <meta name="apple-mobile-web-app-title"       content="iTOE" />
+
+  <!-- DNS prefetch for external domains -->
+  <link rel="dns-prefetch" href="//cenproject.org" />
+  <link rel="dns-prefetch" href="//toe.cenproject.org" />
+
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="./src/styles.css" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "The IFA Internet",
+    "alternateName": "iTOE",
+    "url": "https://ifainternet.org/",
+    "description": "Internet Model of the Theory of Everything — a unified meta-model built on 256 Odu Ifa and the Consciousness-Energy (CEN) principle.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CENProject",
+      "url": "https://cenproject.org/"
+    }
+  }
+  </script>
 </head>
 <body>
   <div id="root"></div>
 
-  <script src="./lib/react.min.js"></script>
-  <script src="./lib/react-dom.min.js"></script>
-  <script src="./lib/babel.min.js"></script>
+  <script defer src="./lib/react.min.js"></script>
+  <script defer src="./lib/react-dom.min.js"></script>
+  <script defer src="./lib/babel.min.js"></script>
 
-  <script type="text/babel" data-presets="react" src="./src/App.jsx"></script>
+  <script type="text/babel" data-presets="react" src="./src/App.jsx?v=20260521d"></script>
 </body>
 </html>

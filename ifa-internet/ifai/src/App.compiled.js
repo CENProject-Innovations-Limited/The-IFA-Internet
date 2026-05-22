@@ -563,14 +563,7 @@ function OraclePanel({
     className: "oracle__hero-def"
   }, "Ifacomputations are universal meta-computations")), /*#__PURE__*/React.createElement("div", {
     className: "oracle__form"
-  }, /*#__PURE__*/React.createElement("textarea", {
-    className: "oracle__input",
-    placeholder: "What is your question or intention? (optional \u2014 guides the casting)",
-    value: question,
-    onChange: e => setQuestion(e.target.value),
-    rows: 3,
-    disabled: phase === 'casting'
-  }), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     className: `cast-btn${phase === 'casting' ? ' cast-btn--active' : ''}`,
     onClick: handleCast,
     disabled: phase === 'casting' || !odus.length

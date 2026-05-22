@@ -86,10 +86,11 @@ function oduToSelection(odu) {
 // ════════════════════════════════════════════════════════════
 
 // 1 → "O" (circle glyph), 0 → "I" (line glyph). Special: all-1s → "O", all-0s → "|"
+// IFABit is read right-to-left, so reverse the code before mapping.
 function primaryGlyph(code) {
   if (code === '1111') return 'O';
   if (code === '0000') return '|';
-  return code.split('').map(b => b === '1' ? 'O' : 'I').join('');
+  return code.split('').reverse().map(b => b === '1' ? 'O' : 'I').join('');
 }
 
 function renderGlyphChars(g) {
@@ -134,9 +135,11 @@ function ptCalcDimmed(row, col, activeCategory, searchTerm) {
 // ════════════════════════════════════════════════════════════
 // IFA MARKS  –  two-column binary divination visual
 // ════════════════════════════════════════════════════════════
-function IfaMarks({ code = '0000', secondCode, color = '#888', size = 'md' }) {
-  const leftBits  = code.split('').map(Number);
-  const rightBits = (secondCode || code).split('').map(Number);
+function IfaMarks({ code = '0000', secondCode, color = '#888', size = 'md', reversed = false }) {
+  const rawLeft   = code.split('').map(Number);
+  const rawRight  = (secondCode || code).split('').map(Number);
+  const leftBits  = reversed ? [...rawLeft].reverse()  : rawLeft;
+  const rightBits = reversed ? [...rawRight].reverse() : rawRight;
 
   function MarkRow({ bit }) {
     return (
@@ -209,7 +212,9 @@ function Header({ view, onView }) {
   return (
     <header className="header">
       <div className="header__topbar">
-        <span className="header__topbar-title">The IFA Internet · iTOE</span>
+        <a href="https://ifainternet.org" className="header__topbar-link" target="_blank" rel="noopener noreferrer">
+          <span className="header__topbar-title">← The IFA Internet · ifainternet.org</span>
+        </a>
         <div className="header__exts">
           <a href="../ifa-periodic-table/" className="header__ext">IfaPT</a>
           <a href="../ifa-lang/" className="header__ext">IfaLang</a>
@@ -396,8 +401,6 @@ function OraclePanel({ odus, categories, onOpenOdu }) {
         <p className="oracle__hero-def">Ifacomputations are universal meta-computations</p>
       </div>
       <div className="oracle__form">
-        <textarea className="oracle__input" placeholder="What is your question or intention? (optional — guides the casting)"
-          value={question} onChange={e => setQuestion(e.target.value)} rows={3} disabled={phase === 'casting'} />
         <button className={`cast-btn${phase === 'casting' ? ' cast-btn--active' : ''}`} onClick={handleCast}
           disabled={phase === 'casting' || !odus.length}>
           {phase === 'casting' ? 'Ifacomputing…' : phase === 'revealed' ? 'Ifacompute again' : 'Ifacompute'}
@@ -645,7 +648,7 @@ function OduCard({ odu, categories, onClick }) {
   return (
     <div className="odu-card" style={{ '--cat-color': cat.color || '#888' }} onClick={onClick}>
       <div className="odu-card__top">
-        <IfaMarks code={odu.code} color={cat.color || '#888'} size="sm" />
+        <IfaMarks code={odu.code} color={cat.color || '#888'} size="sm" reversed={true} />
         <span className="odu-card__num">#{odu.id}</span>
       </div>
       <div className="odu-card__name">{odu.name}</div>

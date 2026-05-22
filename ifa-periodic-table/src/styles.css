@@ -1058,6 +1058,26 @@ body {
 }
 
 /* ══════════════════════════════════════════
+   IFA MARKS  (single dot = bit 1, two dots = bit 0)
+══════════════════════════════════════════ */
+.ifa-marks { display: flex; gap: 6px; align-items: center; }
+.ifa-marks__col { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+.ifa-marks__row { display: flex; gap: 3px; align-items: center; justify-content: center; }
+.ifa-marks__dot { display: block; border-radius: 50%; background: var(--text-3); }
+
+.ifa-marks--sm      { gap: 4px; }
+.ifa-marks--sm .ifa-marks__dot { width: 5px; height: 5px; }
+.ifa-marks--sm .ifa-marks__col { gap: 2px; }
+.ifa-marks--sm .ifa-marks__row { gap: 2px; }
+
+.ifa-marks--md .ifa-marks__dot { width: 8px; height: 8px; }
+
+.ifa-marks--lg      { gap: 8px; }
+.ifa-marks--lg .ifa-marks__dot { width: 12px; height: 12px; }
+.ifa-marks--lg .ifa-marks__col { gap: 5px; }
+.ifa-marks--lg .ifa-marks__row { gap: 3px; }
+
+/* ══════════════════════════════════════════
    ODU CELL
 ══════════════════════════════════════════ */
 .cell {
@@ -2466,7 +2486,6 @@ body {
   .list-grid { grid-template-columns: 1fr; }
 
   /* Modal: sheet style */
-  .modal__close { top: 10px; right: 10px; }
   .ifabit { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 

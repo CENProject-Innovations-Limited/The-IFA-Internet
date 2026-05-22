@@ -31,24 +31,88 @@ const APP_ICON = {
 
 // ── Header ────────────────────────────────────────────────────
 function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  const close = () => setMenuOpen(false);
+
   return (
-    <header className="header">
-      <div className="header__inner">
-        <a href="/" className="header__logo">
-          <img src="./src/assets/itoe_logo.png" alt="iTOE" className="header__logo-mark" />
-          <div className="header__logo-text">
-            <span className="header__logo-title">The IFA Internet</span>
-          </div>
-        </a>
-        <nav className="header__nav">
-          <a className="nav-link" href="#mission">Mission</a>
-          <a className="nav-link" href="#platforms">Platforms</a>
-          <a className="nav-link" href="#networking">Networking</a>
-          <a className="nav-link" href="https://cenproject.org/" className="nav-link">CENProject</a>
-          <a className="nav-link nav-link--cta" href="https://toe.cenproject.org" target="_blank" rel="noopener noreferrer">Explore</a>
-        </nav>
+    <>
+      <header className="header">
+        <div className="header__inner">
+          <a href="/" className="header__logo">
+            <img src="./src/assets/itoe_logo.png" alt="iTOE" className="header__logo-mark" fetchpriority="high" />
+            <div className="header__logo-text">
+              <span className="header__logo-title">The IFA Internet</span>
+            </div>
+          </a>
+          <nav className="header__nav">
+            <a className="nav-link" href="#mission">Mission</a>
+            <a className="nav-link" href="#platforms">Platforms</a>
+            <a className="nav-link" href="#networking">Networking</a>
+            <a className="nav-link" href="https://cenproject.org/" target="_blank" rel="noopener noreferrer">CENProject</a>
+            <a className="nav-link nav-link--cta" href="https://toe.cenproject.org" target="_blank" rel="noopener noreferrer">Explore</a>
+          </nav>
+          <button
+            className={`nav-hamburger${menuOpen ? ' nav-hamburger--open' : ''}`}
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+          >
+            <span className="nav-hamburger__icon">{menuOpen ? '✕' : '☰'}</span>
+          </button>
+        </div>
+      </header>
+      <div className={`nav-drawer${menuOpen ? ' nav-drawer--open' : ''}`} role="navigation" aria-label="Mobile navigation">
+        <a className="nav-drawer__link" href="#mission" onClick={close}>Mission</a>
+        <a className="nav-drawer__link" href="#platforms" onClick={close}>Platforms</a>
+        <a className="nav-drawer__link" href="#networking" onClick={close}>Networking</a>
+        <a className="nav-drawer__link" href="https://cenproject.org/" target="_blank" rel="noopener noreferrer" onClick={close}>CENProject</a>
+        <a className="nav-drawer__cta" href="https://toe.cenproject.org" target="_blank" rel="noopener noreferrer" onClick={close}>Explore →</a>
       </div>
-    </header>
+    </>
+  );
+}
+
+// ── Odu Ifa Welcome Demo ──────────────────────────────────────
+function OduIfaDemo() {
+  return (
+    <div className="odu-demo" aria-label="Odu Ifa Internet — Binary Foundation">
+      <p className="odu-demo__welcome">Welcome to</p>
+
+      <div className="odu-demo__pair">
+        {/* O — Odu · IfaZero · Ogbe */}
+        <div className="odu-demo__unit odu-demo__unit--o">
+          <div className="odu-demo__word">Odu</div>
+          <div className="odu-demo__ring">
+            <span className="odu-demo__sym odu-demo__sym--o">O</span>
+          </div>
+        </div>
+
+        <div className="odu-demo__sep" aria-hidden="true">+</div>
+
+        {/* | — Ifa · IfaOne · Oyeku */}
+        <div className="odu-demo__unit odu-demo__unit--bar">
+          <div className="odu-demo__word">Ifa</div>
+          <div className="odu-demo__ring odu-demo__ring--rect">
+            <span className="odu-demo__sym odu-demo__sym--bar">|</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="odu-demo__bottom">
+        <p className="odu-demo__internet">
+          {'Internet'.split('').map((ch, i) => (
+            <span key={i} className="odu-demo__internet-ch" style={{ animationDelay: `${i * 0.09}s` }}>{ch}</span>
+          ))}
+        </p>
+        <p className="odu-demo__caption">All 256 Odu Ifa encoded in O and | Energy States</p>
+      </div>
+    </div>
   );
 }
 
@@ -90,6 +154,8 @@ function HeroSection({ hero }) {
           <span className="hero__badge-dot" />
           Internet Model of the Theory of Everything
         </div>
+
+        <OduIfaDemo />
 
         <h1 className="hero__title">
           <span>{hero.title}</span>
@@ -334,6 +400,8 @@ function TOEBitSection() {
                           src="./src/assets/duoinfinity_logo.png"
                           alt="Duoinfinity — Ifa Infinity"
                           className="toebit-sym-img"
+                          loading="lazy"
+                          decoding="async"
                         />
                       )}
                       {r.symSvg === 'duoninfinity' && (
@@ -341,6 +409,8 @@ function TOEBitSection() {
                           src="./src/assets/duoninfinity_logo.png"
                           alt="Duoninfinity — Ifa Ninfinity"
                           className="toebit-sym-img"
+                          loading="lazy"
+                          decoding="async"
                         />
                       )}
                       {r.symSvg === 'ifazero' && (
@@ -348,6 +418,8 @@ function TOEBitSection() {
                           src="./src/assets/IfaZero.png"
                           alt="IfaZero Metarepresentation"
                           className="toebit-sym-img"
+                          loading="lazy"
+                          decoding="async"
                         />
                       )}
                       {r.symSvg === 'ifaone' && (
@@ -355,6 +427,8 @@ function TOEBitSection() {
                           src="./src/assets/IfaOne.png"
                           alt="IfaOne Metarepresentation"
                           className="toebit-sym-img"
+                          loading="lazy"
+                          decoding="async"
                         />
                       )}
                       {r.symText && r.symText}
@@ -394,6 +468,17 @@ function FeaturedAppsSection({ platforms }) {
         <div className="section__header">
           <span className="section__eyebrow">Interactive Apps</span>
           <h2 className="section__title">Live IFA Platforms</h2>
+          <div className="platforms-tagline">
+            <p className="platforms-tagline__lead">
+              Learn All Fields and Build Technologies with
+            </p>
+            <div className="platforms-tagline__roles">
+              <span className="role-badge role-badge--babalawo">Babalawo</span>
+              <span className="role-badge role-badge--iyanifa">Iyanifa</span>
+              <span className="role-badge role-badge--olorisa">Olorisa</span>
+              <span className="role-badge role-badge--onisegun">Onisese</span>
+            </div>
+          </div>
           <p className="section__desc">
             Explore the IFA Internet through interactive tools — built and running on toe.cenproject.org.
           </p>
@@ -537,10 +622,82 @@ function NetworkingSection({ networking }) {
           ))}
         </div>
 
+        {/* Natural vs Artificial Internetworking */}
+        <div className="inet-split">
+          <div className="inet-split__intro">
+            <p className="inet-split__lead">
+              The IFA Internet is a <strong>natural and conscious Internet</strong> — rooted in the Living Energy of{' '}
+              <strong>Ogbe</strong>, the primal Force of existence. As the Internet of Internets, it encompasses all
+              artificial Internets: the classical Internet (the modern Internet), the quantum Internet, and others yet
+              to emerge.
+            </p>
+          </div>
+
+          <div className="inet-split__grid">
+            {/* Natural */}
+            <div className="inet-card inet-card--natural">
+              <div className="inet-card__header">
+                <span className="inet-card__icon">◯</span>
+                <div>
+                  <h4 className="inet-card__title">Natural Internetworking</h4>
+                  <span className="inet-card__tag">Conscious · Energy-Based</span>
+                </div>
+              </div>
+              <p className="inet-card__desc">
+                Natural internetworking operates through <strong>Brain-to-Brain Communications</strong> (B2B Comms) —
+                direct Energy-based connections between conscious nodes, without physical intermediaries.
+              </p>
+              <div className="inet-card__computers">
+                <span className="inet-card__comp-label">Natural Computers</span>
+                <div className="inet-card__comp-list">
+                  <span className="inet-card__comp">Ifa Computer</span>
+                  <span className="inet-card__comp">Orisa Computer</span>
+                  <span className="inet-card__comp">Human Computer</span>
+                </div>
+              </div>
+              <div className="inet-card__comms">
+                <strong>B2B Comms</strong> — Brain-to-Brain Connections
+              </div>
+            </div>
+
+            {/* Artificial */}
+            <div className="inet-card inet-card--artificial">
+              <div className="inet-card__header">
+                <span className="inet-card__icon">⬡</span>
+                <div>
+                  <h4 className="inet-card__title">Artificial Internetworking</h4>
+                  <span className="inet-card__tag">Machine · Signal-Based</span>
+                </div>
+              </div>
+              <p className="inet-card__desc">
+                Artificial internetworking operates through <strong>Machine-to-Machine Communications</strong> (M2M Comms) —
+                signal-based connections between engineered devices across physical networks.
+              </p>
+              <div className="inet-card__computers">
+                <span className="inet-card__comp-label">Artificial Computers</span>
+                <div className="inet-card__comp-list">
+                  <span className="inet-card__comp">Modern Computer</span>
+                  <span className="inet-card__comp">Quantum Computer</span>
+                  <span className="inet-card__comp">Machine (AI) Systems</span>
+                </div>
+              </div>
+              <div className="inet-card__comms">
+                <strong>M2M Comms</strong> — Machine-to-Machine Connections
+              </div>
+            </div>
+          </div>
+
+          <div className="inet-split__footer">
+            <span className="inet-split__consci">Key <strong>ConSci</strong> Applications — Consciousness Science of the IFA Internet</span>
+          </div>
+        </div>
+
         {/* Link to networking page */}
         <div style={{ textAlign: 'center', marginTop: '40px' }}>
           <a
             href="/ifa-networking-toe-networking/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn btn--secondary"
           >
             Explore IFA Networking →
@@ -572,6 +729,59 @@ function NetworkingSection({ networking }) {
             </a>
           </div>
         </div>
+
+        {/* Social Networks subsection */}
+        <div className="ifa-networks ifa-social-networks">
+          <h3 className="ifa-networks__title">Social Networks</h3>
+          <p className="ifa-networks__desc">
+            Indigenous social media platforms:
+          </p>
+          <div className="ifa-networks__list">
+            <a
+              href="https://2geda.net/"
+              className="ifa-network-card ifa-network-card--social"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="ifa-network-card__name">2Geda</span>
+              <span className="ifa-network-card__url">Nigeria's first indigenous social media platform</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Ìmọ̀Net subsection */}
+        <div className="ifa-networks ifa-imonet">
+          <h3 className="ifa-networks__title">Ìmọ̀Net <span className="ifa-networks__title-sub">(Indigenous Educational Networks)</span></h3>
+          <p className="ifa-networks__desc">
+            Indigenous knowledge and educational channels:
+          </p>
+          <div className="ifa-networks__list">
+            <a
+              href="https://scienceinyoruba.org/"
+              className="ifa-network-card ifa-network-card--edu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="ifa-network-card__name">Science in Yorùbá</span>
+            </a>
+            <a
+              href="https://www.youtube.com/@waaseretv"
+              className="ifa-network-card ifa-network-card--edu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="ifa-network-card__name">Wàá Ṣere</span>
+            </a>
+            <a
+              href="https://www.youtube.com/@Arojinle1"
+              className="ifa-network-card ifa-network-card--edu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="ifa-network-card__name">Àròjinlẹ̀</span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -585,12 +795,12 @@ function Footer({ footer }) {
         <div className="footer__inner">
           <div className="footer__brand">
             <div className="footer__logo">
-              <img src="./src/assets/itoe_logo.png" alt="iTOE" className="footer__logo-mark" />
+              <img src="./src/assets/itoe_logo.png" alt="iTOE" className="footer__logo-mark" loading="lazy" decoding="async" />
               <span>The IFA Internet</span>
             </div>
             <p className="footer__tagline">{footer.tagline}</p>
             <p className="footer__tagline" style={{ marginTop: 4 }}>
-              Part of the <a href="https://cenproject.org/" style={{ color: 'var(--gold)' }}>CENProject</a> — Consciousness-Energy Research.
+              Part of the <a href="https://cenproject.org/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)' }}>CENProject</a> — Consciousness-Energy Research.
             </p>
           </div>
           <nav className="footer__links">

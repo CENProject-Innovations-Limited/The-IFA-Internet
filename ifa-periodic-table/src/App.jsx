@@ -373,6 +373,40 @@ function Controls({ categories, activeCategory, onCategory, searchTerm, onSearch
 }
 
 // ════════════════════════════════════════════════════════════
+// IFA MARKS  –  two-column binary divination visual
+// bit=1 → single filled dot  |  bit=0 → two half-opacity dots side by side
+// ════════════════════════════════════════════════════════════
+function IfaMarks({ code = '0000', secondCode, color = '#888', size = 'md' }) {
+  const leftBits  = code.split('').map(Number);
+  const rightBits = (secondCode || code).split('').map(Number);
+
+  function MarkRow({ bit }) {
+    return (
+      <div className="ifa-marks__row">
+        {bit === 1
+          ? <span className="ifa-marks__dot" style={{ background: color }} />
+          : <>
+              <span className="ifa-marks__dot" style={{ background: color, opacity: 0.5 }} />
+              <span className="ifa-marks__dot" style={{ background: color, opacity: 0.5 }} />
+            </>
+        }
+      </div>
+    );
+  }
+
+  return (
+    <div className={`ifa-marks ifa-marks--${size}`}>
+      <div className="ifa-marks__col">
+        {leftBits.map((b, i) => <MarkRow key={i} bit={b} />)}
+      </div>
+      <div className="ifa-marks__col">
+        {rightBits.map((b, i) => <MarkRow key={i} bit={b} />)}
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
 // IFA GLYPH HELPERS
 // ════════════════════════════════════════════════════════════
 // Build the primary meta-symbol glyph string for a 4-bit code.
@@ -877,52 +911,37 @@ function ModalDot({ bit }) {
 }
 
 // IFABitDisplay — shows 4-bit marks for two Odu side by side.
-// Signature matches Ifai: rowCode = Àpólà (principal, left col / Latin LTR),
-//                         colCode = Period  (secondary, right col / Latin LTR).
-// Below each column's marks both conventions are shown:
-//   Ifa RTL glyph  (primaryGlyph reverses the code before mapping O/I)
-//   Latin LTR code (raw 4-bit string as stored)
+// Matches Ifai exactly: label + colored dots only, no glyph/binary below.
 function IFABitDisplay({ rowCode, colCode, rowLabel, colLabel, color }) {
-  const leftBits  = rowCode.split('').map(Number);   // Àpólà — left col (Latin LTR)
-  const rightBits = colCode.split('').map(Number);   // Period  — right col (Latin LTR)
+  const leftBits  = rowCode.split('').map(Number);
+  const rightBits = colCode.split('').map(Number);
+  const decimal   = parseInt(rowCode + colCode, 2);
 
   function Mark({ bit }) {
     return (
       <div className="ifabit__mark">
         {bit === 1
-          ? <div className="ifabit__dot" />
-          : <><div className="ifabit__dot ifabit__dot--zero" /><div className="ifabit__dot ifabit__dot--zero" /></>
+          ? <div className="ifabit__dot" style={{ background: color }} />
+          : <>
+              <div className="ifabit__dot ifabit__dot--zero" style={{ background: color }} />
+              <div className="ifabit__dot ifabit__dot--zero" style={{ background: color }} />
+            </>
         }
       </div>
     );
   }
 
-  function ColCodes({ code }) {
-    return (
-      <div className="ifabit__col-codes">
-        <span className="ifabit__col-glyph" title="Ifa RTL">{renderGlyphChars(primaryGlyph(code))}</span>
-        <span className="ifabit__col-bin"   title="Latin LTR">{code}</span>
-      </div>
-    );
-  }
-
   return (
-    <div className="ifabit" style={{ color }}>
+    <div className="ifabit">
       <div className="ifabit__cols">
         <div className="ifabit__col">
-          <div className="ifabit__col-label">{rowLabel}</div>
+          <div className="ifabit__col-label" style={{ color }}>{rowLabel}</div>
           {leftBits.map((b, i) => <Mark key={i} bit={b} />)}
-          <ColCodes code={rowCode} />
         </div>
         <div className="ifabit__col">
-          <div className="ifabit__col-label">{colLabel}</div>
+          <div className="ifabit__col-label" style={{ color }}>{colLabel}</div>
           {rightBits.map((b, i) => <Mark key={i} bit={b} />)}
-          <ColCodes code={colCode} />
         </div>
-      </div>
-      <div className="ifabit__legend">
-        <span>← Ifa RTL</span>
-        <span>Latin LTR →</span>
       </div>
     </div>
   );

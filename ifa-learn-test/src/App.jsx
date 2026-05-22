@@ -195,7 +195,7 @@ function Header() {
           <a className="nav-link" href="#oddn">ODDNs</a>
           <a className="nav-link" href="#features">Platforms</a>
           <a className="nav-link" href="#ifacodemy">Ifacodemy</a>
-          <a className="nav-link" href="#isise">Ìṣíṣẹ̀ Ifá</a>
+          <a className="nav-link" href="#isise">Ìṣísẹ̀ Ifá</a>
           <a className="nav-link nav-link--cta"
              href="https://toe.cenproject.org/the-ifa-learn/"
              target="_blank" rel="noopener noreferrer">IfaLearn on TOE</a>
@@ -215,7 +215,7 @@ function MobileBar() {
     { sym: 'Ψ',  label: 'ODDNs',     href: '#oddn' },
     { sym: '◈',  label: 'Platforms', href: '#features' },
     { sym: '⬡',  label: 'Ifacodemy', href: '#ifacodemy' },
-    { sym: '∿',  label: 'Ìṣíṣẹ̀',   href: '#isise' },
+    { sym: '∿',  label: 'Ìṣísẹ̀',   href: '#isise' },
   ];
   return (
     <nav className="mobile-bar" aria-label="Mobile navigation">
@@ -450,7 +450,7 @@ function OddnSection() {
             The Orunmila Deep Learning Principle establishes that true knowledge emerges from
             the structured interaction between the <strong>inner universe</strong> and the
             <strong> outer universe</strong> — bridged by the Principle of{' '}
-            <strong>Fọ́ránòwúkanṣoṣo</strong>, and activated through <strong>Ìṣíṣẹ̀ Ifa</strong> (Orunmila Dialogue).
+            <strong>Fọ́ránòwúkanṣoṣo</strong>.
           </p>
         </div>
 
@@ -494,7 +494,7 @@ function OddnSection() {
           </div>
         </div>
 
-        {/* Fọ́ránòwúkanṣoṣo + Ìṣíṣẹ̀ */}
+        {/* Fọ́ránòwúkanṣoṣo + Ìṣísẹ̀ */}
         <div className="oddn-concepts">
           <div className="oddn-concept">
             <div className="oddn-concept__icon">
@@ -815,7 +815,7 @@ function IfacodemySection() {
   );
 }
 
-// ─── ÌṢÍṢẸ̀ IFÁ SECTION ──────────────────────────────────────────────────────
+// ─── ÌṢÍSẸ̀ IFÁ SECTION ──────────────────────────────────────────────────────
 
 function IsiseSection() {
   return (
@@ -823,7 +823,7 @@ function IsiseSection() {
       <div className="container">
         <div className="section__header section__header--center">
           <span className="section__eyebrow section__eyebrow--gold">Orunmila Dialogue</span>
-          <h2 className="section__title">Ìṣíṣẹ̀ Ifá</h2>
+          <h2 className="section__title">Ìṣísẹ̀ Ifá</h2>
           <p className="section__subtitle">
             The compendium of declarations of Ọ̀rúnmìlà across the entire 256 Odu —
             direct words of wisdom spoken from sober, contemplative consciousness,
@@ -833,7 +833,7 @@ function IsiseSection() {
 
         <div className="isise-desc">
             <p>
-              Unlike the responsive, consultative nature of Ifá divination, Ìṣíṣẹ̀ Ifá does
+              Unlike the responsive, consultative nature of Ifá divination, Ìṣísẹ̀ Ifá does
               not cast for anyone or anything. It simply speaks — and in that speaking, it
               illuminates. Each of the 256 Odu carries such a declaration: a contemplative,
               meditative utterance that distils the entire energetic signature of that Odu
@@ -1027,7 +1027,7 @@ function Footer() {
             <a href="#model" className="footer__link">Ifa Model</a>
             <a href="#features" className="footer__link">Platforms</a>
             <a href="#ifacodemy" className="footer__link">Ifacodemy</a>
-            <a href="#isise" className="footer__link">Ìṣíṣẹ̀ Ifá</a>
+            <a href="#isise" className="footer__link">Ìṣísẹ̀ Ifá</a>
             <a href="#dual" className="footer__link">OrisaLearn</a>
             <a href="../" className="footer__link" target="_blank" rel="noopener noreferrer">IFA Internet</a>
           </nav>
