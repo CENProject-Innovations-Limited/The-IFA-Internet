@@ -372,10 +372,11 @@ function Controls({ categories, activeCategory, onCategory, searchTerm, onSearch
 // Read RIGHT TO LEFT: code[3], code[2], code[1], code[0].
 // 1 → O (Ifa Circle), 0 → I (Ifa Line with crossbars in compound context).
 // Collapsed parents: "1111" → "O", "0000" → "|" (standalone Ifa Line, no crossbars).
+// Bits are read right-to-left (Ifa tradition): reverse the code before mapping.
 function primaryGlyph(code) {
   if (code === '1111') return 'O';
   if (code === '0000') return '|';
-  return code.split('').map(b => b === '1' ? 'O' : 'I').join('');
+  return code.split('').reverse().map(b => b === '1' ? 'O' : 'I').join('');
 }
 
 // Render glyph string as individual character spans with tight margins so characters touch.
