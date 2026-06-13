@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lemniscate Cross — s² = r² cos 2θ | Ifa Fractal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #020408;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 60px 0;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+    canvas { display: block; }
+    .label {
+      margin-top: 28px;
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      color: rgba(245, 197, 24, 0.55);
+      text-align: center;
+      line-height: 1.9;
+    }
+    .label.red {
+      color: rgba(230, 60, 80, 0.65);
+    }
+    .divider {
+      width: 1px;
+      height: 80px;
+      background: rgba(245, 197, 24, 0.18);
+      margin: 60px 0;
+    }
+    .meta-heading {
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245, 197, 24, 0.32);
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .meta-row {
+      display: flex;
+      gap: 80px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Original lemniscate cross -->
+  <canvas id="c"></canvas>
+  <div class="label">
+    horizontal: s² = r² cos 2θ<br>
+    vertical: s² = −r² cos 2θ
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Lemniscate cross with diagonal line -->
+  <canvas id="c2"></canvas>
+  <div class="label">
+    horizontal: s² = r² cos 2θ<br>
+    vertical: s² = −r² cos 2θ<br>
+    diagonal
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Ifa Fractal -->
+  <canvas id="c3"></canvas>
+  <div class="label red">
+    Ifa Fractal — Self-Similar Lemniscate Cross<br>
+    aₙ = a · rⁿ,&nbsp;&nbsp; r = 0.88,&nbsp;&nbsp; n = 0, 1, 2, …
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- IfaZero and IfaOne Metarepresentation -->
+  <div class="meta-heading">IfaZero &amp; IfaOne — Metarepresentation</div>
+  <div class="meta-row">
+    <div class="meta-item">
+      <canvas id="c4"></canvas>
+      <div class="label">IfaZero<br>Circle · Clockwise · Right</div>
+    </div>
+    <div class="meta-item">
+      <canvas id="c5"></canvas>
+      <div class="label red">IfaOne<br>Circle · Counterclockwise · Left</div>
+    </div>
+  </div>
+
+  <script>
+    const DPR = window.devicePixelRatio || 1;
+    const SZ  = 560;
+    const cx  = SZ / 2;
+    const cy  = SZ / 2;
+    const a   = 200;
+    const N   = 4000;
+
+    function buildHLobe(t0, t1) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t  = t0 + (t1 - t0) * i / N;
+        const c2 = Math.cos(2 * t);
+        if (c2 < 1e-10) continue;
+        const rho = a * Math.sqrt(c2);
+        pts.push([cx + rho * Math.cos(t), cy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+
+    function buildVLobe(t0, t1) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t   = t0 + (t1 - t0) * i / N;
+        const mc2 = -Math.cos(2 * t);
+        if (mc2 < 1e-10) continue;
+        const rho = a * Math.sqrt(mc2);
+        pts.push([cx + rho * Math.cos(t), cy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+
+    /* scaled lobe builders for fractal */
+    function buildHLobeS(t0, t1, aNow) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t  = t0 + (t1 - t0) * i / N;
+        const c2 = Math.cos(2 * t);
+        if (c2 < 1e-10) continue;
+        const rho = aNow * Math.sqrt(c2);
+        pts.push([cx + rho * Math.cos(t), cy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+
+    function buildVLobeS(t0, t1, aNow) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t   = t0 + (t1 - t0) * i / N;
+        const mc2 = -Math.cos(2 * t);
+        if (mc2 < 1e-10) continue;
+        const rho = aNow * Math.sqrt(mc2);
+        pts.push([cx + rho * Math.cos(t), cy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+
+    /* rotated scaled lobe: rotates entire lobe by `rot` radians */
+    function buildHLobeSR(t0, t1, aNow, rot) {
+      const pts = [];
+      const cr = Math.cos(rot), sr = Math.sin(rot);
+      for (let i = 0; i <= N; i++) {
+        const t  = t0 + (t1 - t0) * i / N;
+        const c2 = Math.cos(2 * t);
+        if (c2 < 1e-10) continue;
+        const rho = aNow * Math.sqrt(c2);
+        const lx = rho * Math.cos(t);
+        const ly = rho * Math.sin(t);
+        pts.push([cx + lx*cr - ly*sr, cy + lx*sr + ly*cr]);
+      }
+      return pts;
+    }
+
+    function buildVLobeSR(t0, t1, aNow, rot) {
+      const pts = [];
+      const cr = Math.cos(rot), sr = Math.sin(rot);
+      for (let i = 0; i <= N; i++) {
+        const t   = t0 + (t1 - t0) * i / N;
+        const mc2 = -Math.cos(2 * t);
+        if (mc2 < 1e-10) continue;
+        const rho = aNow * Math.sqrt(mc2);
+        const lx = rho * Math.cos(t);
+        const ly = rho * Math.sin(t);
+        pts.push([cx + lx*cr - ly*sr, cy + lx*sr + ly*cr]);
+      }
+      return pts;
+    }
+
+    const lobes = [
+      buildHLobe(-Math.PI / 4,   Math.PI / 4),
+      buildHLobe( 3*Math.PI / 4, 5*Math.PI / 4),
+      buildVLobe( Math.PI / 4,   3*Math.PI / 4),
+      buildVLobe( 5*Math.PI / 4, 7*Math.PI / 4),
+    ];
+
+    function strokePts(ctx, pts, lw, rgba, blur) {
+      if (!pts.length) return;
+      ctx.save();
+      ctx.strokeStyle = rgba;
+      ctx.lineWidth   = lw;
+      ctx.shadowColor = rgba;
+      ctx.shadowBlur  = blur;
+      ctx.lineCap     = 'round';
+      ctx.lineJoin    = 'round';
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawLobe(ctx, pts) {
+      strokePts(ctx, pts, 44, 'rgba(245,197,24,0.03)', 65);
+      strokePts(ctx, pts, 26, 'rgba(245,197,24,0.07)', 44);
+      strokePts(ctx, pts, 15, 'rgba(245,197,24,0.16)', 28);
+      strokePts(ctx, pts,  7, 'rgba(245,197,24,0.34)', 16);
+      strokePts(ctx, pts,  3, 'rgba(245,197,24,0.62)',  8);
+      strokePts(ctx, pts,1.4, 'rgba(245,197,24,0.90)',  4);
+      strokePts(ctx, pts,0.7, 'rgba(255,248,210,0.95)', 2);
+    }
+
+    /* fractal lobe: red glow, lower per-pass opacity (layers stack up) */
+    function drawFractalLobe(ctx, pts) {
+      strokePts(ctx, pts, 22, 'rgba(180,10,30,0.025)', 55);
+      strokePts(ctx, pts, 12, 'rgba(200,15,40,0.07)',  32);
+      strokePts(ctx, pts,  6, 'rgba(210,20,50,0.18)',  16);
+      strokePts(ctx, pts,  2.4,'rgba(225,35,65,0.42)',  8);
+      strokePts(ctx, pts,  1.2,'rgba(235,55,80,0.72)',  4);
+      strokePts(ctx, pts,  0.6,'rgba(255,110,130,0.88)',1.5);
+    }
+
+    function drawCentreNode(ctx, color) {
+      const c = color || 'rgba(245,197,24,1)';
+      const f = color ? 'rgba(255,160,180,1)' : 'rgba(255,248,210,1)';
+      ctx.save();
+      ctx.shadowColor = c;
+      ctx.shadowBlur  = 22;
+      ctx.fillStyle   = f;
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3.5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function initCanvas(id, bg) {
+      const canvas = document.getElementById(id);
+      canvas.width  = SZ * DPR;
+      canvas.height = SZ * DPR;
+      canvas.style.width  = SZ + 'px';
+      canvas.style.height = SZ + 'px';
+      const ctx = canvas.getContext('2d');
+      ctx.scale(DPR, DPR);
+      ctx.fillStyle = bg || '#020408';
+      ctx.fillRect(0, 0, SZ, SZ);
+      return ctx;
+    }
+
+    /* ── Canvas 1: original lemniscate cross ── */
+    const ctx1 = initCanvas('c');
+    for (const lobe of lobes) drawLobe(ctx1, lobe);
+    drawCentreNode(ctx1);
+
+    /* ── Canvas 2: lemniscate cross + diagonal line ── */
+    const ctx2 = initCanvas('c2');
+    for (const lobe of lobes) drawLobe(ctx2, lobe);
+    drawCentreNode(ctx2);
+
+    /* diagonal line: upper-right → lower-left, through centre */
+    const ext = 170;
+    const linePts = [
+      [cx + ext, cy - ext],
+      [cx - ext, cy + ext],
+    ];
+    strokePts(ctx2, linePts, 44, 'rgba(245,197,24,0.03)', 65);
+    strokePts(ctx2, linePts, 26, 'rgba(245,197,24,0.07)', 44);
+    strokePts(ctx2, linePts, 15, 'rgba(245,197,24,0.16)', 28);
+    strokePts(ctx2, linePts,  7, 'rgba(245,197,24,0.34)', 16);
+    strokePts(ctx2, linePts,  3, 'rgba(245,197,24,0.62)',  8);
+    strokePts(ctx2, linePts,1.4, 'rgba(245,197,24,0.90)',  4);
+    strokePts(ctx2, linePts,0.7, 'rgba(255,248,210,0.95)', 2);
+
+    /* ── Canvas 3: Ifa Fractal ──────────────────────────────────────────────
+       Draw the 4-lobe lemniscate cross at N_CURVES uniformly-spaced scale
+       values from A_MIN → A_MAX.  Each curve is a thin red line at low
+       opacity; they stack up inside each petal to create the dense filled-
+       flower appearance of the Ifa Fractal.
+    ── */
+    const ctx3 = initCanvas('c3', '#01050f');
+
+    const N_CURVES = 16;
+    const A_MIN    = 3;
+    const A_MAX    = 214;
+
+    for (let i = 0; i < N_CURVES; i++) {
+      const aNow = A_MIN + (A_MAX - A_MIN) * i / (N_CURVES - 1);
+      const fracLobes = [
+        buildHLobeS(-Math.PI/4,      Math.PI/4,  aNow),
+        buildHLobeS( 3*Math.PI/4, 5*Math.PI/4,   aNow),
+        buildVLobeS(   Math.PI/4, 3*Math.PI/4,   aNow),
+        buildVLobeS( 5*Math.PI/4, 7*Math.PI/4,   aNow),
+      ];
+      for (const lobe of fracLobes) {
+        strokePts(ctx3, lobe, 1.4, 'rgba(210,25,55,0.28)', 2.5);
+        strokePts(ctx3, lobe, 0.6, 'rgba(240,70,90,0.45)', 0.8);
+      }
+    }
+
+    /* bright outer edge — redraw the maximal lobe with a glow */
+    const outerLobes = [
+      buildHLobeS(-Math.PI/4,      Math.PI/4,  A_MAX),
+      buildHLobeS( 3*Math.PI/4, 5*Math.PI/4,   A_MAX),
+      buildVLobeS(   Math.PI/4, 3*Math.PI/4,   A_MAX),
+      buildVLobeS( 5*Math.PI/4, 7*Math.PI/4,   A_MAX),
+    ];
+    for (const lobe of outerLobes) {
+      strokePts(ctx3, lobe,  6, 'rgba(200,20,50,0.12)',  18);
+      strokePts(ctx3, lobe,  3, 'rgba(220,40,65,0.35)',   9);
+      strokePts(ctx3, lobe,1.4, 'rgba(235,60,80,0.80)',   4);
+      strokePts(ctx3, lobe,0.7, 'rgba(255,120,140,0.95)', 1.5);
+    }
+
+    /* bright centre node */
+    ctx3.save();
+    ctx3.shadowColor = 'rgba(230,40,65,1)';
+    ctx3.shadowBlur  = 24;
+    ctx3.fillStyle   = 'rgba(255,170,185,1)';
+    ctx3.beginPath();
+    ctx3.arc(cx, cy, 3.5, 0, 2 * Math.PI);
+    ctx3.fill();
+    ctx3.restore();
+
+    /* ── IfaZero & IfaOne Metarepresentation ────────────────────────────────
+       IfaZero  : full circle + CW arrowhead at right  (3 o'clock) → tip DOWN
+       IfaOne   : full circle + CCW arrowhead at left  (9 o'clock) → tip DOWN
+       They are exact chiral (left-right mirror) duals of each other.
+    ── */
+    const MSIZ = 360;
+    const MCX  = MSIZ / 2;
+    const MCY  = MSIZ / 2;
+    const MRAD = 130;   /* circle radius */
+    const MARR = 22;    /* arrowhead size */
+
+    function initMCanvas(id) {
+      const canvas = document.getElementById(id);
+      canvas.width        = MSIZ * DPR;
+      canvas.height       = MSIZ * DPR;
+      canvas.style.width  = MSIZ + 'px';
+      canvas.style.height = MSIZ + 'px';
+      const ctx = canvas.getContext('2d');
+      ctx.scale(DPR, DPR);
+      ctx.fillStyle = '#020408';
+      ctx.fillRect(0, 0, MSIZ, MSIZ);
+      return ctx;
+    }
+
+    /* Full-circle glow — gold (IfaZero) or red (IfaOne) */
+    function drawMetaCircle(ctx, gold) {
+      const L = gold
+        ? [[44,'rgba(245,197,24,0.03)',65],[26,'rgba(245,197,24,0.07)',44],
+           [15,'rgba(245,197,24,0.16)',28],[ 7,'rgba(245,197,24,0.34)',16],
+           [ 3,'rgba(245,197,24,0.62)', 8],[1.4,'rgba(245,197,24,0.90)', 4],
+           [0.7,'rgba(255,248,210,0.95)',2]]
+        : [[22,'rgba(180,10,30,0.025)',55],[12,'rgba(200,15,40,0.07)',32],
+           [ 6,'rgba(210,20,50,0.18)', 16],[2.4,'rgba(225,35,65,0.42)', 8],
+           [1.2,'rgba(235,55,80,0.72)', 4],[0.6,'rgba(255,110,130,0.88)',1.5]];
+      for (const [lw, color, blur] of L) {
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.lineWidth   = lw;
+        ctx.shadowColor = color;
+        ctx.shadowBlur  = blur;
+        ctx.beginPath();
+        ctx.arc(MCX, MCY, MRAD, 0, 2 * Math.PI);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    /* Arrowhead triangle
+       tipX/tipY : where the tip of the arrow sits
+       angle     : direction the tip points (0=right, π/2=down, π=left)
+       canvas.rotate(angle) rotates CW, so rotate(π/2) turns a rightward
+       arrowhead to point downward ↓ */
+    function drawMetaArrow(ctx, tipX, tipY, angle, size, gold) {
+      const L = gold
+        ? [['rgba(245,197,24,0.12)',24],['rgba(245,197,24,0.45)',12],
+           ['rgba(245,197,24,0.82)', 5],['rgba(255,248,210,0.95)', 2]]
+        : [['rgba(200,20,50,0.12)', 24],['rgba(220,35,65,0.45)', 12],
+           ['rgba(235,55,80,0.86)',  5],['rgba(255,120,140,0.95)', 2]];
+      for (const [color, blur] of L) {
+        ctx.save();
+        ctx.translate(tipX, tipY);
+        ctx.rotate(angle);
+        ctx.shadowColor = color;
+        ctx.shadowBlur  = blur;
+        ctx.fillStyle   = color;
+        ctx.beginPath();
+        ctx.moveTo(0, 0);                     /* tip   */
+        ctx.lineTo(-size, -size * 0.44);      /* upper base corner */
+        ctx.lineTo(-size,  size * 0.44);      /* lower base corner */
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    /* Small centre dot */
+    function drawMetaCentre(ctx, gold) {
+      const color = gold ? 'rgba(245,197,24,1)'   : 'rgba(230,40,65,1)';
+      const fill  = gold ? 'rgba(255,248,210,1)'  : 'rgba(255,170,185,1)';
+      ctx.save();
+      ctx.shadowColor = color;
+      ctx.shadowBlur  = 22;
+      ctx.fillStyle   = fill;
+      ctx.beginPath();
+      ctx.arc(MCX, MCY, 3.5, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    /* IfaZero: CW rotation → arrowhead at right (cx+R, cy), tip pointing ↓ */
+    const ctx4 = initMCanvas('c4');
+    drawMetaCircle(ctx4, true);
+    drawMetaArrow(ctx4, MCX + MRAD, MCY, Math.PI / 2, MARR, true);
+    drawMetaCentre(ctx4, true);
+
+    /* IfaOne: CCW rotation → arrowhead at left (cx-R, cy), tip pointing ↓
+       (at 9 o'clock the CCW tangent direction is also downward —
+        the two symbols are exact left-right chiral duals) */
+    const ctx5 = initMCanvas('c5');
+    drawMetaCircle(ctx5, false);
+    drawMetaArrow(ctx5, MCX - MRAD, MCY, Math.PI / 2, MARR, false);
+    drawMetaCentre(ctx5, false);
+  </script>
+
+  <div class="divider"></div>
+
+  <!-- Ifa Sigma Symbol · Temic Sigma -->
+  <div class="meta-heading">Ifa Sigma Symbol &bull; Temic Sigma</div>
+  <svg viewBox="0 0 320 340" width="400" height="425"
+       style="display:block;background:#020408;border-radius:16px;overflow:visible;">
+    <!--
+      Ifa Sigma (Temic Sigma) — amulu of ∫ (integral) and Σ (sigma).
+      Two subpaths share the same <path> element (M…  M…):
+
+      Subpath 1 — ∫ contribution (left body):
+        M 286,96        short right arm — top of arm
+        L 286,32        up to top-right corner (sharp miter)
+        L 30,32         top horizontal bar going left
+        L 30,290        left vertical — continues PAST the bottom-bar junction (y=262)
+                        by 28 units, carrying the ∫ character downward
+        C 30,308 -6,318 -6,302
+                        ∫ bottom curl: first control goes straight down,
+                        second pulls LEFT, endpoint is left + slightly above
+                        the nadir — giving the elongated curly left leg
+
+      Subpath 2 — Σ contribution (bottom bar + J-hook):
+        M 30,262        restart at the bottom-left junction of the horizontal bar
+        L 226,262       bottom horizontal bar going right
+        C 286,262 286,226 286,180
+                        J-hook: elongated cubic curves upward on the right,
+                        matching the ∫ top-hook direction on the opposite side
+    -->
+    <defs>
+      <path id="sp"
+        d="M 292,96 L 292,32 L 70,32 L 70,290 C 70,308 34,318 34,302
+           M 70,262 L 242,262 C 280,262 296,248 296,202"
+        fill="none" stroke-linecap="round" stroke-linejoin="miter"/>
+    </defs>
+    <!-- Glow layers — wide outer aura → bright core -->
+    <use href="#sp" stroke="rgba(245,197,24,0.03)" stroke-width="44" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#sp" stroke="rgba(245,197,24,0.07)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#sp" stroke="rgba(245,197,24,0.16)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#sp" stroke="rgba(245,197,24,0.34)" stroke-width="7"  stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#sp" stroke="rgba(245,197,24,0.62)" stroke-width="3"  stroke-linecap="round" stroke-linejoin="round"/>
+    <use href="#sp" stroke="rgba(245,197,24,0.90)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="miter"/>
+    <!-- Bright core — near-white, very fine -->
+    <use href="#sp" stroke="rgba(255,248,210,0.95)" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="miter"/>
+  </svg>
+  <div class="label">
+    Ifa Sigma Symbol — Temic Sigma<br>
+    Modified &Sigma; &middot; Ifa Script summation operator
+  </div>
+
+</body>
+</html>

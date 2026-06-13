@@ -1,0 +1,245 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   IFA Code — Local styles (extends ../src/styles.css from IFA Mathematica)
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Hero sub-variant ─────────────────────────────────────────────────────── */
+.hero--sub { min-height: auto; padding-top: 120px; padding-bottom: 0; }
+
+.hero__layout--full  { display: block; }
+.hero__left--full    { max-width: 840px; }
+
+/* ── Breadcrumb ───────────────────────────────────────────────────────────── */
+.ifc-breadcrumb {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.78rem; color: var(--text-2); margin-bottom: 18px;
+}
+.ifc-breadcrumb__link { color: var(--text-2); text-decoration: none; transition: color 0.2s; }
+.ifc-breadcrumb__link:hover { color: var(--amber); }
+.ifc-breadcrumb__sep  { color: var(--text-3); }
+.ifc-breadcrumb__cur  { color: var(--amber); font-weight: 600; }
+
+/* ── Alias row ────────────────────────────────────────────────────────────── */
+.ifc-alias-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.ifc-alias {
+  font-size: 0.73rem; font-weight: 600; padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(240,146,12,0.09);
+  border: 1px solid rgba(240,146,12,0.22);
+  color: var(--amber);
+  letter-spacing: 0.02em;
+}
+
+/* ── IFA Code intro grid ──────────────────────────────────────────────────── */
+.ifc-intro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin: 48px 0 52px;
+}
+
+.ifc-def-block {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 20px;
+  transition: border-color 0.2s;
+}
+.ifc-def-block:hover { border-color: var(--border-2); }
+
+.ifc-def-block__icon {
+  font-size: 1.4rem; font-weight: 900;
+  color: var(--amber); min-width: 36px;
+  font-family: monospace;
+}
+.ifc-def-block__label {
+  font-size: 0.82rem; font-weight: 700;
+  color: var(--text-1); margin-bottom: 6px;
+}
+.ifc-def-block__body {
+  font-size: 0.8rem; color: var(--text-2); line-height: 1.6;
+}
+
+/* ── IfaPL notice bar ─────────────────────────────────────────────────────── */
+.ifc-notice {
+  display: flex; gap: 18px; align-items: flex-start;
+  background: rgba(139,92,246,0.07);
+  border: 1px solid rgba(139,92,246,0.22);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 56px;
+  font-size: 0.84rem; color: var(--text-2); line-height: 1.65;
+}
+.ifc-notice__icon {
+  font-size: 1.3rem; font-weight: 900;
+  color: var(--violet); font-family: monospace;
+  min-width: 32px; margin-top: 1px;
+}
+.ifc-notice strong { color: var(--text-1); }
+
+/* ── Model headers ────────────────────────────────────────────────────────── */
+.ifc-model-header {
+  display: flex; gap: 18px; align-items: center;
+  margin-bottom: 24px; margin-top: 64px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.ifc-model-num {
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
+  color: var(--amber);
+  background: rgba(240,146,12,0.1);
+  border: 1px solid rgba(240,146,12,0.25);
+  border-radius: 6px;
+  padding: 6px 12px;
+  white-space: nowrap;
+  font-family: monospace;
+}
+.ifc-model-title {
+  font-size: 1rem; font-weight: 700; color: var(--text-1); margin-bottom: 4px;
+}
+.ifc-model-sub {
+  font-size: 0.78rem; color: var(--text-2);
+}
+.ifc-model-sub em { color: var(--text-1); font-style: normal; }
+
+/* ── Diagram wrappers ─────────────────────────────────────────────────────── */
+.ifc-diagram-wrap {
+  margin-bottom: 24px;
+}
+
+/* Full-width single diagram (no image) */
+.ifc-diagram-wrap--single .stx-diagram--graph-only {
+  display: flex;
+  justify-content: center;
+}
+.ifc-diagram-wrap--single .stx-diagram--graph-only .stx-diagram__graph-wrap {
+  width: 100%;
+  max-width: 680px;
+}
+
+/* Diagram with image: image above graph on this page (stacked) */
+.ifc-diagram-wrap .stx-diagram {
+  flex-direction: column;
+  gap: 24px;
+}
+.ifc-diagram-wrap .stx-diagram__img-frame {
+  max-width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.ifc-diagram-wrap .stx-diagram__img-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+}
+.ifc-diagram-wrap .stx-diagram__graph-wrap {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* ── Inline link ──────────────────────────────────────────────────────────── */
+.ifc-link {
+  color: var(--amber);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.ifc-link:hover { color: var(--amber-lt); }
+
+/* ── PaaL Concepts grid ───────────────────────────────────────────────────── */
+.ifc-concepts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 52px 0;
+}
+
+.ifc-concept-card {
+  position: relative; overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  transition: border-color 0.25s, transform 0.22s;
+}
+.ifc-concept-card:hover {
+  border-color: var(--cc, var(--amber));
+  transform: translateY(-3px);
+}
+.ifc-concept-card__sym {
+  font-size: 1.5rem; font-weight: 900;
+  color: var(--cc, var(--amber));
+  font-family: monospace;
+  margin-bottom: 14px;
+}
+.ifc-concept-card__title {
+  font-size: 0.92rem; font-weight: 700;
+  color: var(--text-1); margin-bottom: 10px; line-height: 1.35;
+}
+.ifc-concept-card__body {
+  font-size: 0.81rem; color: var(--text-2); line-height: 1.65;
+}
+.ifc-concept-card__glow {
+  position: absolute; bottom: -30px; right: -30px;
+  width: 100px; height: 100px; border-radius: 50%;
+  background: var(--cc, var(--amber));
+  opacity: 0.06;
+  filter: blur(20px);
+  pointer-events: none;
+}
+
+/* ── CTA block ────────────────────────────────────────────────────────────── */
+.ifc-cta-block {
+  margin-top: 56px;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(245,197,24,0.06), rgba(59,158,255,0.04));
+  border: 1px solid var(--border-2);
+  padding: 36px 32px;
+}
+.ifc-cta-block__inner {
+  display: flex; gap: 24px; align-items: flex-start;
+}
+.ifc-cta-block__icon {
+  font-size: 2rem; font-weight: 900;
+  color: var(--gold); font-family: monospace;
+  min-width: 48px; margin-top: 4px;
+}
+.ifc-cta-block__title {
+  font-size: 1rem; font-weight: 700;
+  color: var(--text-1); margin-bottom: 10px;
+}
+.ifc-cta-block__body {
+  font-size: 0.82rem; color: var(--text-2);
+  line-height: 1.65; margin-bottom: 20px;
+}
+.ifc-cta-block__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* ── Dark section override ────────────────────────────────────────────────── */
+.section--dark { background: var(--bg-3); }
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .ifc-concepts-grid { grid-template-columns: 1fr; }
+  .ifc-cta-block__inner { flex-direction: column; gap: 16px; }
+  .ifc-intro-grid { grid-template-columns: 1fr; }
+  .ifc-model-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .hero--sub    { padding-top: 80px; }
+  .ifc-breadcrumb { flex-wrap: wrap; }
+  .ifc-notice   { flex-direction: column; gap: 10px; padding: 16px 18px; }
+  .ifc-notice__icon { margin-top: 0; }
+  .ifc-model-header { margin-top: 44px; }
+  .ifc-cta-block { padding: 28px 24px; margin-top: 40px; }
+  /* Fix MatrixDiagram SVG aspect-ratio to match its 620×500 viewBox */
+  .ifc-diagram-wrap .stx-svg,
+  .ifc-diagram-wrap--single .stx-svg { aspect-ratio: 620 / 500; }
+}
+@media (max-width: 480px) {
+  .hero--sub    { padding-top: 60px; }
+  .ifc-alias    { font-size: 0.68rem; padding: 3px 9px; }
+  .ifc-alias-row { gap: 6px; }
+  .ifc-def-block { padding: 16px 16px; }
+  .ifc-cta-block { padding: 20px 16px; }
+  .ifc-cta-block__icon { font-size: 1.6rem; min-width: 36px; }
+}

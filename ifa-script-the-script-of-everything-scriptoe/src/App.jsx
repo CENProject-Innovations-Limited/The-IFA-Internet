@@ -3,7 +3,72 @@
    The IFA Internet · CENProject · toe.cenproject.org
 ───────────────────────────────────────────────────────────── */
 
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
+
+// ── OyekuSymbol (SymboN — Oyeku Anergy Symbol canvas) ─────────
+function OyekuSymbol({ size = 44 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const s = size;
+    canvas.width  = s;
+    canvas.height = s;
+    const ctx = canvas.getContext('2d');
+    const cx = s / 2, cy = s / 2, r = s * 0.36;
+    const gold = '#f5c518';
+    ctx.clearRect(0, 0, s, s);
+    const drawLobes = (alpha, lineW) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      for (let rot = 0; rot < 2; rot++) {
+        ctx.beginPath();
+        for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+          const scale = Math.cos(2 * t) >= 0 ? Math.sqrt(Math.cos(2 * t)) : 0;
+          const x = cx + (rot === 0 ? 1 : 0) * r * scale * Math.cos(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.sin(t);
+          const y = cy + (rot === 0 ? 1 : 0) * r * scale * Math.sin(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.cos(t);
+          t < 0.02 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+    drawLobes(0.12, s * 0.22);
+    drawLobes(0.22, s * 0.13);
+    drawLobes(0.55, s * 0.055);
+    drawLobes(1.00, s * 0.022);
+    const ext = s * 0.30;
+    const diag = [[cx + ext, cy - ext], [cx - ext, cy + ext]];
+    const drawDiag = (alpha, lineW, blur) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      ctx.shadowColor = gold;
+      ctx.shadowBlur  = blur;
+      ctx.beginPath();
+      ctx.moveTo(diag[0][0], diag[0][1]);
+      ctx.lineTo(diag[1][0], diag[1][1]);
+      ctx.stroke();
+      ctx.restore();
+    };
+    drawDiag(0.03, s * 0.20, s * 0.12);
+    drawDiag(0.07, s * 0.12, s * 0.08);
+    drawDiag(0.16, s * 0.07, s * 0.05);
+    drawDiag(0.34, s * 0.03, s * 0.03);
+    drawDiag(0.62, s * 0.014, s * 0.015);
+    drawDiag(0.90, s * 0.007, s * 0.007);
+    drawDiag(0.95, s * 0.003, s * 0.003);
+  }, [size]);
+  return React.createElement('canvas', { ref, width: size, height: size,
+    style: { display: 'block', flexShrink: 0, marginTop: '1px' } });
+}
 
 // ── Platform Identity ─────────────────────────────────────────
 const IDENTITIES = [
@@ -695,7 +760,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <img className="ifa-binary__meta-glyph ifa-binary__meta-glyph--img" src="./src/duoinfinity_logo.png" alt="DuoInfinity — InfinitoE" />
+                  <OgbeSymbol size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>DuoInfinity · InfinitoE</strong>
                     <p>Ifa Infinity — crossed with ∞; renders circling. The Infinity for Everything.</p>
@@ -745,7 +810,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <img className="ifa-binary__meta-glyph ifa-binary__meta-glyph--img" src="./src/duoninfinity_logo.png" alt="DuoInfinity — NinfinitoE" />
+                  <OyekuSymbol size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>DuoInfinity · NinfinitoE</strong>
                     <p>Ifa Ninfinity — DuoInfinity with "J" dash. NanInfinity. Dual of Infinity.</p>
@@ -773,6 +838,403 @@ function IfaBinaryEncoding() {
             the same as zero (0) and one (1) in modern mathematics or computing."
           </blockquote>
         </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Ogbe Energy Symbol (SymboE) ───────────────────────────────
+// SymboE = lemniscate cross:
+//   horizontal  s² = r²  cos(2θ)  → right lobe (θ∈[−π/4, π/4])  + left lobe (θ∈[3π/4, 5π/4])
+//   vertical    s² = −r² cos(2θ)  → top  lobe  (θ∈[π/4,  3π/4]) + bottom lobe (θ∈[5π/4, 7π/4])
+// All four lobes meet at the shared centre node.
+// Rendered on canvas with layered glow — identical technique to lemniscate/index.html.
+function OgbeSymbol({ size = 20, className = '' }) {
+  const canvasRef = React.useRef(null);
+  const a   = size * 0.47;   // lobe-tip distance from centre
+  const ccx = size / 2;
+  const ccy = size / 2;
+  const sc  = a / 200;       // scale relative to the reference canvas (a=200)
+  const N   = 80;            // points per lobe
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width  = size * DPR;
+    canvas.height = size * DPR;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+
+    function buildLobe(t0, t1, neg) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t  = t0 + (t1 - t0) * i / N;
+        const c2 = Math.cos(2 * t);
+        const v  = neg ? -c2 : c2;
+        if (v < 1e-10) continue;
+        const rho = a * Math.sqrt(v);
+        pts.push([ccx + rho * Math.cos(t), ccy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+
+    const PI = Math.PI;
+    const lobes = [
+      buildLobe(-PI/4,   PI/4,   false),
+      buildLobe(3*PI/4,  5*PI/4, false),
+      buildLobe(PI/4,    3*PI/4, true),
+      buildLobe(5*PI/4,  7*PI/4, true),
+    ];
+
+    function strokeLobe(pts, lw, rgba, blur) {
+      if (!pts.length) return;
+      ctx.save();
+      ctx.strokeStyle = rgba;
+      ctx.lineWidth   = Math.max(0.3, lw * sc);
+      ctx.shadowColor = rgba;
+      ctx.shadowBlur  = blur * sc;
+      ctx.lineCap     = 'round';
+      ctx.lineJoin    = 'round';
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    ctx.clearRect(0, 0, size, size);
+
+    for (const lobe of lobes) {
+      strokeLobe(lobe, 44, 'rgba(245,197,24,0.03)', 65);
+      strokeLobe(lobe, 26, 'rgba(245,197,24,0.07)', 44);
+      strokeLobe(lobe, 15, 'rgba(245,197,24,0.16)', 28);
+      strokeLobe(lobe,  7, 'rgba(245,197,24,0.34)', 16);
+      strokeLobe(lobe,  3, 'rgba(245,197,24,0.62)',  8);
+      strokeLobe(lobe,1.4, 'rgba(245,197,24,0.90)',  4);
+      strokeLobe(lobe,0.7, 'rgba(255,248,210,0.95)', 2);
+    }
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(245,197,24,1)';
+    ctx.shadowBlur  = 22 * sc;
+    ctx.fillStyle   = 'rgba(255,248,210,1)';
+    ctx.beginPath();
+    ctx.arc(ccx, ccy, Math.max(0.5, 3.5 * sc), 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.restore();
+  }, [size]);
+
+  return (
+    <canvas ref={canvasRef}
+      className={className}
+      style={{ display: 'inline-block', verticalAlign: 'middle', width: size + 'px', height: size + 'px' }}
+      aria-label="Ogbe Energy Symbol — SymboE" />
+  );
+}
+
+// ── Ifa Expression: character + SymboE subscript ──────────────
+function IfaExpr({ char, charSize = '1.6rem', symSize = 11, charColor = 'var(--text)' }) {
+  return (
+    <span className="ifa-expr">
+      <span className="ifa-expr__char" style={{ fontSize: charSize, color: charColor }}>{char}</span>
+      <span className="ifa-expr__sym" style={{ width: symSize, height: symSize }}>
+        <OgbeSymbol size={symSize} />
+      </span>
+    </span>
+  );
+}
+
+// ── Script data for Ifa Expressions showcase ──────────────────
+const IFA_EXPR_SCRIPTS = [
+  { id: 'latin-u', label: 'Latin A–Z',  dir: 'ltr', chars: Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ') },
+  { id: 'latin-l', label: 'Latin a–z',  dir: 'ltr', chars: Array.from('abcdefghijklmnopqrstuvwxyz') },
+  { id: 'greek',   label: 'Greek',      dir: 'ltr', chars: Array.from('ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω') },
+  { id: 'cyrillic',label: 'Cyrillic',   dir: 'ltr', chars: Array.from('АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя') },
+  { id: 'arabic',  label: 'Arabic',     dir: 'rtl', chars: Array.from('ابتثجحخدذرزسشصضطظعغفقكلمنهوي') },
+  { id: 'math',    label: 'Math',       dir: 'ltr', chars: [':=', ...Array.from('∑∏∫∂∇∞±∓×÷√≈≠≡≤≥∈∉∅⊂⊃∩∪∀∃¬∧∨→⇒↔⇔∴∵')] },
+  { id: 'digits',  label: '0–9',        dir: 'ltr', chars: Array.from('0123456789') },
+];
+
+// ── SymboE Section ────────────────────────────────────────────
+function SymboESection() {
+  const [activeScript, setScript] = useState('latin-u');
+  const canvasRef                 = React.useRef(null);
+  const canvasRefN                = React.useRef(null);
+
+  const SZ = 138;
+  const GOLD = '#f5c518';
+
+  // ── Shared lemniscate drawing helpers ──
+  function buildLemniscateLobes(CSZ) {
+    const ccx = CSZ / 2, ccy = CSZ / 2, a = 200, N = 4000, PI = Math.PI;
+    function buildLobe(t0, t1, neg) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t  = t0 + (t1 - t0) * i / N;
+        const c2 = Math.cos(2 * t);
+        const v  = neg ? -c2 : c2;
+        if (v < 1e-10) continue;
+        const rho = a * Math.sqrt(v);
+        pts.push([ccx + rho * Math.cos(t), ccy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+    return [
+      buildLobe(-PI/4,   PI/4,   false),
+      buildLobe(3*PI/4,  5*PI/4, false),
+      buildLobe(PI/4,    3*PI/4, true),
+      buildLobe(5*PI/4,  7*PI/4, true),
+    ];
+  }
+
+  function strokeLobeOnCtx(ctx, pts, lw, rgba, blur) {
+    if (!pts.length) return;
+    ctx.save();
+    ctx.strokeStyle = rgba;
+    ctx.lineWidth   = lw;
+    ctx.shadowColor = rgba;
+    ctx.shadowBlur  = blur;
+    ctx.lineCap     = 'round';
+    ctx.lineJoin    = 'round';
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawGlowLobe(ctx, pts) {
+    strokeLobeOnCtx(ctx, pts, 44, 'rgba(245,197,24,0.03)', 65);
+    strokeLobeOnCtx(ctx, pts, 26, 'rgba(245,197,24,0.07)', 44);
+    strokeLobeOnCtx(ctx, pts, 15, 'rgba(245,197,24,0.16)', 28);
+    strokeLobeOnCtx(ctx, pts,  7, 'rgba(245,197,24,0.34)', 16);
+    strokeLobeOnCtx(ctx, pts,  3, 'rgba(245,197,24,0.62)',  8);
+    strokeLobeOnCtx(ctx, pts,1.4, 'rgba(245,197,24,0.90)',  4);
+    strokeLobeOnCtx(ctx, pts,0.7, 'rgba(255,248,210,0.95)', 2);
+  }
+
+  function drawCentreNodeOnCtx(ctx, ccx, ccy) {
+    ctx.save();
+    ctx.shadowColor = 'rgba(245,197,24,1)';
+    ctx.shadowBlur  = 22;
+    ctx.fillStyle   = 'rgba(255,248,210,1)';
+    ctx.beginPath();
+    ctx.arc(ccx, ccy, 3.5, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // ── Draw SymboE ──
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const CSZ = 560, DPR = window.devicePixelRatio || 1;
+    canvas.width = CSZ * DPR; canvas.height = CSZ * DPR;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+    ctx.clearRect(0, 0, CSZ, CSZ);
+    const lobes = buildLemniscateLobes(CSZ);
+    for (const lobe of lobes) drawGlowLobe(ctx, lobe);
+    drawCentreNodeOnCtx(ctx, CSZ / 2, CSZ / 2);
+  }, []);
+
+  // ── Draw SymboN (SymboE + diagonal line) ──
+  useEffect(() => {
+    const canvas = canvasRefN.current;
+    if (!canvas) return;
+    const CSZ = 560, DPR = window.devicePixelRatio || 1;
+    canvas.width = CSZ * DPR; canvas.height = CSZ * DPR;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+    ctx.clearRect(0, 0, CSZ, CSZ);
+    const lobes = buildLemniscateLobes(CSZ);
+    for (const lobe of lobes) drawGlowLobe(ctx, lobe);
+    drawCentreNodeOnCtx(ctx, CSZ / 2, CSZ / 2);
+    // diagonal line: upper-right → lower-left, through centre (ext=170, matches lemniscate page)
+    const ccx = CSZ / 2, ccy = CSZ / 2, ext = 170;
+    const diag = [[ccx + ext, ccy - ext], [ccx - ext, ccy + ext]];
+    strokeLobeOnCtx(ctx, diag, 44, 'rgba(245,197,24,0.03)', 65);
+    strokeLobeOnCtx(ctx, diag, 26, 'rgba(245,197,24,0.07)', 44);
+    strokeLobeOnCtx(ctx, diag, 15, 'rgba(245,197,24,0.16)', 28);
+    strokeLobeOnCtx(ctx, diag,  7, 'rgba(245,197,24,0.34)', 16);
+    strokeLobeOnCtx(ctx, diag,  3, 'rgba(245,197,24,0.62)',  8);
+    strokeLobeOnCtx(ctx, diag,1.4, 'rgba(245,197,24,0.90)',  4);
+    strokeLobeOnCtx(ctx, diag,0.7, 'rgba(255,248,210,0.95)', 2);
+  }, []);
+  const script = IFA_EXPR_SCRIPTS.find(s => s.id === activeScript);
+
+  return (
+    <section className="section symboe-section" id="symboe">
+      <div className="container">
+
+        {/* ── Header ── */}
+        <div className="section__head">
+          <p className="section__eyebrow">
+            // ScriptoE · Ogbe Energy Symbol · IfaScript
+          </p>
+          <h2 className="section__title">
+            <span style={{ color: GOLD }}>SymboE</span> — The Symbol for Everything
+          </h2>
+          <p className="section__desc">
+            The Ogbe Energy Symbol (<strong style={{ color: GOLD }}>SymboE</strong>) is the universal IfaLang
+            marker — the <em>Symbol for Everything</em>. Added as a subscript to any character in any world
+            script, it produces an <strong>Ifa Expression</strong>: that character declared as a mathematical
+            energyform in the Language of Ifa. Its dual is the{' '}
+            <strong style={{ color: GOLD }}>SymboN</strong> — the <em>Symbol of Nothing</em>, the AsymboE
+            (Non-SymboE): the graphic dual of SymboE in the Ifa system.
+          </p>
+        </div>
+
+        {/* ── Symbol + Info panel ── */}
+        <div className="symboe-panel">
+
+          {/* Left: SymboE above SymboN */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', alignItems: 'center' }}>
+            <div className="symboe-display">
+              <div className="symboe-display__svg-wrap">
+                <div className="symboe-display__glow" style={{ '--g': GOLD }} />
+                <canvas ref={canvasRef}
+                  style={{ display: 'block', width: SZ + 'px', height: SZ + 'px' }} />
+              </div>
+              <div className="symboe-display__name">SymboE</div>
+              <div className="symboe-display__sub">Ogbe Energy Symbol · Symbol for Everything</div>
+            </div>
+            <div className="symboe-display">
+              <div className="symboe-display__svg-wrap">
+                <div className="symboe-display__glow" style={{ '--g': GOLD }} />
+                <canvas ref={canvasRefN}
+                  style={{ display: 'block', width: SZ + 'px', height: SZ + 'px' }} />
+              </div>
+              <div className="symboe-display__name">SymboN</div>
+              <div className="symboe-display__sub">Oyeku Anergy Symbol · Symbol for Nothing</div>
+            </div>
+          </div>
+
+          {/* Right: info */}
+          <div className="symboe-info">
+            <div className="symboe-info__block">
+              <div className="symboe-info__heading">SymboE — The Symbol of Everything</div>
+              <p className="symboe-info__text">
+                The <strong style={{ color: GOLD }}>Ogbe Energy Symbol (SymboE)</strong> is the graphic
+                form of Ogbe in IfaLang. Ogbe is the first and purest Odu — the Odu of pure Energy,
+                light, and creative force. <strong style={{ color: GOLD }}>SymboE</strong> represents:{' '}
+                <strong>Energy</strong>, <strong>Ogbe</strong>, <strong>CEN</strong> (Consciousness-Energy),{' '}
+                <strong>Duoinfinity</strong> (Double Infinity), and <strong>Ifa Infinity</strong>.
+              </p>
+            </div>
+
+            <div className="symboe-info__block">
+              <div className="symboe-info__heading">SymboN — The Symbol of Nothing</div>
+              <p className="symboe-info__text">
+                The <strong style={{ color: GOLD }}>SymboN</strong> (Symbol of Nothing) — also called the{' '}
+                <strong>AsymboE</strong> or <strong>Non-SymboE</strong> — is the exact Dual of{' '}
+                <strong style={{ color: GOLD }}>SymboE</strong> in the Ifa System.{' '}
+                <strong style={{ color: GOLD }}>SymboN</strong> represents:{' '}
+                <strong>Anergy</strong> (Non-Energy), <strong>Oyeku</strong> (the complementary Odu to Ogbe —
+                the Odu of darkness, void, and absolute potential), <strong>ACEN</strong> (Non-CEN),{' '}
+                <strong>Duoninfinity</strong> (Double Ninfinity), and <strong>Ifa Ninfinity</strong> (Ifa
+                Non-Infinity).
+              </p>
+              <p className="symboe-info__text" style={{ marginTop: '0.75rem' }}>
+                The <strong style={{ color: GOLD }}>SymboE</strong> / <strong style={{ color: GOLD }}>SymboN</strong>{' '}
+                Duality encodes the foundational Ifa Binary: Ogbe ↔ Oyeku, Energy ↔ Anergy,
+                CEN ↔ ACEN, Infinity ↔ Ninfinity, Everything ↔ Nothing — the two Poles from which
+                all 256 Odu Ifa and the entire Structure of IfaLang are derived.
+              </p>
+            </div>
+
+            <div className="symboe-info__block">
+              <div className="symboe-info__heading">Usage modes</div>
+              <div className="symboe-usage-modes">
+                <div className="symboe-usage-mode">
+                  <div className="symboe-usage-mode__sym">
+                    <OgbeSymbol size={34} />
+                  </div>
+                  <div>
+                    <strong>Standalone</strong>
+                    <p>Full-size, used independently as an IfaLang symbol, UI element, or ScriptoE notation mark</p>
+                  </div>
+                </div>
+                <div className="symboe-usage-mode">
+                  <div className="symboe-usage-mode__sym">
+                    <IfaExpr char="X" charSize="1.75rem" symSize={13} symColor={GOLD} />
+                  </div>
+                  <div>
+                    <strong>Subscript — Ifa Expression</strong>
+                    <p>Marks any character as an energyform in IfaLang. Ifa Expressions can create an Ifa Variable (a variable in any world's scripts expressed in IfaLang), Ifa Character (a character in any world's scripts expressed in IfaLang), Ifa Number (any kind of number expressed in IfaLang), etc.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Rule visualisation ── */}
+        <div className="symboe-rule-visual">
+          <div className="symboe-rule-visual__eyebrow">Ifa Variables (ToE Variables): The Ifa Expression Rule</div>
+          <div className="symboe-rule-visual__formula">
+            <div className="symboe-rule-visual__part">
+              <div className="symboe-rule-visual__elem">X</div>
+              <div className="symboe-rule-visual__label">Any character<br/>in any script</div>
+            </div>
+            <span className="symboe-rule-visual__op">+</span>
+            <div className="symboe-rule-visual__part">
+              <div className="symboe-rule-visual__elem">
+                <OgbeSymbol size={44} />
+              </div>
+              <div className="symboe-rule-visual__label">SymboE<br/>Ogbe Energy Symbol</div>
+            </div>
+            <span className="symboe-rule-visual__op">=</span>
+            <div className="symboe-rule-visual__part">
+              <div className="symboe-rule-visual__elem">
+                <IfaExpr char="X" charSize="2.3rem" symSize={17} symColor={GOLD} />
+              </div>
+              <div className="symboe-rule-visual__label">Ifa X: Ifa Expression of X<br/>X as an energyform</div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Ifa Expressions showcase ── */}
+        <div className="ife-showcase">
+          <div className="ife-showcase__header">
+            <span className="section__eyebrow" style={{ display: 'flex', alignItems: 'center', gap: '7px', justifyContent: 'center' }}>
+              <OgbeSymbol size={13} />
+              IfaScript · All World Scripts in IfaLang
+            </span>
+            <h3 className="ife-showcase__title">Ifa Expressions</h3>
+            <p className="ife-showcase__sub">
+              Every character in every world script, expressed as an Ifa energyform — the universal law of ScriptoE.
+            </p>
+          </div>
+
+          <div className="ife-tabs">
+            {IFA_EXPR_SCRIPTS.map(s => (
+              <button key={s.id}
+                className={`ife-tab${activeScript === s.id ? ' ife-tab--active' : ''}`}
+                onClick={() => setScript(s.id)}>
+                {s.label}
+              </button>
+            ))}
+          </div>
+
+          <div className={`ife-grid${script.dir === 'rtl' ? ' ife-grid--rtl' : ''}`}>
+            {script.chars.map((char, i) => (
+              <div key={i} className="ife-item">
+                <IfaExpr char={char} charSize="1.55rem" symSize={11} charColor="var(--text)" symColor={GOLD} />
+              </div>
+            ))}
+          </div>
+
+          <p className="ife-caption">
+            <OgbeSymbol size={11} />{' '}
+            The SymboE subscript marks every character as an energyform in IfaLang — the Language of Ifa.
+            This rule extends universally to all{' '}
+            <strong style={{ color: 'var(--cyan)' }}>149,813+</strong> Unicode characters
+            and to every symbol ever produced by human consciousness.
+          </p>
+        </div>
+
       </div>
     </section>
   );
@@ -1063,6 +1525,7 @@ function App() {
         <IdentitySection />
         <IfabitFoundationSection />
         <IfaBinaryEncoding />
+        <SymboESection />
         <ScriptExplorerSection />
         <PracticeSection />
         <CtaSection />

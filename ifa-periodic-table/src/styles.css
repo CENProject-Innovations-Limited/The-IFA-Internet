@@ -1058,24 +1058,26 @@ body {
 }
 
 /* ══════════════════════════════════════════
-   IFA MARKS  (single dot = bit 1, two dots = bit 0)
+   IFA MARKS  (single bar = bit 1/Ogbe, double bar = bit 0/Oyeku)
 ══════════════════════════════════════════ */
-.ifa-marks { display: flex; gap: 6px; align-items: center; }
-.ifa-marks__col { display: flex; flex-direction: column; gap: 4px; align-items: center; }
-.ifa-marks__row { display: flex; gap: 3px; align-items: center; justify-content: center; }
-.ifa-marks__dot { display: block; border-radius: 50%; background: var(--text-3); }
+.ifa-marks { display: flex; gap: 10px; align-items: flex-start; }
+.ifa-marks__col { display: flex; flex-direction: column; gap: 5px; align-items: center; }
+.ifa-marks__row { display: flex; gap: 4px; align-items: center; justify-content: center; min-width: 22px; height: 20px; }
+.ifa-marks__bar { display: block; width: 7px; height: 18px; border-radius: 3px; background: currentColor; flex-shrink: 0; }
 
-.ifa-marks--sm      { gap: 4px; }
-.ifa-marks--sm .ifa-marks__dot { width: 5px; height: 5px; }
-.ifa-marks--sm .ifa-marks__col { gap: 2px; }
-.ifa-marks--sm .ifa-marks__row { gap: 2px; }
+.ifa-marks--sm      { gap: 7px; }
+.ifa-marks--sm .ifa-marks__bar { width: 5px; height: 12px; border-radius: 2px; }
+.ifa-marks--sm .ifa-marks__col { gap: 3px; }
+.ifa-marks--sm .ifa-marks__row { gap: 3px; min-width: 16px; height: 14px; }
 
-.ifa-marks--md .ifa-marks__dot { width: 8px; height: 8px; }
+.ifa-marks--md .ifa-marks__bar { width: 7px; height: 18px; border-radius: 3px; }
+.ifa-marks--md .ifa-marks__row { gap: 4px; min-width: 22px; height: 20px; }
+.ifa-marks--md .ifa-marks__col { gap: 5px; }
 
-.ifa-marks--lg      { gap: 8px; }
-.ifa-marks--lg .ifa-marks__dot { width: 12px; height: 12px; }
-.ifa-marks--lg .ifa-marks__col { gap: 5px; }
-.ifa-marks--lg .ifa-marks__row { gap: 3px; }
+.ifa-marks--lg      { gap: 14px; }
+.ifa-marks--lg .ifa-marks__bar { width: 10px; height: 26px; border-radius: 4px; }
+.ifa-marks--lg .ifa-marks__col { gap: 6px; }
+.ifa-marks--lg .ifa-marks__row { gap: 5px; min-width: 32px; height: 28px; }
 
 /* ══════════════════════════════════════════
    ODU CELL
@@ -1356,20 +1358,25 @@ body {
 .modal__mark-col {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
-.modal__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+.modal__mark-row {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  min-width: 14px;
+  height: 14px;
+}
+
+.modal__bar {
+  display: block;
+  width: 5px;
+  height: 12px;
+  border-radius: 2px;
   background: currentColor;
-}
-
-.modal__dot--zero {
-  opacity: 0.2;
-  outline: 1px solid currentColor;
-  background: transparent;
+  flex-shrink: 0;
 }
 
 .modal__title { flex: 1; }
@@ -1477,21 +1484,19 @@ body {
 .ifabit__mark {
   display: flex;
   align-items: center;
-  gap: 3px;
-  height: 12px;
+  justify-content: center;
+  gap: 4px;
+  min-width: 22px;
+  height: 20px;
 }
 
-.ifabit__dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+.ifabit__bar {
+  display: block;
+  width: 7px;
+  height: 18px;
+  border-radius: 3px;
   background: currentColor;
-}
-
-.ifabit__dot--zero {
-  background: transparent;
-  outline: 1.5px solid currentColor;
-  opacity: 0.3;
+  flex-shrink: 0;
 }
 
 .ifabit__code {
@@ -1684,8 +1689,145 @@ body {
   text-transform: uppercase;
   border: 1px solid;
   background: transparent;
-  user-select: none;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
 }
+.dual-chip:hover { opacity: 0.85; transform: translateY(-1px); }
+.dual-chip--active { font-weight: 800; }
+
+/* ══════════════════════════════════════════
+   IFASTEP PANEL (Duality Law)
+══════════════════════════════════════════ */
+.ifastep-panel {
+  background: var(--surface-1);
+  border-top: 2px solid var(--cat-vital);
+  border-bottom: 1px solid var(--border-1);
+  padding: 40px 24px 52px;
+}
+.ifastep-panel__inner { max-width: 1280px; margin: 0 auto; }
+
+.ifastep-panel__header { margin-bottom: 32px; }
+.ifastep-panel__sup {
+  font-size: 10px; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--cat-vital); margin-bottom: 10px;
+}
+.ifastep-panel__title {
+  font-size: 1.6rem; font-weight: 900; color: var(--text); margin-bottom: 14px; line-height: 1.2;
+}
+.ifastep-panel__desc {
+  font-size: 0.875rem; color: var(--text-2); line-height: 1.8; max-width: 820px; margin-bottom: 20px;
+}
+.ifastep-panel__names { display: flex; gap: 8px; flex-wrap: wrap; }
+.ifastep-panel__name-badge {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+  padding: 4px 12px; border-radius: 20px;
+  border: 1px solid var(--cat-vital); color: var(--cat-vital);
+  background: rgba(230,57,70,0.08);
+}
+
+.ifastep-panel__stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px; margin-bottom: 36px;
+}
+.ifastep-panel__stat {
+  background: var(--surface-2); border: 1px solid var(--border-1);
+  border-top: 2px solid var(--cat-vital);
+  border-radius: var(--radius); padding: 20px; text-align: center;
+}
+.ifastep-panel__stat-num {
+  font-size: 2.4rem; font-weight: 900; color: var(--cat-vital);
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+.ifastep-panel__stat-lbl {
+  font-size: 0.78rem; font-weight: 700; color: var(--text); margin: 8px 0 4px;
+}
+.ifastep-panel__stat-sub { font-size: 0.68rem; color: var(--text-3); line-height: 1.5; }
+
+.ifastep-panel__tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.ifastep-panel__tab {
+  padding: 8px 18px; border-radius: 6px;
+  font-size: 0.78rem; font-weight: 600;
+  border: 1px solid var(--border-2); color: var(--text-2);
+  background: transparent; cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.ifastep-panel__tab:hover { border-color: var(--cat-vital); color: var(--cat-vital); }
+.ifastep-panel__tab--active {
+  border-color: var(--cat-vital); color: var(--cat-vital);
+  background: rgba(230,57,70,0.1);
+}
+
+.ifastep-panel__meji-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 10px; margin-bottom: 8px;
+}
+.ifastep-panel__meji-card {
+  background: var(--surface-2); border: 1px solid var(--border-1);
+  border-top: 2px solid var(--step-color, var(--cat-vital));
+  border-radius: var(--radius); padding: 14px 12px; text-align: center;
+  transition: transform 0.15s;
+}
+.ifastep-panel__meji-card:hover { transform: translateY(-2px); }
+.ifastep-panel__meji-num {
+  font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--step-color, var(--cat-vital)); margin-bottom: 8px;
+}
+.ifastep-panel__meji-glyph {
+  font-family: monospace; font-size: 1.5rem; font-weight: 700;
+  color: var(--text); margin-bottom: 8px; line-height: 1;
+}
+.ifastep-panel__meji-name {
+  font-size: 0.78rem; font-weight: 700; color: var(--text); margin-bottom: 6px;
+}
+.ifastep-panel__meji-meaning { font-size: 0.65rem; color: var(--text-3); line-height: 1.5; }
+
+.ifastep-panel__pairs-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px; margin-bottom: 8px;
+}
+.ifastep-panel__pair-card {
+  background: var(--surface-2); border: 1px solid var(--border-1);
+  border-radius: var(--radius); padding: 18px;
+  transition: transform 0.15s;
+}
+.ifastep-panel__pair-card:hover { transform: translateY(-2px); }
+.ifastep-panel__pair-num {
+  font-size: 0.6rem; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--cat-vital); margin-bottom: 12px;
+}
+.ifastep-panel__pair-duo { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+.ifastep-panel__pair-odu { font-size: 0.84rem; font-weight: 700; font-family: monospace; }
+.ifastep-panel__pair-arrow { font-size: 0.85rem; color: var(--text-3); padding-left: 4px; }
+.ifastep-panel__pair-theme {
+  font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-2); margin-bottom: 8px;
+}
+.ifastep-panel__pair-stem { font-size: 0.73rem; color: var(--text-3); line-height: 1.65; margin: 0; }
+
+.ifastep-panel__apps { margin-top: 44px; }
+.ifastep-panel__apps-title {
+  font-size: 0.8rem; font-weight: 800; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-2); margin-bottom: 10px;
+}
+.ifastep-panel__apps-desc {
+  font-size: 0.84rem; color: var(--text-2); line-height: 1.75;
+  max-width: 800px; margin-bottom: 20px;
+}
+.ifastep-panel__apps-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px;
+}
+.ifastep-panel__app-card {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: var(--surface-2); border: 1px solid var(--border-1);
+  border-radius: var(--radius); padding: 14px 16px;
+  transition: border-color 0.15s;
+}
+.ifastep-panel__app-card:hover { border-color: var(--cat-vital); }
+.ifastep-panel__app-sym { font-size: 1.4rem; flex-shrink: 0; line-height: 1; margin-top: 2px; }
+.ifastep-panel__app-cat {
+  font-size: 0.72rem; font-weight: 700; color: var(--cat-vital); margin-bottom: 4px;
+}
+.ifastep-panel__app-text { font-size: 0.7rem; color: var(--text-3); line-height: 1.6; margin: 0; }
 
 /* ══════════════════════════════════════════
    PTOE DIAGRAMS
@@ -2269,6 +2411,126 @@ body {
   padding: 8px 0;
 }
 
+/* ════════════════════════════════════════════════════════════
+   IFA PHILOSOPHY SECTION
+════════════════════════════════════════════════════════════ */
+.ifa-phil__tagline {
+  font-size: 0.8rem;
+  color: var(--text-2);
+  margin-bottom: 12px;
+  line-height: 1.55;
+}
+
+/* Branches */
+.ifa-phil__branches {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.ifa-phil__branch {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--secondary);
+  border-radius: 6px;
+  padding: 7px 8px;
+}
+
+.ifa-phil__branch-name {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.ifa-phil__branch-sub {
+  font-size: 0.63rem;
+  color: var(--text-3);
+}
+
+/* Sub-labels inside section */
+.ifa-phil__sub-label {
+  font-size: 0.6rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 8px;
+}
+
+/* Key Figures */
+.ifa-phil__entities {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.ifa-phil__entity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--secondary);
+  border-radius: 6px;
+  padding: 7px 8px;
+}
+
+.ifa-phil__entity-name {
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.ifa-phil__entity-role {
+  font-size: 0.62rem;
+  color: var(--text-3);
+}
+
+/* Ọmọlúwàbí Values */
+.ifa-phil__omoluabi {
+  margin-bottom: 14px;
+}
+
+.ifa-phil__omoluabi-label {
+  display: block;
+  font-size: 0.6rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 7px;
+}
+
+.ifa-phil__omoluabi-vals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ifa-phil__omoluabi-val {
+  font-size: 0.63rem;
+  color: var(--text-2);
+  background: var(--secondary);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+/* Footer links */
+.ifa-phil__links {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.ifa-phil__link {
+  font-size: 0.68rem;
+  color: var(--text-3);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.ifa-phil__link:hover { color: var(--gold); }
+
 /* ══════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════ */
@@ -2495,4 +2757,104 @@ body {
   .controls { padding: 6px 8px; }
   .pt-grid { min-width: 420px; gap: 1px; }
   .cell { border-radius: 4px; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   MOBILE ENHANCEMENTS
+════════════════════════════════════════════════════════════ */
+
+/* ── 768px additions ── */
+@media (max-width: 768px) {
+  /* Modal close — larger touch target */
+  .modal__close {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    top: 12px;
+    right: 12px;
+  }
+
+  /* Modal body scroll + safe area */
+  .modal {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .modal__body {
+    padding: 16px 18px 28px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .modal__header { padding: 20px 18px 0; }
+
+  /* IFABit columns tighter */
+  .ifabit__cols { gap: 8px; }
+
+  /* Ifa Phil — 2-col branches on mobile */
+  .ifa-phil__branches { grid-template-columns: 1fr 1fr; }
+
+  /* Ifa Network grid — 1-col */
+  .ifa-net__grid { grid-template-columns: 1fr; }
+
+  /* Domain chips + STEAMSEX tags — smaller */
+  .domain-chip  { padding: 3px 8px; font-size: 0.72rem; }
+  .steamsex-tag { padding: 3px 8px; font-size: 0.72rem; }
+
+  /* Section labels */
+  .modal__section-label { font-size: 0.65rem; margin-bottom: 8px; }
+
+  /* Info grid cards — full-width on mobile */
+  .info-card { padding: 12px 14px; }
+
+  /* Dual laws */
+  .dual-laws { padding: 10px 14px; }
+  .dual-chip  { font-size: 9.5px; padding: 4px 9px; }
+}
+
+/* ── 480px additions ── */
+@media (max-width: 480px) {
+  /* Footer launch button — stack vertically */
+  .footer__launch {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 12px 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .footer__launch-arrow { display: none; }
+
+  /* Ifa Phil — 1-col branches on small mobile */
+  .ifa-phil__branches { grid-template-columns: 1fr; }
+  .ifa-phil__entities { grid-template-columns: 1fr 1fr; }
+
+  /* Modal */
+  .modal__header { padding: 16px 14px 0; gap: 10px; }
+  .modal__body   { padding: 14px 14px 24px; }
+  .modal__title h2 { font-size: 1rem; }
+  .modal__badge  { width: 52px; min-height: 52px; }
+  .modal__badge-num { font-size: 0.7rem; }
+
+  /* Wiki knowledge grid — 1 col */
+  .wiki-grid { grid-template-columns: 1fr; }
+  .wiki-card { flex-direction: row; gap: 10px; }
+  .wiki-card__thumb { width: 56px; height: 56px; flex-shrink: 0; }
+
+  /* Hero + intro padding */
+  .ifa-hero { height: 64px; }
+  .ifapt-intro { padding: 24px 14px 28px; }
+  .ifapt-intro__stats { grid-template-columns: 1fr 1fr; }
+
+  /* Dual laws: wrap chips tighter */
+  .dual-laws__inner { gap: 8px; }
+  .dual-laws__chips { gap: 4px; }
+  .dual-chip { font-size: 9px; padding: 3px 8px; }
+}
+
+/* ── 360px additions ── */
+@media (max-width: 360px) {
+  .ifa-phil__entities { grid-template-columns: 1fr; }
+  .modal__body { padding: 12px 12px 20px; }
+  .modal__header { padding: 14px 12px 0; }
+  .ifapt-intro { padding: 18px 10px 22px; }
+  .footer { padding: 14px 12px; }
+  .footer__launch { padding: 10px 12px; }
 }

@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Odu Ifa & the Human Body — Infographic</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
+
+    :root {
+      --amber: #f0920c;
+      --amber2: #f5c518;
+      --indigo: #6366f1;
+      --bg: #060a10;
+      --bg2: #0d1420;
+      --bg3: #131c2e;
+      --card: #111827;
+      --border: rgba(240,146,12,0.18);
+      --border2: rgba(99,102,241,0.18);
+      --t1: #f1f5f9;
+      --t2: #cbd5e1;
+      --t3: #8892aa;
+      --green: #10b981;
+      --rose: #f43f5e;
+      --cyan: #06b6d4;
+      --purple: #a855f7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--t1);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #060a10 0%, #0d1420 40%, #0a0f1e 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 40px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(240,146,12,0.10) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 40% at 80% 100%, rgba(99,102,241,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 14px;
+      opacity: 0.9;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.12;
+      color: var(--t1);
+      margin-bottom: 10px;
+    }
+    .hero h1 span { color: var(--amber); }
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--t3);
+      font-weight: 400;
+      max-width: 620px;
+      margin: 0 auto 24px;
+      line-height: 1.65;
+    }
+    .hero-tags {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      border: 1px solid;
+    }
+    .tag-amber { border-color: var(--amber); color: var(--amber); background: rgba(240,146,12,0.08); }
+    .tag-indigo { border-color: var(--indigo); color: #a5b4fc; background: rgba(99,102,241,0.08); }
+    .tag-green { border-color: var(--green); color: var(--green); background: rgba(16,185,129,0.08); }
+
+    /* ── LAYOUT ── */
+    .page { max-width: 1100px; margin: 0 auto; padding: 48px 32px 80px; }
+
+    /* ── SECTION HEADERS ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .section-number {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .num-amber { background: rgba(240,146,12,0.15); color: var(--amber); border: 1px solid rgba(240,146,12,0.3); }
+    .num-indigo { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); }
+    .num-green { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+    .num-rose { background: rgba(244,63,94,0.15); color: var(--rose); border: 1px solid rgba(244,63,94,0.3); }
+    .num-cyan { background: rgba(6,182,212,0.15); color: var(--cyan); border: 1px solid rgba(6,182,212,0.3); }
+
+    .section-title-wrap h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--t1);
+      line-height: 1.2;
+    }
+    .section-title-wrap p {
+      font-size: 0.78rem;
+      color: var(--t3);
+      margin-top: 3px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(240,146,12,0.3) 0%, rgba(99,102,241,0.3) 50%, transparent 100%);
+      margin: 44px 0;
+    }
+
+    /* ── OVERVIEW AXIOM ── */
+    .axiom-box {
+      background: linear-gradient(135deg, rgba(240,146,12,0.06), rgba(99,102,241,0.06));
+      border: 1px solid rgba(240,146,12,0.2);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .axiom-box::before {
+      content: '"';
+      position: absolute;
+      top: -10px; left: 22px;
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: var(--amber);
+      opacity: 0.25;
+      line-height: 1;
+    }
+    .axiom-box p {
+      font-size: 1.02rem;
+      line-height: 1.75;
+      color: var(--t2);
+      font-style: italic;
+    }
+    .axiom-box p strong { color: var(--amber); font-style: normal; }
+
+    /* ── ODU GRID ── */
+    .odu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 14px;
+    }
+    .odu-card {
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .odu-card:hover { border-color: rgba(240,146,12,0.35); }
+    .odu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 12px 12px 0 0;
+    }
+    .odu-card.c-amber::before { background: linear-gradient(90deg, var(--amber), var(--amber2)); }
+    .odu-card.c-indigo::before { background: linear-gradient(90deg, var(--indigo), #818cf8); }
+    .odu-card.c-green::before { background: linear-gradient(90deg, var(--green), #34d399); }
+    .odu-card.c-rose::before { background: linear-gradient(90deg, var(--rose), #fb7185); }
+    .odu-card.c-cyan::before { background: linear-gradient(90deg, var(--cyan), #22d3ee); }
+    .odu-card.c-purple::before { background: linear-gradient(90deg, var(--purple), #c084fc); }
+
+    .odu-num {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .c-amber .odu-num { color: var(--amber); }
+    .c-indigo .odu-num { color: #a5b4fc; }
+    .c-green .odu-num { color: var(--green); }
+    .c-rose .odu-num { color: var(--rose); }
+    .c-cyan .odu-num { color: var(--cyan); }
+    .c-purple .odu-num { color: var(--purple); }
+
+    .odu-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--t1);
+      margin-bottom: 2px;
+    }
+    .odu-yoruba {
+      font-size: 0.72rem;
+      color: var(--t3);
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+    .odu-body-label {
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin-bottom: 5px;
+    }
+    .odu-body-parts {
+      font-size: 0.8rem;
+      color: var(--t2);
+      line-height: 1.55;
+      margin-bottom: 10px;
+    }
+    .odu-tags {
+      display: flex; flex-wrap: wrap; gap: 5px;
+    }
+    .odu-tag {
+      font-size: 0.62rem;
+      padding: 2px 9px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.05);
+      color: var(--t3);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ── COMBINED ODU TABLE ── */
+    .combo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+    .combo-card {
+      background: var(--bg3);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .combo-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #a5b4fc;
+      margin-bottom: 6px;
+    }
+    .combo-body {
+      font-size: 0.77rem;
+      color: var(--t2);
+      line-height: 1.55;
+    }
+
+    /* ── ORISHA TABLE ── */
+    .orisha-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .orisha-card {
+      background: var(--bg3);
+      border-radius: 10px;
+      padding: 14px 16px;
+      border-left: 3px solid;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .orisha-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--t1);
+    }
+    .orisha-body {
+      font-size: 0.76rem;
+      color: var(--t2);
+      line-height: 1.5;
+    }
+
+    /* ── PRINCIPLES ── */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+    }
+    .principle-card {
+      background: var(--card);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .principle-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .principle-card h3 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--t1);
+      margin-bottom: 6px;
+    }
+    .principle-card p {
+      font-size: 0.76rem;
+      color: var(--t3);
+      line-height: 1.6;
+    }
+
+    /* ── HEALING FLOW ── */
+    .healing-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      flex: 1;
+      min-width: 160px;
+      background: var(--card);
+      padding: 20px 18px;
+      position: relative;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .flow-step:first-child { border-left: 1px solid rgba(255,255,255,0.06); border-radius: 12px 0 0 12px; }
+    .flow-step:last-child { border-right: 1px solid rgba(255,255,255,0.06); border-radius: 0 12px 12px 0; }
+    .flow-step:not(:first-child) { border-left: 1px solid rgba(255,255,255,0.04); }
+    .flow-arrow {
+      position: absolute;
+      right: -12px; top: 50%;
+      transform: translateY(-50%);
+      width: 24px; height: 24px;
+      background: var(--amber);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem;
+      color: var(--bg);
+      font-weight: 800;
+      z-index: 2;
+    }
+    .flow-step:last-child .flow-arrow { display: none; }
+    .flow-num {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: rgba(240,146,12,0.15);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .flow-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--amber);
+      margin-bottom: 5px;
+    }
+    .flow-desc {
+      font-size: 0.72rem;
+      color: var(--t3);
+      line-height: 1.55;
+    }
+
+    /* ── STAT STRIP ── */
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .stat-item {
+      background: var(--bg2);
+      padding: 22px 20px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 5px;
+      background: linear-gradient(90deg, var(--amber), var(--amber2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--t3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── FOOTER ── */
+    .infographic-footer {
+      margin-top: 56px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: gap;
+      gap: 16px;
+    }
+    .footer-brand {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--amber);
+    }
+    .footer-brand span { color: var(--t3); font-weight: 400; }
+    .footer-note {
+      font-size: 0.7rem;
+      color: var(--t3);
+      max-width: 500px;
+      line-height: 1.5;
+      text-align: right;
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 40px 20px 36px; }
+      .page { padding: 32px 16px 60px; }
+      .healing-flow { flex-direction: column; }
+      .flow-step { border-radius: 0 !important; border-left: 1px solid rgba(255,255,255,0.06) !important; border-right: 1px solid rgba(255,255,255,0.06) !important; }
+      .flow-step:first-child { border-radius: 12px 12px 0 0 !important; }
+      .flow-step:last-child { border-radius: 0 0 12px 12px !important; }
+      .flow-arrow { right: unset; bottom: -12px; top: unset; left: 50%; transform: translateX(-50%) rotate(90deg); }
+      .infographic-footer { flex-direction: column; align-items: flex-start; }
+      .footer-note { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">CENProject · IFA Internet Research</div>
+  <h1>Odu Ifa &amp; the <span>Human Body</span></h1>
+  <p class="hero-sub">A systematic mapping of the 256 Odu Ifa to human organs, body systems, and physiological states — drawn from Yoruba traditional medicine and the Ifa literary corpus.</p>
+  <div class="hero-tags">
+    <span class="tag tag-amber">Ifa Medicine (IfaMed)</span>
+    <span class="tag tag-indigo">256 Odu Ifa</span>
+    <span class="tag tag-green">Akose Ifa · Herbal Healing</span>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip">
+    <div class="stat-item"><div class="stat-value">256</div><div class="stat-label">Total Odu Ifa</div></div>
+    <div class="stat-item"><div class="stat-value">16</div><div class="stat-label">Principal Odu Meji</div></div>
+    <div class="stat-item"><div class="stat-value">8</div><div class="stat-label">Governing Orisa</div></div>
+    <div class="stat-item"><div class="stat-value">3</div><div class="stat-label">Cause Types of Illness</div></div>
+    <div class="stat-item"><div class="stat-value">5</div><div class="stat-label">Healing Steps</div></div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="axiom-box">
+    <p>In Ifa tradition, <strong>every body part, organ, and physiological system</strong> has a corresponding spiritual governance encoded within the 256 Odu. The Odu Ifa function as a comprehensive biomedical and spiritual encyclopedia — illness is diagnosed by divination, which reveals the governing Odu, which in turn prescribes the remedy. <strong>Odu marks the cells within the body and the space between cells</strong> — operating at the most fundamental biological level.</p>
+  </div>
+
+  <!-- SECTION 1: 16 PRINCIPAL ODU -->
+  <div class="section-header">
+    <div class="section-number num-amber">01</div>
+    <div class="section-title-wrap">
+      <h2>The 16 Principal Odu Meji — Body Associations</h2>
+      <p>Each of the 16 root Odu governs specific organs, body systems, and health conditions</p>
+    </div>
+  </div>
+
+  <div class="odu-grid">
+
+    <div class="odu-card c-amber">
+      <div class="odu-num">01 · King of Odu</div>
+      <div class="odu-name">Ejiogbe</div>
+      <div class="odu-yoruba">Èjì Ogbè — Source of Light</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Head (Ori), spinal column, sternum, heart (mitral valve), blood vessels, lymph nodes</div>
+      <div class="odu-tags"><span class="odu-tag">Respiratory</span><span class="odu-tag">Cardiovascular</span><span class="odu-tag">Spinal</span></div>
+    </div>
+
+    <div class="odu-card c-indigo">
+      <div class="odu-num">02 · Spirit of Darkness</div>
+      <div class="odu-name">Oyeku Meji</div>
+      <div class="odu-yoruba">Òyèkú Méjì — Contraction &amp; Endings</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Spleen, kidneys, uterus, internal organs — signals organ loss or failure</div>
+      <div class="odu-tags"><span class="odu-tag">Renal</span><span class="odu-tag">Reproductive</span><span class="odu-tag">Organ Failure</span></div>
+    </div>
+
+    <div class="odu-card c-cyan">
+      <div class="odu-num">03 · The Deep Seer</div>
+      <div class="odu-name">Iwori Meji</div>
+      <div class="odu-yoruba">Ìwòrí Méjì — Inner Consciousness</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Inner neurological awareness, character of consciousness, cognitive essence</div>
+      <div class="odu-tags"><span class="odu-tag">Neurological</span><span class="odu-tag">Consciousness</span></div>
+    </div>
+
+    <div class="odu-card c-rose">
+      <div class="odu-num">04 · The Seal</div>
+      <div class="odu-name">Odi Meji</div>
+      <div class="odu-yoruba">Òdí Méjì — Birth &amp; Fertility</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Female reproductive organs, uterus, cardiovascular system, tonsils, throat, hormonal system</div>
+      <div class="odu-tags"><span class="odu-tag">Reproductive</span><span class="odu-tag">Hormonal</span><span class="odu-tag">Throat</span></div>
+    </div>
+
+    <div class="odu-card c-amber">
+      <div class="odu-num">05 · Protector of the Head</div>
+      <div class="odu-name">Irosun Meji</div>
+      <div class="odu-yoruba">Ìrosùn Méjì — Memory &amp; Blood</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Head (Ori), memory centers, blood — metaphorically connected to ancestral lineage</div>
+      <div class="odu-tags"><span class="odu-tag">Head / Ori</span><span class="odu-tag">Memory</span><span class="odu-tag">Blood</span></div>
+    </div>
+
+    <div class="odu-card c-purple">
+      <div class="odu-num">06 · Brought by the Hands</div>
+      <div class="odu-name">Owonrin Meji</div>
+      <div class="odu-yoruba">Òwònrín Méjì — Hidden Illness</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Latent/hidden disease, old age degeneration, sudden collapse; chaos built into form</div>
+      <div class="odu-tags"><span class="odu-tag">Latent Disease</span><span class="odu-tag">Aging</span><span class="odu-tag">Chronic Conditions</span></div>
+    </div>
+
+    <div class="odu-card c-green">
+      <div class="odu-num">07 · The Resting One</div>
+      <div class="odu-name">Obara Meji</div>
+      <div class="odu-yoruba">Òbàrá Méjì — Strength &amp; Humility</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">General vitality and strength; encodes Osanyin's complete herbal healing knowledge</div>
+      <div class="odu-tags"><span class="odu-tag">Vitality</span><span class="odu-tag">Herbal Medicine</span><span class="odu-tag">Wellness</span></div>
+    </div>
+
+    <div class="odu-card c-rose">
+      <div class="odu-num">08 · The Heart's Voice</div>
+      <div class="odu-name">Okanran Meji</div>
+      <div class="odu-yoruba">Òkànràn Méjì — Heart &amp; Balance</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Heart — balance between head (thought/Ori) and heart (emotion); emotional-physical unity</div>
+      <div class="odu-tags"><span class="odu-tag">Heart</span><span class="odu-tag">Emotional Health</span><span class="odu-tag">Balance</span></div>
+    </div>
+
+    <div class="odu-card c-indigo">
+      <div class="odu-num">09 · Spirit of Iron</div>
+      <div class="odu-name">Ogunda Meji</div>
+      <div class="odu-yoruba">Ògun'da Méjì — Clearing Obstacles</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Blockages and obstructions within the body; cutting away disease (iron/surgery metaphor)</div>
+      <div class="odu-tags"><span class="odu-tag">Blockages</span><span class="odu-tag">Surgery</span><span class="odu-tag">Circulation</span></div>
+    </div>
+
+    <div class="odu-card c-cyan">
+      <div class="odu-num">10 · Sudden Change</div>
+      <div class="odu-name">Osa Meji</div>
+      <div class="odu-yoruba">Òsá Méjì — Transformation</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Balance organs, vertigo, mental illness from suppressed fear; symptoms of avoided transformation</div>
+      <div class="odu-tags"><span class="odu-tag">Balance</span><span class="odu-tag">Mental Health</span><span class="odu-tag">Vertigo</span></div>
+    </div>
+
+    <div class="odu-card c-amber">
+      <div class="odu-num">11 · Personal Power</div>
+      <div class="odu-name">Ika Meji</div>
+      <div class="odu-yoruba">Ìká Méjì — Self-Affirmation</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Personal will, self-healing capacity, limbs and joints; power of words over the body</div>
+      <div class="odu-tags"><span class="odu-tag">Limbs</span><span class="odu-tag">Joints</span><span class="odu-tag">Self-Healing</span></div>
+    </div>
+
+    <div class="odu-card c-green">
+      <div class="odu-num">12 · The Bearer</div>
+      <div class="odu-name">Oturupon Meji</div>
+      <div class="odu-yoruba">Òtúrúpòn Méjì — Healing Capacity</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Spine, bones, stomach, head — the body's intrinsic healing power and disease comprehension</div>
+      <div class="odu-tags"><span class="odu-tag">Spine</span><span class="odu-tag">Bones</span><span class="odu-tag">Stomach</span></div>
+    </div>
+
+    <div class="odu-card c-purple">
+      <div class="odu-num">13 · The Thirteenth</div>
+      <div class="odu-name">Otura Meji</div>
+      <div class="odu-yoruba">Òtúrá Méjì — Deep Mysteries</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Deep structural mysteries of the physical form; specific health teachings embedded in verses</div>
+      <div class="odu-tags"><span class="odu-tag">Structural Health</span><span class="odu-tag">Deep Medicine</span></div>
+    </div>
+
+    <div class="odu-card c-green">
+      <div class="odu-num">14 · The Crusher</div>
+      <div class="odu-name">Irete Meji</div>
+      <div class="odu-yoruba">Ìretè Méjì — Determination &amp; Longevity</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Spine, bones, longevity, vitality — initiation through Irete guarantees long life and good health</div>
+      <div class="odu-tags"><span class="odu-tag">Spine</span><span class="odu-tag">Longevity</span><span class="odu-tag">Vitality</span></div>
+    </div>
+
+    <div class="odu-card c-rose">
+      <div class="odu-num">15 · The Fifteenth</div>
+      <div class="odu-name">Oshe Meji</div>
+      <div class="odu-yoruba">Òsé Méjì — Trauma &amp; Recovery</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Bones (fractures), arms, legs, asthma, heart attack, stroke, blindness — accident-related injuries</div>
+      <div class="odu-tags"><span class="odu-tag">Bones</span><span class="odu-tag">Asthma</span><span class="odu-tag">Stroke</span><span class="odu-tag">Blindness</span></div>
+    </div>
+
+    <div class="odu-card c-amber">
+      <div class="odu-num">16 · Giver of Creation</div>
+      <div class="odu-name">Ofun Meji</div>
+      <div class="odu-yoruba">Òfún Méjì — Miracles &amp; Resolution</div>
+      <div class="odu-body-label">Governs</div>
+      <div class="odu-body-parts">Divine healing potential — the deepest mysteries; ultimate resolution of all conditions and illness</div>
+      <div class="odu-tags"><span class="odu-tag">Divine Healing</span><span class="odu-tag">Miracles</span><span class="odu-tag">Resolution</span></div>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 2: COMBINED ODU -->
+  <div class="section-header">
+    <div class="section-number num-indigo">02</div>
+    <div class="section-title-wrap">
+      <h2>Combined Odu — Specific Clinical Conditions</h2>
+      <p>When two Odu combine, they produce highly specific diagnoses for diseases and body systems</p>
+    </div>
+  </div>
+
+  <div class="combo-grid">
+    <div class="combo-card">
+      <div class="combo-name">Owonrin Irosun</div>
+      <div class="combo-body">Brain problems, anemia, weakness, stomach disorders</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-name">Oturupon Irete</div>
+      <div class="combo-body">Spinal deformities, bone problems, stomach and head conditions</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-name">Odi Ojuani / Odi Osa</div>
+      <div class="combo-body">Impotence, liver disease, blood disorders, mental conditions</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-name">Oshe Ika</div>
+      <div class="combo-body">Fractures of bones, arms and legs; asthma, heart attack, stroke, blindness</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-name">Owonrin Obara</div>
+      <div class="combo-body">Sudden death risk, chronic sickness, latent tribulations requiring urgent Ebo</div>
+    </div>
+    <div class="combo-card">
+      <div class="combo-name">Okanran (heart-centered combos)</div>
+      <div class="combo-body">Emotional wounds manifesting physically — normalized trauma, unresolved pain</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 3: ORISHA & BODY -->
+  <div class="section-header">
+    <div class="section-number num-green">03</div>
+    <div class="section-title-wrap">
+      <h2>Orisa — Spiritual Guardians of the Body</h2>
+      <p>Each Orisa has direct custodianship over specific organs and physiological systems</p>
+    </div>
+  </div>
+
+  <div class="orisha-grid">
+    <div class="orisha-card" style="border-color: var(--amber);">
+      <div class="orisha-name">Orunmila</div>
+      <div class="orisha-body">Head (Ori) — source of all divination and healing; master of the Ifa corpus and medical prescriptions</div>
+    </div>
+    <div class="orisha-card" style="border-color: var(--amber2);">
+      <div class="orisha-name">Osun (Oshun)</div>
+      <div class="orisha-body">Head, memory, blood in veins — protects the Ori and preserves ancestral memory (Irosun Meji)</div>
+    </div>
+    <div class="orisha-card" style="border-color: var(--rose);">
+      <div class="orisha-name">Sango (Shango)</div>
+      <div class="orisha-body">Heart — "pushes death away from the heart"; governs cardiac strength and vital force</div>
+    </div>
+    <div class="orisha-card" style="border-color: var(--cyan);">
+      <div class="orisha-name">Yemaya</div>
+      <div class="orisha-body">Womb, amniotic fluid, breasts, water in the body — governs birth and all fluid systems (Odi Meji)</div>
+    </div>
+    <div class="orisha-card" style="border-color: #e2e8f0;">
+      <div class="orisha-name">Obatala</div>
+      <div class="orisha-body">Head mold (skull), facial orifices — eyes, ears, nose, mouth; governs the body's white matter and purity</div>
+    </div>
+    <div class="orisha-card" style="border-color: var(--purple);">
+      <div class="orisha-name">Oshumare</div>
+      <div class="orisha-body">Abdomen, arms, hands, feet movement control — governs the spinal cord and motor nervous system</div>
+    </div>
+    <div class="orisha-card" style="border-color: var(--green);">
+      <div class="orisha-name">Osanyin</div>
+      <div class="orisha-body">Plant &amp; herbal medicine — every organ's botanical remedy; encodes pharmacology within Ifa verses</div>
+    </div>
+    <div class="orisha-card" style="border-color: #f97316;">
+      <div class="orisha-name">Elegua (Eshu)</div>
+      <div class="orisha-body">Feet, earth connection, movement, destiny — governs pathways within the body and nervous system</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 4: HEALING FLOW -->
+  <div class="section-header">
+    <div class="section-number num-rose">04</div>
+    <div class="section-title-wrap">
+      <h2>The Ifa Healing Process — 5 Steps</h2>
+      <p>From divination to cure: the clinical workflow of Ifa medicine</p>
+    </div>
+  </div>
+
+  <div class="healing-flow" style="margin-bottom: 40px;">
+    <div class="flow-step">
+      <div class="flow-num">01</div>
+      <div class="flow-title">Divination</div>
+      <div class="flow-desc">Babalawo casts Ikin (palm nuts) or Opele (divination chain) to reveal the governing Odu</div>
+      <div class="flow-arrow">▶</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">02</div>
+      <div class="flow-title">Odu Identification</div>
+      <div class="flow-desc">Odu names the body part affected, root cause (spiritual / ancestral / natural), and prognosis</div>
+      <div class="flow-arrow">▶</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">03</div>
+      <div class="flow-title">Ebo (Offering)</div>
+      <div class="flow-desc">Ritual offering prescribed by the Odu is performed to realign energy and remove obstacles</div>
+      <div class="flow-arrow">▶</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">04</div>
+      <div class="flow-title">Akose Ifa</div>
+      <div class="flow-desc">Herbal and spiritual medicine specific to the Odu is prepared by the Babalawo</div>
+      <div class="flow-arrow">▶</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">05</div>
+      <div class="flow-title">Holistic Recovery</div>
+      <div class="flow-desc">Mind, body, spirit, and environment are addressed together — not the symptom alone</div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: PRINCIPLES -->
+  <div class="section-header">
+    <div class="section-number num-cyan">05</div>
+    <div class="section-title-wrap">
+      <h2>Core Philosophical Principles</h2>
+      <p>The foundational beliefs underlying Ifa's understanding of the human body</p>
+    </div>
+  </div>
+
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-icon" style="background:rgba(240,146,12,0.12);">🔬</div>
+      <div>
+        <h3>Cellular Governance</h3>
+        <p>Odu marks the cells within the body and the spaces between them — Ifa operates at the most fundamental biological level, encoding cellular biology in spiritual language.</p>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon" style="background:rgba(99,102,241,0.12);">⚖️</div>
+      <div>
+        <h3>Polarity &amp; Balance</h3>
+        <p>Right side (male/expansion) vs. left side (female/contraction). Balance between head (Ori/thought) and heart (emotion) is the foundation of physical health.</p>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon" style="background:rgba(16,185,129,0.12);">🌿</div>
+      <div>
+        <h3>Holistic Causation</h3>
+        <p>Illness has three root types: Spiritual imbalance, Ancestral disruption, and Natural/herbal deficiency. The Odu identifies which — and prescribes accordingly.</p>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon" style="background:rgba(244,63,94,0.12);">🧬</div>
+      <div>
+        <h3>256 Odu = All Conditions</h3>
+        <p>Every possible disease state, bodily condition, and health outcome is encoded somewhere in the 256 Odu corpus — the DNA of creation.</p>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon" style="background:rgba(6,182,212,0.12);">🛡️</div>
+      <div>
+        <h3>Spiritual Custodianship</h3>
+        <p>Every organ has an associated Orisa and spiritual responsibility. Healing requires both physical and spiritual alignment — one cannot be treated without the other.</p>
+      </div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon" style="background:rgba(168,85,247,0.12);">♾️</div>
+      <div>
+        <h3>Energy as Medicine</h3>
+        <p>Disease is a disruption of energy flow. Ebo (offering) and Akose (herbal medicine) restore the energetic signature encoded in the body by the governing Odu.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="infographic-footer">
+    <div>
+      <div class="footer-brand">IFA Internet <span>· ifainternet.org</span></div>
+      <div style="font-size:0.68rem;color:var(--t3);margin-top:3px;">CENProject · Ifa Medicine (IfaMed) Research</div>
+    </div>
+    <div class="footer-note">
+      The full mapping of all 256 Odu to specific body parts exists within oral traditions and the Ifa literary corpus. For complete knowledge, consult an initiated Babalawo or Iyánífá. This infographic represents what has been documented in accessible scholarly and practitioner sources.
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

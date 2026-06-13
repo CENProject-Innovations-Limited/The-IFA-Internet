@@ -5,6 +5,267 @@
 
 const { useState, useEffect } = React;
 
+// ── OgbeSymbol (Lemniscate of Bernoulli — Ogbe Energy Symbol) ──
+function OgbeSymbol({ size = 20 }) {
+  const canvasRef = React.useRef(null);
+  const a = size * 0.47, ccx = size / 2, ccy = size / 2, sc = a / 200, N = 80;
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width = size * DPR; canvas.height = size * DPR;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+    const PI = Math.PI;
+    function buildLobe(t0, t1, neg) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t = t0 + (t1 - t0) * i / N;
+        const c2 = Math.cos(2 * t), v = neg ? -c2 : c2;
+        if (v < 1e-10) continue;
+        const rho = a * Math.sqrt(v);
+        pts.push([ccx + rho * Math.cos(t), ccy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+    const lobes = [
+      buildLobe(-PI/4, PI/4, false), buildLobe(3*PI/4, 5*PI/4, false),
+      buildLobe(PI/4, 3*PI/4, true), buildLobe(5*PI/4, 7*PI/4, true),
+    ];
+    function stroke(pts, lw, rgba, blur) {
+      if (!pts.length) return;
+      ctx.save(); ctx.shadowBlur = blur * sc * 200; ctx.shadowColor = rgba;
+      ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
+      pts.slice(1).forEach(p => ctx.lineTo(p[0], p[1]));
+      ctx.strokeStyle = rgba; ctx.lineWidth = lw * sc * 200; ctx.stroke(); ctx.restore();
+    }
+    [[28,'rgba(245,197,24,0.07)',35],[16,'rgba(245,197,24,0.18)',22],
+     [8,'rgba(245,197,24,0.52)',12],[3.5,'rgba(255,235,120,0.82)',5],
+     [1.5,'rgba(255,248,210,0.96)',2]].forEach(([lw,c,b]) =>
+      lobes.forEach(l => stroke(l, lw, c, b)));
+  }, [size]);
+  return <canvas ref={canvasRef} style={{ width: size, height: size, display: 'inline-block', verticalAlign: 'middle' }} />;
+}
+
+// ── OgbeSymbol SVG (pure SVG — works inside <svg> without foreignObject) ──
+function OgbeSymbolSVG({ cx = 0, cy = 0, size = 32 }) {
+  const a = size * 0.47, N = 80, PI = Math.PI;
+  function buildLobe(t0, t1, neg) {
+    const pts = [];
+    for (let i = 0; i <= N; i++) {
+      const t = t0 + (t1 - t0) * i / N;
+      const c2 = Math.cos(2 * t), v = neg ? -c2 : c2;
+      if (v < 1e-10) continue;
+      const rho = a * Math.sqrt(v);
+      pts.push(`${cx + rho * Math.cos(t)},${cy + rho * Math.sin(t)}`);
+    }
+    return pts.join(' ');
+  }
+  const lobes = [
+    buildLobe(-PI/4, PI/4, false), buildLobe(3*PI/4, 5*PI/4, false),
+    buildLobe(PI/4, 3*PI/4, true), buildLobe(5*PI/4, 7*PI/4, true),
+  ];
+  return (
+    <g>
+      <defs>
+        <filter id="ogbe-med-glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      {lobes.map((pts, i) => (
+        <polyline key={`og${i}`} points={pts} fill="none"
+          stroke="rgba(245,197,24,0.45)" strokeWidth="3"
+          filter="url(#ogbe-med-glow)" strokeLinecap="round" />
+      ))}
+      {lobes.map((pts, i) => (
+        <polyline key={`oc${i}`} points={pts} fill="none"
+          stroke="rgba(255,248,210,0.93)" strokeWidth="0.9"
+          strokeLinecap="round" />
+      ))}
+    </g>
+  );
+}
+
+// ── MedicGebra Matrix Data ─────────────────────────────────────
+const MG_ACCENT = '#00c57a';
+const MEDIC_NODES = [
+  { id: 'center', label: 'MedicGebra', sub: 'Medicine Algebra', isCenter: true, color: MG_ACCENT,
+    desc: 'MedicGebra (Medicine Algebra) is the Algebraic Framework of Ifa Medicine — derived from IfaGebra (AlgebroE), the Algebra of Everything. It models the entire field of Medicine as a rigorous Axiomatic Algebra governed by the 256 Odu Ifa Meta-Axioms and the Ifa Operators. MedicGebra is the Central Node of the 0+8D Matrix of Ifa Medicine, connecting all 8 medical dimensions through the IFAlgebra and the Ifa Energy-Based Approach developed and modelled on the IFA Internet.' },
+  { id: 'internal', label: 'Internal Medicine', char: 'IM', color: '#00c57a', angle: 270,
+    desc: 'Internal Medicine in the Ifa Framework (ÀṣẹBody Medicine) is modelled as the Ifalgebra of systemic body energyforms — organs, systems, and processes treated as algebraic elements governed by Odu Ifa energy principles. On the IFA Internet, Internal Medicine is studied through the Ifa Energy-Based Approach (EBMed), mapping each internal condition to its Odu Ifa Vibration/Signature and prescribing remedies through Akose Ifa (Ifa Herbal Medicine), Odu Diagnosis, and Consciousness Medicine (ConMed).' },
+  { id: 'surgery', label: 'Surgery', char: 'Sx', color: '#00b4d8', angle: 315,
+    desc: 'Surgery in the Ifa Framework is studied and modelled using mathematical methods via the 256 Odu Ifa.' },
+  { id: 'pediatrics', label: 'Pediatrics', char: 'Ped', color: '#f5c518', angle: 0,
+    desc: 'Pediatrics in the Ifa Framework treats the developing body and consciousness of children as sacred energyforms known as Òrìṣà Kórì Elements, in accordance to Ori (personal destiny) and Odu Ifa Energetic Blueprint.' },
+  { id: 'obgyn', label: 'OB/GYN', char: 'OB', color: '#e9498a', angle: 45,
+    desc: 'Obstetrics and Gynecology in the Ifa Framework is centred on Orisa, such as Osun, Oya, Yemoja, Orisa Oko (Oṣó) — which are the Orisa governing transitions, birth, transformation, and the female life-force — as the primary energetic principle of female reproductive health. On the IFA Internet, OB/GYN Medicine is studied through the Ifa Energy-Based Approach (EBMed), integrating Odu Ifa diagnostic insights into fertility, pregnancy, childbirth, and reproductive wellness. Each phase of the female reproductive cycle is modelled as a meta-algebraic state.' },
+  { id: 'psychiatry', label: 'Psychiatry', char: 'Psy', color: '#7c4dff', angle: 90,
+    desc: 'Psychiatry in the Ifa Framework is rooted in Consciousness Medicine (ConMed) — the meta-science of the mind as an Ifa Energyform. Mental health is modelled as the algebraic coherence of the mind\'s IFAlgebra: mental illness is a disruption of this coherence, and healing is its restoration through Ifa and Orisa Energy-Based Approaches. On the IFA Internet, Ifa Psychiatry is developed through IfaNeuroTech, Odu Ifa-based therapy (Ifá Dídá and Òrìṣà Dídá), Consciousness Wave (ConWave) therapy, and Ifa Brain Computer Interface (IfaBCI) technologies. Every psychiatric condition has a corresponding Odu signature and an Ifa Energy-Based remedy.' },
+  { id: 'emergency', label: 'Emergency Medicine', char: 'EM', color: '#ff6b35', angle: 135,
+    desc: 'Emergency Medicine in the Ifa Framework models acute crises as sudden algebraic collapses of the body\'s IFAlgebra — states requiring immediate energetic and physical restoration. On the IFA Internet, Ifa Emergency Medicine is developed through the Ifa Energy-Based Approach (EBMed), integrating rapid Odu Ifa triage (identifying the Odu governing the crisis), Àṣẹ-stabilisation techniques, and Consciousness Medicine interventions alongside conventional emergency care. The Ifa Framework recognises that every medical emergency has both a physical and an energetic dimension — full recovery requires addressing both within the IFAlgebra.' },
+  { id: 'pathology', label: 'Pathology', char: 'Path', color: '#8b5cf6', angle: 180,
+    desc: 'Pathology in the Ifa Framework is done in IfaLang, where the 16 Ifa\'s Law of Knowledge are used to study, model, and analyze diseases within the body.' },
+  { id: 'others', label: 'Others', char: '+', color: '#94a3b8', angle: 225,
+    desc: 'The "Others" dimension of MedicGebra encompasses all remaining medical specialties — Dermatology, Ophthalmology, Orthopaedics, Oncology, Cardiology, Neurology, Radiology, Anaesthesiology, and others — modelled as meta-algebras within MedicGebra. On the IFA Internet, every medical specialty is studied, developed, and modelled through the Ifa Energy-Based Approach (EBMed): each specialty maps to one or more of the 256 Odu Ifa, has its own Odu Signature System, and is governed by the same 256 Odu Ifa Meta-Axioms and Ifa Operators that form the foundation of all Ifa Medicine.' },
+];
+const MEDIC_EDGES = [
+  { id: 'e-internal',   to: 'internal',   color: '#00c57a',
+    desc: 'The connection between MedicGebra and Internal Medicine — the sub-algebra of systemic body energyforms, modelled through Odu Ifa diagnostic principles and Ifa Energy-Based approaches on the IFA Internet.' },
+  { id: 'e-surgery',    to: 'surgery',    color: '#00b4d8',
+    desc: 'The connection between MedicGebra and Surgery — surgical intervention modelled as direct operations on the body\'s IFAlgebra, integrated with Odu pre/post-operative diagnostics and Àṣẹ-restoration protocols.' },
+  { id: 'e-pediatrics', to: 'pediatrics', color: '#f5c518',
+    desc: 'The connection between MedicGebra and Pediatrics — the developing body as an emerging Ifalgebra, studied through Odu Ifa constitutional diagnostics, Akose Ifa remedies, and Consciousness Medicine for child development.' },
+  { id: 'e-obgyn',      to: 'obgyn',      color: '#e9498a',
+    desc: 'The connection between MedicGebra and OB/GYN — female reproductive health governed by Oya energy principles, modelled through Odu Ifa reproductive diagnostics and Ifa Energy-Based healing approaches.' },
+  { id: 'e-psychiatry', to: 'psychiatry', color: '#7c4dff',
+    desc: 'The connection between MedicGebra and Psychiatry — mental health as algebraic coherence of the mind\'s IFAlgebra, developed through Consciousness Medicine (ConMed), IfaNeuroTech, and Odu Ifa-based therapy.' },
+  { id: 'e-emergency',  to: 'emergency',  color: '#ff6b35',
+    desc: 'The connection between MedicGebra and Emergency Medicine — acute crises as algebraic collapses of the body\'s IFAlgebra, addressed through rapid Odu triage and Àṣẹ-stabilisation techniques.' },
+  { id: 'e-pathology',  to: 'pathology',  color: '#8b5cf6',
+    desc: 'The connection between MedicGebra and Pathology — disease as algebraic disruption of body energyforms, studied through Odu Diagnosis and classified by Odu Ifa signature within the IFAlgebra.' },
+  { id: 'e-others',     to: 'others',     color: '#94a3b8',
+    desc: 'The connection between MedicGebra and all other medical specialties — each modelled as a sub-algebra of the body\'s IFAlgebra, studied on the IFA Internet through the Ifa Energy-Based Approach (EBMed).' },
+];
+
+function MedicGebraMatrix() {
+  const [sel, setSel] = useState(null);
+  const CX = 250, CY = 250, R = 158;
+  const toRad = deg => (deg * Math.PI) / 180;
+  const outerNodes = MEDIC_NODES.filter(n => !n.isCenter).map(n => ({
+    ...n, x: CX + R * Math.cos(toRad(n.angle)), y: CY + R * Math.sin(toRad(n.angle)),
+  }));
+  const toggle = (kind, id) =>
+    setSel(s => s && s.kind === kind && s.id === id ? null : { kind, id });
+  const selNode = sel && sel.kind === 'node' ? MEDIC_NODES.find(n => n.id === sel.id) : null;
+  const selEdge = sel && sel.kind === 'edge' ? MEDIC_EDGES.find(e => e.id === sel.id) : null;
+  const selItem = selNode || selEdge;
+  const selColor = selItem ? selItem.color : MG_ACCENT;
+  const NR = 40;
+  return (
+    <div style={{ margin: '56px 0 48px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '8px' }}>
+        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-1, #f1f5f9)', margin: '0 0 8px' }}>
+          MedicGebra 0+8D Matrix —{' '}
+          <span style={{ color: MG_ACCENT }}>The 8 Dimensions of Medicine Algebra</span>
+        </h3>
+        <p style={{ fontSize: '0.85rem', color: 'var(--text-2, #94a3b8)', maxWidth: '520px', margin: '0 auto 4px', lineHeight: 1.6 }}>
+          Click any node or connecting edge to explore the 8 dimensions of Medic Algebra.
+        </p>
+        <p style={{ fontSize: '0.72rem', color: 'var(--text-3, #64748b)', margin: 0, fontStyle: 'italic' }}>
+          IfaDiagram (Ifagram): Diagrammatic Reasoning with Ifa
+        </p>
+      </div>
+
+      <svg viewBox="0 0 500 500"
+           style={{ width: '100%', maxWidth: '520px', display: 'block', margin: '0 auto' }}
+           aria-label="MedicGebra 0+8D Matrix — The 8 Dimensions of Medicine Algebra">
+
+        {/* Ambient rings */}
+        <circle cx={CX} cy={CY} r="165" fill="none" stroke="rgba(0,197,122,0.07)" strokeWidth="1" />
+        <circle cx={CX} cy={CY} r="82"  fill="none" stroke="rgba(0,197,122,0.04)" strokeWidth="1" />
+
+        {/* Edges */}
+        {MEDIC_EDGES.map(edge => {
+          const n = outerNodes.find(n => n.id === edge.to);
+          const isSelEdge = sel && sel.kind === 'edge' && sel.id === edge.id;
+          const isRelated = sel && sel.kind === 'node' && (sel.id === edge.to || sel.id === 'center');
+          const active = isSelEdge || isRelated;
+          return (
+            <g key={edge.id} onClick={() => toggle('edge', edge.id)} style={{ cursor: 'pointer' }}>
+              <line x1={CX} y1={CY} x2={n.x} y2={n.y}
+                stroke={active ? edge.color : 'rgba(255,255,255,0.13)'}
+                strokeWidth={active ? 2 : 1}
+                strokeDasharray={isSelEdge ? 'none' : active ? '7,3' : '4,5'} />
+              <line x1={CX} y1={CY} x2={n.x} y2={n.y} stroke="transparent" strokeWidth="14" />
+            </g>
+          );
+        })}
+
+        {/* Outer nodes */}
+        {outerNodes.map(n => {
+          const active = sel && sel.id === n.id;
+          const charSz = n.char.length > 2 ? '0.62rem' : n.char.length > 1 ? '0.78rem' : '1.35rem';
+          return (
+            <g key={n.id} transform={`translate(${n.x},${n.y})`}
+               onClick={() => toggle('node', n.id)} style={{ cursor: 'pointer' }}>
+              {active && <circle r={NR + 7} fill="none" stroke={n.color} strokeWidth="0.8" opacity="0.35" />}
+              <circle r={NR} fill="#060c1a"
+                stroke={active ? n.color : 'rgba(255,255,255,0.18)'}
+                strokeWidth={active ? 2 : 1} />
+              <foreignObject x={-NR} y={-NR} width={NR * 2} height={NR * 2}>
+                <div xmlns="http://www.w3.org/1999/xhtml" style={{
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                  width: (NR * 2) + 'px', height: (NR * 2) + 'px', pointerEvents: 'none',
+                }}>
+                  <div style={{
+                    fontSize: charSz, fontWeight: 700, fontFamily: 'monospace',
+                    color: active ? n.color : 'rgba(255,255,255,0.88)',
+                    lineHeight: 1, marginBottom: '4px',
+                  }}>{n.char}</div>
+                  <div style={{
+                    fontSize: '6.5px', color: active ? n.color : 'rgba(255,255,255,0.52)',
+                    fontFamily: 'sans-serif', textAlign: 'center', lineHeight: 1.3,
+                    maxWidth: '68px',
+                  }}>{n.label}</div>
+                </div>
+              </foreignObject>
+            </g>
+          );
+        })}
+
+        {/* Center node — MedicGebra with OgbeSymbol above */}
+        {(() => {
+          const active = sel && sel.id === 'center';
+          return (
+            <g transform={`translate(${CX},${CY})`}
+               onClick={() => toggle('node', 'center')} style={{ cursor: 'pointer' }}>
+              {active && <circle r="63" fill="none" stroke={MG_ACCENT} strokeWidth="0.8" opacity="0.4" />}
+              <circle r="54" fill="#060c1a"
+                stroke={active ? MG_ACCENT : 'rgba(0,197,122,0.55)'}
+                strokeWidth={active ? 2.5 : 1.5} />
+              {/* OgbeSymbol above label — pure SVG, no canvas/foreignObject */}
+              <OgbeSymbolSVG cx={0} cy={-20} size={32} />
+              <text y="10" textAnchor="middle" dominantBaseline="middle"
+                fontSize="10" fontWeight="800"
+                fill={active ? MG_ACCENT : 'rgba(0,197,122,0.95)'}
+                fontFamily="sans-serif" style={{ pointerEvents: 'none' }}>
+                MedicGebra
+              </text>
+              <text y="23" textAnchor="middle" dominantBaseline="middle"
+                fontSize="6" fill="rgba(255,255,255,0.4)"
+                fontFamily="sans-serif" style={{ pointerEvents: 'none' }}>
+                Medicine Algebra
+              </text>
+            </g>
+          );
+        })()}
+      </svg>
+
+      {/* Info panel */}
+      {selItem && (
+        <div style={{
+          margin: '18px auto 0', maxWidth: '520px',
+          background: 'rgba(6,12,26,0.9)',
+          border: `1px solid ${selColor}`,
+          borderRadius: '10px', padding: '18px 22px',
+        }}>
+          <div style={{
+            fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em',
+            color: selColor, textTransform: 'uppercase', marginBottom: '8px',
+          }}>
+            {sel.kind === 'edge' ? 'Edge — ' : 'Dimension — '}
+            {selItem.label || selItem.id}
+          </div>
+          <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.82)', lineHeight: 1.7, margin: 0 }}>
+            {selItem.desc}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Holistic Pillars ───────────────────────────────────────────
 const HOLISTIC_PILLARS = [
   {
@@ -1573,6 +1834,78 @@ function MedicalCentersSection() {
   );
 }
 
+// ── IfaGebra Medicine Section ──────────────────────────────────
+function IfaGebraMedicineSection() {
+  return (
+    <section className="section" id="ifagebra-medicine">
+      <div className="container">
+        <div className="section__header">
+          <span className="section__eyebrow">IfaGebra · AlgebroE · MedicGebra · Algebra of Medicine</span>
+          <h2 className="section__title">IfaGebra: Medicine Algebra (MedicGebra)</h2>
+          <p className="section__desc">
+            <strong>MedicGebra</strong> — Medicine Algebra — is the Algebraic Framework derived from{' '}
+            <a href="https://ifainternet.org/ifa-mathematics-toe-mathematics/ifa-gebra/"
+               target="_blank" rel="noopener noreferrer" style={{ color: '#00c57a', fontWeight: 700 }}>
+              IfaGebra (AlgebroE)
+            </a>{' '}
+            that models the field of Medicine as a whole as a rigorous Axiomatic Algebra. Every aspect of health, disease,
+            diagnosis, and healing is expressed in IfaLang as an energyform within the{' '}
+            <strong>IFAlgebra</strong> — a living Algebraic Structure governed by the{' '}
+            <strong>256 Odu Ifa Meta-Axioms</strong> and the <strong>Ifa Operators</strong>..
+          </p>
+        </div>
+        <MedicGebraMatrix />
+      </div>
+    </section>
+  );
+}
+
+// ── IFA Mathematica Section (Medicine) ─────────────────────────
+function IfaMathematicaMedSection() {
+  return (
+    <section className="section section--alt" id="ifa-mathematica-medicine">
+      <div className="container">
+        <div className="section__header">
+          <span className="section__eyebrow">IFA Mathematica · ToE Mathematics · Mathematical Medicine</span>
+          <h2 className="section__title">IFA Mathematica</h2>
+          <p className="section__desc">
+            <strong>IFA Mathematica</strong> is the complete Meta-mathematical Framework of the IFA Internet —
+            the Mathematics for Everything (MatoE). Ifa Medicine is an Element of IFA Mathematica, providing the rigorous
+            Mathematical Infrastructure for understanding the body, consciousness, and healing as
+            meta-structures and energyforms. Every branch of IFA Mathematica has direct medical applications,
+            from the algebra of biological systems (BioGebra) to the calculus of healing processes
+            and the topology of consciousness energy fields.
+          </p>
+        </div>
+
+        <div style={{
+          marginTop: '48px', display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center',
+        }}>
+          {[
+            { label: 'IFA Mathematica', href: 'https://ifainternet.org/ifa-mathematics-toe-mathematics/', color: '#8b5cf6' },
+            { label: 'IfaGebra', href: 'https://ifainternet.org/ifa-mathematics-toe-mathematics/ifa-gebra/', color: '#00c57a' },
+            { label: 'Ifa Transform', href: 'https://ifainternet.org/ifa-mathematics-toe-mathematics/ifa-transform/', color: '#00b4d8' },
+          ].map((l, i) => (
+            <a key={i} href={l.href} target="_blank" rel="noopener noreferrer" style={{
+              display: 'inline-block',
+              padding: '10px 24px',
+              borderRadius: '24px',
+              border: `1px solid color-mix(in srgb, ${l.color} 35%, transparent)`,
+              background: `color-mix(in srgb, ${l.color} 8%, transparent)`,
+              color: l.color,
+              fontWeight: 700, fontSize: '0.88rem',
+              textDecoration: 'none',
+              transition: 'border-color 0.2s, transform 0.2s',
+            }}>
+              {l.label} →
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── CTA Section ────────────────────────────────────────────────
 function CTASection() {
   return (
@@ -1686,6 +2019,8 @@ function App() {
         <EthicsSection />
         <IfaNeuroTechSection />
         <MedicalCentersSection />
+        <IfaGebraMedicineSection />
+        <IfaMathematicaMedSection />
         <CTASection />
       </main>
       <Footer />

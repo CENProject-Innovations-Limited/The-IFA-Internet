@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Odu Ifa & the Human Body — Print Infographic</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap');
+
+    :root {
+      --amber: #f0920c;
+      --amber2: #f5c518;
+      --indigo: #6366f1;
+      --bg: #060a10;
+      --bg2: #0d1420;
+      --bg3: #111827;
+      --t1: #f1f5f9;
+      --t2: #cbd5e1;
+      --t3: #94a3b8;
+      --green: #10b981;
+      --rose: #f43f5e;
+      --cyan: #06b6d4;
+      --purple: #a855f7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #1a1a2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 16px 80px;
+      gap: 32px;
+    }
+
+    /* TOOLBAR */
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      background: rgba(26,26,46,0.95);
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(8px);
+    }
+    .btn {
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.02em;
+    }
+    .btn-primary { background: #f0920c; color: #060a10; }
+    .btn-secondary { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; }
+
+    /* PAGE SETUP */
+    .page {
+      width: 794px;
+      min-height: 1123px;
+      background: var(--bg);
+      color: var(--t1);
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── PAGE 1 HEADER ── */
+    .p1-header {
+      background: linear-gradient(150deg, #0a101e 0%, #060a10 70%);
+      padding: 48px 52px 40px;
+      border-bottom: 2px solid rgba(240,146,12,0.25);
+      position: relative;
+      flex-shrink: 0;
+    }
+    .p1-header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 70% at 50% -10%, rgba(240,146,12,0.10) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
+    }
+    .brand-line {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(240,146,12,0.8);
+    }
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      border: 1.5px solid rgba(99,102,241,0.5);
+      color: #a5b4fc;
+      background: rgba(99,102,241,0.1);
+    }
+    .main-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.6rem;
+      font-weight: 900;
+      line-height: 1.07;
+      color: var(--t1);
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .main-title em { color: var(--amber); font-style: normal; }
+    .main-subtitle {
+      font-size: 0.95rem;
+      color: var(--t3);
+      line-height: 1.7;
+      max-width: 600px;
+      margin-bottom: 28px;
+      font-weight: 400;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* STAT ROW */
+    .stat-row {
+      display: flex;
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    .stat-cell {
+      flex: 1;
+      padding: 16px 12px;
+      text-align: center;
+      background: rgba(255,255,255,0.02);
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .stat-cell:last-child { border-right: none; }
+    .stat-v {
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(90deg, var(--amber), var(--amber2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+    .stat-l {
+      font-size: 0.62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #505869;
+    }
+
+    /* ── SECTION LABEL ── */
+    .sec-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .sec-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .sec-title {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      white-space: nowrap;
+    }
+    .sec-line { flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+
+    /* ── PAGE BODY ── */
+    .page-body { padding: 32px 52px 40px; flex: 1; display: flex; flex-direction: column; gap: 28px; }
+
+    /* ── AXIOM ── */
+    .axiom-box {
+      background: linear-gradient(135deg, rgba(240,146,12,0.07), rgba(99,102,241,0.07));
+      border: 1.5px solid rgba(240,146,12,0.22);
+      border-radius: 14px;
+      padding: 22px 28px;
+      position: relative;
+    }
+    .axiom-q {
+      position: absolute;
+      top: -8px; left: 20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      color: rgba(240,146,12,0.18);
+      line-height: 1;
+    }
+    .axiom-box p {
+      font-size: 0.9rem;
+      color: var(--t2);
+      line-height: 1.8;
+      font-style: italic;
+    }
+    .axiom-box p strong { color: var(--amber); font-style: normal; font-weight: 700; }
+
+    /* ── ODU GRID ── */
+    .odu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .odu-card {
+      background: var(--bg2);
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 14px 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .odu-stripe {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 10px 10px 0 0;
+    }
+    .odu-num-tag {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      margin-top: 2px;
+    }
+    .odu-name { font-size: 0.95rem; font-weight: 800; color: var(--t1); margin-bottom: 2px; }
+    .odu-yoruba { font-size: 0.65rem; color: #505869; font-style: italic; margin-bottom: 8px; }
+    .odu-body-label {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: #505869;
+      margin-bottom: 3px;
+    }
+    .odu-body-txt { font-size: 0.75rem; color: var(--t2); line-height: 1.55; font-weight: 500; }
+
+    /* ── COMBO CARDS ── */
+    .combo-list { display: flex; flex-direction: column; gap: 9px; }
+    .combo-card {
+      background: var(--bg2);
+      border: 1.5px solid rgba(99,102,241,0.2);
+      border-radius: 9px;
+      padding: 13px 16px;
+    }
+    .combo-name { font-size: 0.85rem; font-weight: 800; color: #a5b4fc; margin-bottom: 5px; }
+    .combo-body { font-size: 0.76rem; color: var(--t2); line-height: 1.55; font-weight: 500; }
+
+    /* ── ORISA CARDS ── */
+    .orisha-list { display: flex; flex-direction: column; gap: 9px; }
+    .orisha-card {
+      background: var(--bg2);
+      border-radius: 9px;
+      padding: 12px 14px;
+      border-left: 4px solid;
+    }
+    .orisha-name { font-size: 0.88rem; font-weight: 800; color: var(--t1); margin-bottom: 4px; }
+    .orisha-body { font-size: 0.74rem; color: var(--t2); line-height: 1.5; font-weight: 500; }
+
+    /* ── HEALING FLOW ── */
+    .flow-row { display: flex; gap: 0; }
+    .flow-step {
+      flex: 1;
+      background: var(--bg2);
+      padding: 18px 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-right: none;
+      position: relative;
+    }
+    .flow-step:first-child { border-radius: 10px 0 0 10px; }
+    .flow-step:last-child { border-right: 1px solid rgba(255,255,255,0.06); border-radius: 0 10px 10px 0; }
+    .flow-arrow {
+      position: absolute;
+      right: -11px; top: 50%;
+      transform: translateY(-50%);
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--amber);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+      color: #060a10;
+      font-weight: 900;
+      z-index: 2;
+    }
+    .flow-step:last-child .flow-arrow { display: none; }
+    .flow-n { font-size: 1.5rem; font-weight: 900; color: rgba(240,146,12,0.12); line-height: 1; margin-bottom: 5px; }
+    .flow-t { font-size: 0.78rem; font-weight: 800; color: var(--amber); margin-bottom: 5px; }
+    .flow-d { font-size: 0.7rem; color: var(--t3); line-height: 1.55; font-weight: 500; }
+
+    /* ── PRINCIPLES ── */
+    .principles-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .prin-card {
+      background: var(--bg2);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .prin-icon-row { display: flex; align-items: center; gap: 10px; }
+    .prin-icon {
+      width: 36px; height: 36px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .prin-title { font-size: 0.82rem; font-weight: 800; color: var(--t1); }
+    .prin-body { font-size: 0.73rem; color: var(--t3); line-height: 1.6; font-weight: 500; }
+
+    /* ── TWO COL ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    /* ── PAGE FOOTER ── */
+    .page-footer {
+      background: #0a0f1a;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 14px 52px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+    .footer-brand { font-size: 0.75rem; font-weight: 800; color: var(--amber); }
+    .footer-brand span { color: #505869; font-weight: 400; }
+    .footer-pg { font-size: 0.65rem; color: #505869; }
+    .footer-note { font-size: 0.62rem; color: #505869; max-width: 360px; text-align: right; line-height: 1.5; }
+
+    /* ── PAGE BREAK ── */
+    .page-break-label {
+      width: 794px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #505869;
+      padding: 8px 0;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 820px) {
+      body { padding: 0 0 60px; gap: 0; background: var(--bg); }
+
+      .toolbar {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        justify-content: center;
+        padding: 10px 16px;
+        z-index: 999;
+        gap: 10px;
+      }
+      .btn { padding: 9px 18px; font-size: 0.8rem; }
+
+      .page {
+        width: 100%;
+        min-height: unset;
+        overflow: visible;
+      }
+      .page:first-of-type { margin-top: 56px; }
+
+      .page-break-label { display: none; }
+
+      /* Header */
+      .p1-header { padding: 28px 20px 24px; }
+      .header-top-row { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 16px; }
+      .main-title { font-size: 2.2rem; }
+      .main-subtitle { font-size: 0.88rem; margin-bottom: 20px; }
+
+      /* Stat row — wrap into 2×3 grid */
+      .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); border-radius: 10px; }
+      .stat-cell { border-right: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07); padding: 12px 8px; }
+      .stat-v { font-size: 1.5rem; }
+      .stat-l { font-size: 0.58rem; }
+
+      /* Page body */
+      .page-body { padding: 20px 16px 28px; gap: 22px; }
+      .page-body[style*="padding-top:44px"] { padding-top: 20px !important; }
+
+      /* Section labels */
+      .sec-title { font-size: 0.6rem; letter-spacing: 0.1em; white-space: normal; }
+
+      /* Axiom */
+      .axiom-box { padding: 18px 18px 18px 20px; }
+      .axiom-box p { font-size: 0.88rem; }
+
+      /* Odu grid — 2 columns on mobile */
+      .odu-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .odu-name { font-size: 1rem; }
+      .odu-body-txt { font-size: 0.78rem; }
+      .odu-num-tag { font-size: 0.6rem; }
+
+      /* Two col → single col */
+      .two-col { grid-template-columns: 1fr; gap: 22px; }
+
+      /* Combo & orisha */
+      .combo-name { font-size: 0.9rem; }
+      .combo-body { font-size: 0.8rem; }
+      .orisha-name { font-size: 0.92rem; }
+      .orisha-body { font-size: 0.78rem; }
+
+      /* Healing flow — vertical stack */
+      .flow-row { flex-direction: column; gap: 0; }
+      .flow-step {
+        border-right: 1px solid rgba(255,255,255,0.06) !important;
+        border-bottom: none;
+        border-radius: 0 !important;
+        padding: 16px 16px;
+      }
+      .flow-step:first-child { border-radius: 10px 10px 0 0 !important; }
+      .flow-step:last-child { border-radius: 0 0 10px 10px !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; }
+      .flow-arrow {
+        right: unset !important;
+        top: unset !important;
+        bottom: -11px;
+        left: 20px;
+        transform: none;
+        content: '▼';
+      }
+      .flow-t { font-size: 0.85rem; }
+      .flow-d { font-size: 0.76rem; }
+
+      /* Principles — 1 col */
+      .principles-grid { grid-template-columns: 1fr; gap: 10px; }
+      .prin-title { font-size: 0.88rem; }
+      .prin-body { font-size: 0.78rem; }
+
+      /* Quick reference — 1 col */
+      div[style*="grid-template-columns:repeat(3,1fr)"] { grid-template-columns: 1fr !important; }
+      div[style*="grid-template-columns:repeat(3, 1fr)"] { grid-template-columns: 1fr !important; }
+
+      /* Page footer */
+      .page-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 14px 16px;
+      }
+      .footer-note { text-align: left; max-width: 100%; }
+
+      /* Closing note */
+      div[style*="border-radius:12px"] p { font-size: 0.82rem !important; }
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      @page { size: A4 portrait; margin: 0; }
+      body { background: none; padding: 0; gap: 0; }
+      .toolbar { display: none !important; }
+      .page-break-label { display: none; }
+      .page { page-break-after: always; break-after: page; width: 210mm; min-height: 297mm; }
+      .page:last-of-type { page-break-after: avoid; break-after: avoid; }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <button class="btn btn-primary" onclick="window.print()">🖨 Print / Save as PDF</button>
+  <button class="btn btn-secondary" onclick="window.close()">✕ Close</button>
+</div>
+
+<!-- ═══════════════════════════ PAGE 1 ═══════════════════════════ -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="p1-header">
+    <div class="header-top-row">
+      <div class="brand-line">CENProject · IFA Internet · Ifa Medicine (IfaMed)</div>
+      <div class="badge">Research Infographic · 2026</div>
+    </div>
+    <div class="main-title">Odu Ifa &amp; the<br/><em>Human Body</em></div>
+    <div class="main-subtitle">A systematic mapping of the 256 Odu Ifa to human organs, body systems, and physiological states — drawn from Yoruba traditional medicine and the Ifa literary corpus.</div>
+    <div class="stat-row">
+      <div class="stat-cell"><div class="stat-v">256</div><div class="stat-l">Total Odu Ifa</div></div>
+      <div class="stat-cell"><div class="stat-v">16</div><div class="stat-l">Principal Odu Meji</div></div>
+      <div class="stat-cell"><div class="stat-v">8</div><div class="stat-l">Governing Orisa</div></div>
+      <div class="stat-cell"><div class="stat-v">3</div><div class="stat-l">Root Cause Types</div></div>
+      <div class="stat-cell"><div class="stat-v">5</div><div class="stat-l">Healing Steps</div></div>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <!-- AXIOM -->
+    <div>
+      <div class="sec-label">
+        <div class="sec-dot" style="background:var(--amber);"></div>
+        <div class="sec-title" style="color:var(--amber);">Foundational Axiom</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="axiom-box">
+        <div class="axiom-q">"</div>
+        <p>In Ifa tradition, <strong>every body part, organ, and physiological system</strong> has a corresponding spiritual governance encoded within the 256 Odu. <strong>Odu marks the cells within the body and the space between cells</strong> — operating at the most fundamental biological level. Illness is diagnosed by divination, which reveals the governing Odu, which in turn prescribes the remedy (Akose Ifa).</p>
+      </div>
+    </div>
+
+    <!-- 16 ODU GRID -->
+    <div>
+      <div class="sec-label">
+        <div class="sec-dot" style="background:var(--amber);"></div>
+        <div class="sec-title" style="color:var(--amber);">01 · The 16 Principal Odu Meji — Body Governance</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="odu-grid">
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#f0920c,#f5c518);"></div>
+          <div class="odu-num-tag" style="color:#f0920c;">01 · King of Odu</div>
+          <div class="odu-name">Ejiogbe</div>
+          <div class="odu-yoruba">Èjì Ogbè — Source of Light</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Head (Ori), spinal column, sternum, heart (mitral valve), blood vessels, lymph nodes</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#6366f1,#818cf8);"></div>
+          <div class="odu-num-tag" style="color:#818cf8;">02 · Spirit of Darkness</div>
+          <div class="odu-name">Oyeku Meji</div>
+          <div class="odu-yoruba">Òyèkú Méjì — Contraction</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Spleen, kidneys, uterus, internal organs — signals organ failure or loss</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#06b6d4,#22d3ee);"></div>
+          <div class="odu-num-tag" style="color:#06b6d4;">03 · The Deep Seer</div>
+          <div class="odu-name">Iwori Meji</div>
+          <div class="odu-yoruba">Ìwòrí Méjì — Inner Sight</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Inner neurological awareness, consciousness, cognitive essence</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#f43f5e,#fb7185);"></div>
+          <div class="odu-num-tag" style="color:#f43f5e;">04 · The Seal</div>
+          <div class="odu-name">Odi Meji</div>
+          <div class="odu-yoruba">Òdí Méjì — Birth & Fertility</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Female reproductive organs, uterus, cardiovascular system, tonsils, throat</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#f0920c,#f5c518);"></div>
+          <div class="odu-num-tag" style="color:#f0920c;">05 · Head Protector</div>
+          <div class="odu-name">Irosun Meji</div>
+          <div class="odu-yoruba">Ìrosùn Méjì — Memory & Blood</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Head (Ori), memory centers, blood — ancestral lineage connection</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#a855f7,#c084fc);"></div>
+          <div class="odu-num-tag" style="color:#a855f7;">06 · Hidden Illness</div>
+          <div class="odu-name">Owonrin Meji</div>
+          <div class="odu-yoruba">Òwònrín Méjì — Latent Disease</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Hidden/latent disease, old age degeneration, sudden collapse</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#10b981,#34d399);"></div>
+          <div class="odu-num-tag" style="color:#10b981;">07 · The Resting One</div>
+          <div class="odu-name">Obara Meji</div>
+          <div class="odu-yoruba">Òbàrá Méjì — Vitality</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">General vitality; encodes Osanyin's complete herbal healing knowledge</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#f43f5e,#fb7185);"></div>
+          <div class="odu-num-tag" style="color:#f43f5e;">08 · The Heart's Voice</div>
+          <div class="odu-name">Okanran Meji</div>
+          <div class="odu-yoruba">Òkànràn Méjì — Head & Heart</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Heart — balance between thought (Ori) and emotion; emotional-physical unity</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#6366f1,#818cf8);"></div>
+          <div class="odu-num-tag" style="color:#818cf8;">09 · Spirit of Iron</div>
+          <div class="odu-name">Ogunda Meji</div>
+          <div class="odu-yoruba">Ògun'da Méjì — Clearing</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Bodily blockages and obstructions; cutting away disease (surgery metaphor)</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#06b6d4,#22d3ee);"></div>
+          <div class="odu-num-tag" style="color:#06b6d4;">10 · Sudden Change</div>
+          <div class="odu-name">Osa Meji</div>
+          <div class="odu-yoruba">Òsá Méjì — Transformation</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Balance organs, vertigo, mental illness from suppressed fear</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#f0920c,#f5c518);"></div>
+          <div class="odu-num-tag" style="color:#f0920c;">11 · Personal Power</div>
+          <div class="odu-name">Ika Meji</div>
+          <div class="odu-yoruba">Ìká Méjì — Self-Affirmation</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Personal will, self-healing capacity, limbs and joints</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#10b981,#34d399);"></div>
+          <div class="odu-num-tag" style="color:#10b981;">12 · The Bearer</div>
+          <div class="odu-name">Oturupon Meji</div>
+          <div class="odu-yoruba">Òtúrúpòn Méjì — Healing</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Spine, bones, stomach, head — the body's intrinsic healing capacity</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#a855f7,#c084fc);"></div>
+          <div class="odu-num-tag" style="color:#a855f7;">13 · Deep Mysteries</div>
+          <div class="odu-name">Otura Meji</div>
+          <div class="odu-yoruba">Òtúrá Méjì — Hidden Form</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Deep structural mysteries of physical form; encoded health teachings</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#10b981,#34d399);"></div>
+          <div class="odu-num-tag" style="color:#10b981;">14 · The Crusher</div>
+          <div class="odu-name">Irete Meji</div>
+          <div class="odu-yoruba">Ìretè Méjì — Longevity</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Spine, bones, longevity, vitality — initiation guarantees long life and good health</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#f43f5e,#fb7185);"></div>
+          <div class="odu-num-tag" style="color:#f43f5e;">15 · Trauma & Recovery</div>
+          <div class="odu-name">Oshe Meji</div>
+          <div class="odu-yoruba">Òsé Méjì — Accident & Illness</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Bones (fractures), arms, legs, asthma, heart attack, stroke, blindness</div>
+        </div>
+
+        <div class="odu-card">
+          <div class="odu-stripe" style="background:linear-gradient(90deg,#f0920c,#f5c518);"></div>
+          <div class="odu-num-tag" style="color:#f0920c;">16 · Giver of Creation</div>
+          <div class="odu-name">Ofun Meji</div>
+          <div class="odu-yoruba">Òfún Méjì — Divine Healing</div>
+          <div class="odu-body-label">Governs</div>
+          <div class="odu-body-txt">Ultimate healing potential — deepest mysteries; resolution of all conditions</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">IFA Internet <span>· ifainternet.org</span></div>
+    <div class="footer-pg">Page 1 of 3</div>
+    <div class="footer-note">CENProject · Ifa Medicine (IfaMed) · Theory of Everything</div>
+  </div>
+</div>
+
+<div class="page-break-label">— Page Break —</div>
+
+<!-- ═══════════════════════════ PAGE 2 ═══════════════════════════ -->
+<div class="page">
+
+  <div class="page-body" style="padding-top:44px;">
+
+    <!-- COMBINED ODU + ORISA -->
+    <div class="two-col">
+
+      <div>
+        <div class="sec-label">
+          <div class="sec-dot" style="background:#818cf8;"></div>
+          <div class="sec-title" style="color:#818cf8;">02 · Combined Odu — Specific Conditions</div>
+          <div class="sec-line"></div>
+        </div>
+        <div class="combo-list">
+          <div class="combo-card">
+            <div class="combo-name">Owonrin Irosun</div>
+            <div class="combo-body">Brain problems, anemia, weakness, stomach disorders</div>
+          </div>
+          <div class="combo-card">
+            <div class="combo-name">Oturupon Irete</div>
+            <div class="combo-body">Spinal deformities, bone problems, stomach and head conditions</div>
+          </div>
+          <div class="combo-card">
+            <div class="combo-name">Odi Ojuani / Odi Osa</div>
+            <div class="combo-body">Impotence, liver disease, blood disorders, mental conditions, digestive tract</div>
+          </div>
+          <div class="combo-card">
+            <div class="combo-name">Oshe Ika</div>
+            <div class="combo-body">Fractures of bones, arms and legs; asthma, heart attack, stroke, blindness</div>
+          </div>
+          <div class="combo-card">
+            <div class="combo-name">Owonrin Obara</div>
+            <div class="combo-body">Sudden death risk, chronic sickness, latent tribulations requiring urgent Ebo</div>
+          </div>
+          <div class="combo-card">
+            <div class="combo-name">Okanran (heart combos)</div>
+            <div class="combo-body">Emotional wounds manifesting physically — normalized trauma, unresolved pain</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sec-label">
+          <div class="sec-dot" style="background:#10b981;"></div>
+          <div class="sec-title" style="color:#10b981;">03 · Orisa — Spiritual Body Custodians</div>
+          <div class="sec-line"></div>
+        </div>
+        <div class="orisha-list">
+          <div class="orisha-card" style="border-color:#f0920c;">
+            <div class="orisha-name">Orunmila</div>
+            <div class="orisha-body">Head (Ori) — master of divination and healing; source of all Ifa medical prescriptions</div>
+          </div>
+          <div class="orisha-card" style="border-color:#f5c518;">
+            <div class="orisha-name">Osun (Oshun)</div>
+            <div class="orisha-body">Head, memory, blood in veins — protects the Ori and ancestral memory (Irosun Meji)</div>
+          </div>
+          <div class="orisha-card" style="border-color:#f43f5e;">
+            <div class="orisha-name">Sango (Shango)</div>
+            <div class="orisha-body">Heart — "pushes death away from the heart"; governs cardiac vital force and strength</div>
+          </div>
+          <div class="orisha-card" style="border-color:#06b6d4;">
+            <div class="orisha-name">Yemaya</div>
+            <div class="orisha-body">Womb, amniotic fluid, breasts, water in the body — governs all fluid systems (Odi Meji)</div>
+          </div>
+          <div class="orisha-card" style="border-color:#e2e8f0;">
+            <div class="orisha-name">Obatala</div>
+            <div class="orisha-body">Head mold (skull), facial orifices — eyes, ears, nose, mouth; the white matter of the body</div>
+          </div>
+          <div class="orisha-card" style="border-color:#a855f7;">
+            <div class="orisha-name">Oshumare</div>
+            <div class="orisha-body">Abdomen, arms, hands, feet movement — motor nervous system and spinal cord</div>
+          </div>
+          <div class="orisha-card" style="border-color:#10b981;">
+            <div class="orisha-name">Osanyin</div>
+            <div class="orisha-body">Plant & herbal medicine — every organ's botanical remedy encoded in Ifa verses</div>
+          </div>
+          <div class="orisha-card" style="border-color:#f97316;">
+            <div class="orisha-name">Elegua (Eshu)</div>
+            <div class="orisha-body">Feet, pathways within the body, nervous system connections and destiny</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- HEALING FLOW -->
+    <div>
+      <div class="sec-label">
+        <div class="sec-dot" style="background:#f43f5e;"></div>
+        <div class="sec-title" style="color:#f43f5e;">04 · The Ifa Healing Process — 5 Steps</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="flow-n">01</div>
+          <div class="flow-t">Divination</div>
+          <div class="flow-d">Babalawo casts Ikin (palm nuts) or Opele (divination chain) to identify the governing Odu</div>
+          <div class="flow-arrow">▶</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-n">02</div>
+          <div class="flow-t">Odu Identification</div>
+          <div class="flow-d">Odu names the body part, root cause (spiritual / ancestral / natural) and prognosis</div>
+          <div class="flow-arrow">▶</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-n">03</div>
+          <div class="flow-t">Ebo — Offering</div>
+          <div class="flow-d">Ritual offering prescribed by the Odu is performed to realign energy and remove blockages</div>
+          <div class="flow-arrow">▶</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-n">04</div>
+          <div class="flow-t">Akose Ifa</div>
+          <div class="flow-d">Herbal and spiritual medicine specific to the revealed Odu is prepared by the Babalawo</div>
+          <div class="flow-arrow">▶</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-n">05</div>
+          <div class="flow-t">Holistic Recovery</div>
+          <div class="flow-d">Mind, body, spirit, and environment are treated together — not the symptom alone</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">IFA Internet <span>· ifainternet.org</span></div>
+    <div class="footer-pg">Page 2 of 3</div>
+    <div class="footer-note">CENProject · Ifa Medicine (IfaMed) · Theory of Everything</div>
+  </div>
+</div>
+
+<div class="page-break-label">— Page Break —</div>
+
+<!-- ═══════════════════════════ PAGE 3 ═══════════════════════════ -->
+<div class="page">
+
+  <div class="page-body" style="padding-top:44px;">
+
+    <!-- PRINCIPLES -->
+    <div>
+      <div class="sec-label">
+        <div class="sec-dot" style="background:#06b6d4;"></div>
+        <div class="sec-title" style="color:#06b6d4;">05 · Core Philosophical Principles of Ifa Medicine</div>
+        <div class="sec-line"></div>
+      </div>
+      <div class="principles-grid">
+
+        <div class="prin-card">
+          <div class="prin-icon-row">
+            <div class="prin-icon" style="background:rgba(240,146,12,0.12);">🔬</div>
+            <div class="prin-title">Cellular Governance</div>
+          </div>
+          <div class="prin-body">Odu marks the cells within the body and the spaces between them. Ifa operates at the most fundamental biological level, encoding cellular biology in spiritual language — the DNA of creation.</div>
+        </div>
+
+        <div class="prin-card">
+          <div class="prin-icon-row">
+            <div class="prin-icon" style="background:rgba(99,102,241,0.12);">⚖️</div>
+            <div class="prin-title">Polarity & Balance</div>
+          </div>
+          <div class="prin-body">Right side (male/expansion) vs. left side (female/contraction). Balance between Ori (thought/head) and heart (emotion) is the foundational law of physical health and wellness.</div>
+        </div>
+
+        <div class="prin-card">
+          <div class="prin-icon-row">
+            <div class="prin-icon" style="background:rgba(16,185,129,0.12);">🌿</div>
+            <div class="prin-title">Holistic Causation</div>
+          </div>
+          <div class="prin-body">Illness has three root types: Spiritual imbalance, Ancestral disruption, and Natural/herbal deficiency. The Odu identifies which root applies — and prescribes the exact corresponding remedy.</div>
+        </div>
+
+        <div class="prin-card">
+          <div class="prin-icon-row">
+            <div class="prin-icon" style="background:rgba(244,63,94,0.12);">🧬</div>
+            <div class="prin-title">256 Odu = All Conditions</div>
+          </div>
+          <div class="prin-body">Every possible disease state, bodily condition, and health outcome is encoded somewhere in the 256 Odu corpus. The Odu are the complete medical encyclopedia of the universe.</div>
+        </div>
+
+        <div class="prin-card">
+          <div class="prin-icon-row">
+            <div class="prin-icon" style="background:rgba(6,182,212,0.12);">🛡️</div>
+            <div class="prin-title">Spiritual Custodianship</div>
+          </div>
+          <div class="prin-body">Every organ has an associated Orisa and spiritual responsibility. Healing requires both physical and spiritual alignment simultaneously — one cannot be treated without the other.</div>
+        </div>
+
+        <div class="prin-card">
+          <div class="prin-icon-row">
+            <div class="prin-icon" style="background:rgba(168,85,247,0.12);">♾️</div>
+            <div class="prin-title">Energy as Medicine</div>
+          </div>
+          <div class="prin-body">Disease is a disruption of energy flow. Ebo (offering) and Akose (herbal-spiritual medicine) restore the energetic signature encoded in the body by the governing Odu.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- QUICK REFERENCE TABLE -->
+    <div>
+      <div class="sec-label">
+        <div class="sec-dot" style="background:var(--amber2);"></div>
+        <div class="sec-title" style="color:var(--amber2);">Quick Reference — Organ to Odu Mapping</div>
+        <div class="sec-line"></div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
+
+        <div style="background:var(--bg2); border-radius:9px; padding:14px 16px; border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#505869;margin-bottom:10px;">Head & Brain</div>
+          <div style="font-size:0.78rem;color:var(--t2);line-height:2;font-weight:500;">
+            🟠 Ori / Head → <strong style="color:var(--t1);">Ejiogbe · Irosun</strong><br/>
+            🟠 Memory → <strong style="color:var(--t1);">Irosun Meji</strong><br/>
+            🟣 Brain → <strong style="color:var(--t1);">Owonrin Irosun</strong><br/>
+            🔵 Consciousness → <strong style="color:var(--t1);">Iwori Meji</strong><br/>
+            ⚪ Skull / Face → <strong style="color:var(--t1);">Obatala (Orisa)</strong>
+          </div>
+        </div>
+
+        <div style="background:var(--bg2); border-radius:9px; padding:14px 16px; border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#505869;margin-bottom:10px;">Chest & Core</div>
+          <div style="font-size:0.78rem;color:var(--t2);line-height:2;font-weight:500;">
+            🔴 Heart → <strong style="color:var(--t1);">Okanran · Ejiogbe</strong><br/>
+            🟠 Sternum → <strong style="color:var(--t1);">Ejiogbe</strong><br/>
+            🟢 Vitality → <strong style="color:var(--t1);">Obara Meji</strong><br/>
+            🔵 Blockages → <strong style="color:var(--t1);">Ogunda Meji</strong><br/>
+            🟣 Abdomen → <strong style="color:var(--t1);">Oshumare (Orisa)</strong>
+          </div>
+        </div>
+
+        <div style="background:var(--bg2); border-radius:9px; padding:14px 16px; border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#505869;margin-bottom:10px;">Bones & Limbs</div>
+          <div style="font-size:0.78rem;color:var(--t2);line-height:2;font-weight:500;">
+            🟢 Spine → <strong style="color:var(--t1);">Oturupon · Irete</strong><br/>
+            🟢 Bones → <strong style="color:var(--t1);">Oshe · Irete Meji</strong><br/>
+            🟠 Limbs/Joints → <strong style="color:var(--t1);">Ika Meji</strong><br/>
+            🔴 Fractures → <strong style="color:var(--t1);">Oshe Ika</strong><br/>
+            🟠 Feet → <strong style="color:var(--t1);">Elegua (Orisa)</strong>
+          </div>
+        </div>
+
+        <div style="background:var(--bg2); border-radius:9px; padding:14px 16px; border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#505869;margin-bottom:10px;">Reproductive & Fluid</div>
+          <div style="font-size:0.78rem;color:var(--t2);line-height:2;font-weight:500;">
+            🔴 Female Organs → <strong style="color:var(--t1);">Odi Meji</strong><br/>
+            🔵 Uterus / Womb → <strong style="color:var(--t1);">Yemaya (Orisa)</strong><br/>
+            🔵 Blood → <strong style="color:var(--t1);">Irosun · Osun</strong><br/>
+            🔵 Kidneys → <strong style="color:var(--t1);">Oyeku Meji</strong><br/>
+            🔴 Hormonal → <strong style="color:var(--t1);">Odi Meji</strong>
+          </div>
+        </div>
+
+        <div style="background:var(--bg2); border-radius:9px; padding:14px 16px; border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#505869;margin-bottom:10px;">Internal Organs</div>
+          <div style="font-size:0.78rem;color:var(--t2);line-height:2;font-weight:500;">
+            🔵 Spleen → <strong style="color:var(--t1);">Oyeku Meji</strong><br/>
+            🔵 Liver → <strong style="color:var(--t1);">Odi Ojuani</strong><br/>
+            🟢 Stomach → <strong style="color:var(--t1);">Oturupon · Owonrin</strong><br/>
+            🔴 Tonsils/Throat → <strong style="color:var(--t1);">Odi Meji</strong><br/>
+            🟢 Herbal Remedies → <strong style="color:var(--t1);">Osanyin (Orisa)</strong>
+          </div>
+        </div>
+
+        <div style="background:var(--bg2); border-radius:9px; padding:14px 16px; border:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#505869;margin-bottom:10px;">Mind & Nervous System</div>
+          <div style="font-size:0.78rem;color:var(--t2);line-height:2;font-weight:500;">
+            🔵 Mental Health → <strong style="color:var(--t1);">Osa Meji</strong><br/>
+            🔵 Vertigo/Balance → <strong style="color:var(--t1);">Osa Meji</strong><br/>
+            🟣 Latent Disease → <strong style="color:var(--t1);">Owonrin Meji</strong><br/>
+            🟣 Motor Nerves → <strong style="color:var(--t1);">Oshumare (Orisa)</strong><br/>
+            🟠 Longevity → <strong style="color:var(--t1);">Irete Meji · Ofun</strong>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CLOSING NOTE -->
+    <div style="background:linear-gradient(135deg,rgba(240,146,12,0.06),rgba(99,102,241,0.06)); border:1.5px solid rgba(240,146,12,0.2); border-radius:12px; padding:20px 26px; margin-top:4px;">
+      <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--amber);margin-bottom:8px;">Research Note</div>
+      <p style="font-size:0.82rem;color:var(--t3);line-height:1.75;font-weight:500;">The full systematic mapping of all 256 Odu to specific body parts exists within <strong style="color:var(--t2);">oral traditions</strong> and the Ifa literary corpus. The associations above represent what has been documented in accessible scholarly and practitioner sources. For complete medical knowledge, consultation with an initiated <strong style="color:var(--t2);">Babalawo or Iyánífá</strong> is essential. Sources include UNESCO Intangible Cultural Heritage registry, IFA College (ifacollege.ng), Ileifa (ileifa.org), and peer-reviewed African traditional medicine research.</p>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-brand">IFA Internet <span>· ifainternet.org</span></div>
+    <div class="footer-pg">Page 3 of 3</div>
+    <div class="footer-note">© 2026 CENProject. For educational and research purposes.</div>
+  </div>
+
+</div>
+
+</body>
+</html>

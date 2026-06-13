@@ -277,7 +277,11 @@ function Header() {
       <PalmSVG className="header__palm header__palm--right" />
       <OponIfaSVG className="header__opon-bg" />
       <div className="header__topbar">
-        <span className="header__topbar-title">The IFA Internet</span>
+        <a href="https://ifainternet.org" className="header__back-link">← The IFA Internet</a>
+        <span className="header__topbar-title">Ifa Periodic Table</span>
+        <a href="/ifa-periodic-table/kids/" className="header__kids-link">
+          ★ Kids &amp; Teens
+        </a>
       </div>
       <div className="header__inner">
         <div className="header__left">
@@ -291,6 +295,9 @@ function Header() {
           <div className="header__title">
             <h1>Ifa Periodic Table</h1>
             <p>IfaPT · ToEPT · Standard Model of Every Knowledge · CENProject</p>
+            <a href="/ifa-periodic-table/kids/" className="header__kids-link--mobile">
+              ★ Kids &amp; Teens Edition
+            </a>
           </div>
         </div>
         <div className="header__stats">
@@ -366,13 +373,46 @@ function Controls({ categories, activeCategory, onCategory, searchTerm, onSearch
 }
 
 // ════════════════════════════════════════════════════════════
+// IFA MARKS  –  two-column binary divination visual
+// bit=1 → single bar (Ogbe/Energy)  |  bit=0 → double bar (Oyeku/Anergy)
+// ════════════════════════════════════════════════════════════
+function IfaMarks({ code = '0000', secondCode, color = '#888', size = 'md' }) {
+  const leftBits  = code.split('').map(Number);
+  const rightBits = (secondCode || code).split('').map(Number);
+
+  function MarkRow({ bit }) {
+    return (
+      <div className="ifa-marks__row">
+        {bit === 0
+          ? <>
+              <span className="ifa-marks__bar" style={{ background: color }} />
+              <span className="ifa-marks__bar" style={{ background: color }} />
+            </>
+          : <span className="ifa-marks__bar" style={{ background: color }} />
+        }
+      </div>
+    );
+  }
+
+  return (
+    <div className={`ifa-marks ifa-marks--${size}`}>
+      <div className="ifa-marks__col">
+        {leftBits.map((b, i) => <MarkRow key={i} bit={b} />)}
+      </div>
+      <div className="ifa-marks__col">
+        {rightBits.map((b, i) => <MarkRow key={i} bit={b} />)}
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
 // IFA GLYPH HELPERS
 // ════════════════════════════════════════════════════════════
 // Build the primary meta-symbol glyph string for a 4-bit code.
 // Read RIGHT TO LEFT: code[3], code[2], code[1], code[0].
 // 1 → O (Ifa Circle), 0 → I (Ifa Line with crossbars in compound context).
 // Collapsed parents: "1111" → "O", "0000" → "|" (standalone Ifa Line, no crossbars).
-// Bits are read right-to-left (Ifa tradition): reverse the code before mapping.
 function primaryGlyph(code) {
   if (code === '1111') return 'O';
   if (code === '0000') return '|';
@@ -480,6 +520,11 @@ function PeriodicTable({ odu, categories, activeCategory, searchTerm, onCellClic
           </div>
         </div>
         <div className="pt-table-header">IfaCategory Theory</div>
+      </div>
+
+      {/* Mobile scroll hint */}
+      <div className="table-scroll-hint">
+        <span>←</span><span>Swipe to explore all 256 Ifatoms</span><span>→</span>
       </div>
 
       {/* Grid */}
@@ -678,6 +723,38 @@ const KOMI_PART_SLUG = {
  13: 'otura',  14: 'irete',   15: 'ose',      16: 'ofun'
 };
 
+// ════════════════════════════════════════════════════════════
+// IFASTEP FRAMEWORK DATA
+// ════════════════════════════════════════════════════════════
+const ODU_STEP_COLORS = {
+  1:'#f5c518', 2:'#4b5563', 3:'#c084fc', 4:'#60a5fa', 5:'#f87171', 6:'#4ade80',
+  7:'#f59e0b', 8:'#fb923c', 9:'#2dd4bf', 10:'#a3e635', 11:'#8b5cf6', 12:'#f472b6',
+  13:'#94a3b8', 14:'#facc15', 15:'#f9a8d4', 16:'#818cf8',
+};
+const STEP_THEMES = [
+  'Energy → Void', 'Void → Perception', 'Perception → Mystery', 'Mystery → Life',
+  'Life → Change', 'Change → Leadership', 'Leadership → Focus', 'Focus → Action',
+  'Action → Dispersal', 'Dispersal → Roots', 'Roots → Endurance', 'Endurance → Peace',
+  'Peace → Abundance', 'Abundance → Beauty', 'Beauty → Completion',
+];
+const STEP_STEMS = [
+  'Phase transitions, energy-zero thresholds, quantum vacuum boundary — the universal on/off step of existence',
+  'Signal activation functions, zero-to-order emergence steps, sensor threshold detection in engineering',
+  'Observation-to-state collapse boundaries, inner/outer state transitions, Turing machine halting conditions',
+  'Emergence thresholds, potential-to-kinetic energy steps, biological reproductive and developmental phase gates',
+  'Stability-to-chaos bifurcation points, homeostatic breaking thresholds, logistic growth tipping steps',
+  'Symmetry-breaking transitions, disorder-to-order emergence, leadership-selection in complex adaptive systems',
+  'Expansion-to-convergence gates, local-to-global focus steps, diverge-to-converge algorithmic transitions',
+  'Potential-to-kinetic spark boundaries, neural action potential thresholds, combustion and ignition steps',
+  'Force-to-entropy dispersal steps, concentration-to-diffusion gradients, action-to-field propagation',
+  'Turbulence-to-order transitions, entropy minimisation thresholds, self-organisation emergence steps',
+  'Deep-structure persistence layers, substrate phase boundaries, long-term memory formation thresholds',
+  'Phase coherence steps, structure-to-resonance transitions, quantum decoherence and recoherence boundaries',
+  'Equilibrium-to-growth thresholds, homeostasis-to-flourishing steps, saturation and carrying-capacity curves',
+  'Quantitative-to-qualitative phase shifts, prosperity-to-experience transitions, emergence of subjective value',
+  'System-cycle completion boundaries, transformation-to-renewal gates, death-rebirth and regeneration thresholds',
+];
+
 // Orisa Knowledge pages on kominifa.com associated with each Odu
 const KOMI_ORISA = {
   1:  [{ name: 'Ifa Practice',  path: '/blog/ifa-practice' }],
@@ -860,40 +937,114 @@ function WikiKnowledge({ domains, steamsex, color }) {
 // MODAL
 // ════════════════════════════════════════════════════════════
 function ModalDot({ bit }) {
-  return bit === 1
-    ? <div className="modal__dot" />
-    : <div className="modal__dot modal__dot--zero" />;
+  return (
+    <div className="modal__mark-row">
+      {bit === 0
+        ? <><div className="modal__bar" /><div className="modal__bar" /></>
+        : <div className="modal__bar" />
+      }
+    </div>
+  );
 }
 
-function IFABitDisplay({ code, rightLabel, leftLabel, color }) {
-  // code is 8 bits: first 4 = Àpólà / Right Odu (principal), last 4 = Period / Left Odu (secondary)
-  const rightBits = code.slice(0, 4).split('').map(Number);
-  const leftBits  = code.slice(4, 8).split('').map(Number);
+// IFABitDisplay — shows 4-bit marks for two Odu side by side.
+// RTL rule: principal/row Odu → LEFT column (LTR name lists principal first = LEFT);
+//           period/col Odu → RIGHT column (RTL reading starts from RIGHT = period).
+function IFABitDisplay({ rowCode, colCode, rowLabel, colLabel, color }) {
+  const leftBits  = rowCode.split('').map(Number);
+  const rightBits = colCode.split('').map(Number);
+  const decimal   = parseInt(rowCode + colCode, 2);
+
+  function Mark({ bit }) {
+    return (
+      <div className="ifabit__mark">
+        {bit === 0
+          ? <>
+              <div className="ifabit__bar" style={{ background: color }} />
+              <div className="ifabit__bar" style={{ background: color }} />
+            </>
+          : <div className="ifabit__bar" style={{ background: color }} />
+        }
+      </div>
+    );
+  }
+
   return (
-    <div className="ifabit" style={{ color }}>
+    <div className="ifabit">
       <div className="ifabit__cols">
         <div className="ifabit__col">
-          <div className="ifabit__col-label">{rightLabel || 'Right'}</div>
-          {rightBits.map((b, i) => (
-            <div key={i} className="ifabit__mark">
-              {b === 1
-                ? <div className="ifabit__dot" />
-                : <><div className="ifabit__dot ifabit__dot--zero" /><div className="ifabit__dot ifabit__dot--zero" /></>
-              }
-            </div>
-          ))}
+          <div className="ifabit__col-label" style={{ color }}>{colLabel}</div>
+          {rightBits.map((b, i) => <Mark key={i} bit={b} />)}
         </div>
         <div className="ifabit__col">
-          <div className="ifabit__col-label">{leftLabel || 'Left'}</div>
-          {leftBits.map((b, i) => (
-            <div key={i} className="ifabit__mark">
-              {b === 1
-                ? <div className="ifabit__dot" />
-                : <><div className="ifabit__dot ifabit__dot--zero" /><div className="ifabit__dot ifabit__dot--zero" /></>
-              }
-            </div>
+          <div className="ifabit__col-label" style={{ color }}>{rowLabel}</div>
+          {leftBits.map((b, i) => <Mark key={i} bit={b} />)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+// IFA PHILOSOPHY SECTION
+// ════════════════════════════════════════════════════════════
+
+const PHIL_BRANCHES = [
+  { key: 'logic',        name: 'Ifa Logic',         sub: 'Reasoning · Principles' },
+  { key: 'ethics',       name: 'Ifa Ethics',         sub: 'Ọmọlúwàbí · Balance · Fairness' },
+  { key: 'ontology',     name: 'Ifa Ontology',       sub: 'Being & existence' },
+  { key: 'epistemology', name: 'Ifa Epistemology',   sub: 'Knowledge · Wisdom' },
+  { key: 'phenomenology',name: 'Ifa Phenomenology',  sub: 'Lived experience · Odu Ifa' },
+  { key: 'paradox',      name: 'IfaParadox',         sub: 'Esu · Duality · Ternality' },
+];
+
+const PHIL_ENTITIES = [
+  { name: 'Ọbàtálá',              role: 'Purity · Ethical Leadership · Light' },
+  { name: 'Orunmila',             role: 'Father of Wisdom' },
+  { name: 'Esu',                  role: 'Paradox · Duality · Ternality' },
+  { name: 'Lúwa (Òrìṣà Lúwàbí)', role: 'Wisdom · Morality · Ethics' },
+  { name: 'Egbe',                 role: 'Collective Consciousness' },
+  { name: 'Olodumare',            role: 'Supreme Creative Force' },
+];
+
+const OMOLUABI_VALUES = ['Honesty', 'Respect', 'Responsibility', 'Fairness', 'Sustainability', 'Harmony'];
+
+function IfaPhilosophySection({ color }) {
+  return (
+    <div className="modal__section ifa-phil">
+      <div className="modal__section-label">Ifa Philosophy · PhiloE</div>
+      <p className="ifa-phil__tagline">
+        <strong>Orisa Philosophy:</strong> every element of nature is an Orisa — Energy or Consciousness.
+        The 16 Major Odu Ifa are the Laws of Nature underlying all philosophical systems.
+      </p>
+      <div className="ifa-phil__branches">
+        {PHIL_BRANCHES.map(b => (
+          <div key={b.key} className="ifa-phil__branch">
+            <span className="ifa-phil__branch-name" style={{ color }}>{b.name}</span>
+            <span className="ifa-phil__branch-sub">{b.sub}</span>
+          </div>
+        ))}
+      </div>
+      <div className="ifa-phil__sub-label">Key Figures</div>
+      <div className="ifa-phil__entities">
+        {PHIL_ENTITIES.map(e => (
+          <div key={e.name} className="ifa-phil__entity">
+            <span className="ifa-phil__entity-name">{e.name}</span>
+            <span className="ifa-phil__entity-role">{e.role}</span>
+          </div>
+        ))}
+      </div>
+      <div className="ifa-phil__omoluabi">
+        <span className="ifa-phil__omoluabi-label">Ọmọlúwàbí Values</span>
+        <div className="ifa-phil__omoluabi-vals">
+          {OMOLUABI_VALUES.map(v => (
+            <span key={v} className="ifa-phil__omoluabi-val">{v}</span>
           ))}
         </div>
+      </div>
+      <div className="ifa-phil__links">
+        <a className="ifa-phil__link" href="https://toe.cenproject.org/ifa-philosophy/" target="_blank" rel="noopener noreferrer">Ifa Philosophy ↗</a>
+        <a className="ifa-phil__link" href="https://toe.cenproject.org/ifa-ethics/" target="_blank" rel="noopener noreferrer">Ifa Ethics ↗</a>
       </div>
     </div>
   );
@@ -919,8 +1070,8 @@ function MejiDetail({ odu, cat, oduById, catMap, onNavigate }) {
       </div>
 
       <div className="modal__section">
-        <div className="modal__section-label">IFABit · Àpólà Code</div>
-        <IFABitDisplay code={odu.code + odu.code} rightLabel={odu.name} leftLabel={odu.name} color={color} />
+        <div className="modal__section-label">IFABit Encoding · Àpólà Code</div>
+        <IFABitDisplay rowCode={odu.code} colCode={odu.code} rowLabel={odu.name} colLabel={odu.name} color={color} />
       </div>
 
       <div className="info-grid modal__section">
@@ -968,6 +1119,7 @@ function MejiDetail({ odu, cat, oduById, catMap, onNavigate }) {
 
       <IfaNetwork row={odu} col={odu} color={color} />
       <WikiKnowledge domains={odu.domains} steamsex={odu.steamsex} color={color} />
+      <IfaPhilosophySection color={color} />
     </>
   );
 }
@@ -1011,8 +1163,8 @@ function CompositeDetail({ row, col, rowCat, colCat, onNavigate }) {
       </div>
 
       <div className="modal__section">
-        <div className="modal__section-label">IFABit · Àmúlù Composition</div>
-        <IFABitDisplay code={row.code + col.code} rightLabel={row.name} leftLabel={col.name} color={rowCat.color} />
+        <div className="modal__section-label">IFABit Encoding · Àmúlù Composition</div>
+        <IFABitDisplay rowCode={row.code} colCode={col.code} rowLabel={row.name} colLabel={col.name} color={rowCat.color} />
       </div>
 
       <div className="modal__section">
@@ -1024,6 +1176,7 @@ function CompositeDetail({ row, col, rowCat, colCat, onNavigate }) {
 
       <IfaNetwork row={row} col={col} color={rowCat.color} />
       <WikiKnowledge domains={uniqueDomains} steamsex={uniqueSteamsex} color={rowCat.color} />
+      <IfaPhilosophySection color={rowCat.color} />
     </>
   );
 }
@@ -1059,10 +1212,10 @@ function OduModal({ selection, odu, categories, onClose, onNavigate }) {
             <span className="modal__badge-num">{num}</span>
             <div className="modal__badge-marks">
               <div className="modal__mark-col">
-                {rowBits.map((b, i) => <ModalDot key={i} bit={b} />)}
+                {colBits.map((b, i) => <ModalDot key={i} bit={b} />)}
               </div>
               <div className="modal__mark-col">
-                {colBits.map((b, i) => <ModalDot key={i} bit={b} />)}
+                {rowBits.map((b, i) => <ModalDot key={i} bit={b} />)}
               </div>
             </div>
           </div>
@@ -1090,14 +1243,159 @@ function OduModal({ selection, odu, categories, onClose, onNavigate }) {
 }
 
 // ════════════════════════════════════════════════════════════
+// IFASTEP FRAMEWORK SECTION  (shown under Duality Law)
+// ════════════════════════════════════════════════════════════
+function IfaStepSection({ odu }) {
+  const [stepView, setStepView] = useState('meji');
+
+  const pairs = odu.slice(0, 15).map((o, i) => ({
+    step:   i + 1,
+    aName:  o.name,             bName:  odu[i + 1].name,
+    aNum:   o.id,               bNum:   odu[i + 1].id,
+    aCode:  o.code,             bCode:  odu[i + 1].code,
+    aColor: ODU_STEP_COLORS[o.id], bColor: ODU_STEP_COLORS[odu[i + 1].id],
+    theme:  STEP_THEMES[i],
+    stem:   STEP_STEMS[i],
+  }));
+
+  const STEM_APPS = [
+    { sym:'⚛️', cat:'Physics',        text:'Energy level transitions, quantum state steps, phase boundaries, Heaviside step functions, Fermi-Dirac distributions, potential wells' },
+    { sym:'🧮', cat:'Mathematics',    text:'Step functions, Heaviside function, piecewise linear maps, ordinal numbers, Cantor staircase, cumulative sums, monotone sequences' },
+    { sym:'💻', cat:'Computing',      text:'Finite state machines, sorting and ranking algorithms, threshold gate logic, neural activation functions, binary decision trees' },
+    { sym:'🧬', cat:'Biology',        text:'Developmental stage gates, evolutionary grade transitions, metabolic flux steps, cell differentiation thresholds, ontogeny hierarchies' },
+    { sym:'🧠', cat:'Neuroscience',   text:'Neural action potential thresholds, consciousness state transitions, synaptic weight steps, cognitive load hierarchies, sleep stage progressions' },
+    { sym:'⚗️', cat:'Chemistry',      text:'Reaction coordinate steps, titration equivalence points, periodic table period transitions, bond energy thresholds, reaction activation barriers' },
+    { sym:'📊', cat:'Data Science',   text:'Ordinal regression, CDF step functions, ranking algorithms, percentile thresholds, decision tree splits, ROC threshold analysis' },
+    { sym:'⚙️', cat:'Engineering',    text:'Control system threshold functions, PID controller state steps, reliability step functions, signal processing quantisation levels' },
+    { sym:'🌍', cat:'Social Science', text:"Social rank and hierarchy models, governance power steps, Maslow's needs hierarchy, status transition analysis, institutional rank systems" },
+    { sym:'📐', cat:'Meta-modelling', text:'Any meta-model or meta-analysis involving ordered stages, ranked systems, or progression frameworks maps directly to the 16-step IfaStep sequence' },
+  ];
+
+  return (
+    <section className="ifastep-panel">
+      <div className="ifastep-panel__inner">
+
+        {/* Header */}
+        <div className="ifastep-panel__header">
+          <div className="ifastep-panel__sup">Duality Law · Ifa Dual System</div>
+          <h2 className="ifastep-panel__title">The Odu Ifa Stepwise System</h2>
+          <p className="ifastep-panel__desc">
+            A universal meta-framework for modelling step functions, hierarchies, ranks, and ordered transitions
+            in every domain of knowledge — built on the 16 Major Odu (Meji) and their 15 sequential boundary pairs.
+            All Ifa Duals demonstrate the <strong>Duality Law</strong>: every Odu has an inverse, and every boundary
+            between consecutive Odu forms a stepwise transition that maps to fundamental processes across all of
+            science, technology, engineering, and mathematics.
+          </p>
+          <div className="ifastep-panel__names">
+            {['IfaStep Framework', 'ToE Stepwise System', 'Consciousness Stepwise System', 'Energy-Based Stepwise System'].map((n, i) => (
+              <span key={i} className="ifastep-panel__name-badge">{n}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="ifastep-panel__stats">
+          <div className="ifastep-panel__stat">
+            <div className="ifastep-panel__stat-num">16</div>
+            <div className="ifastep-panel__stat-lbl">Major Odu (Meji)</div>
+            <div className="ifastep-panel__stat-sub">The 16 pure states — 8 principal Odu and their 8 dual inverses</div>
+          </div>
+          <div className="ifastep-panel__stat">
+            <div className="ifastep-panel__stat-num">15</div>
+            <div className="ifastep-panel__stat-lbl">Stepwise Pairs</div>
+            <div className="ifastep-panel__stat-sub">Each consecutive Odu boundary — 2 directions each = 30 stepwise Odu</div>
+          </div>
+          <div className="ifastep-panel__stat">
+            <div className="ifastep-panel__stat-num">46</div>
+            <div className="ifastep-panel__stat-lbl">Total System Odu</div>
+            <div className="ifastep-panel__stat-sub">16 Meji + 30 directional boundary Odu = the complete IfaStep set</div>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="ifastep-panel__tabs">
+          {[{ id:'meji', label:'🔵 16 Major Odu (Meji)' }, { id:'pairs', label:'⇌ 15 Stepwise Pairs' }].map(t => (
+            <button
+              key={t.id}
+              className={'ifastep-panel__tab' + (stepView === t.id ? ' ifastep-panel__tab--active' : '')}
+              onClick={() => setStepView(t.id)}
+            >{t.label}</button>
+          ))}
+        </div>
+
+        {/* 16 Meji Grid */}
+        {stepView === 'meji' && (
+          <div className="ifastep-panel__meji-grid">
+            {odu.map(o => (
+              <div key={o.id} className="ifastep-panel__meji-card" style={{ '--step-color': ODU_STEP_COLORS[o.id] }}>
+                <div className="ifastep-panel__meji-num">Odu {o.id}</div>
+                <div className="ifastep-panel__meji-glyph">{renderGlyphChars(primaryGlyph(o.code))}</div>
+                <div className="ifastep-panel__meji-name">{o.meji}</div>
+                <div className="ifastep-panel__meji-meaning">{o.meaning.slice(0, 90)}{o.meaning.length > 90 ? '…' : ''}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 15 Pairs Grid */}
+        {stepView === 'pairs' && (
+          <div className="ifastep-panel__pairs-grid">
+            {pairs.map(p => (
+              <div key={p.step} className="ifastep-panel__pair-card">
+                <div className="ifastep-panel__pair-num">Step {p.step} of 15</div>
+                <div className="ifastep-panel__pair-duo">
+                  <span className="ifastep-panel__pair-odu" style={{ color: p.aColor }}>
+                    {renderGlyphChars(primaryGlyph(p.aCode))} {p.aName}-{p.bName}
+                  </span>
+                  <span className="ifastep-panel__pair-arrow">⇌</span>
+                  <span className="ifastep-panel__pair-odu" style={{ color: p.bColor }}>
+                    {renderGlyphChars(primaryGlyph(p.bCode))} {p.bName}-{p.aName}
+                  </span>
+                </div>
+                <div className="ifastep-panel__pair-theme">{p.theme}</div>
+                <p className="ifastep-panel__pair-stem">{p.stem}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* STEM Applications */}
+        <div className="ifastep-panel__apps">
+          <div className="ifastep-panel__apps-title">🔬 STEM Applications of the IfaStep Framework</div>
+          <p className="ifastep-panel__apps-desc">
+            Because the 16 Odu form a complete, ordered sequence from pure energy (Ogbe) to pure completion (Ofun),
+            the IfaStep Framework provides a universal template for any stepwise, ranked, or hierarchical structure
+            in nature and human knowledge. The framework is applicable wherever ordered progression, thresholds,
+            or ranked structures appear in any field.
+          </p>
+          <div className="ifastep-panel__apps-grid">
+            {STEM_APPS.map((a, i) => (
+              <div key={i} className="ifastep-panel__app-card">
+                <span className="ifastep-panel__app-sym">{a.sym}</span>
+                <div>
+                  <div className="ifastep-panel__app-cat">{a.cat}</div>
+                  <p className="ifastep-panel__app-text">{a.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
 // APP  (root component + data fetch)
 // ════════════════════════════════════════════════════════════
 function App() {
   const [data, setData]           = useState(null);
   const [category, setCategory]   = useState('all');
   const [search, setSearch]       = useState('');
-  const [view, setView]           = useState('table');
+  const [view, setView]           = useState(() => window.innerWidth <= 640 ? 'list' : 'table');
   const [selection, setSelection] = useState(null);
+  const [activeLaw, setActiveLaw] = useState(null);
 
   useEffect(() => {
     fetch('./data/odu.json')
@@ -1158,22 +1456,28 @@ function App() {
         }
       </main>
 
-      {/* Dual Laws section */}
+      {/* Ifa Laws section */}
       <section className="dual-laws">
         <div className="dual-laws__inner">
-          <span className="dual-laws__label">8 Dual Laws</span>
+          <span className="dual-laws__label">8 Ifa Laws</span>
           <div className="dual-laws__chips">
-            {Object.values(categories).map((cat, i) => {
-              const duals = ['Asymmetry', 'Variance', 'Unity', 'Reduction', 'Decomposition', 'Atomism', 'Synthesis', 'Dynamism'];
-              return (
-                <span key={i} className="dual-chip" style={{ color: cat.color, borderColor: cat.color }}>
-                  {duals[i]}
-                </span>
-              );
-            })}
+            {Object.entries(categories).map(([key, cat]) => (
+              <button
+                key={key}
+                className={'dual-chip' + (activeLaw === key ? ' dual-chip--active' : '')}
+                style={{
+                  color: cat.color,
+                  borderColor: cat.color,
+                  ...(activeLaw === key ? { background: cat.color + '22' } : {}),
+                }}
+                onClick={() => setActiveLaw(activeLaw === key ? null : key)}
+              >{cat.label}</button>
+            ))}
           </div>
         </div>
       </section>
+
+      {activeLaw === 'vital' && <IfaStepSection odu={odu} />}
 
       <IfatomIntro />
 

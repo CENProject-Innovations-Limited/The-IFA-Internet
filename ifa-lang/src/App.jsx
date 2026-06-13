@@ -4,7 +4,114 @@
    CENProject · toe.cenproject.org/ifa-language/
 ───────────────────────────────────────────────────────────── */
 
-const { useState, useEffect, useMemo, useCallback, Fragment } = React;
+const { useState, useEffect, useMemo, useCallback, Fragment, useRef } = React;
+
+// ── OgbeSymbol (SymboE — Ogbe Energy Symbol canvas) ──────────
+function OgbeSymbol({ size = 44 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const s = size;
+    canvas.width  = s;
+    canvas.height = s;
+    const ctx = canvas.getContext('2d');
+    const cx = s / 2, cy = s / 2, r = s * 0.36;
+    const gold = '#f5c518';
+    ctx.clearRect(0, 0, s, s);
+    const draw = (alpha, lineW) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      for (let rot = 0; rot < 2; rot++) {
+        ctx.beginPath();
+        for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+          const scale = Math.cos(2 * t) >= 0 ? Math.sqrt(Math.cos(2 * t)) : 0;
+          const x = cx + (rot === 0 ? 1 : 0) * r * scale * Math.cos(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.sin(t);
+          const y = cy + (rot === 0 ? 1 : 0) * r * scale * Math.sin(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.cos(t);
+          t < 0.02 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+    draw(0.12, s * 0.22);
+    draw(0.22, s * 0.13);
+    draw(0.55, s * 0.055);
+    draw(1.00, s * 0.022);
+  }, [size]);
+  return React.createElement('canvas', { ref, width: size, height: size,
+    style: { display: 'block', flexShrink: 0, marginTop: '1px' } });
+}
+
+// ── OyekuSymbol (SymboN — Oyeku Anergy Symbol canvas) ─────────
+function OyekuSymbol({ size = 44 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const s = size;
+    canvas.width  = s;
+    canvas.height = s;
+    const ctx = canvas.getContext('2d');
+    const cx = s / 2, cy = s / 2, r = s * 0.36;
+    const gold = '#f5c518';
+    ctx.clearRect(0, 0, s, s);
+    const drawLobes = (alpha, lineW) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      for (let rot = 0; rot < 2; rot++) {
+        ctx.beginPath();
+        for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+          const scale = Math.cos(2 * t) >= 0 ? Math.sqrt(Math.cos(2 * t)) : 0;
+          const x = cx + (rot === 0 ? 1 : 0) * r * scale * Math.cos(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.sin(t);
+          const y = cy + (rot === 0 ? 1 : 0) * r * scale * Math.sin(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.cos(t);
+          t < 0.02 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+    drawLobes(0.12, s * 0.22);
+    drawLobes(0.22, s * 0.13);
+    drawLobes(0.55, s * 0.055);
+    drawLobes(1.00, s * 0.022);
+    const ext = s * 0.30;
+    const diag = [[cx + ext, cy - ext], [cx - ext, cy + ext]];
+    const drawDiag = (alpha, lineW, blur) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      ctx.shadowColor = gold;
+      ctx.shadowBlur  = blur;
+      ctx.beginPath();
+      ctx.moveTo(diag[0][0], diag[0][1]);
+      ctx.lineTo(diag[1][0], diag[1][1]);
+      ctx.stroke();
+      ctx.restore();
+    };
+    drawDiag(0.03, s * 0.20, s * 0.12);
+    drawDiag(0.07, s * 0.12, s * 0.08);
+    drawDiag(0.16, s * 0.07, s * 0.05);
+    drawDiag(0.34, s * 0.03, s * 0.03);
+    drawDiag(0.62, s * 0.014, s * 0.015);
+    drawDiag(0.90, s * 0.007, s * 0.007);
+    drawDiag(0.95, s * 0.003, s * 0.003);
+  }, [size]);
+  return React.createElement('canvas', { ref, width: size, height: size,
+    style: { display: 'block', flexShrink: 0, marginTop: '1px' } });
+}
 
 // ════════════════════════════════════════════════════════════
 // GLYPH HELPERS  (Periodic Table section)
@@ -12,7 +119,7 @@ const { useState, useEffect, useMemo, useCallback, Fragment } = React;
 function primaryGlyph(code) {
   if (code === '1111') return 'O';
   if (code === '0000') return '|';
-  return code.split('').map(b => b === '1' ? 'O' : 'I').join('');
+  return code.split('').reverse().map(b => b === '1' ? 'O' : 'I').join('');
 }
 function renderGlyphChars(g) {
   if (g.length === 1) return g;
@@ -219,27 +326,35 @@ function IfatomIntro() {
 }
 
 // ════════════════════════════════════════════════════════════
-// IFA MARKS  (IfaLang section)
+// IFA MARKS  –  two-column binary divination visual
+// bit=1 → single bar (Ogbe/Energy)  |  bit=0 → double bar (Oyeku/Anergy)
 // ════════════════════════════════════════════════════════════
-function IfaMarks({ code = '0000', color = '#888', size = 'md' }) {
-  const bits = code.replace(/[^01]/g, '').slice(0,4).padEnd(4,'0').split('').map(Number);
+function IfaMarks({ code = '0000', secondCode, color = '#888', size = 'md' }) {
+  const leftBits  = code.split('').map(Number);
+  const rightBits = (secondCode || code).split('').map(Number);
+
   function MarkRow({ bit }) {
     return (
       <div className="ifa-marks__row">
-        {bit === 1
-          ? <span className="ifa-marks__dot" style={{ background: color }} />
-          : <>
-              <span className="ifa-marks__dot" style={{ background: color, opacity: 0.4 }} />
-              <span className="ifa-marks__dot" style={{ background: color, opacity: 0.4 }} />
+        {bit === 0
+          ? <>
+              <span className="ifa-marks__bar" style={{ background: color }} />
+              <span className="ifa-marks__bar" style={{ background: color }} />
             </>
+          : <span className="ifa-marks__bar" style={{ background: color }} />
         }
       </div>
     );
   }
+
   return (
     <div className={`ifa-marks ifa-marks--${size}`}>
-      <div className="ifa-marks__col">{bits.slice(0,2).map((b,i) => <MarkRow key={i} bit={b} />)}</div>
-      <div className="ifa-marks__col">{bits.slice(2,4).map((b,i) => <MarkRow key={i} bit={b} />)}</div>
+      <div className="ifa-marks__col">
+        {leftBits.map((b, i) => <MarkRow key={i} bit={b} />)}
+      </div>
+      <div className="ifa-marks__col">
+        {rightBits.map((b, i) => <MarkRow key={i} bit={b} />)}
+      </div>
     </div>
   );
 }
@@ -381,7 +496,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <span className="ifa-binary__meta-glyph ifa-binary__meta-glyph--inf">∞</span>
+                  <OgbeSymbol size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>DuoInfinity · InfinitoE</strong>
                     <p>Ifa Infinity — crossed with ∞; renders circling. The Infinity for Everything.</p>
@@ -431,7 +546,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <span className="ifa-binary__meta-glyph ifa-binary__meta-glyph--inf">∞</span>
+                  <OyekuSymbol size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>DuoInfinity · NinfinitoE</strong>
                     <p>Ifa Ninfinity — DuoInfinity with "J" dash. NanInfinity. Dual of Infinity.</p>
@@ -670,30 +785,51 @@ function OrisaOverview({ data }) {
 // ════════════════════════════════════════════════════════════
 // PT CONTROLS
 // ════════════════════════════════════════════════════════════
-function PtControls({ categories, activeCategory, onCategory, searchTerm, onSearch, view, onView }) {
+function Controls({ categories, activeCategory, onCategory, searchTerm, onSearch, view, onView }) {
   return (
-    <div className="pt-controls">
-      <h2 className="pt-controls__heading">The Complete Form of Ifa's Periodic Table</h2>
-      <div className="pt-controls__inner">
-        <div className="pt-search">
-          <span className="pt-search__icon">⌕</span>
-          <input className="pt-search__input" type="text" placeholder="Search Odu…"
-            value={searchTerm} onChange={e => onSearch(e.target.value)} />
+    <div className="controls">
+      <h2 className="controls__heading">The Complete Form of Ifa's Periodic Table</h2>
+      <div className="controls__inner">
+
+        <div className="search">
+          <span className="search__icon">⌕</span>
+          <input
+            className="search__input"
+            type="text"
+            placeholder="Search Odu…"
+            value={searchTerm}
+            onChange={e => onSearch(e.target.value)}
+          />
         </div>
-        <div className="pt-chips">
-          <button className={'pt-chip ' + (activeCategory === 'all' ? 'pt-chip--active' : 'pt-chip--inactive')}
-            style={{ color: '#9aa3ba', borderColor: '#2e3a58' }} onClick={() => onCategory('all')}>All</button>
+
+        <div className="chips">
+          <button
+            className={'chip ' + (activeCategory === 'all' ? 'chip--active' : 'chip--inactive')}
+            style={{ color: '#9aa3ba', borderColor: '#2e3a58' }}
+            onClick={() => onCategory('all')}
+          >All</button>
+
           {Object.entries(categories).map(([key, cat]) => (
-            <button key={key}
-              className={'pt-chip ' + (activeCategory === key ? 'pt-chip--active' : 'pt-chip--inactive')}
-              style={{ color: cat.color, borderColor: cat.color }} onClick={() => onCategory(key)}
+            <button
+              key={key}
+              className={'chip ' + (activeCategory === key ? 'chip--active' : 'chip--inactive')}
+              style={{ color: cat.color, borderColor: cat.color }}
+              onClick={() => onCategory(key)}
             >{cat.label}</button>
           ))}
         </div>
-        <div className="pt-view-toggle">
-          <button className={'pt-view-btn ' + (view === 'table' ? 'pt-view-btn--active' : '')} onClick={() => onView('table')}>Grid</button>
-          <button className={'pt-view-btn ' + (view === 'list'  ? 'pt-view-btn--active' : '')} onClick={() => onView('list')}>List</button>
+
+        <div className="view-toggle">
+          <button
+            className={'view-btn ' + (view === 'table' ? 'view-btn--active' : '')}
+            onClick={() => onView('table')}
+          >Grid</button>
+          <button
+            className={'view-btn ' + (view === 'list' ? 'view-btn--active' : '')}
+            onClick={() => onView('list')}
+          >List</button>
         </div>
+
       </div>
     </div>
   );
@@ -704,18 +840,25 @@ function PtControls({ categories, activeCategory, onCategory, searchTerm, onSear
 // ════════════════════════════════════════════════════════════
 function OduCell({ row, col, cellNum, color, isMeji, isDimmed, onCellClick, onMouseEnter, onMouseLeave, onMouseMove }) {
   const short    = isMeji ? row.name : `${row.name.slice(0,3)}-${col.name.slice(0,3)}`;
-  const cls      = ['pt-cell', isMeji ? 'pt-cell--meji' : '', isDimmed ? 'pt-cell--dim' : ''].filter(Boolean).join(' ');
-  const priGlyph = primaryGlyph(row.code);
-  const secGlyph = primaryGlyph(col.code);
+  const cls      = ['cell', isMeji ? 'cell--meji' : '', isDimmed ? 'cell--dim' : ''].filter(Boolean).join(' ');
+  const priGlyph = primaryGlyph(row.code); // principal (Àpólà) — large, bottom
+  const secGlyph = primaryGlyph(col.code); // secondary (Period) — small, top
+
   return (
-    <div className={cls} style={{ color }} onClick={onCellClick}
-      onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseMove={onMouseMove}>
-      <span className="pt-cell__num">{cellNum}</span>
-      <div className="pt-cell__glyph">
-        <span className="pt-cell__glyph-sec">{renderGlyphChars(secGlyph)}</span>
-        <span className="pt-cell__glyph-pri">{renderGlyphChars(priGlyph)}</span>
+    <div
+      className={cls}
+      style={{ color }}
+      onClick={onCellClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onMouseMove={onMouseMove}
+    >
+      <span className="cell__num">{cellNum}</span>
+      <div className="cell__glyph">
+        <span className="cell__glyph-sec">{renderGlyphChars(secGlyph)}</span>
+        <span className="cell__glyph-pri">{renderGlyphChars(priGlyph)}</span>
       </div>
-      <span className="pt-cell__name">{short}</span>
+      <span className="cell__name">{short}</span>
     </div>
   );
 }
@@ -723,8 +866,19 @@ function OduCell({ row, col, cellNum, color, isMeji, isDimmed, onCellClick, onMo
 // ════════════════════════════════════════════════════════════
 // PERIODIC TABLE HELPERS
 // ════════════════════════════════════════════════════════════
-function ptCellNum(ci, rowPos) { return rowPos === 0 ? ci + 1 : 16 + ci * 15 + rowPos; }
+// Block-based numbering:
+//   Meji row (rowPos 0)  → 1–16, one per IfaCat (ci + 1)
+//   Member rows (rowPos 1–15) → block k (ci = k-1) occupies slots 17–31, 32–46, …, 242–256
+//   Formula: 16 + ci * 15 + rowPos
+function cellNum(ci, rowPos) {
+  if (rowPos === 0) return ci + 1;
+  return 16 + ci * 15 + rowPos;
+}
 function oduName(row, col) { return row.id === col.id ? row.meji : `${row.name}-${col.name}`; }
+
+// For Àpólà column ci, return the secondary (Left) Odu at period row-position rowPos.
+// rowPos 0 → Meji (secondary = principal itself)
+// rowPos 1..15 → all other Odu in standard order, skipping ci
 function secondaryAt(odu, ci, rowPos) {
   if (rowPos === 0) return odu[ci];
   let k = 0;
@@ -734,11 +888,12 @@ function secondaryAt(odu, ci, rowPos) {
     k++;
   }
 }
+
 function calcDimmed(row, col, activeCategory, searchTerm) {
   if (activeCategory !== 'all' && row.category !== activeCategory && col.category !== activeCategory) return true;
   if (searchTerm) {
     const t = searchTerm.toLowerCase();
-    return !oduName(row,col).toLowerCase().includes(t) &&
+    return !oduName(row, col).toLowerCase().includes(t) &&
            !row.name.toLowerCase().includes(t) &&
            !col.name.toLowerCase().includes(t);
   }
@@ -750,75 +905,154 @@ function calcDimmed(row, col, activeCategory, searchTerm) {
 // ════════════════════════════════════════════════════════════
 function PeriodicTable({ odu, categories, activeCategory, searchTerm, onCellClick }) {
   const [tip, setTip] = useState({ visible: false, text: '', x: 0, y: 0 });
+
   const showTip = useCallback((text, e) => setTip({ visible: true, text, x: e.clientX + 14, y: e.clientY + 14 }), []);
   const moveTip = useCallback(e => setTip(t => ({ ...t, x: e.clientX + 14, y: e.clientY + 14 })), []);
   const hideTip = useCallback(() => setTip(t => ({ ...t, visible: false })), []);
 
   return (
     <div>
+      {/* Table header labels */}
       <div className="pt-table-headers">
         <div className="pt-table-header">Apodu: Apola-Odu</div>
         <div className="pt-table-header">Àtẹfá-Èròjà Gbogbo Ìmọ</div>
-        <div className="pt-table-header">IfaCategory: Apola Odu
-          <div className="pt-table-header__sub"><span>(IfaCat)</span><span>(Apodu)</span></div>
+        <div className="pt-table-header">
+          IfaCategory: Apola Odu
+          <div className="pt-table-header__sub">
+            <span>(IfaCat)</span>
+            <span>(Apodu)</span>
+          </div>
         </div>
         <div className="pt-table-header">IfaCategory Theory</div>
       </div>
-      <div className="pt-table-scroll">
+
+      {/* Mobile scroll hint */}
+      <div className="table-scroll-hint">
+        <span>←</span><span>Swipe to explore all 256 Ifatoms</span><span>→</span>
+      </div>
+
+      {/* Grid */}
+      <div className="table-scroll">
         <div className="pt-grid">
+
+          {/* Column headers — IfaCat 16 (left) → IfaCat 1 (right), right-to-left structure */}
           {[...odu].reverse().map(apolOdu => (
-            <div key={'ch-' + apolOdu.id} className="pt-col-header" style={{ color: categories[apolOdu.category].color }}>
+            <div key={'ch-' + apolOdu.id} className="pt-col-header"
+                 style={{ color: categories[apolOdu.category].color }}>
               <span className="pt-col-header__ifacat">IfaCat {apolOdu.id}</span>
               <span className="pt-col-header__apola">Àpólà {apolOdu.yoruba}</span>
             </div>
           ))}
+
+          {/* Corner — row-header column label (now on the right, after IfaCat 1) */}
           <div className="pt-corner">
             <span className="pt-corner__label">IfaComposition: Àmúlù-Odu</span>
             <span className="pt-corner__sub">(IfaComp)</span>
             <span className="pt-corner__sub">(Àmúlù)</span>
           </div>
+
+          {/* Rows = IfaPeriods (16 periods) */}
           {Array.from({ length: 16 }, (_, rowPos) => {
-            const rev = [...odu].reverse();
-            const makeCell = pOdu => {
-              const ci  = pOdu.id - 1;
-              const sec = secondaryAt(odu, ci, rowPos);
-              const num = ptCellNum(ci, rowPos);
-              const dim = calcDimmed(pOdu, sec, activeCategory, searchTerm);
+            const reversedOdu = [...odu].reverse();
+
+            // Helper: render one OduCell for a given principalOdu at rowPos
+            const makeCell = (principalOdu) => {
+              const ci          = principalOdu.id - 1;
+              const secondaryOdu = secondaryAt(odu, ci, rowPos);
+              const num         = cellNum(ci, rowPos);
+              const dimmed      = calcDimmed(principalOdu, secondaryOdu, activeCategory, searchTerm);
+              const name        = oduName(principalOdu, secondaryOdu);
+              const color       = categories[principalOdu.category].color;
               return (
-                <OduCell key={num} row={pOdu} col={sec} cellNum={num}
-                  color={categories[pOdu.category].color}
-                  isMeji={rowPos === 0} isDimmed={dim}
-                  onCellClick={() => !dim && onCellClick({ row: pOdu, col: sec, num })}
-                  onMouseEnter={e => !dim && showTip(oduName(pOdu, sec), e)}
-                  onMouseLeave={hideTip} onMouseMove={moveTip}
+                <OduCell
+                  key={num}
+                  row={principalOdu}
+                  col={secondaryOdu}
+                  cellNum={num}
+                  color={color}
+                  isMeji={true}
+                  isDimmed={dimmed}
+                  onCellClick={() => !dimmed && onCellClick({ row: principalOdu, col: secondaryOdu, num })}
+                  onMouseEnter={e => !dimmed && showTip(name, e)}
+                  onMouseLeave={hideTip}
+                  onMouseMove={moveTip}
                 />
               );
             };
-            if (rowPos === 0) return (
-              <Fragment key="period-0">
-                {rev.map(o => {
-                  const ci = o.id - 1;
-                  return (ci === 0 || ci === 1) ? makeCell(o) : <div key={'bp-ph-' + ci} className="pt-cell-placeholder" />;
-                })}
-                <div className="pt-row-header pt-row-header--basepair"><span className="pt-row-header__basepair">Ifa Base Pair</span></div>
-                {rev.map(o => {
-                  const ci = o.id - 1;
-                  return (ci === 0 || ci === 1) ? <div key={'ic1-ph-' + ci} className="pt-cell-placeholder" /> : makeCell(o);
-                })}
-                <div className="pt-row-header"><span className="pt-row-header__ifacomp">IfaComp 1</span></div>
-              </Fragment>
-            );
+
+            if (rowPos === 0) {
+              // Split the Meji row into two visual rows:
+              // Row A — Base Pair: Ogbe (ci=0) and Oyeku (ci=1) only; other columns are placeholders
+              // Row B — IfaComp 1: the 14 remaining Meji (ci=2..15); Ogbe/Oyeku columns are placeholders
+              return (
+                <Fragment key="period-0">
+                  {/* ── Base Pair row ── */}
+                  {reversedOdu.map((pOdu) => {
+                    const ci = pOdu.id - 1;
+                    return (ci === 0 || ci === 1)
+                      ? makeCell(pOdu)
+                      : <div key={'bp-ph-' + ci} className="pt-cell-placeholder" />;
+                  })}
+                  <div className="pt-row-header pt-row-header--basepair">
+                    <span className="pt-row-header__basepair">Ifa Base Pair</span>
+                  </div>
+
+                  {/* ── IfaComp 1 row — 14 prime Meji ── */}
+                  {reversedOdu.map((pOdu) => {
+                    const ci = pOdu.id - 1;
+                    return (ci === 0 || ci === 1)
+                      ? <div key={'ic1-ph-' + ci} className="pt-cell-placeholder" />
+                      : makeCell(pOdu);
+                  })}
+                  <div className="pt-row-header">
+                    <span className="pt-row-header__ifacomp">IfaComp 1</span>
+                  </div>
+                </Fragment>
+              );
+            }
+
+            // Regular rows: IfaComp 2–16
             return (
               <Fragment key={'period-' + rowPos}>
-                {rev.map(makeCell)}
-                <div className="pt-row-header"><span className="pt-row-header__ifacomp">IfaComp {rowPos + 1}</span></div>
+                {reversedOdu.map((principalOdu) => {
+                  const ci          = principalOdu.id - 1;
+                  const secondaryOdu = secondaryAt(odu, ci, rowPos);
+                  const num         = cellNum(ci, rowPos);
+                  const dimmed      = calcDimmed(principalOdu, secondaryOdu, activeCategory, searchTerm);
+                  const name        = oduName(principalOdu, secondaryOdu);
+                  const color       = categories[principalOdu.category].color;
+                  return (
+                    <OduCell
+                      key={num}
+                      row={principalOdu}
+                      col={secondaryOdu}
+                      cellNum={num}
+                      color={color}
+                      isMeji={false}
+                      isDimmed={dimmed}
+                      onCellClick={() => !dimmed && onCellClick({ row: principalOdu, col: secondaryOdu, num })}
+                      onMouseEnter={e => !dimmed && showTip(name, e)}
+                      onMouseLeave={hideTip}
+                      onMouseMove={moveTip}
+                    />
+                  );
+                })}
+                <div className="pt-row-header">
+                  <span className="pt-row-header__ifacomp">IfaComp {rowPos + 1}</span>
+                </div>
               </Fragment>
             );
           })}
+
         </div>
       </div>
+
+      {/* Tooltip */}
       {tip.visible && (
-        <div className="pt-tooltip" style={{ left: Math.min(tip.x, window.innerWidth - 200) + 'px', top: tip.y + 'px' }}>{tip.text}</div>
+        <div
+          className="tooltip"
+          style={{ left: Math.min(tip.x, window.innerWidth - 200) + 'px', top: tip.y + 'px' }}
+        >{tip.text}</div>
       )}
     </div>
   );
@@ -827,25 +1061,35 @@ function PeriodicTable({ odu, categories, activeCategory, searchTerm, onCellClic
 // ════════════════════════════════════════════════════════════
 // LIST VIEW
 // ════════════════════════════════════════════════════════════
-function PtListView({ odu, categories, activeCategory, searchTerm, onSelect }) {
+function ListView({ odu, categories, activeCategory, searchTerm, onSelect }) {
   const filtered = odu.filter(o => {
     const catOk    = activeCategory === 'all' || o.category === activeCategory;
-    const searchOk = !searchTerm || o.name.toLowerCase().includes(searchTerm.toLowerCase()) || o.meji.toLowerCase().includes(searchTerm.toLowerCase());
+    const searchOk = !searchTerm ||
+      o.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      o.meji.toLowerCase().includes(searchTerm.toLowerCase());
     return catOk && searchOk;
   });
-  if (!filtered.length) return <div style={{ textAlign:'center', padding:'48px', color:'var(--text-3)' }}>No Odu match your search.</div>;
+
+  if (!filtered.length) return (
+    <div style={{ textAlign: 'center', padding: '48px', color: 'var(--text-3)' }}>
+      No Odu match your search.
+    </div>
+  );
+
   return (
-    <div className="pt-list-grid">
+    <div className="list-grid">
       {filtered.map(o => {
         const cat = categories[o.category];
         return (
-          <div key={o.id} className="pt-odu-card" onClick={() => onSelect({ row: o, col: o, num: o.id })}>
-            <div className="pt-odu-card__badge" style={{ color: cat.color }}><span>{o.id}</span></div>
-            <div className="pt-odu-card__body">
-              <div className="pt-odu-card__name">{o.meji}</div>
-              <div className="pt-odu-card__yoruba">{o.yoruba} Méjì</div>
-              <div className="pt-odu-card__cat" style={{ color: cat.color }}>{cat.label}</div>
-              <div className="pt-odu-card__desc">{o.meaning}</div>
+          <div key={o.id} className="odu-card" onClick={() => onSelect({ row: o, col: o, num: o.id })}>
+            <div className="odu-card__badge" style={{ color: cat.color }}>
+              <span>{o.id}</span>
+            </div>
+            <div className="odu-card__body">
+              <div className="odu-card__name">{o.meji}</div>
+              <div className="odu-card__yoruba">{o.yoruba} Méjì</div>
+              <div className="odu-card__cat" style={{ color: cat.color }}>{cat.label}</div>
+              <div className="odu-card__desc">{o.meaning}</div>
             </div>
           </div>
         );
@@ -925,19 +1169,22 @@ function IfaNetwork({ row, col, color }) {
   }, [row.id, col.id, isMeji]);
 
   return (
-    <div className="pt-modal__section ifa-network">
-      <div className="pt-modal__section-label">Ifa Networks</div>
+    <div className="modal__section ifa-network">
+      <div className="modal__section-label">Ifa Networks</div>
       <div className="ifa-net__grid">
+
         <a className="ifa-net__card ifa-net__card--odu" href={oduUrl} target="_blank" rel="noopener noreferrer">
           <span className="ifa-net__badge ifa-net__badge--ifa">Ifa Knowledge</span>
           <span className="ifa-net__name" style={{ color }}>{oduName}</span>
           <span className="ifa-net__sub">kominifa.com · 256 Odu Ifa</span>
         </a>
+
         <a className="ifa-net__card ifa-net__card--ejiodi" href={ejiUrl} target="_blank" rel="noopener noreferrer">
           <span className="ifa-net__badge ifa-net__badge--trad">Traditional Knowledge</span>
           <span className="ifa-net__name" style={{ color }}>{isMeji ? row.meji : row.name}</span>
           <span className="ifa-net__sub">Èjìòdí · Home of Tradition</span>
         </a>
+
         {orisa.map(o => (
           <a key={o.path} className="ifa-net__card ifa-net__card--orisa"
             href={KOMI_BASE + o.path} target="_blank" rel="noopener noreferrer">
@@ -946,6 +1193,7 @@ function IfaNetwork({ row, col, color }) {
             <span className="ifa-net__sub">kominifa.com</span>
           </a>
         ))}
+
       </div>
     </div>
   );
@@ -1020,8 +1268,8 @@ function WikiKnowledge({ domains, steamsex, color }) {
   if (!termKey) return null;
 
   return (
-    <div className="pt-modal__section wiki-knowledge">
-      <div className="pt-modal__section-label">Knowledge Links · Wikipedia</div>
+    <div className="modal__section wiki-knowledge">
+      <div className="modal__section-label">Knowledge Links · Wikipedia</div>
       {loading ? (
         <div className="wiki-loading">
           <span className="wiki-dot" /><span className="wiki-dot" /><span className="wiki-dot" />
@@ -1052,30 +1300,117 @@ function WikiKnowledge({ domains, steamsex, color }) {
 }
 
 // ════════════════════════════════════════════════════════════
-// ODU MODAL
+// MODAL
 // ════════════════════════════════════════════════════════════
 function ModalDot({ bit }) {
-  return bit === 1
-    ? <div className="pt-modal__dot" />
-    : <div className="pt-modal__dot pt-modal__dot--zero" />;
+  return (
+    <div className="modal__mark-row">
+      {bit === 0
+        ? <><div className="modal__bar" /><div className="modal__bar" /></>
+        : <div className="modal__bar" />
+      }
+    </div>
+  );
 }
 
-function IFABitDisplay({ code, rightLabel, leftLabel, color }) {
-  const rightBits = code.slice(0,4).split('').map(Number);
-  const leftBits  = code.slice(4,8).split('').map(Number);
+// IFABitDisplay — shows 4-bit marks for two Odu side by side.
+// RTL rule: principal/row Odu → LEFT column (LTR name lists principal first = LEFT);
+//           period/col Odu → RIGHT column (RTL reading starts from RIGHT = period).
+function IFABitDisplay({ rowCode, colCode, rowLabel, colLabel, color }) {
+  const leftBits  = rowCode.split('').map(Number);
+  const rightBits = colCode.split('').map(Number);
+  const decimal   = parseInt(rowCode + colCode, 2);
+
+  function Mark({ bit }) {
+    return (
+      <div className="ifabit__mark">
+        {bit === 0
+          ? <>
+              <div className="ifabit__bar" style={{ background: color }} />
+              <div className="ifabit__bar" style={{ background: color }} />
+            </>
+          : <div className="ifabit__bar" style={{ background: color }} />
+        }
+      </div>
+    );
+  }
+
   return (
-    <div className="pt-ifabit" style={{ color }}>
-      <div className="pt-ifabit__cols">
-        {[{ bits: rightBits, label: rightLabel }, { bits: leftBits, label: leftLabel }].map(({ bits, label }, ci) => (
-          <div key={ci} className="pt-ifabit__col">
-            <div className="pt-ifabit__col-label">{label}</div>
-            {bits.map((b, i) => (
-              <div key={i} className="pt-ifabit__mark">
-                {b === 1 ? <div className="pt-ifabit__dot" /> : <><div className="pt-ifabit__dot pt-ifabit__dot--zero" /><div className="pt-ifabit__dot pt-ifabit__dot--zero" /></>}
-              </div>
-            ))}
+    <div className="ifabit">
+      <div className="ifabit__cols">
+        <div className="ifabit__col">
+          <div className="ifabit__col-label" style={{ color }}>{colLabel}</div>
+          {rightBits.map((b, i) => <Mark key={i} bit={b} />)}
+        </div>
+        <div className="ifabit__col">
+          <div className="ifabit__col-label" style={{ color }}>{rowLabel}</div>
+          {leftBits.map((b, i) => <Mark key={i} bit={b} />)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+// IFA PHILOSOPHY SECTION
+// ════════════════════════════════════════════════════════════
+
+const PHIL_BRANCHES = [
+  { key: 'logic',        name: 'Ifa Logic',         sub: 'Reasoning · Principles' },
+  { key: 'ethics',       name: 'Ifa Ethics',         sub: 'Ọmọlúwàbí · Balance · Fairness' },
+  { key: 'ontology',     name: 'Ifa Ontology',       sub: 'Being & existence' },
+  { key: 'epistemology', name: 'Ifa Epistemology',   sub: 'Knowledge · Wisdom' },
+  { key: 'phenomenology',name: 'Ifa Phenomenology',  sub: 'Lived experience · Odu Ifa' },
+  { key: 'paradox',      name: 'IfaParadox',         sub: 'Esu · Duality · Ternality' },
+];
+
+const PHIL_ENTITIES = [
+  { name: 'Ọbàtálá',              role: 'Purity · Ethical Leadership · Light' },
+  { name: 'Orunmila',             role: 'Father of Wisdom' },
+  { name: 'Esu',                  role: 'Paradox · Duality · Ternality' },
+  { name: 'Lúwa (Òrìṣà Lúwàbí)', role: 'Wisdom · Morality · Ethics' },
+  { name: 'Egbe',                 role: 'Collective Consciousness' },
+  { name: 'Olodumare',            role: 'Supreme Creative Force' },
+];
+
+const OMOLUABI_VALUES = ['Honesty', 'Respect', 'Responsibility', 'Fairness', 'Sustainability', 'Harmony'];
+
+function IfaPhilosophySection({ color }) {
+  return (
+    <div className="modal__section ifa-phil">
+      <div className="modal__section-label">Ifa Philosophy · PhiloE</div>
+      <p className="ifa-phil__tagline">
+        <strong>Orisa Philosophy:</strong> every element of nature is an Orisa — Energy or Consciousness.
+        The 16 Major Odu Ifa are the Laws of Nature underlying all philosophical systems.
+      </p>
+      <div className="ifa-phil__branches">
+        {PHIL_BRANCHES.map(b => (
+          <div key={b.key} className="ifa-phil__branch">
+            <span className="ifa-phil__branch-name" style={{ color }}>{b.name}</span>
+            <span className="ifa-phil__branch-sub">{b.sub}</span>
           </div>
         ))}
+      </div>
+      <div className="ifa-phil__sub-label">Key Figures</div>
+      <div className="ifa-phil__entities">
+        {PHIL_ENTITIES.map(e => (
+          <div key={e.name} className="ifa-phil__entity">
+            <span className="ifa-phil__entity-name">{e.name}</span>
+            <span className="ifa-phil__entity-role">{e.role}</span>
+          </div>
+        ))}
+      </div>
+      <div className="ifa-phil__omoluabi">
+        <span className="ifa-phil__omoluabi-label">Ọmọlúwàbí Values</span>
+        <div className="ifa-phil__omoluabi-vals">
+          {OMOLUABI_VALUES.map(v => (
+            <span key={v} className="ifa-phil__omoluabi-val">{v}</span>
+          ))}
+        </div>
+      </div>
+      <div className="ifa-phil__links">
+        <a className="ifa-phil__link" href="https://toe.cenproject.org/ifa-philosophy/" target="_blank" rel="noopener noreferrer">Ifa Philosophy ↗</a>
+        <a className="ifa-phil__link" href="https://toe.cenproject.org/ifa-ethics/" target="_blank" rel="noopener noreferrer">Ifa Ethics ↗</a>
       </div>
     </div>
   );
@@ -1085,53 +1420,68 @@ function MejiDetail({ odu, cat, oduById, catMap, onNavigate }) {
   const color   = cat.color;
   const dualOdu = oduById[odu.dual];
   const dualCat = dualOdu ? catMap[dualOdu.category] : null;
+
   return (
     <>
-      <div className="pt-modal__section">
-        <div className="pt-modal__section-label">Ojú Odù · Meaning & Domain</div>
-        <p className="pt-modal__meaning">{odu.meaning}</p>
+      <div className="modal__section">
+        <div className="modal__section-label">Ojú Odù · Meaning & Domain</div>
+        <p className="modal__meaning">{odu.meaning}</p>
       </div>
-      <div className="pt-modal__section">
-        <div className="pt-modal__section-label">Core Domains</div>
-        <div className="pt-domain-chips">{odu.domains.map(d => <span key={d} className="pt-domain-chip">{d}</span>)}</div>
-      </div>
-      <div className="pt-modal__section">
-        <div className="pt-modal__section-label">IFABit · Àpólà Code</div>
-        <IFABitDisplay code={odu.code + odu.code} rightLabel={odu.name} leftLabel={odu.name} color={color} />
-      </div>
-      <div className="pt-info-grid pt-modal__section">
-        <div className="pt-info-card">
-          <div className="pt-info-card__label">Elemental Correspondence</div>
-          <div className="pt-info-card__value" style={{ color }}>{odu.element}</div>
-        </div>
-        <div className="pt-info-card">
-          <div className="pt-info-card__label">Planetary Influence</div>
-          <div className="pt-info-card__value" style={{ color }}>{odu.planet}</div>
+
+      <div className="modal__section">
+        <div className="modal__section-label">Core Domains</div>
+        <div className="domain-chips">
+          {odu.domains.map(d => <span key={d} className="domain-chip">{d}</span>)}
         </div>
       </div>
-      <div className="pt-modal__section">
-        <div className="pt-modal__section-label">STEAMSEX Disciplines</div>
-        <div className="pt-steamsex-tags">{odu.steamsex.map(s => <span key={s} className="pt-steamsex-tag">{s}</span>)}</div>
+
+      <div className="modal__section">
+        <div className="modal__section-label">IFABit Encoding · Àpólà Code</div>
+        <IFABitDisplay rowCode={odu.code} colCode={odu.code} rowLabel={odu.name} colLabel={odu.name} color={color} />
       </div>
-      <div className="pt-modal__section">
-        <div className="pt-modal__section-label">Ifa Periodicity Laws</div>
-        <div className="pt-domain-chips">{odu.axioms.map(a => <span key={a} className="pt-domain-chip" style={{ borderColor: color + '55' }}>{a}</span>)}</div>
+
+      <div className="modal__section">
+        <div className="info-card">
+          <div className="info-card__label">Elemental Correspondence</div>
+          <div className="info-card__value" style={{ color }}>{odu.element}</div>
+        </div>
       </div>
+
+      <div className="modal__section">
+        <div className="modal__section-label">STEAMSEX Disciplines</div>
+        <div className="steamsex-tags">
+          {odu.steamsex.map(s => <span key={s} className="steamsex-tag">{s}</span>)}
+        </div>
+      </div>
+
+      <div className="modal__section">
+        <div className="modal__section-label">Ifa Periodicity Laws</div>
+        <div className="domain-chips">
+          {odu.axioms.map(a => (
+            <span key={a} className="domain-chip" style={{ borderColor: color + '55' }}>{a}</span>
+          ))}
+        </div>
+      </div>
+
       {dualOdu && (
-        <div className="pt-modal__section">
-          <div className="pt-modal__section-label">Ifa Dual · Inverse Àpólà</div>
-          <div className="pt-dual-row" onClick={() => onNavigate(dualOdu.id)}>
-            <div className="pt-dual-badge" style={{ color: dualCat.color }}><span>{dualOdu.id}</span></div>
-            <div>
-              <div className="pt-dual-name">{dualOdu.meji}</div>
-              <div className="pt-dual-yoruba">{dualOdu.yoruba} Méjì · {dualCat.label}</div>
+        <div className="modal__section">
+          <div className="modal__section-label">Ifa Dual · Inverse Àpólà</div>
+          <div className="dual-row" onClick={() => onNavigate(dualOdu.id)}>
+            <div className="dual-badge" style={{ color: dualCat.color }}>
+              <span>{dualOdu.id}</span>
             </div>
-            <div className="pt-dual-arrow">→</div>
+            <div>
+              <div className="dual-name">{dualOdu.meji}</div>
+              <div className="dual-yoruba">{dualOdu.yoruba} Méjì · {dualCat.label}</div>
+            </div>
+            <div className="dual-arrow">→</div>
           </div>
         </div>
       )}
+
       <IfaNetwork row={odu} col={odu} color={color} />
       <WikiKnowledge domains={odu.domains} steamsex={odu.steamsex} color={color} />
+      <IfaPhilosophySection color={color} />
     </>
   );
 }
@@ -1139,11 +1489,12 @@ function MejiDetail({ odu, cat, oduById, catMap, onNavigate }) {
 function CompositeDetail({ row, col, rowCat, colCat, onNavigate }) {
   const uniqueDomains  = [...new Set([...row.domains.slice(0,3), ...col.domains.slice(0,3)])];
   const uniqueSteamsex = [...new Set([...row.steamsex, ...col.steamsex])];
+
   return (
     <>
-      <div className="pt-modal__section">
-        <div className="pt-modal__section-label">Àmúlù Odù · Composite Ifatom</div>
-        <p className="pt-modal__meaning">
+      <div className="modal__section">
+        <div className="modal__section-label">Àmúlù Odù · Composite Ifatom</div>
+        <p className="modal__meaning">
           This Àmúlù Odù (Composite Ifatom) belongs to the{' '}
           <strong style={{ color: rowCat.color }}>Àpólà {row.name}</strong> IfaGroup,
           expressing the interplay between{' '}
@@ -1152,44 +1503,57 @@ function CompositeDetail({ row, col, rowCat, colCat, onNavigate }) {
           Click either parent below to explore its full meaning.
         </p>
       </div>
-      <div className="pt-info-grid pt-modal__section">
-        <div className="pt-info-card pt-info-card--link" onClick={() => onNavigate(row.id)}>
-          <div className="pt-info-card__label" style={{ color: rowCat.color }}>Àpólà Odu · Right (Principal)</div>
-          <div className="pt-info-card__value">{row.meji}</div>
-          <div className="pt-info-card__sub">{row.domains.slice(0,3).join(' · ')}</div>
+
+      <div className="info-grid modal__section">
+        <div className="info-card info-card--link" onClick={() => onNavigate(row.id)}>
+          <div className="info-card__label" style={{ color: rowCat.color }}>Àpólà Odu · Right (Principal)</div>
+          <div className="info-card__value">{row.meji}</div>
+          <div className="info-card__sub">{row.domains.slice(0,3).join(' · ')}</div>
         </div>
-        <div className="pt-info-card pt-info-card--link" onClick={() => onNavigate(col.id)}>
-          <div className="pt-info-card__label" style={{ color: colCat.color }}>Period Odu · Left (Secondary)</div>
-          <div className="pt-info-card__value">{col.meji}</div>
-          <div className="pt-info-card__sub">{col.domains.slice(0,3).join(' · ')}</div>
+        <div className="info-card info-card--link" onClick={() => onNavigate(col.id)}>
+          <div className="info-card__label" style={{ color: colCat.color }}>Period Odu · Left (Secondary)</div>
+          <div className="info-card__value">{col.meji}</div>
+          <div className="info-card__sub">{col.domains.slice(0,3).join(' · ')}</div>
         </div>
       </div>
-      <div className="pt-modal__section">
-        <div className="pt-modal__section-label">Combined Domains</div>
-        <div className="pt-domain-chips">{uniqueDomains.map(d => <span key={d} className="pt-domain-chip">{d}</span>)}</div>
+
+      <div className="modal__section">
+        <div className="modal__section-label">Combined Domains</div>
+        <div className="domain-chips">
+          {uniqueDomains.map(d => <span key={d} className="domain-chip">{d}</span>)}
+        </div>
       </div>
-      <div className="pt-modal__section">
-        <div className="pt-modal__section-label">IFABit · Àmúlù Composition</div>
-        <IFABitDisplay code={row.code + col.code} rightLabel={row.name} leftLabel={col.name} color={rowCat.color} />
+
+      <div className="modal__section">
+        <div className="modal__section-label">IFABit Encoding · Àmúlù Composition</div>
+        <IFABitDisplay rowCode={row.code} colCode={col.code} rowLabel={row.name} colLabel={col.name} color={rowCat.color} />
       </div>
-      <div className="pt-modal__section">
-        <div className="pt-modal__section-label">STEAMSEX Disciplines</div>
-        <div className="pt-steamsex-tags">{uniqueSteamsex.map(s => <span key={s} className="pt-steamsex-tag">{s}</span>)}</div>
+
+      <div className="modal__section">
+        <div className="modal__section-label">STEAMSEX Disciplines</div>
+        <div className="steamsex-tags">
+          {uniqueSteamsex.map(s => <span key={s} className="steamsex-tag">{s}</span>)}
+        </div>
       </div>
+
       <IfaNetwork row={row} col={col} color={rowCat.color} />
       <WikiKnowledge domains={uniqueDomains} steamsex={uniqueSteamsex} color={rowCat.color} />
+      <IfaPhilosophySection color={rowCat.color} />
     </>
   );
 }
 
 function OduModal({ selection, odu, categories, onClose, onNavigate }) {
   const oduById = Object.fromEntries(odu.map(o => [o.id, o]));
+
   useEffect(() => {
-    const h = e => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', h);
-    return () => window.removeEventListener('keydown', h);
+    const handler = e => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
   }, [onClose]);
+
   if (!selection) return null;
+
   const { row, col, num } = selection;
   const isMeji  = row.id === col.id;
   const rowCat  = categories[row.category];
@@ -1199,27 +1563,37 @@ function OduModal({ selection, odu, categories, onClose, onNavigate }) {
   const yoruba  = isMeji ? `${row.yoruba} Méjì · Ojú Odù` : `${row.yoruba}-${col.yoruba} · Àmúlù Odù`;
   const rowBits = row.code.split('').map(Number);
   const colBits = col.code.split('').map(Number);
+
   return (
-    <div className="pt-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
-      <div className="pt-modal">
-        <button className="pt-modal__close" onClick={onClose}>×</button>
-        <div className="pt-modal__header">
-          <div className="pt-modal__badge" style={{ color }}>
-            <span className="pt-modal__badge-num">{num}</span>
-            <div className="pt-modal__badge-marks">
-              <div className="pt-modal__mark-col">{rowBits.map((b,i) => <ModalDot key={i} bit={b} />)}</div>
-              <div className="pt-modal__mark-col">{colBits.map((b,i) => <ModalDot key={i} bit={b} />)}</div>
+    <div className="overlay" onClick={e => e.target === e.currentTarget && onClose()}>
+      <div className="modal">
+        <button className="modal__close" onClick={onClose}>×</button>
+
+        <div className="modal__header">
+          <div className="modal__badge" style={{ color }}>
+            <span className="modal__badge-num">{num}</span>
+            <div className="modal__badge-marks">
+              <div className="modal__mark-col">
+                {colBits.map((b, i) => <ModalDot key={i} bit={b} />)}
+              </div>
+              <div className="modal__mark-col">
+                {rowBits.map((b, i) => <ModalDot key={i} bit={b} />)}
+              </div>
             </div>
           </div>
-          <div className="pt-modal__title">
+          <div className="modal__title">
             <h2>{name}</h2>
-            <div className="pt-modal__yoruba">{yoruba}</div>
-            <div className="pt-modal__tag" style={{ color, borderColor: color + '60', background: color + '18' }}>
+            <div className="modal__yoruba">{yoruba}</div>
+            <div
+              className="modal__tag"
+              style={{ color, borderColor: color + '60', background: color + '18' }}
+            >
               {isMeji ? rowCat.label + ' · IfaGroup ' + row.id : 'Àpólà ' + row.name + ' × ' + col.name}
             </div>
           </div>
         </div>
-        <div className="pt-modal__body">
+
+        <div className="modal__body">
           {isMeji
             ? <MejiDetail odu={row} cat={rowCat} oduById={oduById} catMap={categories} onNavigate={onNavigate} />
             : <CompositeDetail row={row} col={col} rowCat={rowCat} colCat={colCat} onNavigate={onNavigate} />
@@ -1361,17 +1735,17 @@ function App() {
               <IfabokBanner />
               <IfaPTIntro />
               <IfaPTGallery />
-              <PtControls
+              <Controls
                 categories={oduData.categories}
                 activeCategory={ptCat} onCategory={setPtCat}
                 searchTerm={ptSearch} onSearch={setPtSearch}
                 view={ptView} onView={setPtView}
               />
-              <main className="pt-main">
+              <main className="main">
                 {ptView === 'table'
                   ? <PeriodicTable odu={oduData.odu} categories={oduData.categories}
                       activeCategory={ptCat} searchTerm={ptSearch} onCellClick={setPtSel} />
-                  : <PtListView odu={oduData.odu} categories={oduData.categories}
+                  : <ListView odu={oduData.odu} categories={oduData.categories}
                       activeCategory={ptCat} searchTerm={ptSearch} onSelect={setPtSel} />
                 }
               </main>
@@ -1427,16 +1801,16 @@ function App() {
                   </figure>
                 </div>
               </section>
-              <footer className="pt-footer">
+              <footer className="footer">
                 <p><strong>Ifa Periodic Table (IfaPT)</strong> — The Periodic Table of Everything (PToE) · © CENProject</p>
-                <p className="pt-footer__sub">256 Ifatoms (Odu Ifa) · 16 IfaGroups (Àpólà Odù) · 16 IfaPeriods · STEAMSEX Matrix Framework</p>
-                <a className="pt-footer__launch" href="https://toe.cenproject.org/ifa-periodic-table/" target="_blank" rel="noopener noreferrer">
-                  <span className="pt-footer__launch-glyph">O</span>
-                  <span className="pt-footer__launch-text">
-                    <span className="pt-footer__launch-label">Ifa Periodic Table Platform</span>
-                    <span className="pt-footer__launch-url">toe.cenproject.org/ifa-periodic-table</span>
+                <p className="footer__sub">256 Ifatoms (Odu Ifa) · 16 IfaGroups (Àpólà Odù) · 16 IfaPeriods · STEAMSEX Matrix Framework</p>
+                <a className="footer__launch" href="https://toe.cenproject.org/ifa-periodic-table/" target="_blank" rel="noopener noreferrer">
+                  <span className="footer__launch-glyph">O</span>
+                  <span className="footer__launch-text">
+                    <span className="footer__launch-label">Ifa Periodic Table Platform</span>
+                    <span className="footer__launch-url">toe.cenproject.org/ifa-periodic-table</span>
                   </span>
-                  <span className="pt-footer__launch-arrow">↗</span>
+                  <span className="footer__launch-arrow">↗</span>
                 </a>
               </footer>
               <OduModal selection={ptSel} odu={oduData.odu} categories={oduData.categories}

@@ -43,7 +43,7 @@
     { "value": "256", "label": "Odu Ifa", "sub": "Ancient Knowledge Codes" },
     { "value": "16",  "label": "IFA Axioms", "sub": "Axioms of Everything" },
     { "value": "40+", "label": "Platforms", "sub": "Across all disciplines" },
-    { "value": "∞",   "label": "CEN", "sub": "Consciousness-Energy" }
+    { "value": "SYMBOE", "label": "CEN", "sub": "Consciousness-Energy" }
   ],
 
   "networking": {
@@ -112,12 +112,78 @@
 
   "platforms": [
     {
+      "id": "ifa-medicine",
+      "name": "Ifa Medicine",
+      "subtitle": "ToE Medicine — The Medicine for Everything",
+      "description": "The Grand Unified Medical Theory (GUTM) — ToE Medicine, Consciousness Medicine, and Energy-Based Medicine unifying all healing systems through Ifa and Orisa Tradition (IoT). Ifa Metamedicine (Akose Ifa), Orisa Medicine, Ifa Medical Centers. Learn with Babalawo, Olorisa, and Onisegun (indigenous medical scientists).",
+      "category": "science",
+      "alsoIn": ["philosophy", "education", "tech"],
+      "url": "/ifa-medicine-toe-medicine/",
+      "featured": false,
+      "local": true
+    },
+    {
+      "id": "ifa-labs",
+      "name": "IfaLabs",
+      "subtitle": "TOELabs — Research & Innovation Lab",
+      "description": "The research and innovation lab of the IFA Internet — bridging African cultural intelligence with cutting-edge technology. Integrates Ifa Engineering, Ifa Mechanics, Ifa Analysis, Ifa Modelling, the Ifa Periodic Table, and Ifa Games under the E.T.H.I.C.S Framework.",
+      "category": "tech",
+      "alsoIn": ["science", "education", "tools"],
+      "url": "/ifa-labs/",
+      "featured": false,
+      "local": true
+    },
+    {
+      "id": "ifa-computing",
+      "name": "Ifa Computing",
+      "subtitle": "ComputoE — The Computer for Everything",
+      "description": "Redefining computation through the Energy-based principles of Ifa. Integrates IfaBit, Ifa Information, Ifa Algorithm, Ifa Programming, and Ifa Language into a unified science of Ifa-based computation. The 256 Odu Ifa as the universal instruction set.",
+      "category": "tech",
+      "alsoIn": ["math", "science", "language"],
+      "url": "/ifa-computing/",
+      "featured": false,
+      "local": true
+    },
+    {
+      "id": "ifa-architecture",
+      "name": "Ifa Architecture",
+      "subtitle": "ArchoE — Architecture for Everything",
+      "description": "Studying all fields of Architecture through Energy-based Principles of Ifa and Orisa. The Odu Ifa as Blueprint of the IFA Internet and the Theory of Everything. Dual: Orisa Architecture (Orisarch). Encompasses African architecture, Ifa Modelling, and Orisa Modelling.",
+      "category": "arts",
+      "alsoIn": ["science", "non-science", "tech"],
+      "url": "/ifa-architecture/",
+      "featured": false,
+      "local": true
+    },
+    {
       "id": "ifa-calendar",
       "name": "IfaCalendar",
       "subtitle": "World Calendar Explorer",
       "description": "Explore calendar systems of the world — Kọ́jọ́dá (Yoruba New Year), Gregorian, Islamic, Hebrew, Chinese, Ethiopian, Maya, and more. History, evolution, and modern status.",
       "category": "education",
       "url": "/ifa-calendar/",
+      "featured": false,
+      "local": true
+    },
+    {
+      "id": "ifa-learn",
+      "name": "IfaLearn",
+      "subtitle": "The Ifa Digital Learning Ecosystem",
+      "description": "The Digital Learning Ecosystem of the IFA Internet — combining holistic education, mathematical methods of learning, gamified learning, bilingual instruction, and modern digital technologies. Powered by the Ifa Knowledge System and the 256 Odu Ifa.",
+      "category": "education",
+      "alsoIn": ["tech", "tools", "non-science"],
+      "url": "/the-ifa-learn/",
+      "featured": true,
+      "local": true
+    },
+    {
+      "id": "ifa-lms",
+      "name": "IfaLMS",
+      "subtitle": "IFA Academy of Polymaths — Ifacodemy",
+      "description": "The Learning Management System of the IFA Internet — Ifacodemy. Polymathic education rooted in the 256 Odu Ifa. Student portal, course management, and admin dashboard.",
+      "category": "education",
+      "alsoIn": ["tech", "tools"],
+      "url": "/ifa-lms/",
       "featured": false,
       "local": true
     },
@@ -134,7 +200,7 @@
     {
       "id": "ifai",
       "name": "Ifai",
-      "subtitle": "Ifa Intelligence",
+      "subtitle": "Ifa Artificial Intelligence",
       "description": "Ifa-Informed AI: The science, technology, art, and practice of Artificial Intelligence in IfaLang.",
       "category": "tech",
       "url": "/ifai/",
@@ -179,7 +245,7 @@
       "description": "Study, develop, and model all fields, ..., everything as energyforms using the Binary Mechanics of the Odu Ifa and Odu Oosa.",
       "category": "tech",
       "alsoIn": ["arts", "science", "non-science"],
-      "url": "/ifa-mechanics-toe-mechanics/",
+      "url": "/ifa-mechanics/",
       "featured": false,
       "local": true
     },
@@ -187,11 +253,23 @@
       "id": "ifa-math",
       "name": "IFA Mathematics",
       "subtitle": "TOE Mathematics",
-      "description": "Temic Algebra, Ifa Algebra (IfaGebra), IFA Numbers, the 16 Ifa Axioms (the Axioms of Everything, AxioE) — the Laws of Nature governing all fields.",
+      "description": "IFA Mathematica, Ifa Algebra (IfaGebra), Temic Algebra, IFA Numbers, the 16 Ifa Axioms (the Axioms of Everything, AxioE) — the Ifa Laws of Nature governing all fields.",
       "category": "math",
       "alsoIn": ["arts", "science", "non-science"],
       "url": "/ifa-mathematics-toe-mathematics/",
-      "featured": true
+      "featured": true,
+      "local": true
+    },
+    {
+      "id": "ifa-code",
+      "name": "IFA Code",
+      "subtitle": "CodoE — Ifa Codes for Everything",
+      "description": "Ifa Codes (Odù Ifá) are the Codes for Everything (CodoE), Knowledge Codes, or ToE Codes: Ẹ̀rìndínlọ́tàlenígba Odùfá. Explore the 0+8D IFA Code Matrix and the Ifa Programming Language (IfaPL) — Programming for Everything.",
+      "category": "tech",
+      "alsoIn": ["math", "language", "science"],
+      "url": "/ifa-mathematics-toe-mathematics/ifa-code/",
+      "featured": true,
+      "local": true
     },
     {
       "id": "ifagebra",
@@ -199,17 +277,19 @@
       "subtitle": "NetGebra — AlgebroE",
       "description": "The Algebra for Everything (AlgebroE), Metamathematical Framework for modeling all knowledge fields and network types as energyforms using IFABits.",
       "category": "math",
-      "url": "/ifagebra-overview/",
-      "featured": false
+      "url": "https://ifainternet.org/ifa-mathematica/ifa-gebra/",
+      "featured": true,
+      "local": true
     },
     {
       "id": "ifa-number",
       "name": "IFA Number",
-      "subtitle": "NumoE",
+      "subtitle": "NumoE — The Number of Everything",
       "description": "Temic Numbers — the Number of Everything (NumoE) System encoding all quantities, ..., everything as states of Energy.",
       "category": "math",
       "url": "/ifa-number/",
-      "featured": false
+      "featured": false,
+      "local": true
     },
     {
       "id": "ifa-logic",
@@ -231,12 +311,14 @@
     },
     {
       "id": "ifa-transform",
-      "name": "IFA Transform",
-      "subtitle": "Transform of Everything",
-      "description": "Mathematical transformations grounded in IFA Logic and IfaGebra.",
+      "name": "Ifa Transform",
+      "subtitle": "ToE Transform — Universe of Transforms",
+      "description": "The Universe of Transforms — generalising all mathematical transforms and operations across every field of knowledge. IfaDifferintegral, Ifa Operator Theory, Ifa Transformation Theory, Ifa Particle Physics, and the Ifa TOE 0+8D Matrix.",
       "category": "math",
-      "url": "/ifa-transform/",
-      "featured": false
+      "alsoIn": ["science", "tech"],
+      "url": "/ifa-mathematics-toe-mathematics/ifa-transform/",
+      "featured": true,
+      "local": true
     },
     {
       "id": "ifa-set",
@@ -272,7 +354,8 @@
       "description": "Physics interpreted through the Consciousness-Energy (CEN) lens.",
       "category": "science",
       "url": "/ifa-physics/",
-      "featured": false
+      "featured": true,
+      "local": true
     },
     {
       "id": "ifa-chemistry",
@@ -326,15 +409,6 @@
       "description": "Observe and analyze consciousness wave phenomena in real time.",
       "category": "science",
       "url": "/consciousness-wave-observatory/",
-      "featured": false
-    },
-    {
-      "id": "ifa-medicine",
-      "name": "IFA Medicine",
-      "subtitle": "TOE Medicine",
-      "description": "Medical science grounded in the IFA Theory of Everything (iTOE) — holistic healing from the First Principles of Ifa, the Oju Odufa Merindinlogun.",
-      "category": "science",
-      "url": "/ifa-medicine-toe-medicine/",
       "featured": false
     },
     {
@@ -459,10 +533,12 @@
       "id": "ifa-matrix",
       "name": "IFA Matrix",
       "subtitle": "Matrix of Everything",
-      "description": "The IFA Matrix — a structural grid mapping all knowledge domains.",
+      "description": "The IFA Matrix — the Matrix of All Matrices. A structural grid mapping all knowledge domains using the 256 Odu Ifa as the Blueprint for every field.",
       "category": "tools",
-      "url": "/ifa-matrix/",
-      "featured": false
+      "alsoIn": ["math", "science"],
+      "url": "/ifa-matrix-test/",
+      "featured": true,
+      "local": true
     },
     {
       "id": "ifalens",
@@ -542,23 +618,25 @@
     },
     {
       "id": "ifa-script",
-      "name": "Ifa Script",
-      "subtitle": "The Script of Everything (ScriptoE)",
-      "description": "The writing system of the IFA Internet — a universal script encoding all knowledge through Consciousness-Energy principles.",
+      "name": "IfaScript",
+      "subtitle": "ScriptoE — The Script of Everything",
+      "description": "The Scripting Platform of the IFA Internet — the world's most comprehensive script explorer covering natural writing systems, notation systems, digital encodings, and the IFA scripting system, unified through Consciousness-Energy. A key subject and practice in IfaLang and IFABOK.",
       "category": "language",
-      "alsoIn": ["arts", "non-science"],
+      "alsoIn": ["arts", "non-science", "tools"],
       "url": "/ifa-script-the-script-of-everything-scriptoe/",
-      "featured": false
+      "featured": false,
+      "local": true
     },
     {
       "id": "ifagraphy",
       "name": "Ifagraphy",
-      "subtitle": "TOEgraphy",
-      "description": "The Orthography of Everything — The IfaWriting System uses Energy (Ogbe) to unify and integrate all possible writing systems together as One.",
+      "subtitle": "TOEgraphy — The Writing System of Everything",
+      "description": "The Orthography of Everything — The IfaWriting System uses Energy (Ogbe) to unify and integrate all possible writing systems together as One. Features the native Yoruba Aebajogbe-Oduduwa script and a world database of writing systems.",
       "category": "tools",
       "alsoIn": ["arts", "non-science", "language"],
       "url": "/ifagraphy-toegraphy/",
-      "featured": false
+      "featured": false,
+      "local": true
     },
     {
       "id": "ifa-banking",
@@ -586,6 +664,17 @@
       "category": "tech",
       "url": "/ifa-finance-toe-finance/",
       "featured": false
+    },
+    {
+      "id": "ebology",
+      "name": "Ebology",
+      "subtitle": "The Field of Energy Exchange",
+      "description": "The Energy Exchange Body of Knowledge (EnxBOK) — the science, philosophy, and art of Ẹbọ: energy exchange between humans, nature, and non-physical forces. Encompasses Ifa Economics, Eboconomics, the Ebo Economy, and the IfaWave Function.",
+      "category": "science",
+      "alsoIn": ["philosophy", "tech", "non-science"],
+      "url": "/ebology-the-field-of-energy-exchange/",
+      "featured": true,
+      "local": true
     }
   ],
 

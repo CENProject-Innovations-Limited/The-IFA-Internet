@@ -28,6 +28,16 @@ const Q_TIME   = 15;   // seconds per question
 const LIVES    = 3;
 const MATCH_N  = 8;    // pairs in match game
 
+// ── IfaASCII constants ──
+const ASCII_KEY    = 'ifagame-ascii-best';
+const ASCII_ROUNDS = 10;
+const ASCII_TIME   = 20;
+
+// ── IfaUnicode constants ──
+const UNICODE_KEY    = 'ifagame-unicode-best';
+const UNICODE_ROUNDS = 10;
+const UNICODE_TIME   = 20;
+
 // ── Ayo Olopon board constants ──
 const AYO_N      = 16;          // total pits
 const AYO_SEEDS  = 8;           // seeds per pit at start
@@ -609,6 +619,219 @@ function makeGatesQuestions(n) {
 }
 
 // ════════════════════════════════════════════════════════════
+// IFASCII — DATA & QUESTION GENERATION
+// ════════════════════════════════════════════════════════════
+
+const ASCII_CHARS = [
+  // Control characters
+  { code:  0, char: 'NUL', hex: '00', cat: 'Control',   desc: 'Null — the start of all codes' },
+  { code:  8, char: 'BS',  hex: '08', cat: 'Control',   desc: 'Backspace' },
+  { code:  9, char: 'TAB', hex: '09', cat: 'Control',   desc: 'Horizontal Tab' },
+  { code: 10, char: 'LF',  hex: '0A', cat: 'Control',   desc: 'Line Feed (newline)' },
+  { code: 13, char: 'CR',  hex: '0D', cat: 'Control',   desc: 'Carriage Return' },
+  { code: 27, char: 'ESC', hex: '1B', cat: 'Control',   desc: 'Escape' },
+  { code:127, char: 'DEL', hex: '7F', cat: 'Control',   desc: 'Delete' },
+  // Symbols & Punctuation
+  { code: 32, char: '(SP)',hex: '20', cat: 'Symbol',    desc: 'Space' },
+  { code: 33, char: '!',   hex: '21', cat: 'Symbol',    desc: 'Exclamation Mark' },
+  { code: 35, char: '#',   hex: '23', cat: 'Symbol',    desc: 'Hash / Number Sign' },
+  { code: 36, char: '$',   hex: '24', cat: 'Symbol',    desc: 'Dollar Sign' },
+  { code: 37, char: '%',   hex: '25', cat: 'Symbol',    desc: 'Percent' },
+  { code: 42, char: '*',   hex: '2A', cat: 'Symbol',    desc: 'Asterisk' },
+  { code: 43, char: '+',   hex: '2B', cat: 'Symbol',    desc: 'Plus Sign' },
+  { code: 45, char: '-',   hex: '2D', cat: 'Symbol',    desc: 'Hyphen / Minus' },
+  { code: 47, char: '/',   hex: '2F', cat: 'Symbol',    desc: 'Slash / Solidus' },
+  { code: 60, char: '<',   hex: '3C', cat: 'Symbol',    desc: 'Less-Than Sign' },
+  { code: 61, char: '=',   hex: '3D', cat: 'Symbol',    desc: 'Equals Sign' },
+  { code: 62, char: '>',   hex: '3E', cat: 'Symbol',    desc: 'Greater-Than Sign' },
+  { code: 63, char: '?',   hex: '3F', cat: 'Symbol',    desc: 'Question Mark' },
+  { code: 64, char: '@',   hex: '40', cat: 'Symbol',    desc: 'At Sign / Commercial At' },
+  // Digits
+  { code: 48, char: '0',   hex: '30', cat: 'Digit',     desc: 'Digit Zero' },
+  { code: 49, char: '1',   hex: '31', cat: 'Digit',     desc: 'Digit One' },
+  { code: 50, char: '2',   hex: '32', cat: 'Digit',     desc: 'Digit Two' },
+  { code: 57, char: '9',   hex: '39', cat: 'Digit',     desc: 'Digit Nine' },
+  // Uppercase Letters
+  { code: 65, char: 'A',   hex: '41', cat: 'Uppercase', desc: 'Latin Capital Letter A' },
+  { code: 66, char: 'B',   hex: '42', cat: 'Uppercase', desc: 'Latin Capital Letter B' },
+  { code: 70, char: 'F',   hex: '46', cat: 'Uppercase', desc: 'Latin Capital Letter F' },
+  { code: 73, char: 'I',   hex: '49', cat: 'Uppercase', desc: 'Latin Capital Letter I' },
+  { code: 79, char: 'O',   hex: '4F', cat: 'Uppercase', desc: 'Latin Capital Letter O' },
+  { code: 85, char: 'U',   hex: '55', cat: 'Uppercase', desc: 'Latin Capital Letter U' },
+  { code: 90, char: 'Z',   hex: '5A', cat: 'Uppercase', desc: 'Latin Capital Letter Z' },
+  // Lowercase Letters
+  { code: 97,  char: 'a',  hex: '61', cat: 'Lowercase', desc: 'Latin Small Letter A' },
+  { code: 98,  char: 'b',  hex: '62', cat: 'Lowercase', desc: 'Latin Small Letter B' },
+  { code: 102, char: 'f',  hex: '66', cat: 'Lowercase', desc: 'Latin Small Letter F' },
+  { code: 105, char: 'i',  hex: '69', cat: 'Lowercase', desc: 'Latin Small Letter I' },
+  { code: 111, char: 'o',  hex: '6F', cat: 'Lowercase', desc: 'Latin Small Letter O' },
+  { code: 117, char: 'u',  hex: '75', cat: 'Lowercase', desc: 'Latin Small Letter U' },
+  { code: 122, char: 'z',  hex: '7A', cat: 'Lowercase', desc: 'Latin Small Letter Z' },
+];
+
+function asciiToIfaBits(code) {
+  return code.toString(2).padStart(8, '0').split('').map(b => b === '1' ? 'O' : '|').join(' ');
+}
+
+function makeAsciiQuestion(type, entries) {
+  const entry  = shuffle(entries)[0];
+  const others = shuffle(entries.filter(e => e.code !== entry.code));
+  const disp   = entry.char;
+
+  if (type === 'char-to-dec') {
+    const choices = shuffle([entry.code, ...others.slice(0, 3).map(e => e.code)]).map(String);
+    return { type, prompt: 'What is the ASCII decimal code for:', display: disp,
+      choices, answer: String(entry.code),
+      explain: `"${disp}" = ASCII ${entry.code} (hex: 0x${entry.hex})`,
+      ifaNote: `IFABit / Opele pattern: ${asciiToIfaBits(entry.code)}` };
+  }
+  if (type === 'dec-to-char') {
+    const choices = shuffle([disp, ...others.slice(0, 3).map(e => e.char)]);
+    return { type, prompt: `ASCII code ${entry.code} represents which character?`, display: String(entry.code),
+      choices, answer: disp,
+      explain: `ASCII ${entry.code} = "${disp}" — ${entry.desc}`,
+      ifaNote: `Binary: ${entry.code.toString(2).padStart(8,'0')} — 8-bit, just like the IFABit / Opele system` };
+  }
+  if (type === 'char-to-hex') {
+    const choices = shuffle([entry.hex, ...others.slice(0, 3).map(e => e.hex)]).map(h => `0x${h}`);
+    return { type, prompt: 'What is the hex (base-16) ASCII code for:', display: disp,
+      choices, answer: `0x${entry.hex}`,
+      explain: `"${disp}" = 0x${entry.hex} = decimal ${entry.code}`,
+      ifaNote: `Ifa has 16 Odu — the 16 hex digits (0–F). Every hex code is an Odu path!` };
+  }
+  if (type === 'ifa-bit') {
+    const bits    = asciiToIfaBits(entry.code);
+    const choices = shuffle([disp, ...others.slice(0, 3).map(e => e.char)]);
+    return { type, prompt: 'This IFABit (Opele) pattern encodes which ASCII character?', display: bits,
+      choices, answer: disp,
+      explain: `${bits} = binary ${entry.code.toString(2).padStart(8,'0')} = ${entry.code} = "${disp}"`,
+      ifaNote: `The Opele chain has 8 seeds — Ogbe (O) = 1, Oyeku (|) = 0. Same as 8-bit ASCII!` };
+  }
+}
+
+function makeAsciiQuestions(n) {
+  const typePool = shuffle([
+    'char-to-dec','char-to-dec','char-to-dec',
+    'dec-to-char','dec-to-char','dec-to-char',
+    'char-to-hex','char-to-hex',
+    'ifa-bit',    'ifa-bit',
+  ]);
+  return Array.from({ length: n }, (_, i) => makeAsciiQuestion(typePool[i % typePool.length], ASCII_CHARS));
+}
+
+// ════════════════════════════════════════════════════════════
+// IFA-UNICODE — DATA & QUESTION GENERATION
+// ════════════════════════════════════════════════════════════
+
+// 16 principal Odu → 4-bit codes → hexadecimal digits 0–F
+const ODU_HEX_MAP = [
+  { hex: '0', val:  0, odu: 'Oyeku',    code: '0000', yoruba: 'Ọyẹkú'    },
+  { hex: '1', val:  1, odu: 'Obara',    code: '0001', yoruba: 'Ọbàrà'    },
+  { hex: '2', val:  2, odu: 'Ose',      code: '0010', yoruba: 'Òṣé'      },
+  { hex: '3', val:  3, odu: 'Irosun',   code: '0011', yoruba: 'Ìrósùn'   },
+  { hex: '4', val:  4, odu: 'Otura',    code: '0100', yoruba: 'Òtúrá'    },
+  { hex: '5', val:  5, odu: 'Ika',      code: '0101', yoruba: 'Ìká'      },
+  { hex: '6', val:  6, odu: 'Iwori',    code: '0110', yoruba: 'Ìwòrì'    },
+  { hex: '7', val:  7, odu: 'Ogunda',   code: '0111', yoruba: 'Ògúndá'   },
+  { hex: '8', val:  8, odu: 'Okanran',  code: '1000', yoruba: 'Ọkànràn'  },
+  { hex: '9', val:  9, odu: 'Odi',      code: '1001', yoruba: 'Òdí'      },
+  { hex: 'A', val: 10, odu: 'Oturupun', code: '1010', yoruba: 'Òtúrúpọ̀n' },
+  { hex: 'B', val: 11, odu: 'Irete',    code: '1011', yoruba: 'Ìrẹtẹ̀'    },
+  { hex: 'C', val: 12, odu: 'Owonrin',  code: '1100', yoruba: 'Ọwọnrín'  },
+  { hex: 'D', val: 13, odu: 'Ofun',     code: '1101', yoruba: 'Òfún'     },
+  { hex: 'E', val: 14, odu: 'Osa',      code: '1110', yoruba: 'Òṣà'      },
+  { hex: 'F', val: 15, odu: 'Ogbe',     code: '1111', yoruba: 'Ogbè'     },
+];
+
+const UNICODE_CHARS = [
+  // Basic Latin
+  { cp: 0x0041, char: 'A',    name: 'Latin Capital Letter A',                block: 'Basic Latin' },
+  { cp: 0x0061, char: 'a',    name: 'Latin Small Letter A',                  block: 'Basic Latin' },
+  { cp: 0x0030, char: '0',    name: 'Digit Zero',                            block: 'Basic Latin' },
+  { cp: 0x0020, char: '(SP)', name: 'Space',                                 block: 'Basic Latin' },
+  // Latin-1 Supplement
+  { cp: 0x00A9, char: '©',    name: 'Copyright Sign',                        block: 'Latin-1 Supplement' },
+  { cp: 0x00AE, char: '®',    name: 'Registered Sign',                       block: 'Latin-1 Supplement' },
+  { cp: 0x00B0, char: '°',    name: 'Degree Sign',                           block: 'Latin-1 Supplement' },
+  { cp: 0x00A3, char: '£',    name: 'Pound Sign',                            block: 'Latin-1 Supplement' },
+  { cp: 0x00B1, char: '±',    name: 'Plus-Minus Sign',                       block: 'Latin-1 Supplement' },
+  // Currency
+  { cp: 0x20AC, char: '€',    name: 'Euro Sign',                             block: 'Currency Symbols' },
+  { cp: 0x20A6, char: '₦',    name: 'Naira Sign',                            block: 'Currency Symbols' },
+  // Mathematical
+  { cp: 0x221E, char: '∞',    name: 'Infinity',                              block: 'Mathematical Operators' },
+  { cp: 0x2211, char: '∑',    name: 'N-Ary Summation (Sigma)',               block: 'Mathematical Operators' },
+  // Greek
+  { cp: 0x03C0, char: 'π',    name: 'Greek Small Letter Pi',                 block: 'Greek and Coptic' },
+  { cp: 0x03A9, char: 'Ω',    name: 'Greek Capital Letter Omega',            block: 'Greek and Coptic' },
+  // Yoruba / African script
+  { cp: 0x1EB9, char: 'ẹ',    name: 'Latin Small Letter E with Dot Below',   block: 'Latin Extended Additional', yoruba: true },
+  { cp: 0x1ECD, char: 'ọ',    name: 'Latin Small Letter O with Dot Below',   block: 'Latin Extended Additional', yoruba: true },
+  { cp: 0x1E63, char: 'ṣ',    name: 'Latin Small Letter S with Dot Below',   block: 'Latin Extended Additional', yoruba: true },
+  // Miscellaneous Symbols
+  { cp: 0x2605, char: '★',    name: 'Black Star',                            block: 'Miscellaneous Symbols' },
+  { cp: 0x2764, char: '❤',    name: 'Heavy Black Heart',                     block: 'Dingbats' },
+  { cp: 0x2600, char: '☀',    name: 'Black Sun with Rays',                   block: 'Miscellaneous Symbols' },
+  { cp: 0x263A, char: '☺',    name: 'White Smiling Face',                    block: 'Miscellaneous Symbols' },
+  // Arrows
+  { cp: 0x2192, char: '→',    name: 'Rightwards Arrow',                      block: 'Arrows' },
+  { cp: 0x21D2, char: '⇒',    name: 'Rightwards Double Arrow',               block: 'Arrows' },
+];
+
+function fmtCP(cp) { return 'U+' + cp.toString(16).toUpperCase().padStart(4, '0'); }
+
+function makeUnicodeQuestion(type, entries) {
+  if (type === 'ifa-hex') {
+    const odu = shuffle(ODU_HEX_MAP)[0];
+    const others = shuffle(ODU_HEX_MAP.filter(o => o.hex !== odu.hex));
+    const choices = shuffle([odu.odu, ...others.slice(0, 3).map(o => o.odu)]);
+    return { type, prompt: `In the IFA-Unicode system, which Odu maps to hex digit ${odu.hex} (value ${odu.val})?`,
+      display: odu.hex,
+      choices, answer: odu.odu,
+      explain: `${odu.odu} (${odu.yoruba}) — IFABit: ${odu.code} = decimal ${odu.val} = hex ${odu.hex}`,
+      ifaNote: `The 16 Odu of Ifa are the 16 hex digits (0–F). Every Unicode U+XXXX is a 4-Odu path!` };
+  }
+  const entry  = shuffle(entries)[0];
+  const others = shuffle(entries.filter(e => e.cp !== entry.cp));
+  const cpStr  = fmtCP(entry.cp);
+
+  if (type === 'char-to-point') {
+    const choices = shuffle([cpStr, ...others.slice(0, 3).map(e => fmtCP(e.cp))]);
+    return { type, prompt: 'What is the Unicode code point for:', display: entry.char,
+      choices, answer: cpStr,
+      explain: `"${entry.char}" = ${cpStr} — ${entry.name}`,
+      ifaNote: `${cpStr}: The 4 hex digits are 4 Odu. ${entry.name} has its own unique Ifa path!` };
+  }
+  if (type === 'point-to-char') {
+    const choices = shuffle([entry.char, ...others.slice(0, 3).map(e => e.char)]);
+    return { type, prompt: `Which character is at Unicode code point ${cpStr}?`, display: cpStr,
+      choices, answer: entry.char,
+      explain: `${cpStr} = "${entry.char}" — ${entry.name} (${entry.block})`,
+      ifaNote: entry.yoruba
+        ? `"${entry.char}" is used in Yoruba, the sacred language of the Ifa tradition`
+        : `Block: ${entry.block}` };
+  }
+  if (type === 'block-identify') {
+    const blocks = [...new Set(entries.map(e => e.block))];
+    const choices = shuffle([entry.block, ...shuffle(blocks.filter(b => b !== entry.block)).slice(0, 3)]);
+    return { type, prompt: 'Which Unicode block does this character belong to?', display: entry.char,
+      choices, answer: entry.block,
+      explain: `"${entry.char}" (${cpStr}) is in the ${entry.block} block`,
+      ifaNote: `Unicode groups all characters into named blocks — as Ifa groups all wisdom into Odu` };
+  }
+}
+
+function makeUnicodeQuestions(n) {
+  const typePool = shuffle([
+    'char-to-point','char-to-point','char-to-point',
+    'point-to-char','point-to-char','point-to-char',
+    'block-identify','block-identify',
+    'ifa-hex',       'ifa-hex',
+  ]);
+  return Array.from({ length: n }, (_, i) => makeUnicodeQuestion(typePool[i % typePool.length], UNICODE_CHARS));
+}
+
+// ════════════════════════════════════════════════════════════
 // QUESTION GENERATION — IFARCADIA
 // ════════════════════════════════════════════════════════════
 
@@ -806,33 +1029,111 @@ function IfaGlyph({ code, size = 'md', color }) {
   );
 }
 
-// ── Opele Ifa seed pod (open = Ogbe/IfaZero, closed = Oyeku/IfaOne) ──
-function OpelePod({ open, onClick, locked }) {
+// ── Opele Ifa seed pod (open = Ogbe/IfaZero = 0, closed = Oyeku/IfaOne = 1) ──
+function OpelePod({ open, onClick, locked, idx }) {
+  const weight = 1 << (7 - idx); // 128, 64, 32, 16, 8, 4, 2, 1
   return (
-    <button
-      className={`opele-pod opele-pod--${open ? 'open' : 'closed'}${locked ? ' opele-pod--locked' : ''}`}
-      onClick={() => !locked && onClick && onClick()}
-      disabled={locked}
-      title={open ? 'Ogbe — open (IfaZero)' : 'Oyeku — closed (IfaOne)'}
-    >
-      <span className="opele-pod__sym">{open ? 'O' : '|'}</span>
-      <span className="opele-pod__lbl">{open ? 'Ogbe' : 'Oyeku'}</span>
-    </button>
+    <div className="opele-pod-col">
+      <span className="opele-pod__weight">{weight}</span>
+      <button
+        className={`opele-pod opele-pod--${open ? 'open' : 'closed'}${locked ? ' opele-pod--locked' : ''}`}
+        onClick={() => !locked && onClick && onClick()}
+        disabled={locked}
+        title={open ? `Ogbe — open · IfaZero · bit ${weight}` : `Oyeku — closed · IfaOne · bit ${weight}`}
+      >
+        <svg viewBox="0 0 44 72" width="36" height="58" style={{display:'block',overflow:'visible'}}>
+          {open ? (
+            // Open pod — Ogbe (0): warm hollow cavity facing up
+            <>
+              <ellipse cx="22" cy="36" rx="20" ry="34" fill="#2c1a08" stroke="#6b3c12" strokeWidth="1.8"/>
+              <ellipse cx="22" cy="36" rx="15" ry="26" fill="#7a3c0c" stroke="#b56518" strokeWidth="1"/>
+              <ellipse cx="22" cy="36" rx="10" ry="19" fill="#c48510"/>
+              <ellipse cx="22" cy="36" rx="6" ry="13" fill="#e6b030" opacity="0.95"/>
+              <ellipse cx="20" cy="28" rx="4" ry="7" fill="rgba(255,245,170,0.5)"/>
+              {/* Ogbe mark — open circle */}
+              <circle cx="22" cy="37" r="5" fill="none" stroke="rgba(255,242,180,0.9)" strokeWidth="2"/>
+            </>
+          ) : (
+            // Closed pod — Oyeku (1): dark convex back, wood grain
+            <>
+              <ellipse cx="22" cy="36" rx="20" ry="34" fill="#0d0702" stroke="#38200a" strokeWidth="1.8"/>
+              <ellipse cx="22" cy="36" rx="16" ry="27" fill="none" stroke="#261507" strokeWidth="1.1" opacity="0.65"/>
+              <ellipse cx="22" cy="36" rx="11" ry="20" fill="none" stroke="#1c1006" strokeWidth="0.7" opacity="0.45"/>
+              <ellipse cx="22" cy="36" rx="6"  ry="12" fill="none" stroke="#150d05" strokeWidth="0.5" opacity="0.3"/>
+              {/* Center seam ridge */}
+              <line x1="22" y1="3" x2="22" y2="69" stroke="#190e04" strokeWidth="2.2" strokeLinecap="round"/>
+              {/* Oyeku mark — vertical bar */}
+              <rect x="20" y="27" width="4" height="18" rx="2" fill="#4a2b09" opacity="0.95"/>
+              {/* 3-D highlight sheen */}
+              <ellipse cx="16" cy="25" rx="4.5" ry="9" fill="rgba(255,255,255,0.042)" transform="rotate(-14 16 25)"/>
+            </>
+          )}
+        </svg>
+        <span className="opele-pod__lbl">{open ? 'Ogbe' : 'Oyeku'}</span>
+        <span className="opele-pod__bit">{open ? '0' : '1'}</span>
+      </button>
+    </div>
   );
 }
 
-// ── Obi Siso kola-nut lobe (up = 1, down = 0) ──
+// ── Obi Siso kola-nut lobe (face-up = 1, face-down = 0) ──
 function KolaLobe({ up, onClick, locked, idx }) {
+  const weight = 1 << (3 - idx); // 8, 4, 2, 1
   return (
-    <button
-      className={`kola-lobe kola-lobe--${up ? 'up' : 'down'}${locked ? ' kola-lobe--locked' : ''}`}
-      onClick={() => !locked && onClick && onClick()}
-      disabled={locked}
-      title={`Lobe ${idx + 1}: ${up ? 'face-up (1)' : 'face-down (0)'}`}
-    >
-      <span className="kola-lobe__face">{up ? '◓' : '◒'}</span>
-      <span className="kola-lobe__val">{up ? '1' : '0'}</span>
-    </button>
+    <div className="kola-col">
+      <span className="kola-col__weight">{weight}</span>
+      <button
+        className={`kola-lobe kola-lobe--${up ? 'up' : 'down'}${locked ? ' kola-lobe--locked' : ''}`}
+        onClick={() => !locked && onClick && onClick()}
+        disabled={locked}
+        title={`Lobe ${idx + 1}: ${up ? 'face-up · 1 · bit ' + weight : 'face-down · 0 · bit ' + weight}`}
+      >
+        <svg viewBox="0 0 62 78" width="54" height="68" style={{display:'block',overflow:'visible'}}>
+          {up ? (
+            // Face-up (1) — red Obi interior: flat face, central vein, warm inner highlight
+            <>
+              {/* Outer lobe skin */}
+              <ellipse cx="31" cy="39" rx="28" ry="36" fill="#7a1818" stroke="#591010" strokeWidth="1.6"/>
+              {/* Flesh layers */}
+              <ellipse cx="31" cy="39" rx="22" ry="29" fill="#a02222"/>
+              <ellipse cx="31" cy="39" rx="16" ry="22" fill="#c03232"/>
+              <ellipse cx="31" cy="39" rx="10" ry="14" fill="#d44040" opacity="0.85"/>
+              {/* Central vein ridge */}
+              <line x1="31" y1="6"  x2="31" y2="72" stroke="#7a1818" strokeWidth="2.2" strokeLinecap="round" opacity="0.75"/>
+              {/* Lateral veins */}
+              <line x1="31" y1="29" x2="16" y2="45" stroke="#7a1818" strokeWidth="1.1" strokeLinecap="round" opacity="0.45"/>
+              <line x1="31" y1="29" x2="46" y2="45" stroke="#7a1818" strokeWidth="1.1" strokeLinecap="round" opacity="0.45"/>
+              <line x1="31" y1="49" x2="19" y2="60" stroke="#7a1818" strokeWidth="0.8" strokeLinecap="round" opacity="0.3"/>
+              <line x1="31" y1="49" x2="43" y2="60" stroke="#7a1818" strokeWidth="0.8" strokeLinecap="round" opacity="0.3"/>
+              {/* Inner highlight glow */}
+              <ellipse cx="24" cy="26" rx="9" ry="7" fill="rgba(255,160,140,0.25)" transform="rotate(-22 24 26)"/>
+              {/* Binary 1 mark */}
+              <text x="31" y="46" textAnchor="middle" fill="rgba(255,210,200,0.9)" fontSize="15" fontWeight="900" fontFamily="monospace">1</text>
+            </>
+          ) : (
+            // Face-down (0) — dark maroon convex back
+            <>
+              {/* Outer body */}
+              <ellipse cx="31" cy="39" rx="28" ry="36" fill="#380a0a" stroke="#4e1010" strokeWidth="1.6"/>
+              {/* Dome layers */}
+              <ellipse cx="31" cy="39" rx="22" ry="29" fill="#451010"/>
+              <ellipse cx="31" cy="37" rx="16" ry="22" fill="#501414"/>
+              <ellipse cx="31" cy="36" rx="10" ry="14" fill="#5c1818" opacity="0.8"/>
+              {/* Back seam ridge */}
+              <line x1="31" y1="4"  x2="31" y2="74" stroke="#260606" strokeWidth="2.8" strokeLinecap="round" opacity="0.7"/>
+              {/* Glossy sheen highlight */}
+              <ellipse cx="22" cy="24" rx="8" ry="7" fill="rgba(255,120,100,0.07)" transform="rotate(-22 22 24)"/>
+              <ellipse cx="22" cy="21" rx="5" ry="4" fill="rgba(255,180,160,0.05)" transform="rotate(-22 22 21)"/>
+              {/* Binary 0 mark */}
+              <text x="31" y="46" textAnchor="middle" fill="rgba(120,40,40,0.75)" fontSize="15" fontWeight="900" fontFamily="monospace">0</text>
+            </>
+          )}
+        </svg>
+        <span className="kola-lobe__lbl">{up ? 'Face-up' : 'Face-dn'}</span>
+      </button>
+      <span className={`kola-col__bit kola-col__bit--${up ? 'one' : 'zero'}`}
+            style={{color: up ? '#d44040' : 'rgba(100,30,30,0.6)'}}>{up ? '1' : '0'}</span>
+    </div>
   );
 }
 
@@ -843,9 +1144,41 @@ function CowrieShell({ open, onClick, locked, idx }) {
       className={`cowrie-shell cowrie-shell--${open ? 'open' : 'closed'}${locked ? ' cowrie-shell--locked' : ''}`}
       onClick={() => !locked && onClick && onClick()}
       disabled={locked}
-      title={`Shell ${idx + 1}: ${open ? 'mouth-up (counts)' : 'back-up (silent)'}`}
+      title={`Shell ${idx + 1}: ${open ? 'mouth-up · open · counts' : 'back-up · silent'}`}
     >
-      {open ? <span className="cowrie-shell__mouth">◡</span> : <span className="cowrie-shell__back">◠</span>}
+      <svg viewBox="0 0 56 38" width="62" height="42" style={{display:'block',overflow:'visible'}}>
+        {open ? (
+          <>
+            {/* Shell body — warm ivory */}
+            <ellipse cx="28" cy="19" rx="26" ry="17" fill="#ddd0a2" stroke="#b8943a" strokeWidth="1.3"/>
+            {/* Surface sheen highlight */}
+            <ellipse cx="20" cy="12" rx="13" ry="7" fill="rgba(255,248,225,0.52)" transform="rotate(-8 20 12)"/>
+            {/* Dark central mouth slit */}
+            <ellipse cx="28" cy="19" rx="18" ry="6" fill="#1a0d04"/>
+            {/* Serrated teeth along mouth rim */}
+            <path d="M10,19 Q11,13.5 13.5,13.5 Q15,13.5 16,15 Q17,13.5 19.5,13.5 Q21,13.5 22,15 Q23,13.5 25.5,13.5 Q27,13.5 28,15 Q29,13.5 31.5,13.5 Q33,13.5 34,15 Q35,13.5 37.5,13.5 Q39,13.5 40,15 Q41,13.5 43.5,13.5 Q46,13.5 46,19"
+                  fill="none" stroke="#c4a050" strokeWidth="1.3" opacity="0.72" strokeLinejoin="round"/>
+            {/* Inner mouth depth */}
+            <ellipse cx="28" cy="19" rx="13" ry="4" fill="#100802" opacity="0.92"/>
+            {/* Mouth rim outline */}
+            <ellipse cx="28" cy="19" rx="18" ry="6" fill="none" stroke="#c8a855" strokeWidth="0.8" opacity="0.5"/>
+            {/* Small interior gleam */}
+            <ellipse cx="22" cy="18" rx="4" ry="1.8" fill="rgba(255,235,180,0.12)"/>
+          </>
+        ) : (
+          <>
+            {/* Shell body — smooth ivory dome */}
+            <ellipse cx="28" cy="19" rx="26" ry="17" fill="#ece3c4" stroke="#c0aa68" strokeWidth="1.3"/>
+            {/* Dome highlight */}
+            <ellipse cx="20" cy="12" rx="14" ry="7.5" fill="rgba(255,252,238,0.62)" transform="rotate(-8 20 12)"/>
+            {/* Central spine ridge */}
+            <ellipse cx="28" cy="19" rx="24" ry="3.5" fill="none" stroke="#c8b570" strokeWidth="2" opacity="0.3"/>
+            <ellipse cx="28" cy="19" rx="22" ry="2" fill="none" stroke="#e0ca8a" strokeWidth="0.9" opacity="0.2"/>
+            {/* Subtle edge shadow */}
+            <ellipse cx="28" cy="23" rx="23" ry="12" fill="none" stroke="#a08040" strokeWidth="2.5" opacity="0.1"/>
+          </>
+        )}
+      </svg>
     </button>
   );
 }
@@ -2045,81 +2378,125 @@ function BinGame({ onEnd }) {
   if (subMode === null) {
     return (
       <div className="bin">
+        {/* ── Hero banner ── */}
         <div className="bin__banner">
           <div className="bin__logo-chip">
-            <span className="bin__chip-0">0</span>
-            <span className="bin__chip-1">1</span>
+            <span className="bin__chip-0">O</span>
+            <span className="bin__chip-1">|</span>
           </div>
           <div className="bin__banner-text">
-            <span className="bin__title">IfaBin - IfaBinary Code</span>
-            <span className="bin__sub">Choose your challenge direction</span>
+            <span className="bin__title">IfaBin · IfaBinary Code</span>
+            <span className="bin__sub">Binary · Computing · Odu Ifa · Odu Oosa · Isese · STEM</span>
           </div>
         </div>
+
+        {/* ── Cultural bridge tagline ── */}
+        <div className="bin__tagline">
+          <span className="bin__tagline__badge">STEM</span>
+          <span className="bin__tagline__text">
+            The same <strong>0</strong> and <strong>1</strong> powering every computer have lived in Yoruba sacred knowledge for millennia — as <strong>Ogbe</strong> and <strong>Oyeku</strong>.
+          </span>
+          <span className="bin__tagline__badge bin__tagline__badge--ifa">Isese</span>
+        </div>
+
+        {/* ── Modern Binary section ── */}
         <div className="bin__pick-section">
           <div className="bin__pick-heading">
-            <span className="bin__pick-chip">0 1</span> Modern Binary · Leibniz (1679)
+            <span className="bin__pick-chip">0 1</span>
+            <span className="bin__pick-heading-text">
+              <span className="bin__pick-heading-main">Modern Binary</span>
+              <span className="bin__pick-heading-sub">Leibniz · 1679 CE · Computing · STEM</span>
+            </span>
           </div>
           <div className="bin__submode-pick">
             <button className="bin__submode-card bin__submode-card--d2b" onClick={() => chooseSubMode('d2b')}>
-              <div className="bin__submode-icon">🔢 → 💡</div>
+              <div className="bin__submode-icon">
+                <span className="bin__smc-num">42</span>
+                <span className="bin__smc-arr">→</span>
+                <span className="bin__smc-bits">00101010</span>
+              </div>
               <div className="bin__submode-name">Decimal → Binary</div>
               <div className="bin__submode-desc">
-                You see a decimal number.<br />Toggle the bits to encode it in binary.
+                See a decimal number · Toggle 8 bits to encode it in binary
               </div>
+              <div className="bin__submode-tag">8-bit · STEM · Computing</div>
             </button>
             <button className="bin__submode-card bin__submode-card--b2d" onClick={() => chooseSubMode('b2d')}>
-              <div className="bin__submode-icon">💡 → 🔢</div>
+              <div className="bin__submode-icon">
+                <span className="bin__smc-bits">00101010</span>
+                <span className="bin__smc-arr">→</span>
+                <span className="bin__smc-num">42</span>
+              </div>
               <div className="bin__submode-name">Binary → Decimal</div>
               <div className="bin__submode-desc">
-                You see the binary bits.<br />Add up the weights and find the decimal value.
+                Read 8 bits · Add the weights · Dial in the decimal value
               </div>
+              <div className="bin__submode-tag">bit weights · STEM · Computing</div>
             </button>
             <button className="bin__submode-card bin__submode-card--mix" onClick={() => chooseSubMode('mix')}>
-              <div className="bin__submode-icon">🔀</div>
+              <div className="bin__submode-icon">
+                <span className="bin__smc-bits">01</span>
+                <span className="bin__smc-arr">⇄</span>
+                <span className="bin__smc-num">10</span>
+              </div>
               <div className="bin__submode-name">Mixed Challenge</div>
               <div className="bin__submode-desc">
-                Both directions, alternating every round.<br />The ultimate binary master challenge!
+                Both directions · Alternating rounds · Master-level challenge!
               </div>
+              <div className="bin__submode-tag">master level · STEM</div>
             </button>
           </div>
         </div>
 
+        {/* ── Ancient Binary · Ifa section ── */}
         <div className="bin__pick-section bin__pick-section--anc">
           <div className="bin__pick-heading bin__pick-heading--anc">
-            <span className="bin__pick-chip bin__pick-chip--anc">O |</span> Ancient Binary Systems · Ifa
+            <span className="bin__pick-chip bin__pick-chip--anc">O |</span>
+            <span className="bin__pick-heading-text">
+              <span className="bin__pick-heading-main">Ancient Binary · Ifa</span>
+              <span className="bin__pick-heading-sub">Yoruba · Isese · Odu Ifa · Odu Oosa</span>
+            </span>
           </div>
           <div className="bin__submode-pick bin__submode-pick--anc">
             <button className="bin__submode-card bin__submode-card--opele" onClick={() => chooseSubMode('opele')}>
-              <div className="bin__submode-icon">📿</div>
+              <div className="bin__submode-icon bin__submode-icon--anc bin__submode-icon--opele">
+                O | O | O | O |
+              </div>
               <div className="bin__submode-name">Opele Ifa</div>
               <div className="bin__submode-desc">
-                8 Opele seeds · open = Ogbe (IfaZero) · closed = Oyeku (IfaOne)<br />
-                The original 8-bit binary — same depth as modern!
+                8 Opele seeds · Ogbe (O) = open · Oyeku (|) = closed<br/>The original 8-bit binary system
               </div>
+              <div className="bin__submode-tag bin__submode-tag--gold">Odu Ifa · 8-bit</div>
             </button>
             <button className="bin__submode-card bin__submode-card--obi" onClick={() => chooseSubMode('obi')}>
-              <div className="bin__submode-icon">🌰</div>
+              <div className="bin__submode-icon bin__submode-icon--anc bin__submode-icon--obi">
+                | || | ||
+              </div>
               <div className="bin__submode-name">Obi Siso</div>
               <div className="bin__submode-desc">
-                4 kola-nut lobes · face-up = 1 · face-down = 0<br />
-                Ancient 4-bit computation with sacred kola nut
+                4 kola-nut lobes · face-up = 1 · face-down = 0<br/>Sacred 4-bit computation
               </div>
+              <div className="bin__submode-tag bin__submode-tag--red">Odu Oosa · 4-bit</div>
             </button>
             <button className="bin__submode-card bin__submode-card--cowrie" onClick={() => chooseSubMode('cowrie')}>
-              <div className="bin__submode-icon">🐚</div>
+              <div className="bin__submode-icon bin__submode-icon--anc bin__submode-icon--cowrie">
+                Aje · 16
+              </div>
               <div className="bin__submode-name">Erindinlogun</div>
               <div className="bin__submode-desc">
-                16 cowrie shells · mouth-up = open (counts) · back-up = silent<br />
-                The ancestor of hexadecimal — count the open shells
+                16 Aje cowries · mouth-up = open · back-up = silent<br/>Ancestor of hexadecimal
               </div>
+              <div className="bin__submode-tag bin__submode-tag--ivory">Odu Oosa · count</div>
             </button>
             <button className="bin__submode-card bin__submode-card--odu4" onClick={() => chooseSubMode('odu4')}>
-              <div className="bin__submode-icon">☯</div>
+              <div className="bin__submode-icon bin__submode-icon--anc bin__submode-icon--odu4">
+                O | O |
+              </div>
               <div className="bin__submode-name">Odu Ifa Codes</div>
               <div className="bin__submode-desc">
-                Read the 4-bit Odu mark pattern · Identify the Odu<br />
-                Ikin · Opele · Agbigba — all use these sacred codes
+                Read the 4-bit Odu mark pattern · Identify the Odu<br/>Ikin · Opele · Agbigba
               </div>
+              <div className="bin__submode-tag bin__submode-tag--gold">Odu Ifa · 4-bit MCQ</div>
             </button>
           </div>
         </div>
@@ -2370,10 +2747,27 @@ function BinGame({ onEnd }) {
             )}
           </div>
 
-          <div className="opele-chain">
-            {bits.map((b, i) => (
-              <OpelePod key={i} open={b === 1} locked={isReveal} onClick={() => toggleBit(i)} />
-            ))}
+          <div className="opele-chain-wrap">
+            <div className="opele-chain-header">
+              <span className="opele-chain-header__line"/>
+              <span className="opele-chain-header__label">Opele Ifa · 8-bit Binary Chain</span>
+              <span className="opele-chain-header__line"/>
+            </div>
+            <div className="opele-chain">
+              {bits.map((b, i) => (
+                <OpelePod key={i} idx={i} open={b === 1} locked={isReveal} onClick={() => toggleBit(i)} />
+              ))}
+            </div>
+            <div className="opele-bitrow">
+              {bits.map((b, i) => (
+                <span key={i} className={`opele-bitrow__cell opele-bitrow__cell--${b ? 'one' : 'zero'}`}>{b}</span>
+              ))}
+            </div>
+            <div className="opele-odu-row">
+              <span className="opele-odu-row__label">Odu Ifa →</span>
+              <span className="opele-odu-row__code">{bits.join('')}</span>
+              <span className="opele-odu-row__eq">= {bitsToDecimal(bits)}<sub>10</sub></span>
+            </div>
           </div>
 
           <div className="bin__running">
@@ -2420,16 +2814,42 @@ function BinGame({ onEnd }) {
             )}
           </div>
 
-          <div className="obi-weights">
-            {[8, 4, 2, 1].map((w, i) => (
-              <div key={w} className={`bin__weight${shortBits[i] ? ' bin__weight--on' : ''}`}>{w}</div>
-            ))}
-          </div>
-
-          <div className="obi-lobes">
-            {shortBits.map((b, i) => (
-              <KolaLobe key={i} up={b === 1} locked={isReveal} idx={i} onClick={() => toggleShortBit(i)} />
-            ))}
+          <div className="obi-wrap">
+            <div className="obi-header">
+              <span className="obi-header__line"/>
+              <span className="obi-header__label">Obi Siso · 4-bit Divination Cast</span>
+              <span className="obi-header__line"/>
+            </div>
+            <div className="obi-lobes">
+              {shortBits.map((b, i) => (
+                <KolaLobe key={i} up={b === 1} locked={isReveal} idx={i} onClick={() => toggleShortBit(i)} />
+              ))}
+            </div>
+            {/* Wooden bowl SVG beneath the lobes */}
+            <svg className="obi-bowl-svg" viewBox="0 0 320 48" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="bowl-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#7a4e20"/>
+                  <stop offset="100%" stopColor="#3e2508"/>
+                </linearGradient>
+              </defs>
+              {/* Bowl rim */}
+              <ellipse cx="160" cy="8" rx="155" ry="10" fill="none" stroke="#9b6530" strokeWidth="3"/>
+              {/* Bowl body */}
+              <path d="M 5,8 Q 160,90 315,8" fill="none" stroke="url(#bowl-grad)" strokeWidth="5"/>
+              {/* Bowl shadow */}
+              <ellipse cx="160" cy="8" rx="155" ry="10" fill="rgba(0,0,0,0.18)"/>
+            </svg>
+            <div className="obi-bitrow">
+              {shortBits.map((b, i) => (
+                <span key={i} className={`obi-bitrow__cell obi-bitrow__cell--${b ? 'one' : 'zero'}`}>{b}</span>
+              ))}
+            </div>
+            <div className="obi-odu-row">
+              <span className="obi-odu-row__label">Odu Oosa →</span>
+              <span className="obi-odu-row__code">{shortBits.join('')}</span>
+              <span className="obi-odu-row__eq">= {shortVal}<sub>10</sub></span>
+            </div>
           </div>
 
           <div className="bin__running">
@@ -2477,17 +2897,30 @@ function BinGame({ onEnd }) {
             )}
           </div>
 
-          <div className="cowrie-counter">
-            <span className={`cowrie-counter__val${isMatch ? ' cowrie-counter__val--match' : ''}`}>
-              {cowrieOpen}
-            </span>
-            <span className="cowrie-counter__lbl"> / {target} open</span>
-          </div>
-
-          <div className="cowrie-grid">
-            {cowrieBits.map((b, i) => (
-              <CowrieShell key={i} open={b === 1} locked={isReveal} idx={i} onClick={() => toggleCowrie(i)} />
-            ))}
+          <div className="cowrie-wrap">
+            <div className="cowrie-header">
+              <span className="cowrie-header__line"/>
+              <span className="cowrie-header__label">Erindinlogun · 16 Aje Cowries</span>
+              <span className="cowrie-header__line"/>
+            </div>
+            <div className="cowrie-score-row">
+              <span className={`cowrie-score__val${isMatch ? ' cowrie-score__val--match' : ''}`}>{cowrieOpen}</span>
+              <span className="cowrie-score__sep"> / </span>
+              <span className="cowrie-score__target">{target}</span>
+              <span className="cowrie-score__lbl"> mouth-up</span>
+            </div>
+            <div className="cowrie-mat">
+              <div className="cowrie-grid">
+                {cowrieBits.map((b, i) => (
+                  <CowrieShell key={i} open={b === 1} locked={isReveal} idx={i} onClick={() => toggleCowrie(i)} />
+                ))}
+              </div>
+            </div>
+            <div className="cowrie-odu-row">
+              <span className="cowrie-odu-row__label">Odu Oosa →</span>
+              <span className="cowrie-odu-row__count">{cowrieOpen} open</span>
+              <span className="cowrie-odu-row__eq">= {cowrieOpen}<sub>10</sub></span>
+            </div>
           </div>
 
           {!isReveal && (
@@ -2513,13 +2946,44 @@ function BinGame({ onEnd }) {
             <div className="odu4-code">
               {odu4Q.code.split('').map((b, i) => (
                 <span key={i} className={`odu4-code__mark odu4-code__mark--${b === '1' ? 'ogbe' : 'oyeku'}`}>
-                  <span className="odu4-code__sym">{b === '1' ? 'O' : 'I'}</span>
+                  <span className="odu4-code__sym">{b === '1' ? 'O' : '|'}</span>
                   <span className="odu4-code__bit">{b}</span>
                 </span>
               ))}
             </div>
             <div className="odu4-code__hint">
-              O = Ogbe (IfaZero) · I = Oyeku (IfaOne) · binary: {parseInt(odu4Q.code, 2)} in decimal
+              O = OgbeBit (IfaZero) · | = OyekuBit (IfaOne) · binary: {parseInt(odu4Q.code, 2)} in decimal
+            </div>
+
+            {/* ── Alternative encoding: | = 0 = Ogbe (IfaZero), || = 1 = Oyeku (IfaOne) ── */}
+            <div className="odu4-marks-sep">
+              <span className="odu4-marks-sep__line"/>
+              <span className="odu4-marks-sep__lbl">Ifa tray marks</span>
+              <span className="odu4-marks-sep__line"/>
+            </div>
+            <div className="odu4-marks">
+              {odu4Q.code.split('').map((b, i) => (
+                <span key={i} className={`odu4-mark odu4-mark--${b === '1' ? 'ogbe' : 'oyeku'}`}>
+                  <svg className="odu4-mark__svg"
+                       viewBox={b === '1' ? '0 0 18 40' : '0 0 28 40'}
+                       width={b === '1' ? '13' : '21'} height="32"
+                       style={{display:'block', overflow:'visible'}}>
+                    {b === '1' ? (
+                      <line x1="9" y1="2" x2="9" y2="38" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                    ) : (
+                      <>
+                        <line x1="7"  y1="2" x2="7"  y2="38" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                        <line x1="21" y1="2" x2="21" y2="38" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round"/>
+                      </>
+                    )}
+                  </svg>
+                  <span className="odu4-mark__lbl">{b === '1' ? 'OgbeBit' : 'OyekuBit'}</span>
+                  <span className="odu4-mark__bit">{b}</span>
+                </span>
+              ))}
+            </div>
+            <div className="odu4-marks__hint">
+              O = | · OgbeBit (IfaZero) &nbsp;·&nbsp; I = || · OyekuBit (IfaOne)
             </div>
 
             {isReveal && (
@@ -3170,10 +3634,214 @@ function ModGame({ onEnd }) {
 }
 
 // ════════════════════════════════════════════════════════════
+// IFASCII GAME
+// ════════════════════════════════════════════════════════════
+
+function AsciiGame({ onEnd }) {
+  const questionsRef = useRef(makeAsciiQuestions(ASCII_ROUNDS));
+  const S = useRef({ round: 0, lives: LIVES, score: 0, streak: 0, timeLeft: ASCII_TIME, phase: 'asking' });
+  const [round,    setRound]    = useState(0);
+  const [lives,    setLives]    = useState(LIVES);
+  const [score,    setScore]    = useState(0);
+  const [streak,   setStreak]   = useState(0);
+  const [timeLeft, setTimeLeft] = useState(ASCII_TIME);
+  const [phase,    setPhase]    = useState('asking');
+  const [chosen,   setChosen]   = useState(null);
+  const timerRef  = useRef(null);
+  const revealRef = useRef(null);
+
+  useEffect(() => { S.current = { round, lives, score, streak, timeLeft, phase }; });
+
+  useEffect(() => {
+    clearInterval(timerRef.current);
+    S.current.timeLeft = ASCII_TIME; S.current.phase = 'asking';
+    setTimeLeft(ASCII_TIME); setPhase('asking'); setChosen(null);
+    timerRef.current = setInterval(() => {
+      if (S.current.phase !== 'asking') { clearInterval(timerRef.current); return; }
+      const tl = S.current.timeLeft - 1;
+      S.current.timeLeft = tl; setTimeLeft(tl);
+      if (tl <= 0) { clearInterval(timerRef.current); handleAnswer(null); }
+    }, 1000);
+    return () => clearInterval(timerRef.current);
+  }, [round]);
+
+  useEffect(() => () => { clearInterval(timerRef.current); clearTimeout(revealRef.current); }, []);
+
+  function handleAnswer(picked) {
+    const s = S.current;
+    if (s.phase !== 'asking') return;
+    clearInterval(timerRef.current);
+    S.current.phase = 'reveal'; setPhase('reveal'); setChosen(picked);
+    const q = questionsRef.current[s.round];
+    const correct = picked === q.answer;
+    let newLives = s.lives, newScore = s.score, newStreak = s.streak;
+    if (correct) { newStreak = s.streak + 1; newScore = s.score + 100 * Math.max(1, newStreak); }
+    else         { newLives  = s.lives - 1;  newStreak = 0; }
+    S.current.lives = newLives; S.current.score = newScore; S.current.streak = newStreak;
+    setLives(newLives); setScore(newScore); setStreak(newStreak);
+    if (newLives <= 0 || s.round + 1 >= ASCII_ROUNDS) {
+      revealRef.current = setTimeout(() => onEnd({ score: newScore }), 1400); return;
+    }
+    revealRef.current = setTimeout(() => { S.current.round = s.round + 1; setRound(s.round + 1); }, 1400);
+  }
+
+  const q = questionsRef.current[round];
+  const typeLabel = { 'char-to-dec': 'Decimal Code', 'dec-to-char': 'Which Character?',
+                      'char-to-hex': 'Hex Code', 'ifa-bit': 'IFABit Pattern → ASCII' }[q.type];
+  return (
+    <div className="ascii-game">
+      <div className="ascii__banner">
+        <div className="ascii__logo-chip"><span className="ascii__chip-sym">Aa</span></div>
+        <div className="ascii__banner-text">
+          <div className="ascii__title">IfaASCII · Ifascii</div>
+          <div className="ascii__sub">ASCII · Computing · IFABit · STEM</div>
+        </div>
+        <div className="ascii__diff-badge">{round + 1} / {ASCII_ROUNDS}</div>
+      </div>
+      <div className="quiz__hud ascii__hud">
+        <LivesRow lives={lives} />
+        <div className="hud__score">
+          <span className="hud__pts">{score.toLocaleString()}</span>
+          {streak > 1 && <span className="hud__streak ascii__streak">×{streak}</span>}
+        </div>
+        <TimerArc seconds={timeLeft} total={ASCII_TIME} />
+      </div>
+      <ProgressStrip current={round} total={ASCII_ROUNDS} />
+      <div className={`ascii__card${phase==='reveal' ? (chosen===q.answer ? ' ascii__card--ok' : ' ascii__card--no') : ''}`}>
+        <div className="q-card__label">{typeLabel}</div>
+        <div className="q-prompt">{q.prompt}</div>
+        <div className={`ascii__display${q.type==='ifa-bit' ? ' ascii__display--bits' : ''}`}>{q.display}</div>
+        {phase === 'reveal' && (
+          <div className={`q-feedback ${chosen===q.answer ? 'q-feedback--ok' : 'q-feedback--no'}`}>
+            <span className="fb-icon">{chosen===q.answer ? '✓' : '✗'}</span>
+            {chosen===q.answer ? 'Correct!' : `Answer: ${q.answer}`}
+            <div className="fb-hint">{q.explain}</div>
+            <div className="ascii__ifa-note">✦ Ifa ↔ ASCII: {q.ifaNote}</div>
+          </div>
+        )}
+        <div className="choices">
+          {q.choices.map((c, i) => {
+            let cls = 'choice';
+            if (phase === 'reveal') {
+              if (c === q.answer) cls += ' choice--ok';
+              else if (c === chosen) cls += ' choice--no';
+              else cls += ' choice--dim';
+            }
+            return <button key={i} className={cls} disabled={phase !== 'asking'} onClick={() => handleAnswer(c)}>{c}</button>;
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+// IFA-UNICODE GAME
+// ════════════════════════════════════════════════════════════
+
+function UnicodeGame({ onEnd }) {
+  const questionsRef = useRef(makeUnicodeQuestions(UNICODE_ROUNDS));
+  const S = useRef({ round: 0, lives: LIVES, score: 0, streak: 0, timeLeft: UNICODE_TIME, phase: 'asking' });
+  const [round,    setRound]    = useState(0);
+  const [lives,    setLives]    = useState(LIVES);
+  const [score,    setScore]    = useState(0);
+  const [streak,   setStreak]   = useState(0);
+  const [timeLeft, setTimeLeft] = useState(UNICODE_TIME);
+  const [phase,    setPhase]    = useState('asking');
+  const [chosen,   setChosen]   = useState(null);
+  const timerRef  = useRef(null);
+  const revealRef = useRef(null);
+
+  useEffect(() => { S.current = { round, lives, score, streak, timeLeft, phase }; });
+
+  useEffect(() => {
+    clearInterval(timerRef.current);
+    S.current.timeLeft = UNICODE_TIME; S.current.phase = 'asking';
+    setTimeLeft(UNICODE_TIME); setPhase('asking'); setChosen(null);
+    timerRef.current = setInterval(() => {
+      if (S.current.phase !== 'asking') { clearInterval(timerRef.current); return; }
+      const tl = S.current.timeLeft - 1;
+      S.current.timeLeft = tl; setTimeLeft(tl);
+      if (tl <= 0) { clearInterval(timerRef.current); handleAnswer(null); }
+    }, 1000);
+    return () => clearInterval(timerRef.current);
+  }, [round]);
+
+  useEffect(() => () => { clearInterval(timerRef.current); clearTimeout(revealRef.current); }, []);
+
+  function handleAnswer(picked) {
+    const s = S.current;
+    if (s.phase !== 'asking') return;
+    clearInterval(timerRef.current);
+    S.current.phase = 'reveal'; setPhase('reveal'); setChosen(picked);
+    const q = questionsRef.current[s.round];
+    const correct = picked === q.answer;
+    let newLives = s.lives, newScore = s.score, newStreak = s.streak;
+    if (correct) { newStreak = s.streak + 1; newScore = s.score + 100 * Math.max(1, newStreak); }
+    else         { newLives  = s.lives - 1;  newStreak = 0; }
+    S.current.lives = newLives; S.current.score = newScore; S.current.streak = newStreak;
+    setLives(newLives); setScore(newScore); setStreak(newStreak);
+    if (newLives <= 0 || s.round + 1 >= UNICODE_ROUNDS) {
+      revealRef.current = setTimeout(() => onEnd({ score: newScore }), 1400); return;
+    }
+    revealRef.current = setTimeout(() => { S.current.round = s.round + 1; setRound(s.round + 1); }, 1400);
+  }
+
+  const q = questionsRef.current[round];
+  const typeLabel = { 'char-to-point': 'Code Point', 'point-to-char': 'Which Character?',
+                      'block-identify': 'Unicode Block', 'ifa-hex': 'IFA × Unicode — Odu Hex' }[q.type];
+  return (
+    <div className="unicode-game">
+      <div className="unicode__banner">
+        <div className="unicode__logo-chip"><span className="unicode__chip-sym">U+</span></div>
+        <div className="unicode__banner-text">
+          <div className="unicode__title">IfaUnicode · Ifa-Unicode</div>
+          <div className="unicode__sub">Unicode · Odu Hex · Global Scripts · STEM</div>
+        </div>
+        <div className="unicode__diff-badge">{round + 1} / {UNICODE_ROUNDS}</div>
+      </div>
+      <div className="quiz__hud unicode__hud">
+        <LivesRow lives={lives} />
+        <div className="hud__score">
+          <span className="hud__pts">{score.toLocaleString()}</span>
+          {streak > 1 && <span className="hud__streak unicode__streak">×{streak}</span>}
+        </div>
+        <TimerArc seconds={timeLeft} total={UNICODE_TIME} />
+      </div>
+      <ProgressStrip current={round} total={UNICODE_ROUNDS} />
+      <div className={`unicode__card${phase==='reveal' ? (chosen===q.answer ? ' unicode__card--ok' : ' unicode__card--no') : ''}`}>
+        <div className="q-card__label">{typeLabel}</div>
+        <div className="q-prompt">{q.prompt}</div>
+        <div className={`unicode__display${q.type==='ifa-hex' ? ' unicode__display--hex' : ''}`}>{q.display}</div>
+        {phase === 'reveal' && (
+          <div className={`q-feedback ${chosen===q.answer ? 'q-feedback--ok' : 'q-feedback--no'}`}>
+            <span className="fb-icon">{chosen===q.answer ? '✓' : '✗'}</span>
+            {chosen===q.answer ? 'Correct!' : `Answer: ${q.answer}`}
+            <div className="fb-hint">{q.explain}</div>
+            <div className="unicode__ifa-note">✦ Ifa ↔ Unicode: {q.ifaNote}</div>
+          </div>
+        )}
+        <div className="choices">
+          {q.choices.map((c, i) => {
+            let cls = 'choice';
+            if (phase === 'reveal') {
+              if (c === q.answer) cls += ' choice--ok';
+              else if (c === chosen) cls += ' choice--no';
+              else cls += ' choice--dim';
+            }
+            return <button key={i} className={cls} disabled={phase !== 'asking'} onClick={() => handleAnswer(c)}>{c}</button>;
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
 // RESULT SCREEN
 // ════════════════════════════════════════════════════════════
 
-function ResultScreen({ mode, result, hiScore, bestMoves, arcBest, ayoBest, binBest, orisaQuizBest, orisaMatchBest, gatesBest, modBest, onReplay, onMenu }) {
+function ResultScreen({ mode, result, hiScore, bestMoves, arcBest, ayoBest, binBest, orisaQuizBest, orisaMatchBest, gatesBest, modBest, asciiBest, unicodeBest, onReplay, onMenu }) {
   const isRecord = mode === 'quiz'
     ? result.score >= hiScore
     : mode === 'ifarcadia'
@@ -3190,7 +3858,11 @@ function ResultScreen({ mode, result, hiScore, bestMoves, arcBest, ayoBest, binB
                 ? result.score >= gatesBest
                 : mode === 'mod'
                   ? result.score >= modBest
-                  : result.moves <= bestMoves;
+                  : mode === 'ascii'
+                    ? result.score >= asciiBest
+                    : mode === 'unicode'
+                      ? result.score >= unicodeBest
+                      : result.moves <= bestMoves;
 
   const trophy = isRecord ? '🏆'
     : mode === 'quiz'        ? '⚡'
@@ -3201,6 +3873,8 @@ function ResultScreen({ mode, result, hiScore, bestMoves, arcBest, ayoBest, binB
     : mode === 'orisa-match' ? '🔮'
     : mode === 'gates'       ? '⚡'
     : mode === 'mod'         ? '🔢'
+    : mode === 'ascii'       ? '🔤'
+    : mode === 'unicode'     ? '🌐'
     : '🎴';
 
   return (
@@ -3213,6 +3887,8 @@ function ResultScreen({ mode, result, hiScore, bestMoves, arcBest, ayoBest, binB
       {mode === 'orisa-match' && <div className="result__orisa-tag">OrisaMatch · Orisa Pairs</div>}
       {mode === 'gates'       && <div className="result__gates-tag">IfaGates · Logic Gate Training</div>}
       {mode === 'mod'         && <div className="result__mod-tag">IfaMod · Modular Arithmetic</div>}
+      {mode === 'ascii'       && <div className="result__ascii-tag">IfaASCII · Ifascii</div>}
+      {mode === 'unicode'     && <div className="result__unicode-tag">IfaUnicode · Ifa-Unicode</div>}
       <div className="result__title">
         {mode === 'ayo'
           ? (result.won ? 'You Win!' : result.playerScore === result.aiScore ? 'Draw!' : 'Oyeku Wins!')
@@ -3309,6 +3985,22 @@ function ResultScreen({ mode, result, hiScore, bestMoves, arcBest, ayoBest, binB
         </div>
       )}
 
+      {mode === 'ascii' && (
+        <div className="result__body">
+          <div className="result__big">{result.score.toLocaleString()}</div>
+          <div className="result__sub">points · ASCII Coder</div>
+          {!isRecord && asciiBest > 0 && <div className="result__prev">Best: {asciiBest.toLocaleString()} pts</div>}
+        </div>
+      )}
+
+      {mode === 'unicode' && (
+        <div className="result__body">
+          <div className="result__big">{result.score.toLocaleString()}</div>
+          <div className="result__sub">points · Unicode Scholar</div>
+          {!isRecord && unicodeBest > 0 && <div className="result__prev">Best: {unicodeBest.toLocaleString()} pts</div>}
+        </div>
+      )}
+
       <div className="result__actions">
         <button className="btn btn--gold" onClick={onReplay}>Play Again</button>
         <button className="btn btn--ghost" onClick={onMenu}>Menu</button>
@@ -3321,7 +4013,7 @@ function ResultScreen({ mode, result, hiScore, bestMoves, arcBest, ayoBest, binB
 // MENU
 // ════════════════════════════════════════════════════════════
 
-function Menu({ onStart, onAbout, hiScore, bestMoves, arcBest, ayoBest, binBest, orisaQuizBest, orisaMatchBest, gatesBest, modBest }) {
+function Menu({ onStart, onAbout, hiScore, bestMoves, arcBest, ayoBest, binBest, orisaQuizBest, orisaMatchBest, gatesBest, modBest, asciiBest, unicodeBest }) {
   return (
     <div className="menu">
       <div className="menu__hero">
@@ -3452,6 +4144,41 @@ function Menu({ onStart, onAbout, hiScore, bestMoves, arcBest, ayoBest, binBest,
             )}
           </div>
         </button>
+
+        <button className="mode-card mode-card--ascii" onClick={() => onStart('ascii')}>
+          <div className="mode-card__icon">🔤</div>
+          <div className="mode-card__body">
+            <div className="mode-card__name">IfaASCII · Ifascii</div>
+            <div className="mode-card__desc">
+              Decimal codes · Hex codes · IFABit patterns<br />
+              ASCII 0–127 through the lens of Ifa — for kids, teens &amp; adults
+            </div>
+            {asciiBest > 0 && <div className="mode-card__best">Best: {asciiBest.toLocaleString()} pts</div>}
+          </div>
+        </button>
+
+        <button className="mode-card mode-card--unicode" onClick={() => onStart('unicode')}>
+          <div className="mode-card__icon">🌐</div>
+          <div className="mode-card__body">
+            <div className="mode-card__name">IfaUnicode · Ifa-Unicode</div>
+            <div className="mode-card__desc">
+              Code points · Unicode blocks · Yoruba scripts · Odu Hex<br />
+              The 16 Odu are the 16 hex digits — U+ is an Ifa path!
+            </div>
+            {unicodeBest > 0 && <div className="mode-card__best">Best: {unicodeBest.toLocaleString()} pts</div>}
+          </div>
+        </button>
+
+        <button className="mode-card mode-card--comic" onClick={() => onStart('comic')}>
+          <div className="mode-card__icon">🎨</div>
+          <div className="mode-card__body">
+            <div className="mode-card__name">IfaComic</div>
+            <div className="mode-card__desc">
+              Draw &amp; colour Logic Gates, Switches &amp; the 16 Odu Ifa<br/>
+              STEM artwork for kids &amp; teens · Hand-drawing coloring pages
+            </div>
+          </div>
+        </button>
       </div>
 
       <button className="menu__about-btn" onClick={onAbout}>
@@ -3493,8 +4220,9 @@ function Header({ screen, onMenu }) {
 
 function App() {
   const [odus,      setOdus]      = useState([]);
-  const [screen,    setScreen]    = useState('menu');
-  const [mode,      setMode]      = useState(null);
+  const [screen,    setScreen]    = useState(window.__IFA_INIT__ || 'menu');
+  const [mode,      setMode]      = useState(window.__IFA_INIT__ || null);
+  const goMenu = () => { if (window.__IFA_HOME__) window.location.href = window.__IFA_HOME__; else setScreen('menu'); };
   const [result,    setResult]    = useState(null);
   const [gameKey,   setGameKey]   = useState(0);
   const [showAbout, setShowAbout] = useState(false);
@@ -3512,8 +4240,10 @@ function App() {
     const v = localStorage.getItem(ORISA_MATCH_KEY);
     return v ? parseInt(v, 10) : Infinity;
   });
-  const [gatesBest, setGatesBest] = useState(() => parseInt(localStorage.getItem(GATES_KEY) || '0', 10));
-  const [modBest,   setModBest]   = useState(() => parseInt(localStorage.getItem(MOD_KEY)   || '0', 10));
+  const [gatesBest,   setGatesBest]   = useState(() => parseInt(localStorage.getItem(GATES_KEY)   || '0', 10));
+  const [modBest,     setModBest]     = useState(() => parseInt(localStorage.getItem(MOD_KEY)     || '0', 10));
+  const [asciiBest,   setAsciiBest]   = useState(() => parseInt(localStorage.getItem(ASCII_KEY)   || '0', 10));
+  const [unicodeBest, setUnicodeBest] = useState(() => parseInt(localStorage.getItem(UNICODE_KEY) || '0', 10));
 
   useEffect(() => {
     fetch('./data/odu.json')
@@ -3608,6 +4338,24 @@ function App() {
     setScreen('result');
   }
 
+  function handleAsciiEnd(res) {
+    if (res.score > asciiBest) {
+      setAsciiBest(res.score);
+      localStorage.setItem(ASCII_KEY, String(res.score));
+    }
+    setResult(res);
+    setScreen('result');
+  }
+
+  function handleUnicodeEnd(res) {
+    if (res.score > unicodeBest) {
+      setUnicodeBest(res.score);
+      localStorage.setItem(UNICODE_KEY, String(res.score));
+    }
+    setResult(res);
+    setScreen('result');
+  }
+
   if (!odus.length) {
     return (
       <div className="splash">
@@ -3619,7 +4367,7 @@ function App() {
 
   return (
     <div className="app">
-      <Header screen={screen} onMenu={() => setScreen('menu')} />
+      <Header screen={screen} onMenu={goMenu} />
 
       {showAbout && <AboutModal onClose={() => setShowAbout(false)} />}
 
@@ -3637,6 +4385,8 @@ function App() {
             orisaMatchBest={orisaMatchBest}
             gatesBest={gatesBest}
             modBest={modBest}
+            asciiBest={asciiBest}
+            unicodeBest={unicodeBest}
           />
         )}
 
@@ -3676,6 +4426,18 @@ function App() {
           <ModGame key={gameKey} onEnd={handleModEnd} />
         )}
 
+        {screen === 'ascii' && (
+          <AsciiGame key={gameKey} onEnd={handleAsciiEnd} />
+        )}
+
+        {screen === 'unicode' && (
+          <UnicodeGame key={gameKey} onEnd={handleUnicodeEnd} />
+        )}
+
+        {screen === 'comic' && (
+          <ComicScreen onMenu={goMenu} />
+        )}
+
         {screen === 'result' && (
           <ResultScreen
             mode={mode}
@@ -3689,11 +4451,361 @@ function App() {
             orisaMatchBest={orisaMatchBest}
             gatesBest={gatesBest}
             modBest={modBest}
+            asciiBest={asciiBest}
+            unicodeBest={unicodeBest}
             onReplay={() => startGame(mode)}
-            onMenu={() => setScreen('menu')}
+            onMenu={goMenu}
           />
         )}
       </main>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+// IFACOMIC — STEM COLORING & DRAWING PAGES
+// ════════════════════════════════════════════════════════════
+
+function GateSymbol({ type, size = 90 }) {
+  const h = Math.round(size * 0.625);
+  const body = { stroke: '#1a1a1a', strokeWidth: 3.5, fill: '#fff' };
+  const line = { stroke: '#1a1a1a', strokeWidth: 3, fill: 'none' };
+  const bubble = { stroke: '#1a1a1a', strokeWidth: 3, fill: '#fff' };
+  const extra = { stroke: '#1a1a1a', strokeWidth: 3.5, fill: 'none' };
+  switch (type) {
+    case 'and': return (
+      <svg viewBox="0 0 80 50" width={size} height={h} style={{display:'block',overflow:'visible'}}>
+        <path d="M 20,8 L 20,42 L 42,42 A 17,17 0 0 0 42,8 Z" {...body}/>
+        <line x1="0" y1="16" x2="20" y2="16" {...line}/>
+        <line x1="0" y1="34" x2="20" y2="34" {...line}/>
+        <line x1="59" y1="25" x2="80" y2="25" {...line}/>
+      </svg>
+    );
+    case 'or': return (
+      <svg viewBox="0 0 80 50" width={size} height={h} style={{display:'block',overflow:'visible'}}>
+        <path d="M 12,8 Q 22,25 12,42 Q 42,42 58,25 Q 42,8 12,8 Z" {...body}/>
+        <line x1="0" y1="16" x2="15" y2="16" {...line}/>
+        <line x1="0" y1="34" x2="15" y2="34" {...line}/>
+        <line x1="58" y1="25" x2="80" y2="25" {...line}/>
+      </svg>
+    );
+    case 'not': return (
+      <svg viewBox="0 0 80 50" width={size} height={h} style={{display:'block',overflow:'visible'}}>
+        <path d="M 14,8 L 14,42 L 54,25 Z" {...body}/>
+        <circle cx="58" cy="25" r="4" {...bubble}/>
+        <line x1="0" y1="25" x2="14" y2="25" {...line}/>
+        <line x1="62" y1="25" x2="80" y2="25" {...line}/>
+      </svg>
+    );
+    case 'nand': return (
+      <svg viewBox="0 0 80 50" width={size} height={h} style={{display:'block',overflow:'visible'}}>
+        <path d="M 14,8 L 14,42 L 36,42 A 17,17 0 0 0 36,8 Z" {...body}/>
+        <circle cx="57" cy="25" r="4" {...bubble}/>
+        <line x1="0" y1="16" x2="14" y2="16" {...line}/>
+        <line x1="0" y1="34" x2="14" y2="34" {...line}/>
+        <line x1="61" y1="25" x2="80" y2="25" {...line}/>
+      </svg>
+    );
+    case 'nor': return (
+      <svg viewBox="0 0 80 50" width={size} height={h} style={{display:'block',overflow:'visible'}}>
+        <path d="M 12,8 Q 22,25 12,42 Q 42,42 58,25 Q 42,8 12,8 Z" {...body}/>
+        <circle cx="62" cy="25" r="4" {...bubble}/>
+        <line x1="0" y1="16" x2="15" y2="16" {...line}/>
+        <line x1="0" y1="34" x2="15" y2="34" {...line}/>
+        <line x1="66" y1="25" x2="80" y2="25" {...line}/>
+      </svg>
+    );
+    case 'xor': return (
+      <svg viewBox="0 0 80 50" width={size} height={h} style={{display:'block',overflow:'visible'}}>
+        <path d="M 16,8 Q 26,25 16,42 Q 46,42 62,25 Q 46,8 16,8 Z" {...body}/>
+        <path d="M 8,8 Q 18,25 8,42" {...extra}/>
+        <line x1="0" y1="16" x2="18" y2="16" {...line}/>
+        <line x1="0" y1="34" x2="18" y2="34" {...line}/>
+        <line x1="62" y1="25" x2="80" y2="25" {...line}/>
+      </svg>
+    );
+    case 'xnor': return (
+      <svg viewBox="0 0 80 50" width={size} height={h} style={{display:'block',overflow:'visible'}}>
+        <path d="M 12,8 Q 22,25 12,42 Q 38,42 54,25 Q 38,8 12,8 Z" {...body}/>
+        <path d="M 5,8 Q 15,25 5,42" {...extra}/>
+        <circle cx="58" cy="25" r="4" {...bubble}/>
+        <line x1="0" y1="16" x2="14" y2="16" {...line}/>
+        <line x1="0" y1="34" x2="14" y2="34" {...line}/>
+        <line x1="62" y1="25" x2="80" y2="25" {...line}/>
+      </svg>
+    );
+    case 'buf': return (
+      <svg viewBox="0 0 80 50" width={size} height={h} style={{display:'block',overflow:'visible'}}>
+        <path d="M 14,8 L 14,42 L 57,25 Z" {...body}/>
+        <line x1="0" y1="25" x2="14" y2="25" {...line}/>
+        <line x1="57" y1="25" x2="80" y2="25" {...line}/>
+      </svg>
+    );
+    default: return null;
+  }
+}
+
+// ── Page 1: Logic Gate Heroes ─────────────────────────────
+
+const COMIC_GATES = [
+  { type: 'and',  name: 'AND',    yoruba: 'ATI',       color: '#f0920c', io: '1·1→1  |  1·0→0',  fun: 'Both ON = YES!' },
+  { type: 'or',   name: 'OR',     yoruba: 'TABI',      color: '#2d9e6b', io: '1+0→1  |  0+0→0',  fun: 'One ON = YES!' },
+  { type: 'not',  name: 'NOT',    yoruba: 'KO',        color: '#e63946', io: '1→0  |  0→1',       fun: 'Flip it!' },
+  { type: 'nand', name: 'NAND',   yoruba: 'Ko-ATI',    color: '#4361ee', io: '1·1→0  |  1·0→1',  fun: 'AND flipped!' },
+  { type: 'nor',  name: 'NOR',    yoruba: 'Ko-TABI',   color: '#7c4dff', io: '0+0→1  |  1+0→0',  fun: 'OR flipped!' },
+  { type: 'xor',  name: 'XOR',    yoruba: 'Kan-TABI',  color: '#e9498a', io: '1+0→1  |  1+1→0',  fun: 'Different = YES!' },
+  { type: 'xnor', name: 'XNOR',   yoruba: 'Ko-Kan',    color: '#c9a227', io: '1+1→1  |  1+0→0',  fun: 'Same = YES!' },
+  { type: 'buf',  name: 'Buffer', yoruba: 'IRU',       color: '#1a9ecc', io: '1→1  |  0→0',       fun: 'Pass it on!' },
+];
+
+function ComicPageGates() {
+  return (
+    <div className="comic-page">
+      <div className="comic-page__header">
+        <div className="comic-page__badge">🎨 IfaComic · STEM Artwork · IfaGames</div>
+        <h2 className="comic-page__title">⚡ Meet the Logic Gate Heroes!</h2>
+        <p className="comic-page__sub">IfaLogic · Tàn&nbsp;=&nbsp;1&nbsp;(ON) &nbsp;·&nbsp; Pa&nbsp;=&nbsp;0&nbsp;(OFF)</p>
+        <p className="comic-page__instruction">✏️ Draw &amp; colour each hero below. Label in English AND Yoruba!</p>
+      </div>
+
+      <div className="comic-gates-grid">
+        {COMIC_GATES.map(g => (
+          <div key={g.type} className="comic-gate" style={{'--gc': g.color}}>
+            <div className="comic-gate__header">
+              <span className="comic-gate__name">{g.name}</span>
+              <span className="comic-gate__yoruba">{g.yoruba}</span>
+            </div>
+            <div className="comic-gate__symbol">
+              <GateSymbol type={g.type} size={88} />
+            </div>
+            <div className="comic-gate__io">{g.io}</div>
+            <div className="comic-gate__fun">✨ {g.fun}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="comic-ifa-note">
+        <span className="comic-ifa-note__label">Ifa + Electronics = IfaLogic</span>
+        <span>The 256 Odu Ifa encode all logic combinations · Tàn (O) = 1 · Pa (I) = 0</span>
+      </div>
+      <div className="comic-page__footer">
+        <span>playifagames.org</span><span>CENProject · Ifa &amp; Orisa STEM</span>
+      </div>
+    </div>
+  );
+}
+
+// ── Page 2: Pa & Tàn — The Magic Switch ──────────────────
+
+function ComicPageSwitch() {
+  const sunRays = [0,45,90,135,180,225,270,315].map(deg => {
+    const r = Math.PI * deg / 180;
+    return { x1: 60+33*Math.cos(r), y1: 60+33*Math.sin(r), x2: 60+47*Math.cos(r), y2: 60+47*Math.sin(r) };
+  });
+
+  return (
+    <div className="comic-page">
+      <div className="comic-page__header">
+        <div className="comic-page__badge">🎨 IfaComic · Yoruba Digital Science</div>
+        <h2 className="comic-page__title">🔆 Pa &amp; Tàn — The Magic Switch!</h2>
+        <p className="comic-page__sub">Yoruba words for OFF &amp; ON · The Language of Computers &amp; the Universe</p>
+        <p className="comic-page__instruction">✏️ Colour the OFF side cool blue/grey · Colour the ON side golden yellow!</p>
+      </div>
+
+      <div className="comic-switch-layout">
+
+        {/* LEFT — Pa / OFF / 0 */}
+        <div className="comic-switch-side comic-switch-side--off">
+          <div className="comic-switch-big-label">Pa</div>
+          <div className="comic-switch-bit comic-switch-bit--0">0</div>
+          <div className="comic-switch-word">OFF</div>
+          <svg viewBox="0 0 120 120" width={118} height={118} className="comic-switch-svg">
+            <circle cx="60" cy="60" r="46" fill="none" stroke="#2a3a5a" strokeWidth="4"/>
+            <path d="M 60,14 A 46,46 0 1 0 60,106 A 30,30 0 1 1 60,14 Z" fill="none" stroke="#2a3a5a" strokeWidth="3.5"/>
+            <text x="78" y="34" fontSize="13" fill="#2a3a5a" fontWeight="bold">★</text>
+            <text x="30" y="44" fontSize="9"  fill="#2a3a5a">★</text>
+            <text x="88" y="82" fontSize="7"  fill="#2a3a5a">★</text>
+            <text x="22" y="78" fontSize="11" fill="#2a3a5a">★</text>
+            <text x="60" y="68" textAnchor="middle" fontSize="10" fill="#2a3a5a" fontStyle="italic">sleeping…</text>
+          </svg>
+          <div className="comic-switch-desc">Circuit open<br/>Nothing flows<br/>🌙 Sleeping moon</div>
+        </div>
+
+        {/* CENTRE — switch diagram + power button */}
+        <div className="comic-switch-center">
+          <svg viewBox="0 0 160 230" width={148} height={213} style={{display:'block',margin:'0 auto'}}>
+            {/* section label */}
+            <text x="80" y="18" textAnchor="middle" fontSize="12" fontWeight="800" fill="#333">Iyipada = Switch</text>
+
+            {/* OFF diagram */}
+            <text x="80" y="40" textAnchor="middle" fontSize="10" fill="#666">Pa (0) · OFF · Open</text>
+            <line x1="16" y1="58" x2="50" y2="58" stroke="#555" strokeWidth="3"/>
+            <circle cx="53" cy="58" r="4" fill="none" stroke="#555" strokeWidth="2.5"/>
+            <line x1="56" y1="54" x2="80" y2="46" stroke="#555" strokeWidth="3"/>
+            <circle cx="83" cy="58" r="4" fill="none" stroke="#555" strokeWidth="2.5"/>
+            <line x1="86" y1="58" x2="144" y2="58" stroke="#555" strokeWidth="3"/>
+
+            {/* ON diagram */}
+            <text x="80" y="102" textAnchor="middle" fontSize="10" fill="#c06800">Tàn (1) · ON · Closed</text>
+            <line x1="16" y1="118" x2="50" y2="118" stroke="#c06800" strokeWidth="3.5"/>
+            <circle cx="53" cy="118" r="4" fill="none" stroke="#c06800" strokeWidth="2.5"/>
+            <line x1="57" y1="118" x2="80" y2="118" stroke="#c06800" strokeWidth="3.5"/>
+            <circle cx="83" cy="118" r="4" fill="none" stroke="#c06800" strokeWidth="2.5"/>
+            <line x1="87" y1="118" x2="144" y2="118" stroke="#c06800" strokeWidth="3.5"/>
+
+            {/* Power button */}
+            <text x="80" y="152" textAnchor="middle" fontSize="10" fill="#555">Bọtini Agbara = Power Button</text>
+            <rect x="44" y="160" width="72" height="44" rx="10" fill="none" stroke="#333" strokeWidth="3"/>
+            <text x="67" y="189" fontSize="22" fontWeight="900" fill="#c06800" textAnchor="middle">I</text>
+            <text x="97" y="189" fontSize="22" fontWeight="900" fill="#333" textAnchor="middle">O</text>
+            <line x1="80" y1="160" x2="80" y2="204" stroke="#999" strokeWidth="1.5" strokeDasharray="3,3"/>
+
+            <text x="67" y="218" fontSize="9" textAnchor="middle" fill="#888">Tàn</text>
+            <text x="97" y="218" fontSize="9" textAnchor="middle" fill="#888">Pa</text>
+          </svg>
+        </div>
+
+        {/* RIGHT — Tàn / ON / 1 */}
+        <div className="comic-switch-side comic-switch-side--on">
+          <div className="comic-switch-big-label">Tàn</div>
+          <div className="comic-switch-bit comic-switch-bit--1">1</div>
+          <div className="comic-switch-word">ON</div>
+          <svg viewBox="0 0 120 120" width={118} height={118} className="comic-switch-svg">
+            <circle cx="60" cy="60" r="28" fill="none" stroke="#c06800" strokeWidth="4"/>
+            {sunRays.map((ray,i) => (
+              <line key={i} x1={ray.x1} y1={ray.y1} x2={ray.x2} y2={ray.y2} stroke="#c06800" strokeWidth="3.5"/>
+            ))}
+            <circle cx="52" cy="54" r="3.5" fill="#c06800"/>
+            <circle cx="68" cy="54" r="3.5" fill="#c06800"/>
+            <path d="M 50,65 Q 60,74 70,65" fill="none" stroke="#c06800" strokeWidth="3"/>
+          </svg>
+          <div className="comic-switch-desc">Circuit closed<br/>Energy flows!<br/>☀️ Shining sun</div>
+        </div>
+      </div>
+
+      {/* IfaBit connection row */}
+      <div className="comic-ifabit-row">
+        <div className="comic-ifabit-row__title">⚡ IfaBit — Binary inside the Odu Ifa</div>
+        <div className="comic-ifabit-row__cells">
+          <div className="comic-ifabit-cell comic-ifabit-cell--1"><span className="cib-mark">O</span><span>= Tàn = 1 = ON</span></div>
+          <div className="comic-ifabit-cell comic-ifabit-cell--0"><span className="cib-mark">I</span><span>= Pa = 0 = OFF</span></div>
+          <div className="comic-ifabit-cell"><span className="cib-code">OOOO</span><span>= Ogbe = 1111</span></div>
+          <div className="comic-ifabit-cell"><span className="cib-code">IIII</span><span>= Oyeku = 0000</span></div>
+        </div>
+      </div>
+
+      <div className="comic-page__footer">
+        <span>Pa = OFF · Tàn = ON · Iyipada = Switch · Agbara = Power · Bọtini = Button</span>
+        <span>playifagames.org · CENProject</span>
+      </div>
+    </div>
+  );
+}
+
+// ── Page 3: The 16 Principal Odu Ifa ─────────────────────
+
+const COMIC_ODU = [
+  { num:  1, name: 'Ogbe',     yoruba: 'Ogbè',    code: '1111', color: '#c9a227', el: 'Light' },
+  { num:  2, name: 'Oyeku',    yoruba: 'Ọyẹkú',   code: '0000', color: '#555',    el: 'Void' },
+  { num:  3, name: 'Iwori',    yoruba: 'Ìwòrì',   code: '0110', color: '#4361ee', el: 'Air' },
+  { num:  4, name: 'Odi',      yoruba: 'Odí',      code: '1001', color: '#e63946', el: 'Earth' },
+  { num:  5, name: 'Irosun',   yoruba: 'Ìrosùn',  code: '0011', color: '#c0392b', el: 'Water' },
+  { num:  6, name: 'Owonrin',  yoruba: 'Òwónrín', code: '1100', color: '#2d9e6b', el: 'Lightning' },
+  { num:  7, name: 'Obara',    yoruba: 'Òbàrà',   code: '0001', color: '#daa520', el: 'Gold' },
+  { num:  8, name: 'Okanran',  yoruba: 'Òkànràn', code: '1000', color: '#e9498a', el: 'Fire' },
+  { num:  9, name: 'Ogunda',   yoruba: 'Ògúndá',  code: '0111', color: '#2d7a40', el: 'Iron' },
+  { num: 10, name: 'Osa',      yoruba: 'Òsá',     code: '1110', color: '#e74c3c', el: 'Wind' },
+  { num: 11, name: 'Ika',      yoruba: 'Ìká',     code: '0010', color: '#8e44ad', el: 'Ether' },
+  { num: 12, name: 'Oturupon', yoruba: 'Otúrúpọ̀n',code: '0100', color: '#1565c0', el: 'Dense Earth' },
+  { num: 13, name: 'Otura',    yoruba: 'Òtúrá',   code: '1101', color: '#0288d1', el: 'Sound' },
+  { num: 14, name: 'Irete',    yoruba: 'Ìrètè',   code: '1011', color: '#388e3c', el: 'Wood' },
+  { num: 15, name: 'Ose',      yoruba: 'Òsé',     code: '0101', color: '#d4830f', el: 'Honey' },
+  { num: 16, name: 'Ofun',     yoruba: 'Òfún',    code: '1010', color: '#5e72b4', el: 'White Clay' },
+];
+
+function ComicPageOdu() {
+  return (
+    <div className="comic-page">
+      <div className="comic-page__header">
+        <div className="comic-page__badge">🎨 IfaComic · Sacred Codes · IfaGames</div>
+        <h2 className="comic-page__title">🌀 The 16 Principal Odu Ifa</h2>
+        <p className="comic-page__sub">Sacred Binary Codes of the Universe · 4-Bit IfaCodes · Yoruba &amp; I&nbsp;Ching cousins</p>
+        <p className="comic-page__instruction">✏️ Draw the IfaBit marks for each Odu.&nbsp; O&nbsp;=&nbsp;Tàn&nbsp;(1)&nbsp;&nbsp;·&nbsp;&nbsp;I&nbsp;=&nbsp;Pa&nbsp;(0)</p>
+      </div>
+
+      <div className="comic-odu-grid">
+        {COMIC_ODU.map(o => (
+          <div key={o.num} className="comic-odu-cell" style={{'--oc': o.color}}>
+            <div className="comic-odu-cell__num">{String(o.num).padStart(2,'0')}</div>
+            <div className="comic-odu-cell__marks">
+              {o.code.split('').map((b,i) => (
+                <span key={i} className={`comic-odu-mark comic-odu-mark--${b}`}>{b==='1'?'O':'I'}</span>
+              ))}
+            </div>
+            <div className="comic-odu-cell__name">{o.name}</div>
+            <div className="comic-odu-cell__yoruba">{o.yoruba}</div>
+            <div className="comic-odu-cell__code">{o.code}</div>
+            <div className="comic-odu-cell__el">{o.el}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="comic-odu-compare">
+        <div className="comic-odu-compare__col">
+          <div className="comic-odu-compare__head">🌍 Odu Ifa (Yoruba)</div>
+          <div className="comic-odu-compare__body">16 Principal Odu · 4-bit codes<br/>256 combinations = 16 × 16<br/>Tàn (O) = 1 · Pa (I) = 0</div>
+        </div>
+        <div className="comic-odu-compare__equals">🔗<br/>Binary<br/>Cousins</div>
+        <div className="comic-odu-compare__col">
+          <div className="comic-odu-compare__head">🀄 I Ching (Chinese)</div>
+          <div className="comic-odu-compare__body">64 hexagrams · 6-bit codes<br/>16 base trigram pairs<br/>Yang (—) = 1 · Yin (- -) = 0</div>
+        </div>
+      </div>
+
+      <div className="comic-odu-note">
+        Both ancient systems discovered the same digital truth: reality is built from <strong>pairs</strong>.
+        &nbsp;<strong>Tàn &amp; Pa · 1 &amp; 0 · Yin &amp; Yang · On &amp; Off</strong>.
+        The universe speaks in binary — and the Odu Ifa encoded it first.
+      </div>
+
+      <div className="comic-page__footer">
+        <span>256 Odu Ifa = 16 × 16 combinations · The Axiomatic Matrix of Reality</span>
+        <span>playifagames.org · CENProject</span>
+      </div>
+    </div>
+  );
+}
+
+// ── ComicScreen wrapper ───────────────────────────────────
+
+const COMIC_PAGES = [
+  { id: 'gates',  label: '⚡ Logic Gates',  Component: ComicPageGates  },
+  { id: 'switch', label: '🔆 Pa & Tàn',     Component: ComicPageSwitch },
+  { id: 'odu',    label: '🌀 16 Odu Ifa',   Component: ComicPageOdu    },
+];
+
+function ComicScreen({ onMenu }) {
+  const [page, setPage] = useState(0);
+  const { Component } = COMIC_PAGES[page];
+  return (
+    <div className="comic-screen">
+      <div className="comic-screen__nav">
+        {COMIC_PAGES.map((p, i) => (
+          <button
+            key={p.id}
+            className={`comic-nav-btn${i === page ? ' comic-nav-btn--active' : ''}`}
+            onClick={() => setPage(i)}
+          >{p.label}</button>
+        ))}
+      </div>
+      <div className="comic-screen__body">
+        <Component />
+      </div>
+      <div className="comic-screen__controls">
+        <button className="comic-ctrl" onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0}>← Prev</button>
+        <span className="comic-ctrl-count">Page {page + 1} / {COMIC_PAGES.length}</span>
+        <button className="comic-ctrl" onClick={() => setPage(p => Math.min(COMIC_PAGES.length - 1, p + 1))} disabled={page === COMIC_PAGES.length - 1}>Next →</button>
+      </div>
     </div>
   );
 }

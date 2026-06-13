@@ -43,7 +43,7 @@
     { "value": "256", "label": "Odu Ifa", "sub": "Ancient Knowledge Codes" },
     { "value": "16",  "label": "IFA Axioms", "sub": "Axioms of Everything" },
     { "value": "40+", "label": "Platforms", "sub": "Across all disciplines" },
-    { "value": "∞",   "label": "CEN", "sub": "Consciousness-Energy" }
+    { "value": "SYMBOE", "label": "CEN", "sub": "Consciousness-Energy" }
   ],
 
   "networking": {
@@ -159,7 +159,7 @@
       "id": "ifa-calendar",
       "name": "IfaCalendar",
       "subtitle": "World Calendar Explorer",
-      "description": "Explore calendar systems of the world — Kọ́jọ́dá (Yoruba New Year), Gregorian, Islamic, Hebrew, Chinese, Ethiopian, Maya, and more. History, evolution, and modern status.",
+      "description": "Explore calendar systems of the world — Kọ́jọ́dá (Yoruba Native Calendar System), Gregorian, Islamic, Hebrew, Chinese, Ethiopian, Maya, and more. History, evolution, and modern status.",
       "category": "education",
       "url": "/ifa-calendar/",
       "featured": false,
@@ -525,11 +525,13 @@
     {
       "id": "ifa-matrix",
       "name": "IFA Matrix",
-      "subtitle": "Matrix of Everything",
-      "description": "The IFA Matrix — a structural grid mapping all knowledge domains.",
-      "category": "tools",
+      "subtitle": "Matrix of Everything (MatrixoE)",
+      "description": "The IFA Matrix Platform — the Matrix of All Matrices. A unified structural framework that maps all fields of knowledge through the 8 SIDECHRX Principles (Symmetry, Invariance, Duality, Emergence, Composition, Holism, Reductionism, and X), the 16 Oju Odu Ifa, and the 0+8D Model. Built on IfaGebra and the Amulu Operation.",
+      "category": "core",
       "url": "/ifa-matrix/",
-      "featured": false
+      "local": true,
+      "featured": true,
+      "icon": "⊞"
     },
     {
       "id": "ifalens",

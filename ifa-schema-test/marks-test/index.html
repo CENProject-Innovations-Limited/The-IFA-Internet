@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ifa Marks Test — Bar Style Preview</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #06080e;
+      --bg-2:    #0d1117;
+      --bg-3:    #151b25;
+      --border:  rgba(255,255,255,0.08);
+      --text:    #e8eaf0;
+      --text-2:  #a0a8b8;
+      --text-3:  #606880;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 14px;
+      padding: 32px 24px;
+      min-height: 100vh;
+    }
+
+    h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    h2 { font-size: 13px; font-weight: 600; color: var(--text-2); letter-spacing: 0.08em; text-transform: uppercase; margin: 32px 0 16px; }
+    .subtitle { font-size: 12px; color: var(--text-3); margin-bottom: 32px; }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex; gap: 24px; margin-bottom: 32px;
+      padding: 14px 20px; background: var(--bg-3); border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .legend-item { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--text-2); }
+    .legend-label { font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* ════════════════════════════════════
+       IFA BAR MARKS — new style
+    ════════════════════════════════════ */
+
+    /* IfaMarks container */
+    .ifa-marks         { display: flex; gap: 10px; align-items: flex-start; }
+    .ifa-marks__col    { display: flex; flex-direction: column; gap: 5px; align-items: center; }
+    .ifa-marks__row    { display: flex; gap: 4px; align-items: center; justify-content: center; min-width: 22px; height: 20px; }
+
+    /* THE BAR — replaces dot */
+    .ifa-marks__bar {
+      display: block;
+      width: 7px;
+      height: 18px;
+      border-radius: 3px;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* sm / md / lg sizes */
+    .ifa-marks--sm .ifa-marks__bar  { width: 5px; height: 12px; border-radius: 2px; }
+    .ifa-marks--sm .ifa-marks__row  { gap: 3px; min-width: 16px; height: 14px; }
+    .ifa-marks--sm .ifa-marks__col  { gap: 3px; }
+    .ifa-marks--sm                  { gap: 7px; }
+
+    .ifa-marks--md .ifa-marks__bar  { width: 7px; height: 18px; border-radius: 3px; }
+    .ifa-marks--md .ifa-marks__row  { gap: 4px; min-width: 22px; height: 20px; }
+    .ifa-marks--md .ifa-marks__col  { gap: 5px; }
+    .ifa-marks--md                  { gap: 10px; }
+
+    .ifa-marks--lg .ifa-marks__bar  { width: 10px; height: 26px; border-radius: 4px; }
+    .ifa-marks--lg .ifa-marks__row  { gap: 5px; min-width: 32px; height: 28px; }
+    .ifa-marks--lg .ifa-marks__col  { gap: 6px; }
+    .ifa-marks--lg                  { gap: 14px; }
+
+    /* ── IFABitDisplay — new bar style ── */
+    .ifabit               { display: flex; align-items: flex-start; gap: 20px; }
+    .ifabit__cols         { display: flex; gap: 14px; }
+    .ifabit__col          { display: flex; flex-direction: column; gap: 5px; align-items: center; }
+    .ifabit__col-label    {
+      font-size: 9px; color: var(--text-3); text-transform: uppercase;
+      letter-spacing: 0.04em; margin-bottom: 3px; text-align: center;
+      max-width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .ifabit__mark         { display: flex; gap: 4px; align-items: center; justify-content: center; min-width: 22px; height: 20px; }
+    .ifabit__bar {
+      display: block;
+      width: 7px;
+      height: 18px;
+      border-radius: 3px;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ════════════════════════════════════
+       GRID — 16 principal Odu
+    ════════════════════════════════════ */
+    .odu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .odu-tile {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .odu-tile__head { display: flex; justify-content: space-between; align-items: baseline; }
+    .odu-tile__id   { font-size: 10px; color: var(--text-3); font-weight: 600; }
+    .odu-tile__code { font-family: monospace; font-size: 10px; color: var(--text-3); }
+    .odu-tile__name { font-size: 13px; font-weight: 700; }
+    .odu-tile__yoruba { font-size: 11px; color: var(--text-2); margin-top: -8px; }
+    .section-label { font-size: 9px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .divider { border: none; border-top: 1px solid var(--border); }
+
+    /* ── IFABitDisplay section in tile ── */
+    .ifabit-section { display: flex; flex-direction: column; gap: 6px; }
+
+    /* ════════════════════════════════════
+       COMPOSITE SAMPLE — bottom section
+    ════════════════════════════════════ */
+    .composite-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .composite-tile {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .composite-tile__name { font-size: 13px; font-weight: 700; }
+    .composite-tile__sub  { font-size: 10px; color: var(--text-3); }
+
+    /* ── sizes comparison ── */
+    .sizes-row { display: flex; gap: 32px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 40px; }
+    .sizes-item { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+    .sizes-item span { font-size: 10px; color: var(--text-3); text-transform: uppercase; }
+  </style>
+</head>
+<body>
+
+<h1>Ifa Marks — Bar Style Preview</h1>
+<p class="subtitle">Scheme: bit 0 = || (Oyeku/Anergy) · bit 1 = | (Ogbe/Energy). For review before applying to Ifai &amp; Ifa Periodic Table.</p>
+
+<div class="legend">
+  <div class="legend-item">
+    <div style="display:flex;gap:4px;color:#c9a227">
+      <span style="display:block;width:7px;height:18px;border-radius:3px;background:currentColor"></span>
+    </div>
+    <div><div class="legend-label">Bit 0 — | (Ogbe/Energy)</div><div style="font-size:11px;color:var(--text-3)">Single bar</div></div>
+  </div>
+  <div class="legend-item">
+    <div style="display:flex;gap:4px;color:#c9a227">
+      <span style="display:block;width:7px;height:18px;border-radius:3px;background:currentColor"></span>
+      <span style="display:block;width:7px;height:18px;border-radius:3px;background:currentColor"></span>
+    </div>
+    <div><div class="legend-label">Bit 1 — || (Oyeku/Anergy)</div><div style="font-size:11px;color:var(--text-3)">Double bar</div></div>
+  </div>
+</div>
+
+<!-- ── Sizes comparison ── -->
+<div id="root"></div>
+
+<script src="../../lib/react.min.js"></script>
+<script src="../../lib/react-dom.min.js"></script>
+<script src="../../lib/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+
+const { useState, useEffect } = React;
+
+// ════════════════════════════════════════════════════════════
+// IFA MARKS — bar style
+// bit 0 = | (single bar)   bit 1 = || (double bar)
+// ════════════════════════════════════════════════════════════
+function IfaMarks({ code = '0000', secondCode, color = '#888', size = 'md' }) {
+  // RTL: Ifa reads right-to-left, so left col = code, right col = secondCode
+  const leftBits  = code.split('').map(Number);
+  const rightBits = (secondCode || code).split('').map(Number);
+
+  function MarkRow({ bit }) {
+    return (
+      <div className="ifa-marks__row">
+        {bit === 0
+          ? <>
+              <span className="ifa-marks__bar" style={{ background: color }} />
+              <span className="ifa-marks__bar" style={{ background: color }} />
+            </>
+          : <span className="ifa-marks__bar" style={{ background: color }} />
+        }
+      </div>
+    );
+  }
+
+  return (
+    <div className={`ifa-marks ifa-marks--${size}`}>
+      <div className="ifa-marks__col">
+        {leftBits.map((b, i) => <MarkRow key={i} bit={b} />)}
+      </div>
+      <div className="ifa-marks__col">
+        {rightBits.map((b, i) => <MarkRow key={i} bit={b} />)}
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+// IFABitDisplay — bar style
+// ════════════════════════════════════════════════════════════
+function IFABitDisplay({ rowCode, colCode, rowLabel, colLabel, color }) {
+  const leftBits  = rowCode.split('').map(Number);
+  const rightBits = colCode.split('').map(Number);
+
+  function Mark({ bit }) {
+    return (
+      <div className="ifabit__mark">
+        {bit === 0
+          ? <>
+              <div className="ifabit__bar" style={{ background: color }} />
+              <div className="ifabit__bar" style={{ background: color }} />
+            </>
+          : <div className="ifabit__bar" style={{ background: color }} />
+        }
+      </div>
+    );
+  }
+
+  return (
+    <div className="ifabit">
+      <div className="ifabit__cols">
+        {/* RTL rule: first-named Odu (row/X) → right column; second-named Odu (col/Y) → left column */}
+        <div className="ifabit__col">
+          <div className="ifabit__col-label" style={{ color }}>{colLabel}</div>
+          {rightBits.map((b, i) => <Mark key={i} bit={b} />)}
+        </div>
+        <div className="ifabit__col">
+          <div className="ifabit__col-label" style={{ color }}>{rowLabel}</div>
+          {leftBits.map((b, i) => <Mark key={i} bit={b} />)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+// APP
+// ════════════════════════════════════════════════════════════
+function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch('../../ifa-periodic-table/data/odu.json')
+      .then(r => r.json())
+      .then(setData);
+  }, []);
+
+  if (!data) return <div style={{ color: 'var(--text-3)', padding: 32 }}>Loading Odu data…</div>;
+
+  const odus      = data.odu;
+  const catMap    = data.categories;
+  const principal = odus.filter(o => o.id >= 1 && o.id <= 16);
+
+  // Sample composites: a few interesting combos
+  const composites = [
+    { row: odus[0], col: odus[1] },   // Ogbe + Oyeku
+    { row: odus[2], col: odus[3] },   // Iwori + Odi
+    { row: odus[4], col: odus[7] },   // Irosun + Obara
+    { row: odus[9], col: odus[13] },  // Osa + Ika
+    { row: odus[14], col: odus[15] }, // Ofun + Odu (Oshe)
+  ];
+
+  return (
+    <>
+      <h2>IfaMarks — Size Comparison (Ejiogbe 1111)</h2>
+      <div className="sizes-row">
+        {['sm', 'md', 'lg'].map(sz => (
+          <div key={sz} className="sizes-item">
+            <IfaMarks code="1111" color="#c9a227" size={sz} />
+            <span>{sz}</span>
+          </div>
+        ))}
+        <div className="sizes-item">
+          <IfaMarks code="1010" color="#4361ee" size="md" />
+          <span>Iwori (md)</span>
+        </div>
+        <div className="sizes-item">
+          <IfaMarks code="0101" color="#e63946" size="md" />
+          <span>Odi (md)</span>
+        </div>
+        <div className="sizes-item">
+          <IfaMarks code="0000" color="#888" size="md" />
+          <span>Oyeku (md)</span>
+        </div>
+      </div>
+
+      <h2>All 16 Principal Odu — IfaMarks &amp; IFABitDisplay (Meji)</h2>
+      <div className="odu-grid">
+        {principal.map(o => {
+          const cat   = catMap[o.category] || {};
+          const color = cat.color || '#888';
+          return (
+            <div key={o.id} className="odu-tile">
+              <div className="odu-tile__head">
+                <span className="odu-tile__id">#{o.id}</span>
+                <span className="odu-tile__code">{o.code}</span>
+              </div>
+              <div className="odu-tile__name" style={{ color }}>{o.name}</div>
+              <div className="odu-tile__yoruba">{o.yoruba} Méjì</div>
+
+              <hr className="divider" />
+
+              <div>
+                <div className="section-label">IfaMarks</div>
+                <IfaMarks code={o.code} color={color} size="md" />
+              </div>
+
+              <hr className="divider" />
+
+              <div className="ifabit-section">
+                <div className="section-label">IFABit · Àpólà Code</div>
+                <IFABitDisplay
+                  rowCode={o.code} colCode={o.code}
+                  rowLabel={o.name} colLabel={o.name}
+                  color={color}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <h2>Composite Odu Samples — IFABitDisplay</h2>
+      <div className="composite-grid">
+        {composites.map(({ row, col }) => {
+          const cat   = catMap[row.category] || {};
+          const color = cat.color || '#888';
+          return (
+            <div key={`${row.id}-${col.id}`} className="composite-tile">
+              <div className="composite-tile__name" style={{ color }}>
+                {row.name} {col.name}
+              </div>
+              <div className="composite-tile__sub">{row.code} · {col.code}</div>
+              <hr className="divider" />
+              <div className="section-label">IFABit · Àpólà Code</div>
+              <IFABitDisplay
+                rowCode={row.code} colCode={col.code}
+                rowLabel={row.name} colLabel={col.name}
+                color={color}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+</script>
+
+</body>
+</html>

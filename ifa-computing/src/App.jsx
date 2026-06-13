@@ -3,7 +3,114 @@
    The IFA Internet · CENProject · toe.cenproject.org
 ───────────────────────────────────────────────────────────── */
 
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
+
+// ── OgbeSymbol (SymboE — Ogbe Energy Symbol canvas) ──────────
+function OgbeSymbol({ size = 44 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const s = size;
+    canvas.width  = s;
+    canvas.height = s;
+    const ctx = canvas.getContext('2d');
+    const cx = s / 2, cy = s / 2, r = s * 0.36;
+    const gold = '#f5c518';
+    ctx.clearRect(0, 0, s, s);
+    const draw = (alpha, lineW) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      for (let rot = 0; rot < 2; rot++) {
+        ctx.beginPath();
+        for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+          const scale = Math.cos(2 * t) >= 0 ? Math.sqrt(Math.cos(2 * t)) : 0;
+          const x = cx + (rot === 0 ? 1 : 0) * r * scale * Math.cos(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.sin(t);
+          const y = cy + (rot === 0 ? 1 : 0) * r * scale * Math.sin(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.cos(t);
+          t < 0.02 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+    draw(0.12, s * 0.22);
+    draw(0.22, s * 0.13);
+    draw(0.55, s * 0.055);
+    draw(1.00, s * 0.022);
+  }, [size]);
+  return React.createElement('canvas', { ref, width: size, height: size,
+    style: { display: 'block', flexShrink: 0, marginTop: '1px' } });
+}
+
+// ── OyekuSymbol (SymboN — Oyeku Anergy Symbol canvas) ─────────
+function OyekuSymbol({ size = 44 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const s = size;
+    canvas.width  = s;
+    canvas.height = s;
+    const ctx = canvas.getContext('2d');
+    const cx = s / 2, cy = s / 2, r = s * 0.36;
+    const gold = '#f5c518';
+    ctx.clearRect(0, 0, s, s);
+    const drawLobes = (alpha, lineW) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      for (let rot = 0; rot < 2; rot++) {
+        ctx.beginPath();
+        for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+          const scale = Math.cos(2 * t) >= 0 ? Math.sqrt(Math.cos(2 * t)) : 0;
+          const x = cx + (rot === 0 ? 1 : 0) * r * scale * Math.cos(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.sin(t);
+          const y = cy + (rot === 0 ? 1 : 0) * r * scale * Math.sin(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.cos(t);
+          t < 0.02 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+    drawLobes(0.12, s * 0.22);
+    drawLobes(0.22, s * 0.13);
+    drawLobes(0.55, s * 0.055);
+    drawLobes(1.00, s * 0.022);
+    const ext = s * 0.30;
+    const diag = [[cx + ext, cy - ext], [cx - ext, cy + ext]];
+    const drawDiag = (alpha, lineW, blur) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      ctx.shadowColor = gold;
+      ctx.shadowBlur  = blur;
+      ctx.beginPath();
+      ctx.moveTo(diag[0][0], diag[0][1]);
+      ctx.lineTo(diag[1][0], diag[1][1]);
+      ctx.stroke();
+      ctx.restore();
+    };
+    drawDiag(0.03, s * 0.20, s * 0.12);
+    drawDiag(0.07, s * 0.12, s * 0.08);
+    drawDiag(0.16, s * 0.07, s * 0.05);
+    drawDiag(0.34, s * 0.03, s * 0.03);
+    drawDiag(0.62, s * 0.014, s * 0.015);
+    drawDiag(0.90, s * 0.007, s * 0.007);
+    drawDiag(0.95, s * 0.003, s * 0.003);
+  }, [size]);
+  return React.createElement('canvas', { ref, width: size, height: size,
+    style: { display: 'block', flexShrink: 0, marginTop: '1px' } });
+}
 
 // ── Five Pillars of Ifa Computing ─────────────────────────────
 const PILLARS = [
@@ -568,7 +675,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <img className="ifa-binary__meta-glyph--inf-img" src="./images/duoinfinity_logo.png" alt="DuoInfinity Symbol" />
+                  <OgbeSymbol size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>DuoInfinity · InfinitoE</strong>
                     <p>Ifa Infinity — crossed with ∞; renders circling. The Infinity for Everything.</p>
@@ -618,7 +725,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <img className="ifa-binary__meta-glyph--inf-img" src="./images/duoninfinity_logo.png" alt="DuoNinfinity Symbol" />
+                  <OyekuSymbol size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>DuoInfinity · NinfinitoE</strong>
                     <p>Ifa Ninfinity — DuoInfinity with "J" dash. NanInfinity. Dual of Infinity.</p>

@@ -3,7 +3,117 @@
    toe.cenproject.org
 ───────────────────────────────────────────────────────────── */
 
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
+
+// ── OgbeSymbol (SymboE — Ogbe Energy Symbol canvas) ──────────
+function OgbeSymbol({ size = 52 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const s = size;
+    canvas.width  = s;
+    canvas.height = s;
+    const ctx = canvas.getContext('2d');
+    const cx = s / 2, cy = s / 2, r = s * 0.36;
+    const gold = '#f5c518';
+    ctx.clearRect(0, 0, s, s);
+    const draw = (alpha, lineW) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      // 4-lobed lemniscate cross (horizontal + vertical)
+      for (let rot = 0; rot < 2; rot++) {
+        ctx.beginPath();
+        for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+          const scale = Math.cos(2 * t) >= 0 ? Math.sqrt(Math.cos(2 * t)) : 0;
+          const x = cx + (rot === 0 ? 1 : 0) * r * scale * Math.cos(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.sin(t);
+          const y = cy + (rot === 0 ? 1 : 0) * r * scale * Math.sin(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.cos(t);
+          t < 0.02 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+    draw(0.12, s * 0.22);
+    draw(0.22, s * 0.13);
+    draw(0.55, s * 0.055);
+    draw(1.00, s * 0.022);
+  }, [size]);
+  return React.createElement('canvas', { ref, width: size, height: size,
+    style: { display: 'block', margin: '0 auto' } });
+}
+
+// ── OyekuSymbol (SymboN — Oyeku Anergy Symbol canvas) ─────────
+function OyekuSymbol({ size = 52 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const s = size;
+    canvas.width  = s;
+    canvas.height = s;
+    const ctx = canvas.getContext('2d');
+    const cx = s / 2, cy = s / 2, r = s * 0.36;
+    const gold = '#f5c518';
+    ctx.clearRect(0, 0, s, s);
+    // Draw SymboE base (same 4-lobed lemniscate cross)
+    const drawLobes = (alpha, lineW) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      for (let rot = 0; rot < 2; rot++) {
+        ctx.beginPath();
+        for (let t = 0; t <= Math.PI * 2; t += 0.01) {
+          const scale = Math.cos(2 * t) >= 0 ? Math.sqrt(Math.cos(2 * t)) : 0;
+          const x = cx + (rot === 0 ? 1 : 0) * r * scale * Math.cos(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.sin(t);
+          const y = cy + (rot === 0 ? 1 : 0) * r * scale * Math.sin(t) +
+                         (rot === 1 ? 1 : 0) * r * scale * Math.cos(t);
+          t < 0.02 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+    };
+    drawLobes(0.12, s * 0.22);
+    drawLobes(0.22, s * 0.13);
+    drawLobes(0.55, s * 0.055);
+    drawLobes(1.00, s * 0.022);
+    // Draw diagonal line: upper-right → lower-left (SymboN slash)
+    const ext = s * 0.30;
+    const diag = [[cx + ext, cy - ext], [cx - ext, cy + ext]];
+    const drawDiag = (alpha, lineW, blur) => {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = gold;
+      ctx.lineWidth   = lineW;
+      ctx.lineCap     = 'round';
+      ctx.shadowColor = gold;
+      ctx.shadowBlur  = blur;
+      ctx.beginPath();
+      ctx.moveTo(diag[0][0], diag[0][1]);
+      ctx.lineTo(diag[1][0], diag[1][1]);
+      ctx.stroke();
+      ctx.restore();
+    };
+    drawDiag(0.03, s * 0.20, s * 0.12);
+    drawDiag(0.07, s * 0.12, s * 0.08);
+    drawDiag(0.16, s * 0.07, s * 0.05);
+    drawDiag(0.34, s * 0.03, s * 0.03);
+    drawDiag(0.62, s * 0.014, s * 0.015);
+    drawDiag(0.90, s * 0.007, s * 0.007);
+    drawDiag(0.95, s * 0.003, s * 0.003);
+  }, [size]);
+  return React.createElement('canvas', { ref, width: size, height: size,
+    style: { display: 'block', margin: '0 auto' } });
+}
 
 // ── Category color map ────────────────────────────────────────
 const CAT_COLOR = {
@@ -27,6 +137,8 @@ const APP_ICON = {
   'ifa-game':           'G',
   'ifa-analysis':       'IA',
   'ifa-mechanics':      'M',
+  'ifagebra':           'IG',
+  'ifa-number':         'IN',
 };
 
 // ── Header ────────────────────────────────────────────────────
@@ -188,7 +300,9 @@ function StatsBar({ stats }) {
       <div className="stats__inner container">
         {stats.map(s => (
           <div key={s.label} className="stat">
-            <div className="stat__value">{s.value}</div>
+            <div className="stat__value">
+              {s.value === 'SYMBOE' ? <OgbeSymbol size={52} /> : s.value}
+            </div>
             <div className="stat__label">{s.label}</div>
             <div className="stat__sub">{s.sub}</div>
           </div>
@@ -217,6 +331,33 @@ function MissionSection({ mission }) {
             </div>
           ))}
         </div>
+
+        <div className="mission-manifesto">
+          <p className="mission-manifesto__lead">
+            CENProject is building the Infrastructure for knowledge unification.
+          </p>
+          <p className="mission-manifesto__sub">
+            The IFA Internet is the Ecosystem through which that Infrastructure is researched, taught, represented, and implemented.
+          </p>
+          <blockquote className="mission-manifesto__pull">
+            Ifá is the foundational intellectual source, not the boundary of the project.
+          </blockquote>
+          <p className="mission-manifesto__body">
+            The goal is not to make the world Yoruba.<br />
+            The goal is to contribute a Yoruba-derived approach to one of humanity's oldest challenges:
+          </p>
+          <p className="mission-manifesto__question">
+            How do we organize, integrate, learn, and create knowledge as a coherent whole?
+          </p>
+          <div className="mission-ioe">
+            <span className="mission-ioe__badge">IFA IoE</span>
+            <h3 className="mission-ioe__subtitle">The IFA Internet of Everything</h3>
+            <p className="mission-ioe__body">
+              Using Ifa and Orisa Traditions (IoT) to build the Internet of Everything (IoE) and connect all fields together as One.
+            </p>
+          </div>
+        </div>
+
       </div>
     </section>
   );
@@ -396,22 +537,10 @@ function TOEBitSection() {
                   <div key={i} className="toebit-rep">
                     <div className="toebit-rep__sym">
                       {r.symSvg === 'duoinfinity' && (
-                        <img
-                          src="./src/assets/duoinfinity_logo.png"
-                          alt="Duoinfinity — Ifa Infinity"
-                          className="toebit-sym-img"
-                          loading="lazy"
-                          decoding="async"
-                        />
+                        <OgbeSymbol size={44} />
                       )}
                       {r.symSvg === 'duoninfinity' && (
-                        <img
-                          src="./src/assets/duoninfinity_logo.png"
-                          alt="Duoninfinity — Ifa Ninfinity"
-                          className="toebit-sym-img"
-                          loading="lazy"
-                          decoding="async"
-                        />
+                        <OyekuSymbol size={44} />
                       )}
                       {r.symSvg === 'ifazero' && (
                         <img

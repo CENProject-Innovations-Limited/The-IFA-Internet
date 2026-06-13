@@ -38,7 +38,7 @@ function buildComposite(row, col) {
     id: (row.id - 1) * 16 + col.id,
     name: `${row.name}–${col.name}`,
     yoruba: `${row.yoruba}–${col.yoruba}`,
-    meji: `${row.name} reading ${col.name}`,
+    meji: `${row.name} composed with ${col.name}`,
     code: row.code,
     category: row.category,
     element: row.element,
@@ -174,36 +174,32 @@ function IfaMarks({
   code = '0000',
   secondCode,
   color = '#888',
-  size = 'md',
-  reversed = false
+  size = 'md'
 }) {
-  const rawLeft = code.split('').map(Number);
-  const rawRight = (secondCode || code).split('').map(Number);
-  const leftBits = reversed ? [...rawLeft].reverse() : rawLeft;
-  const rightBits = reversed ? [...rawRight].reverse() : rawRight;
+  // RTL: period/col Odu → LEFT col; principal/row Odu → RIGHT col
+  const leftBits  = (secondCode || code).split('').map(Number);
+  const rightBits = code.split('').map(Number);
   function MarkRow({
     bit
   }) {
     return /*#__PURE__*/React.createElement("div", {
       className: "ifa-marks__row"
-    }, bit === 1 ? /*#__PURE__*/React.createElement("span", {
-      className: "ifa-marks__dot",
+    }, bit === 0 ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+      className: "ifa-marks__bar",
       style: {
         background: color
       }
-    }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
-      className: "ifa-marks__dot",
-      style: {
-        background: color,
-        opacity: 0.5
-      }
     }), /*#__PURE__*/React.createElement("span", {
-      className: "ifa-marks__dot",
+      className: "ifa-marks__bar",
       style: {
-        background: color,
-        opacity: 0.5
+        background: color
       }
-    })));
+    })) : /*#__PURE__*/React.createElement("span", {
+      className: "ifa-marks__bar",
+      style: {
+        background: color
+      }
+    }));
   }
   return /*#__PURE__*/React.createElement("div", {
     className: `ifa-marks ifa-marks--${size}`
@@ -238,22 +234,22 @@ function IFABitDisplay({
   }) {
     return /*#__PURE__*/React.createElement("div", {
       className: "ifabit__mark"
-    }, bit === 1 ? /*#__PURE__*/React.createElement("div", {
-      className: "ifabit__dot",
-      style: {
-        background: color
-      }
-    }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-      className: "ifabit__dot ifabit__dot--zero",
+    }, bit === 0 ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      className: "ifabit__bar",
       style: {
         background: color
       }
     }), /*#__PURE__*/React.createElement("div", {
-      className: "ifabit__dot ifabit__dot--zero",
+      className: "ifabit__bar",
       style: {
         background: color
       }
-    })));
+    })) : /*#__PURE__*/React.createElement("div", {
+      className: "ifabit__bar",
+      style: {
+        background: color
+      }
+    }));
   }
   return /*#__PURE__*/React.createElement("div", {
     className: "ifabit"
@@ -266,7 +262,7 @@ function IFABitDisplay({
     style: {
       color
     }
-  }, rowLabel), leftBits.map((b, i) => /*#__PURE__*/React.createElement(Mark, {
+  }, colLabel), rightBits.map((b, i) => /*#__PURE__*/React.createElement(Mark, {
     key: i,
     bit: b
   }))), /*#__PURE__*/React.createElement("div", {
@@ -276,7 +272,7 @@ function IFABitDisplay({
     style: {
       color
     }
-  }, colLabel), rightBits.map((b, i) => /*#__PURE__*/React.createElement(Mark, {
+  }, rowLabel), leftBits.map((b, i) => /*#__PURE__*/React.createElement(Mark, {
     key: i,
     bit: b
   })))));
@@ -433,7 +429,7 @@ function ReadingCard({
     className: "attr"
   }, /*#__PURE__*/React.createElement("span", {
     className: "attr__label"
-  }, "IFABit"), /*#__PURE__*/React.createElement("span", {
+  }, "IFABit Encoding"), /*#__PURE__*/React.createElement("span", {
     className: "attr__val attr__val--mono"
   }, ifabitStr))), odu.domains?.length > 0 && /*#__PURE__*/React.createElement("div", {
     className: "reading-card__section"
@@ -934,8 +930,7 @@ function OduCard({
   }, /*#__PURE__*/React.createElement(IfaMarks, {
     code: odu.code,
     color: cat.color || '#888',
-    size: "sm",
-    reversed: true
+    size: "sm"
   }), /*#__PURE__*/React.createElement("span", {
     className: "odu-card__num"
   }, "#", odu.id)), /*#__PURE__*/React.createElement("div", {
@@ -1532,14 +1527,17 @@ const PHIL_BRANCHES = [{
   sub: 'Esu · Duality · Ternality'
 }];
 const PHIL_ENTITIES = [{
+  name: 'Ọbàtálá',
+  role: 'Purity · Ethical Leadership · Light'
+}, {
   name: 'Orunmila',
   role: 'Father of Wisdom'
 }, {
   name: 'Esu',
   role: 'Paradox · Duality · Ternality'
 }, {
-  name: 'Olú Ìwà (Ọbàtálá)',
-  role: 'Wisdom · Purity · Ethics'
+  name: 'Lúwa (Òrìṣà Lúwàbí)',
+  role: 'Wisdom · Morality · Ethics'
 }, {
   name: 'Egbe',
   role: 'Collective Consciousness'
@@ -1797,7 +1795,7 @@ function MejiDetail({
     className: "modal__section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "modal__section-label"
-  }, "IFABit \xB7 \xC0p\xF3l\xE0 Code"), /*#__PURE__*/React.createElement(IFABitDisplay, {
+  }, "IFABit Encoding \xB7 \xC0p\xF3l\xE0 Code"), /*#__PURE__*/React.createElement(IFABitDisplay, {
     rowCode: odu.code,
     colCode: odu.code,
     rowLabel: odu.name,
@@ -1936,7 +1934,7 @@ function CompositeDetail({
     className: "modal__section"
   }, /*#__PURE__*/React.createElement("div", {
     className: "modal__section-label"
-  }, "IFABit \xB7 \xC0m\xFAl\xF9 Composition"), /*#__PURE__*/React.createElement(IFABitDisplay, {
+  }, "IFABit Encoding \xB7 \xC0m\xFAl\xF9 Composition"), /*#__PURE__*/React.createElement(IFABitDisplay, {
     rowCode: row.code,
     colCode: col.code,
     rowLabel: row.name,
