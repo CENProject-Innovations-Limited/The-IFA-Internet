@@ -614,7 +614,7 @@ function HeroSection() {
             <span className="hero__stats-quote-text">
               Ifá ló l'ọgbọ́n, awo òde Ẹ̀gbá; Òòṣà lómọ̀yókù, awo òde Ìjẹ̀ṣà
             </span>
-            <span className="hero__stats-quote-attr">— Ọ̀kànràn Méjì</span>
+            <span className="hero__stats-quote-attr">— Ọ̀kànràn Òfún</span>
           </div>
         </div>
       </div>

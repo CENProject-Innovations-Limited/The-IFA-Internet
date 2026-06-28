@@ -39,7 +39,8 @@ const ORISA_ENTRIES = [
   { id:'yemoja',   sym:'🌊', name:'Yemọja',      domain:'Ocean · Motherhood · Protection', color:'#60a5fa', bg:'rgba(96,165,250,0.07)',  border:'rgba(96,165,250,0.18)',  desc:'Mother of waters. Orisa of the ocean, fertility, and children. Great protector of mothers and newborns.' },
   { id:'oya',      sym:'🌪️', name:'Oya',         domain:'Wind · Change · Transition',      color:'#c084fc', bg:'rgba(192,132,252,0.07)', border:'rgba(192,132,252,0.18)', desc:'Orisa of winds, storms, and transformation. Guardian of the marketplace and gates of death. Power of change.' },
   { id:'osun',     sym:'🌿', name:'Ọṣọọsi',      domain:'Hunt · Forests · Providence',     color:'#4ade80', bg:'rgba(74,222,128,0.07)',  border:'rgba(74,222,128,0.18)',  desc:'Orisa of the hunt and forests. Swift as an arrow. Provider of food and abundance through skill and focus.' },
-  { id:'babalu',   sym:'🌾', name:'Bàbá Alúwó', domain:'Healing · Earth · Diseases',      color:'#f0a500', bg:'rgba(240,165,0,0.07)',   border:'rgba(240,165,0,0.18)',   desc:'Orisa of healing, earth, and contagious diseases. Great physician of the Orisa. Controls the spread of illness.' },
+  { id:'babalu',   sym:'🌾', name:'Ọbalúayé', domain:'Healing · Earth · Diseases',      color:'#f0a500', bg:'rgba(240,165,0,0.07)',   border:'rgba(240,165,0,0.18)',   desc:'Orisa of healing, earth, and contagious diseases. Great physician of the Orisa. Controls the spread of illness.' },
+  { id:'osanyin',  sym:'🍃', name:'Ọ̀sányìn', domain:'Plants · Herbs · Medicine',        color:'#a3e635', bg:'rgba(163,230,53,0.07)',  border:'rgba(163,230,53,0.18)',  desc:'Baba Ogun — Father of Medicine. Divine master of herbal medicine. Orisa of forest plants, healing leaves, and medicinal knowledge. Guardian of the secrets of plant medicine.' },
   { id:'aganju',   sym:'🌋', name:'Aganjú',      domain:'Wilderness · Volcano · Journey',  color:'#f87171', bg:'rgba(248,113,113,0.07)', border:'rgba(248,113,113,0.18)', desc:'Orisa of the wilderness, volcano, and carried burdens. Patron of the journey. Represents transition and great strength.' },
   { id:'oko',      sym:'🌱', name:'Oko',         domain:'Agriculture · Earth · Harvest',   color:'#2dd4bf', bg:'rgba(45,212,191,0.07)',  border:'rgba(45,212,191,0.18)',  desc:'Orisa of agriculture and the earth. Patron of farmers. Represents the power of cultivation, growth, and harvest.' },
 ];
@@ -626,7 +627,7 @@ function App() {
         React.createElement('div', { className:'section__label text-purple' }, '🎬 Animations & Illustrations'),
         React.createElement('h2', { className:'section__title' }, 'Gallery'),
         React.createElement('p', { className:'section__desc' },
-          'Ifa Animations, Orisa Animations, Ifa Illustrations, and Orisa Illustrations — bringing sacred knowledge to life visually.'
+          'Ifanimations, Orisanimations, Ifa Illustrations, and Orisa Illustrations — bringing sacred knowledge to life visually.'
         ),
         React.createElement('div', { className:'gallery-tabs' },
           [

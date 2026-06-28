@@ -904,6 +904,7 @@ function IfaNumberApp() {
         <div style={{display:'flex', gap:'16px'}}>
           <a href="https://ifainternet.org" style={{fontSize:'0.75rem', color:'var(--t3)'}} target="_blank" rel="noopener noreferrer">IFA Internet</a>
           <a href="https://toe.cenproject.org" style={{fontSize:'0.75rem', color:'var(--t3)'}} target="_blank" rel="noopener noreferrer">toe.cenproject.org</a>
+          <a href="https://ifainternet.org/ifa-evolution/ifa-sequence/" style={{fontSize:'0.75rem', color:'var(--t3)'}} target="_blank" rel="noopener noreferrer">Ifa Sequence</a>
           <a href="https://ifainternet.org/ifa-matrix/playground/" style={{fontSize:'0.75rem', color:'var(--t3)'}} target="_blank" rel="noopener noreferrer">IFA Matrix Playground</a>
         </div>
       </footer>

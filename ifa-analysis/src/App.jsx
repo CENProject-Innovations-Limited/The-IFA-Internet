@@ -261,11 +261,12 @@ function Header() {
           <span className="header__logo-tag">AnalysoE</span>
         </a>
         <nav className="header__nav">
-          <a href="#disciplines"   className="header__link">Disciplines</a>
-          <a href="#ifa-computing" className="header__link">Computing</a>
-          <a href="#spectrum"      className="header__link">Spectrum</a>
-          <a href="#orisa-analysis"className="header__link">Orisa</a>
-          <a href="#about"         className="header__link">About</a>
+          <a href="#disciplines"          className="header__link">Disciplines</a>
+          <a href="#ifa-computing"        className="header__link">Computing</a>
+          <a href="#spectrum"             className="header__link">Spectrum</a>
+          <a href="#orisa-analysis"       className="header__link">Orisa</a>
+          <a href="#ifa-numerical-analysis" className="header__link">Numerics</a>
+          <a href="#about"                className="header__link">About</a>
           <a href="https://toe.cenproject.org/ifa-analysis/" target="_blank" className="header__cta">
             Open Platform →
           </a>
@@ -635,6 +636,94 @@ function IfaBASection() {
   );
 }
 
+// ── Ifa Numerical Analysis Playground ────────────────────────
+const IFANA_FEATURES = [
+  { icon: '∑', label: 'Ifa AP Analysis',        desc: 'Arithmetic progressions across all 256 Odu Ifa families, including Amulu Table mapping and AP pair comparisons.' },
+  { icon: 'Δ', label: 'Ifa FDM',                desc: 'Ifa Finite Difference Method — numerical differentiation and integration grounded in IFA binary architecture.' },
+  { icon: '≋', label: 'Higher-Order Meta-APs',  desc: 'Ifa Differences (ToE Differences): the common differences of Ifa AP families that themselves form APs.' },
+  { icon: '⬡', label: 'AI-Augmented Analysis',  desc: 'Explore IfaNumerical Analysis alongside 7 major AI platforms — a hub-and-spoke intelligence matrix.' },
+];
+
+function IfaNumericalPlaygroundSection() {
+  return (
+    <section className="ifana" id="ifa-numerical-analysis">
+      <div className="section__inner">
+        <div className="ifana__layout">
+
+          {/* Left — content */}
+          <div className="ifana__content">
+            <span className="section__eyebrow">Ifa Numerical Analysis · IfaNA</span>
+            <h2 className="ifana__title">
+              <span className="ifana__title-accent">Ifa Numerical Analysis</span> Playground
+            </h2>
+            <p className="ifana__lead">
+              The <strong>ToE of Numerical Analysis</strong> — using the 256 Odu Ifa to generalise
+              Numerical Analysis across every field of knowledge. Explore Ifa APs, Ifa GP families,
+              higher-order Meta-APs, the Ifa Finite Difference Method, and AI-augmented numerical
+              exploration, all expressed in <strong>IfaLang</strong>.
+            </p>
+            <div className="ifana__features">
+              {IFANA_FEATURES.map(f => (
+                <div key={f.label} className="ifana__feature">
+                  <span className="ifana__feature-icon">{f.icon}</span>
+                  <div style={{minWidth:0}}>
+                    <div className="ifana__feature-label">{f.label}</div>
+                    <div className="ifana__feature-desc">{f.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="ifana__chips">
+              {['AP Analysis','GP Analysis','Ifa FDM','Meta-APs','IfaLang','AI Integration','256 Odu','ToE Numerics'].map(c => (
+                <span key={c} className="ifana__chip">{c}</span>
+              ))}
+            </div>
+            <div className="ifana__actions">
+              <a href="/ifa-analysis/ifa-numerical-analysis/" className="ifana__btn ifana__btn--primary">
+                Open Playground →
+              </a>
+              <a href="https://toe.cenproject.org/ifa-analysis/" target="_blank" className="ifana__btn ifana__btn--ghost">
+                Learn More
+              </a>
+            </div>
+          </div>
+
+          {/* Right — visual */}
+          <div className="ifana__visual">
+            <div className="ifana__card">
+              <div className="ifana__card-label">IfaNumerical Analysis · Scope</div>
+              <div className="ifana__card-stats">
+                <div className="ifana__stat">
+                  <span className="ifana__stat-val">256</span>
+                  <span className="ifana__stat-key">Odu Ifa Families</span>
+                </div>
+                <div className="ifana__stat">
+                  <span className="ifana__stat-val">∞</span>
+                  <span className="ifana__stat-key">AP Family Scope</span>
+                </div>
+                <div className="ifana__stat">
+                  <span className="ifana__stat-val">7+</span>
+                  <span className="ifana__stat-key">AI Platforms</span>
+                </div>
+                <div className="ifana__stat">
+                  <span className="ifana__stat-val">ToE</span>
+                  <span className="ifana__stat-key">Numerical Analysis</span>
+                </div>
+              </div>
+              <div className="ifana__card-formula">
+                <span className="ifana__formula-line">aₙ = a₁ + (n − 1)d</span>
+                <span className="ifana__formula-sub">Ifa AP · Odu-indexed progression</span>
+              </div>
+              <div className="ifana__card-glow" aria-hidden="true" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── About ─────────────────────────────────────────────────────
 function AboutSection() {
   return (
@@ -743,6 +832,7 @@ function App() {
       <SpectrumSection />
       <OrisaSection />
       <IfaBASection />
+      <IfaNumericalPlaygroundSection />
       <AboutSection />
       <CTASection />
       <Footer />

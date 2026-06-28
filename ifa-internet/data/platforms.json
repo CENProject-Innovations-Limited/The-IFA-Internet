@@ -376,13 +376,25 @@
       "featured": false
     },
     {
-      "id": "itol",
-      "name": "Igi Iye Ifa",
-      "subtitle": "Tree of Life — iToL Explorer",
-      "description": "The IFA Tree of Life — an interactive explorer of biological diversity and evolution.",
+      "id": "ifa-evolution",
+      "name": "Ifa Evolution",
+      "subtitle": "ToE Evolution — The Evolution of Everything",
+      "description": "The IFA Science of Evolution — studying biological, cultural, and cosmic evolution through the 256 Odu Ifa and the Consciousness-Energy (CEN) framework. Hosts Igi Ìyè Ifá (The IFA Tree of Life), an interactive iToL explorer of all living organisms and their evolutionary relationships.",
       "category": "science",
-      "url": "/igi-iye-ifa-the-ifa-tree-of-life-itol-explorer/",
-      "featured": false
+      "alsoIn": ["philosophy", "education", "non-science"],
+      "url": "/ifa-evolution/",
+      "featured": true,
+      "local": true
+    },
+    {
+      "id": "itol",
+      "name": "Igi Ìyè Ifá",
+      "subtitle": "The IFA Tree of Life — iToL Explorer",
+      "description": "The IFA Tree of Life — an interactive explorer of biological diversity and evolution built on the IFA Framework. Navigate all living organisms and their evolutionary relationships through the lens of the 256 Odu Ifa.",
+      "category": "science",
+      "url": "/ifa-evolution/itol/",
+      "featured": true,
+      "local": true
     },
     {
       "id": "ifa-neuro",

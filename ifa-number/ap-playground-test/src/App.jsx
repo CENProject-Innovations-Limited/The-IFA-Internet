@@ -230,53 +230,7 @@ for (let D = 2; D <= 15; D++) {
   _DIAG_D2_15.push(...makeRD(D), ...makeLD(D));
 }
 
-// ── Ifa AP Pairs (Ifa Composite APs / Amulu APs) ──────────────────────────────
-// Row matrices: pair the Ogbé-column cell with the Òfún-column cell of each
-// row. Both cells belong to the two boundary d=16 vertical APs (starting at 1
-// and 16 respectively). Inner d = 15. Written as row matrices [a  b].
-const _IFAPAIRS_ROW = ODU_16.map((odu, r) => {
-  const t1 = r * 16 + 1;   // Ogbé-column cell of this row  (vc=15)
-  const t2 = r * 16 + 16;  // Òfún-column cell of this row  (vc=0)
-  return {
-    id:      `amul-ifapair-row-${String(r + 1).padStart(2, '0')}`,
-    tab:     'ifapairs',
-    name:    `${odu.name} Ifa AP Pair`,
-    d:       15,
-    group:   'Ifa AP Pairs · Row Matrices',
-    color:   odu.color,
-    terms:   [t1, t2],
-    formula: `aₖ = ${t1} + (k−1)·15,  k = 1…2`,
-    desc:    `Ifa AP Pair (row matrix): ${odu.name}-Ogbé [${t1}] paired with ` +
-             `${odu.name}-Òfún [${t2}]. Connects the Ogbé and Òfún boundary ` +
-             `columns of the ${odu.name} row. Inner d = 15.`,
-  };
-});
-
-// Column matrices (dual): pair the Òfún-column cell of row r with the
-// Ogbé-column cell of row r+1. Order of selection is reversed relative to the
-// row-matrix family, and pairs are written as column matrices. Inner d = 1.
-// 15 pairs (rows 1–2 through rows 15–16; 256 and 1 are each skipped once).
-const _IFAPAIRS_COL = ODU_16.slice(0, 15).map((odu, r) => {
-  const nextOdu = ODU_16[r + 1];
-  const t1 = (r + 1) * 16;      // Òfún-column cell of row r+1  (vc=0)
-  const t2 = (r + 1) * 16 + 1;  // Ogbé-column cell of row r+2  (vc=15)
-  return {
-    id:      `amul-ifapair-col-${String(r + 1).padStart(2, '0')}`,
-    tab:     'ifapairs',
-    name:    `${odu.name}–${nextOdu.name} Ifa AP Pair`,
-    d:       1,
-    group:   'Ifa AP Pairs · Column Matrices (Dual)',
-    color:   odu.color,
-    terms:   [t1, t2],
-    formula: `aₖ = ${t1} + (k−1)·1,  k = 1…2`,
-    desc:    `Ifa AP Pair dual (column matrix): ${odu.name}-Òfún [${t1}] paired ` +
-             `with ${nextOdu.name}-Ogbé [${t2}]. Connects the row boundary between ` +
-             `${odu.name} and ${nextOdu.name}. Inner d = 1.`,
-  };
-});
-
-const AMULU_APS    = [..._H_D1, ..._V_D1, ..._D2_15, ..._RD_D1, ..._LD_D1, ..._DIAG_D2_15];
-const IFAPAIRS_APS = [..._IFAPAIRS_ROW, ..._IFAPAIRS_COL];
+const AMULU_APS = [..._H_D1, ..._V_D1, ..._D2_15, ..._RD_D1, ..._LD_D1, ..._DIAG_D2_15];
 
 const IFAL_APS = [
   // Ifalibrium Chart progressions go here
@@ -315,15 +269,6 @@ const DVAL_APS = [
 
 // ── GCD helper ───────────────────────────────────────────────────────────────
 function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { const t = b; b = a % b; a = t; } return a; }
-
-// ── Prime / Composite helpers ─────────────────────────────────────────────────
-function isPrime(n) {
-  if (n < 2) return false;
-  if (n === 2) return true;
-  if (n % 2 === 0) return false;
-  for (let i = 3; i * i <= n; i += 2) if (n % i === 0) return false;
-  return true;
-}
 
 // ── Skew / Knight's-Move Directions ─────────────────────────────────────────
 // Direction (dr, dvc): Δr rows down, Δvc visual-column steps.
@@ -390,12 +335,7 @@ const SKEW_APS = (() => {
   return out;
 })();
 
-const ALL_APS = [...AMULU_APS, ...IFAL_APS, ...DVAL_APS, ...SKEW_APS, ...IFAPAIRS_APS];
-
-// Set of AP IDs where every term is composite (> 1 and not prime)
-const COMPOSITE_AP_IDS = new Set(
-  ALL_APS.filter(ap => ap.terms.every(t => t > 1 && !isPrime(t))).map(ap => ap.id)
-);
+const ALL_APS = [...AMULU_APS, ...IFAL_APS, ...DVAL_APS, ...SKEW_APS];
 
 // ── Grid helpers ─────────────────────────────────────────────────────────────
 
@@ -426,31 +366,23 @@ function secondaryAt(ci, rowPos) {
 // ── App ───────────────────────────────────────────────────────────────────────
 
 function APPlaygroundApp() {
-  const [activeTab,        setActiveTab]        = useState('amulu');
-  const [selectedId,       setSelectedId]       = useState(null);
-  const [showCompositeOnly, setShowCompositeOnly] = useState(false);
+  const [activeTab,  setActiveTab]  = useState('amulu');
+  const [selectedId, setSelectedId] = useState(null);
   const [tip, setTip] = useState({ visible: false, text: '', x: 0, y: 0 });
 
   function switchTab(tab) {
     setActiveTab(tab);
     setSelectedId(null);
-    setShowCompositeOnly(false);
   }
 
   const showTip = (text, e) => setTip({ visible: true, text, x: e.clientX + 14, y: e.clientY + 14 });
   const moveTip = (e)       => setTip(t => ({ ...t, x: e.clientX + 14, y: e.clientY + 14 }));
   const hideTip = ()        => setTip(t => ({ ...t, visible: false }));
 
-  const tabAPs   = activeTab === 'amulu'    ? AMULU_APS
-                 : activeTab === 'dval'     ? DVAL_APS
-                 : activeTab === 'skew'     ? SKEW_APS
-                 : activeTab === 'ifapairs' ? IFAPAIRS_APS
-                 :                           IFAL_APS;
-
-  // Filtered list used in left panel (composite filter only applies to Amulu tab)
-  const displayAPs = (activeTab === 'amulu' && showCompositeOnly)
-    ? tabAPs.filter(ap => COMPOSITE_AP_IDS.has(ap.id))
-    : tabAPs;
+  const tabAPs   = activeTab === 'amulu' ? AMULU_APS
+                 : activeTab === 'dval'  ? DVAL_APS
+                 : activeTab === 'skew'  ? SKEW_APS
+                 :                        IFAL_APS;
   const selected = useMemo(() => ALL_APS.find(a => a.id === selectedId) || null, [selectedId]);
   const termSet  = useMemo(() => new Set(selected ? selected.terms : []), [selected]);
 
@@ -469,7 +401,6 @@ function APPlaygroundApp() {
   const gridTitle = activeTab === 'ifalibrium' ? 'Ifalibrium Chart (16×16)'
                  : activeTab === 'dval'        ? 'Amulu Table (16×16) — AP of d-values'
                  : activeTab === 'skew'        ? 'Amulu Table (16×16) — Skew Directions'
-                 : activeTab === 'ifapairs'    ? 'Amulu Table (16×16) — Ifa AP Pairs'
                  :                              'Amulu Table (16×16)';
 
   // Summary numbers for right panel
@@ -500,10 +431,6 @@ function APPlaygroundApp() {
             onClick={() => switchTab('amulu')}
           >Amulu Table</button>
           <button
-            className={`ap-tab${activeTab === 'ifapairs' ? ' ap-tab--active' : ''}`}
-            onClick={() => switchTab('ifapairs')}
-          >Ifa AP Pairs</button>
-          <button
             className={`ap-tab${activeTab === 'ifalibrium' ? ' ap-tab--active' : ''}`}
             onClick={() => switchTab('ifalibrium')}
           >Ifalibrium Chart</button>
@@ -523,7 +450,6 @@ function APPlaygroundApp() {
          : activeTab === 'amulu'      ? 'Arithmetic Progressions in the Amulu Table'
          : activeTab === 'ifalibrium' ? 'Arithmetic Progressions in the Ifalibrium Chart'
          : activeTab === 'skew'       ? 'Skew & Knight\'s-Move APs in the Amulu Table'
-         : activeTab === 'ifapairs'   ? 'Ifa Composite APs · Row & Column Matrix Pairs'
          :                             'Arithmetic Progressions of Common Differences'}
         </span>
       </div>
@@ -539,7 +465,6 @@ function APPlaygroundApp() {
            : activeTab === 'amulu'      ? 'Amulu Table'
            : activeTab === 'ifalibrium' ? 'Ifalibrium Chart'
            : activeTab === 'skew'       ? 'Skew Directions'
-           : activeTab === 'ifapairs'   ? 'Ifa AP Pairs (Amulu APs)'
            :                             'The AP of APs — AP of d-values'}
           </div>
           <div className="app-header__body">
@@ -551,7 +476,7 @@ function APPlaygroundApp() {
               </>
             ) : activeTab === 'dval' ? (
               <>
-                Higher-Order Ifa APs, these are <strong>Ifa Meta-APs</strong>: The <strong>Common Differences</strong> of each family of Ifa APs themselves form
+                These are <strong>Ifa Meta-APs</strong>: The <strong>Common Differences</strong> of each family of Ifa APs themselves form
                 Arithmetic Progressions — <strong>APs of d-values</strong>. These Common Differences are known as <strong>Ifa Differences</strong> or <strong>ToE Differences</strong>. Each entry below
                 identifies one such meta-AP, the family it arises from, and highlights its terms
                 on the Amulu Table.
@@ -564,21 +489,11 @@ function APPlaygroundApp() {
                 (Δr, Δvc) with gcd = 1 defines a family of diagonals. Select a progression to
                 highlight it on the grid.
               </>
-            ) : activeTab === 'ifapairs' ? (
-              <>
-                <strong>Ifa AP Pairs</strong> (Ifa Composite APs / Amulu APs) pair the two boundary
-                columns of the Amulu Table — the Ogbé column (d=16 AP starting at 1) and the Òfún
-                column (d=16 AP starting at 16) — into <strong>Row Matrix</strong> pairs [a  b] with
-                inner d=15, and their dual <strong>Column Matrix</strong> pairs with inner d=1. Select
-                a pair to highlight its two cells on the grid. Ifa Composite APs are APs of <strong>Ifa Composites</strong> (Ifa Pairs).
-              </>
             ) : (
               <>
                 An <strong>Ifa Arithmetic Progression (Ifa AP)</strong> is a meta-sequence of Ifanums
                 a₁, a₂, …, aₙ where aₖ = a₁ + (k−1)d for a constant common difference d.
-                Select a progression from the left panel to highlight it on the grid. Also, explore
-                the <strong>Composite Ifa APs</strong> (Ifa APs of composite numbers). Ifa APs of
-                Composites and APs of Ifa Composites form an interesting Ifa Pair.
+                Select a progression from the left panel to highlight it on the grid.
               </>
             )}
           </div>
@@ -643,7 +558,6 @@ function APPlaygroundApp() {
                   <li><strong>Amulu Table</strong> — all horizontal, vertical, and diagonal Ifa APs in the 16 × 16 Odu grid ({AMULU_APS.length.toLocaleString()} APs)</li>
                   <li><strong>Skew Directions</strong> — knight's-move and non-standard-axis APs across the Amulu Table ({SKEW_APS.length.toLocaleString()} APs)</li>
                   <li><strong>AP of d-values</strong> — Ifa Meta-APs: the APs formed by the common differences themselves ({DVAL_APS.length.toLocaleString()} APs)</li>
-                  <li><strong>Ifa AP Pairs</strong> — Ifa Composite APs (Amulu APs): row &amp; column matrix pairs from the boundary columns ({IFAPAIRS_APS.length.toLocaleString()} pairs)</li>
                   <li><strong>Ifalibrium Chart</strong> — Ifa APs in the Ifalibrium Chart ({IFAL_APS.length.toLocaleString()} APs)</li>
                 </ul>
                 <div className="grand-total">
@@ -664,78 +578,17 @@ function APPlaygroundApp() {
 
         {/* ── LEFT: progression list ──────────────────────────────────── */}
         <div className="panel-left">
-
-          {/* ── Ifa AP Pairs tab: custom matrix card layout ── */}
-          {activeTab === 'ifapairs' ? (<>
-            <div className="panel-count">
-              <span className="panel-count__num">31</span>
-              <span className="panel-count__label">Ifa AP Pairs</span>
-            </div>
-
-            <div className="ap-group-header">Row Matrices · 16 Pairs · d = 15</div>
-            <div className="ifapair-grid ifapair-grid--row">
-              {_IFAPAIRS_ROW.map(ap => (
-                <button
-                  key={ap.id}
-                  className={`ifapair-card${selectedId === ap.id ? ' ifapair-card--active' : ''}`}
-                  onClick={() => setSelectedId(ap.id)}
-                >
-                  <div className="ifapair-card__name" style={{ color: ap.color }}>
-                    {ap.name.replace(' Ifa AP Pair', '')}
-                  </div>
-                  <div className="mat-row" style={{ color: ap.color }}>
-                    <span className="mat-num">{ap.terms[0]}</span>
-                    <span className="mat-num">{ap.terms[1]}</span>
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            <div className="ap-group-header">Column Matrices · 15 Pairs · d = 1 (Dual)</div>
-            <div className="ifapair-grid ifapair-grid--col">
-              {_IFAPAIRS_COL.map(ap => (
-                <button
-                  key={ap.id}
-                  className={`ifapair-card${selectedId === ap.id ? ' ifapair-card--active' : ''}`}
-                  onClick={() => setSelectedId(ap.id)}
-                >
-                  <div className="ifapair-card__name" style={{ color: ap.color }}>
-                    {ap.name.replace(' Ifa AP Pair', '')}
-                  </div>
-                  <div className="mat-col" style={{ color: ap.color }}>
-                    <span className="mat-col__inner">
-                      <span className="mat-num">{ap.terms[0]}</span>
-                      <span className="mat-num">{ap.terms[1]}</span>
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </>) : (<>
-
-          {/* ── All other data tabs: standard AP list ── */}
           <div className="panel-count">
-            <span className="panel-count__num">{displayAPs.length.toLocaleString()}</span>
-            <span className="panel-count__label">
-              {showCompositeOnly ? 'Composite APs' : 'Arithmetic Progressions'}
-              {showCompositeOnly && (
-                <span style={{ color:'var(--t3)', fontSize:'0.6rem' }}> of {tabAPs.length.toLocaleString()}</span>
-              )}
-            </span>
-            {activeTab === 'amulu' && (
-              <button
-                className={`composite-filter-btn${showCompositeOnly ? ' composite-filter-btn--active' : ''}`}
-                onClick={() => { setShowCompositeOnly(v => !v); setSelectedId(null); }}
-              >Composite Only</button>
-            )}
+            <span className="panel-count__num">{tabAPs.length.toLocaleString()}</span>
+            <span className="panel-count__label">Arithmetic Progressions</span>
           </div>
-          {displayAPs.length === 0 ? (
+          {tabAPs.length === 0 ? (
             <div style={{ fontSize:'0.72rem', color:'var(--t3)', padding:'20px', fontStyle:'italic', lineHeight:'1.7' }}>
               No progressions added yet<br/>for this chart.
             </div>
           ) : (() => {
             let lastGroup = null;
-            return displayAPs.map(ap => {
+            return tabAPs.map(ap => {
               const showHeader = ap.group && ap.group !== lastGroup;
               if (showHeader) lastGroup = ap.group;
               return (
@@ -750,17 +603,13 @@ function APPlaygroundApp() {
                     <span className="ap-btn__dot" style={{ background: ap.color }} />
                     <span className="ap-btn__info">
                       <span className="ap-btn__name">{ap.name}</span>
-                      <span className="ap-btn__meta">
-                        d = {ap.d} · {ap.terms.length} terms
-                        {COMPOSITE_AP_IDS.has(ap.id) && <span className="composite-badge">Composite</span>}
-                      </span>
+                      <span className="ap-btn__meta">d = {ap.d} · {ap.terms.length} terms</span>
                     </span>
                   </button>
                 </React.Fragment>
               );
             });
           })()}
-          </>)}
         </div>
 
         {/* ── CENTER: grid + sequence ────────────────────────────────── */}
@@ -777,7 +626,7 @@ function APPlaygroundApp() {
           </div>
 
           {/* ══ AMULU TABLE — column headers + structured 16×17 grid ══ */}
-          {(activeTab === 'amulu' || activeTab === 'dval' || activeTab === 'skew' || activeTab === 'ifapairs') && (
+          {(activeTab === 'amulu' || activeTab === 'dval' || activeTab === 'skew') && (
             <div className="mini-grid-scroll">
               <div className="amul-wrap">
 
@@ -933,18 +782,6 @@ function APPlaygroundApp() {
               <div className="prop-row">
                 <div className="prop-key">Formula</div>
                 <div className="prop-formula">{selected.formula}</div>
-              </div>
-              <div className="prop-row">
-                <div className="prop-key">Composite AP</div>
-                {COMPOSITE_AP_IDS.has(selected.id) ? (
-                  <div className="prop-val prop-val--sm" style={{ color:'#4caf50' }}>
-                    Yes — all terms composite
-                  </div>
-                ) : (
-                  <div className="prop-val prop-val--sm" style={{ color:'var(--t3)' }}>
-                    No
-                  </div>
-                )}
               </div>
               <hr className="prop-divider" />
               <div className="prop-row">

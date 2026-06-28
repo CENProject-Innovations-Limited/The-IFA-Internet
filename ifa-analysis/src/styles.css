@@ -776,11 +776,155 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   padding: 4px 10px; border-radius: 4px;
 }
 
+/* ── Ifa Numerical Analysis Playground ───────────────────── */
+:root { --ifana: #00d9b8; }
+
+.ifana {
+  padding: 100px 0;
+  background: var(--bg2);
+  position: relative;
+  overflow: hidden;
+}
+.ifana::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ifana), transparent);
+}
+.ifana::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(0,217,184,.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.ifana__layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 72px;
+  align-items: center;
+}
+.ifana__content,
+.ifana__visual { min-width: 0; }
+
+.ifana__title {
+  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+  font-weight: 800; letter-spacing: -.8px; line-height: 1.15;
+  margin-bottom: 20px;
+}
+.ifana__title-accent { color: var(--ifana); }
+
+.ifana__lead {
+  font-size: .97rem; line-height: 1.74; color: var(--text);
+  margin-bottom: 28px;
+}
+.ifana__lead strong { color: var(--ifana); font-weight: 700; }
+
+.ifana__features {
+  display: flex; flex-direction: column; gap: 12px;
+  margin-bottom: 28px;
+}
+.ifana__feature {
+  display: flex; align-items: flex-start; gap: 14px;
+  background: var(--bg3);
+  border: 1px solid rgba(0,217,184,.14);
+  border-radius: 10px; padding: 13px 16px;
+  transition: border-color .2s;
+}
+.ifana__feature:hover { border-color: rgba(0,217,184,.32); }
+.ifana__feature-icon {
+  font-size: 1.35rem; font-weight: 700; color: var(--ifana);
+  width: 28px; text-align: center; flex-shrink: 0; padding-top: 2px;
+}
+.ifana__feature-label {
+  font-size: .84rem; font-weight: 700; color: var(--text); margin-bottom: 3px;
+}
+.ifana__feature-desc {
+  font-size: .76rem; color: var(--muted); line-height: 1.55;
+  overflow-wrap: break-word; min-width: 0;
+}
+
+.ifana__chips {
+  display: flex; flex-wrap: wrap; gap: 7px;
+  margin-bottom: 28px;
+}
+.ifana__chip {
+  background: rgba(0,217,184,.08);
+  border: 1px solid rgba(0,217,184,.22);
+  color: var(--ifana);
+  font-size: .64rem; font-weight: 600; letter-spacing: .7px;
+  text-transform: uppercase;
+  padding: 4px 10px; border-radius: 4px;
+}
+
+.ifana__actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.ifana__btn {
+  display: inline-block; font-size: .88rem; font-weight: 700;
+  padding: 11px 24px; border-radius: 8px;
+  transition: opacity .15s, transform .1s;
+}
+.ifana__btn:hover { opacity: .85; transform: translateY(-2px); }
+.ifana__btn--primary { background: var(--ifana); color: #06080e; }
+.ifana__btn--ghost {
+  border: 1px solid rgba(0,217,184,.36); color: var(--ifana);
+}
+.ifana__btn--ghost:hover { border-color: var(--ifana); }
+
+/* Visual card */
+.ifana__visual { position: relative; z-index: 1; }
+.ifana__card {
+  background: var(--bg3);
+  border: 1px solid rgba(0,217,184,.22);
+  border-radius: 18px; padding: 28px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,217,184,.08), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.ifana__card-glow {
+  position: absolute; bottom: -40px; right: -40px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,217,184,.14) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ifana__card-label {
+  font-size: .64rem; font-weight: 700; letter-spacing: 1.8px;
+  text-transform: uppercase; color: var(--ifana);
+  margin-bottom: 24px; opacity: .8;
+}
+.ifana__card-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-bottom: 28px;
+}
+.ifana__stat {
+  background: var(--bg2);
+  border: 1px solid rgba(0,217,184,.12);
+  border-radius: 10px; padding: 16px 14px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.ifana__stat-val {
+  font-size: 1.6rem; font-weight: 800; color: var(--ifana); line-height: 1;
+}
+.ifana__stat-key {
+  font-size: .68rem; color: var(--muted); letter-spacing: .4px;
+}
+.ifana__card-formula {
+  border-top: 1px solid rgba(0,217,184,.14);
+  padding-top: 20px;
+  display: flex; flex-direction: column; gap: 6px; text-align: center;
+}
+.ifana__formula-line {
+  font-size: 1.2rem; font-weight: 700; color: var(--ifana);
+  letter-spacing: .5px; font-family: 'Courier New', monospace;
+}
+.ifana__formula-sub {
+  font-size: .68rem; color: var(--muted); letter-spacing: .5px;
+}
+
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .about__grid   { grid-template-columns: 1fr; gap: 48px; }
-  .ifc__layout   { grid-template-columns: 1fr; gap: 48px; }
-  .ifaba__layout { grid-template-columns: 1fr; gap: 48px; }
+  .about__grid    { grid-template-columns: 1fr; gap: 48px; }
+  .ifc__layout    { grid-template-columns: 1fr; gap: 48px; }
+  .ifaba__layout  { grid-template-columns: 1fr; gap: 48px; }
+  .ifana__layout  { grid-template-columns: 1fr; gap: 40px; }
   .orisa__duality { grid-template-columns: 1fr; }
   .orisa__pole--ifa   { border-right: none; border-bottom: 1px solid var(--border); }
   .orisa__pole--orisa { border-left:  none; border-top:    1px solid var(--border); }
@@ -818,4 +962,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   .spectrum__detail       { padding: 32px 24px; }
   .about__grid            { gap: 32px; }
   .cta-strip__actions     { flex-direction: column; }
+  .ifana__title           { font-size: 1.5rem; overflow-wrap: break-word; word-break: break-word; }
+  .ifana__lead            { font-size: .88rem; }
+  .ifana__actions         { flex-direction: column; }
+  .ifana__btn             { text-align: center; }
+  .ifana__card-stats      { grid-template-columns: 1fr 1fr; }
+  .ifana__card            { padding: 20px; }
+  .ifana__formula-line    { font-size: 1rem; }
 }

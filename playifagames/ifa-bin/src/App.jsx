@@ -239,7 +239,7 @@ const ORISA = [
     nature:'The golden river Orisa of love, beauty, and healing abundance' },
   { id:4,  name:'Orunmila',    yoruba:'Ọrúnmìlà',   odu:'Ogbe',
     domains:['Wisdom','Divination','Destiny','Knowledge','Ifa','Truth'],
-    element:'Earth',        color:'Green & Yellow',  symbol:'Divination tray (Opon Ifa)',
+    element:'Earth',        color:'Green & Yellow',  symbol:'Divination tray (Ọpọ́n Ifá)',
     nature:'Witness of all creation, keeper of destiny and the Ifa oracle' },
   { id:5,  name:'Obatala',     yoruba:'Obàtálá',     odu:'Ofun',
     domains:['Purity','Creation','Morality','Peace','White Cloth','Justice'],

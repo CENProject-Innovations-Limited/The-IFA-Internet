@@ -127,54 +127,6 @@ strong { font-weight: 700; }
 .ap-btn__meta { font-size: 0.7rem; color: var(--t3); font-family: var(--fm); }
 .ap-btn--active .ap-btn__name { color: var(--t1); }
 
-/* ── Ifa AP Pairs: matrix card grid (left panel) ─────────────────────────── */
-.ifapair-grid {
-  display: grid;
-  gap: 6px;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--br);
-}
-.ifapair-grid--row { grid-template-columns: repeat(2, 1fr); }
-.ifapair-grid--col { grid-template-columns: repeat(3, 1fr); }
-
-.ifapair-card {
-  display: flex; flex-direction: column; align-items: center;
-  gap: 5px; padding: 8px 6px;
-  border-radius: 6px; border: 1px solid var(--br);
-  background: transparent; cursor: pointer;
-  transition: background 0.12s, border-color 0.15s;
-}
-.ifapair-card:hover { background: var(--card); }
-.ifapair-card--active {
-  background: var(--card-h) !important;
-  border-color: rgba(255,255,255,0.18) !important;
-}
-.ifapair-card__name {
-  font-size: 0.6rem; font-weight: 700;
-  letter-spacing: 0.03em; text-align: center; line-height: 1.2;
-}
-
-/* Row matrix: [ a  b ] — horizontal layout with left/right border brackets */
-.mat-row {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--fm); font-size: 0.78rem; font-weight: 700;
-}
-.mat-row::before { content: '('; }
-.mat-row::after  { content: ')'; }
-
-/* Column matrix: ( a / b ) — row flex wrapping an inner column of numbers */
-.mat-col {
-  display: inline-flex; flex-direction: row; align-items: center;
-  font-family: var(--fm); font-size: 0.78rem; font-weight: 700;
-}
-.mat-col::before { content: '('; font-size: 1.5em; line-height: 1; }
-.mat-col::after  { content: ')'; font-size: 1.5em; line-height: 1; }
-.mat-col__inner {
-  display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 2px 3px;
-}
-
-.mat-num { line-height: 1; }
-
 /* ── Center panel: grid + sequence ──────────────────────────────────────── */
 .panel-center {
   padding: 24px; overflow-y: auto;
@@ -462,50 +414,6 @@ strong { font-weight: 700; }
   align-items: baseline;
   gap: 7px;
   flex-shrink: 0;
-  flex-wrap: wrap;
-}
-
-/* ── Composite AP badge (inline in ap-btn__meta) ─────────────────────────── */
-.composite-badge {
-  display: inline-block;
-  margin-left: 6px;
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #4caf50;
-  background: rgba(76, 175, 80, 0.12);
-  border: 1px solid rgba(76, 175, 80, 0.35);
-  vertical-align: middle;
-  line-height: 1.5;
-}
-
-/* ── Composite-only filter toggle (left panel header) ────────────────────── */
-.composite-filter-btn {
-  margin-left: auto;
-  padding: 3px 9px;
-  border-radius: 6px;
-  border: 1px solid var(--br);
-  background: transparent;
-  cursor: pointer;
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: var(--t3);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
-}
-.composite-filter-btn:hover {
-  color: #4caf50;
-  border-color: rgba(76, 175, 80, 0.45);
-  background: rgba(76, 175, 80, 0.08);
-}
-.composite-filter-btn--active {
-  color: #4caf50;
-  border-color: rgba(76, 175, 80, 0.55);
-  background: rgba(76, 175, 80, 0.12);
 }
 .panel-count__num {
   font-family: var(--fm);

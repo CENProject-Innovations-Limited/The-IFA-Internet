@@ -185,7 +185,7 @@ const SEED_COURSES = [
           {
             id: 'k1', type: 'text', title: 'What is IFA? For Young Learners', duration: '8 min read',
             content: [
-              { type: 'header', text: 'Hello, Young Polymath!' },
+              { type: 'header', text: 'Hello! Ẹ kábọ̀!!' },
               { type: 'paragraph', text: 'Welcome to the IFA Academy! We are so excited to have you here. Today we are going to discover something amazing — a very, very old system of knowledge that can teach us about EVERYTHING in the universe!' },
               { type: 'highlight', text: 'IFA is like the most incredible library in the world — except it is not made of books. It is made of patterns, stories, and wisdom passed down for thousands of years.' },
               { type: 'header', text: 'The Story of Orunmila' },
@@ -1187,6 +1187,10 @@ function getCompletedMaterials(progress, userId) {
   return (progress[userId] && progress[userId].completedMaterials) || {};
 }
 
+function getIgaScores(user) {
+  return user.igaScores || {};
+}
+
 function isWeekUnlocked(weekIndex, course, completedMats) {
   if (weekIndex === 0) return true;
   const prev = course.weeks[weekIndex - 1];
@@ -1709,7 +1713,7 @@ function StudentSidebar({ activeView, setStudentView, user, onLogout }) {
 
 // ─── STUDENT HOME ─────────────────────────────────────────────────────────────
 
-function StudentHome({ user, courses, completedMats, setStudentView, setSelectedCourse, setSelectedMaterial }) {
+function StudentHome({ user, courses, completedMats, igaScores, setStudentView, setSelectedCourse, setSelectedMaterial }) {
   const enrolled = courses.filter(c => (user.enrolled || []).includes(c.id));
   const overall = getOverallProgress(enrolled, completedMats);
 
@@ -1781,8 +1785,8 @@ function StudentHome({ user, courses, completedMats, setStudentView, setSelected
       {/* IGA Mini Grid */}
       <h3 className="s-section-title" style={{ marginTop: '2rem' }}>IGA Progress</h3>
       <div className="iga-mini-grid">
-        {IGAs.map((iga, i) => {
-          const score = Math.min(100, Math.round(overall * (0.8 + (i % 3) * 0.1)));
+        {IGAs.map((iga) => {
+          const score = igaScores[iga.id] || 0;
           return (
             <div key={iga.id} className="iga-mini" style={{ '--ig-color': iga.color }}>
               <div className="iga-mini__top">
@@ -1949,19 +1953,17 @@ function StudentCourseDetail({ course, completedMats, setStudentView, setSelecte
 
 // ─── IGA TRACKER ─────────────────────────────────────────────────────────────
 
-function IGATracker({ courses, completedMats, user }) {
-  const enrolled = courses.filter(c => (user.enrolled || []).includes(c.id));
-  const overall = getOverallProgress(enrolled, completedMats);
-
+function IGATracker({ igaScores }) {
   return (
     <div className="iga-tracker">
       <h2 className="s-page-title">IGA Tracker</h2>
       <p className="iga-tracker__sub">
         The Ifacodemy Graduate Attributes (IGAs) — eight core attributes of the IFA Academy of Polymaths graduate, rooted in the Ọmọlúwàbí ideal.
       </p>
+      <p className="iga-tracker__note">Scores are assessed and assigned by your instructor.</p>
       <div className="iga-grid">
-        {IGAs.map((iga, i) => {
-          const score = Math.min(100, Math.round(overall * (0.75 + (i % 3) * 0.1)));
+        {IGAs.map((iga) => {
+          const score = igaScores[iga.id] || 0;
           return (
             <div key={iga.id} className="iga-card" style={{ '--ig-color': iga.color }}>
               <div className="iga-card__top">
@@ -2056,6 +2058,7 @@ function StudentApp({ user, onLogout, courses, setCourses, progress, setProgress
   const [selectedMaterialId, setSelectedMaterialId] = useState(null);
 
   const completedMats = getCompletedMaterials(progress, user.id);
+  const igaScores = getIgaScores(user);
   const selectedCourse = courses.find(c => c.id === selectedCourseId) || null;
   const selectedMaterial = selectedCourse
     ? selectedCourse.weeks.flatMap(w => w.materials).find(m => m.id === selectedMaterialId)
@@ -2077,7 +2080,7 @@ function StudentApp({ user, onLogout, courses, setCourses, progress, setProgress
       <StudentSidebar activeView={studentView} setStudentView={navTo} user={user} onLogout={onLogout} />
       <main className="app-main">
         {studentView === 'home' && (
-          <StudentHome user={user} courses={courses} completedMats={completedMats}
+          <StudentHome user={user} courses={courses} completedMats={completedMats} igaScores={igaScores}
             setStudentView={setStudentView}
             setSelectedCourse={setSelectedCourseId}
             setSelectedMaterial={setSelectedMaterialId} />
@@ -2098,7 +2101,7 @@ function StudentApp({ user, onLogout, courses, setCourses, progress, setProgress
             onBack={() => { setSelectedMaterialId(null); setStudentView('course'); }} />
         )}
         {studentView === 'iga' && (
-          <IGATracker courses={courses} completedMats={completedMats} user={user} />
+          <IGATracker igaScores={igaScores} />
         )}
         {studentView === 'profile' && (
           <StudentProfile user={user} courses={courses} completedMats={completedMats} />
@@ -2228,7 +2231,7 @@ function AdminOverview({ users, courses }) {
               <div key={c.id} className="mini-table__row" style={{ '--cc-color': c.color }}>
                 <div className="mini-table__sym">{c.sym}</div>
                 <div className="mini-table__name">{c.title}</div>
-                <div className="mini-table__meta">{c.weeks.length} weeks · {c.program}</div>
+                <div className="mini-table__meta">{c.duration} · {c.program}</div>
               </div>
             ))}
           </div>
@@ -2323,8 +2326,13 @@ function AdminStudents({ users, setUsers, saveAll, courses, progress, setProgres
     setAddForm({ name: '', username: '', password: '', program: 'adults' });
   }
   function startEdit(s) {
+    const scores = s.igaScores || {};
     setEditingId(s.id);
-    setEditForm({ name: s.name, username: s.username, password: s.password || '', program: s.program || 'adults', joinDate: s.joinDate || '', status: s.status, enrolled: s.enrolled || [] });
+    setEditForm({
+      name: s.name, username: s.username, password: s.password || '',
+      program: s.program || 'adults', joinDate: s.joinDate || '', status: s.status, enrolled: s.enrolled || [],
+      igaScores: Object.fromEntries(IGAs.map(iga => [iga.id, scores[iga.id] ?? 0])),
+    });
   }
   function cancelEdit() { setEditingId(null); setEditForm(null); }
   function saveEdit() {
@@ -2338,6 +2346,7 @@ function AdminStudents({ users, setUsers, saveAll, courses, progress, setProgres
       joinDate: editForm.joinDate,
       status: editForm.status,
       enrolled: editForm.enrolled,
+      igaScores: editForm.igaScores,
     });
     setUsers(updated); saveAll(updated);
     setEditingId(null); setEditForm(null);
@@ -2515,6 +2524,24 @@ function AdminStudents({ users, setUsers, saveAll, courses, progress, setProgres
                         </button>
                       );
                     })}
+                  </div>
+                </div>
+                <div className="student-edit-panel__section">
+                  <div className="add-student-form__label">IGA Scores (Admin Graded)</div>
+                  <div className="iga-grade-grid">
+                    {IGAs.map(iga => (
+                      <div key={iga.id} className="iga-grade-row">
+                        <span className="iga-grade-sym" style={{ color: iga.color }}>{iga.sym}</span>
+                        <span className="iga-grade-label">{iga.label}</span>
+                        <input
+                          type="number" min="0" max="100"
+                          className="iga-grade-input editor-input"
+                          value={editForm.igaScores[iga.id] ?? 0}
+                          onChange={e => setEditForm(f => ({ ...f, igaScores: { ...f.igaScores, [iga.id]: Math.min(100, Math.max(0, Number(e.target.value) || 0)) } }))}
+                        />
+                        <span className="iga-grade-pct">%</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div className="student-edit-panel__actions">
@@ -2974,7 +3001,7 @@ function AdminCourses({ courses, setCourses, saveAll }) {
               <div className="admin-course-row__sub">{c.subtitle}</div>
               <div className="admin-course-row__meta">
                 <span className={`badge ${c.program === 'kids' ? 'badge--kids' : c.program === 'professionals' ? 'badge--professionals' : 'badge--adults'}`}>{c.program}</span>
-                <span className="admin-course-row__count">{c.weeks.length} weeks</span>
+                <span className="admin-course-row__count">{c.duration}</span>
                 <span className="admin-course-row__count">{c.weeks.reduce((s, w) => s + w.materials.length, 0)} materials</span>
               </div>
             </div>
