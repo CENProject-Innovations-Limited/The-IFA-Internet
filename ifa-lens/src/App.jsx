@@ -5,7 +5,91 @@
    CENProject · toe.cenproject.org/ifalens/
 ───────────────────────────────────────────────────────────── */
 
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
+
+// ── Ogbe Symbol (DuoInfinity / lemniscate canvas glyph) ───────
+function OgbeSymbol({ size = 20, className = '' }) {
+  const canvasRef = useRef(null);
+  const a   = size * 0.47;
+  const ccx = size / 2;
+  const ccy = size / 2;
+  const sc  = a / 200;
+  const N   = 80;
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width  = size * DPR;
+    canvas.height = size * DPR;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+
+    function buildLobe(t0, t1, neg) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t  = t0 + (t1 - t0) * i / N;
+        const c2 = Math.cos(2 * t);
+        const v  = neg ? -c2 : c2;
+        if (v < 1e-10) continue;
+        const rho = a * Math.sqrt(v);
+        pts.push([ccx + rho * Math.cos(t), ccy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+
+    const PI = Math.PI;
+    const lobes = [
+      buildLobe(-PI/4,   PI/4,   false),
+      buildLobe(3*PI/4,  5*PI/4, false),
+      buildLobe(PI/4,    3*PI/4, true),
+      buildLobe(5*PI/4,  7*PI/4, true),
+    ];
+
+    function strokeLobe(pts, lw, rgba, blur) {
+      if (!pts.length) return;
+      ctx.save();
+      ctx.strokeStyle = rgba;
+      ctx.lineWidth   = Math.max(0.3, lw * sc);
+      ctx.shadowColor = rgba;
+      ctx.shadowBlur  = blur * sc;
+      ctx.lineCap     = 'round';
+      ctx.lineJoin    = 'round';
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    ctx.clearRect(0, 0, size, size);
+    for (const lobe of lobes) {
+      strokeLobe(lobe, 44, 'rgba(245,197,24,0.03)', 65);
+      strokeLobe(lobe, 26, 'rgba(245,197,24,0.07)', 44);
+      strokeLobe(lobe, 15, 'rgba(245,197,24,0.16)', 28);
+      strokeLobe(lobe,  7, 'rgba(245,197,24,0.34)', 16);
+      strokeLobe(lobe,  3, 'rgba(245,197,24,0.62)',  8);
+      strokeLobe(lobe,1.4, 'rgba(245,197,24,0.90)',  4);
+      strokeLobe(lobe,0.7, 'rgba(255,248,210,0.95)', 2);
+    }
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(245,197,24,1)';
+    ctx.shadowBlur  = 22 * sc;
+    ctx.fillStyle   = 'rgba(255,248,210,1)';
+    ctx.beginPath();
+    ctx.arc(ccx, ccy, Math.max(0.5, 3.5 * sc), 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.restore();
+  }, [size]);
+
+  return (
+    <canvas ref={canvasRef}
+      className={className}
+      style={{ display: 'inline-block', verticalAlign: 'middle', width: size + 'px', height: size + 'px' }}
+      aria-label="Ogbe Energy Symbol" />
+  );
+}
 
 // ── Data ──────────────────────────────────────────────────────
 
@@ -15,7 +99,7 @@ const LENS_SYMBOLS = [
 
 const STATS = [
   { value: '256',  label: 'Odu Ifa',      sub: 'Polymathic Viewing Codes'  },
-  { value: '∞',    label: 'Disciplines',  sub: 'All Fields of Knowledge'   },
+  { value: <OgbeSymbol size={36} />, label: 'Disciplines',  sub: 'All Fields of Knowledge'   },
   { value: '11',   label: 'Ifascope Types', sub: 'Universal Imaging Modes' },
   { value: 'CEN',  label: 'Energy Lens',  sub: 'Consciousness-Energy'      },
 ];
@@ -316,9 +400,9 @@ function HeroSection() {
           <span className="hero__title-sub">The Lens of Everything</span>
         </h1>
         <p className="hero__lead">
-          A polymathic tool for learning all subjects and examining all issues from every
-          angle possible — using the <strong>IFA System</strong>, <strong>256 Odu Ifa</strong>,
-          and <strong>Consciousness-Energy</strong> as the universal Lens.
+          A polymathic Tool for learning all fields and examining all issues from every
+          angle possible and impossible — using the <strong>IFA System</strong>, <strong>256 Odu Ifa</strong>,
+          and <strong>Consciousness Energy</strong> as the universal Lens.
         </p>
 
         <div className="hero__stats">
@@ -352,6 +436,368 @@ function HeroSection() {
   );
 }
 
+// ── IfaLens 0+8D Viewing Matrix ───────────────────────────────
+function IfaLensMatrix() {
+  const [active, setActive] = useState(false);
+  const [hovered, setHovered] = useState(null);
+
+  const cx = 310, cy = 270, nodeR = 172, centerR = 52, dimR = 28;
+  const accent = '#00d9b8';
+
+  const VIEWS = [
+    { label: 'Scientific View',      line1: 'Scientific',      line2: 'View', letter: 'Sc', color: '#00d9b8' },
+    { label: 'Technological View',   line1: 'Technological',   line2: 'View', letter: 'Tc', color: '#8b5cf6' },
+    { label: 'Engineering View',     line1: 'Engineering',     line2: 'View', letter: 'En', color: '#3b9eff' },
+    { label: 'Artistic View',        line1: 'Artistic',        line2: 'View', letter: 'Ar', color: '#ec4899' },
+    { label: 'Mathematical View',    line1: 'Mathematical',    line2: 'View', letter: 'Ma', color: '#f0920c' },
+    { label: 'Socioscientific View', line1: 'Socioscientific', line2: 'View', letter: 'Ss', color: '#00c87c' },
+    { label: 'Educational View',     line1: 'Educational',     line2: 'View', letter: 'Ed', color: '#a78bfa' },
+    { label: 'Others',               line1: 'Others',          line2: null,   letter: 'Ot', color: '#6366f1' },
+  ];
+
+  const dims = VIEWS.map((v, i) => {
+    const angle = (i / 8) * 2 * Math.PI - Math.PI / 2;
+    return { ...v, angle, x: cx + nodeR * Math.cos(angle), y: cy + nodeR * Math.sin(angle) };
+  });
+
+  const hovDim = hovered !== null ? dims[hovered] : null;
+
+  const getAnchor = (angle) => {
+    const cosA = Math.cos(angle);
+    return Math.abs(cosA) < 0.25 ? 'middle' : cosA > 0 ? 'start' : 'end';
+  };
+
+  return (
+    <div className="ilm">
+      <div className="ilm__label">
+        {!active
+          ? <>Click <strong style={{ color: accent }}>Energy: Knowledge</strong> to open the 0+8D Viewing Matrix →</>
+          : <span style={{ color: accent }}>◈ 0+8D Matrix open — hover any view node to explore</span>
+        }
+      </div>
+
+      <svg viewBox="0 0 620 540" className="ilm__svg">
+        <defs>
+          <radialGradient id="ilm-cg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={accent} stopOpacity="0.3" />
+            <stop offset="100%" stopColor={accent} stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="ilm-bg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#0d1320" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#050810" stopOpacity="0" />
+          </radialGradient>
+          <marker id="ilm-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+            <polygon points="0 1, 0 6, 7 3.5" fill={accent} />
+          </marker>
+          <path id="ilm-arc"
+            d={`M ${cx},${cy - nodeR - 22} A ${nodeR + 22},${nodeR + 22} 0 1 1 ${cx - 0.01},${cy - nodeR - 22}`} />
+        </defs>
+
+        {/* Background halo */}
+        <circle cx={cx} cy={cy} r={nodeR + 55} fill="url(#ilm-bg)" />
+
+        {/* Dashed orbit ring */}
+        <circle cx={cx} cy={cy} r={nodeR} fill="none"
+          stroke="rgba(255,255,255,0.045)" strokeWidth="1" strokeDasharray="3 8" />
+
+        {/* Orbital ring text — fades in when active */}
+        <text fill="rgba(255,255,255,0.13)" fontSize="7" letterSpacing="2.5" fontFamily="monospace"
+          opacity={active ? 1 : 0}
+          style={{ transition: 'opacity 0.7s ease 0.5s' }}>
+          <textPath startOffset="3%" href="#ilm-arc">
+            {'Sc · Tc · En · Ar · Ma · Ss · Ed · Ot · 0+8D VIEWING MATRIX · IFA LENS ·'}
+          </textPath>
+        </text>
+
+        {/* Spokes — draw outward from center, with outward arrow */}
+        {dims.map((d, i) => {
+          const sx = cx + (centerR + 9) * Math.cos(d.angle);
+          const sy = cy + (centerR + 9) * Math.sin(d.angle);
+          const ex = cx + (nodeR - dimR - 7) * Math.cos(d.angle);
+          const ey = cy + (nodeR - dimR - 7) * Math.sin(d.angle);
+          const len = Math.hypot(ex - sx, ey - sy).toFixed(1);
+          const delay = active ? i * 58 : 0;
+          return (
+            <line key={i} x1={sx} y1={sy} x2={ex} y2={ey}
+              stroke={d.color} strokeWidth="1.5"
+              strokeDasharray={len}
+              strokeDashoffset={active ? 0 : len}
+              markerEnd="url(#ilm-arrow)"
+              opacity={active ? 0.65 : 0}
+              style={{ transition: `stroke-dashoffset 0.62s cubic-bezier(.4,0,.2,1) ${delay}ms, opacity 0.28s ease ${delay}ms` }}
+            />
+          );
+        })}
+
+        {/* Outer nodes + floating labels */}
+        {dims.map((d, i) => {
+          const isHov = hovered === i;
+          const delay = active ? i * 58 + 210 : 0;
+          const labelR = nodeR + dimR + 20;
+          const lx = cx + labelR * Math.cos(d.angle);
+          const ly = cy + labelR * Math.sin(d.angle);
+          const anchor = getAnchor(d.angle);
+          const sinA = Math.sin(d.angle);
+          const dy1 = sinA < -0.25 ? -10 : sinA > 0.25 ? 5 : -5;
+          const dy2 = dy1 + 12;
+          return (
+            <g key={i} opacity={active ? 1 : 0}
+              style={{ transition: `opacity 0.42s ease ${delay}ms` }}>
+              {/* Glow halo */}
+              <circle cx={d.x} cy={d.y} r={isHov ? 42 : 33} fill={d.color}
+                opacity={isHov ? 0.22 : 0.08}
+                style={{ transition: 'opacity 0.2s' }} />
+              {/* Node circle */}
+              <circle cx={d.x} cy={d.y} r={dimR}
+                fill="#0c1218" stroke={d.color}
+                strokeWidth={isHov ? 2.5 : 1.5}
+                style={{ transition: 'stroke-width 0.18s' }} />
+              {/* Letter code */}
+              <text x={d.x} y={d.y + 5} textAnchor="middle"
+                fill={d.color} fontSize="14" fontWeight="800" fontFamily="monospace">
+                {d.letter}
+              </text>
+              {/* External floating label — line 1 */}
+              <text x={lx} y={ly + dy1} textAnchor={anchor}
+                fill={d.color} fontSize="8.5" fontWeight="600" opacity="0.92">
+                {d.line1}
+              </text>
+              {/* External floating label — line 2 */}
+              {d.line2 && (
+                <text x={lx} y={ly + dy2} textAnchor={anchor}
+                  fill={d.color} fontSize="7.5" opacity="0.58">
+                  {d.line2}
+                </text>
+              )}
+              {/* Invisible hit area */}
+              <circle cx={d.x} cy={d.y} r={dimR + 14} fill="transparent"
+                style={{ cursor: 'pointer' }}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)} />
+            </g>
+          );
+        })}
+
+        {/* Center node — Ifa Circle */}
+        <g onClick={() => { setActive(v => !v); setHovered(null); }} style={{ cursor: 'pointer' }}>
+          {/* Pulse ring */}
+          <circle cx={cx} cy={cy} r="74" fill="none"
+            stroke={accent} strokeWidth="1" className="ilm__pulse" />
+          {/* Glow halo */}
+          <circle cx={cx} cy={cy} r={centerR + 20} fill="url(#ilm-cg)" />
+          {/* Main circle body */}
+          <circle cx={cx} cy={cy} r={centerR}
+            fill="#0c1218" stroke={accent} strokeWidth="2.5" />
+          {/* Ifa Circle — clockwise arc arrow at east rim */}
+          <path d={`M ${cx + centerR},${cy - 9} A ${centerR},${centerR} 0 0,1 ${cx + centerR},${cy + 9}`}
+            fill="none" stroke={accent} strokeWidth="2.5"
+            markerEnd="url(#ilm-arrow)" />
+          {/* Node text */}
+          <text x={cx} y={cy - 7} textAnchor="middle"
+            fill={accent} fontSize="11.5" fontWeight="900" letterSpacing="0.5" fontFamily="monospace">
+            Energy:
+          </text>
+          <text x={cx} y={cy + 8} textAnchor="middle"
+            fill={accent} fontSize="11.5" fontWeight="900" letterSpacing="0.5" fontFamily="monospace">
+            Knowledge
+          </text>
+          <text x={cx} y={cy + 26} textAnchor="middle"
+            fill={accent} fontSize="7" opacity="0.55">
+            {active ? '◈ CLICK TO CLOSE' : '↓ CLICK TO OPEN'}
+          </text>
+        </g>
+      </svg>
+
+      {hovDim ? (
+        <div className="ilm__info">
+          <span className="ilm__info-key" style={{ color: hovDim.color }}>{hovDim.letter}</span>
+          <span className="ilm__info-label" style={{ color: hovDim.color }}>{hovDim.label}</span>
+        </div>
+      ) : active ? (
+        <div className="ilm__hint-act">Hover any view node to explore · 8 Knowledge Views active</div>
+      ) : (
+        <div style={{ height: '28px' }} />
+      )}
+    </div>
+  );
+}
+
+// ── OrisaMatrix (Dual 0+8D Anti-Knowledge Matrix) ────────────
+function OrisaMatrix() {
+  const [active, setActive] = useState(false);
+  const [hovered, setHovered] = useState(null);
+
+  const cx = 310, cy = 270, nodeR = 172, centerR = 52, dimR = 28;
+  const accent = '#e63946';
+
+  const ANTI_VIEWS = [
+    { label: 'Anti-Scientific View',      line1: 'Anti-Scientific',      line2: 'View/Approach', letter: '¬Sc', color: '#ff6b6b' },
+    { label: 'Anti-Technological View',   line1: 'Anti-Technological',   line2: 'View/Approach', letter: '¬Tc', color: '#ff8c42' },
+    { label: 'Anti-Engineering View',     line1: 'Anti-Engineering',     line2: 'View/Approach', letter: '¬En', color: '#ffbe3f' },
+    { label: 'Anti-Artistic View',        line1: 'Anti-Artistic',        line2: 'View/Approach', letter: '¬Ar', color: '#e040fb' },
+    { label: 'Anti-Mathematical View',    line1: 'Anti-Mathematical',    line2: 'View/Approach', letter: '¬Ma', color: '#ff4f79' },
+    { label: 'Anti-Socioscientific View', line1: 'Anti-Socioscientific', line2: 'View/Approach', letter: '¬Ss', color: '#ff6e9c' },
+    { label: 'Anti-Educational View',     line1: 'Anti-Educational',     line2: 'View/Approach', letter: '¬Ed', color: '#ff7043' },
+    { label: 'Anti-Others',               line1: 'Anti-Others',          line2: null,             letter: '¬Ot', color: '#c44fce' },
+  ];
+
+  const dims = ANTI_VIEWS.map((v, i) => {
+    const angle = (i / 8) * 2 * Math.PI - Math.PI / 2;
+    return { ...v, angle, x: cx + nodeR * Math.cos(angle), y: cy + nodeR * Math.sin(angle) };
+  });
+
+  const hovDim = hovered !== null ? dims[hovered] : null;
+
+  const getAnchor = (angle) => {
+    const cosA = Math.cos(angle);
+    return Math.abs(cosA) < 0.25 ? 'middle' : cosA > 0 ? 'start' : 'end';
+  };
+
+  return (
+    <div className="ilm orm">
+      <div className="ilm__label">
+        {!active
+          ? <>Click <strong style={{ color: accent }}>Anergy: Anti-Knowledge</strong> to open the OrisaMatrix →</>
+          : <span style={{ color: accent }}>⊗ OrisaMatrix open — hover any anti-view node to explore</span>
+        }
+      </div>
+
+      <svg viewBox="0 0 620 540" className="ilm__svg">
+        <defs>
+          <radialGradient id="orm-cg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={accent} stopOpacity="0.3" />
+            <stop offset="100%" stopColor={accent} stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="orm-bg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#1a0505" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#0a0202" stopOpacity="0" />
+          </radialGradient>
+          <marker id="orm-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+            <polygon points="0 1, 0 6, 7 3.5" fill={accent} />
+          </marker>
+          <path id="orm-arc"
+            d={`M ${cx},${cy - nodeR - 22} A ${nodeR + 22},${nodeR + 22} 0 1 1 ${cx - 0.01},${cy - nodeR - 22}`} />
+        </defs>
+
+        {/* Background halo */}
+        <circle cx={cx} cy={cy} r={nodeR + 55} fill="url(#orm-bg)" />
+
+        {/* Dashed orbit ring */}
+        <circle cx={cx} cy={cy} r={nodeR} fill="none"
+          stroke="rgba(230,57,70,0.06)" strokeWidth="1" strokeDasharray="3 8" />
+
+        {/* Orbital ring text */}
+        <text fill="rgba(230,57,70,0.15)" fontSize="7" letterSpacing="2.5" fontFamily="monospace"
+          opacity={active ? 1 : 0}
+          style={{ transition: 'opacity 0.7s ease 0.5s' }}>
+          <textPath startOffset="3%" href="#orm-arc">
+            {'¬Sc · ¬Tc · ¬En · ¬Ar · ¬Ma · ¬Ss · ¬Ed · ¬Ot · ORISA MATRIX · ANTI-KNOWLEDGE ·'}
+          </textPath>
+        </text>
+
+        {/* Spokes — REVERSED: inward arrows (start at outer node, end near center) */}
+        {dims.map((d, i) => {
+          const nearCenter = { x: cx + (centerR + 9) * Math.cos(d.angle), y: cy + (centerR + 9) * Math.sin(d.angle) };
+          const nearOuter  = { x: cx + (nodeR - dimR - 7) * Math.cos(d.angle), y: cy + (nodeR - dimR - 7) * Math.sin(d.angle) };
+          const len = Math.hypot(nearOuter.x - nearCenter.x, nearOuter.y - nearCenter.y).toFixed(1);
+          const delay = active ? i * 58 : 0;
+          return (
+            <line key={i}
+              x1={nearOuter.x} y1={nearOuter.y}
+              x2={nearCenter.x} y2={nearCenter.y}
+              stroke={d.color} strokeWidth="1.5"
+              strokeDasharray={len}
+              strokeDashoffset={active ? 0 : len}
+              markerEnd="url(#orm-arrow)"
+              opacity={active ? 0.65 : 0}
+              style={{ transition: `stroke-dashoffset 0.62s cubic-bezier(.4,0,.2,1) ${delay}ms, opacity 0.28s ease ${delay}ms` }}
+            />
+          );
+        })}
+
+        {/* Outer nodes + floating labels */}
+        {dims.map((d, i) => {
+          const isHov = hovered === i;
+          const delay = active ? i * 58 + 210 : 0;
+          const labelR = nodeR + dimR + 20;
+          const lx = cx + labelR * Math.cos(d.angle);
+          const ly = cy + labelR * Math.sin(d.angle);
+          const anchor = getAnchor(d.angle);
+          const sinA = Math.sin(d.angle);
+          const dy1 = sinA < -0.25 ? -10 : sinA > 0.25 ? 5 : -5;
+          const dy2 = dy1 + 12;
+          return (
+            <g key={i} opacity={active ? 1 : 0}
+              style={{ transition: `opacity 0.42s ease ${delay}ms` }}>
+              <circle cx={d.x} cy={d.y} r={isHov ? 42 : 33} fill={d.color}
+                opacity={isHov ? 0.22 : 0.08}
+                style={{ transition: 'opacity 0.2s' }} />
+              <circle cx={d.x} cy={d.y} r={dimR}
+                fill="#180c0c" stroke={d.color}
+                strokeWidth={isHov ? 2.5 : 1.5}
+                style={{ transition: 'stroke-width 0.18s' }} />
+              <text x={d.x} y={d.y + 5} textAnchor="middle"
+                fill={d.color} fontSize="12" fontWeight="800" fontFamily="monospace">
+                {d.letter}
+              </text>
+              <text x={lx} y={ly + dy1} textAnchor={anchor}
+                fill={d.color} fontSize="8.5" fontWeight="600" opacity="0.92">
+                {d.line1}
+              </text>
+              {d.line2 && (
+                <text x={lx} y={ly + dy2} textAnchor={anchor}
+                  fill={d.color} fontSize="7.5" opacity="0.58">
+                  {d.line2}
+                </text>
+              )}
+              <circle cx={d.x} cy={d.y} r={dimR + 14} fill="transparent"
+                style={{ cursor: 'pointer' }}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)} />
+            </g>
+          );
+        })}
+
+        {/* Center node — Oyeku / Anergy style */}
+        <g onClick={() => { setActive(v => !v); setHovered(null); }} style={{ cursor: 'pointer' }}>
+          <circle cx={cx} cy={cy} r="74" fill="none"
+            stroke={accent} strokeWidth="1" className="orm__pulse" />
+          <circle cx={cx} cy={cy} r={centerR + 20} fill="url(#orm-cg)" />
+          <circle cx={cx} cy={cy} r={centerR}
+            fill="#180c0c" stroke={accent} strokeWidth="2.5" />
+          {/* Counter-clockwise arc arrow at west rim — dual of Ifa Circle */}
+          <path d={`M ${cx - centerR},${cy - 9} A ${centerR},${centerR} 0 0,0 ${cx - centerR},${cy + 9}`}
+            fill="none" stroke={accent} strokeWidth="2.5"
+            markerEnd="url(#orm-arrow)" />
+          <text x={cx} y={cy - 7} textAnchor="middle"
+            fill={accent} fontSize="11.5" fontWeight="900" letterSpacing="0.5" fontFamily="monospace">
+            Anergy:
+          </text>
+          <text x={cx} y={cy + 8} textAnchor="middle"
+            fill={accent} fontSize="9" fontWeight="900" letterSpacing="0.3" fontFamily="monospace">
+            Anti-Knowledge
+          </text>
+          <text x={cx} y={cy + 26} textAnchor="middle"
+            fill={accent} fontSize="7" opacity="0.55">
+            {active ? '⊗ CLICK TO CLOSE' : '↓ CLICK TO OPEN'}
+          </text>
+        </g>
+      </svg>
+
+      {hovDim ? (
+        <div className="ilm__info">
+          <span className="ilm__info-key" style={{ color: hovDim.color }}>{hovDim.letter}</span>
+          <span className="ilm__info-label" style={{ color: hovDim.color }}>{hovDim.label}</span>
+        </div>
+      ) : active ? (
+        <div className="ilm__hint-act" style={{ color: accent }}>Hover any anti-view node · OrisaMatrix active · Anti-Knowledge</div>
+      ) : (
+        <div style={{ height: '28px' }} />
+      )}
+    </div>
+  );
+}
+
 // ── IfaView Section ───────────────────────────────────────────
 function IfaViewSection() {
   const PRINCIPLES = [
@@ -360,52 +806,58 @@ function IfaViewSection() {
     { icon: '≋', label: 'Fields are Translations', desc: 'Every academic discipline is a translation of CEN Energy into a specialized vocabulary and notation system.' },
     { icon: '∞', label: '256 Viewing Angles', desc: '256 Odu Ifa provide 256 distinct polymathic viewing angles on any phenomenon, idea, or field.' },
   ];
-  const FIELDS = ['Physics', 'Music', 'Finance', 'Biology', 'Linguistics', 'Mathematics', 'Engineering', 'Art'];
 
   return (
     <section className="ifaview" id="ifaview">
       <div className="section__inner">
-        <div className="ifaview__layout">
-          <div className="ifaview__content">
-            <div className="section__badge" style={{'--badge-c': '#00d9b8'}}>IfaView · CEN Foundation</div>
-            <h2 className="ifaview__title">Everything is Viewed as Energy</h2>
-            <p className="ifaview__lead">
-              IfaView is the foundational axiom of IfaLens: every phenomenon — physical, mathematical,
-              biological, cultural, artistic — is a manifestation of <strong>Consciousness-Energy (CEN)</strong>.
-              The IfaLens reframes every field of knowledge through this single, universal Lens.
-            </p>
-            <p className="ifaview__body">
-              At the core of the IFA Internet, <strong>Ogbe</strong> (I) represents pure Energy and{' '}
-              <strong>Oyeku</strong> (II) represents Anergy — together forming the IFABit binary that
-              encodes all of existence. IfaView applies this principle polymathically: whether you look
-              at a mathematical proof, a musical composition, a financial market, or a biological cell —
-              you are observing CEN Energy in different forms.
-            </p>
-            <div className="ifaview__principles">
-              {PRINCIPLES.map(p => (
-                <div key={p.label} className="ifaview__principle">
-                  <span className="ifaview__principle-icon">{p.icon}</span>
-                  <div>
-                    <strong className="ifaview__principle-label">{p.label}</strong>
-                    <p className="ifaview__principle-desc">{p.desc}</p>
-                  </div>
+        <div className="ifaview__content">
+          <div className="section__badge" style={{'--badge-c': '#00d9b8'}}>IfaView · CEN Foundation</div>
+          <h2 className="ifaview__title">Everything is Viewed as Energy</h2>
+          <p className="ifaview__lead">
+            Also known as ToE View, IfaView is the foundational Axiom of IfaLens: everything in existence
+            and every phenomenon — physical, mathematical, biological, cultural, artistic, and others — is
+            a manifestation of <strong>Ogbe</strong>, Consciousness Energy (CEN). The IfaLens reframes
+            every field of knowledge through this single, universal Lens.
+          </p>
+          <p className="ifaview__body">
+            At the core of the IFA Internet, <strong>Ogbe</strong> (I) represents pure Energy and{' '}
+            <strong>Oyeku</strong> (II) represents Anergy — together forming the IFABit Encoding System
+            that encodes all of existence and all knowledge field. IfaView applies this principle
+            polymathically: whether you look at a mathematical proof, a musical composition, a financial
+            market, or a biological cell — you are observing CEN in different forms, states or types.
+          </p>
+          <div className="ifaview__principles">
+            {PRINCIPLES.map(p => (
+              <div key={p.label} className="ifaview__principle">
+                <span className="ifaview__principle-icon">{p.icon}</span>
+                <div>
+                  <strong className="ifaview__principle-label">{p.label}</strong>
+                  <p className="ifaview__principle-desc">{p.desc}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
+          <div className="ilm-pair">
+            <div className="ilm-pair__col">
+              <div className="ilm-pair__head">
+                <span className="ilm-pair__name">IfaMatrix</span>
+                <span className="ilm-pair__sub">0+8D Viewing Matrix · Energy: Knowledge</span>
+              </div>
+              <IfaLensMatrix />
+            </div>
 
-          <div className="ifaview__visual">
-            <div className="ifaview__card">
-              <div className="ifaview__card-center">
-                <div className="ifaview__orb">CEN</div>
-                <p className="ifaview__orb-label">Consciousness-Energy</p>
+            <div className="ilm-pair__vsep">
+              <div className="ilm-pair__vsep-line" />
+              <span className="ilm-pair__vsep-label">⊗ Dual</span>
+              <div className="ilm-pair__vsep-line" />
+            </div>
+
+            <div className="ilm-pair__col">
+              <div className="ilm-pair__head">
+                <span className="ilm-pair__name orm-name">OrisaMatrix</span>
+                <span className="ilm-pair__sub">0+8D Anti-Knowledge · Anergy</span>
               </div>
-              <div className="ifaview__fields">
-                {FIELDS.map(f => (
-                  <div key={f} className="ifaview__field">{f}</div>
-                ))}
-              </div>
-              <p className="ifaview__card-note">All disciplines as CEN Energy manifestations</p>
+              <OrisaMatrix />
             </div>
           </div>
         </div>
@@ -687,7 +1139,7 @@ function AboutSection() {
     { val: '256', label: 'Odu Ifa',          desc: 'Polymathic viewing codes'      },
     { val: '11',  label: 'Ifascope Types',   desc: 'Microscopy, Telescopy & more'  },
     { val: '4',   label: 'Ifa Technologies', desc: 'Sensors, Glasses, Approach, Systems' },
-    { val: '∞',   label: 'Disciplines',      desc: 'All knowledge, one CEN Lens'   },
+    { val: <OgbeSymbol size={32} />, label: 'Disciplines',      desc: 'All knowledge, one CEN Lens'   },
   ];
   return (
     <section className="about" id="about">
@@ -723,8 +1175,8 @@ function AboutSection() {
             </div>
           </div>
           <div className="about__stats">
-            {ABOUT_STATS.map(s => (
-              <div key={s.val} className="about__stat">
+            {ABOUT_STATS.map((s, i) => (
+              <div key={i} className="about__stat">
                 <span className="about__stat-val">{s.val}</span>
                 <span className="about__stat-label">{s.label}</span>
                 <span className="about__stat-desc">{s.desc}</span>

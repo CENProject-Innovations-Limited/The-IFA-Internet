@@ -36,7 +36,7 @@ const SEED_USERS = [
 
 const SEED_COURSES = [
   {
-    id: 'c1', title: 'IFA Foundations', subtitle: 'Theory of Everything — Core Knowledge',
+    id: 'c1', title: 'Introduction to the IFA Body of Knowledge (IFABOK)', subtitle: 'IFA Foundations',
     program: 'adults', color: '#f0920c', sym: 'Ψ',
     duration: '3 months',
     description: 'The foundational course of the IFA Academy of Polymaths. Covering IFABOK, the 256 Odu Ifa, IFA Mathematics, and the IFA Internet ecosystem.',
@@ -51,9 +51,9 @@ const SEED_COURSES = [
               { type: 'header', text: 'What is the IFA Body of Knowledge (IFABOK)?' },
               { type: 'paragraph', text: 'The IFA Body of Knowledge (IFABOK) is the structured, comprehensive system of knowledge, wisdom, science, philosophy, arts, and practice contained within the Ifa Oracle tradition — recognised by UNESCO as an Intangible Cultural Heritage of Humanity.' },
               { type: 'highlight', text: 'IFABOK is the meta-framework through which all knowledge — from physics to philosophy, from economics to computing — can be understood, structured, and applied.' },
-              { type: 'paragraph', text: 'At its core, IFABOK is organised around the 256 Odu Ifa — a complete axiomatic system encoding every possible state, situation, and knowledge domain in existence. The 256 Odu emerge from the 16 Principal Odu through a systematic binary expansion rooted in the foundational IFA Pair: Ogbe (|) and Oyeku (O).' },
-              { type: 'header', text: 'Ifa as the Theory of Everything (ToE)' },
-              { type: 'paragraph', text: 'Ifa Metascience positions the IFA Body of Knowledge as a complete Theory of Everything — encompassing the totality of existence across all dimensions of reality, not limited to any single discipline.' },
+              { type: 'paragraph', text: 'At its core, IFABOK is organised around the 256 Odu Ifa — a Complete Axiomatic System encoding every possible state, situation, and knowledge domain in existence. The 256 Odu emerge from the 16 Principal Odu through a systematic Binary Expansion rooted in the foundational IFA Pair: Ogbe (O) and Oyeku (|).' },
+              { type: 'header', text: 'Ifa as the Theory of Everything (TOE)' },
+              { type: 'paragraph', text: 'Ifa Metascience positions the IFA Body of Knowledge as the complete Theory of Everything — modelling the totality of existence across all dimensions of reality, not limited to any single discipline.' },
               { type: 'list', items: ['IFA Mathematics — The axiomatic mathematics of all existence', 'IFA Physics — The physics of consciousness and energy', 'IFA Computing — The computational framework of the universe', 'Ebology — The science of energy exchange (EnxBOK)', 'IFA Philosophy — The philosophical foundations of all wisdom'] },
               { type: 'quote', text: 'The IFA Internet is the digital manifestation of IFABOK — bringing the Theory of Everything to the digital world.', attribution: 'CENProject' },
             ]
@@ -62,10 +62,10 @@ const SEED_COURSES = [
             id: 'm2', type: 'text', title: 'The 256 Odu Ifa — An Introduction', duration: '12 min read',
             content: [
               { type: 'header', text: 'The 256 Odu Ifa' },
-              { type: 'paragraph', text: 'The 256 Odu Ifa are the 256 fundamental patterns of existence, each encoding a complete domain of knowledge, wisdom, and potential outcomes. They are the axiomatic matrix through which all of reality can be understood and navigated.' },
-              { type: 'highlight', text: '256 = 16 × 16, where the 16 Principal Odu are the base axioms, and the full 256 represent all possible combinations of these axioms.' },
+              { type: 'paragraph', text: 'The 256 Odu Ifa are the 256 fundamental Patterns of Existence, each encoding a complete domain of knowledge, wisdom, and potential outcomes. They are the Axiomatic Matrix through which all of reality can be understood and navigated.' },
+              { type: 'highlight', text: '256 = 16 × 16, where the 16 Principal Odu are the Core Axioms, and the full 256 represent all possible combinations of these Meta-Axioms.' },
               { type: 'header', text: 'The 16 Principal Odu' },
-              { type: 'list', items: ['Ogbe', 'Oyeku', 'Iwori', 'Odi', 'Irosun', 'Owonrin', 'Obara', 'Okanran', 'Ogunda', 'Osa', 'Ika', 'Oturupön', 'Otura', 'Irete', 'Ose', 'Ofu'] },
+              { type: 'list', items: ['Ogbe', 'Oyeku', 'Iwori', 'Odi', 'Irosun', 'Owonrin', 'Obara', 'Okanran', 'Ogunda', 'Osa', 'Ika', 'Oturupön', 'Otura', 'Irete', 'Ose', 'Ofun'] },
               { type: 'quote', text: 'Every Odu is a complete universe of knowledge — a field of potentiality encoded in the ancient binary system of Ifa.', attribution: 'IFABOK' },
             ]
           },
@@ -78,39 +78,37 @@ const SEED_COURSES = [
       },
       {
         id: 'w2', order: 1, title: 'Week 2: The IFA Pair & Binary System',
-        description: 'Understanding Ogbe and Oyeku as the base field of all IFA computation.',
+        description: 'Understanding Ogbe and Oyeku as the Base-Field of all IFA Knowledge.',
         materials: [
           {
-            id: 'm4', type: 'text', title: 'Ogbe & Oyeku — The IFA Base Field', duration: '10 min read',
+            id: 'm4', type: 'text', title: 'Ogbe & Oyeku — The IFA BaseField', duration: '10 min read',
             content: [
               { type: 'header', text: 'The IFA Pair: Ogbe and Oyeku' },
-              { type: 'paragraph', text: 'Ogbe (|) and Oyeku (O) form the IFA Pair — the fundamental binary pair upon which all IFA computation and knowledge is built. They are analogous to 1 and 0 in conventional computing, but carry far richer metaphysical, philosophical, and scientific significance.' },
-              { type: 'highlight', text: 'Ogbe | = presence, light, consciousness, the active principle. Oyeku O = absence, depth, potentiality, the receptive principle.' },
-              { type: 'list', items: ['Ogbe (|) = 1 in IFA binary', 'Oyeku (O) = 0 in IFA binary', 'A single Odu = 4 positions, each Ogbe or Oyeku', '16 × 16 = 256 unique Odu combinations'] },
+              { type: 'paragraph', text: 'Ogbe (O) and Oyeku (|) form the IFA Pair — the fundamental Binary Pair upon which all IFA Computation and all knowledge is built. They are analogous to 1 and 0 in conventional computing, but carry far richer metaphysical, philosophical, and scientific significance.' },
+              { type: 'highlight', text: 'Ogbe O = presence, light, consciousness, the active principle. Oyeku | = absence, depth, potentiality, the receptive principle.' },
+              { type: 'list', items: ['Ogbe (O) gave birth to 0 in modern binary', 'Oyeku (|) gave birth to 1 in modern binary', 'A single Odu = 4 Positions, each Ogbe or Oyeku', '16 × 16 = 256 unique Odu Combinations'] },
             ]
           },
           {
             id: 'm5', type: 'text', title: 'IFA Computing Fundamentals', duration: '8 min read',
             content: [
               { type: 'header', text: 'IFA Computing: The Theory of Everything Computing (ToEC)' },
-              { type: 'paragraph', text: 'IFA Computing is the computational framework based on the 256 Odu Ifa. It predates modern binary computing and represents a complete system for encoding, processing, and outputting knowledge across all domains of reality.' },
-              { type: 'highlight', text: 'IFA Computing is the complete computational framework of the universe — the ToEC (Theory of Everything Computing).' },
+              { type: 'paragraph', text: 'IFA Computing is the Computational Framework based on the 256 Odu Ifa. It predates modern binary computing and represents a complete system for encoding, processing, and outputting knowledge across all domains of reality.' },
+              { type: 'highlight', text: 'IFA Computing is the Complete Computational Framework of the universe — the ToEC (Theory of Everything Computing).' },
             ]
           },
         ]
       },
       {
         id: 'w3', order: 2, title: 'Week 3: IFA Mathematics',
-        description: 'The axiomatic mathematics of the Theory of Everything.',
+        description: 'The Language of All Knowledge.',
         materials: [
           {
             id: 'm6', type: 'text', title: 'IFA Mathematics — Laws of Knowledge', duration: '15 min read',
             content: [
               { type: 'header', text: 'IFA Mathematics: TOE Mathematics' },
-              { type: 'paragraph', text: 'IFA Mathematics is the mathematical system derived from the 256 Odu Ifa. It provides the axiomatic foundation for all knowledge across every field — from physics to economics, from computing to philosophy.' },
-              { type: 'highlight', text: 'IFA Mathematics has 16 core Axioms (Laws of Knowledge), corresponding to the 16 Principal Odu — universal and applicable across all dimensions of reality.' },
-              { type: 'list', items: ['IfaGebra — The algebra of IFA patterns', 'NumoEs — IFA number theory', 'AlgebroEs — Algebraic structures in IFA', 'FunctoEs — Functional mathematics of IFA', 'Duoinfinities (IfaInfinity) — The IFA theory of Double Infinity'] },
-              { type: 'quote', text: 'IfaInfinity (Double Infinity) expresses both infinite possibilities and infinite impossibilities simultaneously — the complete probability space of existence.', attribution: 'IFA Mathematics' },
+              { type: 'paragraph', text: 'IFA Mathematics is the Mathematical System derived from the 256 Odu Ifa. It provides the Axiomatic Foundation for all knowledge across every field — from physics to economics, from computing to philosophy.' },
+              { type: 'highlight', text: 'IFA Mathematics has 16 Core Axioms (Laws of Knowledge), corresponding to the 16 Principal Odu — universal and applicable across all dimensions of reality.' },
             ]
           },
         ]
@@ -138,14 +136,13 @@ const SEED_COURSES = [
       },
       {
         id: 'w5', order: 4, title: 'Week 5: IFA Philosophy & Ethics',
-        description: 'PhiloE: The five branches of IFA Philosophy and the Ọmọlúwàbí framework.',
+        description: 'PhiloE: The key branches of IFA Philosophy and the Ọmọlúwàbí framework.',
         materials: [
           {
             id: 'm8', type: 'text', title: 'IFA Philosophy — PhiloE', duration: '10 min read',
             content: [
-              { type: 'header', text: 'IFA Philosophy: PhiloE' },
-              { type: 'paragraph', text: 'IFA Philosophy (PhiloE) is the Theory of Everything Philosophy. It encompasses five branches of philosophical inquiry, each grounded in the 256 Odu Ifa.' },
-              { type: 'list', items: ['IFA Logic (LogiE)', 'IFA Ethics (EthiE)', 'IFA Ontology (OntoE)', 'IFA Epistemology (EpistoE)', 'IFA Phenomenology (PhenoE)'] },
+              { type: 'header', text: 'IFA Philosophy: The Philosophy for Everything (PhiloE)' },
+              { type: 'paragraph', text: 'IFA Philosophy is the Theory of Everything Philosophy (ToE Philosophy). It encompasses different branches of philosophical inquiry, each grounded in the 256 Odu Ifa.' },
               { type: 'highlight', text: 'Ọmọlúwàbí — the IFA ethical ideal — describes a person of good character, righteousness, and wisdom who embodies the highest values of IFA Philosophy.' },
               { type: 'header', text: 'The Ifacodemy Graduate Attributes (IGAs)' },
               { type: 'paragraph', text: 'The Ifacodemy Graduate Attributes (IGAs) are the eight core attributes that every IFA Academy of Polymaths graduate embodies: Polymath, Culturally Conscious (Ubuntu), Commercially Aware, Enterprising, Resilient, Interdisciplinary Collaborator, Globally & Socially Aware, and Personal Growth & Development.' },
@@ -161,7 +158,7 @@ const SEED_COURSES = [
             id: 'm9', type: 'text', title: 'The IFA Internet — Architecture Overview', duration: '12 min read',
             content: [
               { type: 'header', text: 'The IFA Internet (iTOE)' },
-              { type: 'paragraph', text: 'The IFA Internet is the digital manifestation of IFABOK — a network of interconnected platforms, applications, and knowledge systems that apply the 256 Odu Ifa as the axiomatic foundation for a Theory of Everything digital ecosystem.' },
+              { type: 'paragraph', text: 'The IFA Internet is the digital manifestation of IFABOK — a network of interconnected platforms, applications, and knowledge systems that apply the 256 Odu Ifa as the Axiomatic Foundation for Theory of Everything Digital Ecosystem.' },
               { type: 'list', items: ['IFA Language (IfaLang) — Universal language system', 'IFA Mathematics — TOE Mathematics platform', 'IFA Physics — Physics of Everything (PoE)', 'Ebology — Energy Exchange platform', 'IFA Computing — Computing ToE', 'IfaLMS — Learning Management System (this platform)'] },
               { type: 'highlight', text: 'The IFA Internet operates at ifainternet.org — the gateway to all IFA Internet platforms and knowledge systems.' },
               { type: 'quote', text: 'Every IFA Internet platform is a digital expression of one or more of the 256 Odu Ifa — encoding universal wisdom in the digital age.', attribution: 'CENProject' },
@@ -173,10 +170,10 @@ const SEED_COURSES = [
   },
 
   {
-    id: 'c2', title: 'IFA Coding for Kids', subtitle: 'Ifacodemy — Young Polymaths Programme',
+    id: 'c2', title: 'Course 0: The Basics of IFA Coding', subtitle: 'Ifacodemy — Young Polymaths Programme',
     program: 'kids', color: '#f5c518', sym: '◎',
     duration: '3 months',
-    description: 'A joyful, creative introduction to IFA knowledge for young learners. Combining Ifa wisdom with coding, art, storytelling, and polymathic thinking through the ISESE programme.',
+    description: 'A joyful, creative introduction to IFA knowledge for young learners. Combining Ifa wisdom with STEM, coding, art, storytelling, and polymathic thinking through the ISESE programme.',
     weeks: [
       {
         id: 'kw1', order: 0, title: 'Week 1: Welcome to Ifacodemy!',
@@ -185,29 +182,35 @@ const SEED_COURSES = [
           {
             id: 'k1', type: 'text', title: 'What is IFA? For Young Learners', duration: '8 min read',
             content: [
-              { type: 'header', text: 'Hello, Young Polymath!' },
-              { type: 'paragraph', text: 'Welcome to the IFA Academy! We are so excited to have you here. Today we are going to discover something amazing — a very, very old system of knowledge that can teach us about EVERYTHING in the universe!' },
+              { type: 'header', text: 'Hello, Young Polymath! Ẹ kábọ̀!!' },
+              { type: 'paragraph', text: 'Welcome to the IFA Academy! We are so excited to have you here. Today we are going to discover something amazing — a very, very old system of knowledge that can teach us about EVERYTHING in the universe!\n\n\nIfá jẹ́ ètò tí a fí n\'kọ́ gbogbo ìmọ̀.' },
               { type: 'highlight', text: 'IFA is like the most incredible library in the world — except it is not made of books. It is made of patterns, stories, and wisdom passed down for thousands of years.' },
-              { type: 'header', text: 'The Story of Orunmila' },
+              { type: 'header', text: 'The Story of Orunmila: Ìtàn Ọ̀rúnmìlà' },
               { type: 'paragraph', text: 'Long, long ago, there was a divine being called Orunmila — the Orisa of Wisdom. Orunmila was present at the creation of the universe and witnessed everything that Olodumare (the Supreme Creator) made. From this, Orunmila gathered all knowledge — and this is what we call IFA!' },
               { type: 'list', items: ['Orunmila is the Orisa of Wisdom and Knowledge', 'IFA is the knowledge that Orunmila carries', 'Olodumare is the Supreme Creator — the source of all existence', 'The Odu Ifa are the 256 chapters of this great wisdom'] },
               { type: 'quote', text: 'IFA is the wisdom of everything — from how stars are born to how to be a good friend. It knows it all!', attribution: 'Ifacodemy' },
             ]
           },
           {
-            id: 'k2', type: 'text', title: 'Meet Ogbe and Oyeku!', duration: '6 min read',
+            id: 'k2', type: 'text', title: 'Meet Ogbe and Oyeku! Pàdé Ogbè àti Ọ̀yẹ̀kú!', duration: '6 min read',
             content: [
-              { type: 'header', text: 'Two Special Friends: Ogbe and Oyeku' },
-              { type: 'paragraph', text: 'Did you know that all of IFA\'s wisdom can be written using just TWO special symbols? Meet Ogbe ( | ) and Oyeku ( O )! These are the two building blocks of all IFA knowledge.' },
-              { type: 'highlight', text: 'Ogbe is a straight line: |  ...  Oyeku is a circle: O  ...  Together, they can describe EVERYTHING!' },
+              { type: 'header', text: 'Two Special Friends: Ogbe and Oyeku.\nOgbè àti Ọ̀yẹ̀kú: Ọ̀rẹ́ Àtàtà Méjì' },
+              { type: 'paragraph', text: 'Did you know that all of IFA\'s wisdom can be written using just TWO special symbols? Meet Ogbe ( O ) and Oyeku ( | )! These are the two Building Blocks of all IFA knowledge.' },
+              { type: 'highlight', text: 'Ogbe is a circle: O  ...  Oyeku is a line: |  ...  Together, they can describe EVERYTHING!\nA circle is Òbìrí, and a line is Ìlà.' },
               { type: 'paragraph', text: 'Just like how computers use 1s and 0s to make everything from games to videos, IFA uses Ogbe and Oyeku to encode all the wisdom of the universe. IFA did this thousands of years before computers were invented!' },
-              { type: 'list', items: ['Ogbe ( | ) = Like the number 1 in computers', 'Oyeku ( O ) = Like the number 0 in computers', '4 symbols together = 1 Odu (a chapter of IFA wisdom)', '256 different patterns = all the chapters of IFA!'] },
+              { type: 'list', items: ['Ogbe ( O ) = Like the number 0 in computers', 'Oyeku ( | ) = Like the number 1 in computers', '4 symbols together = 1 Odu (a small chunk of IFA wisdom)', '256 different patterns = all the chapters of IFA!'] },
             ]
           },
           {
             id: 'k3', type: 'video', title: 'IFA Stories — Orunmila and the World', duration: '~8 min',
             videoUrl: 'https://www.youtube.com/watch?v=5qap5aO4i9A',
             description: 'A fun video exploring IFA stories and wisdom for young learners.'
+          },
+          {
+            id: 'xuike6qc', type: 'file', title: 'Basics of IFA Coding', duration: '~5 min',
+            fileUrl: 'https://drive.google.com/file/d/1CCUgVDUTF3VC22FgyWB0SMKSm_m97eiU/view?usp=drive_link',
+            fileType: 'pdf',
+            description: 'Introduction to IFA Coding'
           },
         ]
       },
@@ -216,13 +219,13 @@ const SEED_COURSES = [
         description: 'Explore numbers, patterns, and the magic of the 256 Odu.',
         materials: [
           {
-            id: 'k4', type: 'text', title: 'Counting with IFA', duration: '10 min read',
+            id: 'k4', type: 'text', title: 'Ifa Arithmetric: Counting with IFA', duration: '10 min read',
             content: [
               { type: 'header', text: 'IFA\'s Magic Numbers' },
-              { type: 'paragraph', text: 'IFA has some very special numbers! The most important ones are 2, 4, 16, and 256. Let\'s explore why these numbers are so magical in IFA!' },
-              { type: 'highlight', text: '2 symbols → 4 positions → 16 principal patterns → 256 total patterns. This is the IFA expansion!' },
-              { type: 'list', items: ['2 = Ogbe and Oyeku (the two base symbols)', '4 = positions in each Odu pattern', '16 = the 16 Principal Odu (the main chapters)', '256 = 16 × 16 = all Odu (every chapter of IFA)'] },
-              { type: 'paragraph', text: 'Now let\'s practise! Can you draw your own Odu using | and O? Pick any combination of 4 symbols. You just created an IFA pattern! What will you name it?' },
+              { type: 'paragraph', text: 'IFA has some very special numbers! The most important ones are 2, 4, 8, 16, and 256. Let\'s explore why these numbers are so magical in IFA!' },
+              { type: 'highlight', text: '2 symbols → 4 positions → 8 binary pairs →16 principal patterns → 256 total patterns. This is the IFA expansion!' },
+              { type: 'list', items: ['2 = Ogbe and Oyeku (the two base symbols)', '4 = positions in each Odu Pattern = 1 arm of Ifa', '8 = 4 binary pairs = 1 Complete Odu Pattern = 2 arms of Ifa ', '16 = the 16 Principal Odu (the main Chapters)', '256 = 16 × 16 = all Odu (every Chapter of IFA)'] },
+              { type: 'paragraph', text: 'Now let\'s practise! Can you encode your own Odu using | and O or I and II? Pick any combination of 4 symbols. You just created an IFA Pattern! What will you name it?' },
             ]
           },
         ]
@@ -232,29 +235,29 @@ const SEED_COURSES = [
         description: 'Creating beautiful art inspired by IFA patterns and Orisa wisdom.',
         materials: [
           {
-            id: 'k5', type: 'text', title: 'The Opon Ifa — IFA\'s Beautiful Tray', duration: '12 min activity',
+            id: 'k5', type: 'text', title: 'Ọpọ́n Ifá — IFA\'s Beautiful Tablet', duration: '12 min activity',
             content: [
-              { type: 'header', text: 'IFA is Beautiful!' },
-              { type: 'paragraph', text: 'The Opon Ifa (IFA divination tray) is one of the most beautiful objects in the world. It is decorated with amazing patterns, faces, and symbols that represent the wisdom of the 256 Odu. Today, we are going to create our own IFA-inspired art!' },
+              { type: 'header', text: 'IFA is Beautiful! Ifá Rẹwà!' },
+              { type: 'paragraph', text: 'The Opon Ifa (IFA Tablet) is one of the most beautiful objects in the world. It is decorated with amazing patterns, math, faces, and symbols that represent the Wisdom of the 256 Odu. Today, we are going to create our own IFA-inspired art!' },
               { type: 'highlight', text: 'Activity: Draw your own Opon Ifa! Use | and O patterns, draw the face of Esu at the top, and decorate with the patterns that feel right to you.' },
-              { type: 'list', items: ['Get a sheet of paper and something to draw with', 'Draw a large oval or rectangle — this is your Opon Ifa!', 'Draw Esu\'s face at the top (a fun smiling face)', 'Fill the border with | and O patterns', 'Write your own Odu in the centre!'] },
-              { type: 'quote', text: 'Every Opon Ifa is unique — just like you! Your art is your own chapter in the story of IFA.', attribution: 'Ifacodemy' },
+              { type: 'list', items: ['Get a sheet of paper (your coding board) and something to draw with', 'Draw a large Circle — this is your Opon Ifa!', 'Draw Esu\'s face at the top (a fun smiling face)', 'Fill the border with | and O patterns', 'Write your own Odu in the centre!'] },
+              { type: 'quote', text: 'Every Opon Ifa and Odu Ifa is unique — just like you! Your art is your own chapter in the story of IFA.', attribution: 'Ifacodemy' },
             ]
           },
         ]
       },
       {
-        id: 'kw4', order: 3, title: 'Week 4: My First IFA Code',
-        description: 'Write your first IFA code and discover how IFA and computing connect.',
+        id: 'kw4', order: 3, title: 'Week 4: My First IFA Code. Odù Ifá Mi Àkọ́kọ́.',
+        description: 'Write your first IFA code and discover how IFA and computing connect. This is Ifa Computing!',
         materials: [
           {
             id: 'k6', type: 'text', title: 'Coding with IFA Patterns', duration: '15 min activity',
             content: [
               { type: 'header', text: 'You Are an IFA Coder!' },
-              { type: 'paragraph', text: 'IFA Computing means | = 1 and O = 0. Every Odu can be written as a binary number — the same language computers use! Let\'s try some IFA coding together.' },
+              { type: 'paragraph', text: 'IFA Computing means | = 1 and O = 0. Another way is | = I and O = II. Every binary number can be written as an Odu — the same language computers use! Let\'s try some IFA Coding together.' },
               { type: 'highlight', text: 'In IFA Computing: | = 1 and O = 0. Every Odu IS a binary number!' },
               { type: 'list', items: ['Ogbe Meji: | | | | = 1111 in binary = 15', 'Oyeku Meji: O O O O = 0000 in binary = 0', 'Iwori Meji: | O | O = 1010 in binary = 10', 'Try to work out your own Odu in binary!'] },
-              { type: 'quote', text: 'Every young IFA coder is an ifamathematician — a mathematical scientist of the Theory of Everything!', attribution: 'Ifacodemy' },
+              { type: 'quote', text: 'Every young IFA coder is an ifamathematician — a mathematical scientist of the Theory of Everything (TOE)! The TOE is like a giant book that contains knowledge on all subjects!', attribution: 'Ifacodemy' },
             ]
           },
           {
@@ -2353,13 +2356,16 @@ function App() {
     return stored;
   });
   const [users,   setUsersRaw]    = useState(data.users);
-  const [courses, setCoursesRaw]  = useState(data.courses);
+  // Courses always come from SEED_COURSES (source of truth for all devices).
+  // Never read/write courses from localStorage — otherwise admin edits on one
+  // device never reach students on other devices.
+  const [courses, setCoursesRaw]  = useState(SEED_COURSES);
   const [progress, setProgressRaw] = useState(data.progress);
   const [currentUser, setCurrentUser] = useState(null);
   const [loginError, setLoginError]   = useState('');
 
   function saveAll(newUsers, newCourses, newProgress) {
-    saveState({ users: newUsers || users, courses: newCourses || courses, progress: newProgress || progress });
+    saveState({ users: newUsers || users, progress: newProgress || progress });
   }
   function setUsers(u)    { setUsersRaw(u);    saveAll(u, null, null); }
   function setCourses(c)  { setCoursesRaw(c);  saveAll(null, c, null); }

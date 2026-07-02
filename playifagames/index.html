@@ -81,7 +81,7 @@
         <li><a href="#community">Community</a></li>
       </ul>
 
-      <a href="./ayo-olopona/" class="btn btn-nav" target="_blank" rel="noopener noreferrer">Play Now</a>
+      <a href="./ayo-oloponfa/" class="btn btn-nav" target="_blank" rel="noopener noreferrer">Play Now</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
     </div>
   </nav>
@@ -167,7 +167,7 @@
       <div class="games-grid">
 
         <!-- Ayò Ọlọ́pọ́nfá — Wide Card · LIVE -->
-        <a class="game-card game-card--live game-card-wide reveal" data-category="ifa" href="./ayo-olopona/" target="_blank" rel="noopener noreferrer" aria-label="Play Ayò Ọlọ́pọ́nfá Olójú Mẹ́rìndínlógún">
+        <a class="game-card game-card--live game-card-wide reveal" data-category="ifa" href="./ayo-oloponfa/" target="_blank" rel="noopener noreferrer" aria-label="Play Ayò Ọlọ́pọ́nfá Olójú Mẹ́rìndínlógún">
           <div class="card-art ayo-art">
             <div class="card-live-badge">✦ LIVE</div>
             <div class="card-art-main ayo-main">
@@ -662,6 +662,14 @@
               <circle cx="200" cy="200" r="4" fill="#e8c040"/>
             </svg>
             </div><!-- /.wheel-rotor -->
+
+            <!-- ── WINNING SLICE HIGHLIGHT (fixed overlay — winning slice always at 12 o'clock) ── -->
+            <svg id="ifaWinHighlight" class="ifa-win-highlight" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- 22.5° wedge at 12 o'clock — golden fill -->
+              <path d="M 200 200 L 163.9 18.6 A 185 185 0 0 1 236.1 18.6 Z" fill="rgba(212,164,39,0.22)"/>
+              <!-- outer rim arc glow -->
+              <path d="M 162.4 10.7 A 193 193 0 0 1 237.6 10.7" fill="none" stroke="#d4a427" stroke-width="5" stroke-linecap="round"/>
+            </svg>
 
             <!-- ── ÌROKẸ́-IFÁ TUNER BADGE ── -->
             <div class="iroke-tuner-badge" aria-label="Ìrokẹ́-Ifá — Ifa Antenna">
@@ -1337,22 +1345,30 @@
       if (_whlBusy) return;
       _whlBusy = true;
 
-      var btn    = document.getElementById('ifaWheelBtn');
-      var rotor  = document.getElementById('ifaWheelRotor');
-      var panel  = document.getElementById('ifaResultPanel');
-      var normal = document.getElementById('ifaNormalBody');
+      var btn       = document.getElementById('ifaWheelBtn');
+      var rotor     = document.getElementById('ifaWheelRotor');
+      var panel     = document.getElementById('ifaResultPanel');
+      var normal    = document.getElementById('ifaNormalBody');
+      var highlight = document.getElementById('ifaWinHighlight');
 
       panel.classList.remove('show');
       panel.style.display = 'none';
+      highlight.classList.remove('show');
+      highlight.style.display = 'none';
       normal.style.display = 'none';
       btn.disabled = true;
       btn.textContent = '🌀 Tuning...';
 
       var idx = Math.floor(Math.random() * 16);
-      // Midpoint of slice i is at (i*22.5 + 11.25)° clockwise from 12 o'clock (the pointer)
-      var fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
-      var sliceMid  = idx * 22.5 + 11.25;
-      _whlAngle += fullSpins + sliceMid;
+      // To land slice idx under the pointer (12 o'clock), we need net rotation R where:
+      //   (360 - R) % 360 = idx * 22.5 + 11.25  (the slice's midpoint in original wheel coords)
+      //   → target net rotation = (348.75 - idx * 22.5 + 360) % 360
+      var fullSpins   = (5 + Math.floor(Math.random() * 4)) * 360;
+      var targetAngle = (348.75 - idx * 22.5 + 360) % 360;
+      var currentMod  = _whlAngle % 360;
+      var delta       = (targetAngle - currentMod + 360) % 360;
+      if (delta < 45) delta += 360;   // ensure a visible final arc
+      _whlAngle += delta + fullSpins;
 
       rotor.style.transition = 'transform 4.5s cubic-bezier(0.17,0.67,0.12,0.99)';
       rotor.style.transform  = 'rotate(' + _whlAngle + 'deg)';
@@ -1361,27 +1377,37 @@
       setTimeout(function() {
         _whlBusy = false;
         playOduRevealSound();
-        var odu = IFA_ODU[idx];
-        document.getElementById('wrEmoji').textContent = odu.emoji;
-        document.getElementById('wrOdu').textContent   = '✦ ' + odu.name + ' — Odu #' + odu.num + ' ✦';
-        var titleEl = document.getElementById('wrTitle');
-        titleEl.textContent  = odu.title;
-        titleEl.style.color  = odu.col;
-        document.getElementById('wrMsg').textContent   = odu.msg;
-        panel.style.display = 'block';
-        void panel.offsetWidth; // reflow to trigger animation
-        panel.classList.add('show');
-        btn.textContent = '🎯 TUNE AGAIN!';
-        btn.disabled    = false;
+        // Step 1: illuminate the winning slice so the user can see where the pointer landed
+        highlight.style.display = 'block';
+        void highlight.offsetWidth;
+        highlight.classList.add('show');
+        // Step 2: reveal the full Odu result details after a beat
+        setTimeout(function() {
+          var odu = IFA_ODU[idx];
+          document.getElementById('wrEmoji').textContent = odu.emoji;
+          document.getElementById('wrOdu').textContent   = '✦ ' + odu.name + ' — Odu #' + odu.num + ' ✦';
+          var titleEl = document.getElementById('wrTitle');
+          titleEl.textContent  = odu.title;
+          titleEl.style.color  = odu.col;
+          document.getElementById('wrMsg').textContent   = odu.msg;
+          panel.style.display = 'block';
+          void panel.offsetWidth;
+          panel.classList.add('show');
+          btn.textContent = '🎯 TUNE AGAIN!';
+          btn.disabled    = false;
+        }, 900);
       }, 4600);
     }
 
     function resetAndSpinIfaWheel() {
-      var panel  = document.getElementById('ifaResultPanel');
-      var normal = document.getElementById('ifaNormalBody');
+      var panel     = document.getElementById('ifaResultPanel');
+      var normal    = document.getElementById('ifaNormalBody');
+      var highlight = document.getElementById('ifaWinHighlight');
       panel.classList.remove('show');
-      panel.style.display  = 'none';
-      normal.style.display = 'none';
+      panel.style.display     = 'none';
+      highlight.classList.remove('show');
+      highlight.style.display = 'none';
+      normal.style.display    = 'none';
       setTimeout(spinIfaWheel, 60);
     }
 

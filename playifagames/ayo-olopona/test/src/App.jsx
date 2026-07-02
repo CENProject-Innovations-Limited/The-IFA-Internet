@@ -916,6 +916,802 @@ function IfaComputerSection() {
 }
 
 // ═══════════════════════════════════════════════════════════════
+// ── Ọpọ́n Ifá — IFA Wheel (Challenge Section spinner) ─────────
+// ═══════════════════════════════════════════════════════════════
+
+const IFA_ODU_WHEEL = [
+  { name:'Ogbe',     num:1,  emoji:'⚡',  col:'#7dffaa', title:'LIGHT POWER ACTIVATED!',    msg:"Ogbe carries the light of creation! Everything you touch turns to gold today. You are completely UNSTOPPABLE — nothing in the universe can hold you back! 🌟" },
+  { name:'Oyeku',    num:2,  emoji:'🌑',  col:'#ffbb88', title:'MYSTERY MASTER UNLOCKED!',  msg:"Oyeku reveals the hidden world! Secret knowledge that others cannot see is opening up for you right now. The invisible realm is speaking — trust what you feel deep inside! 🔮" },
+  { name:'Iwori',    num:3,  emoji:'🧠',  col:'#7dffaa', title:'GENIUS MODE: ACTIVATED!',   msg:"Iwori is the Odu of inner wisdom and intelligence! Your brain is absolutely ON FIRE today. Trust your instincts — the brilliant answer is already inside you! 💡" },
+  { name:'Odi',      num:4,  emoji:'🔐',  col:'#ffbb88', title:'SECRET SUPERPOWER FOUND!',  msg:"Odi holds the deepest secrets of Ifa! You have a hidden ability that's been waiting to EXPLODE into the world. Look within — your superpower has been there all along! 🚀" },
+  { name:'Irosun',   num:5,  emoji:'🏆',  col:'#7dffaa', title:'VICTORY DANCE TIME!',       msg:"Irosun says YOU WIN! The entire universe has declared you a champion today. Strike your most epic victory pose RIGHT NOW — you have absolutely earned it! 🎉" },
+  { name:'Owonrin',  num:6,  emoji:'🌪️', col:'#ffbb88', title:'WILD CARD ENERGY!',         msg:"Owonrin is the most electrifying and unpredictable Odu! Something WILD and absolutely jaw-dropping is about to happen to you. Stay alert — anything can happen! 🎲" },
+  { name:'Obara',    num:7,  emoji:'👑',  col:'#7dffaa', title:'ROYALTY MODE ACTIVATED!',   msg:"Obara says you are ROYALTY! Walk tall, speak with total confidence, and own every single room you enter today. Your crown is glowing brighter than ever! ✨" },
+  { name:'Okanran',  num:8,  emoji:'⚔️', col:'#ffbb88', title:'WARRIOR SPIRIT UNLEASHED!', msg:"Okanran gives you the spirit of a warrior! Face your biggest challenge head-on today — you will CRUSH IT. No obstacle is too tough, no mountain is too high! 💪" },
+  { name:'Ogunda',   num:9,  emoji:'🛤️', col:'#7dffaa', title:'ALL ROADS ARE OPEN!',       msg:"Ogunda is the road-opener! Every door is swinging wide open just for you today. New adventures, new opportunities, new friendships — go out and explore the world! 🗺️" },
+  { name:'Osa',      num:10, emoji:'🦋',  col:'#ffbb88', title:'TRANSFORMATION UNLOCKED!',  msg:"Osa is the Odu of incredible change! You are evolving into your BEST SELF this very moment. Your wings are growing — watch the beautiful butterfly emerge! 🌈" },
+  { name:'Ika',      num:11, emoji:'🔨',  col:'#7dffaa', title:'CRAFT MASTER POWERS!',      msg:"Ika blesses your hands with CREATIVE MAGIC! Build it, draw it, code it, invent it — your greatest creation is waiting for you to bring it to life today! 🎨" },
+  { name:'Oturupọn', num:12, emoji:'💚',  col:'#ffbb88', title:'HEALING POWER ACTIVATED!',  msg:"Oturupọn blesses you with incredible healing energy! You have the gift to make people feel better just by being near them. Spread kindness and watch miracles happen! 🌿" },
+  { name:'Otura',    num:13, emoji:'✨',  col:'#7dffaa', title:'BLESSING STORM INCOMING!',  msg:"Otura rains blessings from the heavens! An incredible lucky streak is starting RIGHT NOW. Open your arms wide — the universe is about to deliver something amazing! 🌟" },
+  { name:'Irete',    num:14, emoji:'🌟',  col:'#ffbb88', title:'SUCCESS MAGNET MODE!',      msg:"Irete makes you a total SUCCESS MAGNET! Every single effort you put in today multiplies into BIG spectacular results. Dream the BIGGEST dream you can imagine! 🚀" },
+  { name:'Ose',      num:15, emoji:'💰',  col:'#7dffaa', title:'ABUNDANCE FULLY UNLOCKED!', msg:"Ose is the Odu of wealth, prosperity, and unlimited abundance! Talent, energy, and incredible gifts are flowing straight to you. YOU ARE RICH — believe it! 💎" },
+  { name:'Ofun',     num:16, emoji:'🌌',  col:'#ffbb88', title:'ANCIENT COSMIC WISDOM!',    msg:"Ofun carries the oldest, deepest wisdom in the entire universe! You are a LEGEND in the making — your story will be told and inspire generations to come! 🌠" },
+];
+
+function IrokeSVG() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 52" width="9" height="30" aria-hidden="true">
+      <polygon points="7,0 5,10 9,10" fill="#f0d5a0"/>
+      <line x1="7" y1="0" x2="5" y2="10" stroke="#c8a060" strokeWidth="0.4"/>
+      <line x1="7" y1="0" x2="9" y2="10" stroke="#c8a060" strokeWidth="0.4"/>
+      <ellipse cx="7" cy="18" rx="5.2" ry="7.5" fill="#e8c882" stroke="#c8a060" strokeWidth="0.4"/>
+      <path d="M4,13.5 Q7,12 10,13.5" stroke="#a07840" strokeWidth="0.7" fill="none"/>
+      <ellipse cx="5.2" cy="15.8" rx="1.1" ry="1.3" fill="#1a0a00"/>
+      <ellipse cx="5.2" cy="15.4" rx="0.4" ry="0.4" fill="#fff8e0" opacity="0.5"/>
+      <ellipse cx="8.8" cy="15.8" rx="1.1" ry="1.3" fill="#1a0a00"/>
+      <ellipse cx="8.8" cy="15.4" rx="0.4" ry="0.4" fill="#fff8e0" opacity="0.5"/>
+      <path d="M7,17.5 L6.2,20 L7,20.5 L7.8,20 Z" fill="#c09050"/>
+      <path d="M5.5,22 Q7,23.5 8.5,22" stroke="#1a0a00" strokeWidth="0.7" fill="none" strokeLinecap="round"/>
+      <path d="M5,24 Q7,26.5 9,24" stroke="#c8a060" strokeWidth="0.4" fill="none"/>
+      <rect x="5" y="25.5" width="4" height="2.5" rx="1" fill="#d4a427" stroke="#a07820" strokeWidth="0.3"/>
+      <rect x="5.8" y="28" width="2.4" height="15" rx="1" fill="#f0d5a0" stroke="#c8a060" strokeWidth="0.3"/>
+      <rect x="5.2" y="34" width="3.6" height="2" rx="0.6" fill="#d4a427" stroke="#a07820" strokeWidth="0.3"/>
+      <line x1="7" y1="36.5" x2="7" y2="43" stroke="#c8a060" strokeWidth="0.3" strokeDasharray="1,1.5"/>
+      <ellipse cx="7" cy="44" rx="6" ry="2.8" fill="#e8c882" stroke="#c8a060" strokeWidth="0.4"/>
+      <ellipse cx="7" cy="46" rx="4.5" ry="2" fill="#d4a050" stroke="#a07820" strokeWidth="0.3"/>
+    </svg>
+  );
+}
+
+function IfaWheelPanel() {
+  const [spinning, setSpinning]           = useState(false);
+  const [result, setResult]               = useState(null);
+  const [highlightVisible, setHighlight]  = useState(false);
+  const [btnText, setBtnText]             = useState('🎯 TUNE THE IFA ANTENNA');
+  const [specsOpen, setSpecsOpen]         = useState(false);
+  const rotorRef = useRef(null);
+  const angleRef = useRef(0);
+  const audioRef = useRef(null);
+
+  function getAudioCtx() {
+    if (!audioRef.current) audioRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    return audioRef.current;
+  }
+
+  function playWheelSpinSound() {
+    try {
+      const ctx = getAudioCtx(), now = ctx.currentTime, dur = 4.4;
+      const whirOsc = ctx.createOscillator(), whirFilt = ctx.createBiquadFilter(), whirGain = ctx.createGain();
+      whirOsc.type = 'sawtooth';
+      whirOsc.frequency.setValueAtTime(320, now);
+      whirOsc.frequency.exponentialRampToValueAtTime(48, now + dur);
+      whirFilt.type = 'lowpass'; whirFilt.frequency.setValueAtTime(900, now);
+      whirFilt.frequency.exponentialRampToValueAtTime(180, now + dur); whirFilt.Q.value = 2.5;
+      whirGain.gain.setValueAtTime(0, now); whirGain.gain.linearRampToValueAtTime(0.13, now + 0.08);
+      whirGain.gain.setValueAtTime(0.13, now + dur - 0.5); whirGain.gain.linearRampToValueAtTime(0, now + dur);
+      whirOsc.connect(whirFilt); whirFilt.connect(whirGain); whirGain.connect(ctx.destination);
+      whirOsc.start(now); whirOsc.stop(now + dur + 0.1);
+      for (let i = 0; i < 32; i++) {
+        (function(idx) {
+          const t = now + dur * Math.pow(idx / 32, 0.45);
+          const len = Math.floor(ctx.sampleRate * 0.022);
+          const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+          const d = buf.getChannelData(0);
+          for (let s = 0; s < len; s++) d[s] = (Math.random()*2-1) * Math.exp(-s/(len*0.25));
+          const src = ctx.createBufferSource(), filt = ctx.createBiquadFilter(), gain = ctx.createGain();
+          src.buffer = buf; filt.type = 'bandpass'; filt.frequency.value = 900 + idx*18;
+          filt.Q.value = 5; gain.gain.value = 0.28 - idx*0.004;
+          src.connect(filt); filt.connect(gain); gain.connect(ctx.destination); src.start(t);
+        })(i);
+      }
+    } catch(e) {}
+  }
+
+  function playOduRevealSound() {
+    try {
+      const ctx = getAudioCtx(), now = ctx.currentTime;
+      const gOsc = ctx.createOscillator(), gGain = ctx.createGain();
+      gOsc.type = 'sine'; gOsc.frequency.setValueAtTime(110, now); gOsc.frequency.exponentialRampToValueAtTime(72, now+2.8);
+      gGain.gain.setValueAtTime(0.55, now); gGain.gain.exponentialRampToValueAtTime(0.001, now+2.8);
+      gOsc.connect(gGain); gGain.connect(ctx.destination); gOsc.start(now); gOsc.stop(now+2.9);
+      const g2 = ctx.createOscillator(), g2g = ctx.createGain();
+      g2.type = 'sine'; g2.frequency.setValueAtTime(275, now); g2.frequency.exponentialRampToValueAtTime(180, now+2.2);
+      g2g.gain.setValueAtTime(0.22, now); g2g.gain.exponentialRampToValueAtTime(0.001, now+2.2);
+      g2.connect(g2g); g2g.connect(ctx.destination); g2.start(now); g2.stop(now+2.3);
+      const sh = ctx.createOscillator(), shg = ctx.createGain();
+      sh.type = 'triangle'; sh.frequency.setValueAtTime(220, now+0.05); sh.frequency.exponentialRampToValueAtTime(880, now+0.6);
+      shg.gain.setValueAtTime(0, now+0.05); shg.gain.linearRampToValueAtTime(0.18, now+0.2); shg.gain.linearRampToValueAtTime(0, now+0.65);
+      sh.connect(shg); shg.connect(ctx.destination); sh.start(now+0.05); sh.stop(now+0.7);
+      [1320,1760,2200,2640,3300].forEach(function(freq, i) {
+        const sp = ctx.createOscillator(), spg = ctx.createGain();
+        sp.type = 'sine'; sp.frequency.value = freq;
+        const t = now + 0.08 + i*0.07;
+        spg.gain.setValueAtTime(0, t); spg.gain.linearRampToValueAtTime(0.1-i*0.01, t+0.015); spg.gain.exponentialRampToValueAtTime(0.001, t+0.5);
+        sp.connect(spg); spg.connect(ctx.destination); sp.start(t); sp.stop(t+0.55);
+      });
+    } catch(e) {}
+  }
+
+  function spin() {
+    if (spinning) return;
+    setSpinning(true); setResult(null); setHighlight(false); setBtnText('🌀 Tuning...');
+    const idx = Math.floor(Math.random() * 16);
+    const fullSpins   = (5 + Math.floor(Math.random() * 4)) * 360;
+    const targetAngle = (348.75 - idx * 22.5 + 360) % 360;
+    const currentMod  = angleRef.current % 360;
+    let delta = (targetAngle - currentMod + 360) % 360;
+    if (delta < 45) delta += 360;
+    angleRef.current += delta + fullSpins;
+    rotorRef.current.style.transition = 'transform 4.5s cubic-bezier(0.17,0.67,0.12,0.99)';
+    rotorRef.current.style.transform  = `rotate(${angleRef.current}deg)`;
+    playWheelSpinSound();
+    setTimeout(() => {
+      setSpinning(false); playOduRevealSound();
+      setHighlight(true);                           // Step 1: illuminate winning slice
+      setTimeout(() => {
+        setResult(IFA_ODU_WHEEL[idx]); setBtnText('🎯 TUNE AGAIN!');
+      }, 900);                                      // Step 2: show Odu details
+    }, 4600);
+  }
+
+  function spinAgain() { setResult(null); setHighlight(false); setTimeout(spin, 60); }
+
+  return (
+    <div className="challenge-wheel-panel">
+      <p className="challenge-art-caption">Ọpọ́n Ifá — IFA Wheel</p>
+      <p className="challenge-art-sub">Ọpọ́n Ifá Olójú Mẹ́rìndínlógún · Spin to reveal your Odu</p>
+
+      <div className="challenge-wheel-art">
+
+        {/* ── Pointer ── */}
+        <div className="wheel-pointer-wrap" aria-hidden="true">
+          <div className="wheel-pointer-label">▼ YOUR ODU ▼</div>
+          <div className="wheel-pointer-tri"></div>
+        </div>
+
+        {/* ── Rotating wheel ── */}
+        <div className="wheel-rotor" ref={rotorRef}>
+          <svg className="ifa-wheel-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"
+               role="img" aria-label="Ọpọn Ifá — Ifa Wheel Spinner with 16 Sacred Odu Divisions">
+            <defs>
+              <radialGradient id="chlWhlCG" cx="50%" cy="50%" r="50%">
+                <stop offset="0%"   stopColor="#f0d060"/>
+                <stop offset="50%"  stopColor="#b8860b"/>
+                <stop offset="100%" stopColor="#6b4a0a"/>
+              </radialGradient>
+              <radialGradient id="chlWhlBG" cx="50%" cy="50%" r="50%">
+                <stop offset="0%"   stopColor="#0d2e10"/>
+                <stop offset="100%" stopColor="#040b05"/>
+              </radialGradient>
+            </defs>
+            <circle cx="200" cy="200" r="199" fill="url(#chlWhlBG)"/>
+            <path d="M200,200 L200,8      A192,192,0,0,1,273.5,22.6  Z" fill="#1a5e28"/>
+            <path d="M200,200 L273.5,22.6  A192,192,0,0,1,335.8,64.2  Z" fill="#7a2e0c"/>
+            <path d="M200,200 L335.8,64.2  A192,192,0,0,1,377.4,126.5 Z" fill="#1e6b2e"/>
+            <path d="M200,200 L377.4,126.5 A192,192,0,0,1,392,200     Z" fill="#6b2808"/>
+            <path d="M200,200 L392,200     A192,192,0,0,1,377.4,273.5 Z" fill="#1a5e28"/>
+            <path d="M200,200 L377.4,273.5 A192,192,0,0,1,335.8,335.8 Z" fill="#7a2e0c"/>
+            <path d="M200,200 L335.8,335.8 A192,192,0,0,1,273.5,377.4 Z" fill="#1e6b2e"/>
+            <path d="M200,200 L273.5,377.4 A192,192,0,0,1,200,392     Z" fill="#6b2808"/>
+            <path d="M200,200 L200,392     A192,192,0,0,1,126.5,377.4 Z" fill="#1a5e28"/>
+            <path d="M200,200 L126.5,377.4 A192,192,0,0,1,64.2,335.8  Z" fill="#7a2e0c"/>
+            <path d="M200,200 L64.2,335.8  A192,192,0,0,1,22.6,273.5  Z" fill="#1e6b2e"/>
+            <path d="M200,200 L22.6,273.5  A192,192,0,0,1,8,200       Z" fill="#6b2808"/>
+            <path d="M200,200 L8,200       A192,192,0,0,1,22.6,126.5  Z" fill="#1a5e28"/>
+            <path d="M200,200 L22.6,126.5  A192,192,0,0,1,64.2,64.2   Z" fill="#7a2e0c"/>
+            <path d="M200,200 L64.2,64.2   A192,192,0,0,1,126.5,22.6  Z" fill="#1e6b2e"/>
+            <path d="M200,200 L126.5,22.6  A192,192,0,0,1,200,8       Z" fill="#6b2808"/>
+            <circle cx="200" cy="200" r="135" fill="none" stroke="#d4a427" strokeWidth="2.2" opacity="0.85"/>
+            <circle cx="200" cy="200" r="142" fill="none" stroke="rgba(212,164,39,0.25)" strokeWidth="0.8"/>
+            <g stroke="#d4a427" strokeWidth="1.4" opacity="0.88">
+              <line x1="200" y1="200" x2="200"   y2="8"/>
+              <line x1="200" y1="200" x2="273.5" y2="22.6"/>
+              <line x1="200" y1="200" x2="335.8" y2="64.2"/>
+              <line x1="200" y1="200" x2="377.4" y2="126.5"/>
+              <line x1="200" y1="200" x2="392"   y2="200"/>
+              <line x1="200" y1="200" x2="377.4" y2="273.5"/>
+              <line x1="200" y1="200" x2="335.8" y2="335.8"/>
+              <line x1="200" y1="200" x2="273.5" y2="377.4"/>
+              <line x1="200" y1="200" x2="200"   y2="392"/>
+              <line x1="200" y1="200" x2="126.5" y2="377.4"/>
+              <line x1="200" y1="200" x2="64.2"  y2="335.8"/>
+              <line x1="200" y1="200" x2="22.6"  y2="273.5"/>
+              <line x1="200" y1="200" x2="8"     y2="200"/>
+              <line x1="200" y1="200" x2="22.6"  y2="126.5"/>
+              <line x1="200" y1="200" x2="64.2"  y2="64.2"/>
+              <line x1="200" y1="200" x2="126.5" y2="22.6"/>
+            </g>
+            <g fill="#d4a427">
+              <circle cx="200"   cy="8"     r="3.2"/>
+              <circle cx="273.5" cy="22.6"  r="3.2"/>
+              <circle cx="335.8" cy="64.2"  r="3.2"/>
+              <circle cx="377.4" cy="126.5" r="3.2"/>
+              <circle cx="392"   cy="200"   r="3.2"/>
+              <circle cx="377.4" cy="273.5" r="3.2"/>
+              <circle cx="335.8" cy="335.8" r="3.2"/>
+              <circle cx="273.5" cy="377.4" r="3.2"/>
+              <circle cx="200"   cy="392"   r="3.2"/>
+              <circle cx="126.5" cy="377.4" r="3.2"/>
+              <circle cx="64.2"  cy="335.8" r="3.2"/>
+              <circle cx="22.6"  cy="273.5" r="3.2"/>
+              <circle cx="8"     cy="200"   r="3.2"/>
+              <circle cx="22.6"  cy="126.5" r="3.2"/>
+              <circle cx="64.2"  cy="64.2"  r="3.2"/>
+              <circle cx="126.5" cy="22.6"  r="3.2"/>
+            </g>
+            <circle cx="200" cy="200" r="193" fill="none" stroke="#d4a427" strokeWidth="2.8"/>
+            <circle cx="200" cy="200" r="186" fill="none" stroke="rgba(212,164,39,0.22)" strokeWidth="0.8"/>
+            <g fontSize="13" fontWeight="900" fontFamily="Georgia,'Times New Roman',serif" textAnchor="middle" dominantBaseline="middle">
+              <text x="231.2" y="43.1"  fill="#ffffff" transform="rotate(-78.75,231.2,43.1)">1</text>
+              <text x="288.9" y="67.0"  fill="#f5e8c0" transform="rotate(-56.25,288.9,67.0)">2</text>
+              <text x="333.0" y="111.1" fill="#ffffff" transform="rotate(-33.75,333.0,111.1)">3</text>
+              <text x="356.9" y="168.8" fill="#f5e8c0" transform="rotate(-11.25,356.9,168.8)">4</text>
+              <text x="356.9" y="231.2" fill="#ffffff" transform="rotate(11.25,356.9,231.2)">5</text>
+              <text x="333.0" y="288.9" fill="#f5e8c0" transform="rotate(33.75,333.0,288.9)">6</text>
+              <text x="288.9" y="333.0" fill="#ffffff" transform="rotate(56.25,288.9,333.0)">7</text>
+              <text x="231.2" y="356.9" fill="#f5e8c0" transform="rotate(78.75,231.2,356.9)">8</text>
+              <text x="168.8" y="356.9" fill="#ffffff" transform="rotate(-78.75,168.8,356.9)">9</text>
+              <text x="111.1" y="333.0" fill="#f5e8c0" transform="rotate(-56.25,111.1,333.0)">10</text>
+              <text x="67.0"  y="288.9" fill="#ffffff" transform="rotate(-33.75,67.0,288.9)">11</text>
+              <text x="43.1"  y="231.2" fill="#f5e8c0" transform="rotate(-11.25,43.1,231.2)">12</text>
+              <text x="43.1"  y="168.8" fill="#ffffff" transform="rotate(11.25,43.1,168.8)">13</text>
+              <text x="67.0"  y="111.1" fill="#f5e8c0" transform="rotate(33.75,67.0,111.1)">14</text>
+              <text x="111.1" y="67.0"  fill="#ffffff" transform="rotate(56.25,111.1,67.0)">15</text>
+              <text x="168.8" y="43.1"  fill="#f5e8c0" transform="rotate(78.75,168.8,43.1)">16</text>
+            </g>
+            <g fontSize="7.5" fontFamily="Georgia,'Times New Roman',serif" textAnchor="middle" dominantBaseline="middle" letterSpacing="0.4">
+              <text x="221.5" y="92.1"  fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,221.5,92.1)">Ogbe</text>
+              <text x="261.1" y="108.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,261.1,108.5)">Oyeku</text>
+              <text x="291.5" y="138.9" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,291.5,138.9)">Iwori</text>
+              <text x="307.9" y="178.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,307.9,178.5)">Odi</text>
+              <text x="307.9" y="221.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,307.9,221.5)">Irosun</text>
+              <text x="291.5" y="261.1" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,291.5,261.1)">Owonrin</text>
+              <text x="261.1" y="291.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,261.1,291.5)">Obara</text>
+              <text x="221.5" y="307.9" fill="rgba(255,235,175,0.92)" transform="rotate(78.75,221.5,307.9)">Okanran</text>
+              <text x="178.5" y="307.9" fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,178.5,307.9)">Ogunda</text>
+              <text x="138.9" y="291.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,138.9,291.5)">Osa</text>
+              <text x="108.5" y="261.1" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,108.5,261.1)">Ika</text>
+              <text x="92.1"  y="221.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,92.1,221.5)">Oturupọn</text>
+              <text x="92.1"  y="178.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,92.1,178.5)">Otura</text>
+              <text x="108.5" y="138.9" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,108.5,138.9)">Irete</text>
+              <text x="138.9" y="108.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,138.9,108.5)">Ose</text>
+              <text x="178.5" y="92.1"  fill="rgba(255,235,175,0.92)" transform="rotate(78.75,178.5,92.1)">Ofun</text>
+            </g>
+            <circle cx="200" cy="200" r="56" fill="url(#chlWhlCG)" stroke="#d4a427" strokeWidth="2.5"/>
+            <circle cx="200" cy="200" r="48" fill="none" stroke="rgba(255,240,160,0.4)" strokeWidth="1"/>
+            <g fill="rgba(255,240,160,0.55)">
+              <circle cx="200" cy="150" r="2.2"/>
+              <circle cx="250" cy="200" r="2.2"/>
+              <circle cx="200" cy="250" r="2.2"/>
+              <circle cx="150" cy="200" r="2.2"/>
+            </g>
+            <text x="200" y="190" textAnchor="middle" dominantBaseline="middle"
+                  fill="#fff8e0" fontSize="9.5" fontWeight="900" fontFamily="Georgia,'Times New Roman',serif" letterSpacing="1">Ọpọn Ifá</text>
+            <text x="200" y="203" textAnchor="middle" dominantBaseline="middle"
+                  fill="rgba(255,240,170,0.88)" fontSize="8" fontFamily="Georgia,'Times New Roman',serif">Ifa Wheel</text>
+            <text x="200" y="215" textAnchor="middle" dominantBaseline="middle"
+                  fill="rgba(255,240,170,0.7)" fontSize="7" fontFamily="Georgia,'Times New Roman',serif">16 Sacred Odu</text>
+            <circle cx="200" cy="200" r="4" fill="#e8c040"/>
+          </svg>
+        </div>
+
+        {/* ── Winning Slice Highlight (fixed overlay — winning slice always at 12 o'clock) ── */}
+        <svg className={`ifa-win-highlight${highlightVisible ? ' visible' : ''}`}
+             viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 200 200 L 163.9 18.6 A 185 185 0 0 1 236.1 18.6 Z" fill="rgba(212,164,39,0.22)"/>
+          <path d="M 162.4 10.7 A 193 193 0 0 1 237.6 10.7" fill="none" stroke="#d4a427" strokeWidth="5" strokeLinecap="round"/>
+        </svg>
+
+        {/* ── Ìrokẹ́-Ifá Tuner Badge ── */}
+        <div className="iroke-tuner-badge" aria-label="Ìrokẹ́-Ifá — Ifa Antenna">
+          <IrokeSVG />
+          <span>Ìrokẹ́-Ifá &bull; Ifa Antenna</span>
+        </div>
+
+        {/* ── Spin button ── */}
+        <button className="wheel-spin-btn" onClick={spin} disabled={spinning}
+                aria-label="Spin the Ifa Wheel">
+          {btnText}
+        </button>
+
+      </div>
+
+      {/* ── Odu result panel ── */}
+      {result && (
+        <div className="challenge-wheel-result">
+          <div className="cwr-emoji">{result.emoji}</div>
+          <div className="cwr-odu">✦ {result.name} — Odu #{result.num} ✦</div>
+          <div className="cwr-title" style={{ color: result.col }}>{result.title}</div>
+          <div className="cwr-msg">{result.msg}</div>
+          <button className="ifa-spin-again-btn" onClick={spinAgain}>🔮 Spin Again!</button>
+        </div>
+      )}
+
+      {/* ── Drawing specs toggle ── */}
+      <div className="challenge-wheel-specs">
+        <button className={`wheel-specs-btn${specsOpen ? ' open' : ''}`}
+                onClick={() => setSpecsOpen(o => !o)}
+                aria-expanded={specsOpen}>
+          <span className="iroke-icon-wrap" title="Ìrokẹ́-Ifá: The Ifantenna"><IrokeSVG /></span>
+          How to draw this wheel
+        </button>
+        {specsOpen && (
+          <div className="wheel-specs-note">
+            <div className="wheel-specs-title">✏️ Ọpọ́n Ifá — Drawing Specifications</div>
+            <ul className="wheel-specs-list">
+              <li><span className="specs-label">Shape</span> Perfect circle (Ọpọ́n Ifá)</li>
+              <li><span className="specs-label">Diameter</span> 16 cm &nbsp;·&nbsp; 16 m &nbsp;·&nbsp; 16 km <em>(scale freely — always 16)</em></li>
+              <li><span className="specs-label">Divisions</span> 16 equal parts / slices &nbsp;·&nbsp; each slice = <strong>22.5°</strong></li>
+              <li><span className="specs-label">Slice width</span> Arc = diameter × π ÷ 16</li>
+              <li><span className="specs-label">Centre dot</span> Gold circle, diameter = 1/16 of total diameter</li>
+              <li><span className="specs-label">Primary colour</span> <span className="specs-swatch specs-green"></span> Green</li>
+              <li><span className="specs-label">Secondary colour</span> <span className="specs-swatch specs-brown"></span> Brown</li>
+              <li><span className="specs-label">Alternating fill</span> Green ↔ Brown — one per slice, alternating</li>
+              <li><span className="specs-label">Label each slice</span> Number 1–16 (Odu name optional)</li>
+              <li><span className="specs-label">Outer ring</span> Thin border in gold/brown, width = 1/32 of diameter</li>
+            </ul>
+            <div className="specs-note-footer">The number 16 governs every dimension — the sacred count of the Principal Odu Ifa.</div>
+          </div>
+        )}
+      </div>
+
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ── Ifa TOE 0+8D Matrix — Ifart/Orisart at centre ─────────────
+// ═══════════════════════════════════════════════════════════════
+
+const MATRIX_DIMS = [
+  { letter:'S', name:'Science',       color:'#14b8d4', steamKey:'Natural Science', desc:'Art as a Science'       },
+  { letter:'T', name:'Technology',    color:'#f59e0b', steamKey:'Technology',      desc:'Art as a Technology'    },
+  { letter:'E', name:'Engineering',   color:'#10b981', steamKey:'Engineering',     desc:'Art as Engineering'     },
+  { letter:'A', name:'Arts',          color:'#ec4899', steamKey:'Arts',            desc:'Art as Arts'            },
+  { letter:'M', name:'Mathematics',   color:'#8b5cf6', steamKey:'Mathematics',     desc:'Art as Mathematics'     },
+  { letter:'S', name:'Social Sci.',   color:'#f97316', steamKey:'Social Science',  desc:'Art as a Social Science'},
+  { letter:'E', name:'Education',     color:'#06b6d4', steamKey:'Education',       desc:'Art as Education'       },
+  { letter:'X', name:'Others',        color:'#a78bfa', steamKey:null,              desc:'Art as Others'          },
+];
+
+// ── Ifa Clock Art ────────────────────────────────────────────────
+// Dual pairs sit exactly opposite each other (180° / 8 positions apart).
+// Reading CLOCKWISE from Ogbe (top) gives the traditional Ifa Odu sequence:
+//   Ogbe → Iwori → Irosun → Obara → Ogunda → Ika → Otura → Ose → Oyeku
+//   → Odi → Owonrin → Okanran → Osa → Oturupon → Irete → Ofun → (back to Ogbe)
+// Clockwise positions 0–7:  Ogbe, Iwori, Irosun, Obara, Ogunda, Ika, Otura, Ose
+// Clockwise positions 8–15: Oyeku, Odi, Owonrin, Okanran, Osa, Oturupon, Irete, Ofun
+const CLOCK_MAP = [0,2,4,6,8,10,12,14, 1,3,5,7,9,11,13,15];
+function clockDual(i) { return i % 2 === 0 ? i + 1 : i - 1; }
+
+// Builds the Ifa glyph string exactly as the Ifa Periodic Table does:
+//   Ogbe  (1111) → 'O'  (Ifa Circle)
+//   Oyeku (0000) → '|'  (standalone Ifa Line)
+//   Others      → reversed code, 1→'O', 0→'I' (serifed I = Ifa Connector / Oyeku mark)
+// Reading is RTL: code[3], code[2], code[1], code[0].
+function clockGlyph(code) {
+  if (code === '1111') return 'O';
+  if (code === '0000') return '|';
+  return code.split('').reverse().map(b => b === '1' ? 'O' : 'I').join('');
+}
+
+function ClockOduGlyph({ code, color, nr }) {
+  const g = clockGlyph(code);
+  // Single-char glyphs ('O' or '|'): large, fills the node nicely.
+  // 4-char compound glyphs ('IOOI', 'IIOO', …): smaller with tight letter-spacing.
+  const isCompound = g.length > 1;
+  const fontSize   = isCompound ? nr * 0.56 : nr * 0.78;
+
+  return (
+    <text
+      textAnchor="middle"
+      dominantBaseline="central"
+      fontFamily="Georgia, 'Times New Roman', serif"
+      fontWeight="700"
+      fontSize={fontSize}
+      letterSpacing={isCompound ? '-0.20em' : '0'}
+      fill={color}
+    >
+      {g}
+    </text>
+  );
+}
+
+function IfaClockArt() {
+  const [flipped,   setFlipped]   = useState(new Set());
+  const [spinning,  setSpinning]  = useState(null);
+  const [burst,     setBurst]     = useState(null); // {pos, key}
+  const [activePos, setActivePos] = useState(null);
+  const [mobile,    setMobile]    = useState(
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 519px)').matches
+  );
+  const busy = React.useRef(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 519px)');
+    const handler = e => setMobile(e.matches);
+    mq.addEventListener('change', handler);
+    setMobile(mq.matches);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  // Mobile-responsive layout: smaller viewBox (380) so each element renders
+  // proportionally larger in physical pixels on narrow screens.
+  const SZ      = mobile ? 380 : 480;
+  const CX      = SZ / 2, CY = SZ / 2;
+  const R_RING  = mobile ? 149 : 188;
+  const R_ORBIT = mobile ? 120 : 152;
+  const R_NODE  = mobile ? 22  : 27;
+  const R_MED   = mobile ? 52  : 66;
+  // Transparent tap target — extends beyond the visual node for easier touch
+  const R_HIT   = mobile ? R_NODE + 16 : R_NODE + 6;
+
+  const pAngle = p => (-90 + p * 22.5) * Math.PI / 180;
+
+  function handleClockClick(pos, e) {
+    e.stopPropagation();
+    if (busy.current) return;
+    busy.current = true;
+    setSpinning(pos);
+    setBurst({ pos, key: Date.now() });
+    setActivePos(pos);
+    setTimeout(() => {
+      setFlipped(prev => {
+        const n = new Set(prev);
+        n.has(pos) ? n.delete(pos) : n.add(pos);
+        return n;
+      });
+    }, 290);
+    setTimeout(() => { setSpinning(null); busy.current = false; }, 580);
+    setTimeout(() => setBurst(null), 720);
+  }
+
+  function oduAt(pos) {
+    const orig = CLOCK_MAP[pos];
+    const idx  = flipped.has(pos) ? clockDual(orig) : orig;
+    return { odu: ODU[idx], code: ODU_CODES[idx], idx, orig, isDual: flipped.has(pos) };
+  }
+
+  const apd   = activePos !== null ? oduAt(activePos) : null;
+  const aOrig = activePos !== null ? ODU[CLOCK_MAP[activePos]] : null;
+  const aDual = aOrig ? ODU[clockDual(CLOCK_MAP[activePos])] : null;
+
+  return (
+    <div className="ifa-clock-art-wrap" onClick={() => setActivePos(null)}>
+      <p className="challenge-art-caption">Ọpọ́n Ifa Olójú Mẹ́rìndínlógún · The Ifa Clock</p>
+      <p className="challenge-art-sub">Tap any Odu glyph to flip it to its Ifa dual · 8 dual pairs · 16 Odu</p>
+
+      <svg viewBox={`0 0 ${SZ} ${SZ}`} className="ifa-clock-svg"
+           aria-label="Ifa Clock — 16 Odu in a circle, dual pairs face each other">
+        <defs>
+          <radialGradient id="clk-bg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stopColor="#140f04"/>
+            <stop offset="100%" stopColor="#060a10"/>
+          </radialGradient>
+        </defs>
+
+        {/* Background disc */}
+        <circle cx={CX} cy={CY} r={R_RING} fill="url(#clk-bg)"/>
+
+        {/* Outer clock ring */}
+        <circle cx={CX} cy={CY} r={R_RING} fill="none" stroke="#c9a227" strokeWidth={3}/>
+        {/* Inner dashed ring */}
+        <circle cx={CX} cy={CY} r={R_RING-16} fill="none"
+          stroke="rgba(201,162,39,0.13)" strokeWidth={1} strokeDasharray="2 7"/>
+        {/* 16 tick marks */}
+        {Array.from({length:16}, (_, p) => {
+          const a = pAngle(p);
+          return (
+            <line key={p}
+              x1={CX+(R_RING-4) *Math.cos(a)} y1={CY+(R_RING-4) *Math.sin(a)}
+              x2={CX+(R_RING-14)*Math.cos(a)} y2={CY+(R_RING-14)*Math.sin(a)}
+              stroke="rgba(201,162,39,0.48)" strokeWidth={2} strokeLinecap="round"/>
+          );
+        })}
+
+        {/* Dual-pair connection lines */}
+        {Array.from({length:8}, (_, i) => {
+          const a1=pAngle(i), a2=pAngle(i+8);
+          const hot = activePos !== null && (activePos === i || activePos === i+8);
+          return (
+            <line key={i}
+              x1={CX+R_ORBIT*Math.cos(a1)} y1={CY+R_ORBIT*Math.sin(a1)}
+              x2={CX+R_ORBIT*Math.cos(a2)} y2={CY+R_ORBIT*Math.sin(a2)}
+              stroke={hot ? "#d4a427" : "rgba(201,162,39,0.08)"}
+              strokeWidth={hot ? 1.5 : 0.6} strokeDasharray="3 6"
+              className={hot ? 'ifa-clk-pair--hot' : ''}
+              style={{transition:'stroke 0.4s, stroke-width 0.4s'}}/>
+          );
+        })}
+
+        {/* Burst rings on click */}
+        {burst && (() => {
+          const a  = pAngle(burst.pos);
+          const bx = CX + R_ORBIT * Math.cos(a);
+          const by = CY + R_ORBIT * Math.sin(a);
+          const { odu } = oduAt(burst.pos);
+          return [0, 1, 2].map(ri => (
+            <circle key={`${burst.key}-${ri}`} cx={bx} cy={by} r={R_NODE}
+              fill="none" stroke={odu.color} strokeWidth={2.5 - ri * 0.6}
+              className="ifa-clk-burst"
+              style={{animationDelay:`${ri * 88}ms`}}/>
+          ));
+        })()}
+
+        {/* 16 Odu glyph nodes */}
+        {Array.from({length:16}, (_, pos) => {
+          const angle = pAngle(pos);
+          const nx = CX + R_ORBIT * Math.cos(angle);
+          const ny = CY + R_ORBIT * Math.sin(angle);
+          const { odu, code, isDual } = oduAt(pos);
+          const isAct  = activePos === pos;
+          const isPair = activePos !== null && (pos === activePos || pos === (activePos + 8) % 16);
+          const isSpin = spinning === pos;
+
+          return (
+            <g key={pos} transform={`translate(${nx},${ny})`}
+               onClick={e => handleClockClick(pos, e)}
+               style={{cursor:'pointer'}}
+               aria-label={`${odu.name}${isDual ? ' (dual)' : ''} — tap to flip`}>
+              {/* Enlarged invisible tap target for comfortable mobile touch */}
+              <circle r={R_HIT} fill="transparent"/>
+              {/* Glyph marks — spin animation wrapper */}
+              <g className={isSpin ? 'ifa-clk-glyph--spin' : ''}
+                 style={{transformBox:'fill-box', transformOrigin:'center'}}>
+                <ClockOduGlyph code={code} color={odu.color} nr={R_NODE}/>
+              </g>
+            </g>
+          );
+        })}
+
+        {/* Centre medallion */}
+        <circle cx={CX} cy={CY} r={R_MED} fill="url(#clk-bg)"
+          stroke="rgba(201,162,39,0.38)" strokeWidth={1.5}/>
+        <circle cx={CX} cy={CY} r={R_MED-8} fill="none"
+          stroke="rgba(201,162,39,0.10)" strokeWidth={1} strokeDasharray="2 5"/>
+
+        {/* Centre idle */}
+        {!apd && (
+          <g>
+            <text x={CX} y={mobile ? CY+2 : CY+5} textAnchor="middle" dominantBaseline="middle"
+              fontSize={mobile ? 22 : 26} fill="rgba(201,162,39,0.26)" fontFamily="serif">◎</text>
+            <text x={mobile ? CX : CX} y={mobile ? CY+20 : CY+27} textAnchor="middle" dominantBaseline="middle"
+              fontSize={mobile ? 9 : 7} fill="rgba(201,162,39,0.20)"
+              fontFamily="'Space Grotesk',system-ui,sans-serif" letterSpacing="0.12em">16 ODU</text>
+          </g>
+        )}
+
+        {/* Centre active — on mobile show only name + dual info (larger text);
+            on desktop show all four lines */}
+        {apd && (
+          <g key={`ctr-${apd.idx}-${apd.isDual}`} className="ifa-clk-ctr-text">
+            <text x={CX} y={mobile ? CY-10 : CY-22} textAnchor="middle" dominantBaseline="middle"
+              fontSize={mobile ? 14 : 11} fontWeight="800"
+              fontFamily="'Space Grotesk',system-ui,sans-serif" fill={apd.odu.color}>
+              {apd.odu.name}
+            </text>
+            <text x={CX} y={mobile ? CY+8 : CY-8} textAnchor="middle" dominantBaseline="middle"
+              fontSize={mobile ? 9.5 : 7.5} fontFamily="sans-serif" fill="rgba(201,162,39,0.55)">
+              {apd.isDual ? `↩ ${aOrig.name}` : `→ ${aDual.name}`}
+            </text>
+            {!mobile && <>
+              <text x={CX} y={CY+6} textAnchor="middle" dominantBaseline="middle"
+                fontSize={6.5} fontFamily="sans-serif" fill="#4a5565">
+                {apd.odu.field}
+              </text>
+              <text x={CX} y={CY+19} textAnchor="middle" dominantBaseline="middle"
+                fontSize={5.5} fontFamily="'Space Grotesk',system-ui,sans-serif"
+                fill="rgba(201,162,39,0.22)" letterSpacing="0.06em">
+                {apd.odu.meji.toUpperCase()}
+              </text>
+            </>}
+          </g>
+        )}
+      </svg>
+
+      {/* Detail panel below SVG */}
+      <div className={`ifa-clock-panel${apd ? ' ifa-clock-panel--open' : ''}`}>
+        {apd && (
+          <div className="ifa-clock-panel-inner" style={{borderColor: apd.odu.color + '99'}}>
+            <div className="ifa-clock-ph">
+              <span className="ifa-clock-ph-meji" style={{color: apd.odu.color}}>{apd.odu.meji}</span>
+              {apd.isDual && aOrig && (
+                <span className="ifa-clock-ph-badge"
+                  style={{borderColor: aOrig.color + '55', color: aOrig.color}}>
+                  dual of {aOrig.name}
+                </span>
+              )}
+            </div>
+            <p className="ifa-clock-p-tagline">"{apd.odu.tagline}"</p>
+            <p className="ifa-clock-p-field">{apd.odu.field}</p>
+            <p className="ifa-clock-p-hint">tap again to restore · tap outside to close</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function IfartMatrix() {
+  const [pinnedDim, setPinnedDim] = useState(null);
+  const [hoveredDim, setHoveredDim] = useState(null);
+
+  const CX = 240, CY = 240, R_ORBIT = 158, R_NODE = 36, R_CENTER = 54;
+
+  const isTouch = React.useMemo(
+    () => typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0),
+    []
+  );
+
+  const activeDim = pinnedDim !== null ? pinnedDim : hoveredDim;
+  const activeData = activeDim !== null ? MATRIX_DIMS[activeDim] : null;
+
+  const relatedOdu = React.useMemo(() => {
+    if (activeDim === null) return [];
+    const d = MATRIX_DIMS[activeDim];
+    if (d.steamKey) return ODU.filter(o => o.steam === d.steamKey);
+    const mainKeys = ['Natural Science','Technology','Engineering','Arts','Mathematics','Social Science','Education'];
+    return ODU.filter(o => !mainKeys.includes(o.steam));
+  }, [activeDim]);
+
+  function handleNodeClick(i, e) {
+    e.stopPropagation();
+    setPinnedDim(prev => prev === i ? null : i);
+    setHoveredDim(null);
+  }
+
+  function handleCenterClick(e) {
+    e.stopPropagation();
+    setPinnedDim(null);
+  }
+
+  function handleNodeEnter(i) { if (!isTouch) setHoveredDim(i); }
+  function handleNodeLeave()  { if (!isTouch) setHoveredDim(null); }
+
+  return (
+    <div className="challenge-matrix-wrap"
+         onClick={() => { setPinnedDim(null); setHoveredDim(null); }}>
+      <p className="challenge-art-caption">Ifa TOE 0+8D Matrix · Ifa Transform</p>
+      <p className="challenge-art-sub">Ifart &amp; Orisart — Using the Polymathic Approach of Ifa/Orisa to Learn the Arts</p>
+
+      <svg viewBox="0 0 480 480" className="ifart-matrix-svg"
+           aria-label="Ifa TOE 0+8D Matrix centred on Ifart/Orisart">
+        <defs>
+          <radialGradient id="ifm-cgrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stopColor="#fde68a" />
+            <stop offset="55%"  stopColor="#f0920c" />
+            <stop offset="100%" stopColor="#c06800" />
+          </radialGradient>
+          <filter id="ifm-blur" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="5" />
+          </filter>
+        </defs>
+
+        {/* Orbit ring — brightens when something active */}
+        <circle cx={CX} cy={CY} r={R_ORBIT} fill="none"
+          stroke={activeDim !== null ? 'rgba(240,146,12,0.22)' : 'rgba(240,146,12,0.12)'}
+          strokeWidth={1} strokeDasharray="3 5"
+          style={{ transition: 'stroke 0.4s' }} />
+
+        {/* Connector lines */}
+        {MATRIX_DIMS.map((d, i) => {
+          const a = (i * 45 - 90) * Math.PI / 180;
+          const isActive = activeDim === i;
+          const isDimmed = activeDim !== null && !isActive;
+          return (
+            <line key={i}
+              x1={CX + (R_CENTER + 4) * Math.cos(a)}
+              y1={CY + (R_CENTER + 4) * Math.sin(a)}
+              x2={CX + (R_ORBIT - R_NODE - 2) * Math.cos(a)}
+              y2={CY + (R_ORBIT - R_NODE - 2) * Math.sin(a)}
+              stroke={d.color}
+              strokeWidth={isActive ? 2 : 1.2}
+              strokeDasharray={isActive ? '0' : '3 4'}
+              style={{ opacity: isActive ? 0.9 : isDimmed ? 0.08 : 0.35,
+                       transition: 'opacity 0.35s' }} />
+          );
+        })}
+
+        {/* Outer nodes */}
+        {MATRIX_DIMS.map((d, i) => {
+          const a = (i * 45 - 90) * Math.PI / 180;
+          const nx = CX + R_ORBIT * Math.cos(a);
+          const ny = CY + R_ORBIT * Math.sin(a);
+          const isActive = activeDim === i;
+          const isDimmed = activeDim !== null && !isActive;
+          return (
+            <g key={i}
+               onClick={e => handleNodeClick(i, e)}
+               onMouseEnter={() => handleNodeEnter(i)}
+               onMouseLeave={handleNodeLeave}
+               style={{ cursor: 'pointer' }}>
+              {/* Outer glow halo */}
+              <circle cx={nx} cy={ny}
+                r={isActive ? R_NODE + 16 : R_NODE + 9}
+                fill={d.color} filter="url(#ifm-blur)"
+                style={{ opacity: isActive ? 0.32 : isDimmed ? 0.03 : 0.13,
+                         transition: 'opacity 0.35s' }} />
+              {/* Accent ring when active */}
+              {isActive && (
+                <circle cx={nx} cy={ny} r={R_NODE + 3}
+                  fill="none" stroke={d.color} strokeWidth={1}
+                  opacity={0.45} strokeDasharray="4 3" />
+              )}
+              {/* Node body */}
+              <circle cx={nx} cy={ny} r={R_NODE}
+                fill="rgba(4,8,15,0.92)" stroke={d.color}
+                strokeWidth={isActive ? 2.6 : 1.8}
+                style={{ opacity: isDimmed ? 0.28 : 1, transition: 'opacity 0.35s' }} />
+              {/* Dimension letter */}
+              <text x={nx} y={ny - 7} textAnchor="middle" dominantBaseline="middle"
+                fontSize={isActive ? 20 : 17} fontWeight="800"
+                fontFamily="'Space Grotesk',system-ui,sans-serif" fill={d.color}
+                style={{ opacity: isDimmed ? 0.28 : 1, transition: 'opacity 0.35s' }}>
+                {d.letter}
+              </text>
+              {/* Dimension name */}
+              <text x={nx} y={ny + 13} textAnchor="middle" dominantBaseline="middle"
+                fontSize={8} fontWeight="600"
+                fontFamily="'Space Grotesk',system-ui,sans-serif" fill={d.color}
+                style={{ opacity: isDimmed ? 0.18 : 0.88, transition: 'opacity 0.35s' }}>
+                {d.name}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* Centre halos */}
+        <circle cx={CX} cy={CY} r={R_CENTER + 18}
+          fill="url(#ifm-cgrad)" opacity={0.18} filter="url(#ifm-blur)" />
+        <circle cx={CX} cy={CY} r={R_CENTER + 8}
+          fill="url(#ifm-cgrad)" opacity={0.10} />
+
+        {/* Centre node — tap to deselect */}
+        <g onClick={handleCenterClick}
+           style={{ cursor: pinnedDim !== null ? 'pointer' : 'default' }}>
+          <circle cx={CX} cy={CY} r={R_CENTER}
+            fill="rgba(4,8,15,0.96)" stroke="url(#ifm-cgrad)" strokeWidth={2.2} />
+          <text x={CX} y={CY - 10} textAnchor="middle" dominantBaseline="middle"
+            fontSize={15} fontWeight="900"
+            fontFamily="'Space Grotesk',system-ui,sans-serif" fill="#fde68a">
+            Ifart
+          </text>
+          <text x={CX} y={CY + 9} textAnchor="middle" dominantBaseline="middle"
+            fontSize={12} fontWeight="700"
+            fontFamily="'Space Grotesk',system-ui,sans-serif" fill="#f0920c">
+            /Orisart
+          </text>
+          <text x={CX} y={CY + 26} textAnchor="middle" dominantBaseline="middle"
+            fontSize={8} fontFamily="'Space Grotesk',system-ui,sans-serif"
+            fill="#f0920c" opacity={0.55}>
+            0+8D
+          </text>
+        </g>
+      </svg>
+
+      {/* Dimension reveal panel */}
+      <div className={`ifart-dim-panel${activeData ? ' active' : ''}`}>
+        {activeData && (
+          <div className="ifart-dim-panel-inner" style={{ borderColor: activeData.color + 'aa' }}>
+            <div className="ifart-dim-header">
+              <span className="ifart-dim-letter"
+                style={{ color: activeData.color, textShadow: `0 0 28px ${activeData.color}99` }}>
+                {activeData.letter}
+              </span>
+              <div className="ifart-dim-meta">
+                <span className="ifart-dim-name" style={{ color: activeData.color }}>{activeData.name}</span>
+                <span className="ifart-dim-desc">{activeData.desc}</span>
+              </div>
+            </div>
+            <p className="ifart-dim-hint">tap node again · tap centre · or tap outside to close</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
 // ── Ayò Ọlọ́pọ́nfán Challenge Section ─────────────────────────
 // Àtùpà Olójú Mẹ́rìndínlógún × Ayò Ọlọ́pọ́nfá Olójú Mẹ́rìndínlógún
 // ═══════════════════════════════════════════════════════════════
@@ -1085,24 +1881,43 @@ function AtupaSVG({ litLamps, onToggleLamp }) {
 }
 
 // Small Odu circle for the art grid
-function OduMiniCircle({ odu }) {
+function OduMiniRing({ odu }) {
   const code  = ODU_CODES[odu.num - 1];
   const isOdd = (odu.num - 1) % 2 === 1;
   return (
-    <div className="odu-mini-circ" style={{ '--mc': odu.color }}>
-      <div className="odu-mini-ring">
-        {isOdd ? <OyekuPitArrow /> : <PitArrow />}
-        <div className="odu-mini-dots">
-          {code.split('').map((b, ri) => (
-            <div key={ri} className="odu-mini-dotrow">
-              {[0, 1].map(col => (
-                <span key={col} className={`odu-mini-dot odu-mini-dot--${b === '1' ? 'on' : 'off'}`} />
-              ))}
-            </div>
-          ))}
+    <div className="odu-mini-ring" style={{ '--mc': odu.color }}>
+      {isOdd ? <OyekuPitArrow /> : <PitArrow />}
+      <div className="odu-mini-dots">
+        {code.split('').map((b, ri) => (
+          <div key={ri} className="odu-mini-dotrow">
+            {[0, 1].map(col => (
+              <span key={col} className={`odu-mini-dot odu-mini-dot--${b === '1' ? 'on' : 'off'}`} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function OduMiniCircle({ odu, dualOdu, isDual, onClick }) {
+  return (
+    <div className="odu-mini-circ"
+         onClick={onClick} role="button" tabIndex={0}
+         onKeyDown={e => e.key === 'Enter' && onClick()}
+         aria-label={`${odu.name} — click to switch to ${dualOdu.name}`}>
+      <div className={`odu-mini-flipper${isDual ? ' odu-mini-flipper--flipped' : ''}`}>
+        <div className="odu-mini-face odu-mini-face--front">
+          <OduMiniRing odu={odu} />
+        </div>
+        <div className="odu-mini-face odu-mini-face--back">
+          <OduMiniRing odu={dualOdu} />
         </div>
       </div>
-      <span className="odu-mini-label">{odu.name}</span>
+      <span className="odu-mini-label"
+            style={{ color: isDual ? dualOdu.color : odu.color, transition: 'color 0.28s' }}>
+        {isDual ? dualOdu.name + ' Meji' : odu.name + ' Meji'}
+      </span>
     </div>
   );
 }
@@ -1113,6 +1928,19 @@ function ChallengeSection() {
   const [litLamps, setLitLamps] = useState(new Set());
   const [switchOn, setSwitchOn] = useState(false);
   const [isIlluminating, setIsIlluminating] = useState(false);
+  // dualPits tracks which pit indices (into ODU[]) are showing their dual Odu
+  const [dualPits, setDualPits] = useState(new Set());
+
+  function toggleDual(oduIdx) {
+    setDualPits(prev => {
+      const next = new Set(prev);
+      if (next.has(oduIdx)) next.delete(oduIdx); else next.add(oduIdx);
+      return next;
+    });
+  }
+
+  // Dual index: even idx → idx+1, odd idx → idx-1
+  function dualIdx(i) { return i % 2 === 0 ? i + 1 : i - 1; }
 
   function toggleLamp(idx) {
     setLitLamps(prev => {
@@ -1207,10 +2035,16 @@ function ChallengeSection() {
           <p className="challenge-art-sub">The 16-Pot Ifa Game Board</p>
           <div className="challenge-odu-board">
             <div className="challenge-odu-row">
-              {p1Row.map(odu => <OduMiniCircle key={odu.id} odu={odu} />)}
+              {P1_DISP.map(i => (
+                <OduMiniCircle key={i} odu={ODU[i]} dualOdu={ODU[dualIdx(i)]}
+                  isDual={dualPits.has(i)} onClick={() => toggleDual(i)} />
+              ))}
             </div>
             <div className="challenge-odu-row">
-              {p2Row.map(odu => <OduMiniCircle key={odu.id} odu={odu} />)}
+              {P2_DISP.map(i => (
+                <OduMiniCircle key={i} odu={ODU[i]} dualOdu={ODU[dualIdx(i)]}
+                  isDual={dualPits.has(i)} onClick={() => toggleDual(i)} />
+              ))}
             </div>
           </div>
           <p className="challenge-art-tagline">
@@ -1219,6 +2053,15 @@ function ChallengeSection() {
         </div>
 
       </div>
+
+      {/* ── Ifa Clock Art ── */}
+      <IfaClockArt />
+
+      {/* ── Ifa Wheel ── */}
+      <IfaWheelPanel />
+
+      {/* ── Ifa TOE 0+8D Matrix ── */}
+      <IfartMatrix />
 
       {/* ── Poetry ── */}
       <div className="challenge-poetry">
@@ -1262,7 +2105,7 @@ function ChallengeSection() {
 
         {accepted && (
           <p className="challenge-accepted-msg">
-            You have accepted the Ayò Ọlọ́pọ́nfá Challenge. Play Ayò Oníkáà Mérìndínlógún
+            You have accepted the Ayò Ọlọ́pọ́nfá Challenge. Play Ayò Oníkáà Mẹ́rìndínlógún
             (the 16-Compartment Ayo Game) for Ọgọ́jú (Wákàtí) Mẹ́rìndínlógún — 16 × 60-minute periods
             — for Ọjọ́ Mẹ́rìndínlógún (16 days) with the Àtùpà Olójú Mẹ́rìndínlógún.
           </p>
@@ -1281,6 +2124,7 @@ function ChallengeSection() {
             { w: 'Ọjọ́ Mẹ́rìndínlógún', n: 'sixteen days' },
             { w: 'Ifart',              n: 'Ifa Art — sacred creative expression' },
             { w: 'Orisart',            n: 'Orisa Art — art of the Orisa tradition' },
+            { w: 'Ifa Machine',        n: 'Awale Mechanics · 8 Seeds · 16 Pots · Chain Capture · Starvation Rule · The Ifa Computer' },
           ].map(k => (
             <span key={k.w} className="challenge-kw-tag">
               <span className="challenge-kw-word">{k.w}</span>
@@ -1310,8 +2154,13 @@ function PlayingMode() {
   const [soundOn, setSoundOn]           = useState(true);
   const [animating, setAnimating]       = useState(false);   // true while seeds are being sown step-by-step
   const [lastSown, setLastSown]         = useState(null);    // pit index that most recently received a seed
-  const aiTimerRef   = useRef(null);
-  const animTimerRef = useRef([]);  // animation step timers (cleared on new game / remount)
+  const [timeLeft, setTimeLeft]         = useState(20);      // countdown seconds per turn
+  const [gameStarted, setGameStarted]   = useState(false);   // true after first human sow
+  const aiTimerRef    = useRef(null);
+  const animTimerRef  = useRef([]);  // animation step timers (cleared on new game / remount)
+  const turnTimerRef  = useRef(null); // setInterval for the 20s turn countdown
+  const handleMoveRef = useRef(null); // always-current handleMove (avoids stale closure in timer)
+  const validMovesRef = useRef([]);   // always-current validMoves
 
 
   function clearAnimTimers() {
@@ -1381,6 +2230,9 @@ function PlayingMode() {
   const handleMove = useCallback((fromIdx) => {
     if (gameOver || aiThinking || animating) return;
     if (!getValidMoves(board, currentPlayer).includes(fromIdx)) return;
+
+    // Mark game as started on first human sow
+    setGameStarted(true);
 
     // Unlock AudioContext on this user gesture so AI sounds also work
     SoundEngine.prime();
@@ -1466,6 +2318,7 @@ function PlayingMode() {
     }, doneAt);
     animTimerRef.current.push(tid);
   }, [board, currentPlayer, captured, gameOver, aiThinking, animating, singlePlayer, level]);
+  handleMoveRef.current = handleMove; // always-current ref for turn timer
 
   function scheduleAi(b0, cap0, lvl) {
     setAiThinking(true);
@@ -1550,6 +2403,7 @@ function PlayingMode() {
     const activeLvl = lvl !== undefined ? lvl : level;
     clearTimeout(aiTimerRef.current);
     clearAnimTimers();
+    clearInterval(turnTimerRef.current);
     setBoard(activeLvl === 'agbaota' ? initBoardVeteran() : initBoard());
     setCP(1);
     setCaptured([0, 0]);
@@ -1559,6 +2413,8 @@ function PlayingMode() {
     setAnimating(false);
     setLastSown(null);
     setChainPots([]);
+    setTimeLeft(20);
+    setGameStarted(false);
     setMessage('Player 1 — choose a pit to sow');
     setMsgType('p1');
   }
@@ -1566,7 +2422,39 @@ function PlayingMode() {
   useEffect(() => () => {
     clearTimeout(aiTimerRef.current);
     clearAnimTimers();
+    clearInterval(turnTimerRef.current);
   }, []);
+
+  // ── Turn countdown timer (20 s) ───────────────────────────────
+  const TURN_SECS = 20;
+  // Active on human turns: P1 always; P2 only in 2-player mode
+  const isHumanTurn = !gameOver && !animating && !aiThinking &&
+                      !(singlePlayer && currentPlayer === 2);
+
+  // Keep refs current so the interval callback always sees the latest values
+  validMovesRef.current = (gameOver || animating) ? [] : getValidMoves(board, currentPlayer);
+
+  useEffect(() => {
+    clearInterval(turnTimerRef.current);
+    if (!isHumanTurn || !gameStarted) { setTimeLeft(TURN_SECS); return; }
+    setTimeLeft(TURN_SECS);
+    turnTimerRef.current = setInterval(() => {
+      setTimeLeft(t => {
+        if (t <= 1) {
+          clearInterval(turnTimerRef.current);
+          // Time's up — auto-sow a random valid pit
+          const moves = validMovesRef.current;
+          if (moves.length > 0) {
+            const pick = moves[Math.floor(Math.random() * moves.length)];
+            handleMoveRef.current(pick);
+          }
+          return 0;
+        }
+        return t - 1;
+      });
+    }, 1000);
+    return () => clearInterval(turnTimerRef.current);
+  }, [currentPlayer, gameOver, animating, aiThinking, singlePlayer, gameStarted]); // eslint-disable-line
 
   const totalSeeds = board.reduce((a, v) => a + v, 0);
 
@@ -1630,6 +2518,36 @@ function PlayingMode() {
           <span className="score-player-label">captured</span>
         </div>
         <div className="score-center">
+          {/* Circular countdown timer */}
+          {(() => {
+            const R = 20, CIRC = 2 * Math.PI * R;
+            const timerActive = isHumanTurn && gameStarted;
+            const col = !timerActive ? 'rgba(201,162,39,0.22)'
+              : timeLeft > 10 ? '#c9a227'
+              : timeLeft > 5  ? '#e8772a'
+              : '#e74c3c';
+            const offset = timerActive ? CIRC * (1 - timeLeft / TURN_SECS) : CIRC;
+            return (
+              <svg width="52" height="52" viewBox="0 0 52 52" className="score-timer-svg"
+                   aria-label={timerActive ? `${timeLeft} seconds remaining` : 'Timer inactive'}>
+                {/* Track */}
+                <circle cx="26" cy="26" r={R} fill="none"
+                  stroke="rgba(255,255,255,0.08)" strokeWidth="3.5"/>
+                {/* Arc */}
+                <circle cx="26" cy="26" r={R} fill="none"
+                  stroke={col} strokeWidth="3.5"
+                  strokeDasharray={CIRC} strokeDashoffset={offset}
+                  strokeLinecap="round" transform="rotate(-90 26 26)"
+                  style={{transition: timeLeft === TURN_SECS ? 'none' : 'stroke-dashoffset 0.97s linear, stroke 0.35s'}}/>
+                {/* Label */}
+                <text x="26" y="26" textAnchor="middle" dominantBaseline="central"
+                  fontSize="14" fontWeight="700" fill={col}
+                  fontFamily="'Space Grotesk',system-ui,sans-serif">
+                  {timerActive ? timeLeft : '◎'}
+                </text>
+              </svg>
+            );
+          })()}
           <div className="score-remaining">{totalSeeds}</div>
           <div className="score-remaining-label">in play</div>
         </div>
@@ -1644,22 +2562,20 @@ function PlayingMode() {
       <div className="mancala-wrapper">
         <div className="mancala-board mancala-board--awale">
 
-          {/* P2 side label */}
-          <div className="board-side-label board-side-label--p2">
-            {oracleName.split(' · ').map((part, i) => (
-              <span key={i} className="board-side-name">{part}</span>
-            ))}
+          {/* P1 side label */}
+          <div className="board-side-label board-side-label--p1">
+            <span className="board-side-name">Player 1</span>
             <span className="board-side-dir">↑</span>
           </div>
 
-          {/* P2 Pits — top row, displayed [15…8] L→R */}
-          <div className="pits-row pits-row--p2">
-            {P2_DISP.map(idx => (
+          {/* P1 Pits — top row, displayed [7…0] L→R (RTL Ifa ordering: Ogbe–Okanran) */}
+          <div className="pits-row pits-row--p1">
+            {P1_DISP.map(idx => (
               <PitCell key={idx} odu={ODU[idx]} count={board[idx]}
                 onClick={() => handleMove(idx)}
-                disabled={gameOver || aiThinking || animating || (singlePlayer && currentPlayer === 2)}
+                disabled={gameOver || aiThinking || animating}
                 isLastMoved={lastPos === idx}
-                currentPlayer={currentPlayer} owner={2}
+                currentPlayer={currentPlayer} owner={1}
                 isValidMove={validMoves.includes(idx)}
                 isChained={chainPots.includes(idx)}
                 isReceiving={lastSown === idx}
@@ -1672,20 +2588,22 @@ function PlayingMode() {
           {/* Center divider */}
           <div className="board-divider" />
 
-          {/* P1 side label */}
-          <div className="board-side-label board-side-label--p1">
-            <span className="board-side-name">Player 1</span>
+          {/* P2 side label */}
+          <div className="board-side-label board-side-label--p2">
+            {oracleName.split(' · ').map((part, i) => (
+              <span key={i} className="board-side-name">{part}</span>
+            ))}
             <span className="board-side-dir">↓</span>
           </div>
 
-          {/* P1 Pits — bottom row, displayed [7…0] L→R (RTL Ifa ordering) */}
-          <div className="pits-row pits-row--p1">
-            {P1_DISP.map(idx => (
+          {/* P2 Pits — bottom row, displayed [15…8] L→R (RTL Ifa ordering: Ogunda–Ofun) */}
+          <div className="pits-row pits-row--p2">
+            {P2_DISP.map(idx => (
               <PitCell key={idx} odu={ODU[idx]} count={board[idx]}
                 onClick={() => handleMove(idx)}
-                disabled={gameOver || aiThinking || animating}
+                disabled={gameOver || aiThinking || animating || (singlePlayer && currentPlayer === 2)}
                 isLastMoved={lastPos === idx}
-                currentPlayer={currentPlayer} owner={1}
+                currentPlayer={currentPlayer} owner={2}
                 isValidMove={validMoves.includes(idx)}
                 isChained={chainPots.includes(idx)}
                 isReceiving={lastSown === idx}
@@ -1929,10 +2847,10 @@ function LearningMode() {
       </div>
       <div className="odu-board">
         <div className="odu-board-grid">
-          <div className="odu-row-label" style={{ color:'rgba(232,119,42,0.6)' }}>Odu 16 → 9 · Player 2 Side · (read right → left: 9 → 16)</div>
-          <div className="odu-row">{p2Visual.map(o => <OduPit key={o.id} odu={o} />)}</div>
-          <div className="odu-row">{p1Row.map(o => <OduPit key={o.id} odu={o} />)}</div>
           <div className="odu-row-label" style={{ color:'rgba(201,162,39,0.6)' }}>Odu 8 → 1 · Player 1 Side · (read right → left: 1 → 8)</div>
+          <div className="odu-row">{p1Row.map(o => <OduPit key={o.id} odu={o} />)}</div>
+          <div className="odu-row">{p2Visual.map(o => <OduPit key={o.id} odu={o} />)}</div>
+          <div className="odu-row-label" style={{ color:'rgba(232,119,42,0.6)' }}>Odu 16 → 9 · Player 2 Side · (read right → left: 9 → 16)</div>
         </div>
       </div>
       <div className="odu-grid-summary">
