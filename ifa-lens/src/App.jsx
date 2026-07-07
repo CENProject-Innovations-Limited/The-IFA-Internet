@@ -7,6 +7,98 @@
 
 const { useState, useEffect, useRef } = React;
 
+// ── Subscription Access ────────────────────────────────────────
+// Change ACCESS_CODE to rotate student credentials (old sessions auto-expire)
+const ACCESS_CODE = 'IFAACADEMY';
+
+function SubscriptionGate({ onUnlock }) {
+  const [code, setCode]   = useState('');
+  const [error, setError] = useState(false);
+  const [shake, setShake] = useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (code.trim().toUpperCase() === ACCESS_CODE.toUpperCase()) {
+      localStorage.setItem('ifalens_sub', ACCESS_CODE);
+      onUnlock();
+    } else {
+      setError(true);
+      setShake(true);
+      setTimeout(() => setShake(false), 600);
+    }
+  }
+
+  return (
+    <div className="sub-gate">
+      <div className="sub-gate__bg" aria-hidden="true">
+        <div className="sub-gate__grid" />
+        <div className="sub-gate__orb sub-gate__orb--a" />
+        <div className="sub-gate__orb sub-gate__orb--b" />
+        <div className="sub-gate__orb sub-gate__orb--c" />
+      </div>
+
+      <div className={`sub-gate__card${shake ? ' sub-gate__card--shake' : ''}`}>
+        <div className="sub-gate__logo" aria-label="IfaLens">
+          <span className="sub-gate__logo-ifa">Ifa</span>
+          <span className="sub-gate__logo-rest">Lens</span>
+          <span className="sub-gate__logo-dot">·</span>
+          <span className="sub-gate__logo-tag">LensoE</span>
+        </div>
+
+        <div className="sub-gate__icon" aria-hidden="true">◎</div>
+
+        <h1 className="sub-gate__title">Subscribers Only</h1>
+        <p className="sub-gate__desc">
+          IfaLens is a premium platform available exclusively to students of the{' '}
+          <strong>IFA Academy of Polymaths</strong>.
+          Enter your student access code to unlock the full platform.
+        </p>
+
+        <form onSubmit={handleSubmit} className="sub-gate__form">
+          <input
+            type="text"
+            className={`sub-gate__input${error ? ' sub-gate__input--error' : ''}`}
+            placeholder="Enter student access code"
+            value={code}
+            onChange={e => { setCode(e.target.value); setError(false); }}
+            autoComplete="off"
+            spellCheck={false}
+            aria-label="Student access code"
+          />
+          <button type="submit" className="sub-gate__btn">
+            Unlock IfaLens <span className="sub-gate__btn-arrow">→</span>
+          </button>
+        </form>
+
+        {error && (
+          <p className="sub-gate__error" role="alert">
+            ⊗ Invalid access code — please check your student credentials.
+          </p>
+        )}
+
+        <div className="sub-gate__divider" />
+
+        <p className="sub-gate__join">
+          Not yet a student?{' '}
+          <a
+            href="https://toe.cenproject.org/ifa-academy-of-polymaths/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sub-gate__join-link"
+          >
+            Join the IFA Academy of Polymaths →
+          </a>
+        </p>
+
+        <div className="sub-gate__footer">
+          <a href="/" className="sub-gate__home">← IFA Internet</a>
+          <span className="sub-gate__tag">The IFA Internet · CENProject</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Ogbe Symbol (DuoInfinity / lemniscate canvas glyph) ───────
 function OgbeSymbol({ size = 20, className = '' }) {
   const canvasRef = useRef(null);
@@ -202,7 +294,7 @@ const IFASCOPES = [
     icon: '⬟',
     accent: '#f5c518',
     sub: ['CEN Detection', 'Consciousness Sensing', 'IfaWave Ranging', 'Ogbe Field Mapping'],
-    desc: 'Consciousness Detecting and Ranging — IfaTech for sensing, ranging, and mapping CEN Energy fields beyond conventional physical instruments.',
+    desc: 'Consciousness Detecting and Ranging — IfaTech for sensing, ranging, and mapping Consciousness Energy fields beyond conventional physical instruments.',
   },
 ];
 
@@ -441,7 +533,7 @@ function IfaLensMatrix() {
   const [active, setActive] = useState(false);
   const [hovered, setHovered] = useState(null);
 
-  const cx = 310, cy = 270, nodeR = 172, centerR = 52, dimR = 28;
+  const cx = 310, cy = 270, nodeR = 172, centerR = 60, dimR = 32;
   const accent = '#00d9b8';
 
   const VIEWS = [
@@ -519,7 +611,7 @@ function IfaLensMatrix() {
           const delay = active ? i * 58 : 0;
           return (
             <line key={i} x1={sx} y1={sy} x2={ex} y2={ey}
-              stroke={d.color} strokeWidth="1.5"
+              stroke={d.color} strokeWidth="2"
               strokeDasharray={len}
               strokeDashoffset={active ? 0 : len}
               markerEnd="url(#ilm-arrow)"
@@ -544,17 +636,17 @@ function IfaLensMatrix() {
             <g key={i} opacity={active ? 1 : 0}
               style={{ transition: `opacity 0.42s ease ${delay}ms` }}>
               {/* Glow halo */}
-              <circle cx={d.x} cy={d.y} r={isHov ? 42 : 33} fill={d.color}
+              <circle cx={d.x} cy={d.y} r={isHov ? 50 : 40} fill={d.color}
                 opacity={isHov ? 0.22 : 0.08}
                 style={{ transition: 'opacity 0.2s' }} />
               {/* Node circle */}
               <circle cx={d.x} cy={d.y} r={dimR}
                 fill="#0c1218" stroke={d.color}
-                strokeWidth={isHov ? 2.5 : 1.5}
+                strokeWidth={isHov ? 3.5 : 2.2}
                 style={{ transition: 'stroke-width 0.18s' }} />
               {/* Letter code */}
-              <text x={d.x} y={d.y + 5} textAnchor="middle"
-                fill={d.color} fontSize="14" fontWeight="800" fontFamily="monospace">
+              <text x={d.x} y={d.y + 6} textAnchor="middle"
+                fill={d.color} fontSize="17" fontWeight="800" fontFamily="monospace">
                 {d.letter}
               </text>
               {/* External floating label — line 1 */}
@@ -581,28 +673,28 @@ function IfaLensMatrix() {
         {/* Center node — Ifa Circle */}
         <g onClick={() => { setActive(v => !v); setHovered(null); }} style={{ cursor: 'pointer' }}>
           {/* Pulse ring */}
-          <circle cx={cx} cy={cy} r="74" fill="none"
-            stroke={accent} strokeWidth="1" className="ilm__pulse" />
+          <circle cx={cx} cy={cy} r="88" fill="none"
+            stroke={accent} strokeWidth="1.5" className="ilm__pulse" />
           {/* Glow halo */}
-          <circle cx={cx} cy={cy} r={centerR + 20} fill="url(#ilm-cg)" />
+          <circle cx={cx} cy={cy} r={centerR + 24} fill="url(#ilm-cg)" />
           {/* Main circle body */}
           <circle cx={cx} cy={cy} r={centerR}
-            fill="#0c1218" stroke={accent} strokeWidth="2.5" />
+            fill="#0c1218" stroke={accent} strokeWidth="3" />
           {/* Ifa Circle — clockwise arc arrow at east rim */}
           <path d={`M ${cx + centerR},${cy - 9} A ${centerR},${centerR} 0 0,1 ${cx + centerR},${cy + 9}`}
             fill="none" stroke={accent} strokeWidth="2.5"
             markerEnd="url(#ilm-arrow)" />
           {/* Node text */}
-          <text x={cx} y={cy - 7} textAnchor="middle"
-            fill={accent} fontSize="11.5" fontWeight="900" letterSpacing="0.5" fontFamily="monospace">
+          <text x={cx} y={cy - 9} textAnchor="middle"
+            fill={accent} fontSize="13.5" fontWeight="900" letterSpacing="0.5" fontFamily="monospace">
             Energy:
           </text>
-          <text x={cx} y={cy + 8} textAnchor="middle"
-            fill={accent} fontSize="11.5" fontWeight="900" letterSpacing="0.5" fontFamily="monospace">
+          <text x={cx} y={cy + 11} textAnchor="middle"
+            fill={accent} fontSize="13.5" fontWeight="900" letterSpacing="0.5" fontFamily="monospace">
             Knowledge
           </text>
-          <text x={cx} y={cy + 26} textAnchor="middle"
-            fill={accent} fontSize="7" opacity="0.55">
+          <text x={cx} y={cy + 32} textAnchor="middle"
+            fill={accent} fontSize="8.5" opacity="0.55">
             {active ? '◈ CLICK TO CLOSE' : '↓ CLICK TO OPEN'}
           </text>
         </g>
@@ -627,7 +719,7 @@ function OrisaMatrix() {
   const [active, setActive] = useState(false);
   const [hovered, setHovered] = useState(null);
 
-  const cx = 310, cy = 270, nodeR = 172, centerR = 52, dimR = 28;
+  const cx = 310, cy = 270, nodeR = 172, centerR = 60, dimR = 32;
   const accent = '#e63946';
 
   const ANTI_VIEWS = [
@@ -705,7 +797,7 @@ function OrisaMatrix() {
             <line key={i}
               x1={nearOuter.x} y1={nearOuter.y}
               x2={nearCenter.x} y2={nearCenter.y}
-              stroke={d.color} strokeWidth="1.5"
+              stroke={d.color} strokeWidth="2"
               strokeDasharray={len}
               strokeDashoffset={active ? 0 : len}
               markerEnd="url(#orm-arrow)"
@@ -729,15 +821,15 @@ function OrisaMatrix() {
           return (
             <g key={i} opacity={active ? 1 : 0}
               style={{ transition: `opacity 0.42s ease ${delay}ms` }}>
-              <circle cx={d.x} cy={d.y} r={isHov ? 42 : 33} fill={d.color}
+              <circle cx={d.x} cy={d.y} r={isHov ? 50 : 40} fill={d.color}
                 opacity={isHov ? 0.22 : 0.08}
                 style={{ transition: 'opacity 0.2s' }} />
               <circle cx={d.x} cy={d.y} r={dimR}
                 fill="#180c0c" stroke={d.color}
-                strokeWidth={isHov ? 2.5 : 1.5}
+                strokeWidth={isHov ? 3.5 : 2.2}
                 style={{ transition: 'stroke-width 0.18s' }} />
-              <text x={d.x} y={d.y + 5} textAnchor="middle"
-                fill={d.color} fontSize="12" fontWeight="800" fontFamily="monospace">
+              <text x={d.x} y={d.y + 6} textAnchor="middle"
+                fill={d.color} fontSize="14" fontWeight="800" fontFamily="monospace">
                 {d.letter}
               </text>
               <text x={lx} y={ly + dy1} textAnchor={anchor}
@@ -760,25 +852,25 @@ function OrisaMatrix() {
 
         {/* Center node — Oyeku / Anergy style */}
         <g onClick={() => { setActive(v => !v); setHovered(null); }} style={{ cursor: 'pointer' }}>
-          <circle cx={cx} cy={cy} r="74" fill="none"
-            stroke={accent} strokeWidth="1" className="orm__pulse" />
-          <circle cx={cx} cy={cy} r={centerR + 20} fill="url(#orm-cg)" />
+          <circle cx={cx} cy={cy} r="88" fill="none"
+            stroke={accent} strokeWidth="1.5" className="orm__pulse" />
+          <circle cx={cx} cy={cy} r={centerR + 24} fill="url(#orm-cg)" />
           <circle cx={cx} cy={cy} r={centerR}
-            fill="#180c0c" stroke={accent} strokeWidth="2.5" />
+            fill="#180c0c" stroke={accent} strokeWidth="3" />
           {/* Counter-clockwise arc arrow at west rim — dual of Ifa Circle */}
           <path d={`M ${cx - centerR},${cy - 9} A ${centerR},${centerR} 0 0,0 ${cx - centerR},${cy + 9}`}
             fill="none" stroke={accent} strokeWidth="2.5"
             markerEnd="url(#orm-arrow)" />
-          <text x={cx} y={cy - 7} textAnchor="middle"
-            fill={accent} fontSize="11.5" fontWeight="900" letterSpacing="0.5" fontFamily="monospace">
+          <text x={cx} y={cy - 9} textAnchor="middle"
+            fill={accent} fontSize="13.5" fontWeight="900" letterSpacing="0.5" fontFamily="monospace">
             Anergy:
           </text>
-          <text x={cx} y={cy + 8} textAnchor="middle"
-            fill={accent} fontSize="9" fontWeight="900" letterSpacing="0.3" fontFamily="monospace">
+          <text x={cx} y={cy + 11} textAnchor="middle"
+            fill={accent} fontSize="11" fontWeight="900" letterSpacing="0.3" fontFamily="monospace">
             Anti-Knowledge
           </text>
-          <text x={cx} y={cy + 26} textAnchor="middle"
-            fill={accent} fontSize="7" opacity="0.55">
+          <text x={cx} y={cy + 30} textAnchor="middle"
+            fill={accent} fontSize="8.5" opacity="0.55">
             {active ? '⊗ CLICK TO CLOSE' : '↓ CLICK TO OPEN'}
           </text>
         </g>
@@ -837,29 +929,43 @@ function IfaViewSection() {
               </div>
             ))}
           </div>
-          <div className="ilm-pair">
-            <div className="ilm-pair__col">
-              <div className="ilm-pair__head">
-                <span className="ilm-pair__name">IfaMatrix</span>
-                <span className="ilm-pair__sub">0+8D Viewing Matrix · Energy: Knowledge</span>
-              </div>
-              <IfaLensMatrix />
+        </div>
+        <div className="ilm-pair">
+          <div className="ilm-pair__col">
+            <div className="ilm-pair__head">
+              <span className="ilm-pair__name">IfaMatrix</span>
+              <span className="ilm-pair__sub">0+8D Viewing Matrix · Energy: Knowledge</span>
             </div>
-
-            <div className="ilm-pair__vsep">
-              <div className="ilm-pair__vsep-line" />
-              <span className="ilm-pair__vsep-label">⊗ Dual</span>
-              <div className="ilm-pair__vsep-line" />
-            </div>
-
-            <div className="ilm-pair__col">
-              <div className="ilm-pair__head">
-                <span className="ilm-pair__name orm-name">OrisaMatrix</span>
-                <span className="ilm-pair__sub">0+8D Anti-Knowledge · Anergy</span>
-              </div>
-              <OrisaMatrix />
-            </div>
+            <IfaLensMatrix />
           </div>
+
+          <div className="ilm-pair__vsep">
+            <div className="ilm-pair__vsep-line" />
+            <span className="ilm-pair__vsep-label">⊗ Dual</span>
+            <div className="ilm-pair__vsep-line" />
+          </div>
+
+          <div className="ilm-pair__col">
+            <div className="ilm-pair__head">
+              <span className="ilm-pair__name orm-name">OrisaMatrix</span>
+              <span className="ilm-pair__sub">0+8D Anti-Knowledge · Anergy</span>
+            </div>
+            <OrisaMatrix />
+          </div>
+        </div>
+
+        <div className="ilm-playground-gate">
+          <div className="ilm-pg__glow" aria-hidden="true" />
+          <p className="ilm-pg__prompt">
+            You've seen how <strong>Energy: Knowledge</strong> and <strong>Anergy: Anti-Knowledge</strong> mirror each other
+            through the 0+8D Dual Structure. Now step inside the living System —
+          </p>
+          <a href="./playground/" className="ilm-pg__btn">
+            <span className="ilm-pg__btn-icon">◎</span>
+            Enter IfaLens Playground
+            <span className="ilm-pg__btn-arrow">→</span>
+          </a>
+          <p className="ilm-pg__hint">Interact with the IfaMatrix · Apply any Ifascope · Translate across fields</p>
         </div>
       </div>
     </section>
@@ -983,6 +1089,164 @@ function FrameTransformerSection() {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Ifa Transformation Theory Section ────────────────────────
+function IfaTransformSection() {
+  const PILLARS = [
+    {
+      icon: '⊛',
+      accent: '#f0920c',
+      title: 'ToE Transform',
+      sub: 'TransformoE · CEN Transform',
+      desc: 'The meta-transform that contains all transforms in mathematics, physics, and every knowledge field — Fourier, Laplace, Wavelet, Z-Transform, and beyond, all as special cases.',
+    },
+    {
+      icon: '∫̈',
+      accent: '#00d9b8',
+      title: 'IfaDifferintegral',
+      sub: 'Fractional Calculus',
+      desc: 'Generalizes differentiation and integration beyond integer orders — unifying Riemann–Liouville, Grünwald–Letnikov, Weyl, and Caputo differintegrals under one CEN framework.',
+    },
+    {
+      icon: '⊗',
+      accent: '#8b5cf6',
+      title: 'OperatoE / AperatoE',
+      sub: 'Ifa Operator Theory · Ose Meji',
+      desc: 'Operators of Everything (OperatoE) paired with Non-Operators of Anergy (AperatoE) — the Dual Operator Structure governed by Ose Meji, the Ifa Law of all operations.',
+    },
+    {
+      icon: '⌖',
+      accent: '#4361ee',
+      title: 'IFABit Encoding',
+      sub: '16 Ifa Axioms',
+      desc: 'All transformations encoded through the IFABit system — Ogbe (Energy · I) and Oyeku (Anergy · II) form the binary substrate of every transform kernel across all fields.',
+    },
+  ];
+
+  const SUBSUMED = [
+    { name: 'Fourier',     sym: 'ℱ', c: '#f0920c', url: 'https://en.wikipedia.org/wiki/Fourier_transform' },
+    { name: 'Laplace',     sym: 'ℒ', c: '#00d9b8', url: 'https://en.wikipedia.org/wiki/Laplace_transform' },
+    { name: 'Wavelet',     sym: '𝒲', c: '#8b5cf6', url: 'https://en.wikipedia.org/wiki/Wavelet_transform' },
+    { name: 'Z-Transform', sym: 'ℤ', c: '#4361ee', url: 'https://en.wikipedia.org/wiki/Z-transform' },
+    { name: 'Hilbert',     sym: 'ℋ', c: '#e63946', url: 'https://en.wikipedia.org/wiki/Hilbert_transform' },
+    { name: 'Mellin',      sym: 'ℳ', c: '#f5c518', url: 'https://en.wikipedia.org/wiki/Mellin_transform' },
+    { name: 'Radon',       sym: 'ℛ', c: '#00e07c', url: 'https://en.wikipedia.org/wiki/Radon_transform' },
+    { name: 'Hankel',      sym: 'H',  c: '#ff6b6b', url: 'https://en.wikipedia.org/wiki/Hankel_transform' },
+  ];
+
+  return (
+    <section className="ifa-transform" id="ifa-transform">
+      <div className="section__inner">
+
+        {/* Header */}
+        <div className="section__head">
+          <div className="section__badge" style={{'--badge-c': '#f0920c'}}>TransformoE · The Field of Transformations</div>
+          <h2 className="section__title">Ifa Transformation Theory</h2>
+          <p className="section__lead">
+            Also called the <strong>Temic Transformation Theory</strong>, this meta-theory of
+            Consciousness Mechanics (Ifa Mechanics) states that all fields and disciplines of knowledge
+            generally involve studying the single System, Energy, <strong>Ogbe</strong>, or CEN —
+            the <strong>BaseField</strong>.
+          </p>
+          <p className="ift__lead-body">
+            In other words, all kinds of knowledge are <em>energyforms</em>, forms of Energy, or{' '}
+            <em>energystates</em>, states of Energy. When disciplines or fields are seen this way and
+            modelled as mathematical energyforms in the Ifagrams, the disciplines or fields are Energy
+            transformations (transformations of energyforms or energystates). Therefore, all kinds of
+            knowledge, disciplines, and fields are Energy transformations.
+          </p>
+          <p className="ift__lead-body">
+            At the most fundamental level, all fields and disciplines are actually the same — which is
+            Energy or Ogbe — and the disciplinary boundaries in modern schools and education systems are
+            artificial, not an inherent property of knowledge or nature.
+          </p>
+          <p className="ift__lead-body">
+            This is the Ifa Transformation Theory and is of paramount importance in developing the{' '}
+            <strong>Grand Unified Theory (GUT)</strong> of any discipline or field, be it Physics,
+            Mathematics, Finance, Psychology, Arts, any discipline at all, and consequently constructing
+            the TOE, i.e., the <strong>IFA Internet</strong>.
+          </p>
+          <p className="ift__lead-body ift__lead-body--note">
+            Ifa Transformation Theory is a more general form of <strong>Dirac transformation theory</strong> in
+            Quantum Mechanics. Also known as the <em>Dirac–Jordan transformation theory</em>, it was
+            developed independently by Paul Dirac and Pascual Jordan around 1927.
+          </p>
+        </div>
+
+        {/* Formula label → image → subsumed transforms */}
+        <div className="ift__formula-block">
+          <div className="ift__formula-label">
+            <span className="ift__fl-dot" />
+            Core Ifa Transformation Formula
+          </div>
+
+          {/* Diagram */}
+          <div className="ift__image-frame">
+            <img
+              src="./src/IFA-Transformation-Theory-1-768x512.png"
+              alt="Ifa Transformation Theory — The Field of Transformations"
+              className="ift__image"
+            />
+            <div className="ift__image-overlay">
+              <span className="ift__image-tag">TransformoE · IFA Internet</span>
+            </div>
+          </div>
+          <p className="ift__image-caption">
+            All fields and disciplines generate and hold transformations through Logic, Vectors, Forms,
+            and CEN IFABit Fields — the Ifa Transformation Theory generalises these to Quantum Mechanics
+            across all fields.
+          </p>
+
+          {/* Subsumed transforms */}
+          <div className="ift__subsumes">
+            <div className="ift__subsumes-label">Subsumes all classical transforms</div>
+            <div className="ift__subsumes-row">
+              {SUBSUMED.map(t => (
+                <a
+                  key={t.name}
+                  href={t.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ift__chip"
+                  style={{'--tc': t.c}}
+                >
+                  <span className="ift__chip-sym">{t.sym}</span>
+                  <span className="ift__chip-name">{t.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Pillars */}
+        <div className="ift__pillars">
+          {PILLARS.map(p => (
+            <div key={p.title} className="ift__pillar" style={{'--pt-color': p.accent}}>
+              <div className="ift__pillar-icon">{p.icon}</div>
+              <h3 className="ift__pillar-title">{p.title}</h3>
+              <div className="ift__pillar-sub">{p.sub}</div>
+              <p className="ift__pillar-desc">{p.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="ift__cta">
+          <a
+            href="https://toe.cenproject.org/ifa-transform/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ift__cta-btn"
+          >
+            Explore Full Ifa Transformation Theory
+            <span className="ift__cta-arrow">→</span>
+          </a>
+        </div>
+
       </div>
     </section>
   );
@@ -1216,6 +1480,14 @@ function Footer() {
 
 // ── App ───────────────────────────────────────────────────────
 function App() {
+  const [unlocked, setUnlocked] = useState(
+    localStorage.getItem('ifalens_sub') === ACCESS_CODE
+  );
+
+  if (!unlocked) {
+    return <SubscriptionGate onUnlock={() => setUnlocked(true)} />;
+  }
+
   return (
     <>
       <Header />
@@ -1224,6 +1496,7 @@ function App() {
         <IfaViewSection />
         <IfascopesSection />
         <FrameTransformerSection />
+        <IfaTransformSection />
         <IfaTechSection />
         <EnergySection />
         <PolymathicArsenalSection />

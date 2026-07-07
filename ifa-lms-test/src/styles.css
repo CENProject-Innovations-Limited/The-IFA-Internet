@@ -669,6 +669,9 @@ input, select, textarea { font: inherit; }
 .tbl-btn--active  { background: rgba(59,158,255,0.28); color: #7dc3ff; border-color: rgba(59,158,255,0.5); }
 /* class code section (login page) */
 .class-code-section { margin-top: 1.4rem; text-align: center; }
+.login-enroll { margin-top: 1.2rem; text-align: center; font-size: 0.82rem; color: var(--text-2); }
+.login-enroll a { color: var(--amber); text-decoration: none; font-weight: 600; }
+.login-enroll a:hover { color: var(--amber-lt, #f5c518); text-decoration: underline; }
 .class-code-toggle  { background: none; border: none; color: var(--text-3); font-size: 0.8rem; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; padding: 0; }
 .class-code-toggle:hover { color: var(--amber); }
 .class-code-input   { width: 100%; min-height: 4.5rem; resize: vertical; background: var(--bg-3, #0d1117); border: 1.5px solid var(--border-2, #2a2f3a); border-radius: 8px; color: var(--text-1, #e8e8e8); font-size: 0.78rem; padding: 0.65rem 0.8rem; font-family: monospace; box-sizing: border-box; margin-bottom: 0.5rem; }

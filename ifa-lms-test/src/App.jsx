@@ -1468,6 +1468,12 @@ function LoginPage({ onLogin, loginError }) {
                 </>
             }
           </div>
+          <div className="login-enroll">
+            Not enrolled yet?{' '}
+            <a href="https://ifainternet.org/ifa-lms/ifa-academy/#enroll" target="_blank" rel="noopener noreferrer">
+              Enroll in the IFA Academy of Polymaths →
+            </a>
+          </div>
         </div>
       </div>
     </div>

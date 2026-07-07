@@ -22,7 +22,7 @@ const IFART_FORMS = [
     title: 'Ìyẹ̀rẹ Ifá',
     sub: 'Sacred Ifa Chant',
     color: '#f0920c',
-    body: 'Ìyẹ̀rẹ Ifá is the sacred chant of Ifá — a highly specialized oral art performed by Àwísẹ (Ifa chant specialists). Composed in an archaic Yoruba register, it encodes the complete corpus of the 256 Odu Ifa in musical form. Ìyẹ̀rẹ functions as the living archive of Ifa wisdom — each chant a performance of divination knowledge, cosmology, and moral instruction. It is the highest expression of Ifa oral art.',
+    body: 'Ìyẹ̀rẹ Ifá is the sacred chant of Ifá — a highly specialized oral art performed by Asùnyẹ̀rẹ̀ Ifá/Àwísẹ (Ifa chant specialists). Composed in a primordial Yoruba register, it encodes the complete corpus of the 256 Odu Ifa in musical form. Ìyẹ̀rẹ functions as the living archive of Ifa wisdom — each chant a performance of divination knowledge, cosmology, and moral instruction. It is the highest expression of Ifa oral art.',
   },
   {
     num: '02',
@@ -115,8 +115,8 @@ const TRADITIONS = [
     title: 'Ìyẹ̀rẹ Ifá',
     type: 'ifa',
     color: '#f0920c',
-    role: 'Àwísẹ — Ifa Chant Specialist',
-    body: 'The highest expression of Ifa oral art — sacred chant that encodes the complete 256 Odu Ifa corpus in musical form. Performed in archaic Yoruba by Àwísẹ specialists, Ìyẹ̀rẹ functions simultaneously as divination knowledge, cosmological teaching, moral instruction, and devotional music. The Àwísẹ who masters Ìyẹ̀rẹ carries the entire living library of Ifa in voice and memory.',
+    role: 'Asùnyẹ̀rẹ̀ Ifá — Ifa Chant Specialist',
+    body: 'A great expression of Ifa oral art — sacred chant that encodes the complete 256 Odu Ifa corpus in musical form. Performed in ancient Yoruba (technically Èdè Ọ̀pẹ̀ or Èdè Ifá) by Àwísẹ specialists, Asùnyẹ̀rẹ̀fá, Ìyẹ̀rẹ functions simultaneously as divination knowledge, cosmological teaching, moral instruction, and devotional music. The Àwísẹ, who masters Ìyẹ̀rẹ, carries key ẹsẹ̀ Ifá (Ifa (verses) in the entire 256 Odùfá as a living Library of Ifa, i.e., IfaLibrary, in voice and memory.',
     significance: 'UNESCO recognized Ifa divination (including Ìyẹ̀rẹ) as Intangible Cultural Heritage of Humanity (2005). It is the primary transmission mechanism of Ifa knowledge across generations — and the most sophisticated oral archive in African civilizational history.',
   },
   {
@@ -658,9 +658,9 @@ function TraditionsSection() {
       <div className="container">
         <div className="section__header section__header--center">
           <span className="section__eyebrow section__eyebrow--teal">Living Oral Traditions</span>
-          <h2 className="section__title">The 11 Traditions of Ifart &amp; Orisart</h2>
+          <h2 className="section__title">The 16 Traditions of Ifart &amp; Orisart</h2>
           <p className="section__subtitle">
-            Eleven living oral and performative traditions of Yoruba civilization — each a
+            Sixteen living oral and performative traditions of Yoruba civilization — each a
             distinct art form encoding a specific dimension of Ifa-Orisa knowledge.
           </p>
         </div>
@@ -1190,21 +1190,54 @@ function IfaWheelPanel() {
     } catch(e) {}
   }
 
+  function playOduRevealSound() {
+    try {
+      const ctx = getAudioCtx(), now = ctx.currentTime;
+      // ── Deep gong body ──
+      const gOsc = ctx.createOscillator(), gGain = ctx.createGain();
+      gOsc.type = 'sine';
+      gOsc.frequency.setValueAtTime(110, now); gOsc.frequency.exponentialRampToValueAtTime(72, now + 2.8);
+      gGain.gain.setValueAtTime(0.55, now); gGain.gain.exponentialRampToValueAtTime(0.001, now + 2.8);
+      gOsc.connect(gGain); gGain.connect(ctx.destination); gOsc.start(now); gOsc.stop(now + 2.9);
+      // ── Gong 2nd harmonic ──
+      const g2Osc = ctx.createOscillator(), g2Gain = ctx.createGain();
+      g2Osc.type = 'sine';
+      g2Osc.frequency.setValueAtTime(275, now); g2Osc.frequency.exponentialRampToValueAtTime(180, now + 2.2);
+      g2Gain.gain.setValueAtTime(0.22, now); g2Gain.gain.exponentialRampToValueAtTime(0.001, now + 2.2);
+      g2Osc.connect(g2Gain); g2Gain.connect(ctx.destination); g2Osc.start(now); g2Osc.stop(now + 2.3);
+      // ── Rising shimmer ──
+      const shOsc = ctx.createOscillator(), shGain = ctx.createGain();
+      shOsc.type = 'triangle';
+      shOsc.frequency.setValueAtTime(220, now + 0.05); shOsc.frequency.exponentialRampToValueAtTime(880, now + 0.6);
+      shGain.gain.setValueAtTime(0, now + 0.05); shGain.gain.linearRampToValueAtTime(0.18, now + 0.2); shGain.gain.linearRampToValueAtTime(0, now + 0.65);
+      shOsc.connect(shGain); shGain.connect(ctx.destination); shOsc.start(now + 0.05); shOsc.stop(now + 0.7);
+      // ── Sparkle cascade ──
+      [1320, 1760, 2200, 2640, 3300].forEach((freq, i) => {
+        const spOsc = ctx.createOscillator(), spGain = ctx.createGain();
+        spOsc.type = 'sine'; spOsc.frequency.value = freq;
+        const t = now + 0.08 + i * 0.07;
+        spGain.gain.setValueAtTime(0, t); spGain.gain.linearRampToValueAtTime(0.1 - i * 0.01, t + 0.015); spGain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+        spOsc.connect(spGain); spGain.connect(ctx.destination); spOsc.start(t); spOsc.stop(t + 0.55);
+      });
+    } catch(e) {}
+  }
+
   function spin() {
     if (spinning) return;
     setSpinning(true); setResult(null); setHighlight(false); setBtnText('🌀 Tuning...');
     const idx = Math.floor(Math.random() * 16);
-    const fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
-    const targetAngle = (348.75 - idx * 22.5 + 360) % 360;
-    const currentMod = angleRef.current % 360;
-    let delta = (targetAngle - currentMod + 360) % 360;
+    const fullSpins     = (5 + Math.floor(Math.random() * 4)) * 360;
+    // CCW rotation needed to bring Odu[idx] to top = its CW position from top
+    const targetCCW     = (348.75 - idx * 22.5 + 360) % 360;
+    const currentCCWMod = ((-angleRef.current) % 360 + 360) % 360;
+    let delta = (targetCCW - currentCCWMod + 360) % 360;
     if (delta < 45) delta += 360;
-    angleRef.current += delta + fullSpins;
+    angleRef.current -= delta + fullSpins;            // negative = anti-clockwise
     rotorRef.current.style.transition = 'transform 4.5s cubic-bezier(0.17,0.67,0.12,0.99)';
     rotorRef.current.style.transform = `rotate(${angleRef.current}deg)`;
     playWheelSpinSound();
     setTimeout(() => {
-      setSpinning(false); setHighlight(true);
+      setSpinning(false); playOduRevealSound(); setHighlight(true);
       setTimeout(() => { setResult(IFA_ODU_WHEEL[idx]); setBtnText('🎯 TUNE AGAIN!'); }, 900);
     }, 4600);
   }
@@ -1283,40 +1316,40 @@ function IfaWheelPanel() {
             <circle cx="200" cy="200" r="193" fill="none" stroke="#d4a427" strokeWidth="2.8"/>
             <circle cx="200" cy="200" r="186" fill="none" stroke="rgba(212,164,39,0.22)" strokeWidth="0.8"/>
             <g fontSize="13" fontWeight="900" fontFamily="Georgia,'Times New Roman',serif" textAnchor="middle" dominantBaseline="middle">
-              <text x="231.2" y="43.1"  fill="#ffffff" transform="rotate(-78.75,231.2,43.1)">1</text>
-              <text x="288.9" y="67.0"  fill="#f5e8c0" transform="rotate(-56.25,288.9,67.0)">2</text>
-              <text x="333.0" y="111.1" fill="#ffffff" transform="rotate(-33.75,333.0,111.1)">3</text>
-              <text x="356.9" y="168.8" fill="#f5e8c0" transform="rotate(-11.25,356.9,168.8)">4</text>
-              <text x="356.9" y="231.2" fill="#ffffff" transform="rotate(11.25,356.9,231.2)">5</text>
-              <text x="333.0" y="288.9" fill="#f5e8c0" transform="rotate(33.75,333.0,288.9)">6</text>
-              <text x="288.9" y="333.0" fill="#ffffff" transform="rotate(56.25,288.9,333.0)">7</text>
-              <text x="231.2" y="356.9" fill="#f5e8c0" transform="rotate(78.75,231.2,356.9)">8</text>
-              <text x="168.8" y="356.9" fill="#ffffff" transform="rotate(-78.75,168.8,356.9)">9</text>
-              <text x="111.1" y="333.0" fill="#f5e8c0" transform="rotate(-56.25,111.1,333.0)">10</text>
-              <text x="67.0"  y="288.9" fill="#ffffff" transform="rotate(-33.75,67.0,288.9)">11</text>
-              <text x="43.1"  y="231.2" fill="#f5e8c0" transform="rotate(-11.25,43.1,231.2)">12</text>
-              <text x="43.1"  y="168.8" fill="#ffffff" transform="rotate(11.25,43.1,168.8)">13</text>
-              <text x="67.0"  y="111.1" fill="#f5e8c0" transform="rotate(33.75,67.0,111.1)">14</text>
-              <text x="111.1" y="67.0"  fill="#ffffff" transform="rotate(56.25,111.1,67.0)">15</text>
-              <text x="168.8" y="43.1"  fill="#f5e8c0" transform="rotate(78.75,168.8,43.1)">16</text>
+              <text x="231.2" y="43.1"  fill="#ffffff" transform="rotate(-78.75,231.2,43.1)">16</text>
+              <text x="288.9" y="67.0"  fill="#f5e8c0" transform="rotate(-56.25,288.9,67.0)">15</text>
+              <text x="333.0" y="111.1" fill="#ffffff" transform="rotate(-33.75,333.0,111.1)">14</text>
+              <text x="356.9" y="168.8" fill="#f5e8c0" transform="rotate(-11.25,356.9,168.8)">13</text>
+              <text x="356.9" y="231.2" fill="#ffffff" transform="rotate(11.25,356.9,231.2)">12</text>
+              <text x="333.0" y="288.9" fill="#f5e8c0" transform="rotate(33.75,333.0,288.9)">11</text>
+              <text x="288.9" y="333.0" fill="#ffffff" transform="rotate(56.25,288.9,333.0)">10</text>
+              <text x="231.2" y="356.9" fill="#f5e8c0" transform="rotate(78.75,231.2,356.9)">9</text>
+              <text x="168.8" y="356.9" fill="#ffffff" transform="rotate(-78.75,168.8,356.9)">8</text>
+              <text x="111.1" y="333.0" fill="#f5e8c0" transform="rotate(-56.25,111.1,333.0)">7</text>
+              <text x="67.0"  y="288.9" fill="#ffffff" transform="rotate(-33.75,67.0,288.9)">6</text>
+              <text x="43.1"  y="231.2" fill="#f5e8c0" transform="rotate(-11.25,43.1,231.2)">5</text>
+              <text x="43.1"  y="168.8" fill="#ffffff" transform="rotate(11.25,43.1,168.8)">4</text>
+              <text x="67.0"  y="111.1" fill="#f5e8c0" transform="rotate(33.75,67.0,111.1)">3</text>
+              <text x="111.1" y="67.0"  fill="#ffffff" transform="rotate(56.25,111.1,67.0)">2</text>
+              <text x="168.8" y="43.1"  fill="#f5e8c0" transform="rotate(78.75,168.8,43.1)">1</text>
             </g>
             <g fontSize="7.5" fontFamily="Georgia,'Times New Roman',serif" textAnchor="middle" dominantBaseline="middle" letterSpacing="0.4">
-              <text x="221.5" y="92.1"  fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,221.5,92.1)">Ogbe</text>
-              <text x="261.1" y="108.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,261.1,108.5)">Oyeku</text>
-              <text x="291.5" y="138.9" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,291.5,138.9)">Iwori</text>
-              <text x="307.9" y="178.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,307.9,178.5)">Odi</text>
-              <text x="307.9" y="221.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,307.9,221.5)">Irosun</text>
-              <text x="291.5" y="261.1" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,291.5,261.1)">Owonrin</text>
-              <text x="261.1" y="291.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,261.1,291.5)">Obara</text>
-              <text x="221.5" y="307.9" fill="rgba(255,235,175,0.92)" transform="rotate(78.75,221.5,307.9)">Okanran</text>
-              <text x="178.5" y="307.9" fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,178.5,307.9)">Ogunda</text>
-              <text x="138.9" y="291.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,138.9,291.5)">Osa</text>
-              <text x="108.5" y="261.1" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,108.5,261.1)">Ika</text>
-              <text x="92.1"  y="221.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,92.1,221.5)">Oturupọn</text>
-              <text x="92.1"  y="178.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,92.1,178.5)">Otura</text>
-              <text x="108.5" y="138.9" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,108.5,138.9)">Irete</text>
-              <text x="138.9" y="108.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,138.9,108.5)">Ose</text>
-              <text x="178.5" y="92.1"  fill="rgba(255,235,175,0.92)" transform="rotate(78.75,178.5,92.1)">Ofun</text>
+              <text x="221.5" y="92.1"  fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,221.5,92.1)">Ofun</text>
+              <text x="261.1" y="108.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,261.1,108.5)">Ose</text>
+              <text x="291.5" y="138.9" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,291.5,138.9)">Irete</text>
+              <text x="307.9" y="178.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,307.9,178.5)">Otura</text>
+              <text x="307.9" y="221.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,307.9,221.5)">Oturupọn</text>
+              <text x="291.5" y="261.1" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,291.5,261.1)">Ika</text>
+              <text x="261.1" y="291.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,261.1,291.5)">Osa</text>
+              <text x="221.5" y="307.9" fill="rgba(255,235,175,0.92)" transform="rotate(78.75,221.5,307.9)">Ogunda</text>
+              <text x="178.5" y="307.9" fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,178.5,307.9)">Okanran</text>
+              <text x="138.9" y="291.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,138.9,291.5)">Obara</text>
+              <text x="108.5" y="261.1" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,108.5,261.1)">Owonrin</text>
+              <text x="92.1"  y="221.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,92.1,221.5)">Irosun</text>
+              <text x="92.1"  y="178.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,92.1,178.5)">Odi</text>
+              <text x="108.5" y="138.9" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,108.5,138.9)">Iwori</text>
+              <text x="138.9" y="108.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,138.9,108.5)">Oyeku</text>
+              <text x="178.5" y="92.1"  fill="rgba(255,235,175,0.92)" transform="rotate(78.75,178.5,92.1)">Ogbe</text>
             </g>
             <circle cx="200" cy="200" r="56" fill="url(#chlWhlCG)" stroke="#d4a427" strokeWidth="2.5"/>
             <circle cx="200" cy="200" r="48" fill="none" stroke="rgba(255,240,160,0.4)" strokeWidth="1"/>

@@ -263,6 +263,73 @@ const FOUNDATION_CARDS = [
   },
 ];
 
+// ── Wilson Scheme Data ────────────────────────────────────────────────────────
+
+const WILSON_IFA_PILLARS = [
+  { num: '00', title: 'Odú',                              sub: 'General Law / Principle / Code' },
+  { num: '01', title: 'Àlàyé Ìjìnlẹ̀',                  sub: 'Theory' },
+  { num: '02', title: 'Ìdánkanwò',                       sub: 'Experiment' },
+  { num: '03', title: 'Iṣẹ́ Ayárabíaṣá / Ìṣirò ṣíṣe',   sub: 'Computation' },
+  { num: '04', title: 'Àtẹ/àwòrán yíyá',                sub: 'Design' },
+  { num: '05', title: 'Ìbánisọ̀rọ̀',                     sub: 'Communication' },
+  { num: '06', title: 'Ìwàpẹ̀lẹ́ / Ìwà ọmọlúwàbí',      sub: 'Ethics & Morality' },
+  { num: '07', title: 'Àrògún / Ìwòye',                  sub: 'Logic' },
+  { num: '08', title: 'Àti àwọn òdì (ìdàkejì) wọn mẹ́jọ', sub: 'And Their 8 Duals' },
+];
+
+// ── IFA Academy Data ──────────────────────────────────────────────────────────
+
+const IFA_ACADEMY_COURSES = [
+  {
+    num: '0',
+    title: 'The Basics of IFA Coding',
+    duration: '4 Months',
+    color: '#3b9eff',
+    chapters: [
+      { num: '0', title: 'Chapter 0' },
+      { num: '1', title: 'Chapter 1' },
+      { num: '2', title: 'Chapter 2' },
+      { num: '3', title: 'Chapter 3: IfaProject', isProject: true },
+    ],
+  },
+  {
+    num: '1',
+    title: 'Introduction to IFA Mathematics',
+    duration: '4 Months',
+    color: '#f0920c',
+    chapters: [
+      { num: '0', title: 'Chapter 0' },
+      { num: '1', title: 'Chapter 1' },
+      { num: '2', title: 'Chapter 2' },
+      { num: '3', title: 'Chapter 3: IfaProject', isProject: true },
+    ],
+  },
+  {
+    num: '2',
+    title: 'Intermediate IFA Mathematics I (IFA STEAM)',
+    duration: '4 Months',
+    color: '#00c87c',
+    chapters: [
+      { num: '0', title: 'Chapter 0' },
+      { num: '1', title: 'Chapter 1' },
+      { num: '2', title: 'Chapter 2' },
+      { num: '3', title: 'Chapter 3: IfaProject', isProject: true },
+    ],
+  },
+  {
+    num: '3',
+    title: 'Project Work',
+    duration: '',
+    color: '#8b5cf6',
+    chapters: [
+      { num: '0', title: 'Chapter 0' },
+      { num: '1', title: 'Chapter 1' },
+      { num: '2', title: 'Chapter 2' },
+      { num: '3', title: 'Chapter 3: IfaProject', isProject: true },
+    ],
+  },
+];
+
 // ── Schema Network Visualization ─────────────────────────────────────────────
 
 const NETWORK_NODES = [
@@ -395,6 +462,8 @@ function Nav() {
         <a href="#overview"   className="nav-link">Overview</a>
         <a href="#explorer"   className="nav-link">Explorer</a>
         <a href="#advanced"   className="nav-link">Advanced</a>
+        <a href="#wilson"     className="nav-link">Wilson Scheme</a>
+        <a href="#academy"    className="nav-link">Academy</a>
         <a href="#foundation" className="nav-link">Foundation</a>
         <a href="./lab/" className="nav-link nav-link--lab" target="_blank" rel="noopener noreferrer">Lab ↗</a>
       </div>
@@ -700,6 +769,135 @@ function Foundation() {
   );
 }
 
+// ── Ifa-Wilson Scheme ─────────────────────────────────────────────────────────
+
+function WilsonScheme() {
+  return (
+    <section className="wilson section" id="wilson">
+      <div className="section__inner">
+        <div className="section__header">
+          <span className="section__eyebrow">Ifa Schemes</span>
+          <h2 className="section__title">The Ifa-Wilson Scheme</h2>
+          <p className="section__sub">
+            Also known as the <strong>Ifa-Based Wilson Scheme</strong> — applying Ifa/Orisa Logic
+            (ToE Logic) to generalize the Wilson Scheme (or any scheme) to all fields of knowledge
+            and all dimensions of reality, beyond science.
+          </p>
+        </div>
+
+        {/* Ken Wilson Quote */}
+        <div className="wilson-quote">
+          <div className="wilson-quote__mark">"</div>
+          <blockquote className="wilson-quote__text">
+            Computation had become the third leg of science, joining the traditions of theory and experiment.
+          </blockquote>
+          <div className="wilson-quote__attr">
+            — <strong>Ken Wilson</strong>, Nobel Physics Laureate
+          </div>
+        </div>
+
+        <div className="wilson-pillars-wrap">
+          {/* Wilson Original */}
+          <div className="wilson-col">
+            <div className="wilson-col__head">
+              <span className="wilson-col__badge" style={{ '--wc': '#3b9eff' }}>Wilson Scheme</span>
+              <h3 className="wilson-col__title">Pillars (Legs) of Science</h3>
+            </div>
+            <ul className="wilson-list">
+              {['Theory', 'Experiment', 'Computation'].map((p, i) => (
+                <li key={i} className="wilson-list__item" style={{ '--wc': '#3b9eff' }}>
+                  <span className="wilson-list__num">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="wilson-list__label">{p}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="wilson-arrow">
+            <div className="wilson-arrow__line" />
+            <span className="wilson-arrow__sym">⟹</span>
+            <div className="wilson-arrow__label">Ifa Generalization</div>
+          </div>
+
+          {/* Ifa Extension */}
+          <div className="wilson-col wilson-col--ifa">
+            <div className="wilson-col__head">
+              <span className="wilson-col__badge" style={{ '--wc': '#f0920c' }}>Ifa Scheme</span>
+              <h3 className="wilson-col__title">Pillars of the Ifa-Wilson Scheme</h3>
+            </div>
+            <ul className="wilson-list">
+              {WILSON_IFA_PILLARS.map((p, i) => (
+                <li key={i} className="wilson-list__item" style={{ '--wc': i === 8 ? '#8b5cf6' : '#f0920c' }}>
+                  <span className="wilson-list__num">{p.num}</span>
+                  <div className="wilson-list__content">
+                    <span className="wilson-list__label">{p.title}</span>
+                    <span className="wilson-list__sub">{p.sub}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Brief explanation */}
+        <div className="wilson-desc">
+          <p className="wilson-desc__text">
+            The <strong>Ifa-Wilson Scheme</strong> uses Ifa/Orisa Logic — the Theory of Everything
+            (ToE) Logic — to generalize Wilson's three-pillar model of science to <em>all fields
+            of knowledge</em> and all dimensions of reality. Where Wilson identified Theory,
+            Experiment, and Computation as the three legs of scientific inquiry, the Ifa-Wilson
+            Scheme extends this to 8 Ifa Pillars (and their 8 Duals), as encoded in the
+            axiomatic structure of the 256 Odu Ifa. Any scheme, discipline, or domain of
+            knowledge — from art to law, from spirituality to engineering — can be systematized
+            through this generalized Ifa framework.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── IFA Academy ───────────────────────────────────────────────────────────────
+
+function IfaAcademy() {
+  return (
+    <section className="academy section" id="academy">
+      <div className="section__inner">
+        <div className="section__header">
+          <span className="section__eyebrow">IFA Academy</span>
+          <h2 className="section__title">Ifa Schema — Course Structure</h2>
+          <p className="section__sub">
+            The foundational curriculum for studying IFABOK and IFA Mathematics courses through
+            the Ifa Schema Framework. Each course contains Chapters 0–3; Chapter 3 (IfaProject)
+            is always dedicated to project work.
+          </p>
+        </div>
+
+        <div className="academy__grid">
+          {IFA_ACADEMY_COURSES.map((c) => (
+            <div key={c.num} className="academy-card" style={{ '--ac': c.color }}>
+              <div className="academy-card__header">
+                <div className="academy-card__num">Course {c.num}</div>
+                {c.duration && <div className="academy-card__duration">{c.duration}</div>}
+              </div>
+              <h3 className="academy-card__title">{c.title}</h3>
+              <ul className="academy-card__chapters">
+                {c.chapters.map((ch, j) => (
+                  <li key={j} className={`academy-chapter${ch.isProject ? ' academy-chapter--project' : ''}`}>
+                    <span className="academy-chapter__dot" />
+                    <span className="academy-chapter__label">{ch.title}</span>
+                    {ch.isProject && <span className="academy-chapter__tag">Project</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── Footer ────────────────────────────────────────────────────────────────────
 
 function Footer() {
@@ -716,6 +914,8 @@ function Footer() {
           <a href="#overview"   className="footer__link">Overview</a>
           <a href="#explorer"   className="footer__link">Explorer</a>
           <a href="#advanced"   className="footer__link">Advanced</a>
+          <a href="#wilson"     className="footer__link">Wilson Scheme</a>
+          <a href="#academy"    className="footer__link">Academy</a>
           <a href="#foundation" className="footer__link">Foundation</a>
           <a href="./lab/" className="footer__link" target="_blank" rel="noopener noreferrer">IfaSchema Lab ↗</a>
         </nav>
@@ -737,6 +937,8 @@ function App() {
         <Hero />
         <SchemaExplorer />
         <AdvancedTopics />
+        <WilsonScheme />
+        <IfaAcademy />
         <Stats />
         <Foundation />
       </main>

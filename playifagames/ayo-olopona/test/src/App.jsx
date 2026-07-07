@@ -1036,12 +1036,13 @@ function IfaWheelPanel() {
     if (spinning) return;
     setSpinning(true); setResult(null); setHighlight(false); setBtnText('🌀 Tuning...');
     const idx = Math.floor(Math.random() * 16);
-    const fullSpins   = (5 + Math.floor(Math.random() * 4)) * 360;
-    const targetAngle = (348.75 - idx * 22.5 + 360) % 360;
-    const currentMod  = angleRef.current % 360;
-    let delta = (targetAngle - currentMod + 360) % 360;
+    const fullSpins     = (5 + Math.floor(Math.random() * 4)) * 360;
+    // CCW rotation needed to bring Odu[idx] to top = its CW position from top
+    const targetCCW     = (348.75 - idx * 22.5 + 360) % 360;
+    const currentCCWMod = ((-angleRef.current) % 360 + 360) % 360;
+    let delta = (targetCCW - currentCCWMod + 360) % 360;
     if (delta < 45) delta += 360;
-    angleRef.current += delta + fullSpins;
+    angleRef.current -= delta + fullSpins;            // negative = anti-clockwise
     rotorRef.current.style.transition = 'transform 4.5s cubic-bezier(0.17,0.67,0.12,0.99)';
     rotorRef.current.style.transform  = `rotate(${angleRef.current}deg)`;
     playWheelSpinSound();
@@ -1142,40 +1143,40 @@ function IfaWheelPanel() {
             <circle cx="200" cy="200" r="193" fill="none" stroke="#d4a427" strokeWidth="2.8"/>
             <circle cx="200" cy="200" r="186" fill="none" stroke="rgba(212,164,39,0.22)" strokeWidth="0.8"/>
             <g fontSize="13" fontWeight="900" fontFamily="Georgia,'Times New Roman',serif" textAnchor="middle" dominantBaseline="middle">
-              <text x="231.2" y="43.1"  fill="#ffffff" transform="rotate(-78.75,231.2,43.1)">1</text>
-              <text x="288.9" y="67.0"  fill="#f5e8c0" transform="rotate(-56.25,288.9,67.0)">2</text>
-              <text x="333.0" y="111.1" fill="#ffffff" transform="rotate(-33.75,333.0,111.1)">3</text>
-              <text x="356.9" y="168.8" fill="#f5e8c0" transform="rotate(-11.25,356.9,168.8)">4</text>
-              <text x="356.9" y="231.2" fill="#ffffff" transform="rotate(11.25,356.9,231.2)">5</text>
-              <text x="333.0" y="288.9" fill="#f5e8c0" transform="rotate(33.75,333.0,288.9)">6</text>
-              <text x="288.9" y="333.0" fill="#ffffff" transform="rotate(56.25,288.9,333.0)">7</text>
-              <text x="231.2" y="356.9" fill="#f5e8c0" transform="rotate(78.75,231.2,356.9)">8</text>
-              <text x="168.8" y="356.9" fill="#ffffff" transform="rotate(-78.75,168.8,356.9)">9</text>
-              <text x="111.1" y="333.0" fill="#f5e8c0" transform="rotate(-56.25,111.1,333.0)">10</text>
-              <text x="67.0"  y="288.9" fill="#ffffff" transform="rotate(-33.75,67.0,288.9)">11</text>
-              <text x="43.1"  y="231.2" fill="#f5e8c0" transform="rotate(-11.25,43.1,231.2)">12</text>
-              <text x="43.1"  y="168.8" fill="#ffffff" transform="rotate(11.25,43.1,168.8)">13</text>
-              <text x="67.0"  y="111.1" fill="#f5e8c0" transform="rotate(33.75,67.0,111.1)">14</text>
-              <text x="111.1" y="67.0"  fill="#ffffff" transform="rotate(56.25,111.1,67.0)">15</text>
-              <text x="168.8" y="43.1"  fill="#f5e8c0" transform="rotate(78.75,168.8,43.1)">16</text>
+              <text x="231.2" y="43.1"  fill="#ffffff" transform="rotate(-78.75,231.2,43.1)">16</text>
+              <text x="288.9" y="67.0"  fill="#f5e8c0" transform="rotate(-56.25,288.9,67.0)">15</text>
+              <text x="333.0" y="111.1" fill="#ffffff" transform="rotate(-33.75,333.0,111.1)">14</text>
+              <text x="356.9" y="168.8" fill="#f5e8c0" transform="rotate(-11.25,356.9,168.8)">13</text>
+              <text x="356.9" y="231.2" fill="#ffffff" transform="rotate(11.25,356.9,231.2)">12</text>
+              <text x="333.0" y="288.9" fill="#f5e8c0" transform="rotate(33.75,333.0,288.9)">11</text>
+              <text x="288.9" y="333.0" fill="#ffffff" transform="rotate(56.25,288.9,333.0)">10</text>
+              <text x="231.2" y="356.9" fill="#f5e8c0" transform="rotate(78.75,231.2,356.9)">9</text>
+              <text x="168.8" y="356.9" fill="#ffffff" transform="rotate(-78.75,168.8,356.9)">8</text>
+              <text x="111.1" y="333.0" fill="#f5e8c0" transform="rotate(-56.25,111.1,333.0)">7</text>
+              <text x="67.0"  y="288.9" fill="#ffffff" transform="rotate(-33.75,67.0,288.9)">6</text>
+              <text x="43.1"  y="231.2" fill="#f5e8c0" transform="rotate(-11.25,43.1,231.2)">5</text>
+              <text x="43.1"  y="168.8" fill="#ffffff" transform="rotate(11.25,43.1,168.8)">4</text>
+              <text x="67.0"  y="111.1" fill="#f5e8c0" transform="rotate(33.75,67.0,111.1)">3</text>
+              <text x="111.1" y="67.0"  fill="#ffffff" transform="rotate(56.25,111.1,67.0)">2</text>
+              <text x="168.8" y="43.1"  fill="#f5e8c0" transform="rotate(78.75,168.8,43.1)">1</text>
             </g>
             <g fontSize="7.5" fontFamily="Georgia,'Times New Roman',serif" textAnchor="middle" dominantBaseline="middle" letterSpacing="0.4">
-              <text x="221.5" y="92.1"  fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,221.5,92.1)">Ogbe</text>
-              <text x="261.1" y="108.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,261.1,108.5)">Oyeku</text>
-              <text x="291.5" y="138.9" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,291.5,138.9)">Iwori</text>
-              <text x="307.9" y="178.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,307.9,178.5)">Odi</text>
-              <text x="307.9" y="221.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,307.9,221.5)">Irosun</text>
-              <text x="291.5" y="261.1" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,291.5,261.1)">Owonrin</text>
-              <text x="261.1" y="291.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,261.1,291.5)">Obara</text>
-              <text x="221.5" y="307.9" fill="rgba(255,235,175,0.92)" transform="rotate(78.75,221.5,307.9)">Okanran</text>
-              <text x="178.5" y="307.9" fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,178.5,307.9)">Ogunda</text>
-              <text x="138.9" y="291.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,138.9,291.5)">Osa</text>
-              <text x="108.5" y="261.1" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,108.5,261.1)">Ika</text>
-              <text x="92.1"  y="221.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,92.1,221.5)">Oturupọn</text>
-              <text x="92.1"  y="178.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,92.1,178.5)">Otura</text>
-              <text x="108.5" y="138.9" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,108.5,138.9)">Irete</text>
-              <text x="138.9" y="108.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,138.9,108.5)">Ose</text>
-              <text x="178.5" y="92.1"  fill="rgba(255,235,175,0.92)" transform="rotate(78.75,178.5,92.1)">Ofun</text>
+              <text x="221.5" y="92.1"  fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,221.5,92.1)">Ofun</text>
+              <text x="261.1" y="108.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,261.1,108.5)">Ose</text>
+              <text x="291.5" y="138.9" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,291.5,138.9)">Irete</text>
+              <text x="307.9" y="178.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,307.9,178.5)">Otura</text>
+              <text x="307.9" y="221.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,307.9,221.5)">Oturupọn</text>
+              <text x="291.5" y="261.1" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,291.5,261.1)">Ika</text>
+              <text x="261.1" y="291.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,261.1,291.5)">Osa</text>
+              <text x="221.5" y="307.9" fill="rgba(255,235,175,0.92)" transform="rotate(78.75,221.5,307.9)">Ogunda</text>
+              <text x="178.5" y="307.9" fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,178.5,307.9)">Okanran</text>
+              <text x="138.9" y="291.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,138.9,291.5)">Obara</text>
+              <text x="108.5" y="261.1" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,108.5,261.1)">Owonrin</text>
+              <text x="92.1"  y="221.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,92.1,221.5)">Irosun</text>
+              <text x="92.1"  y="178.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,92.1,178.5)">Odi</text>
+              <text x="108.5" y="138.9" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,108.5,138.9)">Iwori</text>
+              <text x="138.9" y="108.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,138.9,108.5)">Oyeku</text>
+              <text x="178.5" y="92.1"  fill="rgba(255,235,175,0.92)" transform="rotate(78.75,178.5,92.1)">Ogbe</text>
             </g>
             <circle cx="200" cy="200" r="56" fill="url(#chlWhlCG)" stroke="#d4a427" strokeWidth="2.5"/>
             <circle cx="200" cy="200" r="48" fill="none" stroke="rgba(255,240,160,0.4)" strokeWidth="1"/>
