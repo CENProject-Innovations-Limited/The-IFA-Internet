@@ -1923,6 +1923,198 @@ function OduMiniCircle({ odu, dualOdu, isDual, onClick }) {
   );
 }
 
+// ── Opon Ifa Mini Board — Alternative Art Design ──────────────
+// SVG-based authentic Opon Ifa divination board with real Odu marks
+// Eshu face always at 12 o'clock · Meji form (left + right column same Odu)
+function OponIfaBoardSVG({ code, color, num }) {
+  const cx = 100, cy = 100;
+  const uid = `opon${num}`;
+
+  // 8 carved figure positions around the rim (degrees from 12 o'clock)
+  const figAngles = [0, 45, 90, 135, 180, 225, 270, 315];
+  const rimCR = 80; // radial center for carved figures
+
+  const marks = code.split('');
+
+  return (
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ display:'block', width:'100%', height:'100%' }}>
+      <defs>
+        <filter id={`${uid}-mg`} x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <radialGradient id={`${uid}-rim`} cx="38%" cy="30%" r="75%">
+          <stop offset="0%"   stopColor="#52320e"/>
+          <stop offset="50%"  stopColor="#301d08"/>
+          <stop offset="100%" stopColor="#120a03"/>
+        </radialGradient>
+        <radialGradient id={`${uid}-inn`} cx="42%" cy="36%" r="68%">
+          <stop offset="0%"  stopColor="#0f0c1e"/>
+          <stop offset="100%" stopColor="#06040f"/>
+        </radialGradient>
+        <radialGradient id={`${uid}-halo`} cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor={color} stopOpacity="0.22"/>
+          <stop offset="65%"  stopColor={color} stopOpacity="0.07"/>
+          <stop offset="100%" stopColor={color} stopOpacity="0"/>
+        </radialGradient>
+      </defs>
+
+      {/* Outer ambient halo */}
+      <circle cx={cx} cy={cy} r={100} fill={`url(#${uid}-halo)`}/>
+
+      {/* Board rim body */}
+      <circle cx={cx} cy={cy} r={96} fill={`url(#${uid}-rim)`}/>
+
+      {/* Outer edge ring */}
+      <circle cx={cx} cy={cy} r={96} fill="none" stroke={color} strokeWidth="1.3" strokeOpacity="0.5"/>
+      <circle cx={cx} cy={cy} r={92} fill="none" stroke="rgba(201,162,39,0.16)" strokeWidth="0.7"/>
+      <circle cx={cx} cy={cy} r={87} fill="none" stroke="rgba(201,162,39,0.12)" strokeWidth="0.6"/>
+
+      {/* Carved figures around rim — 8 positions */}
+      {figAngles.map((angle, i) => {
+        const rad = (angle - 90) * Math.PI / 180;
+        const fx = cx + rimCR * Math.cos(rad);
+        const fy = cy + rimCR * Math.sin(rad);
+        const isEshu = i === 0;
+
+        if (isEshu) {
+          // Eshu face — sacred guardian at crown of every Opon Ifa
+          return (
+            <g key="eshu" transform={`translate(${fx},${fy})`} filter={`url(#${uid}-mg)`}>
+              <circle r={10.5} fill="#120a03"/>
+              <circle r={10}   fill="none" stroke="#c9a227" strokeWidth="1.4"/>
+              <circle r={8.5}  fill="#c9a227" fillOpacity="0.9"/>
+              <circle r={7}    fill="#3a2208"/>
+              {/* Eyes */}
+              <circle cx={-2.3} cy={-2} r={1.5} fill="#c9a227"/>
+              <circle cx={ 2.3} cy={-2} r={1.5} fill="#c9a227"/>
+              <circle cx={-2.3} cy={-2} r={0.7} fill="#120a03"/>
+              <circle cx={ 2.3} cy={-2} r={0.7} fill="#120a03"/>
+              {/* Nose bridge */}
+              <line x1={0} y1={-0.5} x2={0} y2={1} stroke="rgba(201,162,39,0.45)" strokeWidth="0.8" strokeLinecap="round"/>
+              {/* Mouth */}
+              <path d="M -2.6 3 Q 0 5.5 2.6 3" fill="none" stroke="#c9a227" strokeWidth="1.1" strokeLinecap="round"/>
+              {/* Crown prongs */}
+              <path d="M -4 -5.5 L -2.5 -9 L 0 -7.2 L 2.5 -9 L 4 -5.5" fill="none" stroke="#f0c840" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx={-2.5} cy={-9} r={1.1} fill="#f0c840"/>
+              <circle cx={ 2.5} cy={-9} r={1.1} fill="#f0c840"/>
+              <circle cx={0}    cy={-7.2} r={1.4} fill="#f0c840"/>
+            </g>
+          );
+        }
+
+        // Regular carved Orisa/ancestor figure
+        return (
+          <g key={i} transform={`translate(${fx},${fy})`}>
+            <circle r={7}   fill="#1e1208" stroke="rgba(201,162,39,0.38)" strokeWidth="0.9"/>
+            <circle r={5.2} fill="#2c1a0a"/>
+            <circle cx={-1.9} cy={-1.6} r={0.95} fill="rgba(201,162,39,0.42)"/>
+            <circle cx={ 1.9} cy={-1.6} r={0.95} fill="rgba(201,162,39,0.42)"/>
+            <path d="M -2.2 2.4 Q 0 4.2 2.2 2.4" fill="none" stroke="rgba(201,162,39,0.3)" strokeWidth="0.8" strokeLinecap="round"/>
+          </g>
+        );
+      })}
+
+      {/* Inner gold boundary ring */}
+      <circle cx={cx} cy={cy} r={71.5} fill="none" stroke={color} strokeWidth="2.2" strokeOpacity="0.78"/>
+      <circle cx={cx} cy={cy} r={69}   fill="none" stroke={color} strokeWidth="0.6" strokeOpacity="0.28"/>
+
+      {/* Divination surface */}
+      <circle cx={cx} cy={cy} r={68} fill={`url(#${uid}-inn)`}/>
+      <circle cx={cx} cy={cy} r={68} fill={color} fillOpacity="0.035"/>
+
+      {/* Concentric texture rings */}
+      <circle cx={cx} cy={cy} r={56} fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="0.8"/>
+      <circle cx={cx} cy={cy} r={40} fill="none" stroke="rgba(255,255,255,0.018)" strokeWidth="0.8"/>
+
+      {/* Odu number — top inner board */}
+      <text x={cx} y={cy-50} textAnchor="middle"
+        fill={color} fillOpacity="0.52"
+        fontFamily="'Space Grotesk', monospace"
+        fontSize="9" fontWeight="700" letterSpacing="0.14em"
+      >{String(num).padStart(2,'0')}</text>
+
+      {/* Odu Marks — Meji form: left column + right column (identical, doubled) */}
+      {/* Rows: cy-24, cy-8, cy+8, cy+24 — mark height ±7 — 2px gap between rows */}
+      <g filter={`url(#${uid}-mg)`}>
+        {[cx - 18, cx + 18].map((colX, ci) =>
+          marks.map((bit, ri) => {
+            const baseY = cy - 24 + ri * 16;
+            if (bit === '1') {
+              // Single mark — one vertical line
+              return (
+                <line key={`${ci}-${ri}`}
+                  x1={colX} y1={baseY - 7}
+                  x2={colX} y2={baseY + 7}
+                  stroke={color} strokeWidth="2.6" strokeLinecap="round"
+                />
+              );
+            }
+            // Double mark — two vertical lines
+            return (
+              <g key={`${ci}-${ri}`}>
+                <line x1={colX - 3.5} y1={baseY - 7} x2={colX - 3.5} y2={baseY + 7}
+                  stroke={color} strokeWidth="2.1" strokeLinecap="round"/>
+                <line x1={colX + 3.5} y1={baseY - 7} x2={colX + 3.5} y2={baseY + 7}
+                  stroke={color} strokeWidth="2.1" strokeLinecap="round"/>
+              </g>
+            );
+          })
+        )}
+      </g>
+
+      {/* Meji centre divider (subtle dashed) */}
+      <line x1={cx} y1={cy - 36} x2={cx} y2={cy + 36}
+        stroke="rgba(255,255,255,0.065)"
+        strokeWidth="0.8" strokeLinecap="round" strokeDasharray="2.5 4"/>
+
+      {/* MEJI label — bottom inner board */}
+      <text x={cx} y={cy + 56} textAnchor="middle"
+        fill={color} fillOpacity="0.65"
+        fontFamily="'Space Grotesk', monospace"
+        fontSize="8.5" fontWeight="600" letterSpacing="0.1em"
+      >MEJI</text>
+    </svg>
+  );
+}
+
+// OponIfa mini: click → board fades+shrinks out → dual Odu fades+grows in
+function OponIfaMiniCircle({ odu, dualOdu, onClick }) {
+  const [visible, setVisible] = useState(true);
+  const [showingDual, setShowingDual] = useState(false);
+  const busy = useRef(false);
+
+  const shown = showingDual ? dualOdu : odu;
+  const code  = ODU_CODES[shown.num - 1];
+
+  function handleClick() {
+    if (busy.current) return;
+    busy.current = true;
+    setVisible(false);          // trigger fade-out + shrink CSS
+    setTimeout(() => {
+      setShowingDual(d => !d);  // swap Odu while invisible
+      setVisible(true);         // trigger fade-in + grow CSS
+      onClick();
+      setTimeout(() => { busy.current = false; }, 420);
+    }, 340);
+  }
+
+  return (
+    <div
+      className={`opon-mini${visible ? '' : ' opon-mini--hidden'}`}
+      style={{ '--oc': shown.color, '--pulse-delay': `${(shown.num - 1) * 0.2}s` }}
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => e.key === 'Enter' && handleClick()}
+      aria-label={`${shown.name} Meji — click to reveal dual Odu`}
+    >
+      <OponIfaBoardSVG code={code} color={shown.color} num={shown.num} />
+      <span className="opon-mini-label" style={{ color: shown.color }}>{shown.name} Meji</span>
+    </div>
+  );
+}
+
 function ChallengeSection() {
   const [accepted, setAccepted] = useState(false);
   const [rippling, setRippling] = useState(false);
@@ -2030,7 +2222,7 @@ function ChallengeSection() {
           </p>
         </div>
 
-        {/* Right — Odu circles */}
+        {/* Right — Odu circles + Opon Ifa boards */}
         <div className="challenge-art-panel">
           <p className="challenge-art-caption">Ayò Ọlọ́pọ́nfá Olójú Mẹ́rìndínlógún</p>
           <p className="challenge-art-sub">The 16-Pot Ifa Game Board</p>
@@ -2045,6 +2237,22 @@ function ChallengeSection() {
               {P2_DISP.map(i => (
                 <OduMiniCircle key={i} odu={ODU[i]} dualOdu={ODU[dualIdx(i)]}
                   isDual={dualPits.has(i)} onClick={() => toggleDual(i)} />
+              ))}
+            </div>
+          </div>
+          <p className="challenge-art-caption" style={{ marginTop: '16px' }}>Opon Ifa Olójú Mẹ́rìndínlógún</p>
+          <p className="challenge-art-sub">The 16 IfaBoards</p>
+          <div className="opon-ifa-board">
+            <div className="opon-ifa-row">
+              {P1_DISP.map(i => (
+                <OponIfaMiniCircle key={i} odu={ODU[i]} dualOdu={ODU[dualIdx(i)]}
+                  onClick={() => toggleDual(i)} />
+              ))}
+            </div>
+            <div className="opon-ifa-row">
+              {P2_DISP.map(i => (
+                <OponIfaMiniCircle key={i} odu={ODU[i]} dualOdu={ODU[dualIdx(i)]}
+                  onClick={() => toggleDual(i)} />
               ))}
             </div>
           </div>
@@ -2936,6 +3144,288 @@ function CoverBoard({ onDismiss }) {
   );
 }
 
+/* ── Erélayé: The IfaGame of Life ──────────────────────────────────────────── */
+const ERELAYE_COLS = 16, ERELAYE_ROWS = 16;
+
+function erelayeNextGen(grid) {
+  const R = grid.length, C = grid[0].length;
+  return grid.map((row, r) => row.map((alive, c) => {
+    let n = 0;
+    for (let dr = -1; dr <= 1; dr++) for (let dc = -1; dc <= 1; dc++) {
+      if (dr === 0 && dc === 0) continue;
+      if (grid[(r + dr + R) % R][(c + dc + C) % C]) n++;
+    }
+    return n === 3 || (alive && n === 2);
+  }));
+}
+
+function erelayeSeed() {
+  const g = Array.from({ length: ERELAYE_ROWS }, () => Array(ERELAYE_COLS).fill(false));
+  const s = (r, c) => { if (r >= 0 && r < ERELAYE_ROWS && c >= 0 && c < ERELAYE_COLS) g[r][c] = true; };
+  // R-pentomino (long chaotic evolution) — center
+  [[0,1],[0,2],[1,0],[1,1],[2,1]].forEach(([dr,dc]) => s(6+dr, 6+dc));
+  // Glider — top-left
+  [[0,1],[1,2],[2,0],[2,1],[2,2]].forEach(([dr,dc]) => s(1+dr, 1+dc));
+  // Glider — top-right (mirrored)
+  [[0,2],[1,0],[1,2],[2,1],[2,2]].forEach(([dr,dc]) => s(1+dr, 11+dc));
+  // Beacon oscillator — bottom-left
+  [[0,0],[0,1],[1,0],[2,3],[3,2],[3,3]].forEach(([dr,dc]) => s(11+dr, 3+dc));
+  // Blinker — bottom-right
+  [[0,0],[0,1],[0,2]].forEach(([dr,dc]) => s(13+dr, 12+dc));
+  // Block (stable) — scattered
+  [[0,0],[0,1],[1,0],[1,1]].forEach(([dr,dc]) => s(2+dr, 12+dc));
+  [[0,0],[0,1],[1,0],[1,1]].forEach(([dr,dc]) => s(12+dr, 10+dc));
+  // Lightweight spaceship
+  [[0,1],[0,4],[1,0],[2,0],[2,4],[3,0],[3,1],[3,2],[3,3]].forEach(([dr,dc]) => s(4+dr, 6+dc));
+  return g;
+}
+
+const ERELAYE_TAGS = [
+  "Ifa's Game of Life", "Orunmila", "Odu-Based Game of Life",
+  "Conway's Game of Life", "Ifa Modelling", "Ifa Analysis",
+  "Ifa Mechanics", "Energy-Based Ifa/Orisa Methods", "Ifa Computer",
+  "Ayò Ọlọ́pọ́nfá", "Odu Ifa", "IFABOK", "The IFA Internet",
+  "Ifa Simulation", "IfaSimulation",
+];
+
+function ErelayeGrid() {
+  const [cells, setCells] = useState(erelayeSeed);
+  const [gen, setGen]     = useState(0);
+  const [running, setRunning] = useState(true);
+
+  useEffect(() => {
+    if (!running) return;
+    const t = setInterval(() => {
+      setCells(prev => erelayeNextGen(prev));
+      setGen(g => g + 1);
+    }, 550);
+    return () => clearInterval(t);
+  }, [running]);
+
+  const CELL = 20;
+  const W = ERELAYE_COLS * CELL, H = ERELAYE_ROWS * CELL;
+
+  return (
+    <div className="erelaye-grid-wrap">
+      <div className="erelaye-grid-bar">
+        <span className="erelaye-gen">GEN <strong>{gen.toString().padStart(4,'0')}</strong></span>
+        <span className="erelaye-grid-title">Erélayé · Odu Cellular Field</span>
+        <div className="erelaye-grid-controls">
+          <button className="erelaye-ctrl" onClick={() => { setCells(erelayeSeed()); setGen(0); setRunning(true); }}>↺ Reset</button>
+          <button className="erelaye-ctrl" onClick={() => setRunning(r => !r)}>{running ? '⏸' : '▶'}</button>
+        </div>
+      </div>
+      <div className="erelaye-svg-wrap">
+        <svg className="erelaye-svg" viewBox={`0 0 ${W} ${H}`} width="100%" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <radialGradient id="eg-alive" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stopColor="#f0c840" stopOpacity="1" />
+              <stop offset="100%" stopColor="#c9a227" stopOpacity="0.7" />
+            </radialGradient>
+            <radialGradient id="eg-dim" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stopColor="#1a1535" stopOpacity="1" />
+              <stop offset="100%" stopColor="#0f0c1e" stopOpacity="1" />
+            </radialGradient>
+            <filter id="eg-glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="2" result="blur" />
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          {/* Background */}
+          <rect width={W} height={H} fill="#080615" />
+          {/* Grid lines */}
+          {Array.from({length: ERELAYE_ROWS+1}, (_,i) =>
+            <line key={`h${i}`} x1={0} y1={i*CELL} x2={W} y2={i*CELL} stroke="rgba(201,162,39,0.07)" strokeWidth="0.5"/>
+          )}
+          {Array.from({length: ERELAYE_COLS+1}, (_,i) =>
+            <line key={`v${i}`} x1={i*CELL} y1={0} x2={i*CELL} y2={H} stroke="rgba(201,162,39,0.07)" strokeWidth="0.5"/>
+          )}
+          {/* Dead cells — subtle glow */}
+          {cells.map((row,r) => row.map((alive,c) => !alive ? (
+            <rect key={`d${r}-${c}`} x={c*CELL+1} y={r*CELL+1} width={CELL-2} height={CELL-2} rx="2" fill="url(#eg-dim)" />
+          ) : null))}
+          {/* Alive cells */}
+          {cells.map((row,r) => row.map((alive,c) => alive ? (
+            <g key={`a${r}-${c}`} filter="url(#eg-glow)">
+              <rect x={c*CELL+2} y={r*CELL+2} width={CELL-4} height={CELL-4} rx="3" fill="url(#eg-alive)" />
+              <circle cx={c*CELL+CELL/2} cy={r*CELL+CELL/2} r="2.5" fill="#fff8e0" opacity="0.75"/>
+            </g>
+          ) : null))}
+        </svg>
+        <div className="erelaye-svg-scanline" aria-hidden="true"/>
+      </div>
+    </div>
+  );
+}
+
+function BuildingMode() {
+  return (
+    <div className="erelaye">
+      {/* Dev badge */}
+      <div className="erelaye-dev-badge">
+        <span className="erelaye-dev-pulse" />
+        <span className="erelaye-dev-text">Development In Progress</span>
+      </div>
+
+      {/* Header */}
+      <div className="erelaye-header">
+        <p className="erelaye-eyebrow">⬡ Building Mode · Ifa Cellular Automaton · Odu-Field Simulation</p>
+        <h1 className="erelaye-title">Erélayé</h1>
+        <p className="erelaye-subtitle">The IfaGame of Life</p>
+        <div className="erelaye-divider">
+          {[...Array(16)].map((_,i) => <span key={i} className="erelaye-divider-tick"/>)}
+        </div>
+        <div className="erelaye-dual-block">
+          <span className="erelaye-dual-label">Its Dual ·</span>
+          <span className="erelaye-dual-name">Erékọ́layé</span>
+          <span className="erelaye-dual-desc">The Ifa Non-Game of Life</span>
+        </div>
+      </div>
+
+      {/* Live simulation */}
+      <ErelayeGrid />
+
+      {/* Concept */}
+      <div className="erelaye-concept">
+        <div className="erelaye-concept-inner">
+          <p className="erelaye-concept-title">◈ Concept</p>
+          <p className="erelaye-concept-body">
+            Erélayé is an <strong>Odu-Based Cellular Automaton</strong> — Ifa's Parallel to Conway's Game of Life.
+            Each Cell on the 16 × 16 IfaField encodes an Odu Energy State based on the <strong>256 Odù Ifá</strong> and 16 Odu Orisa.
+            Alive cells pulse with Ifa Energy; each Generation evolves by the <strong>16 Ojú Odù Ifá</strong> —
+            the Laws of Ifa governing all fields. Life, death, emergence, stasis, and others arise from the
+            Interaction of Ògbè's Symmetry, Ọ̀yẹ̀kú's Invariance, Ìwòrì's Duality, and the Full
+            Spectrum of 256 Ifa Energy Vibrations/Patterns. <em>Erélayé</em> models the emergence of consciousness,
+            all knowledge, and reality from pure Ifa Mechanics.
+          </p>
+          <p className="erelaye-concept-body" style={{marginTop:'0.8rem'}}>
+            Its dual, <strong>Erékọ́layé</strong>, models the non-game — serious approach, the field of potentiality before
+            manifestation, governed by the anti-Laws of Ifa: Ọ̀sá's Anti-Symmetry through Òfún's
+            Anti-Simulation. Together they form the Complete <strong>IFABOK Simulation Engine</strong>.
+          </p>
+        </div>
+      </div>
+
+      {/* Tags */}
+      <div className="erelaye-tags-wrap">
+        <p className="erelaye-tags-label">// tags</p>
+        <div className="erelaye-tags">
+          {ERELAYE_TAGS.map(tag => <span key={tag} className="erelaye-tag">{tag}</span>)}
+        </div>
+      </div>
+
+      {/* Ifa hex grid decoration */}
+      <div className="erelaye-hex-row" aria-hidden="true">
+        {[...Array(16)].map((_,i) => (
+          <div key={i} className="erelaye-hex" style={{animationDelay:`${i*0.12}s`}}>
+            <span className="erelaye-hex-num">{(i+1).toString().padStart(2,'0')}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Ìtànlayé: Ifa Stories & Ifa Plays ────────────────────────────────────── */
+const ITANLAYE_TAGS = [
+  "Ifa's Game of Life", "Orunmila", "IfaPlays", "OrisaPlays",
+  "Odu-Based Arts", "Ifa/Orisa Filmmaking", "Ifa Theater Arts", "Orisa Theater Arts",
+  "IfaStory", "OrisaStory", "Ifa Modelling", "Ifa Analysis",
+  "Ifa Mechanics", "Energy-Based Ifa/Orisa Methods", "Ifa Computer",
+  "Ayò Ọlọ́pọ́nfá", "Odu Ifa", "IFABOK", "The IFA Internet",
+];
+
+function StoryMode() {
+  return (
+    <div className="itanlaye">
+      {/* Dev badge */}
+      <div className="itanlaye-dev-badge">
+        <span className="itanlaye-dev-pulse" />
+        <span className="itanlaye-dev-text">Development In Progress</span>
+      </div>
+
+      {/* Film strip top */}
+      <div className="itanlaye-filmstrip" aria-hidden="true">
+        {[...Array(24)].map((_,i) => <span key={i} className="itanlaye-sprocket"/>)}
+      </div>
+
+      {/* Header */}
+      <div className="itanlaye-header">
+        <p className="itanlaye-eyebrow">✦ Story Mode · Ifa Narrative Arts · Odu-Based Theater &amp; Film</p>
+        <div className="itanlaye-marquee-frame" aria-hidden="true">
+          {[...Array(14)].map((_,i) => <span key={i} className="itanlaye-marquee-bulb" style={{animationDelay:`${i*0.15}s`}}/>)}
+        </div>
+        <h1 className="itanlaye-title">Ìtànlayé</h1>
+        <p className="itanlaye-subtitle">Ifa Stories &amp; Ifa Plays</p>
+        <div className="itanlaye-divider">
+          {[...Array(16)].map((_,i) => <span key={i} className="itanlaye-divider-tick"/>)}
+        </div>
+        <div className="itanlaye-dual-block">
+          <span className="itanlaye-dual-label">Its Dual ·</span>
+          <span className="itanlaye-dual-name">Ìtànkọ́layé</span>
+          <span className="itanlaye-dual-desc">The Ifa Non-Story/Play Platform — Orisa Stories &amp; Orisa Plays</span>
+        </div>
+        <div className="itanlaye-marquee-frame" aria-hidden="true">
+          {[...Array(14)].map((_,i) => <span key={i} className="itanlaye-marquee-bulb" style={{animationDelay:`${(i*0.15)+0.08}s`}}/>)}
+        </div>
+      </div>
+
+      {/* Stage visual */}
+      <div className="itanlaye-stage" aria-hidden="true">
+        <div className="itanlaye-curtain itanlaye-curtain--left"/>
+        <div className="itanlaye-curtain itanlaye-curtain--right"/>
+        <div className="itanlaye-spotlight itanlaye-spotlight--1"/>
+        <div className="itanlaye-spotlight itanlaye-spotlight--2"/>
+        <div className="itanlaye-spotlight itanlaye-spotlight--3"/>
+        <div className="itanlaye-stage-floor"/>
+        <p className="itanlaye-stage-text">◈ Coming Soon</p>
+      </div>
+
+      {/* Concept */}
+      <div className="itanlaye-concept">
+        <div className="itanlaye-concept-inner">
+          <p className="itanlaye-concept-title">◈ Concept</p>
+          <p className="itanlaye-concept-body">
+            Ìtànlayé is an <strong>Odu-Based Narrative Platform</strong> — the Ifa Machine for theater, cinema, and storytelling.
+            Every Story and Play on Ìtànlayé is generated from and governed by <strong>Odu Ifá</strong> — the 256 Cosmic Archetypes
+            that encode all human experience, drama, wisdom, and transformation. Characters, plots, and conflicts emerge
+            from the <strong>16 Ojú Odù Ifá</strong>, the Fundamental Laws governing all narrative fields:
+            rise and fall, love and loss, creation and destruction, wisdom and folly.
+          </p>
+          <p className="itanlaye-concept-body" style={{marginTop:'0.8rem'}}>
+            Its dual, <strong>Ìtànkọ́layé</strong>, is the non-story platform — the Space of Orisa Energy and Potentiality before it
+            manifests as narrative. Orisa Stories and Orisa Plays arise from the anti-Laws of Ifa,
+            modeling the field of potentiality behind all drama. Together they form the Complete
+            <strong> IFABOK Narrative Engine</strong>.
+          </p>
+        </div>
+      </div>
+
+      {/* Tags */}
+      <div className="itanlaye-tags-wrap">
+        <p className="itanlaye-tags-label">// tags</p>
+        <div className="itanlaye-tags">
+          {ITANLAYE_TAGS.map(tag => <span key={tag} className="itanlaye-tag">{tag}</span>)}
+        </div>
+      </div>
+
+      {/* Hex row */}
+      <div className="itanlaye-hex-row" aria-hidden="true">
+        {[...Array(16)].map((_,i) => (
+          <div key={i} className="itanlaye-hex" style={{animationDelay:`${i*0.12}s`}}>
+            <span className="itanlaye-hex-num">{(i+1).toString().padStart(2,'0')}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Film strip bottom */}
+      <div className="itanlaye-filmstrip" aria-hidden="true">
+        {[...Array(24)].map((_,i) => <span key={i} className="itanlaye-sprocket"/>)}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [mode, setMode] = useState('play');
   const [showCover, setShowCover] = useState(true);
@@ -3010,11 +3500,13 @@ function App() {
               onClick={() => setMode('play')}  role="tab" aria-selected={mode === 'play'}>♟ Playing Mode</button>
             <button className={`mode-btn ${mode === 'learn' ? 'mode-btn--active-learn' : ''}`}
               onClick={() => setMode('learn')} role="tab" aria-selected={mode === 'learn'}>◈ Learning Mode</button>
-            <button className="mode-btn mode-btn--dev" disabled>
-              ✦ Story Mode <span className="mode-btn__dev-tag">Under Development</span>
+            <button className={`mode-btn ${mode === 'build' ? 'mode-btn--active-build' : ''}`}
+              onClick={() => setMode('build')} role="tab" aria-selected={mode === 'build'}>
+              ⬡ Building Mode <span className="mode-btn__dev-tag">Erélayé</span>
             </button>
-            <button className="mode-btn mode-btn--dev" disabled>
-              ⬡ Building Mode <span className="mode-btn__dev-tag">Under Development</span>
+            <button className={`mode-btn ${mode === 'story' ? 'mode-btn--active-story' : ''}`}
+              onClick={() => setMode('story')} role="tab" aria-selected={mode === 'story'}>
+              ✦ Story Mode <span className="mode-btn__dev-tag">Ìtànlayé</span>
             </button>
           </div>
         </div>
@@ -3033,6 +3525,10 @@ function App() {
               </div>
               <PlayingMode />
             </>
+          ) : mode === 'build' ? (
+            <BuildingMode />
+          ) : mode === 'story' ? (
+            <StoryMode />
           ) : (
             <>
               <div className="section-header" style={{ marginBottom:'28px' }}>
@@ -3055,7 +3551,7 @@ function App() {
         <p className="footer-note">Ayò Ọlọ́pọ́nfá is also known as Ayò Oníkáà Mérìndínlógún (the 16-Compartment Ayo Game)</p>
         <nav className="footer-links">
           <a href="../index.html"       className="footer-link">Play IFA Games</a>
-          <a href="../../index.html"    className="footer-link">IFA Internet</a>
+          <a href="https://ifainternet.org/#" className="footer-link">IFA Internet</a>
           <a href="https://cenproject.org/" className="footer-link" target="_blank" rel="noopener noreferrer">CENProject</a>
         </nav>
       </footer>
@@ -3063,5 +3559,32 @@ function App() {
   );
 }
 
+// ── Diagnostic error boundary — shows crash message on screen ──
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { err: null };
+  }
+  static getDerivedStateFromError(err) { return { err }; }
+  render() {
+    if (this.state.err) {
+      return (
+        <div style={{
+          position:'fixed', inset:0, background:'#0a0614', color:'#ff6b6b',
+          fontFamily:'monospace', padding:'40px 32px', overflowY:'auto', zIndex:99999,
+        }}>
+          <div style={{ fontSize:'13px', fontWeight:700, marginBottom:'12px', color:'#f0c840' }}>
+            ⚠ RENDER ERROR — Check browser console (F12) for full trace
+          </div>
+          <pre style={{ fontSize:'11px', lineHeight:1.6, whiteSpace:'pre-wrap', color:'#e87878' }}>
+            {String(this.state.err)}
+          </pre>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<ErrorBoundary><App /></ErrorBoundary>);

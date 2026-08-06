@@ -7,20 +7,55 @@
 
 const { useState, useEffect, useRef } = React;
 
-// ── Subscription Access ────────────────────────────────────────
-// Change ACCESS_CODE to rotate student credentials (old sessions auto-expire)
-const ACCESS_CODE = 'IFAACADEMY';
+// ── Auth — reads live IfaLMS user data from shared localStorage ─
+// IfaLMS stores its state in 'ifaLMS_v2' on the same origin (ifainternet.org),
+// so IfaLens can validate against exactly the same accounts and passwords.
+const LMS_STORAGE_KEY  = 'ifaLMS_v2';
+const LENS_SESSION_KEY = 'ifalens_user';
+
+// Fallback seed students — used if IfaLMS data isn't in localStorage yet
+const SEED_STUDENTS = [
+  { username: 'adewale',  password: 'student123', name: 'Adewale Okafor'  },
+  { username: 'chiamaka', password: 'student123', name: 'Chiamaka Nwosu'  },
+  { username: 'tayo',     password: 'student123', name: 'Tayo Adeleke'    },
+  { username: 'emeka',    password: 'student123', name: 'Emeka Obi'       },
+  { username: 'ngozi',    password: 'student123', name: 'Ngozi Adeyemi'   },
+];
+
+function getLmsUsers() {
+  try {
+    const raw = localStorage.getItem(LMS_STORAGE_KEY);
+    if (raw) {
+      const state = JSON.parse(raw);
+      if (Array.isArray(state.users)) return state.users;
+    }
+  } catch (e) {}
+  return SEED_STUDENTS;
+}
+
+function getLensSession() {
+  try {
+    const raw = localStorage.getItem(LENS_SESSION_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return null;
+}
 
 function SubscriptionGate({ onUnlock }) {
-  const [code, setCode]   = useState('');
-  const [error, setError] = useState(false);
-  const [shake, setShake] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError]       = useState(false);
+  const [shake, setShake]       = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (code.trim().toUpperCase() === ACCESS_CODE.toUpperCase()) {
-      localStorage.setItem('ifalens_sub', ACCESS_CODE);
-      onUnlock();
+    const users = getLmsUsers();
+    const user = users.find(
+      u => u.role === 'student' && u.username === username.trim() && u.password === password
+    );
+    if (user) {
+      localStorage.setItem(LENS_SESSION_KEY, JSON.stringify({ username: user.username, name: user.name }));
+      onUnlock(user.name);
     } else {
       setError(true);
       setShake(true);
@@ -47,32 +82,41 @@ function SubscriptionGate({ onUnlock }) {
 
         <div className="sub-gate__icon" aria-hidden="true">◎</div>
 
-        <h1 className="sub-gate__title">Subscribers Only</h1>
+        <h1 className="sub-gate__title">Student Login</h1>
         <p className="sub-gate__desc">
-          IfaLens is a premium platform available exclusively to students of the{' '}
+          IfaLens is available exclusively to students of the{' '}
           <strong>IFA Academy of Polymaths</strong>.
-          Enter your student access code to unlock the full platform.
+          Sign in with your <a href="https://ifainternet.org/ifa-lms/" target="_blank" rel="noopener noreferrer" className="sub-gate__join-link">IfaLMS</a> username and password.
         </p>
 
         <form onSubmit={handleSubmit} className="sub-gate__form">
           <input
             type="text"
             className={`sub-gate__input${error ? ' sub-gate__input--error' : ''}`}
-            placeholder="Enter student access code"
-            value={code}
-            onChange={e => { setCode(e.target.value); setError(false); }}
-            autoComplete="off"
+            placeholder="Username"
+            value={username}
+            onChange={e => { setUsername(e.target.value); setError(false); }}
+            autoComplete="username"
             spellCheck={false}
-            aria-label="Student access code"
+            aria-label="Username"
+          />
+          <input
+            type="password"
+            className={`sub-gate__input${error ? ' sub-gate__input--error' : ''}`}
+            placeholder="Password"
+            value={password}
+            onChange={e => { setPassword(e.target.value); setError(false); }}
+            autoComplete="current-password"
+            aria-label="Password"
           />
           <button type="submit" className="sub-gate__btn">
-            Unlock IfaLens <span className="sub-gate__btn-arrow">→</span>
+            Sign in to IfaLens <span className="sub-gate__btn-arrow">→</span>
           </button>
         </form>
 
         {error && (
           <p className="sub-gate__error" role="alert">
-            ⊗ Invalid access code — please check your student credentials.
+            ⊗ Invalid username or password — use your IfaLMS login details.
           </p>
         )}
 
@@ -192,7 +236,7 @@ const LENS_SYMBOLS = [
 const STATS = [
   { value: '256',  label: 'Odu Ifa',      sub: 'Polymathic Viewing Codes'  },
   { value: <OgbeSymbol size={36} />, label: 'Disciplines',  sub: 'All Fields of Knowledge'   },
-  { value: '11',   label: 'Ifascope Types', sub: 'Universal Imaging Modes' },
+  { value: '16',   label: 'Ifascope Types', sub: 'Universal Imaging Modes' },
   { value: 'CEN',  label: 'Energy Lens',  sub: 'Consciousness-Energy'      },
 ];
 
@@ -1480,9 +1524,7 @@ function Footer() {
 
 // ── App ───────────────────────────────────────────────────────
 function App() {
-  const [unlocked, setUnlocked] = useState(
-    localStorage.getItem('ifalens_sub') === ACCESS_CODE
-  );
+  const [unlocked, setUnlocked] = useState(() => getLensSession() !== null);
 
   if (!unlocked) {
     return <SubscriptionGate onUnlock={() => setUnlocked(true)} />;

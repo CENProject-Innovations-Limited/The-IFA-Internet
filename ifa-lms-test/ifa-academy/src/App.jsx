@@ -279,6 +279,13 @@ function HeroSection() {
           A CENProject initiative transforming education through the Ifa Model of Education and Learning — where millennia of ancestral intelligence evolve into modern science.
           Explore every field of study through IfaBits (IFA Binary System). Master cross-disciplinary problem-solving with Ifa and Orisa Systems. Become a polymath.
         </p>
+        <div className="hero__motto" aria-label="Motto of the IFA Academy of Polymaths">
+          <span className="hero__motto-line" aria-hidden="true" />
+          <span className="hero__motto-sym" aria-hidden="true">⊕</span>
+          <span className="hero__motto-text">Where Ifa inspires innovation across every field.</span>
+          <span className="hero__motto-sym" aria-hidden="true">⊕</span>
+          <span className="hero__motto-line" aria-hidden="true" />
+        </div>
         <div className="hero__ctas">
           <a href="#enroll" className="btn btn--primary btn--lg">Enroll Now</a>
           <a href="#courses" className="btn btn--ghost btn--lg">Explore Courses</a>
@@ -364,9 +371,9 @@ function PolymathSection() {
 
         <div className="ifalaws">
           <div className="ifalaws__header">
-            <p className="ifalaws__title-yo">Ẹkọ Kíkọ Ní Ìlàna Ifá &amp; Òrìṣà</p>
+            <p className="ifalaws__title-yo">Ẹ̀kọ́ Kíkọ́ Ní Ìlànà Ifá &amp; Òrìṣà</p>
             <p className="ifalaws__title-en">Ifa &amp; Orisa Methods of Learning All Fields</p>
-            <p className="ifalaws__subtitle-yo">Ojú Odù Ifá Mẹrìndínlógún</p>
+            <p className="ifalaws__subtitle-yo">Ojú Odù Ifá Mẹ́rìndínlógún</p>
             <p className="ifalaws__subtitle-en">The 16 Laws of Ifa Governing All Fields</p>
           </div>
 
@@ -385,7 +392,7 @@ function PolymathSection() {
                 <thead>
                   <tr>
                     <th>IfaLaw in Modern Language</th>
-                    <th>IfaLaw in the Ancient Language of Òpẹ (Èdè Òpẹ)</th>
+                    <th>IfaLaw in the Ancient Language of Ọ̀pẹ̀ (Èdè Ọ̀pẹ̀)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -871,6 +878,7 @@ function SiteFooter() {
           <span className="site-footer__tagline">Ancient Intelligence. Modern Polymaths. Infinite Possibility.</span>
         </div>
         <nav className="site-footer__nav">
+          <a href="/the-ifa-learn/">IfaLearn</a>
           <a href="../">IfaLMS</a>
           <a href="../../">IFA Internet</a>
           <a href="https://cenproject.org" target="_blank" rel="noopener noreferrer">CENProject</a>

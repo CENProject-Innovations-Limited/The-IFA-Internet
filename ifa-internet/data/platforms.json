@@ -555,11 +555,13 @@
     {
       "id": "ifalens",
       "name": "IfaLens",
-      "subtitle": "Lens of Everything",
-      "description": "Examine any phenomenon through the IFA framework lens.",
+      "subtitle": "LensoE — The Lens of Everything",
+      "description": "The polymathic viewing platform of the IFA Internet — examine any phenomenon, field, or system through the IFA framework lens. A premium platform for students of the IFA Academy of Polymaths.",
       "category": "tools",
-      "url": "/ifalens/",
-      "featured": false
+      "alsoIn": ["education", "science"],
+      "url": "/ifa-lens/",
+      "featured": true,
+      "local": true
     },
     {
       "id": "ifa-spectrum",

@@ -139,6 +139,7 @@ const APP_ICON = {
   'ifa-mechanics':      'M',
   'ifagebra':           'IG',
   'ifa-number':         'IN',
+  'ifa-art':            '🎭',
 };
 
 // ── Header ────────────────────────────────────────────────────
@@ -661,7 +662,7 @@ function PlatformsSection({ platforms, categories }) {
           <span className="section__eyebrow">Platform Catalog</span>
           <h2 className="section__title">All IFA Platforms</h2>
           <p className="section__desc">
-            40+ Platforms spanning every field ... mathematics, sciences, technology, networking, language, philosophy, education, others — all unified in one Theory of Everything (TOE).
+            64+ Platforms spanning every field ... mathematics, sciences, technology, networking, language, philosophy, education, others — all unified in one Theory of Everything (TOE).
           </p>
         </div>
 

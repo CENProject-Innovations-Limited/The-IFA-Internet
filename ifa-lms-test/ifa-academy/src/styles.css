@@ -170,6 +170,22 @@ main { flex: 1; }
   font-size: 1.05rem; color: var(--text-2); max-width: 660px; line-height: 1.8;
   margin-top: 0.2rem;
 }
+.hero__motto {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.6rem auto 0.4rem; max-width: 520px;
+}
+.hero__motto-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240,146,12,0.5), transparent);
+}
+.hero__motto-sym {
+  color: var(--amber); font-size: 0.75rem; opacity: 0.8; flex-shrink: 0;
+}
+.hero__motto-text {
+  font-size: 0.9rem; font-style: italic; font-weight: 600;
+  color: var(--amber-lt); letter-spacing: 0.02em; white-space: nowrap;
+  text-shadow: 0 0 18px rgba(240,146,12,0.35);
+}
 .hero__ctas { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 0.5rem; }
 
 /* ══════════════════════════════════════════════════════════════════════════════

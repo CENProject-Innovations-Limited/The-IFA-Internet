@@ -1029,6 +1029,9 @@ button { cursor: pointer; font-family: inherit; }
 .tag-board     { background: rgba( 90,  60,   0, 0.35);     color: #c9922a; }
 .tag-new       { background: rgba(  0, 200, 100, 0.15);     color: #00c864; }
 .tag-upcoming  { background: rgba(124,  77, 255, 0.12);     color: #9d80ff; }
+.tag-sim       { background: rgba(  0, 180, 220, 0.14);     color: #40c8f0; }
+.tag-theater   { background: rgba(185,  28,  58, 0.15);     color: #e8607a; }
+.tag-story     { background: rgba(180,  60, 120, 0.14);     color: #e87ac8; }
 
 .card-title {
   font-family: var(--font-game);
@@ -1079,6 +1082,7 @@ button { cursor: pointer; font-family: inherit; }
 .badge-soon     { background: var(--gold-dim);   color: var(--gold);  border: 1px solid var(--gold-border); }
 .badge-orisa    { background: var(--teal-dim);   color: var(--teal);  border: 1px solid var(--teal-border); }
 .badge-upcoming { background: rgba(124,77,255,.12); color: #9d80ff;   border: 1px solid rgba(124,77,255,.25); }
+.badge-dev      { background: rgba(180,60,120,.14); color: #e87ac8;   border: 1px solid rgba(180,60,120,.28); }
 
 /* ══════════════════════════════════════════════════════════════
    FEATURES SECTION
@@ -2005,4 +2009,103 @@ button { cursor: pointer; font-family: inherit; }
 .disclaimer-text strong {
   color: #f59e0b;
   font-weight: 700;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ERÉLAYÉ CARD ART
+══════════════════════════════════════════════════════════════ */
+.erelaye-card-art {
+  background: linear-gradient(145deg, #001a18 0%, #002e28 50%, #00413a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.erelaye-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  width: 106px;
+}
+.emc {
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
+  background: rgba(0,180,166,0.08);
+  border: 1px solid rgba(0,180,166,0.15);
+  transition: background 0.2s;
+}
+.emc--a {
+  background: rgba(0,200,180,0.55);
+  border-color: rgba(0,220,200,0.7);
+  box-shadow: 0 0 5px rgba(0,200,180,0.45);
+}
+.emc--b {
+  background: rgba(201,162,39,0.6);
+  border-color: rgba(220,180,50,0.75);
+  box-shadow: 0 0 6px rgba(201,162,39,0.5);
+}
+.game-card--live:hover .emc--a {
+  box-shadow: 0 0 8px rgba(0,200,180,0.7);
+}
+.game-card--live:hover .emc--b {
+  box-shadow: 0 0 9px rgba(201,162,39,0.75);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ÌTÀNLAYÉ CARD ART
+══════════════════════════════════════════════════════════════ */
+@keyframes itanlaye-cs-spot {
+  0%,100% { opacity: 0.45; }
+  50%      { opacity: 0.8; }
+}
+.itanlaye-card-art {
+  background: linear-gradient(145deg, #120008 0%, #2a000e 50%, #400018 100%);
+}
+.itanlaye-card-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.itanlaye-cs-curtain {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 36%;
+}
+.itanlaye-cs-curtain--left {
+  left: 0;
+  background: linear-gradient(160deg, #6b0020 0%, #3d0012 70%, transparent 100%);
+  clip-path: polygon(0 0, 100% 6%, 80% 94%, 0 100%);
+}
+.itanlaye-cs-curtain--right {
+  right: 0;
+  background: linear-gradient(200deg, #6b0020 0%, #3d0012 70%, transparent 100%);
+  clip-path: polygon(0 6%, 100% 0, 100% 100%, 20% 94%);
+}
+.itanlaye-cs-spotlight {
+  position: absolute;
+  top: -20px;
+  width: 80px; height: 100px;
+  border-radius: 0 0 60px 60px;
+  animation: itanlaye-cs-spot 3s ease-in-out infinite;
+}
+.itanlaye-cs-spotlight--1 {
+  left: 25%;
+  background: radial-gradient(ellipse at top, rgba(201,162,39,0.22) 0%, transparent 70%);
+}
+.itanlaye-cs-spotlight--2 {
+  right: 25%;
+  background: radial-gradient(ellipse at top, rgba(201,162,39,0.18) 0%, transparent 70%);
+  animation-delay: 0.8s;
+}
+.itanlaye-cs-glyph {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.6rem;
+  color: rgba(201,162,39,0.6);
+  text-shadow: 0 0 18px rgba(201,162,39,0.5);
+  z-index: 2;
 }

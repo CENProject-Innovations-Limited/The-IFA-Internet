@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="yo-NG">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ÒDÈ-ÌKÁ: An Ifa Simulation · IfaSIM | Play IFA Games</title>
+  <meta name="description" content="ÒDÈ-ÌKÁ IfaSIM — Odu Ifa Ìká Méjì across five worlds: Epic Film, Documentary, Novel, Adventure Game, and Comic. Part One Screenplay Complete. CENProject & Babalawo Ajetumobi Esubiyi Obakolawole." />
+  <meta name="theme-color" content="#04010f" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta property="og:title" content="ÒDÈ-ÌKÁ: An Ifa Simulation (IfaSIM)" />
+  <meta property="og:description" content="The Hunt. The Knowledge. The 16 Paths. Based on Odu Ifa Ìká Méjì." />
+  <meta property="og:url" content="https://www.playifagames.org/ode-ika/" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Gentium+Plus:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+/* ═══════════════════════════════════════════════════════════
+   ÒDÈ-ÌKÁ · IfaSIM · Play IFA Games · CENProject 2026
+   CINEMATIC EDITION
+═══════════════════════════════════════════════════════════ */
+:root {
+  --bg:        #04010f;
+  --bg-card:   #0c0620;
+  --bg-alt:    #07031a;
+  --bg-deep:   #020008;
+
+  --gold:      #f5b700;
+  --gold-lt:   #ffe566;
+  --gold-dim:  rgba(245,183,0,0.12);
+  --gold-bdr:  rgba(245,183,0,0.28);
+  --gold-glow: rgba(245,183,0,0.55);
+
+  --amber:     #ff7a1a;
+  --amber-dim: rgba(255,122,26,0.12);
+  --crimson:   #e01040;
+  --teal:      #00e8d6;
+  --teal-dim:  rgba(0,232,214,0.10);
+  --purple:    #9d6ff5;
+  --purple-dim:rgba(157,111,245,0.10);
+  --green:     #22c77a;
+
+  --text:      #cec6e8;
+  --muted:     #7a6898;
+  --faint:     #2c2446;
+
+  --r:   16px;
+  --rsm: 10px;
+  --tr:  all 0.28s cubic-bezier(.4,0,.2,1);
+
+  /* Format accent colors */
+  --film-accent:  #e01040;
+  --docu-accent:  #c9930a;
+  --novel-accent: #f5b700;
+  --game-accent:  #00e8d6;
+  --comic-accent: #9d6ff5;
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:16px; }
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  line-height:1.65;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+a { text-decoration:none; color:inherit; }
+ul { list-style:none; }
+img { max-width:100%; display:block; }
+button { cursor:pointer; font-family:inherit; border:none; background:none; }
+
+/* ─── PARTICLES ─────────────────────────────────────────── */
+.ptcl {
+  position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+}
+.ptcl-dot {
+  position:absolute; border-radius:50%; opacity:0;
+  animation:pfloat var(--dur,10s) var(--dly,0s) infinite linear;
+}
+@keyframes pfloat {
+  0%   { transform:translateY(105vh) scale(0); opacity:0; }
+  8%   { opacity:.55; }
+  92%  { opacity:.12; }
+  100% { transform:translateY(-60px) scale(1.6); opacity:0; }
+}
+
+/* Static star dots */
+.star-layer {
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+}
+.star-dot {
+  position:absolute; width:1px; height:1px; border-radius:50%;
+  background:#fff; opacity:0.15;
+}
+
+/* ─── ANNOUNCE BAR ──────────────────────────────────────── */
+.announce-bar {
+  background:linear-gradient(90deg, #1a0535, #0e0228, #200840, #0e0228, #1a0535);
+  background-size:200% 100%;
+  animation:announce-shift 12s linear infinite;
+  border-bottom:2px solid;
+  border-image:linear-gradient(90deg, var(--gold), var(--crimson), var(--gold)) 1;
+  overflow:hidden; height:36px;
+  display:flex; align-items:center;
+  position:relative; z-index:200;
+}
+@keyframes announce-shift {
+  0%   { background-position:0% 0%; }
+  100% { background-position:-200% 0%; }
+}
+.announce-track {
+  display:flex; align-items:center; gap:1.8rem;
+  white-space:nowrap;
+  animation:ticker 38s linear infinite;
+  font-family:'Space Grotesk',monospace;
+  font-size:10px; letter-spacing:.18em; color:var(--gold);
+  text-transform:uppercase;
+}
+.announce-track .hi { color:var(--gold-lt); }
+.announce-track .sep { color:rgba(245,183,0,0.35); }
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ─── NAVBAR ─────────────────────────────────────────────── */
+.nav {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 48px;
+  position:sticky; top:0; z-index:150;
+  background:rgba(4,1,15,.94); backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--gold-bdr);
+}
+.nav-back {
+  font-family:'Space Grotesk',monospace; font-size:10px;
+  letter-spacing:.16em; color:var(--muted); text-transform:uppercase;
+  transition:var(--tr); display:flex; align-items:center; gap:6px;
+}
+.nav-back:hover { color:var(--gold); }
+.nav-brand {
+  font-family:'Cinzel Decorative',serif; font-size:15px;
+  color:var(--gold); letter-spacing:.1em;
+  text-shadow:0 0 28px var(--gold-glow), 0 0 60px rgba(245,183,0,0.3);
+}
+.nav-pill {
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.2em;
+  color:var(--amber); border:1px solid rgba(255,122,26,.4);
+  border-radius:20px; padding:4px 12px; text-transform:uppercase;
+  box-shadow:0 0 12px rgba(255,122,26,0.15);
+}
+
+/* ─── HERO ───────────────────────────────────────────────── */
+.hero {
+  position:relative; min-height:100vh;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  text-align:center; padding:80px 24px 60px;
+  overflow:hidden;
+}
+/* Scanline overlay */
+.hero::after {
+  content:'';
+  position:absolute; inset:0; pointer-events:none; z-index:2;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,0,0,0.06) 2px, rgba(0,0,0,0.06) 4px
+  );
+}
+.hero-bg {
+  position:absolute; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 45%, rgba(157,111,245,.12) 0%, rgba(224,16,64,.06) 40%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 82% 18%, rgba(245,183,0,.08) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 45% at 12% 80%, rgba(0,232,214,.06) 0%, transparent 60%),
+    linear-gradient(180deg, #04010f 0%, #0c0520 50%, #04010f 100%);
+  animation:hero-pulse 7s ease-in-out infinite;
+}
+@keyframes hero-pulse {
+  0%,100% { opacity:.85; }
+  50%      { opacity:1; }
+}
+
+/* Watermark */
+.hero-watermark {
+  position:absolute;
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(80px,18vw,220px);
+  font-weight:900;
+  color:rgba(245,183,0,0.035);
+  letter-spacing:.08em;
+  pointer-events:none; user-select:none;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%) rotate(-8deg);
+  white-space:nowrap; z-index:0;
+}
+
+/* Corner brackets */
+.hero-corners { position:absolute; inset:24px; pointer-events:none; z-index:1; }
+.hc { position:absolute; width:28px; height:28px; border-color:rgba(245,183,0,0.35); border-style:solid; }
+.hc.tl { top:0;left:0; border-width:2px 0 0 2px; }
+.hc.tr { top:0;right:0; border-width:2px 2px 0 0; }
+.hc.bl { bottom:0;left:0; border-width:0 0 2px 2px; }
+.hc.br { bottom:0;right:0; border-width:0 2px 2px 0; }
+
+.hero-odu {
+  margin-bottom:32px;
+  display:flex; flex-direction:column;
+  gap:10px; align-items:center;
+  position:relative; z-index:3;
+}
+.h-srow {
+  display:flex; align-items:center; gap:18px;
+}
+.h-scell {
+  display:flex; flex-direction:row; align-items:center;
+  gap:5px; width:23px; justify-content:center;
+}
+.h-sgap {
+  width:1px; height:54px;
+  background:linear-gradient(180deg, transparent, rgba(0,232,214,0.25) 30%, rgba(0,232,214,0.25) 70%, transparent);
+}
+.h-sline {
+  display:block;
+  width:5px; height:54px;
+  border-radius:3px;
+  background:var(--teal);
+  box-shadow:0 0 10px rgba(0,232,214,0.55), 0 0 22px rgba(0,232,214,0.25);
+  animation:odu-pulse 2.8s ease-in-out infinite;
+}
+@keyframes odu-pulse {
+  0%,100% { box-shadow:0 0 10px rgba(0,232,214,0.55), 0 0 22px rgba(0,232,214,0.25); }
+  50%      { box-shadow:0 0 22px rgba(0,232,214,0.9), 0 0 44px rgba(0,232,214,0.45), 0 0 80px rgba(0,232,214,0.15); }
+}
+.hero-badge {
+  font-family:'Space Grotesk',monospace; font-size:10px;
+  letter-spacing:.32em; color:var(--amber); text-transform:uppercase;
+  margin-bottom:18px; position:relative; z-index:3;
+  text-shadow:0 0 20px rgba(255,122,26,0.5);
+}
+.hero-title {
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(60px,12vw,140px);
+  font-weight:900; line-height:.95;
+  color:var(--gold-lt);
+  letter-spacing:.05em;
+  margin-bottom:10px;
+  position:relative; z-index:3;
+  animation:title-shimmer 4s ease-in-out infinite;
+}
+@keyframes title-shimmer {
+  0%,100% {
+    text-shadow:
+      0 0 80px rgba(245,183,0,.4),
+      0 0 160px rgba(245,183,0,.15);
+  }
+  50% {
+    text-shadow:
+      0 0 120px rgba(245,183,0,.7),
+      0 0 240px rgba(245,183,0,.3),
+      0 0 400px rgba(245,183,0,.1);
+  }
+}
+.hero-title-ode  { color:var(--gold-lt); }
+.hero-title-dash { color:rgba(245,183,0,.4); font-weight:400; }
+.hero-title-ika  { color:var(--gold); }
+.hero-ifsim {
+  font-family:'Cinzel',serif; font-size:clamp(14px,2vw,20px);
+  letter-spacing:.35em; color:rgba(245,183,0,.55);
+  text-transform:uppercase; margin-bottom:6px;
+  position:relative; z-index:3;
+}
+.hero-tagline {
+  font-family:'Playfair Display',serif; font-size:clamp(16px,2.2vw,22px);
+  color:var(--text); font-style:italic; margin-bottom:36px;
+  position:relative; z-index:3;
+}
+.hero-tagline .sep { color:var(--faint); margin:0 10px; }
+.hero-verse {
+  margin-bottom:48px;
+  background:rgba(245,183,0,.07);
+  border:1px solid rgba(245,183,0,0.35);
+  border-left:3px solid var(--gold);
+  border-radius:var(--r);
+  padding:20px 32px;
+  max-width:580px;
+  position:relative; z-index:3;
+  transition:var(--tr);
+}
+.hero-verse:hover {
+  background:rgba(245,183,0,.1);
+  border-color:rgba(245,183,0,.55);
+}
+.hero-verse .yo {
+  font-family:'Gentium Plus',serif;
+  font-size:20px; color:var(--gold-lt);
+  font-style:italic; margin-bottom:6px;
+}
+.hero-verse .en {
+  font-size:13px; color:var(--muted); letter-spacing:.04em;
+}
+
+/* ─── FORMAT TABS ───────────────────────────────────────── */
+.fmt-nav {
+  position:sticky; top:57px; z-index:140;
+  background:rgba(4,1,15,.97); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--faint);
+  display:flex; justify-content:center; gap:0;
+  overflow-x:auto; scrollbar-width:none;
+}
+.fmt-nav::-webkit-scrollbar { display:none; }
+.fmt-tab {
+  font-family:'Space Grotesk',monospace; font-size:11px;
+  letter-spacing:.22em; color:var(--muted); text-transform:uppercase;
+  padding:16px 28px; border-bottom:2px solid transparent;
+  border-radius:0;
+  transition:background .25s, color .25s, border-color .25s; white-space:nowrap;
+}
+.fmt-tab:hover { color:var(--text); }
+.fmt-tab.active {
+  color:var(--gold-lt); border-bottom-color:var(--gold);
+  background:rgba(245,183,0,0.07); border-radius:6px 6px 0 0;
+}
+.fmt-tab[data-fmt="film"].active {
+  color:#f06070; border-bottom-color:var(--film-accent);
+  background:rgba(224,16,64,0.08);
+}
+.fmt-tab[data-fmt="docu"].active {
+  color:#e0b060; border-bottom-color:var(--docu-accent);
+  background:rgba(201,147,10,0.08);
+}
+.fmt-tab[data-fmt="novel"].active {
+  color:var(--gold-lt); border-bottom-color:var(--novel-accent);
+  background:rgba(245,183,0,0.07);
+}
+.fmt-tab[data-fmt="game"].active {
+  color:#00f0e0; border-bottom-color:var(--game-accent);
+  background:rgba(0,232,214,0.07);
+}
+.fmt-tab[data-fmt="comic"].active {
+  color:#b090ff; border-bottom-color:var(--comic-accent);
+  background:rgba(157,111,245,0.08);
+}
+
+/* ─── FORMAT SECTIONS ───────────────────────────────────── */
+.fmt-section { display:none; }
+.fmt-section.active { display:block; }
+
+.fmt-header {
+  text-align:center;
+  padding:72px 24px 48px;
+  position:relative;
+}
+.fmt-label {
+  font-family:'Space Grotesk',monospace; font-size:9px;
+  letter-spacing:.3em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:12px;
+}
+.fmt-title {
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(28px,5vw,52px); font-weight:700;
+  margin-bottom:6px;
+  background-clip:text; -webkit-background-clip:text;
+  color:transparent;
+  background-image:linear-gradient(135deg, var(--gold-lt) 0%, var(--gold) 50%, var(--amber) 100%);
+}
+.fmt-sub {
+  font-family:'Cinzel',serif;
+  font-size:clamp(14px,2vw,20px); letter-spacing:.25em;
+  text-transform:uppercase; margin-bottom:16px;
+}
+.fmt-tagline {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(15px,1.8vw,19px); font-style:italic;
+  color:var(--muted); max-width:600px; margin:0 auto 20px;
+}
+.status-pill {
+  display:inline-block;
+  font-family:'Space Grotesk',monospace; font-size:9px;
+  letter-spacing:.22em; text-transform:uppercase;
+  padding:5px 14px; border-radius:20px;
+  border:1px solid; margin-top:8px;
+}
+.status-complete { color:var(--green); border-color:rgba(34,199,122,.35); background:rgba(34,199,122,.08); }
+.status-dev      { color:var(--amber); border-color:rgba(255,122,26,.35); background:rgba(255,122,26,.08); }
+.status-coming   { color:var(--muted); border-color:var(--faint); background:transparent; }
+
+.section-inner {
+  max-width:1100px; margin:0 auto;
+  padding:0 24px 80px;
+}
+
+/* ─── SECTION HEADINGS (gradient text) ─────────────────── */
+.section-heading {
+  text-align:center; margin-bottom:48px;
+}
+.section-heading h2 {
+  font-family:'Cinzel Decorative',serif; font-size:clamp(22px,4vw,36px);
+  margin-bottom:8px;
+  background-clip:text; -webkit-background-clip:text;
+  color:transparent;
+  background-image:linear-gradient(135deg, var(--gold-lt) 0%, var(--gold) 50%, var(--amber) 100%);
+}
+.section-heading p {
+  font-family:'Gentium Plus',serif; font-size:16px;
+  color:var(--muted); font-style:italic;
+}
+
+/* ─── FILM ───────────────────────────────────────────────── */
+#fmt-film .fmt-title  { background-image:linear-gradient(135deg, #f08090, var(--film-accent), #a00030); }
+#fmt-film .fmt-sub    { color:rgba(240,96,112,.7); }
+
+.film-slate {
+  background:linear-gradient(135deg, #0e0208 0%, #1c0a14 100%);
+  border:1px solid rgba(224,16,64,.5);
+  border-radius:var(--r);
+  padding:28px 32px;
+  margin-bottom:32px;
+  display:flex; align-items:flex-start; gap:32px;
+  position:relative; overflow:hidden;
+  transition:var(--tr);
+}
+.film-slate:hover {
+  box-shadow:inset 0 0 60px rgba(224,16,64,.05), 0 0 40px rgba(224,16,64,.08);
+  border-color:rgba(224,16,64,.7);
+}
+.film-slate::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:4px;
+  background:linear-gradient(90deg, var(--film-accent), var(--amber), var(--crimson), var(--amber), var(--film-accent));
+}
+.slate-bars {
+  display:flex; flex-direction:column; gap:4px;
+  flex-shrink:0; padding-top:4px;
+}
+.slate-bars span {
+  display:block; height:3px; border-radius:2px;
+  background:linear-gradient(90deg, rgba(224,16,64,.9), rgba(255,122,26,.5));
+}
+.slate-bars span:nth-child(1) { width:40px; }
+.slate-bars span:nth-child(2) { width:28px; }
+.slate-bars span:nth-child(3) { width:36px; }
+.slate-bars span:nth-child(4) { width:22px; }
+.slate-meta { flex:1; }
+.slate-meta h3 {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:.22em;
+  color:rgba(224,16,64,.9); text-transform:uppercase; margin-bottom:10px;
+}
+.slate-meta p {
+  font-size:14.5px; line-height:1.8; color:var(--text);
+}
+.slate-meta .odu-ref {
+  margin-top:14px;
+  font-family:'Gentium Plus',serif; font-size:16px;
+  color:var(--gold); font-style:italic;
+  border-left:2px solid rgba(224,16,64,.5); padding-left:14px;
+}
+.slate-meta .odu-ref .en {
+  font-family:'Inter',sans-serif; font-size:12px;
+  color:var(--muted); font-style:normal; margin-top:4px;
+}
+
+.acts-label {
+  font-family:'Space Grotesk',monospace; font-size:9px;
+  letter-spacing:.3em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:20px;
+}
+.acts-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:12px; margin-bottom:36px;
+}
+.act-card {
+  background:var(--bg-card);
+  border:1px solid var(--faint);
+  border-radius:var(--rsm);
+  padding:20px 16px;
+  text-align:center;
+  transition:var(--tr);
+  position:relative; overflow:hidden;
+}
+.act-card.complete {
+  border-color:rgba(224,16,64,.32);
+  background:linear-gradient(135deg, #0f0214 0%, #180a10 100%);
+  box-shadow:0 0 24px rgba(224,16,64,.06);
+}
+.act-card.complete::after {
+  content:'';
+  position:absolute; bottom:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--film-accent), transparent);
+}
+.act-card:hover {
+  transform:translateY(-3px);
+  border-color:rgba(224,16,64,.7);
+  box-shadow:0 8px 32px rgba(224,16,64,.2);
+}
+.act-num {
+  font-family:'Cinzel',serif; font-size:10px; letter-spacing:.2em;
+  color:var(--muted); display:block; margin-bottom:8px;
+}
+.act-card.complete .act-num { color:rgba(224,16,64,.8); }
+.act-name {
+  font-family:'Playfair Display',serif; font-size:15px; font-weight:700;
+  color:var(--text); display:block; margin-bottom:3px;
+}
+.act-card.complete .act-name { color:#f06070; }
+.act-translation {
+  font-size:11px; color:var(--muted);
+  font-style:italic; display:block; margin-bottom:10px;
+}
+.act-status-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--faint); margin:0 auto;
+}
+.act-card.complete .act-status-dot { background:var(--film-accent); box-shadow:0 0 10px rgba(224,16,64,.6); }
+.acts-coming-label {
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.22em;
+  color:var(--faint); text-align:center; text-transform:uppercase;
+  margin-top:6px; margin-bottom:6px;
+}
+.acts-grid-2 {
+  display:grid; grid-template-columns:repeat(6,1fr);
+  gap:8px; margin-bottom:36px;
+}
+.act-coming {
+  background:rgba(255,255,255,.02); border:1px solid var(--faint);
+  border-radius:var(--rsm); padding:14px 8px; text-align:center;
+  opacity:.45;
+}
+.act-coming .ac-series {
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:.15em;
+  color:var(--faint); display:block; margin-bottom:4px;
+}
+.act-coming .ac-name {
+  font-size:11px; color:var(--muted);
+}
+
+/* ─── QUOTE BLOCKS (dramatic) ───────────────────────────── */
+.quote-block {
+  position:relative; overflow:hidden;
+  border-left:4px solid var(--gold-bdr);
+  border-radius:0 var(--rsm) var(--rsm) 0;
+  padding:28px 28px 28px 36px;
+  background:rgba(245,183,0,.04);
+  margin-bottom:20px;
+  transition:var(--tr);
+}
+.quote-block::before {
+  content:'\201C';
+  position:absolute; top:-10px; left:8px;
+  font-family:'Playfair Display',serif; font-size:120px; font-weight:900;
+  color:rgba(245,183,0,0.12); line-height:1; pointer-events:none;
+  z-index:0;
+}
+.quote-block > * { position:relative; z-index:1; }
+.quote-block:hover {
+  border-left-color:var(--gold);
+  background:rgba(245,183,0,.07);
+}
+#fmt-film .quote-block { border-left-color:rgba(224,16,64,.45); }
+#fmt-film .quote-block::before { color:rgba(224,16,64,0.1); }
+#fmt-film .quote-block:hover { border-left-color:var(--film-accent); background:rgba(224,16,64,.05); }
+#fmt-docu .quote-block { border-left-color:rgba(201,147,10,.45); }
+#fmt-docu .quote-block:hover { border-left-color:var(--docu-accent); background:rgba(201,147,10,.05); }
+#fmt-game .quote-block { border-left-color:rgba(0,232,214,.45); }
+#fmt-game .quote-block:hover { border-left-color:var(--teal); background:rgba(0,232,214,.04); }
+
+.quote-yo {
+  font-family:'Gentium Plus',serif; font-size:22px;
+  color:var(--gold-lt); font-style:italic; margin-bottom:8px;
+}
+.quote-en {
+  font-size:14px; color:var(--muted); letter-spacing:.03em;
+}
+.quote-attr {
+  font-size:11px; color:var(--faint); margin-top:8px;
+  font-family:'Space Grotesk',monospace; letter-spacing:.1em;
+}
+
+.writers-credit {
+  margin-top:40px;
+  padding:24px 28px;
+  background:var(--bg-card);
+  border:1px solid var(--gold-bdr);
+  border-radius:var(--r);
+  display:flex; flex-wrap:wrap; gap:20px; align-items:center;
+  justify-content:space-between;
+}
+.credit-label {
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.22em;
+  color:var(--muted); text-transform:uppercase; margin-bottom:4px;
+}
+.credit-name {
+  font-family:'Playfair Display',serif; font-size:16px; color:var(--gold-lt);
+}
+.credit-based {
+  font-family:'Gentium Plus',serif; font-size:15px; font-style:italic;
+  color:var(--text);
+}
+.credit-pages {
+  font-family:'Space Grotesk',monospace; font-size:28px; font-weight:700;
+  color:var(--gold); line-height:1;
+}
+.credit-pages-label {
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.18em;
+  color:var(--muted); text-transform:uppercase;
+}
+
+/* ─── DOCUMENTARY ───────────────────────────────────────── */
+#fmt-docu .fmt-title { background-image:linear-gradient(135deg, #ffe090, var(--docu-accent), #8a6020); }
+#fmt-docu .fmt-sub   { color:rgba(201,147,10,.8); }
+
+.docu-strands {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:20px;
+  margin-bottom:36px;
+}
+.strand-card {
+  background:var(--bg-card);
+  border:1px solid rgba(201,147,10,.22);
+  border-radius:var(--r); padding:28px 24px;
+  position:relative; overflow:hidden;
+  transition:var(--tr);
+}
+.strand-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--docu-accent), transparent);
+}
+.strand-card:hover { border-color:rgba(201,147,10,.5); transform:translateY(-4px); }
+.strand-num {
+  font-family:'Cinzel',serif; font-size:32px; font-weight:700;
+  color:rgba(201,147,10,.28); line-height:1; margin-bottom:12px;
+}
+.strand-title {
+  font-family:'Playfair Display',serif; font-size:18px; font-weight:700;
+  color:#e0b060; margin-bottom:8px;
+}
+.strand-desc { font-size:14px; color:var(--text); line-height:1.75; }
+
+.docu-platforms {
+  background:rgba(201,147,10,.04);
+  border:1px solid rgba(201,147,10,.22);
+  border-radius:var(--r); padding:28px 32px; margin-top:32px;
+}
+.docu-platforms h4 {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:.22em;
+  color:rgba(201,147,10,.8); text-transform:uppercase; margin-bottom:18px;
+}
+.platform-row {
+  display:flex; flex-wrap:wrap; gap:12px;
+}
+.platform-chip {
+  font-family:'Space Grotesk',monospace; font-size:11px; letter-spacing:.12em;
+  color:var(--text); border:1px solid var(--faint);
+  border-radius:var(--rsm); padding:8px 16px;
+  transition:var(--tr);
+}
+.platform-chip:hover { border-color:var(--docu-accent); color:#e0b060; }
+
+/* ─── NOVEL ─────────────────────────────────────────────── */
+#fmt-novel .fmt-title { background-image:linear-gradient(135deg, var(--gold-lt), var(--gold), var(--amber)); }
+#fmt-novel .fmt-sub   { color:rgba(245,183,0,.6); }
+
+.novel-card {
+  display:grid; grid-template-columns:200px 1fr; gap:40px;
+  margin-bottom:40px; align-items:start;
+}
+.novel-spine {
+  background:linear-gradient(160deg, #1c1408 0%, #0e0c05 100%);
+  border:1px solid rgba(245,183,0,.28);
+  border-radius:var(--rsm);
+  padding:32px 16px;
+  text-align:center; min-height:280px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:space-between;
+  box-shadow:6px 6px 30px rgba(0,0,0,.7), -2px 0 16px rgba(245,183,0,.08);
+}
+.novel-spine-title {
+  font-family:'Cinzel Decorative',serif; font-size:14px;
+  color:var(--gold); writing-mode:vertical-rl;
+  text-orientation:mixed; letter-spacing:.2em;
+  text-shadow:0 0 24px var(--gold-glow);
+}
+.novel-spine-ornament {
+  color:var(--gold-bdr); font-size:20px; margin:8px 0;
+}
+.novel-spine-sub {
+  font-family:'Space Grotesk',monospace; font-size:8px;
+  letter-spacing:.18em; color:var(--muted); text-transform:uppercase;
+  writing-mode:vertical-rl;
+}
+.novel-excerpt {
+  padding:8px 0;
+}
+.novel-excerpt h4 {
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.25em;
+  color:var(--muted); text-transform:uppercase; margin-bottom:16px;
+}
+.novel-text {
+  font-family:'Gentium Plus',serif; font-size:17px;
+  color:var(--text); line-height:1.95;
+  border-left:2px solid var(--gold-bdr); padding-left:20px;
+  margin-bottom:20px;
+}
+.novel-text em { color:var(--gold-lt); font-style:italic; }
+
+.chapters-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:12px;
+}
+.chapter-item {
+  display:flex; align-items:center; gap:14px;
+  padding:14px 18px;
+  background:var(--bg-card); border:1px solid var(--faint);
+  border-radius:var(--rsm); transition:var(--tr);
+}
+.chapter-item:hover { border-color:var(--gold-bdr); }
+.ch-num {
+  font-family:'Cinzel',serif; font-size:13px; color:var(--gold);
+  flex-shrink:0; width:28px; text-align:center;
+}
+.ch-info { flex:1; }
+.ch-name {
+  font-family:'Playfair Display',serif; font-size:15px; color:var(--text);
+}
+.ch-yo {
+  font-family:'Gentium Plus',serif; font-size:12px;
+  color:var(--muted); font-style:italic;
+}
+
+/* ─── GAME ───────────────────────────────────────────────── */
+#fmt-game .fmt-title { background-image:linear-gradient(135deg, #80fff8, var(--game-accent), #008880); }
+#fmt-game .fmt-sub   { color:rgba(0,232,214,.65); }
+
+.game-world {
+  background:linear-gradient(135deg, #03101100 0%, #060d1800 100%);
+  background-color:#040c10;
+  border:1px solid rgba(0,232,214,.22);
+  border-radius:var(--r); padding:32px;
+  margin-bottom:32px; position:relative; overflow:hidden;
+}
+.game-world::before {
+  content:'';
+  position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,232,214,.05) 0%, transparent 70%);
+}
+.world-label {
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.28em;
+  color:rgba(0,232,214,.7); text-transform:uppercase; margin-bottom:20px;
+}
+.houses-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
+  margin-bottom:20px;
+}
+.house-zone {
+  background:rgba(0,232,214,.04);
+  border:1px solid rgba(0,232,214,.15);
+  border-radius:var(--rsm); padding:16px 12px;
+  text-align:center; transition:var(--tr);
+  position:relative;
+}
+.house-zone.unlocked {
+  border-color:rgba(0,232,214,.38);
+  background:rgba(0,232,214,.07);
+  cursor:pointer;
+}
+.house-zone.unlocked:hover {
+  border-color:rgba(0,232,214,.65);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(0,232,214,.18);
+}
+.house-zone.locked { opacity:.3; }
+.house-num {
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:.15em;
+  color:rgba(0,232,214,.5); display:block; margin-bottom:6px;
+}
+.house-zone.unlocked .house-num { color:var(--teal); }
+.house-name {
+  font-size:12px; color:var(--muted); display:block;
+}
+.house-zone.unlocked .house-name { color:var(--text); font-weight:500; }
+.house-lock {
+  position:absolute; top:8px; right:8px;
+  font-size:10px; opacity:.3;
+}
+.house-zone.unlocked .house-lock { display:none; }
+
+.game-engine {
+  display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px;
+}
+.engine-card {
+  background:var(--bg-card); border:1px solid rgba(0,232,214,.15);
+  border-radius:var(--rsm); padding:20px;
+}
+.engine-card h4 {
+  font-family:'Space Grotesk',monospace; font-size:10px; letter-spacing:.2em;
+  color:var(--teal); text-transform:uppercase; margin-bottom:8px;
+}
+.engine-card p { font-size:13.5px; color:var(--muted); line-height:1.7; }
+.engine-card a { color:var(--teal); transition:var(--tr); }
+.engine-card a:hover { color:#00f0e0; }
+
+/* ─── COMIC ─────────────────────────────────────────────── */
+#fmt-comic .fmt-title { background-image:linear-gradient(135deg, #c8b0ff, var(--comic-accent), #6030c0); }
+#fmt-comic .fmt-sub   { color:rgba(157,111,245,.65); }
+
+.comic-panel-grid {
+  display:grid; gap:3px;
+  grid-template-columns:2fr 1fr;
+  grid-template-rows:auto;
+  margin-bottom:32px;
+}
+.comic-panel {
+  background:var(--bg-card);
+  border:2px solid rgba(157,111,245,.28);
+  border-radius:4px;
+  padding:28px 24px;
+  position:relative; overflow:hidden;
+  transition:var(--tr);
+  min-height:160px;
+}
+.comic-panel:hover { border-color:rgba(157,111,245,.55); }
+.comic-panel.panel-wide { grid-column:1; }
+.comic-panel.panel-tall { grid-column:2; grid-row:1/3; }
+.comic-panel.panel-half { grid-column:1; }
+.panel-num {
+  position:absolute; top:10px; left:10px;
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.15em;
+  color:rgba(157,111,245,.5);
+}
+.panel-scene {
+  font-family:'Cinzel',serif; font-size:11px; letter-spacing:.15em;
+  color:rgba(157,111,245,.8); text-transform:uppercase; margin-bottom:10px;
+}
+.panel-caption {
+  font-family:'Gentium Plus',serif; font-size:15px;
+  color:var(--text); line-height:1.7;
+}
+.panel-caption em { color:#b090ff; font-style:italic; }
+.panel-sfx {
+  font-family:'Cinzel Decorative',serif; font-size:28px;
+  color:rgba(157,111,245,.4); position:absolute;
+  bottom:12px; right:16px; letter-spacing:.05em;
+}
+.panel-dialogue {
+  display:inline-block;
+  background:rgba(157,111,245,.08);
+  border:1px solid rgba(157,111,245,.22);
+  border-radius:var(--rsm); padding:10px 14px;
+  margin-top:10px;
+}
+.panel-dialogue .speaker {
+  font-family:'Space Grotesk',monospace; font-size:9px;
+  letter-spacing:.15em; color:rgba(157,111,245,.8);
+  text-transform:uppercase; margin-bottom:4px;
+}
+.panel-dialogue .line {
+  font-family:'Gentium Plus',serif; font-size:14px;
+  color:var(--text); font-style:italic;
+}
+
+.issues-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:12px;
+  margin-top:32px;
+}
+.issue-card {
+  background:var(--bg-card); border:1px solid var(--faint);
+  border-radius:var(--rsm); padding:18px 14px;
+  text-align:center; transition:var(--tr);
+}
+.issue-card.active {
+  border-color:rgba(157,111,245,.42);
+  background:rgba(157,111,245,.07);
+}
+.issue-card:hover { border-color:rgba(157,111,245,.38); transform:translateY(-2px); }
+.issue-num {
+  font-family:'Cinzel',serif; font-size:10px; letter-spacing:.15em;
+  color:var(--faint); display:block; margin-bottom:6px;
+}
+.issue-card.active .issue-num { color:rgba(157,111,245,.7); }
+.issue-title {
+  font-size:12px; color:var(--muted);
+}
+.issue-card.active .issue-title { color:#b090ff; font-weight:600; }
+
+/* ─── BIG MARQUEE SEPARATOR ─────────────────────────────── */
+.big-marquee {
+  overflow:hidden; padding:32px 0;
+  background:linear-gradient(90deg, var(--bg-deep), var(--bg-alt), var(--bg-deep));
+  border-top:1px solid var(--faint); border-bottom:1px solid var(--faint);
+}
+.bm-track {
+  display:inline-flex; gap:40px; align-items:center;
+  white-space:nowrap;
+  animation:ticker 22s linear infinite;
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(18px,3vw,28px); font-weight:700;
+  color:rgba(245,183,0,0.18); letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.bm-dot { color:rgba(224,16,64,0.5); font-size:.8em; }
+
+/* ─── CHARACTERS ─────────────────────────────────────────── */
+.chars-section {
+  padding:80px 24px;
+  background:linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 50%, var(--bg) 100%);
+}
+.chars-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:20px; max-width:1100px; margin:0 auto;
+}
+.char-card {
+  background:var(--bg-card);
+  border:1px solid rgba(245,183,0,0.15);
+  border-radius:var(--r); padding:28px 24px;
+  transition:var(--tr); position:relative; overflow:hidden;
+}
+.char-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  transition:var(--tr);
+}
+.char-card:nth-child(1)::before { background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+.char-card:nth-child(2)::before { background:linear-gradient(90deg,transparent,var(--film-accent),transparent); }
+.char-card:nth-child(3)::before { background:linear-gradient(90deg,transparent,var(--amber),transparent); }
+.char-card:nth-child(4)::before { background:linear-gradient(90deg,transparent,var(--purple),transparent); }
+.char-card:nth-child(5)::before { background:linear-gradient(90deg,transparent,var(--purple),transparent); }
+.char-card:nth-child(6)::before { background:linear-gradient(90deg,transparent,var(--teal),transparent); }
+.char-card:hover {
+  transform:translateY(-6px);
+  border-color:rgba(245,183,0,.4);
+  box-shadow:0 12px 40px rgba(0,0,0,.5), 0 0 30px rgba(245,183,0,.12);
+  background:radial-gradient(ellipse 80% 60% at 50% 0%, rgba(245,183,0,.04), transparent 70%), var(--bg-card);
+}
+.char-glyph {
+  font-family:'Cinzel Decorative',serif; font-size:48px;
+  margin-bottom:14px; line-height:1;
+}
+.char-card:nth-child(1) .char-glyph { color:rgba(245,183,0,0.6); }
+.char-card:nth-child(2) .char-glyph { color:rgba(224,16,64,0.6); }
+.char-card:nth-child(3) .char-glyph { color:rgba(255,122,26,0.6); }
+.char-card:nth-child(4) .char-glyph,
+.char-card:nth-child(5) .char-glyph { color:rgba(157,111,245,0.6); }
+.char-card:nth-child(6) .char-glyph { color:rgba(0,232,214,0.6); }
+.char-name {
+  font-family:'Playfair Display',serif; font-size:20px; font-weight:700;
+  color:var(--text); margin-bottom:3px;
+}
+.char-role {
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.2em;
+  color:var(--muted); text-transform:uppercase; margin-bottom:14px;
+}
+.char-desc { font-size:14px; color:var(--muted); line-height:1.75; }
+.char-yo {
+  margin-top:14px;
+  font-family:'Gentium Plus',serif; font-size:14px;
+  color:var(--gold); font-style:italic;
+  border-top:1px solid var(--faint); padding-top:12px;
+}
+
+/* ─── ODU GRID ───────────────────────────────────────────── */
+.odu-section {
+  padding:80px 24px;
+  background:var(--bg-deep);
+}
+.odu-grid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:12px; max-width:1100px; margin:0 auto;
+}
+.odu-card {
+  background:var(--bg-card); border:1px solid var(--faint);
+  border-radius:var(--rsm); padding:20px 16px;
+  text-align:center; transition:var(--tr);
+  position:relative; overflow:hidden;
+}
+.odu-card.current {
+  border-color:rgba(245,183,0,.38);
+  background:linear-gradient(135deg, #160f04 0%, #0e0b08 100%);
+  box-shadow:0 0 30px rgba(245,183,0,0.2), inset 0 0 30px rgba(245,183,0,0.04);
+}
+.odu-card.current::before {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  animation:odu-top-border 3s ease-in-out infinite;
+}
+@keyframes odu-top-border {
+  0%,100% { opacity:.5; }
+  50%      { opacity:1; }
+}
+.odu-card.current::after {
+  content:'SERIES 1';
+  position:absolute; top:8px; right:8px;
+  font-family:'Space Grotesk',monospace; font-size:7px; letter-spacing:.15em;
+  color:var(--gold); background:rgba(245,183,0,.1);
+  border:1px solid rgba(245,183,0,.28); border-radius:4px;
+  padding:2px 6px;
+}
+.odu-card:hover { transform:translateY(-2px); }
+.odu-card.current:hover { border-color:rgba(245,183,0,.65); }
+.odu-n {
+  font-family:'Cinzel',serif; font-size:9px; letter-spacing:.15em;
+  color:var(--faint); display:block; margin-bottom:8px;
+}
+.odu-card.current .odu-n { color:rgba(245,183,0,.55); }
+.odu-yo {
+  font-family:'Gentium Plus',serif; font-size:15px;
+  color:var(--muted); font-style:italic; display:block; margin-bottom:3px;
+}
+.odu-card.current .odu-yo { color:var(--gold-lt); font-size:16px; }
+.odu-en {
+  font-size:11px; color:var(--faint);
+}
+.odu-card.current .odu-en { color:var(--muted); }
+.odu-marks {
+  display:flex; justify-content:center; gap:10px;
+  margin-top:10px;
+}
+.odu-m {
+  display:flex; flex-direction:column; gap:3px;
+}
+.odu-m .mk {
+  display:flex; gap:2px; align-items:center;
+}
+.odu-m .mk .b { width:12px; height:2px; background:var(--faint); border-radius:1px; }
+.odu-m .mk .d { width:4px; height:4px; border-radius:50%; background:var(--faint); }
+.odu-card.current .odu-m .mk .b { background:var(--gold-bdr); }
+.odu-card.current .odu-m .mk .d { background:rgba(245,183,0,.45); }
+
+/* ─── THEME PILLARS ─────────────────────────────────────── */
+.pillars-section {
+  padding:60px 24px;
+  background:linear-gradient(135deg, #07031a 0%, #0d0525 100%);
+  border-top:1px solid var(--faint);
+  border-bottom:1px solid var(--faint);
+}
+.pillars-grid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:24px; max-width:960px; margin:0 auto;
+}
+.pillar {
+  text-align:center; padding:32px 20px;
+  border:1px solid var(--faint); border-radius:16px;
+  background:var(--bg-card);
+  position:relative; overflow:hidden;
+  transition:var(--tr);
+}
+.pillar:hover { border-color:var(--gold-bdr); transform:translateY(-3px); }
+.pillar::before {
+  content:'';
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:120px; height:120px; border-radius:50%;
+  background:radial-gradient(circle, rgba(245,183,0,0.07) 0%, transparent 70%);
+  pointer-events:none;
+}
+.pillar-word {
+  font-family:'Cinzel Decorative',serif; font-size:28px;
+  color:var(--gold); margin-bottom:6px;
+  text-shadow:0 0 24px var(--gold-glow), 0 0 60px rgba(245,183,0,.2);
+  animation:title-shimmer 5s ease-in-out infinite;
+  position:relative; z-index:1;
+}
+.pillar-def {
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.2em;
+  color:var(--muted); text-transform:uppercase; margin-bottom:12px;
+  position:relative; z-index:1;
+}
+.pillar-desc { font-size:14px; color:var(--text); line-height:1.75; position:relative; z-index:1; }
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+.footer {
+  background:var(--bg-deep);
+  border-top:1px solid var(--faint);
+  padding:48px 40px 32px;
+  text-align:center;
+}
+.footer-brand {
+  font-family:'Cinzel Decorative',serif; font-size:18px;
+  color:var(--gold); margin-bottom:4px;
+  text-shadow:0 0 28px var(--gold-glow), 0 0 60px rgba(245,183,0,.2);
+}
+.footer-sub {
+  font-family:'Space Grotesk',monospace; font-size:9px; letter-spacing:.22em;
+  color:var(--muted); text-transform:uppercase; margin-bottom:20px;
+}
+.footer-links {
+  display:flex; justify-content:center; gap:24px;
+  flex-wrap:wrap; margin-bottom:24px;
+}
+.footer-link {
+  font-family:'Space Grotesk',monospace; font-size:10px; letter-spacing:.14em;
+  color:var(--muted); text-transform:uppercase; transition:var(--tr);
+}
+.footer-link:hover { color:var(--gold); }
+.footer-copy {
+  font-size:12px; color:var(--faint); line-height:1.7;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media(max-width:768px) {
+  .nav { padding:12px 20px; }
+  .nav-back span { display:none; }
+  .acts-grid { grid-template-columns:repeat(2,1fr); }
+  .acts-grid-2 { grid-template-columns:repeat(3,1fr); }
+  .docu-strands { grid-template-columns:1fr; }
+  .novel-card { grid-template-columns:1fr; }
+  .novel-spine { min-height:auto; padding:20px; writing-mode:horizontal-tb; flex-direction:row; }
+  .novel-spine-title { writing-mode:horizontal-tb; font-size:16px; }
+  .novel-spine-sub { writing-mode:horizontal-tb; }
+  .game-engine { grid-template-columns:1fr; }
+  .houses-grid { grid-template-columns:repeat(2,1fr); }
+  .chars-grid { grid-template-columns:1fr; }
+  .odu-grid { grid-template-columns:repeat(2,1fr); }
+  .pillars-grid { grid-template-columns:1fr; }
+  .issues-grid { grid-template-columns:repeat(2,1fr); }
+  .chapters-grid { grid-template-columns:1fr; }
+  .fmt-tab { padding:14px 16px; font-size:9px; }
+  .comic-panel-grid { grid-template-columns:1fr; }
+  .comic-panel.panel-tall { grid-column:1; grid-row:auto; }
+  .writers-credit { flex-direction:column; gap:12px; }
+}
+@media(max-width:480px) {
+  .acts-grid { grid-template-columns:1fr 1fr; }
+  .acts-grid-2 { grid-template-columns:repeat(2,1fr); }
+  .odu-grid { grid-template-columns:repeat(2,1fr); }
+}
+
+/* ─── SCROLL REVEAL ─────────────────────────────────────── */
+.reveal {
+  opacity:0; transform:translateY(32px) scale(0.98);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0) scale(1); }
+  </style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div class="ptcl" id="ptcl"></div>
+
+<!-- STATIC STARS -->
+<div class="star-layer" id="starLayer"></div>
+
+<!-- ANNOUNCE BAR -->
+<div class="announce-bar">
+  <div class="announce-track">
+    <span class="hi">✦ ÒDÈ-ÌKÁ</span><span class="sep">·</span>
+    <span>An Ifa Simulation · IfaSIM</span><span class="sep">·</span>
+    <span>Based on Odu Ifa Ìká Méjì</span><span class="sep">·</span>
+    <span class="hi">Part One Screenplay Complete</span><span class="sep">·</span>
+    <span>61 Pages · 4 Acts</span><span class="sep">·</span>
+    <span>Epic Film · Documentary · Novel · Game · Comic</span><span class="sep">·</span>
+    <span>Ká — To Master</span><span class="sep">·</span>
+    <span>Ààke ní ń'bagi sá</span><span class="sep">·</span>
+    <span>16 Series · 16 Olú Odu</span><span class="sep">·</span>
+    <span>CENProject</span><span class="sep">·</span>
+    <span class="hi">✦ ÒDÈ-ÌKÁ</span><span class="sep">·</span>
+    <span>An Ifa Simulation · IfaSIM</span><span class="sep">·</span>
+    <span>Based on Odu Ifa Ìká Méjì</span><span class="sep">·</span>
+    <span class="hi">Part One Screenplay Complete</span><span class="sep">·</span>
+    <span>61 Pages · 4 Acts</span><span class="sep">·</span>
+    <span>Epic Film · Documentary · Novel · Game · Comic</span><span class="sep">·</span>
+    <span>Ká — To Master</span><span class="sep">·</span>
+    <span>Ààke ní ń'bagi sá</span><span class="sep">·</span>
+    <span>16 Series · 16 Olú Odu</span><span class="sep">·</span>
+    <span>CENProject</span><span class="sep">·</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <a href="https://www.playifagames.org/" class="nav-back">
+    ← <span>Play IFA Games</span>
+  </a>
+  <div class="nav-brand">ÒDÈ-ÌKÁ</div>
+  <div class="nav-pill">IfaSIM</div>
+</nav>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Watermark -->
+  <div class="hero-watermark" aria-hidden="true">ÒDÈ-ÌKÁ</div>
+
+  <!-- Corner brackets -->
+  <div class="hero-corners" aria-hidden="true">
+    <span class="hc tl"></span><span class="hc tr"></span>
+    <span class="hc bl"></span><span class="hc br"></span>
+  </div>
+
+  <!-- Ìká Méjì Odu Marks · 0100 = double,single,double,double -->
+  <div class="hero-odu" aria-hidden="true">
+    <!-- Row 1: bit 0 = double (oyeku) -->
+    <div class="h-srow">
+      <div class="h-scell"><span class="h-sline"></span><span class="h-sline"></span></div>
+      <div class="h-sgap"></div>
+      <div class="h-scell"><span class="h-sline"></span><span class="h-sline"></span></div>
+    </div>
+    <!-- Row 2: bit 1 = single (ogbe) -->
+    <div class="h-srow">
+      <div class="h-scell"><span class="h-sline"></span></div>
+      <div class="h-sgap"></div>
+      <div class="h-scell"><span class="h-sline"></span></div>
+    </div>
+    <!-- Row 3: bit 0 = double (oyeku) -->
+    <div class="h-srow">
+      <div class="h-scell"><span class="h-sline"></span><span class="h-sline"></span></div>
+      <div class="h-sgap"></div>
+      <div class="h-scell"><span class="h-sline"></span><span class="h-sline"></span></div>
+    </div>
+    <!-- Row 4: bit 0 = double (oyeku) -->
+    <div class="h-srow">
+      <div class="h-scell"><span class="h-sline"></span><span class="h-sline"></span></div>
+      <div class="h-sgap"></div>
+      <div class="h-scell"><span class="h-sline"></span><span class="h-sline"></span></div>
+    </div>
+  </div>
+
+  <div class="hero-badge">IfaSIM · Odu Ifa Ìká Méjì · CENProject 2026</div>
+
+  <h1 class="hero-title">
+    <span class="hero-title-ode">ÒDÈ</span><span class="hero-title-dash">-</span><span class="hero-title-ika">ÌKÁ</span>
+  </h1>
+  <div class="hero-ifsim">An Ifa Simulation · IfaSIM</div>
+  <p class="hero-tagline">
+    The Hunt <span class="sep">·</span> The Knowledge <span class="sep">·</span> The 16 Paths
+  </p>
+
+  <div class="hero-verse">
+    <div class="yo">Àkàrà ò jẹ ọlọ̀gbẹ́rì ní àárọ̀<br>Àkàrà ò jẹ ọlọ̀gbẹ́rì ní òru</div>
+    <div class="en">Akara does not feed the one who does not know it — at dawn or at night.<br><em>Opening verse, Ìká Méjì</em></div>
+  </div>
+</section>
+
+<!-- ══════════════════ FORMAT TABS ══════════════════ -->
+<div class="fmt-nav" id="fmtNav">
+  <button class="fmt-tab active" data-fmt="film">⬛ Film</button>
+  <button class="fmt-tab" data-fmt="docu">📽 Documentary</button>
+  <button class="fmt-tab" data-fmt="novel">📖 Novel</button>
+  <button class="fmt-tab" data-fmt="game">🎮 Game</button>
+  <button class="fmt-tab" data-fmt="comic">🎨 Comic</button>
+</div>
+
+<!-- ══════════════════ FILM ══════════════════ -->
+<section class="fmt-section active" id="fmt-film">
+  <div class="fmt-header">
+    <div class="fmt-label">IfaSIM · I · Epic Series</div>
+    <h2 class="fmt-title">ÒDÈ-ÌKÁ</h2>
+    <div class="fmt-sub">The Epic Film</div>
+    <p class="fmt-tagline">A 16-part Yoruba epic — one Olú Odu per series. The hunt for mastery. The cost of it.</p>
+    <span class="status-pill status-complete">Part 1 · Screenplay Complete · 61 Pages</span>
+  </div>
+
+  <div class="section-inner">
+
+    <div class="film-slate reveal">
+      <div class="slate-bars">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="slate-meta">
+        <h3>Production · Series 1 of 16 · Ìká Méjì</h3>
+        <p>Set in a Yoruba kingdom that has made mastery itself a law — <strong>ỌLÁBERINJỌ</strong>, a scholar of extraordinary range, arrives at the compound of the 17th house summoned by a king who has outlawed the half-knowing. Over four acts, through the 16 disciplines of the kingdom and the weight of a fallen master's name, she must decide whether knowledge is a thing one possesses or a thing one becomes.</p>
+        <div class="odu-ref">
+          Ìká Méjì — The Chamber and the Axe
+          <div class="en">Series 1 · Acts 1–4 · Part One Complete</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acts 1–4 -->
+    <div class="acts-label reveal">Part One · Acts</div>
+    <div class="acts-grid reveal">
+      <div class="act-card complete">
+        <span class="act-num">ACT ONE</span>
+        <span class="act-name">ÌBẸ̀RẸ̀</span>
+        <span class="act-translation">The Beginning</span>
+        <div class="act-status-dot"></div>
+      </div>
+      <div class="act-card complete">
+        <span class="act-num">ACT TWO</span>
+        <span class="act-name">ÀWỌN ILÉ</span>
+        <span class="act-translation">The 16 Houses</span>
+        <div class="act-status-dot"></div>
+      </div>
+      <div class="act-card complete">
+        <span class="act-num">ACT THREE</span>
+        <span class="act-name">ÌPINNU</span>
+        <span class="act-translation">The Decision</span>
+        <div class="act-status-dot"></div>
+      </div>
+      <div class="act-card complete">
+        <span class="act-num">ACT FOUR</span>
+        <span class="act-name">ÌPADÀBỌ̀</span>
+        <span class="act-translation">The Return</span>
+        <div class="act-status-dot"></div>
+      </div>
+    </div>
+
+    <!-- Series 2–16 coming -->
+    <div class="acts-coming-label reveal">Series 2 through 16 — In Development</div>
+    <div class="acts-grid-2 reveal">
+      <div class="act-coming"><span class="ac-series">Series 2</span><span class="ac-name">Ogbe Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 3</span><span class="ac-name">Oyeku Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 4</span><span class="ac-name">Iwori Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 5</span><span class="ac-name">Odi Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 6</span><span class="ac-name">Irosun Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 7</span><span class="ac-name">Owonrin Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 8</span><span class="ac-name">Obara Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 9</span><span class="ac-name">Okanran Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 10</span><span class="ac-name">Ogunda Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 11</span><span class="ac-name">Osa Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 12</span><span class="ac-name">Oturupon Méjì</span></div>
+      <div class="act-coming"><span class="ac-series">Series 13–16</span><span class="ac-name">Otura · Irete · Ose · Ofun</span></div>
+    </div>
+
+    <!-- Key Quotes -->
+    <div class="quote-block reveal">
+      <div class="quote-yo">Ààke ní ń'bagi sá.</div>
+      <div class="quote-en">It is the axe that hits a tree and runs back.</div>
+      <div class="quote-attr">— ONÍKÀÁMÒGÚN · Act Three · The Ẹnu Awo Declaration</div>
+    </div>
+
+    <div class="quote-block reveal">
+      <div class="quote-yo">Ogun là á. Ẹni tó là ọ̀nà — kì í jẹ olùrìn. Ó jẹ ọ̀nà. Ẹsẹ̀ rẹ̀ ń dúró de àwọn tó ń bọ̀.</div>
+      <div class="quote-en">Ogun opened it. The one who clears a path — is not a traveler. He is the path. Your foot stands waiting for those who come.</div>
+      <div class="quote-attr">— ONÍKÀÁMÒGÚN · Act Four · The Ẹnu Awo Blessing</div>
+    </div>
+
+    <div class="quote-block reveal">
+      <div class="quote-yo">A jẹ kótodé. A ń kọjá. A ò ń gbé.</div>
+      <div class="quote-en">We have become kótodé. We pass through. We do not dwell.</div>
+      <div class="quote-attr">— ONÍKÀÁMÒGÚN · Act Three · The Great Hall Decree</div>
+    </div>
+
+    <div class="writers-credit reveal">
+      <div>
+        <div class="credit-label">Written by</div>
+        <div class="credit-name">CENProject &amp; Babalawo Ajetumobi Esubiyi Obakolawole</div>
+      </div>
+      <div>
+        <div class="credit-label">Based on</div>
+        <div class="credit-based">Odu Ifa Ìká Méjì</div>
+      </div>
+      <div style="text-align:center">
+        <div class="credit-pages">61</div>
+        <div class="credit-pages-label">Pages · Part One</div>
+      </div>
+      <div>
+        <span class="status-pill status-complete">Screenplay Complete</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ DOCUMENTARY ══════════════════ -->
+<section class="fmt-section" id="fmt-docu">
+  <div class="fmt-header">
+    <div class="fmt-label">IfaSIM · II · Non-Fiction</div>
+    <h2 class="fmt-title">ÒDÈ-ÌKÁ</h2>
+    <div class="fmt-sub">The Living Record</div>
+    <p class="fmt-tagline">What the epic film dramatizes, the documentary witnesses. The Ifa knowledge system — alive, embodied, transmitted.</p>
+    <span class="status-pill status-dev">In Development</span>
+  </div>
+
+  <div class="section-inner">
+    <div class="docu-strands reveal">
+      <div class="strand-card">
+        <div class="strand-num">I</div>
+        <div class="strand-title">The Knowledge</div>
+        <div class="strand-desc">Ifa as an epistemic system — how Odu Ifa encodes and transmits complete world-models. Babalawo as scientist, historian, physician, and judge. The 256 Odu as a total map of knowable experience. What does it mean to know all 16?</div>
+      </div>
+      <div class="strand-card">
+        <div class="strand-num">II</div>
+        <div class="strand-title">The Practice</div>
+        <div class="strand-desc">Ifa in the 21st century — initiates, communities, and the urgent question of transmission. The crisis of kótodé: entire generations passing through Yoruba language and Ifa knowledge without stopping long enough to know them. What is lost. What remains.</div>
+      </div>
+      <div class="strand-card">
+        <div class="strand-num">III</div>
+        <div class="strand-title">The Game</div>
+        <div class="strand-desc">How Ayò Ọlọ́pọ́nfá — the 16-pot Ifa board — computes the 256 Odu through play. The Ifa Computer made physical. How the ÒDÈ-ÌKÁ game engine translates the corpus into interactive experience — and why this is not diminishment, but a new kind of transmission.</div>
+      </div>
+    </div>
+
+    <div class="docu-platforms reveal">
+      <h4>Platforms Featured in the Documentary</h4>
+      <div class="platform-row">
+        <div class="platform-chip">Ayò Ọlọ́pọ́nfá — playifagames.org</div>
+        <div class="platform-chip">Ìlú-Ìlù — City of Drum</div>
+        <div class="platform-chip">Ifa Art Platform</div>
+        <div class="platform-chip">IFA Internet · ifainternet.org</div>
+        <div class="platform-chip">IFA Learn</div>
+        <div class="platform-chip">IFA Calendar</div>
+      </div>
+    </div>
+
+    <div class="quote-block reveal" style="margin-top:32px;">
+      <div class="quote-yo">Rárá. Àwọn ọ̀mọ̀wé ni a fẹ́ kí wọn mọ ìmọ̀ olójà.</div>
+      <div class="quote-en">No. We want the scholars to learn the knowledge of the market-people.</div>
+      <div class="quote-attr">— ONÍKÀÁMÒGÚN · responding to the market queen's question · Act Three</div>
+    </div>
+
+    <div class="quote-block reveal">
+      <div class="quote-yo">Irúgbìn kan. Bẹ̀rẹ̀ pẹ̀lú rẹ̀. Ẹni tí yóò mọ ohun tí ó ní nínú ohun kékeré yìí — yóò mọ ohun mẹ́rìndínlógún.</div>
+      <div class="quote-en">One seed. Begin with it. The person who truly understands what is inside this small thing — will understand sixteen things.</div>
+      <div class="quote-attr">— ONÍKÀÁMÒGÚN · Act Four · The Seed Given at Departure</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ NOVEL ══════════════════ -->
+<section class="fmt-section" id="fmt-novel">
+  <div class="fmt-header">
+    <div class="fmt-label">IfaSIM · III · Literary Fiction</div>
+    <h2 class="fmt-title">ÒDÈ-ÌKÁ</h2>
+    <div class="fmt-sub">The Written Odu</div>
+    <p class="fmt-tagline">The inner world that cinema cannot fully reach. The novel enters where the camera stops at the surface.</p>
+    <span class="status-pill status-dev">In Development</span>
+  </div>
+
+  <div class="section-inner">
+    <div class="novel-card reveal">
+      <div class="novel-spine">
+        <div class="novel-spine-title">ÒDÈ-ÌKÁ</div>
+        <div class="novel-spine-ornament">✦</div>
+        <div class="novel-spine-sub">Ìká Méjì · Part One</div>
+      </div>
+      <div class="novel-excerpt">
+        <h4>Opening Passage · Chapter One · Ìbẹ̀rẹ̀</h4>
+        <div class="novel-text">
+          The compound of the seventeenth house was not the largest in the kingdom. It was not the highest. What it was — what every person who arrived there felt before they could name it — was <em>correct</em>. As if the ground had been placed exactly where ground should be. As if the walls had been built not to enclose but to define the particular quality of the air inside them.<br><br>
+          Ọláberinjọ stood at the outer gate and understood, for the first time in her life, that she had been afraid of this moment. Not of the king. Of the question she would be asked, which she already knew, and which she did not yet know the answer to.<br><br>
+          She had mastered eleven of the sixteen disciplines. The other five she had touched. Touching is not knowing. She understood this now, standing at the gate of the one man in the kingdom for whom the difference was not academic.
+        </div>
+        <div class="quote-yo" style="font-size:15px;">Ká ni ká. Ìmọ̀ ni o.</div>
+        <div class="quote-en">To master is to master. Knowledge is it.</div>
+      </div>
+    </div>
+
+    <div class="acts-label reveal" style="margin-top:40px;">Chapters — Part One</div>
+    <div class="chapters-grid reveal">
+      <div class="chapter-item">
+        <span class="ch-num">I</span>
+        <div class="ch-info">
+          <div class="ch-name">The Gate of the Seventeenth</div>
+          <div class="ch-yo">Ìbẹ̀rẹ̀ — The Beginning</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <span class="ch-num">II</span>
+        <div class="ch-info">
+          <div class="ch-name">The House of Okanran</div>
+          <div class="ch-yo">Cobra in the àká</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <span class="ch-num">III</span>
+        <div class="ch-info">
+          <div class="ch-name">Sixteen Disciplines</div>
+          <div class="ch-yo">Àwọn Ilé Mẹ́rìndínlógún</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <span class="ch-num">IV</span>
+        <div class="ch-info">
+          <div class="ch-name">The Name of Lákáa</div>
+          <div class="ch-yo">Ìgbín kakaka — The Strong Snail</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <span class="ch-num">V</span>
+        <div class="ch-info">
+          <div class="ch-name">The Great Hall</div>
+          <div class="ch-yo">Ìpinnu — The Decision</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <span class="ch-num">VI</span>
+        <div class="ch-info">
+          <div class="ch-name">The Axe That Runs Back</div>
+          <div class="ch-yo">Ẹnu Awo — The Diviner's Mouth</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <span class="ch-num">VII</span>
+        <div class="ch-info">
+          <div class="ch-name">One Seed</div>
+          <div class="ch-yo">Ìpadàbọ̀ — The Return</div>
+        </div>
+      </div>
+      <div class="chapter-item">
+        <span class="ch-num">VIII</span>
+        <div class="ch-info">
+          <div class="ch-name">The First Light</div>
+          <div class="ch-yo">Ogbe Méjì — Series Two Seeded</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ GAME ══════════════════ -->
+<section class="fmt-section" id="fmt-game">
+  <div class="fmt-header">
+    <div class="fmt-label">IfaSIM · IV · Interactive</div>
+    <h2 class="fmt-title">ÒDÈ-ÌKÁ</h2>
+    <div class="fmt-sub">Adventure Mode · Ayò Ọlọ́pọ́nfá</div>
+    <p class="fmt-tagline">The 16 Houses as a living world. The Ifa Computer as game engine. Every character from the epic — playable, consultable, alive.</p>
+    <span class="status-pill status-dev">In Development</span>
+  </div>
+
+  <div class="section-inner">
+    <div class="game-world reveal">
+      <div class="world-label">World Map · The 16 Houses of Ìká</div>
+      <div class="houses-grid">
+        <div class="house-zone unlocked">
+          <span class="house-num">House 1</span>
+          <span class="house-name">The 17th Compound</span>
+        </div>
+        <div class="house-zone unlocked">
+          <span class="house-num">House 2</span>
+          <span class="house-name">House of Okanran</span>
+        </div>
+        <div class="house-zone unlocked">
+          <span class="house-num">House 3</span>
+          <span class="house-name">The Great Hall</span>
+        </div>
+        <div class="house-zone unlocked">
+          <span class="house-num">House 4</span>
+          <span class="house-name">Institute of Ifa Studies</span>
+        </div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 5</span><span class="house-name">Coming · Series 2</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 6</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 7</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 8</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 9</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 10</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 11</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 12</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 13</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 14</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 15</span><span class="house-name">Coming</span></div>
+        <div class="house-zone locked"><span class="house-lock">🔒</span><span class="house-num">House 16</span><span class="house-name">Coming</span></div>
+      </div>
+
+      <div class="game-engine">
+        <div class="engine-card">
+          <h4>Game Engine</h4>
+          <p>Powered by <strong>Ayò Ọlọ́pọ́nfá</strong> — the 16-pit Ifa Mancala board. Every move on the board advances the narrative. The Odu cast determines the encounter. The Ifa Computer and the story engine are the same machine. <a href="https://www.playifagames.org/ayo-olopona/" target="_blank">Play now →</a></p>
+        </div>
+        <div class="engine-card">
+          <h4>Characters as Game Figures</h4>
+          <p><strong>Oníkàámògún</strong> — The Strategist · <strong>Ọláberinjọ</strong> — The Seeker · <strong>Lákáa</strong> — The Fallen Master · <strong>Pàràká Kinní &amp; Kejì</strong> — Ancestral Witnesses · <strong>Ìyálóde Ṣàngọ̀ẹkò</strong> — Market Oracle</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-block reveal">
+      <div class="quote-yo">Oníkáà Olójú Mẹ́rìndínlógún.</div>
+      <div class="quote-en">The chambered game of 16 eyes. The board that sees all 256 paths.</div>
+      <div class="quote-attr">— On the Ayò Ọlọ́pọ́nfá board as Ifa Computer · Act One</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ COMIC ══════════════════ -->
+<section class="fmt-section" id="fmt-comic">
+  <div class="fmt-header">
+    <div class="fmt-label">IfaSIM · V · Sequential Art</div>
+    <h2 class="fmt-title">ÒDÈ-ÌKÁ</h2>
+    <div class="fmt-sub">IfaComic · Issue 1</div>
+    <p class="fmt-tagline">The story in ink and silence. 16 issues. One for each Olú Odu. Ìká Méjì opens the series.</p>
+    <span class="status-pill status-dev">In Development</span>
+  </div>
+
+  <div class="section-inner">
+    <!-- Comic panel mockup -->
+    <div class="comic-panel-grid reveal">
+      <div class="comic-panel panel-wide">
+        <div class="panel-num">PAGE 1 · PANEL 1</div>
+        <div class="panel-scene">Ext. The Road to the 17th Compound — Dawn</div>
+        <div class="panel-caption">A road. Not wide. Not marked. But <em>correct</em> — as if the ground beneath it agreed to be a road. At its end: the compound of the seventeenth house. At its beginning: ỌLÁBERINJỌ.</div>
+      </div>
+      <div class="comic-panel panel-tall">
+        <div class="panel-num">P1 · P2</div>
+        <div class="panel-scene">Full figure · Ọláberinjọ</div>
+        <div class="panel-caption">She carries nothing. She arrives with nothing. This is the first correct thing about her.</div>
+        <div class="panel-dialogue">
+          <div class="speaker">Inner voice</div>
+          <div class="line">Eleven of sixteen. The other five I have touched.</div>
+        </div>
+        <div class="panel-sfx">KÁ</div>
+      </div>
+      <div class="comic-panel panel-half">
+        <div class="panel-num">P1 · P3</div>
+        <div class="panel-scene">The Gate · Close on: the Ìká Méjì marks carved in the post</div>
+        <div class="panel-caption">The marks are not decoration. They are a question carved in wood: <em>what do you know, and how completely do you know it?</em></div>
+        <div class="panel-dialogue">
+          <div class="speaker">Pàràká Kinní</div>
+          <div class="line">Ká — to master. Knower and known: indistinguishable.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 16 Issues -->
+    <div class="acts-label reveal" style="margin-top:40px;">The 16 Issues — One per Olú Odu</div>
+    <div class="issues-grid reveal">
+      <div class="issue-card active">
+        <span class="issue-num">Issue 1</span>
+        <div class="issue-title">Ìká Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 2</span>
+        <div class="issue-title">Ogbe Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 3</span>
+        <div class="issue-title">Oyeku Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 4</span>
+        <div class="issue-title">Iwori Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 5</span>
+        <div class="issue-title">Odi Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 6</span>
+        <div class="issue-title">Irosun Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 7</span>
+        <div class="issue-title">Owonrin Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 8</span>
+        <div class="issue-title">Obara Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 9</span>
+        <div class="issue-title">Okanran Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 10</span>
+        <div class="issue-title">Ogunda Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 11</span>
+        <div class="issue-title">Osa Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 12</span>
+        <div class="issue-title">Oturupon Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 13</span>
+        <div class="issue-title">Otura Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 14</span>
+        <div class="issue-title">Irete Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 15</span>
+        <div class="issue-title">Ose Méjì</div>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">Issue 16</span>
+        <div class="issue-title">Ofun Méjì</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ THEME PILLARS ══════════════════ -->
+<div class="pillars-section">
+  <div class="pillars-grid">
+    <div class="pillar reveal">
+      <div class="pillar-word">Ká</div>
+      <div class="pillar-def">To Master</div>
+      <div class="pillar-desc">To know a thing so completely that the thing and the knower are no longer distinguishable. The seeker does not possess knowledge — the seeker becomes it. This is the law of the 17th compound.</div>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-word">Kótodé</div>
+      <div class="pillar-def">The Transient</div>
+      <div class="pillar-desc">One who passes through knowledge without dwelling long enough to know it. The civilizational crisis at the center of ÒDÈ-ÌKÁ. We learn in borrowed languages and borrowed frames. We pass. We do not dwell.</div>
+    </div>
+    <div class="pillar reveal">
+      <div class="pillar-word">Ẹnu Awo</div>
+      <div class="pillar-def">The Diviner's Mouth</div>
+      <div class="pillar-desc">The diviner's mouth as instrument — what is spoken carries the force of an axe. Ààke ní ń'bagi sá: the axe hits and runs back to the one who threw it. To name a thing correctly is to be changed by it.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MARQUEE SEPARATOR ══════════════════ -->
+<div class="big-marquee" aria-hidden="true">
+  <div class="bm-track">
+    <span>ÒDÈ-ÌKÁ</span><span class="bm-dot">✦</span>
+    <span>ÌBẸ̀RẸ̀</span><span class="bm-dot">✦</span>
+    <span>KÁ · TO MASTER</span><span class="bm-dot">✦</span>
+    <span>ÌKÁ MÉJÌ</span><span class="bm-dot">✦</span>
+    <span>THE HUNT</span><span class="bm-dot">✦</span>
+    <span>ÒDÈ-ÌKÁ</span><span class="bm-dot">✦</span>
+    <span>ÌBẸ̀RẸ̀</span><span class="bm-dot">✦</span>
+    <span>KÁ · TO MASTER</span><span class="bm-dot">✦</span>
+    <span>ÌKÁ MÉJÌ</span><span class="bm-dot">✦</span>
+    <span>THE HUNT</span><span class="bm-dot">✦</span>
+  </div>
+</div>
+
+<!-- ══════════════════ CHARACTERS ══════════════════ -->
+<section class="chars-section">
+  <div class="section-heading">
+    <h2>The People of Ìká Méjì</h2>
+    <p>Series 1 · Part One Characters</p>
+  </div>
+  <div class="chars-grid">
+
+    <div class="char-card reveal">
+      <div class="char-glyph">Ọ</div>
+      <div class="char-name">Ọláberinjọ</div>
+      <div class="char-role">The Seeker · Protagonist</div>
+      <div class="char-desc">A young scholar of extraordinary range — eleven of sixteen disciplines mastered, five touched. She arrives at the 17th compound carrying nothing, which is the first correct thing about her. The question the king will ask, she already knows. The answer, she does not yet have.</div>
+      <div class="char-yo">Ẹni tí a kò lè kọ ní ìrọ̀ tọ̀run rẹ̀.</div>
+    </div>
+
+    <div class="char-card reveal">
+      <div class="char-glyph">O</div>
+      <div class="char-name">Oníkàámògún</div>
+      <div class="char-role">King of the 17th · The Law</div>
+      <div class="char-desc">The king who outlawed the half-knowing. Oní-ìká-àámògún — the one whose name contains the Odu's law. He does not rule by force but by the sheer precision of his understanding. He plays Ayò Ọlọ́pọ́nfá the way other kings hold court. His words are not declarations — they are Ẹnu Awo.</div>
+      <div class="char-yo">Ìjà wa ni: a jẹ kótodé. A ń kọjá. A ò ń gbé.</div>
+    </div>
+
+    <div class="char-card reveal">
+      <div class="char-glyph">L</div>
+      <div class="char-name">Lákáa</div>
+      <div class="char-role">The Strong Snail · The Fallen</div>
+      <div class="char-desc">A master who died not because someone surpassed him, but because no one was strong enough to meet him equally. Lákáa jẹ́ ìgbín kakaka. A force requires a corresponding force, or it has nowhere to go. He is the lesson the kingdom has not yet finished learning.</div>
+      <div class="char-yo">Lákáa jẹ́ ìgbín kakaka. Ó lagbára. Ohun tí ó pa á kò jẹ́ ẹni alágbára.</div>
+    </div>
+
+    <div class="char-card reveal">
+      <div class="char-glyph">P</div>
+      <div class="char-name">Pàràká Kinní</div>
+      <div class="char-role">First Ancestral Witness · Egungun</div>
+      <div class="char-desc">A small Egungun masquerade — pàràká. Not a parrot. Stands motionless and masked. Speaks in the compressed authority of the ancestors: terse, final, unrepeatable. When the pàràká says a word three times, the word becomes a reality. The masquerade is not wearing the ancestor. It is the ancestor.</div>
+      <div class="char-yo">Ká — to master. To know a thing so completely that knower and known are indistinguishable.</div>
+    </div>
+
+    <div class="char-card reveal">
+      <div class="char-glyph">P</div>
+      <div class="char-name">Pàràká Kejì</div>
+      <div class="char-role">Second Ancestral Witness · Egungun</div>
+      <div class="char-desc">The second small Egungun masquerade. Affirms in the ancestral voice. When the Ẹnu Awo is complete, the two pàràká are absolutely still. The ancestral witnesses have heard. What was spoken will move.</div>
+      <div class="char-yo">Ààke. The word lands like the thing itself.</div>
+    </div>
+
+    <div class="char-card reveal">
+      <div class="char-glyph">Ì</div>
+      <div class="char-name">Ìyálóde Ṣàngọ̀ẹkò</div>
+      <div class="char-role">Market Queen · The Counter-Question</div>
+      <div class="char-desc">The market queen from the Alákàrà quarter. Not a scholar. The woman who trades in the market everyone passes through without stopping. She asks the one question the Great Hall needs to hear — and the king's answer inverts everything: the scholars must learn the market-woman's knowledge, not the other way.</div>
+      <div class="char-yo">Ọba, àwa olójà — ṣé ẹ ní kí a mọ ìmọ̀ àwọn ọ̀mọ̀wé?</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════ THE 16 ODU ══════════════════ -->
+<section class="odu-section">
+  <div class="section-heading">
+    <h2>The 16 Olú Odu — 16 Series</h2>
+    <p>Each Odu, one world. Each world, one series of ÒDÈ-ÌKÁ.</p>
+  </div>
+  <div class="odu-grid">
+    <div class="odu-card"><span class="odu-n">01</span><span class="odu-yo">Ogbe Méjì</span><div class="odu-en">The First Light</div><span class="status-pill status-dev" style="margin-top:10px;font-size:8px;padding:3px 9px;">Series 2 — Seeded</span></div>
+    <div class="odu-card"><span class="odu-n">02</span><span class="odu-yo">Oyeku Méjì</span><div class="odu-en">Night · Completion</div></div>
+    <div class="odu-card"><span class="odu-n">03</span><span class="odu-yo">Iwori Méjì</span><div class="odu-en">Inner Vision</div></div>
+    <div class="odu-card"><span class="odu-n">04</span><span class="odu-yo">Odi Méjì</span><div class="odu-en">The Womb · The Hidden</div></div>
+    <div class="odu-card"><span class="odu-n">05</span><span class="odu-yo">Irosun Méjì</span><div class="odu-en">Blood · Witness</div></div>
+    <div class="odu-card"><span class="odu-n">06</span><span class="odu-yo">Owonrin Méjì</span><div class="odu-en">The Unpredictable</div></div>
+    <div class="odu-card"><span class="odu-n">07</span><span class="odu-yo">Obara Méjì</span><div class="odu-en">Royalty · Expansion</div></div>
+    <div class="odu-card"><span class="odu-n">08</span><span class="odu-yo">Okanran Méjì</span><div class="odu-en">The Contradictory Force</div></div>
+    <div class="odu-card"><span class="odu-n">09</span><span class="odu-yo">Ogunda Méjì</span><div class="odu-en">The Opener of Paths</div></div>
+    <div class="odu-card"><span class="odu-n">10</span><span class="odu-yo">Osa Méjì</span><div class="odu-en">The Revolutionary</div></div>
+    <div class="odu-card current"><span class="odu-n">11</span><span class="odu-yo">Ìká Méjì</span><div class="odu-en">The Master · The Chamber</div><span class="status-pill status-complete" style="margin-top:10px;font-size:8px;padding:3px 9px;">Series 1 · Part 1 Complete</span></div>
+    <div class="odu-card"><span class="odu-n">12</span><span class="odu-yo">Oturupon Méjì</span><div class="odu-en">The Devourer</div></div>
+    <div class="odu-card"><span class="odu-n">13</span><span class="odu-yo">Otura Méjì</span><div class="odu-en">Blessing · Covenant</div></div>
+    <div class="odu-card"><span class="odu-n">14</span><span class="odu-yo">Irete Méjì</span><div class="odu-en">The Elder's Wisdom</div></div>
+    <div class="odu-card"><span class="odu-n">15</span><span class="odu-yo">Ose Méjì</span><div class="odu-en">Fertility · Abundance</div></div>
+    <div class="odu-card"><span class="odu-n">16</span><span class="odu-yo">Ofun Méjì</span><div class="odu-en">Death · Transformation</div></div>
+  </div>
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="footer">
+  <div class="footer-brand">ÒDÈ-ÌKÁ · IfaSIM</div>
+  <div class="footer-sub">An Ifa Simulation · Play IFA Games · CENProject 2026</div>
+  <div class="footer-links">
+    <a href="https://www.playifagames.org/" class="footer-link">← Play IFA Games</a>
+    <a href="https://www.playifagames.org/ayo-olopona/" class="footer-link">Ayò Ọlọ́pọ́nfá</a>
+    <a href="https://ifainternet.org" class="footer-link">IFA Internet</a>
+  </div>
+  <div class="footer-copy">
+    Written by CENProject &amp; Babalawo Ajetumobi Esubiyi Obakolawole<br>
+    Based on Odu Ifa Ìká Méjì · Part One Screenplay Complete · 61 Pages<br>
+    &copy; 2026 CENProject · IFA Internet · All rights reserved
+  </div>
+</footer>
+
+<script>
+/* ── FORMAT TABS ─────────────────────────────────────────── */
+const tabs = document.querySelectorAll('.fmt-tab');
+const sections = document.querySelectorAll('.fmt-section');
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const fmt = tab.dataset.fmt;
+    tabs.forEach(t => t.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    const target = document.getElementById('fmt-' + fmt);
+    if (target) {
+      target.classList.add('active');
+      const fmtNav = document.getElementById('fmtNav');
+      const navH = fmtNav ? fmtNav.getBoundingClientRect().bottom + window.scrollY : 0;
+      window.scrollTo({ top: navH - 2, behavior: 'smooth' });
+      setTimeout(triggerReveals, 100);
+    }
+  });
+});
+
+/* ── PARTICLES ───────────────────────────────────────────── */
+(function() {
+  const wrap = document.getElementById('ptcl');
+  if (!wrap) return;
+  const isMobile = window.innerWidth < 600;
+  const N = isMobile ? 28 : 70;
+
+  // Color distribution: 50% gold, 20% crimson, 15% teal, 15% purple
+  const colors = [];
+  for (let i = 0; i < N; i++) {
+    const r = Math.random();
+    if (r < 0.50)      colors.push('#f5b700');
+    else if (r < 0.70) colors.push('#e01040');
+    else if (r < 0.85) colors.push('#00e8d6');
+    else               colors.push('#9d6ff5');
+  }
+
+  const dots = [];
+  for (let i = 0; i < N; i++) {
+    const d = document.createElement('div');
+    d.className = 'ptcl-dot';
+    // Random size 1–4px, some 1px
+    const sz = Math.random() < 0.2 ? 1 : (2 + Math.random() * 2);
+    d.style.cssText = [
+      'left:' + (Math.random() * 100) + '%',
+      '--dur:' + (6 + Math.random() * 10) + 's',
+      '--dly:' + (-Math.random() * 16) + 's',
+      'width:' + sz + 'px',
+      'height:' + sz + 'px',
+      'background:' + colors[i],
+      'opacity:0'
+    ].join(';');
+    wrap.appendChild(d);
+    dots.push({ el: d, baseOpacity: null });
+  }
+
+  // Flash interval: randomly brightens 2-3 particles every 3s
+  setInterval(() => {
+    const count = 2 + Math.floor(Math.random() * 2);
+    const shuffled = [...dots].sort(() => Math.random() - 0.5).slice(0, count);
+    shuffled.forEach(p => {
+      p.el.style.opacity = '1.0';
+      p.el.style.filter = 'brightness(2) drop-shadow(0 0 6px currentColor)';
+      setTimeout(() => {
+        p.el.style.opacity = '';
+        p.el.style.filter = '';
+      }, 400 + Math.random() * 300);
+    });
+  }, 3000);
+})();
+
+/* ── STATIC STARS ────────────────────────────────────────── */
+(function() {
+  const layer = document.getElementById('starLayer');
+  if (!layer) return;
+  for (let i = 0; i < 20; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    s.style.cssText = [
+      'left:' + (Math.random() * 100) + '%',
+      'top:' + (Math.random() * 100) + '%'
+    ].join(';');
+    layer.appendChild(s);
+  }
+})();
+
+/* ── SCROLL REVEAL ───────────────────────────────────────── */
+function triggerReveals() {
+  const reveals = document.querySelectorAll('.reveal:not(.visible)');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+}
+triggerReveals();
+</script>
+</body>
+</html>

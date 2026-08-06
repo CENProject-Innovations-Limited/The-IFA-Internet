@@ -6,7 +6,7 @@
    CENProject · IFA Internet
 ───────────────────────────────────────────────────────────── */
 
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect, useCallback, useRef } = React;
 
 /* ── STEAMSEX — 8 Field Category Axes (Grid Columns + Rows) ── */
 const STEAMSEX = [
@@ -42,7 +42,7 @@ const PTOE_DATA = [
   { id: 'comp-sci',     row: 5, col: 0, name: 'Computer Science',        ifaName: 'Ifa Computer Science',       alias: 'IfaCS'       },
   { id: 'geology',      row: 6, col: 0, name: 'Geology',                 ifaName: 'Ifa Geology',                alias: 'IfaGeo'      },
   /* col 1 — Technology (T) */
-  { id: 'neurotech',    row: 1, col: 1, name: 'Neurotechnology',         ifaName: 'Ifa Neurotechnology',        alias: 'IfaNeurot'   },
+  { id: 'neurotech',    row: 1, col: 1, name: 'Neurotechnology',         ifaName: 'Ifa Neurotechnology',        alias: 'IfaNeurotech'   },
   { id: 'biotech',      row: 2, col: 1, name: 'Biotechnology',           ifaName: 'Ifa Biotechnology',          alias: 'IfaBiotech'  },
   { id: 'robotics',     row: 3, col: 1, name: 'Robotics',                ifaName: 'Ifa Robotics',               alias: 'IfaRob'      },
   { id: 'nanotech',     row: 4, col: 1, name: 'Nanotechnology',          ifaName: 'Ifa Nanotechnology',         alias: 'IfaNano'     },
@@ -90,6 +90,15 @@ const PTOE_DATA = [
   { id: 'x4', row: 4, col: 7, name: 'X₄', ifaName: 'Ifa X₄', alias: null },
   { id: 'x5', row: 5, col: 7, name: 'X₅', ifaName: 'Ifa X₅', alias: null },
   { id: 'x6', row: 6, col: 7, name: 'X₆', ifaName: 'Ifa X₆', alias: null },
+  /* row 7 — discipline expansion (IfaCircle Matrix only) */
+  { id: 'astronomy',    row: 7, col: 0, name: 'Astronomy',              ifaName: 'Ifa Astronomy',              alias: 'IfaAstro'    },
+  { id: 'info-tech',    row: 7, col: 1, name: 'Information Technology', ifaName: 'Ifa Information Technology', alias: 'IfaIT'       },
+  { id: 'aero-eng',     row: 7, col: 2, name: 'Aerospace Engineering',  ifaName: 'Ifa Aerospace Engineering',  alias: 'IfaAeroEng'  },
+  { id: 'architecture', row: 7, col: 3, name: 'Architecture',           ifaName: 'Ifa Architecture',           alias: 'IfaArch'     },
+  { id: 'number-theory',row: 7, col: 4, name: 'Number Theory',          ifaName: 'Ifa Number Theory',          alias: 'IfaNumTh'    },
+  { id: 'linguistics',  row: 7, col: 5, name: 'Linguistics',            ifaName: 'Ifa Linguistics',            alias: 'IfaLing'     },
+  { id: 'higher-edu',   row: 7, col: 6, name: 'Higher Education',       ifaName: 'Ifa Higher Education',       alias: 'IfaHiEdu'    },
+  { id: 'x7',           row: 7, col: 7, name: 'X₇',                    ifaName: 'Ifa X₇',                    alias: null          },
 ];
 
 /* ── SIDECHRX content overrides per discipline ──────────────── */
@@ -321,11 +330,7 @@ function CellModal({ cell, isIfa, onClose }) {
           </div>
 
           <h2 className="modal__title" style={{ '--title-c': steamCol.color }}>
-            {isIfa ? (
-              <>
-                Ifa<sub className="modal__ogbe">|</sub>{' '}{cell.name}
-              </>
-            ) : cell.name}
+            {isIfa ? `Ifa ${cell.name}` : cell.name}
           </h2>
 
           {isIfa && (
@@ -390,6 +395,69 @@ function CellModal({ cell, isIfa, onClose }) {
   );
 }
 
+/* ── Ogbe Energy Symbol (SymboE) — canvas lemniscate ─────────── */
+function OgbeSymboE({ size = 12 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width  = size * DPR;
+    canvas.height = size * DPR;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+    const a = size * 0.44, cx = size / 2, cy = size / 2, N = 60;
+    function lobe(t0, t1, neg) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) {
+        const t = t0 + (t1 - t0) * i / N;
+        const v = neg ? -Math.cos(2 * t) : Math.cos(2 * t);
+        if (v < 1e-9) continue;
+        const r = a * Math.sqrt(v);
+        pts.push([cx + r * Math.cos(t), cy + r * Math.sin(t)]);
+      }
+      return pts;
+    }
+    function draw(pts, lw, color, blur) {
+      if (!pts.length) return;
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.lineWidth   = lw;
+      ctx.shadowColor = color;
+      ctx.shadowBlur  = blur;
+      ctx.lineCap = ctx.lineJoin = 'round';
+      ctx.beginPath();
+      pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y));
+      ctx.stroke();
+      ctx.restore();
+    }
+    const PI = Math.PI;
+    const lobes = [
+      lobe(-PI/4, PI/4, false), lobe(3*PI/4, 5*PI/4, false),
+      lobe(PI/4, 3*PI/4, true), lobe(5*PI/4, 7*PI/4, true),
+    ];
+    lobes.forEach(pts => {
+      draw(pts, 2.5, 'rgba(245,197,24,0.18)', 5);
+      draw(pts, 1.2, 'rgba(245,197,24,0.65)', 2);
+      draw(pts, 0.6, 'rgba(255,248,210,0.92)', 1);
+    });
+    ctx.save();
+    ctx.fillStyle   = 'rgba(255,248,210,0.95)';
+    ctx.shadowColor = 'rgba(245,197,24,1)';
+    ctx.shadowBlur  = 3;
+    ctx.beginPath();
+    ctx.arc(cx, cy, Math.max(0.5, size * 0.06), 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.restore();
+  }, [size]);
+  return (
+    <canvas ref={ref}
+      style={{ display: 'inline-block', verticalAlign: 'sub',
+               width: size + 'px', height: size + 'px' }}
+      aria-hidden="true" />
+  );
+}
+
 /* ── PToE Grid — STEAMSEX column layout ──────────────────────── */
 function PToEGrid({ isIfa, onCellClick }) {
   const ROWS = [1, 2, 3, 4, 5, 6];
@@ -407,7 +475,9 @@ function PToEGrid({ isIfa, onCellClick }) {
             {STEAMSEX.map(cat => (
               <div key={cat.id} className="ptoe-col-hd" style={{ '--col-c': cat.color }}>
                 <span className="ptoe-col-hd__icon">{cat.icon}</span>
-                <span className="ptoe-col-hd__code">{cat.code}</span>
+                <span className="ptoe-col-hd__code">
+                  {cat.code}{isIfa && <OgbeSymboE size={9}/>}
+                </span>
                 <span className="ptoe-col-hd__name">
                   {isIfa ? `Ifa ${cat.name}` : cat.name}
                 </span>
@@ -436,9 +506,7 @@ function PToEGrid({ isIfa, onCellClick }) {
                     >
                       {isIfa ? (
                         <>
-                          <span className="ptoe-cell__ifa-expr">
-                            Ifa<sub className="ptoe-ogbe">|</sub>
-                          </span>
+                          <span className="ptoe-cell__ifa-expr">Ifa</span>
                           <span className="ptoe-cell__name">{cell.name}</span>
                           {cell.alias && (
                             <span className="ptoe-cell__alias">{cell.alias}</span>
@@ -486,6 +554,221 @@ function PToEGrid({ isIfa, onCellClick }) {
   );
 }
 
+/* ── IfaCircle Matrix — radial PToE visualization ───────────── */
+function IfaCircleMatrix({ onCellClick }) {
+  const [activeCatId, setActiveCatId] = useState(null);
+
+  const CX = 400, CY = 400;
+  const IFA_R  = 68;   // IfaCircle ring radius
+  const CAT_R  = 192;  // Category node ring radius
+  const DISC_R = 120;  // Discipline orbit radius around cat node
+  const CAT_NR = 22;   // Category node circle radius
+  const DISC_NR = 22;  // Discipline node circle radius (matches CAT_NR)
+
+  const catNodes = STEAMSEX.map((cat, i) => {
+    const angle = (i * 45 - 90) * Math.PI / 180;
+    return {
+      ...cat,
+      x: CX + CAT_R * Math.cos(angle),
+      y: CY + CAT_R * Math.sin(angle),
+      angle,
+      colIndex: i,
+    };
+  });
+
+  const activeCat = catNodes.find(c => c.id === activeCatId) ?? null;
+
+  const discCells = activeCat
+    ? [
+        ...PTOE_DATA.filter(d => d.col === activeCat.colIndex),
+        { id: `${activeCat.id}-others`, row: 8, col: activeCat.colIndex,
+          name: 'Others', ifaName: `Ifa ${activeCat.name} — Others`,
+          alias: null, isOthers: true }
+      ]
+    : [];
+
+  const discNodes = discCells.map((disc, i) => {
+    const count = discCells.length;
+    const spread = (240 * Math.PI) / 180;
+    const startA = activeCat.angle - spread / 2;
+    const a = count > 1 ? startA + (i / (count - 1)) * spread : activeCat.angle;
+    return {
+      ...disc,
+      x: activeCat.x + DISC_R * Math.cos(a),
+      y: activeCat.y + DISC_R * Math.sin(a),
+      angle: a,
+    };
+  });
+
+  const handleCatClick = id => setActiveCatId(p => p === id ? null : id);
+
+  /* Triangle at 3 o'clock (▼ downward) */
+  const tx = CX + IFA_R, ty = CY, ts = 10;
+
+  return (
+    <div className="ifacm">
+      {activeCat && (
+        <div className="ifacm__legend" style={{ '--lc': activeCat.color }}>
+          <span className="ifacm__legend-icon">{activeCat.icon}</span>
+          <strong className="ifacm__legend-name">{activeCat.name}</strong>
+          <span className="ifacm__legend-hint">— click any discipline to open its 0+8D SIDECHRX Matrix</span>
+          <button className="ifacm__back" onClick={() => setActiveCatId(null)}>← All</button>
+        </div>
+      )}
+
+      <div className="ifacm__wrap">
+        <svg viewBox="0 0 800 800" className="ifacm__svg"
+          aria-label="IfaCircle PToE Matrix — click a category to expand its disciplines">
+          <defs>
+            <filter id="icm-g" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="icm-xl" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="14" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          {/* Dashed category guide ring */}
+          <circle cx={CX} cy={CY} r={CAT_R}
+            fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" strokeDasharray="4 8"/>
+
+          {/* Spokes: center → category nodes */}
+          {catNodes.map(n => (
+            <line key={`spk-${n.id}`}
+              x1={CX} y1={CY} x2={n.x} y2={n.y}
+              stroke={activeCatId === n.id ? n.color : 'rgba(255,255,255,0.07)'}
+              strokeWidth={activeCatId === n.id ? 1.5 : 0.8}
+              strokeDasharray="4 6"
+            />
+          ))}
+
+          {/* Discipline orbit lines (category → disc nodes) */}
+          {activeCat && discNodes.map(d => (
+            <line key={`dl-${d.id}`}
+              x1={activeCat.x} y1={activeCat.y} x2={d.x} y2={d.y}
+              stroke={activeCat.color} strokeWidth="1"
+              strokeOpacity="0.2" strokeDasharray="3 4"
+            />
+          ))}
+
+          {/* ── IfaCircle (NODE 0) ── */}
+          {/* Ambient outer glow */}
+          <circle cx={CX} cy={CY} r={IFA_R}
+            fill="none" stroke="#f5c518" strokeWidth="26" strokeOpacity="0.06"
+            filter="url(#icm-xl)"/>
+          {/* Main glow ring */}
+          <circle cx={CX} cy={CY} r={IFA_R}
+            fill="none" stroke="#f5c518" strokeWidth="10" strokeOpacity="0.5"
+            filter="url(#icm-g)"/>
+          {/* Sharp bright ring */}
+          <circle cx={CX} cy={CY} r={IFA_R}
+            fill="none" stroke="#f5c518" strokeWidth="4"/>
+          {/* Inner highlight */}
+          <circle cx={CX} cy={CY} r={IFA_R}
+            fill="none" stroke="#fff9c4" strokeWidth="1.2" strokeOpacity="0.4"/>
+          {/* Interior fill */}
+          <circle cx={CX} cy={CY} r={IFA_R - 9} fill="rgba(245,197,24,0.025)"/>
+          {/* Center dot */}
+          <circle cx={CX} cy={CY} r={5} fill="#fffff0" filter="url(#icm-g)"/>
+          {/* Triangle marker ▼ at 3 o'clock */}
+          <polygon
+            points={`${tx - ts},${ty - ts} ${tx + ts},${ty - ts} ${tx},${ty + ts}`}
+            fill="#f5c518" fillOpacity="0.9" filter="url(#icm-g)"/>
+          {/* Center labels */}
+          <text x={CX} y={CY - 10} textAnchor="middle"
+            fill="#f5c518" fontSize="7" fontWeight="700" letterSpacing="2"
+            fontFamily="'Courier New',monospace">NODE 0</text>
+          <text x={CX} y={CY + 4} textAnchor="middle"
+            fill="#f5c518" fontSize="6.5" opacity="0.6">Ogbe · CEN</text>
+          <text x={CX} y={CY + 17} textAnchor="middle"
+            fill="#f5c518" fontSize="5.5" opacity="0.38">iTOE · IfaCircle</text>
+
+          {/* ── Category nodes (STEAMSEX ring) ── */}
+          {catNodes.map(n => {
+            const isActive = activeCatId === n.id;
+            const isOther = activeCatId && !isActive;
+            const ca = Math.cos(n.angle), sa = Math.sin(n.angle);
+            const OFF = CAT_NR + 17;
+            const lx = n.x + OFF * ca;
+            const ly = n.y + OFF * sa;
+            const anchor = ca > 0.4 ? 'start' : ca < -0.4 ? 'end' : 'middle';
+            const words = n.name.split(' ');
+            const lineH = 11;
+            const totalH = (words.length - 1) * lineH;
+            return (
+              <g key={n.id}
+                onClick={() => handleCatClick(n.id)}
+                style={{ cursor: 'pointer' }}
+                opacity={isOther ? 0.22 : 1}
+              >
+                {isActive && (
+                  <circle cx={n.x} cy={n.y} r={CAT_NR + 18}
+                    fill={n.color} fillOpacity="0.1" filter="url(#icm-xl)"/>
+                )}
+                <circle cx={n.x} cy={n.y} r={CAT_NR}
+                  fill={isActive ? `${n.color}28` : `${n.color}15`}
+                  stroke={n.color} strokeWidth={isActive ? 2.5 : 1.4}/>
+                <text x={n.x} y={n.y + 5}
+                  textAnchor="middle" fill={n.color}
+                  fontSize="14" fontWeight="800">{n.icon}</text>
+                {/* Radial label (away from center) */}
+                {words.map((w, wi) => (
+                  <text key={wi}
+                    x={lx} y={ly - totalH / 2 + wi * lineH + 4}
+                    textAnchor={anchor}
+                    fill={isActive ? n.color : 'rgba(232,236,242,0.72)'}
+                    fontSize="8.5"
+                    fontWeight={isActive ? '700' : '400'}>{w}</text>
+                ))}
+              </g>
+            );
+          })}
+
+          {/* ── Discipline nodes (level 2 — same structure as category nodes) ── */}
+          {activeCat && discNodes.map(d => {
+            const da = Math.cos(d.angle), dsin = Math.sin(d.angle);
+            const OFF = DISC_NR + 17;
+            const lx = d.x + OFF * da;
+            const ly = d.y + OFF * dsin;
+            const anchor = da > 0.4 ? 'start' : da < -0.4 ? 'end' : 'middle';
+            const dwords = d.name.split(' ');
+            const lineH = 11;
+            const totalH = (dwords.length - 1) * lineH;
+            const shortLabel = d.alias
+              ? d.alias.replace('Ifa', '')
+              : (d.name.length <= 6 ? d.name : d.name.slice(0, 5));
+            return (
+              <g key={d.id} onClick={() => onCellClick(d)} style={{ cursor: 'pointer' }}>
+                <circle cx={d.x} cy={d.y} r={DISC_NR}
+                  fill={`${activeCat.color}15`}
+                  stroke={activeCat.color} strokeWidth="1.4"/>
+                <text x={d.x} y={d.y + 5}
+                  textAnchor="middle" fill={activeCat.color}
+                  fontSize="7" fontWeight="800">{shortLabel}</text>
+                {dwords.map((w, wi) => (
+                  <text key={wi}
+                    x={lx} y={ly - totalH / 2 + wi * lineH + 4}
+                    textAnchor={anchor}
+                    fill="rgba(232,236,242,0.72)"
+                    fontSize="8.5">{w}</text>
+                ))}
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+
+      {!activeCat && (
+        <p className="ifacm__hint">
+          Click any category circle to reveal its disciplines · Click a discipline to open its 0+8D SIDECHRX Matrix
+        </p>
+      )}
+    </div>
+  );
+}
+
 /* ── Playground Header ────────────────────────────────────────── */
 function PlaygroundHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -520,12 +803,14 @@ function PlaygroundHeader() {
 /* ── Tab Bar ──────────────────────────────────────────────────── */
 function TabBar({ activeTab, onTab }) {
   const TABS = [
-    { id: 'ifaview',     label: 'IfaView',      sub: 'ToE View · Knowledge Explorer', soon: false },
-    { id: 'frame-lab',   label: 'Ifa Frame Lab', sub: 'Coming Soon',                   soon: true  },
-    { id: 'ifa-matrix',  label: 'IFA Matrix',    sub: 'Coming Soon',                   soon: true  },
-    { id: 'ifa-import',  label: 'Ifa Import',    sub: 'Coming Soon',                   soon: true  },
-    { id: 'ifa-map',     label: 'Ifa Map',       sub: 'Coming Soon',                   soon: true  },
-    { id: 'ifa-transform',label: 'Ifa Transform',sub: 'Coming Soon',                   soon: true  },
+    { id: 'ifaview',      label: 'IfaView',      sub: 'ToE View · Knowledge Explorer', soon: false },
+    { id: 'ifanalogy',    label: 'Ifanalogy',     sub: 'Coming Soon',                  soon: true  },
+    { id: 'ifa-connections', label: 'Ifa Connections', sub: 'Coming Soon',             soon: true  },
+    { id: 'frame-lab',    label: 'Ifa Frame Lab', sub: 'Coming Soon',                  soon: true  },
+    { id: 'ifa-matrix',   label: 'IFA Matrix',    sub: 'Coming Soon',                  soon: true  },
+    { id: 'ifa-import',   label: 'Ifa Import',    sub: 'Coming Soon',                  soon: true  },
+    { id: 'ifa-map',      label: 'Ifa Map',       sub: 'Coming Soon',                  soon: true  },
+    { id: 'ifa-transform', label: 'Ifa Transform', sub: 'Coming Soon',                 soon: true  },
   ];
   return (
     <div className="pg-tabs">
@@ -563,9 +848,19 @@ function IfaViewTab() {
           <span className="ifaview-tab__title-sub">PToE — 0 + 8D SIDECHRX Matrix of All Knowledge</span>
         </h1>
         <p className="ifaview-tab__lead">
+          The Ifa Theory of Everything (iTOE) says that Everything is Energy, and Energy is
+          Everything, with Energy in the IfaContext referring specifically to Ogbe, also known
+          as Consciousness Energy (CEN).
+        </p>
+        <hr className="ifaview-tab__divider" />
+        <p className="ifaview-tab__lead">
           All fields of knowledge are arranged by{' '}
-          <strong className="accent-steam">STEAMSEX</strong> — the 8 universal knowledge
-          categories. Click any discipline to open its{' '}
+          <strong className="accent-steam">STEAMSEX</strong> — the 8 Universal Knowledge
+          Categories.
+        </p>
+        <hr className="ifaview-tab__divider" />
+        <p className="ifaview-tab__lead">
+          Click any discipline to open its{' '}
           <strong className="accent-lens">0 + 8D SIDECHRX Matrix</strong>, with that field
           as the <em>Node at the centre</em> — explored through 8 dimensions: Symmetry,
           Invariance, Duality, Emergence, Composition, Holism, Reductionism, and eXpansion.
@@ -594,6 +889,16 @@ function IfaViewTab() {
             <span className="sys-btn__sub">Ifa Expressions · IfaLang</span>
           </div>
         </button>
+        <button
+          className={`sys-btn${system === 3 ? ' sys-btn--active' : ''}`}
+          onClick={() => setSystem(3)}
+        >
+          <span className="sys-btn__num">03</span>
+          <div className="sys-btn__text">
+            <span className="sys-btn__label">IfaCircle Matrix</span>
+            <span className="sys-btn__sub">Radial PToE · All Knowledge</span>
+          </div>
+        </button>
       </div>
 
       {/* System description */}
@@ -605,59 +910,82 @@ function IfaViewTab() {
             Each cell is a knowledge field at the intersection of its STEAMSEX column
             and Vertical Integration row. Click any cell to explore its 0+8D SIDECHRX analysis.
           </>
-        ) : (
+        ) : system === 2 ? (
           <>
             <strong>System 2 — Periodic Table of Knowledge Elements:</strong> Every discipline
             is expressed as an <em>Ifa Expression</em> — written in{' '}
-            <strong>IfaLang</strong> with the Ogbe Symbol{' '}
-            <span className="inline-ogbe">|</span> as subscript to{' '}
-            &ldquo;Ifa&rdquo;, transforming each knowledge field into a CEN Energy element
+            <strong>IfaLang</strong> with the <strong>Ogbe Energy Symbol</strong> (SymboE){' '}
+            <OgbeSymboE size={13}/>{' '}as subscript to each{' '}
+            <strong>STEAMSEX</strong> letter —{' '}
+            S<OgbeSymboE size={10}/>{' '}
+            T<OgbeSymboE size={10}/>{' '}
+            E<OgbeSymboE size={10}/>{' '}
+            A<OgbeSymboE size={10}/>{' '}
+            M<OgbeSymboE size={10}/>{' '}
+            S<OgbeSymboE size={10}/>{' '}
+            E<OgbeSymboE size={10}/>{' '}
+            X<OgbeSymboE size={10}/>{' '}
+            — transforming each knowledge field into a CEN Energy element
             of the IFA Internet. Click any element to open its 0+8D SIDECHRX Matrix.
+          </>
+        ) : (
+          <>
+            <strong>System 3 — IfaCircle Matrix:</strong> The PToE as a radial{' '}
+            <em>IfaCircle</em>. The IfaCircle (NODE 0 · Ogbe · CEN) anchors the centre.
+            The 8 <strong>STEAMSEX</strong> knowledge domains orbit around it. Click any
+            domain to expand its disciplines on a new ring. Click any discipline to open
+            its full <strong>0+8D SIDECHRX Matrix</strong>.
           </>
         )}
       </div>
 
-      {/* STEAMSEX legend (grid axis guide) */}
-      <div className="steamsex-legend">
-        <span className="legend-label">STEAMSEX</span>
-        {STEAMSEX.map(cat => (
-          <div key={cat.id} className="steam-chip" style={{ '--cc': cat.color }}>
-            <span className="steam-chip__icon">{cat.icon}</span>
-            <span className="steam-chip__code">{cat.code}</span>
-            <span className="steam-chip__name">{cat.name}</span>
+      {system === 3 ? (
+        <IfaCircleMatrix onCellClick={setSelected} />
+      ) : (
+        <>
+          {/* STEAMSEX legend (grid axis guide) */}
+          <div className="steamsex-legend">
+            <span className="legend-label">STEAMSEX</span>
+            {STEAMSEX.map(cat => (
+              <div key={cat.id} className="steam-chip" style={{ '--cc': cat.color }}>
+                <span className="steam-chip__icon">{cat.icon}</span>
+                <span className="steam-chip__code">{cat.code}</span>
+                <span className="steam-chip__name">{cat.name}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* SIDECHRX legend (modal dimension guide) */}
-      <div className="sidechrx-legend">
-        <span className="legend-label">SIDECHRX</span>
-        {SIDECHRX.map(d => (
-          <div key={d.id} className="sidechrx-chip" style={{ '--cc': d.color }}>
-            <span className="sidechrx-chip__id">{d.id}</span>
-            <span className="sidechrx-chip__name">{d.name}</span>
+          {/* SIDECHRX legend (modal dimension guide) */}
+          <div className="sidechrx-legend">
+            <span className="legend-label">SIDECHRX</span>
+            {SIDECHRX.map(d => (
+              <div key={d.id} className="sidechrx-chip" style={{ '--cc': d.color }}>
+                <span className="sidechrx-chip__id">{d.id}</span>
+                <span className="sidechrx-chip__name">{d.name}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* Interactive PToE Grid */}
-      <PToEGrid isIfa={system === 2} onCellClick={setSelected} />
+          {/* Interactive PToE Grid */}
+          <PToEGrid isIfa={system === 2} onCellClick={setSelected} />
 
-      {/* Info box */}
-      <div className="ptoe-info">
-        <div className="ptoe-info__icon">◈</div>
-        <div className="ptoe-info__text">
-          <strong>0 + 8D Matrix:</strong> The grid is a 2D cross-section of the full
-          0+8D knowledge architecture. <strong>Columns</strong> = 8 STEAMSEX field
-          categories (Horizontal Integration — HI). <strong>Rows</strong> = disciplines
-          within each category (Vertical Integration — VI). Click any cell to open its
-          SIDECHRX exploration: 8 universal principles — Symmetry, Invariance, Duality,
-          Emergence, Composition, Holism, Reductionism, eXpansion — applied to that field,
-          with the field as Node 0 at the centre.
-        </div>
-      </div>
+          {/* Info box */}
+          <div className="ptoe-info">
+            <div className="ptoe-info__icon">◈</div>
+            <div className="ptoe-info__text">
+              <strong>0 + 8D Matrix:</strong> The grid is a 2D cross-section of the full
+              0+8D knowledge architecture. <strong>Columns</strong> = 8 STEAMSEX field
+              categories (Horizontal Integration — HI). <strong>Rows</strong> = disciplines
+              within each category (Vertical Integration — VI). Click any cell to open its
+              SIDECHRX exploration: 8 universal principles — Symmetry, Invariance, Duality,
+              Emergence, Composition, Holism, Reductionism, eXpansion — applied to that field,
+              with the field as Node 0 at the centre.
+            </div>
+          </div>
+        </>
+      )}
 
-      {/* Cell Modal */}
+      {/* Cell Modal (shared across all systems) */}
       <CellModal cell={selected} isIfa={system === 2} onClose={closeModal} />
     </div>
   );

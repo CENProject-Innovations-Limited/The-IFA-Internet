@@ -1529,6 +1529,112 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   }
 }
 
+/* ── Kojoda.app External Platform Link ───────────────────────── */
+@keyframes kojoda-ext-shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.kojoda-ext {
+  display: block;
+  position: relative;
+  margin-bottom: 56px;
+  padding: 26px 30px;
+  border-radius: var(--r-xl);
+  border: 1px solid rgba(245,197,24,0.28);
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 50%, rgba(245,197,24,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 90% 50%, rgba(0,180,166,0.04) 0%, transparent 70%),
+    var(--surface);
+  text-decoration: none;
+  color: inherit;
+  overflow: visible;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+  box-shadow: 0 0 0 1px rgba(245,197,24,0.06) inset;
+}
+.kojoda-ext:hover {
+  border-color: rgba(245,197,24,0.55);
+  box-shadow:
+    0 0 0 1px rgba(245,197,24,0.12) inset,
+    0 12px 48px rgba(245,197,24,0.1);
+  transform: translateY(-2px);
+}
+.kojoda-ext:hover .kojoda-ext__arrow {
+  transform: translate(3px, -3px);
+  color: var(--gold);
+}
+.kojoda-ext:hover .kojoda-ext__icon {
+  text-shadow: 0 0 40px rgba(245,197,24,0.7);
+}
+
+.kojoda-ext__badge {
+  position: absolute;
+  top: -11px; left: 28px;
+  padding: 2px 14px;
+  border-radius: 99px;
+  background: var(--bg);
+  border: 1px solid rgba(245,197,24,0.3);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.kojoda-ext__inner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.kojoda-ext__icon {
+  font-size: 2.6rem;
+  color: var(--gold);
+  text-shadow: 0 0 24px rgba(245,197,24,0.4);
+  line-height: 1;
+  flex-shrink: 0;
+  transition: text-shadow 0.25s;
+}
+
+.kojoda-ext__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.kojoda-ext__sup {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 4px;
+}
+
+.kojoda-ext__name {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+
+.kojoda-ext__desc {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.kojoda-ext__arrow {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--text-3);
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
 @media (max-width: 640px) {
   .section { padding: 70px 0; }
   .header__back span:last-child { display: none; }
@@ -1539,4 +1645,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   .modal__header { padding: 24px 20px 16px; }
   .modal__body { padding: 20px; }
   .ifa-time__grid { grid-template-columns: 1fr; }
+  .kojoda-ext { padding: 22px 20px; margin-bottom: 40px; }
+  .kojoda-ext__name { font-size: 1.25rem; }
+  .kojoda-ext__icon { font-size: 2rem; }
+  .kojoda-ext__arrow { display: none; }
 }

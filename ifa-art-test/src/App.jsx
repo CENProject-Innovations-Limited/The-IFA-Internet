@@ -10,7 +10,7 @@ const { useState, useRef, useEffect } = React;
 
 const STATS = [
   { value: '256',    label: 'Odu Ifa',         sub: 'The Axiomatic Art Matrix' },
-  { value: '11+',    label: 'Art Traditions',  sub: 'Oral & Performance Arts' },
+  { value: '16',     label: 'Art Traditions',  sub: 'Oral & Performance Arts' },
   { value: 'Dual',   label: 'Ifart / Orisart', sub: 'Ifa Art & Its Dual' },
   { value: 'Àṣẹ',   label: 'Creative Force',  sub: 'Living Artistic Power' },
 ];
@@ -81,7 +81,7 @@ const ORISART_FORMS = [
     title: 'Ìjálá',
     sub: "Hunter's Art — Ògún Tradition",
     color: '#6d28d9',
-    body: "Ìjálá is the hunters' oral poetry — the artistic tradition of Ògún (Orisa of iron and the forest). Performed by Aláàgbà (master hunters), Ìjálá encompasses praise poems for Ògún, nature knowledge encoded in verse, and the history of the hunt. Among the most technically demanding Yoruba oral art forms, requiring mastery of archaic vocabulary, tonal precision, and encyclopedic natural knowledge.",
+    body: "Ìjálá is the hunters' oral poetry — the artistic tradition of Ògún (Orisa of iron and the forest). Performed by Aláàgbà (master hunters), Ìjálá encompasses praise poems for Ògún, nature knowledge encoded in verse, and the history of the hunt. Among the most technically demanding Yoruba oral art forms, requiring mastery of ancient vocabulary, tonal precision, and encyclopedic natural knowledge.",
   },
   {
     num: '05',
@@ -179,7 +179,7 @@ const TRADITIONS = [
     type: 'orisa',
     color: '#6d28d9',
     role: 'Aláàgbà — Master Hunters',
-    body: "The hunters' oral poetry of the Ògún tradition — among the most technically demanding Yoruba oral art forms. Ìjálá encompasses praise poems for Ògún, nature knowledge encoded in verse, and the history of the hunt. Mastery requires encyclopedic natural knowledge, archaic vocabulary, and precise tonal control. Ìjálá is the Orisa Art of the forest — nature knowledge elevated to poetry.",
+    body: "The hunters' oral poetry of the Ògún tradition — among the most technically demanding Yoruba oral art forms. Ìjálá encompasses praise poems for Ògún, nature knowledge encoded in verse, and the history of the hunt. Mastery requires encyclopedic natural knowledge, ancient vocabulary, and precise tonal control. Ìjálá is the Orisa Art of the forest — nature knowledge elevated to poetry.",
     significance: 'Ìjálá preserves an enormous body of knowledge about Yoruba ecology, forest medicine, animal behavior, and pre-colonial history — encoded in artistic form that survives outside written records. It is a living scientific archive disguised as poetry, and a testament to the depth of Ifa-Orisa knowledge systems.',
   },
   {
@@ -206,7 +206,7 @@ const TRADITIONS = [
     type: 'orisa',
     color: '#3730a3',
     role: 'Ògbóni Society — Initiated Members',
-    body: 'The sacred chants of the Ògbóni society — restricted to initiated members, encoding the mysteries of earth religion, ancestral law, and social governance. Arò Ògbóni connect human governance to earth deity (Onílẹ̀) through a tradition of sacred music and chant. As sacred society art, Arò represents the most restricted and protected layer of Yoruba oral tradition.',
+    body: 'The sacred chants of the Ògbóni society — restricted to initiated members, encoding the mysteries of earth religion, ancestral law, and social governance. Arò Ògbóni connect human governance to Earth deity (Onílé Ògbódùọrà) through a tradition of sacred music and chant. As sacred society art, Arò represents the most restricted and protected layer of Yoruba oral tradition.',
     significance: 'The Ògbóni institution has governed Yoruba communities for centuries. Its sacred arts preserve constitutional and cosmological knowledge that underlies Yoruba political philosophy — encoded in art to protect it from casual access and ensure it remains operative only in the hands of those bound by its covenant.',
   },
 ];
@@ -216,7 +216,7 @@ const PATH_STEPS = [
     num: '01',
     title: 'Ifa Art — Begin with Ìyẹ̀rẹ',
     color: '#f0920c',
-    body: "Start with the foundation of Ifa Art — Ìyẹ̀rẹ Ifá and the Babaláwo's Rírán. Understand how the 256 Odu Ifa is encoded in oral artistic form, and how tonal precision activates the living knowledge of the Ifa corpus.",
+    body: "Start with the foundation of Ifa Art — Ìyẹ̀rẹ Ifá and the Babaláwo's Ifá Rírán. Understand how the 256 Odu Ifa is encoded in oral artistic form, and how tonal precision activates the living knowledge of the Ifa corpus.",
   },
   {
     num: '02',
@@ -290,14 +290,38 @@ const IFA_ODU_WHEEL = [
 ];
 
 const MATRIX_DIMS = [
-  { letter:'S', name:'Science',     color:'#14b8d4', steamKey:'Natural Science', desc:'Art as a Science'        },
-  { letter:'T', name:'Technology',  color:'#f59e0b', steamKey:'Technology',      desc:'Art as a Technology'     },
-  { letter:'E', name:'Engineering', color:'#10b981', steamKey:'Engineering',     desc:'Art as Engineering'      },
-  { letter:'A', name:'Arts',        color:'#ec4899', steamKey:'Arts',            desc:'Art as Arts'             },
-  { letter:'M', name:'Mathematics', color:'#8b5cf6', steamKey:'Mathematics',     desc:'Art as Mathematics'      },
-  { letter:'S', name:'Social Sci.', color:'#f97316', steamKey:'Social Science',  desc:'Art as a Social Science' },
-  { letter:'E', name:'Education',   color:'#06b6d4', steamKey:'Education',       desc:'Art as Education'        },
-  { letter:'X', name:'Others',      color:'#a78bfa', steamKey:null,              desc:'Art as Others'           },
+  {
+    letter:'S', name:'Science', color:'#14b8d4', steamKey:'Natural Science', desc:'Natural Science as Art',
+    longDesc:'Natural Science (physics, chemistry, biology, earth science) as Art — the systematic study of the physical universe is a form of artistic discovery. Every natural law is an expression of the 256 Odu Ifa, and every scientific inquiry an act of artistic revelation. Ifart positions Natural Science as the axiomatic art of the physical world.',
+  },
+  {
+    letter:'T', name:'Technology', color:'#f59e0b', steamKey:'Technology', desc:'Technology as Art',
+    longDesc:'Every device, system, software, and machine is an artistic creation. Ifart holds that technology is art applied — intelligence and intention encoded in material form. All technological innovation is an act of artistic mastery governed by the axiomatic exchange principles of the 256 Odu Ifa.',
+  },
+  {
+    letter:'E', name:'Engineering', color:'#10b981', steamKey:'Engineering', desc:'Engineering as Art',
+    longDesc:'The design and construction of systems, structures, and processes is artistic mastery. Precision, beauty, and function are unified in every engineered work. Ifart grounds engineering in the structural and energetic axioms of the 256 Odu Ifa — making every engineered solution an axiomatic art form.',
+  },
+  {
+    letter:'A', name:'Arts', color:'#ec4899', steamKey:'Arts', desc:'Arts as Art',
+    longDesc:'Visual art, music, dance, theatre, literature, and film are the most direct expression of Ifart. All aesthetic traditions are rooted in the axiomatic structure of the 256 Odu Ifa. In Ifart, the aesthetic and the axiomatic are one — every art form an instantiation of universal artistic intelligence.',
+  },
+  {
+    letter:'M', name:'Mathematics', color:'#8b5cf6', steamKey:'Mathematics', desc:'Mathematics as Art',
+    longDesc:'Mathematical proof, structure, and geometric form are art forms in the Ifart framework. The elegance of a proof and the beauty of numerical patterns are expressions of Ifa artistic intelligence encoded in the language of quantity. Ifart holds that mathematics and art are one unified axiomatic field.',
+  },
+  {
+    letter:'S', name:'Social Sci.', color:'#f97316', steamKey:'Social Science', desc:'Social Science as Art',
+    longDesc:'The study of human societies, economies, cultures, and political systems is an artistic enterprise. Every social theory is an artistic model of human reality. Ifart grounds all social sciences in the exchange principles of the 256 Odu Ifa — making economics, sociology, and politics forms of axiomatic art.',
+  },
+  {
+    letter:'E', name:'Education', color:'#06b6d4', steamKey:'Education', desc:'Education as Art',
+    longDesc:'The transmission of knowledge and cultivation of wisdom are art forms. Teaching is performance; learning is creation; curriculum is composition. Ifart positions all education as a practice of axiomatic knowledge transmission through artistic intelligence rooted in the living wisdom of the 256 Odu Ifa.',
+  },
+  {
+    letter:'X', name:'Others', color:'#a78bfa', steamKey:null, desc:'All Other Fields as Art',
+    longDesc:'Law, medicine, sport, spirituality, governance, agriculture — all other fields of human knowledge and practice are encompassed by Ifart. No human activity falls outside the axiomatic art matrix of the 256 Odu Ifa. Every field of knowledge is an art form awaiting recognition through the axiomatic lens of Ifaxiomatics (Ifa Axiomatics).',
+  },
 ];
 
 // ─── ART ORB (Hero Visual) ────────────────────────────────────────────────────
@@ -349,6 +373,7 @@ function Header() {
           <a className="nav-link" href="#orisart">Orisa Art</a>
           <a className="nav-link" href="#traditions">Traditions</a>
           <a className="nav-link" href="#duality">Duality</a>
+          <a className="nav-link" href="#ifart-matrix">Matrix</a>
           <a className="nav-link" href="#challenge">Challenge</a>
           <a className="nav-link" href="#path">Learn</a>
           <a className="nav-link nav-link--cta"
@@ -426,7 +451,13 @@ function HeroSection() {
             which the wisdom of the <strong>256 Odu Ifa</strong> is encoded, transmitted, and
             performed across all fields of Yoruba civilization. Sacred chant, praise poetry,
             hunters' art, masquerade song, and divination recitation — all expressions of
-            one unified artistic intelligence.
+            one unified artistic intelligence. Ifart is the axiomatic approach to the arts.
+          </p>
+          <p className="hero__desc">
+            The 16 Oju Odu Ifa are the 16 Ifa Axioms, which are the Laws of Nature governing
+            all kinds of arts and all knowledge as a whole. These meta-axioms are developed
+            and studied formally in the IFA Body of Knowledge (IFABOK) as ifaxiomatics
+            (Ifa Axiomatics).
           </p>
 
           <div className="hero__aliases">
@@ -544,7 +575,7 @@ function DefinitionSection() {
             </div>
             <p className="dual-caption">
               IfaSchema: Orisa Art is the Dual of Ifa Art —<br/>
-              both are expressions of one unified artistic intelligence
+              both are Expressions of One Unified Artistic Intelligence
             </p>
           </div>
         </div>
@@ -781,6 +812,221 @@ function DualitySection() {
               ))}
             </ul>
             <div className="duality-card__glow" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── IFART MATRIX SECTION ────────────────────────────────────────────────────
+
+function IfartMatrixSection() {
+  const [hovered, setHovered] = useState(null);
+  const [pinned,  setPinned]  = useState(null);
+  const active = pinned ?? hovered;
+
+  const SIZE = 560, CX = 280, CY = 280, R = 202;
+
+  const nodes = MATRIX_DIMS.map((d, i) => {
+    const deg = (i * 360 / MATRIX_DIMS.length) - 90;
+    const rad = deg * Math.PI / 180;
+    return { ...d, x: CX + R * Math.cos(rad), y: CY + R * Math.sin(rad) };
+  });
+
+  function toggle(n) {
+    setPinned(prev => (prev && prev.name === n.name ? null : n));
+  }
+
+  return (
+    <section className="section section--dark" id="ifart-matrix">
+      <div className="container">
+        <div className="section__header section__header--center">
+          <span className="section__eyebrow section__eyebrow--amber">Axiomatic Art Matrix</span>
+          <h2 className="section__title">
+            The Ifart Matrix: The <span className="accent--amber">Axiomatic Art Matrix</span>
+          </h2>
+          <p className="section__subtitle">
+            The STEAMSEX Axiomatic Art Matrix — all fields of human knowledge understood as Art
+            through the axiomatic intelligence of Ifart and the 256 Odu Ifa.
+            Hover a node to explore · Click to pin its description.
+          </p>
+        </div>
+
+        <div className="ifart-matrix">
+          {/* ── SVG Canvas ── */}
+          <div className="ifart-matrix__canvas">
+            <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="ifart-matrix__svg"
+                 aria-label="Ifart STEAMSEX Axiomatic Art Matrix">
+              <defs>
+                <radialGradient id="mx-bg" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%"   stopColor="#0c1828"/>
+                  <stop offset="100%" stopColor="#040810"/>
+                </radialGradient>
+                <filter id="mx-glow-center" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="10" result="b"/>
+                  <feComposite in="SourceGraphic" in2="b" operator="over"/>
+                </filter>
+                <filter id="mx-glow-node" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="6" result="b"/>
+                  <feComposite in="SourceGraphic" in2="b" operator="over"/>
+                </filter>
+              </defs>
+
+              {/* Background disc */}
+              <circle cx={CX} cy={CY} r={CX - 8} fill="url(#mx-bg)" stroke="rgba(240,146,12,0.10)" strokeWidth="1.5"/>
+
+              {/* Guide rings */}
+              <circle cx={CX} cy={CY} r={R + 46} fill="none" stroke="rgba(240,146,12,0.06)" strokeWidth="1" strokeDasharray="3 9"/>
+              <circle cx={CX} cy={CY} r={R}      fill="none" stroke="rgba(240,146,12,0.08)" strokeWidth="1" strokeDasharray="4 6"/>
+              <circle cx={CX} cy={CY} r={R * 0.46} fill="none" stroke="rgba(240,146,12,0.06)" strokeWidth="1" strokeDasharray="2 8"/>
+
+              {/* Spoke lines */}
+              {nodes.map((n, i) => {
+                const isAct = active && active.name === n.name;
+                return (
+                  <line key={`spoke-${i}`}
+                    x1={CX + 76 * Math.cos((i * 360/8 - 90) * Math.PI/180)}
+                    y1={CY + 76 * Math.sin((i * 360/8 - 90) * Math.PI/180)}
+                    x2={n.x - 40 * Math.cos((i * 360/8 - 90) * Math.PI/180)}
+                    y2={n.y - 40 * Math.sin((i * 360/8 - 90) * Math.PI/180)}
+                    stroke={n.color}
+                    strokeWidth={isAct ? 2.5 : 1}
+                    strokeOpacity={active ? (isAct ? 0.9 : 0.10) : 0.30}
+                    strokeDasharray={isAct ? 'none' : '5 5'}
+                    style={{ transition: 'stroke-opacity 0.28s, stroke-width 0.28s' }}
+                  />
+                );
+              })}
+
+              {/* Outer nodes */}
+              {nodes.map((n, i) => {
+                const isAct  = active  && active.name  === n.name;
+                const isPinn = pinned  && pinned.name  === n.name;
+                const angle  = (i * 360/8 - 90) * Math.PI / 180;
+                return (
+                  <g key={`node-${i}`} style={{ cursor: 'pointer' }}
+                     onMouseEnter={() => setHovered(n)}
+                     onMouseLeave={() => setHovered(null)}
+                     onClick={() => toggle(n)}>
+                    {/* Outer pulse ring */}
+                    <circle cx={n.x} cy={n.y} r={isAct ? 54 : 46}
+                      fill="none" stroke={n.color}
+                      strokeWidth={isAct ? 1.5 : 0.5}
+                      strokeOpacity={isAct ? 0.45 : 0.18}
+                      style={{ transition: 'all 0.28s' }}/>
+                    {/* Node body */}
+                    <circle cx={n.x} cy={n.y} r={isAct ? 42 : 36}
+                      fill={isAct ? `rgba(${parseInt(n.color.slice(1,3),16)},${parseInt(n.color.slice(3,5),16)},${parseInt(n.color.slice(5,7),16)},0.15)` : '#060e1e'}
+                      stroke={n.color}
+                      strokeWidth={isAct ? 2.8 : 1.6}
+                      filter={isAct ? 'url(#mx-glow-node)' : undefined}
+                      style={{ transition: 'all 0.28s' }}/>
+                    {/* Letter */}
+                    <text x={n.x} y={n.y - 7}
+                      textAnchor="middle" dominantBaseline="middle"
+                      fill={isAct ? '#fff' : n.color}
+                      fontSize={isAct ? '25' : '20'} fontWeight="900"
+                      style={{ transition: 'all 0.28s', fontFamily: 'system-ui, sans-serif' }}>
+                      {n.letter}
+                    </text>
+                    {/* Name */}
+                    <text x={n.x} y={n.y + 11}
+                      textAnchor="middle" dominantBaseline="middle"
+                      fill={isAct ? '#c8d8f0' : '#4a6a8a'}
+                      fontSize="8.5" fontWeight="600"
+                      style={{ transition: 'fill 0.28s', fontFamily: 'system-ui, sans-serif' }}>
+                      {n.name}
+                    </text>
+                    {/* Pin dot */}
+                    {isPinn && (
+                      <circle cx={n.x + 32} cy={n.y - 32} r={5} fill={n.color}/>
+                    )}
+                  </g>
+                );
+              })}
+
+              {/* Center node — Ifart */}
+              <circle cx={CX} cy={CY} r={80}
+                fill="#070e20" stroke="rgba(240,146,12,0.22)" strokeWidth="1.5"
+                strokeDasharray="5 5"/>
+              <circle cx={CX} cy={CY} r={70}
+                fill="#07101e" stroke="#f0920c" strokeWidth="2.8"
+                filter="url(#mx-glow-center)"/>
+              <circle cx={CX} cy={CY} r={56}
+                fill="#050c1a" stroke="rgba(240,146,12,0.20)" strokeWidth="1"/>
+              <text x={CX} y={CY - 18}
+                textAnchor="middle" dominantBaseline="middle"
+                fill="#ffaa32" fontSize="32" fontWeight="900" letterSpacing="0.5"
+                style={{ fontFamily: 'system-ui, sans-serif' }}>
+                Ifart
+              </text>
+              <text x={CX} y={CY + 6}
+                textAnchor="middle" dominantBaseline="middle"
+                fill="#6e8eb0" fontSize="10.5"
+                style={{ fontFamily: 'system-ui, sans-serif' }}>
+                Axiomatic
+              </text>
+              <text x={CX} y={CY + 22}
+                textAnchor="middle" dominantBaseline="middle"
+                fill="#6e8eb0" fontSize="10.5"
+                style={{ fontFamily: 'system-ui, sans-serif' }}>
+                Art Matrix
+              </text>
+            </svg>
+          </div>
+
+          {/* ── Detail Panel ── */}
+          <div className={`ifart-matrix__detail${active ? ' ifart-matrix__detail--show' : ''}`}
+               style={{ '--mn-color': active?.color || '#f0920c' }}>
+            {active ? (
+              <div className="ifart-matrix__detail-inner">
+                <div className="ifart-matrix__detail-header">
+                  <div className="ifart-matrix__detail-letter" style={{ color: active.color }}>
+                    {active.letter}
+                  </div>
+                  <div className="ifart-matrix__detail-meta">
+                    <div className="ifart-matrix__detail-name">{active.name}</div>
+                    <div className="ifart-matrix__detail-tag">{active.desc}</div>
+                  </div>
+                  {pinned && pinned.name === active.name && (
+                    <div className="ifart-matrix__pin-badge" style={{ background: `color-mix(in srgb, ${active.color} 20%, transparent)`, borderColor: active.color }}>
+                      &#x1F4CC; Pinned
+                    </div>
+                  )}
+                </div>
+                <p className="ifart-matrix__detail-body">{active.longDesc}</p>
+              </div>
+            ) : (
+              <div className="ifart-matrix__detail-hint">
+                Hover a node to explore · Click to pin its description
+              </div>
+            )}
+          </div>
+
+          {/* ── STEAMSEX Legend ── */}
+          <div className="ifart-matrix__legend">
+            {MATRIX_DIMS.map((d, i) => (
+              <div key={i} className="ifart-matrix__legend-item"
+                   style={{ '--ml-color': d.color }}
+                   onMouseEnter={() => setHovered(d)}
+                   onMouseLeave={() => setHovered(null)}
+                   onClick={() => toggle(d)}>
+                <div className="ifart-matrix__legend-letter">{d.letter}</div>
+                <div className="ifart-matrix__legend-name">{d.name}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Playground CTA ── */}
+          <div className="ifart-matrix__pg-cta">
+            <a href="./playground/" className="ifart-matrix__pg-btn">
+              <span className="ifart-matrix__pg-btn-icon">▷</span>
+              Enter the Ifart &amp; Orisart Playground
+            </a>
+            <p className="ifart-matrix__pg-desc">
+              Build Ifa simulations · Orisa designs · IfaPoems · OrisaPoems · IfaPlays · Orisartworks
+            </p>
           </div>
         </div>
       </div>
@@ -1682,6 +1928,12 @@ function ChallengeSection() {
             — for Ọjọ́ Mẹ́rìndínlógún (16 days) with the Àtùpà Olójú Mẹ́rìndínlógún.
           </p>
         )}
+        <a
+          href="https://www.playifagames.org/ayo-oloponfa/"
+          target="_blank" rel="noopener noreferrer"
+          className="btn btn--ghost">
+          Play Ayò Ọlọ́pọ́nfá ↗
+        </a>
       </div>
 
       <div className="challenge-keywords">
@@ -1743,6 +1995,7 @@ function App() {
         <OrisartSection />
         <TraditionsSection />
         <DualitySection />
+        <IfartMatrixSection />
         <ChallengeSection />
         <PathSection />
       </main>

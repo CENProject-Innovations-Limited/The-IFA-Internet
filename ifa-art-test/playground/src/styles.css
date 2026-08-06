@@ -1,0 +1,1539 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Ifart & Orisart Playground — Styles
+   The IFA Internet · CENProject
+───────────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #040810;
+  --bg-alt:   #060d1a;
+  --bg-card:  #080f1e;
+  --border:   rgba(255,255,255,0.07);
+  --amber:    #f0920c;
+  --amber-lt: #ffd166;
+  --violet:   #8b5cf6;
+  --teal:     #14b8d4;
+  --text-1:   #e8eef8;
+  --text-2:   #8892aa;
+  --text-3:   #505869;
+  --radius:   12px;
+}
+
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text-1); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; line-height: 1.65; overflow-x: hidden; }
+
+/* ─── CONTAINERS ── */
+.pg-container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* ─── HEADER ── */
+.pg-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(4,8,16,0.90);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+}
+.pg-header__inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 58px; gap: 16px;
+}
+.pg-header__back {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--text-2);
+  transition: color 0.2s;
+}
+.pg-header__back:hover { color: var(--amber); }
+.pg-header__back-arrow { font-size: 1.2rem; }
+.pg-header__logo { width: 28px; height: 28px; object-fit: contain; }
+.pg-header__back-label { font-size: 0.85rem; font-weight: 600; }
+.pg-header__title { display: flex; align-items: center; gap: 10px; }
+.pg-header__badge {
+  background: linear-gradient(135deg, var(--amber), #ffd166);
+  color: #1a0800; font-size: 0.72rem; font-weight: 800;
+  padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.06em;
+}
+.pg-header__name { font-size: 1rem; font-weight: 700; color: var(--text-1); }
+.pg-header__ifa {
+  font-size: 0.8rem; font-weight: 600; color: var(--amber);
+  text-decoration: none; padding: 6px 14px;
+  border: 1px solid rgba(240,146,12,0.35); border-radius: 20px;
+  transition: background 0.2s;
+}
+.pg-header__ifa:hover { background: rgba(240,146,12,0.12); }
+
+/* ─── HERO ── */
+.pg-hero {
+  position: relative; overflow: hidden;
+  min-height: 88vh; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 100px 20px 60px;
+}
+.pg-hero__bg {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.pg-hero__grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(240,146,12,0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(240,146,12,0.04) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+.pg-hero__orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none;
+  animation: pg-float 8s ease-in-out infinite;
+}
+.pg-hero__orb--a { width:400px; height:400px; background:rgba(240,146,12,0.18); top:-80px; left:-80px; animation-duration:9s; }
+.pg-hero__orb--b { width:350px; height:350px; background:rgba(139,92,246,0.18); bottom:-60px; right:-60px; animation-duration:11s; animation-delay:2s; }
+.pg-hero__orb--c { width:300px; height:300px; background:rgba(20,184,212,0.15); top:40%; left:60%; animation-duration:7s; animation-delay:1s; }
+.pg-hero__orb--d { width:250px; height:250px; background:rgba(236,72,153,0.14); top:20%; right:10%; animation-duration:10s; animation-delay:3s; }
+.pg-hero__orb--e { width:200px; height:200px; background:rgba(16,185,129,0.13); bottom:20%; left:15%; animation-duration:8s; animation-delay:4s; }
+
+@keyframes pg-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  33%  { transform: translateY(-20px) scale(1.04); }
+  66%  { transform: translateY(12px) scale(0.97); }
+}
+
+.pg-hero__content { position: relative; z-index: 1; max-width: 820px; text-align: center; }
+.pg-hero__eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.78rem; font-weight: 700; color: var(--amber);
+  text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px;
+}
+.pg-hero__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 8px var(--amber); animation: pg-pulse 2s infinite; }
+@keyframes pg-pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.pg-hero__title { margin-bottom: 20px; line-height: 1.08; }
+.pg-hero__title-line {
+  display: block; font-size: clamp(2.8rem, 7vw, 5.2rem);
+  font-weight: 900; letter-spacing: -0.02em;
+  background: linear-gradient(135deg, #f0920c 0%, #ffd166 35%, #ec4899 65%, #8b5cf6 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.pg-hero__title-sub {
+  display: block; font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 900; letter-spacing: -0.01em;
+  color: var(--text-1);
+}
+
+.pg-hero__desc {
+  font-size: 1.05rem; color: var(--text-2); max-width: 640px;
+  margin: 0 auto 24px; line-height: 1.7;
+}
+.pg-hero__desc strong { color: var(--text-1); }
+
+.pg-hero__zone-pills {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  margin-bottom: 32px;
+}
+.pg-hero__zone-pill {
+  font-size: 0.75rem; font-weight: 600; padding: 5px 12px;
+  border: 1px solid var(--border); border-radius: 20px;
+  color: var(--text-2); background: rgba(255,255,255,0.04);
+  white-space: nowrap;
+}
+
+.pg-hero__ctas { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.pg-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 12px 28px; border-radius: 30px; font-size: 0.92rem; font-weight: 700;
+  text-decoration: none; transition: all 0.22s; cursor: pointer; border: none;
+}
+.pg-btn--primary {
+  background: linear-gradient(135deg, var(--amber), #ffd166);
+  color: #1a0800;
+  box-shadow: 0 4px 24px rgba(240,146,12,0.35);
+}
+.pg-btn--primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(240,146,12,0.50); }
+.pg-btn--ghost {
+  background: rgba(255,255,255,0.05); color: var(--text-1);
+  border: 1px solid var(--border);
+}
+.pg-btn--ghost:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.20); }
+
+.pg-btn--ilu {
+  background: rgba(249,115,22,0.14); color: #f97316;
+  border: 1px solid rgba(249,115,22,0.35);
+}
+.pg-btn--ilu:hover { background: rgba(249,115,22,0.24); border-color: rgba(249,115,22,0.6); }
+
+.pg-footer__link--ilu { color: #f97316; }
+.pg-footer__link--ilu:hover { color: #fb923c; }
+
+.pg-hero__stats {
+  position: relative; z-index: 1;
+  display: flex; gap: 0; margin-top: 60px;
+  background: rgba(6,12,24,0.80); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden; width: 100%; max-width: 700px;
+  backdrop-filter: blur(10px);
+}
+.pg-hero__stat {
+  flex: 1; padding: 18px 16px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.pg-hero__stat:last-child { border-right: none; }
+.pg-hero__stat-v { font-size: 1.8rem; font-weight: 900; color: var(--amber); line-height: 1; }
+.pg-hero__stat-l { font-size: 0.78rem; font-weight: 700; color: var(--text-1); margin-top: 4px; }
+.pg-hero__stat-s { font-size: 0.68rem; color: var(--text-3); margin-top: 2px; }
+
+/* ─── SECTIONS ── */
+.pg-section { padding: 80px 0; }
+.pg-section--alt { background: var(--bg-alt); }
+
+.pg-section-header { text-align: center; margin-bottom: 48px; }
+.pg-eyebrow {
+  display: inline-block; font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  margin-bottom: 12px; color: var(--amber);
+}
+.pg-eyebrow--amber { color: var(--amber); }
+.pg-eyebrow--violet { color: var(--violet); }
+.pg-eyebrow--teal { color: var(--teal); }
+
+.pg-section-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900;
+  color: var(--text-1); margin-bottom: 14px; letter-spacing: -0.01em;
+}
+.pg-section-sub { font-size: 1rem; color: var(--text-2); max-width: 600px; margin: 0 auto; line-height: 1.7; }
+
+/* ─── ZONES GRID ── */
+.pg-zones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+.pg-zone-card {
+  display: flex; flex-direction: column;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden; text-decoration: none;
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+  cursor: pointer;
+}
+.pg-zone-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px color-mix(in srgb, var(--zc) 40%, transparent);
+  border-color: color-mix(in srgb, var(--zc) 45%, transparent);
+}
+.pg-zone-card__top {
+  background: linear-gradient(135deg, var(--zg1), var(--zg2));
+  padding: 18px; display: flex; justify-content: space-between; align-items: flex-start;
+  min-height: 64px;
+}
+.pg-zone-card__icon {
+  font-size: 1.6rem; color: rgba(255,255,255,0.9);
+  text-shadow: 0 0 20px rgba(255,255,255,0.5);
+}
+.pg-zone-card__body { padding: 16px; flex: 1; }
+.pg-zone-card__title { font-size: 0.95rem; font-weight: 800; color: var(--text-1); margin-bottom: 3px; }
+.pg-zone-card__yoruba { font-size: 0.72rem; color: var(--zc); margin-bottom: 8px; font-style: italic; }
+.pg-zone-card__desc { font-size: 0.78rem; color: var(--text-2); line-height: 1.55; }
+.pg-zone-card__footer { padding: 10px 16px 14px; }
+.pg-zone-card__enter {
+  font-size: 0.75rem; font-weight: 700; color: var(--zc);
+  transition: letter-spacing 0.2s;
+}
+.pg-zone-card:hover .pg-zone-card__enter { letter-spacing: 0.04em; }
+
+/* ─── DIVINATION SIMULATOR ── */
+.div-sim {
+  max-width: 680px; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+}
+.div-sim__nuts-area {
+  width: 100%; background: rgba(6,12,22,0.80); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px; min-height: 140px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.div-sim__nuts { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.div-sim__nut {
+  width: 14px; height: 14px; border-radius: 50%;
+  transition: background 0.5s, transform 0.5s;
+  opacity: 0.6;
+}
+.div-sim__nut--settled { opacity: 1; transform: scale(1.15); box-shadow: 0 0 10px currentColor; }
+.div-sim__nuts--casting .div-sim__nut {
+  animation: nut-scatter 0.8s ease-out forwards;
+}
+@keyframes nut-scatter {
+  0%   { transform: translate(0,0) scale(1); }
+  40%  { transform: translate(var(--nut-x, 0), calc(var(--nut-y, 0) - 30px)) scale(0.7); }
+  100% { transform: translate(0,0) scale(1); }
+}
+.div-sim__prompt { text-align: center; }
+.div-sim__prompt-icon { font-size: 2.4rem; color: var(--amber); margin-bottom: 8px; }
+.div-sim__prompt-text { font-size: 0.92rem; font-weight: 700; color: var(--text-1); }
+.div-sim__prompt-sub { font-size: 0.78rem; color: var(--text-3); margin-top: 4px; }
+.div-sim__casting-msg { font-size: 1rem; color: var(--amber); font-style: italic; animation: pg-pulse 0.8s infinite; }
+
+.div-sim__btn {
+  padding: 14px 36px; border-radius: 30px;
+  background: linear-gradient(135deg, var(--amber), #ffd166);
+  color: #1a0800; font-size: 1rem; font-weight: 800;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 24px rgba(240,146,12,0.35);
+  transition: all 0.22s; width: 100%; max-width: 380px;
+}
+.div-sim__btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(240,146,12,0.50); }
+.div-sim__btn:disabled { opacity: 0.7; cursor: not-allowed; }
+.div-sim__btn--active { background: rgba(240,146,12,0.25); color: var(--amber); }
+
+.div-sim__result {
+  width: 100%; background: rgba(6,12,22,0.90);
+  border: 1px solid color-mix(in srgb, var(--odu-color) 35%, transparent);
+  border-radius: 16px; padding: 28px;
+  animation: fade-in-up 0.5s ease forwards;
+}
+@keyframes fade-in-up {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.div-sim__odu-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 14px;
+}
+.div-sim__odu-num {
+  font-size: 2.4rem; font-weight: 900;
+  color: var(--odu-color); line-height: 1;
+  text-shadow: 0 0 24px color-mix(in srgb, var(--odu-color) 60%, transparent);
+  min-width: 48px;
+}
+.div-sim__odu-name { font-size: 1.2rem; font-weight: 800; color: var(--odu-color); }
+.div-sim__odu-field { font-size: 0.8rem; color: var(--text-2); margin-top: 2px; }
+.div-sim__odu-code { margin-left: auto; display: flex; gap: 3px; }
+.div-sim__bit { font-size: 1.3rem; line-height: 1; }
+.div-sim__bit--on  { color: var(--odu-color); }
+.div-sim__bit--off { color: var(--text-3); }
+.div-sim__odu-tagline {
+  font-size: 1rem; font-style: italic;
+  color: var(--odu-color); margin-bottom: 16px;
+  text-shadow: 0 0 16px color-mix(in srgb, var(--odu-color) 40%, transparent);
+}
+.div-sim__poem { font-size: 0.92rem; line-height: 1.75; }
+.div-sim__poem-line { color: var(--text-1); }
+.div-sim__poem-gap { height: 8px; }
+
+/* ─── POETRY CORNER ── */
+.poetry-tabs {
+  display: flex; gap: 0; margin-bottom: 32px;
+  background: rgba(6,12,22,0.80); border: 1px solid var(--border);
+  border-radius: 12px; overflow: hidden; max-width: 480px; margin-left: auto; margin-right: auto;
+}
+.poetry-tab {
+  flex: 1; padding: 12px 20px; font-size: 0.88rem; font-weight: 700;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--text-2); transition: all 0.22s;
+}
+.poetry-tab:hover { color: var(--text-1); }
+.poetry-tab--active {
+  background: color-mix(in srgb, var(--tc) 18%, transparent);
+  color: var(--tc);
+}
+.poetry-panel { display: flex; flex-direction: column; gap: 24px; }
+.poetry-odu-grid {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+}
+.poetry-odu-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 8px;
+  background: rgba(6,12,22,0.80); border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.18s;
+}
+.poetry-odu-btn:hover, .poetry-odu-btn--active {
+  background: color-mix(in srgb, var(--oc) 16%, #040810);
+  border-color: color-mix(in srgb, var(--oc) 55%, transparent);
+}
+.poetry-odu-btn__num {
+  font-size: 0.72rem; color: var(--oc); font-weight: 800; min-width: 16px;
+}
+.poetry-odu-btn__name { font-size: 0.8rem; color: var(--text-1); font-weight: 600; }
+
+.poetry-orisa-grid {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+}
+.poetry-orisa-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 10px 16px; border-radius: 10px;
+  background: rgba(6,12,22,0.80); border: 1px solid var(--border);
+  cursor: pointer; transition: all 0.18s; min-width: 72px;
+}
+.poetry-orisa-btn:hover, .poetry-orisa-btn--active {
+  background: color-mix(in srgb, var(--oc) 16%, #040810);
+  border-color: color-mix(in srgb, var(--oc) 55%, transparent);
+  transform: translateY(-2px);
+}
+.poetry-orisa-btn__sym { font-size: 1.4rem; color: var(--oc); }
+.poetry-orisa-btn__name { font-size: 0.72rem; font-weight: 700; color: var(--text-1); }
+
+.poetry-display {
+  background: rgba(6,12,22,0.90);
+  border: 1px solid color-mix(in srgb, var(--pc) 30%, transparent);
+  border-radius: 16px; padding: 28px;
+  animation: fade-in-up 0.35s ease forwards;
+}
+.poetry-display__header {
+  display: flex; align-items: center; gap: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 14px; margin-bottom: 14px;
+}
+.poetry-display__num {
+  font-size: 2rem; font-weight: 900; color: var(--pc); line-height: 1; min-width: 40px;
+}
+.poetry-orisa-sym {
+  font-size: 2rem; color: var(--pc); line-height: 1; min-width: 40px;
+  text-align: center;
+}
+.poetry-display__title { font-size: 1.1rem; font-weight: 800; color: var(--pc); }
+.poetry-display__field { font-size: 0.78rem; color: var(--text-2); margin-top: 2px; }
+.poetry-display__code {
+  margin-left: auto; display: flex; gap: 4px;
+}
+.poetry-bit { font-size: 1.1rem; color: var(--pc); }
+.poetry-display__type {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--pc); margin-bottom: 8px; font-weight: 700; opacity: 0.8;
+}
+.poetry-display__praise {
+  font-size: 0.82rem; font-style: italic;
+  color: var(--pc); margin-bottom: 14px; opacity: 0.85;
+}
+.poetry-display__poem { font-size: 0.94rem; line-height: 1.8; }
+.poetry-line { color: var(--text-1); }
+.poetry-gap  { height: 10px; }
+.poetry-display__art-form {
+  font-size: 0.78rem; color: var(--text-3);
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ─── PATTERN STUDIO ── */
+.pattern-studio {
+  display: flex; flex-direction: column; align-items: center; gap: 28px;
+}
+.pattern-studio__canvas {
+  background: #020408; border: 1px solid var(--border);
+  border-radius: 50%; overflow: hidden;
+  box-shadow: 0 0 80px rgba(240,146,12,0.10), 0 0 160px rgba(139,92,246,0.06);
+  max-width: 420px; width: 100%;
+  aspect-ratio: 1;
+}
+.pattern-studio__svg { width: 100%; height: 100%; display: block; }
+.pattern-studio__controls { text-align: center; max-width: 480px; }
+.pattern-studio__btn {
+  padding: 13px 32px; border-radius: 30px;
+  background: linear-gradient(135deg, #14b8d4, #8b5cf6);
+  color: #fff; font-size: 0.95rem; font-weight: 800;
+  border: none; cursor: pointer;
+  box-shadow: 0 4px 24px rgba(20,184,212,0.30);
+  transition: all 0.22s; margin-bottom: 16px; width: 100%; max-width: 340px;
+}
+.pattern-studio__btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(20,184,212,0.45); }
+.pattern-studio__hint { font-size: 0.82rem; color: var(--text-3); margin-bottom: 16px; line-height: 1.6; }
+.pattern-studio__palette {
+  display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-bottom: 8px;
+}
+.pattern-studio__swatch {
+  width: 16px; height: 16px; border-radius: 50%;
+  opacity: 0.80; transition: transform 0.15s;
+}
+.pattern-studio__swatch:hover { transform: scale(1.4); }
+.pattern-studio__palette-label { font-size: 0.72rem; color: var(--text-3); }
+
+/* ─── ORISA CARD GALLERY ── */
+.orisa-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.orisa-card {
+  perspective: 900px;
+  height: 220px;
+  cursor: pointer;
+}
+.orisa-card__inner {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+.orisa-card--flipped .orisa-card__inner { transform: rotateY(180deg); }
+.orisa-card__face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.orisa-card__face--front {
+  background: var(--cb, rgba(255,255,255,0.04));
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 16px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.orisa-card__glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--cc) 25%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+.orisa-card__symbol {
+  font-size: 2.8rem; color: var(--cc); margin-bottom: 10px;
+  filter: drop-shadow(0 0 16px color-mix(in srgb, var(--cc) 60%, transparent));
+  position: relative; z-index: 1;
+}
+.orisa-card__name { font-size: 0.88rem; font-weight: 800; color: var(--text-1); position: relative; z-index: 1; }
+.orisa-card__sub { font-size: 0.68rem; color: var(--cc); margin-top: 4px; position: relative; z-index: 1; }
+.orisa-card__flip-hint {
+  font-size: 0.60rem; color: var(--text-3); margin-top: 10px;
+  position: relative; z-index: 1;
+}
+.orisa-card__face--back {
+  transform: rotateY(180deg);
+  background: #060d1a;
+  border-color: color-mix(in srgb, var(--cc) 35%, transparent);
+  padding: 12px; overflow-y: auto;
+}
+.orisa-card__back-name {
+  font-size: 0.78rem; font-weight: 800; color: var(--cc); margin-bottom: 4px;
+}
+.orisa-card__praise { font-size: 0.62rem; color: var(--cc); opacity: 0.75; margin-bottom: 8px; font-style: italic; }
+.orisa-card__domains {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;
+}
+.orisa-card__domain {
+  font-size: 0.58rem; padding: 2px 6px;
+  background: color-mix(in srgb, var(--cc) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cc) 30%, transparent);
+  border-radius: 10px; color: var(--text-1);
+}
+.orisa-card__poem-snippet { font-size: 0.60rem; color: var(--text-2); line-height: 1.5; margin-bottom: 8px; }
+.orisa-card__poem-line { margin-bottom: 2px; }
+.orisa-card__art-form {
+  font-size: 0.58rem; color: var(--cc); opacity: 0.70;
+  border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;
+}
+.orisa-gallery__poem-panel { border-top: 1px solid var(--border); padding-top: 40px; }
+
+/* ─── IFA PLAY ── */
+.ifa-play {
+  max-width: 720px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 24px;
+}
+.ifa-play__narrative {
+  background: rgba(6,12,22,0.80); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px;
+}
+.ifa-play__para {
+  font-size: 0.96rem; line-height: 1.75; color: var(--text-1);
+}
+.ifa-play__para + .ifa-play__para { margin-top: 12px; }
+
+.ifa-play__choices-label {
+  font-size: 0.80rem; font-weight: 700;
+  color: var(--text-2); text-transform: uppercase;
+  letter-spacing: 0.08em; margin-bottom: 12px;
+}
+.ifa-play__choices-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.ifa-play__choice {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 14px 16px; border-radius: 10px;
+  background: rgba(6,12,22,0.90);
+  border: 1px solid color-mix(in srgb, var(--cc) 25%, transparent);
+  cursor: pointer; text-align: left; transition: all 0.20s;
+}
+.ifa-play__choice:hover {
+  background: color-mix(in srgb, var(--cc) 10%, #040810);
+  border-color: color-mix(in srgb, var(--cc) 55%, transparent);
+  transform: translateY(-2px);
+}
+.ifa-play__choice-id {
+  font-size: 1.1rem; font-weight: 900; color: var(--cc);
+  min-width: 22px; line-height: 1;
+}
+.ifa-play__choice-text { font-size: 0.87rem; color: var(--text-1); line-height: 1.45; }
+
+.ifa-play__outcome {
+  opacity: 0; transform: translateY(12px);
+  transition: opacity 0.45s, transform 0.45s;
+  display: flex; flex-direction: column; gap: 16px;
+}
+.ifa-play__outcome--in { opacity: 1; transform: translateY(0); }
+
+.ifa-play__chosen {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 16px; border-radius: 10px;
+  background: color-mix(in srgb, var(--cc) 10%, #040810);
+  border: 1px solid color-mix(in srgb, var(--cc) 30%, transparent);
+}
+.ifa-play__chosen-id { font-size: 1rem; font-weight: 900; color: var(--cc); min-width: 20px; }
+.ifa-play__chosen-text { font-size: 0.87rem; color: var(--text-1); }
+
+.ifa-play__orisa-resp {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: rgba(6,12,22,0.80); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px;
+}
+.ifa-play__orisa-icon {
+  font-size: 1.6rem; color: var(--amber); flex-shrink: 0; line-height: 1;
+}
+.ifa-play__orisa-text { font-size: 0.94rem; color: var(--text-1); line-height: 1.7; font-style: italic; }
+
+.ifa-play__odu-reveal {
+  background: rgba(6,12,22,0.90);
+  border: 1px solid color-mix(in srgb, var(--oc) 35%, transparent);
+  border-radius: 14px; padding: 22px;
+}
+.ifa-play__odu-label {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-3); margin-bottom: 6px;
+}
+.ifa-play__odu-name {
+  font-size: 1.4rem; font-weight: 900; color: var(--oc);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--oc) 50%, transparent);
+  margin-bottom: 6px;
+}
+.ifa-play__odu-code {
+  display: flex; gap: 4px; margin-bottom: 14px;
+}
+.ifa-play__bit { font-size: 1.3rem; color: var(--oc); }
+.ifa-play__verse {
+  font-size: 0.90rem; color: var(--text-1); line-height: 1.7;
+  margin-bottom: 14px; font-style: italic;
+}
+.ifa-play__lesson {
+  font-size: 0.83rem; color: var(--text-1);
+  padding: 10px 14px;
+  background: color-mix(in srgb, var(--oc) 10%, transparent);
+  border-left: 3px solid var(--oc); border-radius: 0 8px 8px 0;
+}
+.ifa-play__lesson-label {
+  font-weight: 800; color: var(--oc); margin-right: 6px;
+}
+.ifa-play__replay {
+  padding: 12px 32px; border-radius: 30px;
+  background: rgba(240,146,12,0.14); border: 1px solid rgba(240,146,12,0.40);
+  color: var(--amber); font-size: 0.9rem; font-weight: 700;
+  cursor: pointer; transition: all 0.20s; align-self: center;
+}
+.ifa-play__replay:hover { background: rgba(240,146,12,0.24); }
+
+/* ─── FOOTER ── */
+.pg-footer {
+  background: #020408; border-top: 1px solid var(--border);
+  padding: 40px 0;
+}
+.pg-footer__inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 20px;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 24px; flex-wrap: wrap;
+}
+.pg-footer__brand {
+  font-size: 0.85rem; color: var(--text-2); line-height: 1.8;
+}
+.pg-footer__brand strong { color: var(--text-1); }
+.pg-footer__links { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+.pg-footer__link {
+  font-size: 0.82rem; color: var(--text-3); text-decoration: none;
+  transition: color 0.18s;
+}
+.pg-footer__link:hover { color: var(--amber); }
+.pg-footer__link--game {
+  color: #22c55e; font-weight: 700;
+  border: 1px solid rgba(34,197,94,0.30);
+  padding: 4px 10px; border-radius: 20px;
+  transition: background 0.18s, color 0.18s;
+}
+.pg-footer__link--game:hover { background: rgba(34,197,94,0.12); color: #4ade80; }
+
+/* ─── AYO-OLOPONFA GAME SPOTLIGHT ── */
+.ayo-spotlight {
+  position: relative; overflow: hidden;
+  padding: 90px 0 80px;
+  background: #040d16;
+  border-top: 1px solid rgba(34,197,94,0.12);
+}
+.ayo-spotlight__glow-a {
+  position: absolute; width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,197,94,0.14) 0%, transparent 70%);
+  top: -100px; left: -200px; pointer-events: none;
+}
+.ayo-spotlight__glow-b {
+  position: absolute; width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(240,146,12,0.10) 0%, transparent 70%);
+  bottom: -80px; right: -120px; pointer-events: none;
+}
+.ayo-spotlight__inner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+  align-items: center;
+}
+.ayo-spotlight__badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.75rem; font-weight: 800; color: #22c55e;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 18px;
+}
+.ayo-spotlight__badge-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
+  box-shadow: 0 0 8px rgba(34,197,94,0.90);
+  animation: ayo-pulse 1.8s ease-in-out infinite;
+}
+@keyframes ayo-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(34,197,94,0.8); transform: scale(1); }
+  50%       { box-shadow: 0 0 16px rgba(34,197,94,1.0); transform: scale(1.3); }
+}
+.ayo-spotlight__title {
+  font-size: 3rem; font-weight: 900; line-height: 1.1;
+  background: linear-gradient(135deg, #22c55e 0%, #f0920c 45%, #ffd166 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 4px;
+}
+.ayo-spotlight__yoruba {
+  font-size: 1rem; color: rgba(34,197,94,0.70); font-style: italic;
+  margin-bottom: 18px;
+}
+.ayo-spotlight__desc {
+  font-size: 0.95rem; color: var(--text-2); line-height: 1.75;
+  margin-bottom: 20px;
+}
+.ayo-spotlight__tags {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px;
+}
+.ayo-spotlight__tag {
+  font-size: 0.72rem; padding: 4px 12px; border-radius: 20px;
+  background: rgba(34,197,94,0.10);
+  border: 1px solid rgba(34,197,94,0.25);
+  color: #86efac;
+}
+.ayo-spotlight__ctas { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.ayo-spotlight__play-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 28px; border-radius: 30px;
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 60%, #f0920c 100%);
+  color: #fff; font-size: 0.95rem; font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 4px 28px rgba(34,197,94,0.35), 0 4px 28px rgba(240,146,12,0.15);
+  transition: transform 0.22s, box-shadow 0.22s;
+  position: relative; overflow: hidden;
+}
+.ayo-spotlight__play-btn::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.10), transparent);
+  border-radius: inherit;
+}
+.ayo-spotlight__play-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 44px rgba(34,197,94,0.50), 0 8px 44px rgba(240,146,12,0.22);
+}
+.ayo-spotlight__play-icon { font-size: 1rem; }
+.ayo-spotlight__play-arrow { font-size: 0.85rem; opacity: 0.85; }
+.ayo-spotlight__site-link {
+  font-size: 0.82rem; color: rgba(34,197,94,0.70);
+  text-decoration: none; border-bottom: 1px solid rgba(34,197,94,0.30);
+  transition: color 0.18s;
+}
+.ayo-spotlight__site-link:hover { color: #22c55e; }
+
+/* Board wrap */
+.ayo-spotlight__board-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.ayo-spotlight__board-label {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-3); font-weight: 700;
+}
+
+/* Ayo board */
+.ayo-board {
+  background: linear-gradient(145deg, #0d2218 0%, #0a1a10 100%);
+  border: 2px solid rgba(34,197,94,0.25);
+  border-radius: 18px; padding: 18px 16px;
+  box-shadow: 0 0 40px rgba(34,197,94,0.12), inset 0 1px 0 rgba(255,255,255,0.04);
+  width: 100%; max-width: 420px;
+}
+.ayo-board__row {
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px;
+  margin-bottom: 8px;
+}
+.ayo-board__row--top { direction: rtl; } /* holes 11→6 visually left to right */
+.ayo-board__row--bottom { margin-bottom: 4px; }
+.ayo-board__divider {
+  border-top: 1px solid rgba(34,197,94,0.18);
+  border-bottom: 1px solid rgba(34,197,94,0.18);
+  text-align: center; padding: 6px 0; margin: 0 0 8px;
+}
+.ayo-board__divider-text {
+  font-size: 0.60rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(34,197,94,0.45); font-weight: 700;
+}
+
+/* Holes */
+.ayo-hole {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: none; border: none; padding: 0; cursor: default;
+}
+.ayo-hole--playable { cursor: pointer; }
+.ayo-hole--playable:hover .ayo-hole__pit {
+  border-color: rgba(34,197,94,0.70);
+  background: rgba(34,197,94,0.08);
+}
+.ayo-hole--empty .ayo-hole__pit { opacity: 0.40; }
+.ayo-hole--active .ayo-hole__pit {
+  border-color: #22c55e !important;
+  box-shadow: 0 0 14px rgba(34,197,94,0.60);
+  background: rgba(34,197,94,0.14) !important;
+}
+.ayo-hole__pit {
+  width: 100%; aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+  border: 1.5px solid rgba(34,197,94,0.20);
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 2px; padding: 4px;
+  position: relative;
+  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+}
+.ayo-seed {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #f0920c;
+  box-shadow: 0 0 3px rgba(240,146,12,0.60);
+}
+.ayo-seed--player { background: #22c55e; box-shadow: 0 0 3px rgba(34,197,94,0.70); }
+.ayo-hole__count {
+  position: absolute; font-size: 0.50rem; font-weight: 900;
+  color: rgba(255,255,255,0.6);
+}
+.ayo-hole__num {
+  font-size: 0.60rem; font-weight: 700; color: rgba(34,197,94,0.55);
+  font-variant-numeric: tabular-nums;
+}
+.ayo-board__reset {
+  display: block; margin: 10px auto 0;
+  padding: 6px 20px; border-radius: 20px;
+  background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.22);
+  color: rgba(34,197,94,0.70); font-size: 0.72rem; font-weight: 700;
+  cursor: pointer; transition: all 0.18s;
+}
+.ayo-board__reset:hover { background: rgba(34,197,94,0.15); color: #22c55e; }
+
+.ayo-spotlight__board-caption {
+  font-size: 0.82rem; color: var(--text-3); text-align: center;
+  max-width: 360px; line-height: 1.6; font-style: italic;
+  min-height: 2.6em;
+  transition: opacity 0.3s;
+}
+.ayo-spotlight__board-hint {
+  font-size: 0.72rem; color: var(--text-3); text-align: center;
+}
+.ayo-spotlight__board-hint a {
+  color: rgba(34,197,94,0.65); text-decoration: none; border-bottom: 1px solid rgba(34,197,94,0.25);
+}
+.ayo-spotlight__board-hint a:hover { color: #22c55e; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   IFA DANCE SECTION
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Stage ── */
+.ifd-stage {
+  position: relative;
+  background: linear-gradient(180deg, #040810 0%, #060c18 60%, #04080e 100%);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 36px 20px 20px;
+  overflow: hidden;
+}
+.ifd-stage__glow {
+  position: absolute; pointer-events: none; border-radius: 50%;
+  filter: blur(80px);
+}
+.ifd-stage__glow--l { width:340px; height:340px; background:rgba(240,146,12,0.09); top:-60px; left:-60px; }
+.ifd-stage__glow--r { width:340px; height:340px; background:rgba(139,92,246,0.09); bottom:-60px; right:-60px; }
+.ifd-stage__glow--c { width:300px; height:300px; background:rgba(20,184,212,0.07); top:50%; left:50%; transform:translate(-50%,-50%); }
+
+/* ── Grid ── */
+.ifd-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Dancer Card ── */
+.ifd-dancer {
+  position: relative;
+  background: rgba(8,15,30,0.85);
+  border: 1px solid color-mix(in srgb, var(--dc) 22%, transparent);
+  border-radius: 10px;
+  padding: 16px 8px 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s, transform 0.1s;
+  animation-name: inherit; /* overridden per dancer */
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  /* default will be overridden by inline style */
+  animation-duration: 4s;
+  animation-timing-function: ease-in-out;
+}
+.ifd-dancer:hover {
+  border-color: color-mix(in srgb, var(--dc) 60%, transparent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--dc) 35%, transparent),
+              0 0 40px color-mix(in srgb, var(--dc) 12%, transparent);
+  z-index: 2;
+}
+.ifd-dancer--solo {
+  border-color: var(--dc);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--dc) 55%, transparent),
+              0 0 60px color-mix(in srgb, var(--dc) 20%, transparent);
+  z-index: 2;
+}
+
+/* ── Marks (2×4 matrix: 2 columns × 4 rows — actual Ifa Meji marks) ── */
+.ifd-marks {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+.ifd-marks__row {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.ifd-mark {
+  width: 10px; height: 10px;
+  border-radius: 0;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+/* bit=1 → single vertical bar (Ogbe/Energy mark) */
+.ifd-mark--on::before {
+  content: '';
+  width: 2.5px;
+  height: 7px;
+  background: var(--dc);
+  border-radius: 2px;
+  box-shadow: 0 0 6px color-mix(in srgb, var(--dc) 80%, transparent);
+}
+/* bit=0 → two vertical bars side by side (Oyeku/Anergy mark) */
+.ifd-mark--off::before,
+.ifd-mark--off::after {
+  content: '';
+  width: 2px;
+  height: 7px;
+  background: color-mix(in srgb, var(--dc) 55%, #6b7280);
+  border-radius: 2px;
+}
+
+.ifd-dancer__num {
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--dc) 60%, var(--text-2));
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+.ifd-dancer__name {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-1);
+  line-height: 1.1;
+  text-align: center;
+}
+.ifd-dancer__label {
+  font-size: 0.58rem;
+  color: var(--text-2);
+  text-align: center;
+  line-height: 1.3;
+  opacity: 0.75;
+}
+.ifd-dancer__glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--dc) 14%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ── Stage hint ── */
+.ifd-hint {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--text-3);
+  margin-top: 16px;
+  letter-spacing: 0.04em;
+}
+
+/* ─────────────────────────
+   PER-ODU DANCE ANIMATIONS
+──────────────────────────── */
+
+/* 1. Ogbe — Primal Light: expanding radiant pulse */
+.ifd-dancer--ogbe { animation-name: dance-ogbe; }
+@keyframes dance-ogbe {
+  0%,100% { transform: scale(1);    filter: brightness(1); }
+  40%      { transform: scale(1.14); filter: brightness(1.5); }
+  50%      { transform: scale(1.18); filter: brightness(1.9); }
+  60%      { transform: scale(1.14); filter: brightness(1.5); }
+}
+
+/* 2. Oyeku — Sacred Void: fade into nothingness and return */
+.ifd-dancer--oyeku { animation-name: dance-oyeku; }
+@keyframes dance-oyeku {
+  0%,100% { transform: scale(1);    opacity: 1; }
+  35%      { transform: scale(0.90); opacity: 0.35; }
+  50%      { transform: scale(0.82); opacity: 0.08; }
+  65%      { transform: scale(0.90); opacity: 0.35; }
+}
+
+/* 3. Iwori — Inner Eye: steady inward spiral rotation */
+.ifd-dancer--iwori { animation-name: dance-iwori; }
+@keyframes dance-iwori {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(0.88); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* 4. Odi — Hidden Deep: mysterious deep throb */
+.ifd-dancer--odi { animation-name: dance-odi; }
+@keyframes dance-odi {
+  0%,100% { transform: scale(1);    filter: brightness(1) blur(0px); }
+  25%      { transform: scale(1.06); filter: brightness(0.55) blur(1.2px); }
+  50%      { transform: scale(0.94); filter: brightness(1.3) blur(0px); }
+  75%      { transform: scale(1.04); filter: brightness(0.65) blur(0.8px); }
+}
+
+/* 5. Irosun — Red Energy: double heartbeat */
+.ifd-dancer--irosun { animation-name: dance-irosun; }
+@keyframes dance-irosun {
+  0%,100% { transform: scale(1); }
+  10%      { transform: scale(1.18); }
+  20%      { transform: scale(0.97); }
+  30%      { transform: scale(1.13); }
+  42%      { transform: scale(1); }
+}
+
+/* 6. Owonrin — Chaos: erratic jitter in all directions */
+.ifd-dancer--owonrin { animation-name: dance-owonrin; }
+@keyframes dance-owonrin {
+  0%,100% { transform: translate(0,0) rotate(0deg); }
+  10%      { transform: translate(-5px, 3px) rotate(-4deg); }
+  20%      { transform: translate(6px,-4px) rotate(5deg); }
+  30%      { transform: translate(-4px,-5px) rotate(-3deg); }
+  40%      { transform: translate(5px, 5px) rotate(6deg); }
+  50%      { transform: translate(-6px, 2px) rotate(-5deg); }
+  60%      { transform: translate(4px,-3px) rotate(4deg); }
+  70%      { transform: translate(-3px, 6px) rotate(-6deg); }
+  80%      { transform: translate(6px,-4px) rotate(5deg); }
+  90%      { transform: translate(-5px, 3px) rotate(-3deg); }
+}
+
+/* 7. Obara — Royal Mastery: majestic rise and gentle sway */
+.ifd-dancer--obara { animation-name: dance-obara; }
+@keyframes dance-obara {
+  0%,100% { transform: translateY(0) scale(1) rotate(0deg); }
+  25%      { transform: translateY(-9px) scale(1.07) rotate(2deg); }
+  50%      { transform: translateY(-13px) scale(1.11) rotate(0deg); filter: brightness(1.3); }
+  75%      { transform: translateY(-9px) scale(1.07) rotate(-2deg); }
+}
+
+/* 8. Okanran — Lightning Spark: sudden electric jolt */
+.ifd-dancer--okanran { animation-name: dance-okanran; }
+@keyframes dance-okanran {
+  0%,100% { transform: translate(0,0); opacity: 1; }
+  5%       { transform: translate(5px,-7px); opacity: 0.6; }
+  10%      { transform: translate(-4px, 5px); opacity: 1; }
+  15%      { transform: translate(6px,-3px); opacity: 0.75; }
+  22%      { transform: translate(0,0); opacity: 1; }
+}
+
+/* 9. Ogunda — Pathclearer: decisive forward march */
+.ifd-dancer--ogunda { animation-name: dance-ogunda; }
+@keyframes dance-ogunda {
+  0%,100% { transform: translateX(0) scaleX(1); }
+  20%      { transform: translateX(-7px) scaleX(0.95); }
+  50%      { transform: translateX(10px) scaleX(1.06); }
+  75%      { transform: translateX(-3px) scaleX(0.98); }
+}
+
+/* 10. Osa — Wind of Change: spinning whirl */
+.ifd-dancer--osa { animation-name: dance-osa; }
+@keyframes dance-osa {
+  0%,100% { transform: rotate(0deg) translateX(0); }
+  20%      { transform: rotate(10deg) translateX(5px); }
+  45%      { transform: rotate(-14deg) translateX(-6px); }
+  70%      { transform: rotate(8deg) translateX(4px); }
+}
+
+/* 11. Ika — Value Web: sinusoidal weave */
+.ifd-dancer--ika { animation-name: dance-ika; }
+@keyframes dance-ika {
+  0%   { transform: translateX(0) translateY(0); }
+  20%  { transform: translateX(8px) translateY(-5px); }
+  40%  { transform: translateX(0) translateY(-9px); }
+  60%  { transform: translateX(-8px) translateY(-5px); }
+  80%  { transform: translateX(0) translateY(0); }
+  100% { transform: translateX(0) translateY(0); }
+}
+
+/* 12. Oturupon — Deep Earth: slow, heavy ground tremor */
+.ifd-dancer--oturupon { animation-name: dance-oturupon; }
+@keyframes dance-oturupon {
+  0%,100% { transform: translateY(0) scaleY(1); }
+  15%      { transform: translateY(-3px) scaleY(1.02); }
+  35%      { transform: translateY(4px) scaleY(0.98); }
+  55%      { transform: translateY(-2px) scaleY(1.01); }
+  75%      { transform: translateY(3px) scaleY(0.99); }
+}
+
+/* 13. Otura — Cosmic Totality: slow full orbital revolution */
+.ifd-dancer--otura { animation-name: dance-otura; }
+@keyframes dance-otura {
+  0%   { transform: rotate(0deg) scale(1); }
+  33%  { transform: rotate(120deg) scale(1.09); }
+  66%  { transform: rotate(240deg) scale(0.93); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* 14. Irete — Healer: gentle healing float wave */
+.ifd-dancer--irete { animation-name: dance-irete; }
+@keyframes dance-irete {
+  0%,100% { transform: translateY(0) scale(1); filter: brightness(1); }
+  33%      { transform: translateY(-8px) scale(1.05); filter: brightness(1.35); }
+  66%      { transform: translateY(5px) scale(0.96); filter: brightness(0.88); }
+}
+
+/* 15. Ose — Eloquent Flow: cascading abundance wave */
+.ifd-dancer--ose { animation-name: dance-ose; }
+@keyframes dance-ose {
+  0%,100% { transform: translateY(0) scaleY(1); }
+  18%      { transform: translateY(-11px) scaleY(1.10); }
+  36%      { transform: translateY(-4px) scaleY(0.96); }
+  54%      { transform: translateY(-9px) scaleY(1.06); }
+  72%      { transform: translateY(-2px) scaleY(0.98); }
+}
+
+/* 16. Ofun — Infinite Cycle: figure-eight / lemniscate path */
+.ifd-dancer--ofun { animation-name: dance-ofun; }
+@keyframes dance-ofun {
+  0%   { transform: translate(0,0)  rotate(0deg); }
+  12%  { transform: translate(7px,-5px)  rotate(45deg); }
+  25%  { transform: translate(0,-10px) rotate(90deg); }
+  37%  { transform: translate(-7px,-5px) rotate(135deg); }
+  50%  { transform: translate(0,0)  rotate(180deg); }
+  62%  { transform: translate(7px, 5px) rotate(225deg); }
+  75%  { transform: translate(0,10px) rotate(270deg); }
+  87%  { transform: translate(-7px, 5px) rotate(315deg); }
+  100% { transform: translate(0,0)  rotate(360deg); }
+}
+
+/* ── Spotlight Panel ── */
+.ifd-spotlight {
+  display: flex;
+  gap: 36px;
+  margin-top: 28px;
+  background: rgba(6,10,20,0.95);
+  border: 1px solid color-mix(in srgb, var(--dc) 35%, transparent);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 60px color-mix(in srgb, var(--dc) 18%, transparent),
+              0 2px 40px rgba(0,0,0,0.6);
+}
+
+/* Stage side */
+.ifd-spotlight__stage {
+  position: relative;
+  width: 300px;
+  flex-shrink: 0;
+  min-height: 300px;
+  background: #020508;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.ifd-spotlight__beam {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 120%;
+  background: conic-gradient(from -10deg at 50% 0%,
+    transparent 0deg,
+    color-mix(in srgb, var(--dc) 12%, transparent) 20deg,
+    transparent 40deg);
+  pointer-events: none;
+}
+.ifd-spotlight__ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--dc) 25%, transparent);
+  pointer-events: none;
+  animation: ifd-ring-pulse 3s ease-in-out infinite;
+}
+.ifd-spotlight__ring--outer { width: 220px; height: 220px; }
+.ifd-spotlight__ring--inner {
+  width: 150px; height: 150px;
+  animation-delay: 1s;
+  border-color: color-mix(in srgb, var(--dc) 40%, transparent);
+}
+@keyframes ifd-ring-pulse {
+  0%,100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.05); }
+}
+
+/* Spotlight large figure */
+.ifd-spotlight__figure {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation-name: inherit;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-duration: 4s;
+  animation-timing-function: ease-in-out;
+}
+.ifd-spotlight__figure-name {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--dc);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--dc) 70%, transparent);
+  letter-spacing: 0.04em;
+}
+
+/* Large marks (2×4 matrix — actual Ifa Meji marks) */
+.ifd-marks-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.ifd-marks-lg__row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.ifd-mark-lg {
+  width: 32px; height: 32px;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+/* bit=1 → single vertical bar */
+.ifd-mark-lg--on::before {
+  content: '';
+  width: 6px;
+  height: 22px;
+  background: var(--dc);
+  border-radius: 3px;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--dc) 90%, transparent),
+              0 0 36px color-mix(in srgb, var(--dc) 40%, transparent);
+}
+/* bit=0 → two vertical bars side by side */
+.ifd-mark-lg--off::before,
+.ifd-mark-lg--off::after {
+  content: '';
+  width: 5px;
+  height: 22px;
+  background: color-mix(in srgb, var(--dc) 55%, #6b7280);
+  border-radius: 3px;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--dc) 35%, transparent);
+}
+
+/* Info side */
+.ifd-spotlight__info {
+  flex: 1;
+  padding: 28px 28px 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+.ifd-spotlight__num {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--dc) 70%, var(--text-2));
+  letter-spacing: 0.1em;
+}
+.ifd-spotlight__meji {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text-1);
+  line-height: 1.1;
+}
+.ifd-spotlight__tagline {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--dc);
+  letter-spacing: 0.03em;
+}
+.ifd-spotlight__field {
+  font-size: 0.78rem;
+  color: var(--text-2);
+}
+.ifd-spotlight__dance-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--text-1);
+  font-weight: 600;
+  padding: 8px 12px;
+  background: color-mix(in srgb, var(--dc) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--dc) 22%, transparent);
+  border-radius: 8px;
+}
+.ifd-spotlight__note {
+  color: var(--dc);
+  font-size: 1rem;
+}
+.ifd-spotlight__poem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ifd-spotlight__poem-line {
+  font-size: 0.83rem;
+  color: var(--text-2);
+  line-height: 1.55;
+  font-style: italic;
+}
+.ifd-spotlight__close {
+  margin-top: 8px;
+  align-self: flex-start;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text-2);
+  font-size: 0.78rem;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.ifd-spotlight__close:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--text-1);
+}
+
+/* ─── RESPONSIVE — 768px ── */
+@media (max-width: 768px) {
+  /* Header */
+  .pg-header__name { display: none; }
+
+  /* Hero */
+  .pg-hero { min-height: auto; padding: 72px 16px 48px; }
+  .pg-hero__ctas { gap: 8px; }
+  .pg-btn { padding: 10px 20px; font-size: 0.85rem; }
+  .pg-hero__stats {
+    max-width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    overflow: visible;
+  }
+  .pg-hero__stat {
+    padding: 14px 10px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .pg-hero__stat:nth-child(odd)  { border-right: 1px solid var(--border); }
+  .pg-hero__stat:nth-last-child(-n+2) { border-bottom: none; }
+
+  /* Sections */
+  .pg-section { padding: 56px 0; }
+  .pg-section-header { margin-bottom: 32px; }
+  .pg-section-sub { font-size: 0.92rem; }
+
+  /* Zones */
+  .pg-zones-grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); }
+
+  /* Divination */
+  .div-sim__odu-header { flex-wrap: wrap; gap: 10px; }
+  .div-sim__odu-code { margin-left: 0; }
+  .div-sim__result { padding: 20px 16px; }
+
+  /* Poetry */
+  .poetry-tab { font-size: 0.82rem; padding: 11px 14px; }
+  .poetry-display { padding: 20px 16px; }
+  .poetry-display__header { flex-wrap: wrap; gap: 10px; }
+  .poetry-display__code { margin-left: 0; }
+
+  /* IFA Play */
+  .ifa-play__choices-grid { grid-template-columns: 1fr; }
+
+  /* Orisa */
+  .orisa-gallery { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+
+  /* Ayo spotlight */
+  .ayo-spotlight { padding: 56px 0; }
+  .ayo-spotlight__inner { grid-template-columns: 1fr; gap: 36px; }
+  .ayo-spotlight__title { font-size: 2.2rem; }
+
+  /* Footer */
+  .pg-footer__inner { flex-direction: column; gap: 20px; }
+  .pg-footer__links { gap: 12px; }
+
+  /* IfaDance — 768px */
+  .ifd-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .ifd-dancer { padding: 14px 8px 12px; }
+  .ifd-dancer__name { font-size: 0.75rem; }
+  .ifd-dancer__label { display: none; }
+  .ifd-dancer__num { font-size: 0.54rem; }
+  .ifd-spotlight { flex-direction: column; gap: 20px; }
+  .ifd-spotlight__stage { width: 100%; height: 220px; }
+  .ifd-spotlight__info { padding: 0 20px 20px; gap: 8px; }
+  .ifd-spotlight__meji { font-size: 1.35rem; }
+  .ifd-spotlight__figure-name { font-size: 1.2rem; }
+  .ifd-marks-lg { gap: 5px; }
+  .ifd-marks-lg__row { gap: 8px; }
+  .ifd-mark-lg { width: 26px; height: 26px; gap: 4px; }
+  .ifd-mark-lg--on::before { width: 5px; height: 18px; }
+  .ifd-mark-lg--off::before,
+  .ifd-mark-lg--off::after { width: 4px; height: 18px; }
+}
+
+/* ─── RESPONSIVE — 480px ── */
+@media (max-width: 480px) {
+  /* Container */
+  .pg-container { padding: 0 14px; }
+
+  /* Hero */
+  .pg-hero { padding: 64px 14px 36px; }
+  .pg-hero__desc { font-size: 0.90rem; }
+  .pg-hero__zone-pills { gap: 5px; }
+  .pg-hero__zone-pill { font-size: 0.68rem; padding: 4px 9px; }
+  .pg-hero__stat-v { font-size: 1.35rem; }
+  .pg-hero__stat-l { font-size: 0.70rem; }
+  .pg-hero__stat-s { font-size: 0.62rem; }
+
+  /* Sections */
+  .pg-section { padding: 44px 0; }
+  .pg-section-title { font-size: 1.45rem; }
+  .pg-section-header { margin-bottom: 24px; }
+
+  /* Zones */
+  .pg-zones-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pg-zone-card__top { padding: 14px; min-height: 52px; }
+  .pg-zone-card__icon { font-size: 1.3rem; }
+  .pg-zone-card__body { padding: 12px; }
+  .pg-zone-card__title { font-size: 0.85rem; }
+  .pg-zone-card__desc { font-size: 0.72rem; line-height: 1.45; }
+
+  /* Divination */
+  .div-sim__nuts-area { padding: 20px 14px; min-height: 110px; }
+  .div-sim__btn { padding: 12px 20px; font-size: 0.90rem; }
+  .div-sim__odu-num { font-size: 1.8rem; min-width: 38px; }
+  .div-sim__odu-name { font-size: 1rem; }
+
+  /* Poetry */
+  .poetry-tab { font-size: 0.76rem; padding: 10px 10px; }
+  .poetry-odu-btn { padding: 5px 8px; gap: 4px; }
+  .poetry-odu-btn__name { font-size: 0.70rem; }
+  .poetry-orisa-btn { padding: 8px 10px; min-width: 58px; }
+  .poetry-display__num { font-size: 1.6rem; min-width: 32px; }
+  .poetry-display__title { font-size: 0.95rem; }
+  .poetry-display__poem { font-size: 0.88rem; }
+
+  /* Pattern studio */
+  .pattern-studio__canvas { max-width: 290px; }
+  .pattern-studio__btn { font-size: 0.88rem; padding: 11px 20px; }
+
+  /* Orisa */
+  .orisa-gallery { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .orisa-card { height: 176px; }
+  .orisa-card__symbol { font-size: 2.2rem; }
+  .orisa-card__name { font-size: 0.78rem; }
+
+  /* IFA Play */
+  .ifa-play__narrative { padding: 16px 14px; }
+  .ifa-play__orisa-resp { padding: 14px; }
+  .ifa-play__odu-reveal { padding: 16px 14px; }
+  .ifa-play__odu-name { font-size: 1.2rem; }
+  .ifa-play__replay { padding: 10px 24px; font-size: 0.85rem; }
+
+  /* Ayo spotlight */
+  .ayo-spotlight__title { font-size: 1.85rem; }
+  .ayo-spotlight__desc { font-size: 0.88rem; }
+  .ayo-spotlight__play-btn { padding: 12px 20px; font-size: 0.88rem; width: 100%; justify-content: center; }
+  .ayo-spotlight__ctas { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .ayo-board { padding: 12px 10px; }
+  .ayo-board__row { gap: 4px; }
+  .ayo-board__divider { padding: 4px 0; margin-bottom: 6px; }
+  .ayo-hole__num { font-size: 0.54rem; }
+  .ayo-seed { width: 4px; height: 4px; }
+  .ayo-spotlight__board-caption { font-size: 0.76rem; }
+
+  /* Footer */
+  .pg-footer { padding: 28px 0; }
+  .pg-footer__brand { font-size: 0.80rem; }
+  .pg-footer__links { gap: 10px; }
+  .pg-footer__link { font-size: 0.76rem; }
+
+  /* IfaDance — 480px: 4-col grid, compact cards, scaled marks */
+  .ifd-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .ifd-stage { padding: 16px; border-radius: 14px; }
+  .ifd-dancer { padding: 10px 5px 8px; gap: 3px; }
+  .ifd-dancer__name { font-size: 0.60rem; line-height: 1.25; }
+  .ifd-dancer__num { font-size: 0.48rem; }
+  .ifd-marks { gap: 1.5px; }
+  .ifd-marks__row { gap: 3px; }
+  .ifd-mark { width: 8px; height: 8px; gap: 1.5px; }
+  .ifd-mark--on::before { width: 2px; height: 6px; }
+  .ifd-mark--off::before,
+  .ifd-mark--off::after { width: 1.5px; height: 6px; }
+  .ifd-hint { font-size: 0.64rem; margin-top: 10px; }
+
+  /* IfaDance spotlight — 480px */
+  .ifd-spotlight__stage { height: 190px; }
+  .ifd-spotlight__figure-name { font-size: 1rem; }
+  .ifd-spotlight__info { gap: 7px; }
+  .ifd-spotlight__meji { font-size: 1.15rem; }
+  .ifd-spotlight__tagline { font-size: 0.84rem; }
+  .ifd-spotlight__dance-label { font-size: 0.74rem; padding: 6px 10px; }
+  .ifd-spotlight__poem-line { font-size: 0.76rem; }
+  .ifd-spotlight__close { font-size: 0.72rem; padding: 7px 14px; }
+  .ifd-marks-lg { gap: 4px; }
+  .ifd-marks-lg__row { gap: 6px; }
+  .ifd-mark-lg { width: 22px; height: 22px; gap: 3px; }
+  .ifd-mark-lg--on::before { width: 4px; height: 15px; }
+  .ifd-mark-lg--off::before,
+  .ifd-mark-lg--off::after { width: 3.5px; height: 15px; }
+}
+
+/* ─── RESPONSIVE — 380px ── */
+@media (max-width: 380px) {
+  /* IfaDance — 380px: stay 4-col, further compress */
+  .ifd-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  .ifd-stage { padding: 12px; }
+  .ifd-dancer { padding: 8px 4px 6px; gap: 2px; }
+  .ifd-dancer__name { font-size: 0.52rem; }
+  .ifd-dancer__num { font-size: 0.44rem; }
+  .ifd-marks { gap: 1px; }
+  .ifd-marks__row { gap: 2px; }
+  .ifd-mark { width: 7px; height: 7px; gap: 1.5px; }
+  .ifd-mark--on::before { width: 1.5px; height: 5px; }
+  .ifd-mark--off::before,
+  .ifd-mark--off::after { width: 1.5px; height: 5px; }
+
+  /* IfaDance spotlight — 380px */
+  .ifd-spotlight__stage { height: 165px; }
+  .ifd-spotlight__figure-name { font-size: 0.88rem; }
+  .ifd-spotlight__meji { font-size: 1rem; }
+  .ifd-marks-lg { gap: 3px; }
+  .ifd-marks-lg__row { gap: 5px; }
+  .ifd-mark-lg { width: 18px; height: 18px; gap: 3px; }
+  .ifd-mark-lg--on::before { width: 3px; height: 12px; }
+  .ifd-mark-lg--off::before,
+  .ifd-mark-lg--off::after { width: 2.5px; height: 12px; }
+}

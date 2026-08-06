@@ -807,6 +807,11 @@ function IfacodemySection() {
                 <span className="ifacodemy-card__dual-sep">⟷</span>
                 <span className="ifacodemy-card__dual-b">OrisaLearn</span>
               </div>
+              <div className="ifacodemy-card__motto">
+                <span className="ifacodemy-card__motto-sym" aria-hidden="true">◈</span>
+                <span className="ifacodemy-card__motto-text">Where Ifa inspires innovation across every field.</span>
+                <span className="ifacodemy-card__motto-sym" aria-hidden="true">◈</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1029,6 +1034,7 @@ function Footer() {
             <a href="#ifacodemy" className="footer__link">Ifacodemy</a>
             <a href="#isise" className="footer__link">Ìṣísẹ̀ Ifá</a>
             <a href="#dual" className="footer__link">OrisaLearn</a>
+            <a href="/ifa-lms/ifa-academy/" className="footer__link">Ifa Academy</a>
             <a href="../" className="footer__link" target="_blank" rel="noopener noreferrer">IFA Internet</a>
           </nav>
         </div>

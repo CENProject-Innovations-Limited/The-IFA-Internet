@@ -488,6 +488,30 @@ function KojodaSection() {
           </p>
         </div>
 
+        {/* Kojoda.app — Independent External Platform */}
+        <a
+          className="kojoda-ext"
+          href="https://www.kojoda.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit Kojoda.app — The Kọ́jọ́dá Platform"
+        >
+          <span className="kojoda-ext__badge">Independent Platform</span>
+          <div className="kojoda-ext__inner">
+            <div className="kojoda-ext__icon" aria-hidden="true">◉</div>
+            <div className="kojoda-ext__body">
+              <p className="kojoda-ext__sup">Official Kọ́jọ́dá Platform</p>
+              <p className="kojoda-ext__name">kojoda.app</p>
+              <p className="kojoda-ext__desc">
+                The dedicated Kọ́jọ́dá app — Yoruba New Year dates, sacred months,
+                the 4-day Ọ̀sẹ̀ Ìṣẹ̀ṣe week, and the living tradition of Ètò Ìkajọ́ Ìṣẹ̀ṣe.
+                An independent platform for the Yoruba calendar.
+              </p>
+            </div>
+            <span className="kojoda-ext__arrow" aria-hidden="true">↗</span>
+          </div>
+        </a>
+
         {/* Main feature grid */}
         <div className="kojoda-grid">
           {/* Left — visual panel */}

@@ -42,7 +42,7 @@ const SEED_COURSES = [
     description: 'The foundational course of the IFA Academy of Polymaths. Covering IFABOK, the 256 Odu Ifa, IFA Mathematics, and the IFA Internet ecosystem.',
     weeks: [
       {
-        id: 'w1', order: 0, title: 'Week 1: Introduction to Ifa Metascience',
+        id: 'w1', order: 0, title: 'Chapter 0: Introduction to Ifa Metascience',
         description: 'The foundational concepts of Ifa as a Metascience — the Theory of Everything (ToE).',
         materials: [
           {
@@ -77,7 +77,7 @@ const SEED_COURSES = [
         ]
       },
       {
-        id: 'w2', order: 1, title: 'Week 2: The IFA Pair & Binary System',
+        id: 'w2', order: 1, title: 'Chapter 1: The IFA Pair & Binary System',
         description: 'Understanding Ogbe and Oyeku as the Base-Field of all IFA Knowledge.',
         materials: [
           {
@@ -100,7 +100,7 @@ const SEED_COURSES = [
         ]
       },
       {
-        id: 'w3', order: 2, title: 'Week 3: IFA Mathematics',
+        id: 'w3', order: 2, title: 'Chapter 2: IFA Mathematics',
         description: 'The Language of All Knowledge.',
         materials: [
           {
@@ -114,54 +114,28 @@ const SEED_COURSES = [
         ]
       },
       {
-        id: 'w4', order: 3, title: 'Week 4: Ebology & Energy Exchange',
-        description: 'The science and philosophy of Ẹbọ — the Energy Exchange Body of Knowledge.',
+        id: 'w4', order: 3, title: 'Chapter 3: IfaProject',
+        description: 'Applications of the IFABOK: exploring IFA Internet systems as living implementations of IFA knowledge.',
         materials: [
           {
-            id: 'm7', type: 'text', title: 'Introduction to Ebology', duration: '12 min read',
+            id: 'm7', type: 'text', title: 'IFA Internet Systems — IFABOK in Practice', duration: '15 min read',
             content: [
-              { type: 'header', text: 'What is Ebology?' },
-              { type: 'paragraph', text: 'Ebology is the Energy Exchange Body of Knowledge (EnxBOK) — the structured science, practice, philosophy, and art of energy exchange between humans, nature, and non-physical forces. At its core lies Ẹbọ — a multidimensional being whose study constitutes the mathematical and holistic foundation of this science.' },
-              { type: 'highlight', text: 'Ẹbọ is not simply "sacrifice" — in IFA Metascience it is the complete system of multidimensional energy exchange governing all interactions in existence.' },
-              { type: 'header', text: 'The IfaWork Function' },
-              { type: 'paragraph', text: 'For anything to manifest physically or in other ways, it must satisfy certain threshold energy requirements. This is the IfaWorkfunction — the fundamental building block of all workfunction theory, generalising workfunction from physical science to all fields of knowledge.' },
-            ]
-          },
-          {
-            id: 'm7b', type: 'video', title: 'Ẹbọ — Energy Exchange in Practice', duration: '~8 min',
-            videoUrl: 'https://www.youtube.com/watch?v=5qap5aO4i9A',
-            description: 'Understanding Ẹbọ and its role in the IFA energy exchange framework.'
-          },
-        ]
-      },
-      {
-        id: 'w5', order: 4, title: 'Week 5: IFA Philosophy & Ethics',
-        description: 'PhiloE: The key branches of IFA Philosophy and the Ọmọlúwàbí framework.',
-        materials: [
-          {
-            id: 'm8', type: 'text', title: 'IFA Philosophy — PhiloE', duration: '10 min read',
-            content: [
-              { type: 'header', text: 'IFA Philosophy: The Philosophy for Everything (PhiloE)' },
-              { type: 'paragraph', text: 'IFA Philosophy is the Theory of Everything Philosophy (ToE Philosophy). It encompasses different branches of philosophical inquiry, each grounded in the 256 Odu Ifa.' },
-              { type: 'highlight', text: 'Ọmọlúwàbí — the IFA ethical ideal — describes a person of good character, righteousness, and wisdom who embodies the highest values of IFA Philosophy.' },
-              { type: 'header', text: 'The Ifacodemy Graduate Attributes (IGAs)' },
-              { type: 'paragraph', text: 'The Ifacodemy Graduate Attributes (IGAs) are the eight core attributes that every IFA Academy of Polymaths graduate embodies: Polymath, Culturally Conscious (Ubuntu), Commercially Aware, Enterprising, Resilient, Interdisciplinary Collaborator, Globally & Socially Aware, and Personal Growth & Development.' },
-            ]
-          },
-        ]
-      },
-      {
-        id: 'w6', order: 5, title: 'Week 6: The IFA Internet',
-        description: 'The digital manifestation of IFABOK — architecture, platforms, and applications.',
-        materials: [
-          {
-            id: 'm9', type: 'text', title: 'The IFA Internet — Architecture Overview', duration: '12 min read',
-            content: [
-              { type: 'header', text: 'The IFA Internet (iTOE)' },
-              { type: 'paragraph', text: 'The IFA Internet is the digital manifestation of IFABOK — a network of interconnected platforms, applications, and knowledge systems that apply the 256 Odu Ifa as the Axiomatic Foundation for Theory of Everything Digital Ecosystem.' },
-              { type: 'list', items: ['IFA Language (IfaLang) — Universal language system', 'IFA Mathematics — TOE Mathematics platform', 'IFA Physics — Physics of Everything (PoE)', 'Ebology — Energy Exchange platform', 'IFA Computing — Computing ToE', 'IfaLMS — Learning Management System (this platform)'] },
-              { type: 'highlight', text: 'The IFA Internet operates at ifainternet.org — the gateway to all IFA Internet platforms and knowledge systems.' },
-              { type: 'quote', text: 'Every IFA Internet platform is a digital expression of one or more of the 256 Odu Ifa — encoding universal wisdom in the digital age.', attribution: 'CENProject' },
+              { type: 'header', text: 'Chapter 3: IfaProject — IFABOK Applied' },
+              { type: 'paragraph', text: 'The IFA Internet is the digital manifestation of the IFA Body of Knowledge — a growing ecosystem of platforms, tools, and systems built on the 256 Odu Ifa as the axiomatic framework. Each IFA Internet system is an IfaProject: a concrete application of IFABOK principles to a specific field of knowledge.' },
+              { type: 'highlight', text: 'An IfaProject is any system, platform, or application that implements one or more IFABOK principles — turning ancient IFA wisdom into living, functional knowledge systems.' },
+              { type: 'header', text: 'Core IFA Internet Systems' },
+              { type: 'paragraph', text: 'Below are some of the foundational IfaProjects that demonstrate IFABOK in action across diverse fields:' },
+              { type: 'list', items: [
+                'IFA Medicine / TOE Medicine (ifainternet.org/ifa-medicine-toe-medicine/) — Applies IFABOK to health, healing, and the science of the body as an energy exchange system.',
+                'IFA Periodic Table (ifainternet.org/ifa-periodic-table/) — A reimagining of the periodic table of elements through the 256 Odu Ifa, unifying chemistry and IFA Metascience.',
+                'IFAI — Ifa Artificial Intelligence (ifainternet.org/ifai/) — The application of IFA Computing and the 256 Odu to Artificial Intelligence and machine cognition.',
+                'Play IFA Games (playifagames.org/) — Interactive games built on IFA principles, including Ayò Ọlọ́pọ́nfá, bringing IFABOK to life through play.',
+                'IFA Evolution / IToL (ifainternet.org/ifa-evolution/itol/) — The IFA Tree of Life: modelling biological and cosmic evolution through the Odu Ifa framework.',
+                'IFA Mathematics / TOE Mathematics (ifainternet.org/ifa-mathematics-toe-mathematics/) — The formalisation of IFA Mathematics as the universal axiomatic system underlying all fields of knowledge.',
+              ]},
+              { type: 'header', text: 'What Makes a System an IfaProject?' },
+              { type: 'paragraph', text: 'An IfaProject is characterised by its grounding in IFABOK principles: the 256 Odu Ifa as the axiomatic matrix, IFA Mathematics as the formal language, IFA Computing as the computational framework, and Ebology (energy exchange) as the underlying force driving all interactions. Together, these IFA Internet systems form a unified, expanding digital Theory of Everything — accessible to all.' },
+              { type: 'quote', text: 'Every IFA Internet platform is a chapter of IFABOK made interactive — each one a doorway into the total knowledge of existence.', attribution: 'CENProject' },
             ]
           },
         ]
@@ -1388,6 +1362,11 @@ function LoginPage({ onLogin, loginError }) {
           <p className="lbp__tagline">
             The Learning Environment of the IFA Internet — polymathic education rooted in the 256 Odu Ifa.
           </p>
+          <div className="lbp__motto">
+            <span className="lbp__motto-mark">◈</span>
+            <span className="lbp__motto-text">Where Ifa inspires innovation across every field.</span>
+            <span className="lbp__motto-mark">◈</span>
+          </div>
           <ul className="lbp__features">
             {[
               { sym: '◈', text: 'Polymathic Curriculum & IFABOK' },
@@ -1608,27 +1587,45 @@ function MaterialViewer({ material, isCompleted, onComplete, onBack }) {
 
 // ─── MOBILE BOTTOM NAV ────────────────────────────────────────────────────────
 
-function MobileStudentNav({ activeView, setStudentView, onLogout }) {
+function MobileStudentNav({ activeView, setStudentView, onLogout, user }) {
   const nav = [
     { id: 'home',    label: 'Home',    sym: '⌂' },
     { id: 'courses', label: 'Courses', sym: '◈' },
     { id: 'iga',     label: 'IGA',     sym: '⬡' },
     { id: 'profile', label: 'Profile', sym: '◉' },
   ];
+  const tableHref = user && user.program === 'kids'
+    ? 'https://ifainternet.org/ifa-periodic-table/kids/'
+    : 'https://ifainternet.org/ifa-periodic-table/';
   return (
     <nav className="mobile-nav">
-      {nav.map(n => (
-        <button key={n.id}
-          className={`mobile-nav__item${activeView === n.id ? ' mobile-nav__item--active' : ''}`}
-          onClick={() => setStudentView(n.id)}>
-          <span className="mobile-nav__sym">{n.sym}</span>
-          <span className="mobile-nav__label">{n.label}</span>
+      <div className="mobile-nav__platforms">
+        <span className="mobile-nav__plat-label">IFA Platforms</span>
+        <a className="mobile-nav__plat-link" href="https://www.playifagames.org" target="_blank" rel="noopener noreferrer">
+          <span className="mobile-nav__plat-sym">⬡</span>
+          <span>Ifa Game</span>
+          <span className="mobile-nav__plat-ext">↗</span>
+        </a>
+        <a className="mobile-nav__plat-link" href={tableHref} target="_blank" rel="noopener noreferrer">
+          <span className="mobile-nav__plat-sym">◎</span>
+          <span>Ifa Periodic Table</span>
+          <span className="mobile-nav__plat-ext">↗</span>
+        </a>
+      </div>
+      <div className="mobile-nav__bar">
+        {nav.map(n => (
+          <button key={n.id}
+            className={`mobile-nav__item${activeView === n.id ? ' mobile-nav__item--active' : ''}`}
+            onClick={() => setStudentView(n.id)}>
+            <span className="mobile-nav__sym">{n.sym}</span>
+            <span className="mobile-nav__label">{n.label}</span>
+          </button>
+        ))}
+        <button className="mobile-nav__item" onClick={onLogout}>
+          <span className="mobile-nav__sym">⏻</span>
+          <span className="mobile-nav__label">Sign out</span>
         </button>
-      ))}
-      <button className="mobile-nav__item" onClick={onLogout}>
-        <span className="mobile-nav__sym">⏻</span>
-        <span className="mobile-nav__label">Sign out</span>
-      </button>
+      </div>
     </nav>
   );
 }
@@ -1643,21 +1640,36 @@ function MobileAdminNav({ activeView, setAdminView, onLogout, pendingCount }) {
   ];
   return (
     <nav className="mobile-nav mobile-nav--admin">
-      {nav.map(n => (
-        <button key={n.id}
-          className={`mobile-nav__item${activeView === n.id ? ' mobile-nav__item--active mobile-nav__item--admin-active' : ''}`}
-          onClick={() => setAdminView(n.id)}>
-          <span className="mobile-nav__sym">{n.sym}</span>
-          <span className="mobile-nav__label">{n.label}</span>
-          {n.id === 'students' && pendingCount > 0 && (
-            <span className="mobile-nav__badge">{pendingCount}</span>
-          )}
+      <div className="mobile-nav__platforms">
+        <span className="mobile-nav__plat-label">IFA Platforms</span>
+        <a className="mobile-nav__plat-link" href="https://www.playifagames.org" target="_blank" rel="noopener noreferrer">
+          <span className="mobile-nav__plat-sym">⬡</span>
+          <span>Ifa Game</span>
+          <span className="mobile-nav__plat-ext">↗</span>
+        </a>
+        <a className="mobile-nav__plat-link" href="https://ifainternet.org/ifa-periodic-table/" target="_blank" rel="noopener noreferrer">
+          <span className="mobile-nav__plat-sym">◎</span>
+          <span>Ifa Periodic Table</span>
+          <span className="mobile-nav__plat-ext">↗</span>
+        </a>
+      </div>
+      <div className="mobile-nav__bar">
+        {nav.map(n => (
+          <button key={n.id}
+            className={`mobile-nav__item${activeView === n.id ? ' mobile-nav__item--active mobile-nav__item--admin-active' : ''}`}
+            onClick={() => setAdminView(n.id)}>
+            <span className="mobile-nav__sym">{n.sym}</span>
+            <span className="mobile-nav__label">{n.label}</span>
+            {n.id === 'students' && pendingCount > 0 && (
+              <span className="mobile-nav__badge">{pendingCount}</span>
+            )}
+          </button>
+        ))}
+        <button className="mobile-nav__item" onClick={onLogout}>
+          <span className="mobile-nav__sym">⏻</span>
+          <span className="mobile-nav__label">Sign out</span>
         </button>
-      ))}
-      <button className="mobile-nav__item" onClick={onLogout}>
-        <span className="mobile-nav__sym">⏻</span>
-        <span className="mobile-nav__label">Sign out</span>
-      </button>
+      </div>
     </nav>
   );
 }
@@ -2116,7 +2128,7 @@ function StudentApp({ user, onLogout, courses, setCourses, progress, setProgress
           <StudentProfile user={user} courses={courses} completedMats={completedMats} />
         )}
       </main>
-      <MobileStudentNav activeView={studentView} setStudentView={navTo} onLogout={onLogout} />
+      <MobileStudentNav activeView={studentView} setStudentView={navTo} onLogout={onLogout} user={user} />
     </div>
   );
 }

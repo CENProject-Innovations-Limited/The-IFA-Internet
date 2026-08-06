@@ -42,7 +42,7 @@
   "stats": [
     { "value": "256", "label": "Odu Ifa", "sub": "Ancient Knowledge Codes" },
     { "value": "16",  "label": "IFA Axioms", "sub": "Axioms of Everything" },
-    { "value": "40+", "label": "Platforms", "sub": "Across all disciplines" },
+    { "value": "64+", "label": "IfaPlatforms", "sub": "Across all disciplines" },
     { "value": "SYMBOE", "label": "CEN", "sub": "Consciousness-Energy" }
   ],
 
@@ -657,6 +657,17 @@
       "category": "tech",
       "url": "/ifa-finance-toe-finance/",
       "featured": false
+    },
+    {
+      "id": "ifa-art",
+      "name": "IFA Art & Orisa Art",
+      "subtitle": "Ifart & Orisart — The Dual Artistic Traditions",
+      "description": "The living artistic traditions of the IFA Internet — encoding the wisdom of the 256 Odu Ifa through sacred chant, praise poetry, hunters' art, masquerade song, and divination recitation. Ifa Art (Ifart) and Orisa Art (Orisart) are dual expressions of one unified artistic intelligence across all fields of Yoruba civilization.",
+      "category": "arts",
+      "alsoIn": ["non-science", "education", "philosophy"],
+      "url": "/ifa-art/",
+      "featured": false,
+      "local": true
     },
     {
       "id": "ebology",

@@ -1,0 +1,2341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>World Ayo Olopon Championship · IFA STADIUM · Play IFA Games</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#060310" />
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ═══════════════════════════════════════════════════════════
+   WORLD AYO OLOPON CHAMPIONSHIP · IFA STADIUM
+   Play IFA Games · CENProject 2026 · CONFIDENTIAL
+═══════════════════════════════════════════════════════════ */
+:root {
+  --bg:        #060310;
+  --bg-card:   #0d0a1c;
+  --bg-alt:    #090617;
+  --bg-deep:   #040208;
+
+  --gold:      #c9a227;
+  --gold-lt:   #f0c840;
+  --gold-dim:  rgba(201,162,39,0.13);
+  --gold-bdr:  rgba(201,162,39,0.28);
+  --gold-glow: rgba(201,162,39,0.5);
+
+  --amber:     #e8772a;
+  --crimson:   #c0143a;
+  --purple:    #7c4dff;
+  --text:      #c0b8d5;
+  --muted:     #786898;
+  --faint:     #352d50;
+
+  --rb:    16px;
+  --rsm:   10px;
+  --tr:    all 0.26s cubic-bezier(.4,0,.2,1);
+
+  --wood-dark:  #0e0a05;
+  --wood-mid:   #1a1107;
+  --pit-bg:     #0b0917;
+  --pit-rim:    rgba(201,162,39,0.22);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+img{max-width:100%;display:block;}
+
+/* ─── PARTICLES ────────────────────────────────────────── */
+.ptcl{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.ptcl-dot{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  background:var(--gold);opacity:0;
+  animation:pfloat var(--dur,9s) var(--dly,0s) infinite linear;
+}
+@keyframes pfloat{
+  0%  {transform:translateY(100vh) scale(0);opacity:0;}
+  8%  {opacity:.55;}
+  92% {opacity:.1;}
+  100%{transform:translateY(-80px) scale(1.5);opacity:0;}
+}
+
+/* ─── LOGIN ─────────────────────────────────────────────── */
+#ls{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg-deep);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+}
+.ls-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 55% 48% at 28% 38%, rgba(201,162,39,.09) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 52% at 76% 64%, rgba(124,77,255,.07) 0%, transparent 70%);
+  pointer-events:none;
+}
+.ls-card{
+  position:relative;
+  background:var(--bg-card);
+  border:1px solid var(--gold-bdr);
+  border-radius:22px;
+  padding:52px 44px 44px;
+  width:100%;max-width:420px;
+  box-shadow:0 0 80px rgba(201,162,39,.1),0 40px 80px rgba(0,0,0,.7);
+}
+.ls-glyph{
+  font-family:'Cinzel Decorative',serif;font-size:34px;
+  color:var(--gold);text-align:center;margin-bottom:8px;
+  text-shadow:0 0 30px var(--gold-glow);
+}
+.ls-site{font-family:'Space Grotesk',monospace;font-size:10px;letter-spacing:.28em;color:var(--muted);text-align:center;text-transform:uppercase;margin-bottom:20px;}
+.ls-title{font-family:'Cinzel Decorative',serif;font-size:clamp(22px,5vw,30px);color:var(--gold-lt);text-align:center;letter-spacing:.1em;margin-bottom:6px;}
+.ls-sub{font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.18em;color:var(--muted);text-align:center;margin-bottom:32px;text-transform:uppercase;}
+.ls-field{
+  width:100%;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.1);border-radius:10px;
+  padding:14px 18px;color:#fff;font-size:15px;font-family:'Inter',sans-serif;
+  outline:none;transition:var(--tr);margin-bottom:14px;
+}
+.ls-field:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.18);}
+.ls-btn{
+  width:100%;padding:14px;border:none;border-radius:10px;cursor:pointer;
+  background:linear-gradient(135deg,#c9a227,#e8772a);
+  color:#07050f;font-family:'Space Grotesk',monospace;font-size:12px;
+  letter-spacing:.22em;font-weight:700;text-transform:uppercase;
+  transition:var(--tr);
+}
+.ls-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+.ls-err{font-size:12px;color:var(--crimson);text-align:center;min-height:18px;margin-top:10px;font-family:'Space Grotesk',monospace;}
+.ls-note{font-size:10.5px;color:var(--faint);text-align:center;margin-top:22px;line-height:1.6;}
+
+/* ─── APP SHELL ─────────────────────────────────────────── */
+#app{display:none;position:relative;z-index:1;}
+
+.confid-bar{
+  background:rgba(185,28,58,.12);
+  border-bottom:1px solid rgba(185,28,58,.2);
+  text-align:center;padding:7px 20px;
+  font-family:'Space Grotesk',monospace;font-size:9px;
+  letter-spacing:.22em;color:rgba(192,20,58,.8);text-transform:uppercase;
+}
+
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 40px;position:sticky;top:0;z-index:100;
+  background:rgba(6,3,16,.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--gold-bdr);
+}
+.nav-brand{
+  font-family:'Cinzel Decorative',serif;font-size:16px;
+  color:var(--gold);letter-spacing:.12em;display:flex;align-items:center;gap:10px;
+}
+.nav-mark{color:var(--gold-lt);font-size:20px;text-shadow:0 0 14px var(--gold-glow);}
+.nav-r{display:flex;align-items:center;gap:16px;}
+.nav-pill{
+  font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.2em;
+  color:var(--crimson);text-transform:uppercase;
+  border:1px solid rgba(192,20,58,.35);border-radius:20px;padding:5px 12px;
+}
+.nav-back{
+  font-family:'Space Grotesk',monospace;font-size:10px;letter-spacing:.12em;
+  color:var(--muted);transition:var(--tr);text-transform:uppercase;
+}
+.nav-back:hover{color:var(--gold);}
+.nav-snd{
+  background:none;border:1px solid var(--gold-bdr);border-radius:8px;
+  color:var(--gold);cursor:pointer;padding:5px 10px;font-size:15px;
+  line-height:1;transition:var(--tr);flex-shrink:0;
+}
+.nav-snd:hover{background:var(--gold-dim);}
+.nav-snd.snd-off{color:var(--faint);border-color:var(--faint);}
+
+/* ══════════════════════════════════════════════════════════
+   STADIUM ARENA
+══════════════════════════════════════════════════════════ */
+.stadium-wrap{
+  position:relative;
+  background:
+    radial-gradient(ellipse 90% 40% at 50% 100%, rgba(201,162,39,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(124,77,255,.04) 0%, transparent 70%),
+    linear-gradient(180deg, #060310 0%, #08041a 40%, #060310 100%);
+  overflow:hidden;
+  min-height:100vh;
+  padding-bottom:48px;
+}
+
+/* ─── SPOTLIGHTS ─────────────────────────────────────────── */
+.spotlights{
+  position:absolute;top:0;left:0;right:0;height:65%;
+  pointer-events:none;z-index:1;overflow:hidden;
+}
+.spotlight{
+  position:absolute;top:0;
+  width:220px;height:100%;
+  transform-origin:top center;
+  opacity:0;
+  animation:spotFlicker var(--sf-dur, 4s) var(--sf-dly, 0s) ease-in-out infinite alternate;
+}
+@keyframes spotFlicker{
+  0%   {opacity:.0;}
+  10%  {opacity:.18;}
+  30%  {opacity:.28;}
+  55%  {opacity:.14;}
+  70%  {opacity:.32;}
+  90%  {opacity:.20;}
+  100% {opacity:.26;}
+}
+
+/* ─── CROWD ──────────────────────────────────────────────── */
+.crowd{
+  position:absolute;bottom:0;left:0;right:0;
+  height:220px;
+  pointer-events:none;z-index:2;
+  overflow:hidden;
+}
+.crowd-fig{
+  display:block;
+  overflow:visible;
+  flex-shrink:0;
+  animation:sway var(--sw-dur,3.2s) var(--sw-dly,0s) ease-in-out infinite alternate;
+}
+@keyframes sway{
+  0%  {transform:rotate(calc(var(--sw-dir,1) * -1.6deg)) translateY(0);}
+  100%{transform:rotate(calc(var(--sw-dir,1) *  1.6deg)) translateY(-2px);}
+}
+
+/* ─── ARENA FLOOR GLOW ───────────────────────────────────── */
+.arena-floor-glow{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:120px;
+  background:radial-gradient(ellipse 80% 100% at 50% 100%, rgba(201,162,39,.12) 0%, transparent 70%);
+  pointer-events:none;z-index:3;
+}
+
+/* ─── ARENA CONTENT ──────────────────────────────────────── */
+.arena-content{
+  position:relative;z-index:10;
+  padding:0 24px;
+  max-width:1100px;
+  margin:0 auto;
+}
+
+/* ─── BROADCAST BAR ──────────────────────────────────────── */
+.broadcast-bar{
+  display:flex;align-items:center;
+  background:rgba(0,0,0,.65);
+  border:1px solid rgba(201,162,39,.2);
+  border-radius:10px;
+  padding:10px 18px;
+  margin-bottom:18px;
+  gap:16px;
+  overflow:hidden;
+  backdrop-filter:blur(8px);
+}
+.bc-live{
+  display:flex;align-items:center;gap:7px;
+  flex-shrink:0;
+}
+.bc-live-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:#e8222a;
+  box-shadow:0 0 8px #e8222a;
+  animation:livePulse 1s ease-in-out infinite alternate;
+  flex-shrink:0;
+}
+@keyframes livePulse{0%{opacity:.5;transform:scale(.85);}100%{opacity:1;transform:scale(1.1);}}
+.bc-live-text{
+  font-family:'Space Grotesk',monospace;font-size:9px;font-weight:700;
+  letter-spacing:.25em;color:#e8222a;text-transform:uppercase;
+}
+.bc-title{
+  font-family:'Cinzel',serif;font-size:12px;letter-spacing:.16em;
+  color:var(--gold-lt);white-space:nowrap;flex-shrink:0;
+}
+.bc-ticker-wrap{
+  flex:1;overflow:hidden;
+  border-left:1px solid var(--faint);
+  border-right:1px solid var(--faint);
+  padding:0 14px;
+  min-width:0;
+}
+.bc-ticker{
+  font-family:'Space Grotesk',monospace;font-size:10px;
+  color:var(--text);white-space:nowrap;
+  animation:tickerScroll 30s linear infinite;
+  display:inline-block;
+}
+@keyframes tickerScroll{
+  0%  {transform:translateX(100%);}
+  100%{transform:translateX(-100%);}
+}
+.bc-right{
+  display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.bc-round{
+  font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.16em;
+  color:var(--amber);text-transform:uppercase;border:1px solid rgba(232,119,42,.3);
+  padding:3px 9px;border-radius:5px;
+}
+.bc-timer{
+  font-family:'Space Grotesk',monospace;font-size:13px;font-weight:700;
+  color:var(--gold-lt);letter-spacing:.08em;min-width:42px;text-align:right;
+}
+
+/* ─── MATCH LAYOUT ───────────────────────────────────────── */
+.match-layout{
+  display:flex;
+  align-items:stretch;
+  gap:14px;
+}
+
+/* ─── PLAYER PANELS ──────────────────────────────────────── */
+.player-panel{
+  width:148px;
+  flex-shrink:0;
+  background:rgba(0,0,0,.5);
+  border:1px solid var(--gold-bdr);
+  border-radius:14px;
+  padding:20px 14px 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  backdrop-filter:blur(10px);
+  position:relative;
+  overflow:hidden;
+}
+.player-panel::before{
+  content:'';position:absolute;inset:0;border-radius:14px;
+  pointer-events:none;
+}
+.pp-ai::before{
+  background:radial-gradient(ellipse 80% 50% at 50% 0%, rgba(124,77,255,.12), transparent 60%);
+}
+.pp-you::before{
+  background:radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201,162,39,.1), transparent 60%);
+}
+
+/* CSS silhouette figure */
+.pp-fig{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;
+  margin-bottom:4px;
+}
+.pp-fig-head{
+  width:28px;height:28px;border-radius:50%;
+  margin-bottom:2px;
+}
+.pp-fig-body{
+  width:38px;height:46px;
+  border-radius:10px 10px 0 0;
+}
+.pp-fig-ai .pp-fig-head{
+  background:radial-gradient(circle at 40% 35%, #b89fff, #5b35cc);
+  box-shadow:0 0 16px rgba(124,77,255,.7),0 0 32px rgba(124,77,255,.3);
+}
+.pp-fig-ai .pp-fig-body{
+  background:linear-gradient(180deg, #5b35cc, #2e1a66);
+  box-shadow:0 0 18px rgba(124,77,255,.5);
+}
+.pp-fig-you .pp-fig-head{
+  background:radial-gradient(circle at 40% 35%, #ffe98a, #c9a227);
+  box-shadow:0 0 16px rgba(201,162,39,.7),0 0 32px rgba(201,162,39,.3);
+}
+.pp-fig-you .pp-fig-body{
+  background:linear-gradient(180deg, #c9a227, #6b5210);
+  box-shadow:0 0 18px rgba(201,162,39,.5);
+}
+
+/* Thinking bob animation */
+.pp-fig.thinking{
+  animation:playerBob .6s ease-in-out infinite alternate;
+}
+@keyframes playerBob{
+  0%  {transform:translateY(0);}
+  100%{transform:translateY(-6px);}
+}
+
+.pp-name{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:.18em;
+  color:var(--gold-lt);text-transform:uppercase;text-align:center;line-height:1.3;
+}
+.pp-country{
+  font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.1em;
+  color:var(--muted);text-align:center;
+}
+.pp-rank{
+  font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.14em;
+  color:var(--amber);border:1px solid rgba(232,119,42,.3);
+  padding:2px 8px;border-radius:4px;text-align:center;
+}
+.pp-score{
+  font-family:'Cinzel Decorative',serif;font-size:36px;
+  color:var(--gold-lt);line-height:1;text-align:center;
+  text-shadow:0 0 20px rgba(201,162,39,.5);
+  transition:transform .2s, color .2s;
+}
+.pp-score.pop{transform:scale(1.3);color:#fff;text-shadow:0 0 30px #fff;}
+.pp-score-ai{color:#c4aaff;text-shadow:0 0 20px rgba(124,77,255,.5);}
+.pp-score-ai.pop{color:#fff;}
+.pp-turn-ind{
+  font-family:'Space Grotesk',monospace;font-size:8.5px;letter-spacing:.16em;
+  text-transform:uppercase;text-align:center;
+  padding:4px 8px;border-radius:5px;
+  transition:var(--tr);
+  min-height:22px;
+  display:flex;align-items:center;justify-content:center;
+}
+.ti-active-ai{
+  color:#c4aaff;background:rgba(124,77,255,.15);
+  border:1px solid rgba(124,77,255,.3);
+  animation:tiGlow .9s ease-in-out infinite alternate;
+}
+.ti-active-you{
+  color:var(--gold-lt);background:rgba(201,162,39,.12);
+  border:1px solid rgba(201,162,39,.3);
+  animation:tiGlow .9s ease-in-out infinite alternate;
+}
+.ti-idle{color:var(--faint);background:transparent;border:1px solid transparent;}
+@keyframes tiGlow{0%{opacity:.55;}100%{opacity:1;}}
+
+/* ─── THE BOARD CENTRE ───────────────────────────────────── */
+.board-centre{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:
+    0 0 60px rgba(201,162,39,.14),
+    0 30px 80px rgba(0,0,0,.7),
+    inset 0 1px 0 rgba(201,162,39,.1);
+  border:1px solid var(--gold-bdr);
+}
+.board-wood{
+  flex:1;
+  background:
+    repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(201,162,39,.012) 20px, rgba(201,162,39,.012) 21px),
+    repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(201,162,39,.008) 15px, rgba(201,162,39,.008) 16px),
+    linear-gradient(160deg, #1c1308, #0f0904, #201609, #140c05);
+  padding:16px 20px;
+  position:relative;
+}
+.board-wood::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(201,162,39,.05) 0%, transparent 28%, transparent 72%, rgba(201,162,39,.04));
+  pointer-events:none;
+}
+.board-row{
+  display:flex;justify-content:center;gap:8px;
+  position:relative;z-index:1;
+}
+.board-row-top{margin-bottom:0;}
+.board-row-bot{margin-top:0;}
+.board-mid{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 4px;position:relative;z-index:1;
+}
+.board-lbl{
+  font-family:'Cinzel Decorative',serif;font-size:9.5px;letter-spacing:.22em;
+  color:var(--gold);white-space:nowrap;
+}
+.board-led{
+  flex:1;height:3px;border-radius:2px;margin:0 14px;
+  background:linear-gradient(90deg, transparent, rgba(201,162,39,.6) 20%, rgba(240,200,64,.9) 50%, rgba(201,162,39,.6) 80%, transparent);
+  animation:ledPulse 2.2s ease-in-out infinite;
+}
+@keyframes ledPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+/* Active row glow */
+.row-active-ai   .pit-ai {border-color:rgba(124,77,255,.5) !important;box-shadow:inset 0 8px 20px rgba(0,0,0,.85),0 0 14px rgba(124,77,255,.35),0 4px 14px rgba(0,0,0,.5);}
+.row-active-you  .pit-h  {border-color:rgba(201,162,39,.5) !important;box-shadow:inset 0 8px 20px rgba(0,0,0,.85),0 0 14px rgba(201,162,39,.3),0 4px 14px rgba(0,0,0,.5);}
+
+/* ─── PITS ───────────────────────────────────────────────── */
+.pit{
+  width:74px;height:74px;border-radius:50%;
+  background:
+    radial-gradient(circle at 42% 38%, rgba(255,255,255,.015), transparent 55%),
+    radial-gradient(circle at 38% 35%, #18122a, #07050e);
+  border:2px solid var(--pit-rim);
+  box-shadow:
+    inset 0 8px 20px rgba(0,0,0,.9),
+    inset 0 -2px 5px rgba(255,255,255,.04),
+    inset 0 3px 8px rgba(0,0,0,.6),
+    0 4px 14px rgba(0,0,0,.5);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;flex-shrink:0;
+  transition:border-color .18s,box-shadow .18s,transform .14s;
+  cursor:default;user-select:none;
+}
+.pit-seeds{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  z-index:2;pointer-events:none;
+}
+.pit-count{
+  font-family:'Space Grotesk',monospace;font-size:20px;font-weight:700;
+  color:var(--gold-lt);line-height:1;
+  text-shadow:0 0 10px rgba(201,162,39,.65);
+}
+.pit-lbl{
+  position:absolute;bottom:5px;left:0;right:0;
+  font-family:'Space Grotesk',monospace;font-size:8px;letter-spacing:.1em;
+  color:rgba(201,162,39,.32);text-align:center;
+  pointer-events:none;z-index:3;
+}
+
+/* Human pits: clickable */
+.pit-h{cursor:pointer;}
+.pit-h:hover:not(.pe):not(.pd){
+  border-color:rgba(240,200,64,.65);
+  box-shadow:
+    inset 0 8px 20px rgba(0,0,0,.8),
+    0 0 22px rgba(201,162,39,.6),
+    0 0 44px rgba(201,162,39,.22);
+  transform:scale(1.08);
+}
+.pe{opacity:.35;cursor:default;}
+.pd{cursor:default;}
+
+/* Sow: source pit contracts */
+.psow{
+  animation:pitSow .35s ease forwards;
+  border-color:var(--amber) !important;
+  box-shadow:inset 0 8px 20px rgba(0,0,0,.9),0 0 24px rgba(232,119,42,.75) !important;
+}
+@keyframes pitSow{
+  0%  {transform:scale(1);}
+  35% {transform:scale(.82);}
+  100%{transform:scale(.86);}
+}
+
+/* Receive: pit lights up */
+.precv{
+  animation:pitRecv .22s ease;
+  border-color:var(--gold-lt) !important;
+}
+@keyframes pitRecv{
+  0%  {transform:scale(1);}
+  50% {transform:scale(1.14);box-shadow:inset 0 8px 20px rgba(0,0,0,.6),0 0 24px rgba(240,200,64,.75);}
+  100%{transform:scale(1);}
+}
+
+/* Capture: crimson flash */
+.pcap{
+  animation:pitCap .5s ease;
+  border-color:var(--crimson) !important;
+}
+@keyframes pitCap{
+  0%  {transform:scale(1);}
+  30% {transform:scale(1.15);box-shadow:inset 0 8px 20px rgba(0,0,0,.5),0 0 30px rgba(192,20,58,.9);}
+  100%{transform:scale(1);}
+}
+
+/* ─── COMMENTARY BAR ─────────────────────────────────────── */
+.commentary-bar{
+  display:flex;align-items:center;gap:12px;
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(201,162,39,.15);
+  border-radius:0 0 14px 14px;
+  padding:10px 18px;
+  backdrop-filter:blur(8px);
+}
+.comm-label{
+  font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.2em;
+  color:var(--crimson);text-transform:uppercase;
+  white-space:nowrap;display:flex;align-items:center;gap:5px;flex-shrink:0;
+}
+.comm-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--crimson);
+  animation:livePulse 1.2s ease-in-out infinite alternate;
+}
+.comm-text{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:13.5px;color:var(--text);
+  flex:1;line-height:1.45;
+  transition:opacity .3s;
+}
+
+/* ─── CONTROLS ───────────────────────────────────────────── */
+.sim-ctrl{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:14px 20px;
+  border-top:1px solid var(--gold-bdr);
+  background:rgba(0,0,0,.28);
+  margin-top:16px;
+  border-radius:12px;
+  border:1px solid var(--gold-bdr);
+  backdrop-filter:blur(8px);
+}
+.sbtn{
+  font-family:'Space Grotesk',monospace;font-size:10px;letter-spacing:.14em;
+  padding:8px 16px;border-radius:8px;border:1px solid;cursor:pointer;
+  transition:var(--tr);text-transform:uppercase;white-space:nowrap;background:none;
+}
+.sbtn-g{color:var(--gold);border-color:var(--gold-bdr);background:var(--gold-dim);}
+.sbtn-g:hover{background:rgba(201,162,39,.22);border-color:var(--gold);}
+.sbtn-g.son{background:var(--gold);color:#07050f;border-color:var(--gold-lt);}
+.sbtn-r{color:var(--crimson);border-color:rgba(192,20,58,.3);background:rgba(192,20,58,.08);}
+.sbtn-r:hover{background:rgba(192,20,58,.18);}
+.spd-grp{display:flex;align-items:center;gap:4px;margin-left:auto;}
+.spd-lbl{font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-right:4px;}
+.spd-btn{
+  width:28px;height:28px;border-radius:6px;
+  font-family:'Space Grotesk',monospace;font-size:9px;font-weight:700;
+  border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);
+  color:var(--muted);cursor:pointer;transition:var(--tr);
+  display:flex;align-items:center;justify-content:center;
+}
+.spd-btn.son{background:var(--gold-dim);border-color:var(--gold-bdr);color:var(--gold);}
+.spd-btn:hover{border-color:var(--gold-bdr);color:var(--gold);}
+
+/* ─── MOVE LOG ───────────────────────────────────────────── */
+.sim-log{
+  padding:10px 0 0;
+}
+.log-ttl{
+  font-family:'Space Grotesk',monospace;font-size:8px;letter-spacing:.3em;
+  color:var(--faint);text-transform:uppercase;margin-bottom:7px;
+}
+.log-entries{display:flex;flex-wrap:wrap;gap:5px;min-height:20px;}
+.log-pill{
+  font-family:'Space Grotesk',monospace;font-size:9.5px;
+  padding:3px 10px;border-radius:20px;
+  border:1px solid;
+  line-height:1.5;
+}
+.lp-ai {color:#a37fff;border-color:rgba(163,127,255,.25);background:rgba(124,77,255,.08);}
+.lp-you{color:var(--gold);border-color:var(--gold-bdr);background:var(--gold-dim);}
+.lp-cap{color:var(--crimson);border-color:rgba(192,20,58,.25);background:rgba(192,20,58,.08);}
+
+/* ══════════════════════════════════════════════════════════
+   SECTIONS BELOW ARENA
+══════════════════════════════════════════════════════════ */
+.sc{max-width:1060px;margin:0 auto;padding:0 32px;}
+.section{padding:70px 0;}
+.section-alt{background:var(--bg-alt);}
+.s-over{font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.36em;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
+.s-title{font-family:'Cinzel Decorative',serif;font-size:clamp(20px,3.8vw,34px);color:var(--gold-lt);letter-spacing:.06em;line-height:1.2;margin-bottom:14px;}
+.s-rule{width:52px;height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:36px;}
+
+/* ─── PRODUCTS ───────────────────────────────────────────── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;}
+.pcol{background:var(--bg-card);border:1px solid var(--gold-bdr);border-radius:var(--rb);padding:28px 24px;}
+.pcol-n{font-family:'Cinzel Decorative',serif;font-size:clamp(40px,6vw,60px);color:transparent;-webkit-text-stroke:1px var(--gold-bdr);line-height:1;margin-bottom:8px;user-select:none;}
+.pcol-t{font-family:'Cinzel Decorative',serif;font-size:clamp(15px,2.6vw,21px);color:var(--gold-lt);letter-spacing:.06em;line-height:1.2;margin-bottom:6px;}
+.pcol-s{font-family:'Playfair Display',serif;font-style:italic;color:var(--muted);font-size:13px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--gold-bdr);}
+.db{margin-bottom:22px;}
+.dt{font-family:'Space Grotesk',monospace;font-size:9.5px;letter-spacing:.28em;color:var(--amber);text-transform:uppercase;margin-bottom:9px;padding-bottom:5px;border-bottom:1px solid rgba(232,119,42,.18);}
+.dl{display:flex;flex-direction:column;gap:5px;}
+.dl li{font-size:13px;color:var(--text);padding-left:15px;position:relative;line-height:1.5;}
+.dl li::before{content:'✦';position:absolute;left:0;font-size:6px;color:var(--gold);top:5px;}
+.dl li strong{color:var(--gold-lt);}
+.specs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:9px;margin:14px 0;}
+.spc{background:var(--bg-card);border:1px solid var(--gold-bdr);border-radius:var(--rsm);padding:14px 10px;text-align:center;}
+.spc-n{font-family:'Cinzel Decorative',serif;font-size:clamp(15px,2.6vw,22px);color:var(--gold-lt);line-height:1;margin-bottom:4px;}
+.spc-l{font-family:'Space Grotesk',monospace;font-size:8.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;}
+.palette{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 4px;}
+.sw{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.sw-dot{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(255,255,255,.1);box-shadow:0 3px 8px rgba(0,0,0,.35);}
+.sw-lbl{font-family:'Space Grotesk',monospace;font-size:8px;color:var(--muted);letter-spacing:.03em;text-align:center;white-space:nowrap;}
+
+/* ─── GALLERY ────────────────────────────────────────────── */
+.gal-hero{position:relative;margin-bottom:16px;border-radius:var(--rb);overflow:hidden;border:1px solid var(--gold-bdr);box-shadow:0 0 60px rgba(201,162,39,.15),0 24px 60px rgba(0,0,0,.55);cursor:pointer;}
+.gal-hero img,.gal-item img{width:100%;display:block;transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.gal-hero:hover img,.gal-item:hover img{transform:scale(1.04);}
+.gal-hero img{height:auto;border-radius:0;}
+.gal-item img{height:100%;min-height:220px;object-fit:cover;border-radius:0;}
+.gal-cap{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(5,3,8,.94));padding:28px 18px 15px;}
+.gal-ctag{font-family:'Space Grotesk',monospace;font-size:8px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.gal-ctitle{font-family:'Space Grotesk',monospace;font-size:10px;letter-spacing:.2em;color:rgba(201,162,39,.9);text-transform:uppercase;}
+.gal-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:38px;}
+.gal-item{position:relative;border-radius:var(--rb);overflow:hidden;border:1px solid var(--gold-bdr);box-shadow:0 8px 28px rgba(0,0,0,.45);transition:var(--tr);cursor:pointer;}
+.gal-item:hover{border-color:rgba(201,162,39,.5);box-shadow:0 16px 48px rgba(201,162,39,.18);transform:translateY(-3px);}
+.gal-item .gal-cap{padding:22px 14px 11px;}
+
+.cdiv{display:flex;align-items:center;gap:14px;margin:34px 0 22px;}
+.cdiv::before,.cdiv::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--faint),transparent);}
+.cdiv span{font-family:'Space Grotesk',monospace;font-size:8px;letter-spacing:.36em;color:var(--faint);text-transform:uppercase;white-space:nowrap;}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;}
+.cc{background:var(--bg-card);border:1px solid rgba(255,255,255,.06);border-radius:var(--rb);overflow:hidden;transition:var(--tr);}
+.cc:hover{border-color:var(--gold-bdr);transform:translateY(-3px);box-shadow:0 16px 44px rgba(0,0,0,.5);}
+.cv{height:160px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ci{padding:11px 14px 13px;border-top:1px solid rgba(255,255,255,.04);}
+.ct{font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:3px;}
+.cb{font-size:11.5px;color:var(--muted);line-height:1.55;}
+.cv-a{background:linear-gradient(155deg,#1c1408,#0d0900);}
+.cv-b{background:linear-gradient(155deg,#0a0010,#040008);border-bottom:2px solid var(--purple);}
+.cv-c{background:linear-gradient(155deg,#041018,#020810);}
+.cv-d{background:linear-gradient(155deg,#140d00,#0a0700);}
+.cv-row{display:flex;gap:4px;justify-content:center;margin:3px 0;}
+.cv-lbl{font-family:'Space Grotesk',monospace;font-size:7.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin:4px 0;}
+.cv-strip{font-family:'Cinzel Decorative',serif;font-size:7px;letter-spacing:.2em;color:var(--gold);margin:4px 0;}
+.cv-pit{width:22px;height:22px;border-radius:50%;border:1px solid;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',monospace;font-size:8px;font-weight:700;}
+.cv-pit-a{border-color:rgba(201,162,39,.3);}
+.cv-pit-b{border-color:#333;}
+.cv-pit-c{border-color:rgba(0,180,210,.3);background:rgba(0,180,210,.06);}
+.cv-pit-d{border-color:rgba(201,162,39,.5);background:rgba(201,162,39,.05);}
+.cv-bpdim{font-family:'Space Grotesk',monospace;font-size:8px;letter-spacing:.1em;color:rgba(0,180,210,.6);margin-top:6px;}
+
+/* ─── VISION ─────────────────────────────────────────────── */
+.vis-block{background:var(--bg-card);border:1px solid var(--gold-bdr);border-radius:20px;padding:44px;text-align:center;margin-bottom:52px;box-shadow:0 0 60px rgba(201,162,39,.08),0 24px 60px rgba(0,0,0,.4);}
+.vis-over{font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.32em;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+.vis-title{font-family:'Cinzel Decorative',serif;font-size:clamp(18px,3vw,28px);color:var(--gold-lt);letter-spacing:.08em;margin-bottom:20px;}
+.vis-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(15px,2.2vw,18px);color:var(--text);max-width:680px;margin:0 auto 30px;line-height:1.75;}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;}
+.btn-gold{padding:13px 28px;border-radius:10px;cursor:pointer;background:linear-gradient(135deg,#c9a227,#e8772a);color:#07050f;font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.18em;font-weight:700;text-transform:uppercase;transition:var(--tr);border:none;}
+.btn-gold:hover{filter:brightness(1.1);transform:translateY(-2px);}
+.btn-out{padding:13px 28px;border-radius:10px;cursor:pointer;border:1px solid var(--gold-bdr);color:var(--gold);background:var(--gold-dim);font-family:'Space Grotesk',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;transition:var(--tr);}
+.btn-out:hover{background:rgba(201,162,39,.2);border-color:var(--gold);}
+.pillars{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;}
+.pillar{background:var(--bg-card);border:1px solid rgba(255,255,255,.06);border-radius:var(--rb);padding:22px 18px;text-align:center;transition:var(--tr);}
+.pillar:hover{border-color:var(--gold-bdr);transform:translateY(-3px);}
+.p-icon{font-size:26px;margin-bottom:9px;}
+.p-title{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold-lt);letter-spacing:.06em;margin-bottom:8px;}
+.p-body{font-size:12.5px;color:var(--muted);line-height:1.6;}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+.footer{padding:36px 40px;text-align:center;border-top:1px solid var(--gold-bdr);background:var(--bg-deep);}
+.foot-brand{font-family:'Cinzel Decorative',serif;font-size:13px;color:var(--gold);letter-spacing:.1em;margin-bottom:10px;}
+.foot-note{font-family:'Space Grotesk',monospace;font-size:9px;letter-spacing:.18em;color:var(--faint);text-transform:uppercase;line-height:1.9;}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+
+/* ── Tablet ≤900px ─────────────────────────────────── */
+@media(max-width:900px){
+  .match-layout{flex-direction:column;align-items:stretch;gap:10px;}
+  .player-panel{
+    width:100%;flex-direction:row;padding:12px 16px;
+    gap:14px;justify-content:flex-start;border-radius:10px;
+  }
+  .pp-fig{margin-bottom:0;flex-shrink:0;}
+  .pp-score{font-size:26px;}
+  .nav{padding:10px 18px;}
+  .nav-pill{display:none;}
+  .sc{padding:0 20px;}
+  .two-col,.gal-pair{grid-template-columns:1fr;}
+  .vis-block{padding:28px 20px;}
+  .arena-content{padding:0 14px;}
+  .stadium-wrap{min-height:auto;padding-bottom:40px;}
+}
+
+/* ── Mobile ≤620px ─────────────────────────────────── */
+@media(max-width:620px){
+  /* Login */
+  .ls-card{padding:32px 20px 26px;}
+  .ls-glyph{font-size:28px;}
+  .ls-title{font-size:clamp(18px,6vw,26px);}
+  .ls-field{font-size:16px;} /* prevents iOS auto-zoom */
+  .ls-btn{font-size:11px;padding:13px;}
+
+  /* Confid bar */
+  .confid-bar{font-size:7.5px;letter-spacing:.1em;padding:5px 10px;}
+
+  /* Nav */
+  .nav{padding:9px 12px;}
+  .nav-brand{font-size:12px;gap:7px;}
+  .nav-mark{font-size:15px;}
+  .nav-back{font-size:9px;letter-spacing:.08em;}
+
+  /* Stadium */
+  .stadium-wrap{padding-bottom:28px;}
+  .arena-content{padding:0 8px;}
+
+  /* Broadcast bar */
+  .broadcast-bar{flex-wrap:wrap;gap:6px;padding:8px 12px;margin-bottom:10px;}
+  .bc-title{display:none;}
+  .bc-ticker-wrap{
+    order:10;flex-basis:100%;
+    border-left:none;border-right:none;
+    border-top:1px solid var(--faint);
+    padding:4px 0 0;margin-top:2px;
+  }
+
+  /* Player panels */
+  .player-panel{padding:10px 12px;gap:10px;border-radius:8px;}
+  .pp-fig-head{width:22px;height:22px;}
+  .pp-fig-body{width:30px;height:36px;}
+  .pp-score{font-size:20px;}
+  .pp-name{font-size:8.5px;letter-spacing:.12em;}
+  .pp-country{font-size:7.5px;}
+  .pp-rank{font-size:7.5px;padding:1px 6px;}
+  .pp-turn-ind{font-size:7.5px;padding:3px 6px;min-height:18px;}
+
+  /* Board — fit 8 pits using CSS grid, auto-sized to available width */
+  .board-wood{padding:10px 8px;}
+  .board-row{
+    display:grid;
+    grid-template-columns:repeat(8,1fr);
+    gap:4px;
+    justify-content:initial;
+  }
+  .pit{
+    width:100%;height:auto;
+    aspect-ratio:1/1;
+    flex-shrink:0;
+  }
+  .pit-count{font-size:13px;}
+  .pit-lbl{font-size:6px;bottom:2px;}
+  .board-mid{padding:5px 4px;}
+  .board-lbl{font-size:7px;letter-spacing:.1em;}
+  .board-led{margin:0 6px;}
+
+  /* Commentary */
+  .commentary-bar{padding:8px 10px;gap:8px;}
+  .comm-text{font-size:12px;}
+  .comm-label{font-size:8px;}
+
+  /* Controls */
+  .sim-ctrl{padding:10px 10px;gap:6px;margin-top:10px;border-radius:10px;}
+  .sbtn{font-size:9px;padding:7px 12px;letter-spacing:.1em;}
+  .spd-grp{margin-left:0;}
+  .log-pill{font-size:8.5px;padding:2px 8px;}
+  .log-ttl{font-size:7.5px;}
+
+  /* Sections */
+  .section{padding:40px 0;}
+  .sc{padding:0 14px;}
+  .vis-block{padding:22px 14px;}
+  .footer{padding:22px 16px;}
+  .foot-brand{font-size:11px;}
+  .foot-note{font-size:8px;letter-spacing:.12em;}
+  .s-rule{margin-bottom:26px;}
+}
+
+/* ── Very small ≤400px ──────────────────────────────── */
+@media(max-width:400px){
+  .board-row{gap:3px;}
+  .board-wood{padding:8px 6px;}
+  .pit-count{font-size:11px;}
+  .broadcast-bar{padding:6px 10px;}
+  .ls-card{padding:28px 16px 22px;}
+  .arena-content{padding:0 6px;}
+  .sbtn{padding:7px 10px;}
+}
+</style>
+</head>
+<body>
+
+<div class="ptcl" id="particles" aria-hidden="true"></div>
+
+<!-- ════════ LOGIN ════════ -->
+<div id="ls">
+  <div class="ls-bg"></div>
+  <div class="ls-card">
+    <div class="ls-glyph">O|</div>
+    <div class="ls-site">Play IFA Games · CENProject</div>
+    <h1 class="ls-title">IFA STADIUM</h1>
+    <div class="ls-sub">World Championship · Authorized Access Only</div>
+    <input type="password" id="passInput" class="ls-field" placeholder="Enter access code" autocomplete="off" />
+    <button class="ls-btn" id="loginBtn">ENTER THE ARENA</button>
+    <div class="ls-err" id="loginErr"></div>
+    <div class="ls-note">Confidential · Not indexed · Not for public distribution</div>
+  </div>
+</div>
+
+<!-- ════════ APP ════════ -->
+<div id="app">
+
+  <div class="confid-bar">⚠ CONFIDENTIAL — AUTHORIZED ACCESS ONLY · NOT FOR PUBLIC DISTRIBUTION · Play IFA Games · CENProject 2026</div>
+
+  <nav class="nav">
+    <div class="nav-brand"><span class="nav-mark">O|</span> IFA STADIUM</div>
+    <div class="nav-r">
+      <div class="nav-pill">Live Championship · Private</div>
+      <button class="nav-snd" id="sndBtn" title="Toggle Sound">🔊</button>
+      <a href="../" class="nav-back">← Play IFA Games</a>
+    </div>
+  </nav>
+
+  <!-- ════ STADIUM ARENA ════ -->
+  <section class="stadium-wrap" id="stadium">
+
+    <!-- CSS Spotlights -->
+    <div class="spotlights" id="spotlights" aria-hidden="true"></div>
+
+    <!-- CSS Crowd silhouettes -->
+    <div class="crowd" id="crowd" aria-hidden="true"></div>
+
+    <!-- Arena floor glow -->
+    <div class="arena-floor-glow" aria-hidden="true"></div>
+
+    <!-- Arena content -->
+    <div class="arena-content" style="padding-top:32px;">
+
+      <!-- Championship broadcast bar -->
+      <div class="broadcast-bar">
+        <div class="bc-live">
+          <div class="bc-live-dot"></div>
+          <div class="bc-live-text">LIVE</div>
+        </div>
+        <div class="bc-title">World Ayo Olopon Championship</div>
+        <div class="bc-ticker-wrap">
+          <div class="bc-ticker" id="bcTicker">
+            ✦ WORLD AYO OLOPON CHAMPIONSHIP 2026 · SEMI-FINAL · IFA STADIUM, LAGOS · AFRICA'S PREMIER MIND SPORT · 128 SEEDS · 16 POTS · THE GREATEST GAME ON EARTH ✦ WORLD AYO OLOPON CHAMPIONSHIP 2026 · SEMI-FINAL · IFA STADIUM, LAGOS ✦
+          </div>
+        </div>
+        <div class="bc-right">
+          <div class="bc-round">Semi-Final</div>
+          <div class="bc-timer" id="bcTime">00:00</div>
+        </div>
+      </div>
+
+      <!-- Match layout: [AI Panel] [Board] [You Panel] -->
+      <div class="match-layout">
+
+        <!-- AI Player Panel (left) -->
+        <div class="player-panel pp-ai" id="ppAI">
+          <div class="pp-fig pp-fig-ai" id="figAI">
+            <div class="pp-fig-head"></div>
+            <div class="pp-fig-body"></div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div class="pp-name">AI CHAMPION</div>
+            <div class="pp-country">Nigeria · Lagos</div>
+            <div class="pp-rank">#1 RANKED</div>
+            <div class="pp-score pp-score-ai" id="scoreAI">0</div>
+            <div class="pp-turn-ind ti-idle" id="tiAI">Waiting</div>
+          </div>
+        </div>
+
+        <!-- Board centre -->
+        <div class="board-centre">
+          <div class="board-wood">
+            <!-- AI pits: 15→8 (visual left to right) -->
+            <div class="board-row board-row-top" id="rowTop"></div>
+            <div class="board-mid">
+              <div class="board-lbl">✦ AYO OLOPON STADIUM ✦</div>
+              <div class="board-led"></div>
+              <div class="board-lbl">✦ AYO OLOPON STADIUM ✦</div>
+            </div>
+            <!-- Human pits: 0→7 -->
+            <div class="board-row board-row-bot" id="rowBot"></div>
+          </div>
+          <!-- Commentary bar attached to board bottom -->
+          <div class="commentary-bar">
+            <div class="comm-label"><div class="comm-dot"></div>Commentary</div>
+            <div class="comm-text" id="commText">The arena falls silent as the championship match begins…</div>
+          </div>
+        </div>
+
+        <!-- You Player Panel (right) -->
+        <div class="player-panel pp-you" id="ppYou">
+          <div class="pp-fig pp-fig-you" id="figYou">
+            <div class="pp-fig-head"></div>
+            <div class="pp-fig-body"></div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div class="pp-name">CHALLENGER</div>
+            <div class="pp-country">World · Open</div>
+            <div class="pp-rank">CHALLENGER</div>
+            <div class="pp-score" id="scoreYou">0</div>
+            <div class="pp-turn-ind ti-idle" id="tiYou">Waiting</div>
+          </div>
+        </div>
+
+      </div><!-- /.match-layout -->
+
+      <!-- Controls -->
+      <div class="sim-ctrl">
+        <button class="sbtn sbtn-g" id="btnDemo">▶ Auto Demo</button>
+        <button class="sbtn sbtn-g" id="btnVsai">⚔ VS AI</button>
+        <button class="sbtn sbtn-r" id="btnReset">↺ Reset</button>
+        <div class="spd-grp">
+          <span class="spd-lbl">Speed</span>
+          <button class="spd-btn" id="spS" title="Slow">S</button>
+          <button class="spd-btn son" id="spN" title="Normal">N</button>
+          <button class="spd-btn" id="spF" title="Fast">F</button>
+        </div>
+      </div>
+
+      <!-- Move log -->
+      <div class="sim-log" style="padding-top:12px;">
+        <div class="log-ttl">Move Log</div>
+        <div class="log-entries" id="simLog"></div>
+      </div>
+
+    </div><!-- /.arena-content -->
+  </section><!-- /.stadium-wrap -->
+
+
+  <!-- ════ PRODUCTS ════ -->
+  <section class="section section-alt" id="products">
+    <div class="sc">
+      <div class="s-over">Products · Two Formats</div>
+      <h2 class="s-title">The Ifa Stadium Line</h2>
+      <div class="s-rule"></div>
+      <div class="two-col">
+
+        <div class="pcol">
+          <div class="pcol-n">01</div>
+          <div class="pcol-t">Ayo Olopon Stadium Table</div>
+          <div class="pcol-s">Premium tournament-grade foldable standing arena</div>
+          <div class="db">
+            <div class="dt">Dimensions</div>
+            <div class="specs" style="grid-template-columns:repeat(2,1fr)">
+              <div class="spc"><div class="spc-n">6 ft</div><div class="spc-l">183 cm length</div></div>
+              <div class="spc"><div class="spc-n">3 ft</div><div class="spc-l">91 cm width</div></div>
+              <div class="spc"><div class="spc-n">3.5 ft</div><div class="spc-l">105–110 cm height</div></div>
+              <div class="spc"><div class="spc-n">35–50 kg</div><div class="spc-l">weight</div></div>
+            </div>
+          </div>
+          <div class="db">
+            <div class="dt">Frame &amp; Surface</div>
+            <ul class="dl">
+              <li><strong>Frame:</strong> Aircraft-grade aluminum alloy</li>
+              <li><strong>Surface:</strong> Walnut · Mahogany · African Iroko · Bamboo</li>
+              <li>CNC-machined hardwood pots · brass accent rings optional</li>
+              <li>Folds in half · integrated carrying handles</li>
+            </ul>
+          </div>
+          <div class="db">
+            <div class="dt">Championship Features</div>
+            <ul class="dl">
+              <li>LED underlighting system</li>
+              <li>Digital chess timer · Live score display</li>
+              <li>Bluetooth speaker · NFC player tags</li>
+              <li>USB-C charging · AI move recording module</li>
+            </ul>
+          </div>
+          <div class="db">
+            <div class="dt">Yoruba Artwork</div>
+            <ul class="dl">
+              <li>Adire &amp; Aso-Oke textile patterns</li>
+              <li>Ifa Sacred Geometry · 256 Odu symbols</li>
+              <li>Palace Carvings · Bronze &amp; Drum Motifs</li>
+            </ul>
+          </div>
+          <div class="db">
+            <div class="dt">Color Palette</div>
+            <div class="palette">
+              <div class="sw"><div class="sw-dot" style="background:#c9a227"></div><div class="sw-lbl">Royal Gold</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#2d9e6b"></div><div class="sw-lbl">Emerald</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#3a5fc2"></div><div class="sw-lbl">Indigo</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#e8772a"></div><div class="sw-lbl">Burnt Orange</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#b91c3a"></div><div class="sw-lbl">Crimson</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#1c1c1c;border-color:rgba(255,255,255,.18)"></div><div class="sw-lbl">Matte Black</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#6b3f1a"></div><div class="sw-lbl">Rich Walnut</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pcol">
+          <div class="pcol-n">02</div>
+          <div class="pcol-t">Ayo Olopon Stadium Mat</div>
+          <div class="pcol-s">Lightweight portable arena — setup in 3 minutes</div>
+          <div class="db">
+            <div class="dt">Dimensions</div>
+            <div class="specs" style="grid-template-columns:repeat(2,1fr)">
+              <div class="spc"><div class="spc-n">6 ft</div><div class="spc-l">183 cm length</div></div>
+              <div class="spc"><div class="spc-n">3 ft</div><div class="spc-l">91 cm width</div></div>
+              <div class="spc"><div class="spc-n">8–15 mm</div><div class="spc-l">thickness</div></div>
+              <div class="spc"><div class="spc-n">4–8 kg</div><div class="spc-l">weight</div></div>
+            </div>
+          </div>
+          <div class="db">
+            <div class="dt">Construction</div>
+            <ul class="dl">
+              <li>High-density EVA foam base</li>
+              <li>Anti-slip rubber backing</li>
+              <li>16 removable reinforced plastic pot rings</li>
+              <li>Folds into compact rectangle · never rolls</li>
+            </ul>
+          </div>
+          <div class="db">
+            <div class="dt">Surface</div>
+            <ul class="dl">
+              <li>Water-resistant · UV-resistant printed top layer</li>
+              <li>Stain-resistant · easy wipe-clean</li>
+              <li>Same Yoruba artwork as the table</li>
+            </ul>
+          </div>
+          <div class="db">
+            <div class="dt">Portability</div>
+            <ul class="dl">
+              <li>Custom carry bag · adjustable shoulder strap</li>
+              <li>Zippered seed compartments (128 Omo Ayo secure)</li>
+              <li>Fits overhead lockers, car boots, school bags</li>
+            </ul>
+          </div>
+          <div class="db">
+            <div class="dt">Color Palette</div>
+            <div class="palette">
+              <div class="sw"><div class="sw-dot" style="background:#c9a227"></div><div class="sw-lbl">Royal Gold</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#2d9e6b"></div><div class="sw-lbl">Emerald</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#3a5fc2"></div><div class="sw-lbl">Indigo</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#e8772a"></div><div class="sw-lbl">Burnt Orange</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#b91c3a"></div><div class="sw-lbl">Crimson</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#1c1c1c;border-color:rgba(255,255,255,.18)"></div><div class="sw-lbl">Matte Black</div></div>
+              <div class="sw"><div class="sw-dot" style="background:#6b3f1a"></div><div class="sw-lbl">Rich Walnut</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════ GALLERY ════ -->
+  <section class="section" id="gallery">
+    <div class="sc">
+      <div class="s-over">Gallery · Renders &amp; Concepts</div>
+      <h2 class="s-title">Ifa Stadium Designs &amp; Models</h2>
+      <div class="s-rule"></div>
+
+      <div class="gal-hero">
+        <img src="Ayo-Stadium.jpeg" alt="Ayo Olopon Stadium — Championship Table" loading="lazy" />
+        <div class="gal-cap">
+          <div class="gal-ctag">Product Render · 001 · AI Concept</div>
+          <div class="gal-ctitle">Ayo Olopon Stadium · Championship Table</div>
+        </div>
+      </div>
+
+      <div class="gal-pair">
+        <div class="gal-item">
+          <img src="Ayo-Stadium1.jpeg" alt="Ayo Olopon Stadium — In-Play Championship View" loading="lazy" />
+          <div class="gal-cap">
+            <div class="gal-ctag">Product Render · 002</div>
+            <div class="gal-ctitle">World Ayo Olopon Championship · In-Play</div>
+          </div>
+        </div>
+        <div class="gal-item">
+          <img src="Ayo-Stadium2.jpeg" alt="Ayo Olopon Stadium — Design Specification" loading="lazy" />
+          <div class="gal-cap">
+            <div class="gal-ctag">Product Render · 003</div>
+            <div class="gal-ctitle">Stadium Arena · Design &amp; Specification</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cdiv"><span>✦ Concept Design Visualizations ✦</span></div>
+
+      <div class="cg">
+        <div class="cc">
+          <div class="cv cv-a">
+            <div class="cv-lbl">— Opponent's Side —</div>
+            <div class="cv-row" id="cva-r1"></div>
+            <div class="cv-strip">✦ AYO OLOPON STADIUM ✦</div>
+            <div class="cv-row" id="cva-r2"></div>
+            <div class="cv-lbl">— Your Side —</div>
+          </div>
+          <div class="ci"><div class="ct">Aerial Arena View</div><div class="cb">Top-down view of the 16-pot stadium layout — the full championship configuration from above.</div></div>
+        </div>
+        <div class="cc">
+          <div class="cv cv-b">
+            <div class="cv-row" id="cvb-r1"></div>
+            <div style="height:8px"></div>
+            <div class="cv-row" id="cvb-r2"></div>
+          </div>
+          <div class="ci"><div class="ct">LED Night Mode · Championship Edition</div><div class="cb">Integrated LED underlighting. Dramatic atmosphere for televised events and live night sessions.</div></div>
+        </div>
+        <div class="cc">
+          <div class="cv cv-c" style="padding:12px">
+            <div class="cv-lbl" style="color:rgba(0,180,210,.7)">AYO OLOPON STADIUM · 6FT × 3FT</div>
+            <div class="cv-row" id="cvc-r1"></div>
+            <div style="height:6px"></div>
+            <div class="cv-row" id="cvc-r2"></div>
+            <div class="cv-bpdim">← 183 cm → &nbsp;|&nbsp; H: 105–110 cm</div>
+          </div>
+          <div class="ci"><div class="ct">Technical Blueprint</div><div class="cb">Engineering design — dimensions, pit spacing, and structural layout for CNC manufacture.</div></div>
+        </div>
+        <div class="cc">
+          <div class="cv cv-d">
+            <div class="cv-lbl" style="color:rgba(201,162,39,.6)">Heritage Gold Edition</div>
+            <div class="cv-row" id="cvd-r1"></div>
+            <div class="cv-strip">✦ AYO OLOPON ✦</div>
+            <div class="cv-row" id="cvd-r2"></div>
+          </div>
+          <div class="ci"><div class="ct">Heritage Gold · Collector's Edition</div><div class="cb">All-gold monochrome collector's variant — brass inlays, polished gold pot rings, walnut frame.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════ VISION ════ -->
+  <section class="section section-alt" id="vision">
+    <div class="sc">
+      <div class="s-over">Vision · Global Platform</div>
+      <h2 class="s-title">The IfaSimulation — A Global Platform</h2>
+      <div class="s-rule"></div>
+
+      <div class="vis-block">
+        <div class="vis-over">✦ IfaSimulation · Play IFA Games · CENProject ✦</div>
+        <h3 class="vis-title">IFA STADIUM — GLOBAL MIND SPORT</h3>
+        <p class="vis-quote">
+          "The Ifa Stadium is designed to do for Ayo Olopon what Wimbledon did for tennis — establish a permanent, iconic home for the world's finest players of <strong>Africa's most sophisticated mind sport</strong>."
+        </p>
+        <div class="btn-row">
+          <a href="../ayo-oloponfa/" class="btn-gold" target="_blank">Play Digital Version →</a>
+          <a href="../" class="btn-out">Play IFA Games →</a>
+        </div>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar"><div class="p-icon">🌍</div><div class="p-title">Innovation</div><div class="p-body">First stadium-style standing Ayo board. Foldable. Portable. Championship-grade. A new product category.</div></div>
+        <div class="pillar"><div class="p-icon">✦</div><div class="p-title">African Excellence</div><div class="p-body">Premium Yoruba craftsmanship elevated to international sports standard — Africa's answer to the snooker table.</div></div>
+        <div class="pillar"><div class="p-icon">🏺</div><div class="p-title">Yoruba Heritage</div><div class="p-body">Preserving and globalizing one of Africa's oldest strategy games for the 21st century world stage.</div></div>
+        <div class="pillar"><div class="p-icon">🎯</div><div class="p-title">Luxury Craft</div><div class="p-body">Aircraft-grade aluminum, CNC hardwood, brass inlays, UV Yoruba art — a collectible championship artifact.</div></div>
+        <div class="pillar"><div class="p-icon">🤝</div><div class="p-title">Global Appeal</div><div class="p-body">Sports, culture, luxury, education, technology — one product. Universal audience. Unlimited market.</div></div>
+        <div class="pillar"><div class="p-icon">🚀</div><div class="p-title">IfaSimulation</div><div class="p-body">Physical arenas, digital championships, AI opponents, grand prix events — one living platform.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="foot-brand">IFA STADIUM · IfaSimulation · Play IFA Games · CENProject 2026</div>
+    <div class="foot-note">
+      CONFIDENTIAL — AUTHORIZED ACCESS ONLY<br/>
+      Not for public distribution · IfaSim · Ifa-Simulation · ToE Simulation
+    </div>
+  </footer>
+
+</div><!-- /#app -->
+
+<script>
+(function() {
+'use strict';
+
+/* ════════════════════════════════════════════════════════════
+   AUTH
+════════════════════════════════════════════════════════════ */
+var PASS = 'IfaStadium2026';
+var SKEY = 'ifa_stadium_v1';
+var lsEl  = document.getElementById('ls');
+var appEl = document.getElementById('app');
+var pIn   = document.getElementById('passInput');
+var pErr  = document.getElementById('loginErr');
+
+function unlock() {
+  lsEl.style.display  = 'none';
+  appEl.style.display = 'block';
+  buildParticles();
+  buildSpotlights();
+  buildCrowd();
+  buildConceptRenders();
+  initSim();
+  startTimer();
+  SND.welcome();
+  SND.startAmbience();
+  setTimeout(startAutoDemo, 600);
+}
+
+function tryLogin() {
+  if (pIn.value === PASS) {
+    sessionStorage.setItem(SKEY, '1');
+    unlock();
+  } else {
+    pErr.textContent = 'Incorrect access code. Please try again.';
+    pIn.value = '';
+    pIn.focus();
+  }
+}
+document.getElementById('loginBtn').addEventListener('click', tryLogin);
+pIn.addEventListener('keydown', function(e) { if (e.key === 'Enter') tryLogin(); });
+
+/* ════════════════════════════════════════════════════════════
+   STADIUM SOUND ENGINE  —  Web Audio API, zero external files
+   Every sound is synthesised procedurally:
+     sow()         wooden seed landing in a carved pit
+     capture()     dramatic capture sweep + crowd burst
+     gameStart()   4-note ascending fanfare + bass drum
+     gameOver()    winner/loser/draw resolution chord
+     welcome()     grand stadium roar + melodic fanfare on login
+     turnChange()  subtle bell ping between turns
+     startAmbience() looping crowd murmur background
+     toggleMute()  master on/off
+════════════════════════════════════════════════════════════ */
+var SND = (function() {
+  var ac = null;
+  var master = null;
+  var muted = false;
+  var ambSrc = null;
+  var ambGain = null;
+
+  function getCtx() {
+    if (!ac) {
+      ac = new (window.AudioContext || window.webkitAudioContext)();
+      master = ac.createGain();
+      master.gain.value = 0.72;
+      master.connect(ac.destination);
+    }
+    if (ac.state === 'suspended') ac.resume();
+    return ac;
+  }
+  function getOut() { getCtx(); return master; }
+
+  /* ── noise buffer ─────────────────────────────────── */
+  function mkNoiseBuf(durSec) {
+    var a = getCtx();
+    var n = Math.ceil(a.sampleRate * durSec);
+    var b = a.createBuffer(1, n, a.sampleRate);
+    var d = b.getChannelData(0);
+    for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    return b;
+  }
+
+  /* ── tone helper ──────────────────────────────────── */
+  function tone(freq, waveType, startT, durSec, peak, opts) {
+    var a = getCtx(); opts = opts || {};
+    var o = a.createOscillator();
+    var g = a.createGain();
+    o.type = waveType || 'sine';
+    o.frequency.setValueAtTime(freq, startT);
+    if (opts.freqEnd) {
+      o.frequency.exponentialRampToValueAtTime(opts.freqEnd, startT + durSec);
+    }
+    var att = (opts.attack != null) ? opts.attack : 0.008;
+    g.gain.setValueAtTime(0, startT);
+    g.gain.linearRampToValueAtTime(peak, startT + att);
+    g.gain.exponentialRampToValueAtTime(0.0001, startT + durSec);
+    o.connect(g); g.connect(getOut());
+    o.start(startT); o.stop(startT + durSec + 0.04);
+  }
+
+  /* ── filtered noise burst helper ─────────────────── */
+  function noiseBurst(startT, durSec, gainVal, fFreq, fType) {
+    var a = getCtx();
+    var src = a.createBufferSource();
+    src.buffer = mkNoiseBuf(durSec + 0.03);
+    var f = a.createBiquadFilter();
+    f.type = fType || 'bandpass'; f.frequency.value = fFreq || 800; f.Q.value = 0.8;
+    var g = a.createGain();
+    g.gain.setValueAtTime(0, startT);
+    g.gain.linearRampToValueAtTime(gainVal, startT + 0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001, startT + durSec);
+    src.connect(f); f.connect(g); g.connect(getOut());
+    src.start(startT); src.stop(startT + durSec + 0.05);
+  }
+
+  /* ════════════════════════════════════════════════════
+     1. SOW SOUND
+     A seed landing in a carved wooden Ayo pot.
+     Pitch varies by pit index so each of the 16 pots
+     has its own voice — together they form a 16-note
+     melodic percussion map around the board.
+  ════════════════════════════════════════════════════ */
+  function sow(pitIdx) {
+    if (muted) return;
+    var a = getCtx();
+    var t = a.currentTime + 0.005;
+    /* Each pit tuned to a pentatonic-ish scale so the
+       sowing melody sounds musical as seeds travel */
+    var pitTones = [294,330,370,415,440,494,523,587,
+                    330,370,392,440,494,523,554,587];
+    var base = (pitTones[pitIdx] || 370) + (Math.random() - 0.5) * 10;
+    /* Woody bowl resonance: sine with fast pitch drop (drum head physics) */
+    tone(base,        'sine', t, 0.15, 0.28, { freqEnd: base * 0.50 });
+    /* Second partial — gives it the hollow-wood timbre */
+    tone(base * 1.47, 'sine', t, 0.07, 0.09, { freqEnd: base * 0.70 });
+    /* Hard click transient — the seed striking the wood edge */
+    noiseBurst(t, 0.018, 0.30, 4500, 'highpass');
+  }
+
+  /* ════════════════════════════════════════════════════
+     2. CAPTURE SOUND
+     Rising sawtooth sweep + bass thud + crowd surge.
+  ════════════════════════════════════════════════════ */
+  function capture(actor) {
+    if (muted) return;
+    var a = getCtx();
+    var t = a.currentTime + 0.01;
+    var baseFreq = (actor === 'ai') ? 180 : 240;
+    tone(baseFreq, 'sawtooth', t, 0.22, 0.16, { freqEnd: baseFreq * 3.4 });
+    tone(62, 'sine', t + 0.12, 0.22, 0.32, { freqEnd: 32 });
+    noiseBurst(t + 0.02, 0.40, 0.20, 560, 'bandpass');
+    noiseBurst(t + 0.09, 0.32, 0.12, 1500, 'bandpass');
+  }
+
+  /* ════════════════════════════════════════════════════
+     3. GAME START FANFARE
+     4-note ascending triangle + octave shimmer + kick.
+  ════════════════════════════════════════════════════ */
+  function gameStart() {
+    if (muted) return;
+    var a = getCtx();
+    var t = a.currentTime + 0.06;
+    var notes = [330, 440, 550, 660];
+    var dly   = [0,   0.14, 0.28, 0.46];
+    for (var i = 0; i < notes.length; i++) {
+      tone(notes[i],     'triangle', t + dly[i], 0.38, 0.14);
+      tone(notes[i] * 2, 'sine',     t + dly[i], 0.26, 0.04);
+    }
+    tone(56, 'sine', t + 0.55, 0.24, 0.26, { freqEnd: 28 });
+    noiseBurst(t + 0.55, 0.07, 0.18, 150, 'lowpass');
+  }
+
+  /* ════════════════════════════════════════════════════
+     4. GAME OVER RESOLUTION
+     Three flavours: you win / AI wins / draw.
+  ════════════════════════════════════════════════════ */
+  function gameOver(winner) {
+    if (muted) return;
+    var a = getCtx();
+    var t = a.currentTime + 0.06;
+    var i;
+    if (winner === 'draw') {
+      var dn = [440, 330, 440], dd = [0, 0.28, 0.56];
+      for (i = 0; i < dn.length; i++) tone(dn[i], 'sine', t + dd[i], 0.42, 0.11);
+    } else if (winner === 'you') {
+      var wn = [330,440,550,660,880], wd = [0,0.12,0.24,0.36,0.52];
+      for (i = 0; i < wn.length; i++) tone(wn[i], 'triangle', t + wd[i], 0.42, 0.16);
+      noiseBurst(t + 0.62, 0.90, 0.22, 650, 'bandpass');
+    } else {
+      var ln = [660,550,440,330], ld = [0,0.18,0.36,0.58];
+      for (i = 0; i < ln.length; i++) tone(ln[i], 'sine', t + ld[i], 0.46, 0.12);
+    }
+  }
+
+  /* ════════════════════════════════════════════════════
+     5. WELCOME — plays once on login
+     Grand stadium roar swell + 8-note melodic fanfare
+     + bass drum hits on the beats.
+  ════════════════════════════════════════════════════ */
+  function welcome() {
+    if (muted) return;
+    var a = getCtx();
+    var t = a.currentTime + 0.18;
+
+    /* Crowd roar — stereo filtered white noise, 4-second arc */
+    var crowdBuf = a.createBuffer(2, Math.ceil(a.sampleRate * 4.5), a.sampleRate);
+    for (var ch = 0; ch < 2; ch++) {
+      var cd = crowdBuf.getChannelData(ch);
+      for (var ci = 0; ci < cd.length; ci++) cd[ci] = Math.random() * 2 - 1;
+    }
+    var cSrc  = a.createBufferSource(); cSrc.buffer = crowdBuf;
+    var cLo   = a.createBiquadFilter(); cLo.type = 'lowpass';  cLo.frequency.value  = 2400;
+    var cHi   = a.createBiquadFilter(); cHi.type = 'highpass'; cHi.frequency.value  = 150;
+    var cPk   = a.createBiquadFilter(); cPk.type = 'peaking';  cPk.frequency.value  = 480;
+    cPk.gain.value = 6; cPk.Q.value = 0.55;
+    var cGain = a.createGain();
+    cGain.gain.setValueAtTime(0,    t);
+    cGain.gain.linearRampToValueAtTime(0.30, t + 0.7);
+    cGain.gain.linearRampToValueAtTime(0.42, t + 1.5);
+    cGain.gain.linearRampToValueAtTime(0.10, t + 3.4);
+    cGain.gain.linearRampToValueAtTime(0,    t + 4.2);
+    cSrc.connect(cLo); cLo.connect(cHi); cHi.connect(cPk);
+    cPk.connect(cGain); cGain.connect(getOut());
+    cSrc.start(t); cSrc.stop(t + 4.6);
+
+    /* 8-note fanfare melody (pentatonic ascending + descent) */
+    var fan = [[330,0],[440,0.20],[550,0.40],[660,0.65],
+               [880,0.95],[660,1.35],[770,1.65],[880,1.95]];
+    for (var fi = 0; fi < fan.length; fi++) {
+      tone(fan[fi][0],     'triangle', t + fan[fi][1], 0.45, 0.18);
+      tone(fan[fi][0] * 2, 'sine',     t + fan[fi][1], 0.28, 0.05);
+    }
+
+    /* Bass drum on every beat of the fanfare */
+    var beats = [0, 0.65, 1.35, 1.95];
+    for (var bi = 0; bi < beats.length; bi++) {
+      tone(50, 'sine', t + beats[bi], 0.24, 0.28, { freqEnd: 26 });
+      noiseBurst(t + beats[bi], 0.07, 0.15, 130, 'lowpass');
+    }
+  }
+
+  /* ════════════════════════════════════════════════════
+     6. TURN CHANGE PING
+     Subtle two-note bell to mark whose turn it is.
+  ════════════════════════════════════════════════════ */
+  function turnChange(toWho) {
+    if (muted) return;
+    var a = getCtx();
+    var t = a.currentTime + 0.01;
+    var f = (toWho === 'you') ? 660 : 440;
+    tone(f,       'sine', t,        0.22, 0.07);
+    tone(f * 1.5, 'sine', t + 0.06, 0.18, 0.03);
+  }
+
+  /* ════════════════════════════════════════════════════
+     7. AMBIENT CROWD MURMUR
+     Stereo looping filtered noise — constant low-level
+     stadium atmosphere that plays behind everything.
+  ════════════════════════════════════════════════════ */
+  function startAmbience() {
+    if (muted || ambSrc) return;
+    var a = getCtx();
+    var dur = 12;
+    var buf = a.createBuffer(2, Math.ceil(a.sampleRate * dur), a.sampleRate);
+    for (var ch = 0; ch < 2; ch++) {
+      var bd = buf.getChannelData(ch);
+      for (var i = 0; i < bd.length; i++) bd[i] = Math.random() * 2 - 1;
+    }
+    ambSrc = a.createBufferSource();
+    ambSrc.buffer = buf; ambSrc.loop = true;
+    var lo = a.createBiquadFilter(); lo.type = 'lowpass';  lo.frequency.value = 1700;
+    var hi = a.createBiquadFilter(); hi.type = 'highpass'; hi.frequency.value = 140;
+    var pk = a.createBiquadFilter(); pk.type = 'peaking';  pk.frequency.value = 400;
+    pk.gain.value = 7; pk.Q.value = 0.50;
+    ambGain = a.createGain(); ambGain.gain.value = 0;
+    ambSrc.connect(lo); lo.connect(hi); hi.connect(pk);
+    pk.connect(ambGain); ambGain.connect(getOut());
+    ambSrc.start();
+    /* Fade in gently after the welcome roar settles */
+    ambGain.gain.setValueAtTime(0, a.currentTime);
+    ambGain.gain.linearRampToValueAtTime(0.040, a.currentTime + 5.0);
+  }
+
+  /* ════════════════════════════════════════════════════
+     MUTE TOGGLE
+  ════════════════════════════════════════════════════ */
+  function toggleMute() {
+    muted = !muted;
+    if (master) {
+      master.gain.linearRampToValueAtTime(
+        muted ? 0 : 0.72, getCtx().currentTime + 0.08
+      );
+    }
+    return muted;
+  }
+
+  return {
+    sow:           sow,
+    capture:       capture,
+    gameStart:     gameStart,
+    gameOver:      gameOver,
+    welcome:       welcome,
+    turnChange:    turnChange,
+    startAmbience: startAmbience,
+    toggleMute:    toggleMute
+  };
+}());
+
+/* ════════════════════════════════════════════════════════════
+   PARTICLES
+════════════════════════════════════════════════════════════ */
+function buildParticles() {
+  var c = document.getElementById('particles');
+  for (var i = 0; i < 16; i++) {
+    var d = document.createElement('div');
+    d.className = 'ptcl-dot';
+    d.style.left = (Math.random() * 100) + '%';
+    d.style.setProperty('--dur', (7 + Math.random() * 10) + 's');
+    d.style.setProperty('--dly', (Math.random() * 12) + 's');
+    c.appendChild(d);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   SPOTLIGHTS
+════════════════════════════════════════════════════════════ */
+function buildSpotlights() {
+  var wrap = document.getElementById('spotlights');
+  var positions = [8, 22, 38, 62, 78, 92]; // % from left
+  var colors = [
+    'rgba(201,162,39,0.18)',
+    'rgba(255,255,255,0.12)',
+    'rgba(201,162,39,0.15)',
+    'rgba(180,140,255,0.12)',
+    'rgba(255,255,255,0.10)',
+    'rgba(201,162,39,0.16)'
+  ];
+  var rotations = [-12, -5, -2, 2, 6, 14];
+  var durations = [4.2, 3.8, 5.1, 4.6, 3.4, 5.8];
+  var delays    = [0, 1.2, 0.5, 2.1, 0.8, 1.6];
+
+  for (var i = 0; i < positions.length; i++) {
+    var el = document.createElement('div');
+    el.className = 'spotlight';
+    el.style.left = positions[i] + '%';
+    el.style.transform = 'rotate(' + rotations[i] + 'deg)';
+    el.style.background = 'conic-gradient(from 90deg at 50% 0%, transparent 80deg, ' + colors[i] + ' 90deg, transparent 100deg)';
+    el.style.setProperty('--sf-dur', durations[i] + 's');
+    el.style.setProperty('--sf-dly', delays[i] + 's');
+    wrap.appendChild(el);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   CROWD — hyper-realistic SVG figures: skin tones, clothing,
+   facial features, hair, poses, stadium seats, Yoruba gele
+════════════════════════════════════════════════════════════ */
+function buildCrowd() {
+  var wrap = document.getElementById('crowd');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+
+  /* ── utilities ── */
+  function shade(hex, amt) {
+    var n = parseInt(hex.replace('#',''), 16);
+    var r = Math.min(255, Math.max(0, (n>>16)+amt));
+    var g = Math.min(255, Math.max(0, ((n>>8)&255)+amt));
+    var b = Math.min(255, Math.max(0, (n&255)+amt));
+    return '#'+((1<<24)|(r<<16)|(g<<8)|b).toString(16).slice(1);
+  }
+  function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+
+  /* ── colour palettes ── */
+  var SKINS = ['#3d1f0a','#5c2f10','#7a3d15','#9a5020','#b5682a','#c68642','#6b3410','#4a2008','#2d1408','#8a4520'];
+  var CLOTH = ['#1a237e','#880e4f','#4a148c','#1b5e20','#e65100','#c8841a','#b71c1c','#006064','#f5f0dc','#2d3748',
+               '#0d47a1','#6a1b9a','#795548','#455a64','#ff6f00','#00695c','#4e342e','#283593','#37474f','#bf360c'];
+  var HAIR  = ['#0a0605','#150a03','#0d0700','#1a0f06','#200c04','#1c0f08','#120802'];
+  var SEATS = ['#0a1f3d','#0d2448','#122b5c','#163266','#091a33','#0e2850'];
+  var GELEH = ['#d4af37','#c0392b','#1a6b3a','#6c3483','#2471a3','#ca6f1e','#117a65','#e74c3c','#f39c12','#8e44ad'];
+
+  /* ── SVG figure — viewBox 0 0 30 60 ──
+     pose: 0=calm  1=lean-forward  2=left-arm-up  3=right-arm-up  4=both-arms-up */
+  function figSVG(sk, cl, hr, st, pose, gele) {
+    var skd=shade(sk,-22), cld=shade(cl,-28), cll=shade(cl,28),
+        std=shade(st,-12), stl=shade(st,22);
+    var p = [];
+
+    /* STADIUM SEAT */
+    p.push('<rect x="1" y="27" width="28" height="33" rx="3" fill="'+st+'"/>');
+    p.push('<rect x="3" y="29" width="24" height="25" rx="2" fill="'+stl+'" opacity="0.5"/>');
+    p.push('<rect x="2" y="39" width="26" height="8" rx="2" fill="'+stl+'" opacity="0.75"/>');
+    p.push('<rect x="0" y="34" width="4" height="7" rx="2" fill="'+std+'"/>');
+    p.push('<rect x="26" y="34" width="4" height="7" rx="2" fill="'+std+'"/>');
+
+    /* CLOTHING / TORSO */
+    p.push('<path d="M4,43 C4,29 10,25 15,24 C20,25 26,29 26,43 Z" fill="'+cl+'"/>');
+    p.push('<path d="M4,43 C4,29 9,25 14,24 L14,43 Z" fill="'+cll+'" opacity="0.22"/>');
+    p.push('<path d="M26,43 C26,29 21,25 16,24 L16,43 Z" fill="'+cld+'" opacity="0.3"/>');
+    p.push('<path d="M13,24 Q15,28 17,24" stroke="'+cld+'" stroke-width="0.8" fill="none" opacity="0.85"/>');
+    p.push('<line x1="12" y1="27" x2="10" y2="39" stroke="'+cld+'" stroke-width="0.45" opacity="0.28"/>');
+    p.push('<line x1="18" y1="27" x2="20" y2="39" stroke="'+cld+'" stroke-width="0.45" opacity="0.28"/>');
+
+    /* ARMS — pose-dependent */
+    if (pose === 0) {
+      p.push('<path d="M4,32 Q2,38 3,44" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<path d="M26,32 Q28,38 27,44" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<ellipse cx="3" cy="45.5" rx="2.3" ry="1.7" fill="'+sk+'"/>');
+      p.push('<ellipse cx="27" cy="45.5" rx="2.3" ry="1.7" fill="'+sk+'"/>');
+    } else if (pose === 1) {
+      p.push('<path d="M4,32 Q4,40 8,46" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<path d="M26,32 Q26,40 22,46" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<ellipse cx="8" cy="47.5" rx="2.3" ry="1.7" fill="'+sk+'"/>');
+      p.push('<ellipse cx="22" cy="47.5" rx="2.3" ry="1.7" fill="'+sk+'"/>');
+    } else if (pose === 2) {
+      p.push('<path d="M4,32 Q0,23 2,12" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<ellipse cx="2" cy="10.5" rx="2.3" ry="2.2" fill="'+sk+'"/>');
+      p.push('<path d="M26,32 Q28,38 27,44" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<ellipse cx="27" cy="45.5" rx="2.3" ry="1.7" fill="'+sk+'"/>');
+    } else if (pose === 3) {
+      p.push('<path d="M26,32 Q30,23 28,12" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<ellipse cx="28" cy="10.5" rx="2.3" ry="2.2" fill="'+sk+'"/>');
+      p.push('<path d="M4,32 Q2,38 3,44" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<ellipse cx="3" cy="45.5" rx="2.3" ry="1.7" fill="'+sk+'"/>');
+    } else {
+      p.push('<path d="M4,32 Q0,22 2,11" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<path d="M26,32 Q30,22 28,11" stroke="'+sk+'" stroke-width="3.8" fill="none" stroke-linecap="round"/>');
+      p.push('<ellipse cx="2" cy="9.5" rx="2.3" ry="2.2" fill="'+sk+'"/>');
+      p.push('<ellipse cx="28" cy="9.5" rx="2.3" ry="2.2" fill="'+sk+'"/>');
+    }
+
+    /* NECK */
+    p.push('<rect x="12.5" y="19" width="5" height="7" rx="2.5" fill="'+sk+'"/>');
+    p.push('<rect x="15" y="19" width="2.5" height="7" rx="1" fill="'+skd+'" opacity="0.35"/>');
+
+    /* HEAD */
+    p.push('<ellipse cx="15" cy="12" rx="7.5" ry="8.5" fill="'+sk+'"/>');
+    /* 3-D depth: right-side shadow + left catch-light (stadium light from below) */
+    p.push('<ellipse cx="17.5" cy="12.5" rx="5.2" ry="6.5" fill="'+skd+'" opacity="0.25"/>');
+    p.push('<ellipse cx="10.5" cy="10.5" rx="3" ry="3.5" fill="'+shade(sk,20)+'" opacity="0.28"/>');
+
+    /* HAIR */
+    p.push('<ellipse cx="15" cy="6.5" rx="7.5" ry="5.8" fill="'+hr+'"/>');
+    p.push('<ellipse cx="12" cy="5.8" rx="4.5" ry="3.5" fill="'+shade(hr,10)+'" opacity="0.55"/>');
+    p.push('<ellipse cx="15" cy="9.5" rx="7" ry="3" fill="'+hr+'" opacity="0.5"/>');
+
+    /* EYEBROWS */
+    p.push('<path d="M10.5,9.5 Q12,8.5 13.5,9.5" stroke="'+hr+'" stroke-width="0.9" fill="none" opacity="0.85"/>');
+    p.push('<path d="M16.5,9.5 Q18,8.5 19.5,9.5" stroke="'+hr+'" stroke-width="0.9" fill="none" opacity="0.85"/>');
+
+    /* EYES — whites, irises, highlights, lids */
+    p.push('<ellipse cx="12" cy="12" rx="2.1" ry="1.4" fill="rgba(255,248,225,0.9)"/>');
+    p.push('<ellipse cx="18" cy="12" rx="2.1" ry="1.4" fill="rgba(255,248,225,0.9)"/>');
+    p.push('<ellipse cx="12.3" cy="12.1" rx="1.3" ry="1.2" fill="#160b04"/>');
+    p.push('<ellipse cx="18.3" cy="12.1" rx="1.3" ry="1.2" fill="#160b04"/>');
+    p.push('<ellipse cx="11.7" cy="11.6" rx="0.45" ry="0.38" fill="rgba(255,255,255,0.72)"/>');
+    p.push('<ellipse cx="17.7" cy="11.6" rx="0.45" ry="0.38" fill="rgba(255,255,255,0.72)"/>');
+    p.push('<path d="M9.9,11.2 Q12,10 14.1,11.2" stroke="'+hr+'" stroke-width="0.6" fill="none" opacity="0.5"/>');
+    p.push('<path d="M15.9,11.2 Q18,10 20.1,11.2" stroke="'+hr+'" stroke-width="0.6" fill="none" opacity="0.5"/>');
+
+    /* NOSE */
+    p.push('<ellipse cx="15" cy="14.8" rx="1.4" ry="1" fill="'+skd+'" opacity="0.5"/>');
+    p.push('<ellipse cx="13.4" cy="15" rx="0.9" ry="0.6" fill="'+skd+'" opacity="0.38"/>');
+    p.push('<ellipse cx="16.6" cy="15" rx="0.9" ry="0.6" fill="'+skd+'" opacity="0.38"/>');
+
+    /* MOUTH */
+    if (pose === 4) {
+      p.push('<ellipse cx="15" cy="17.5" rx="2.2" ry="1.4" fill="#1a0a06"/>');
+      p.push('<ellipse cx="15" cy="17" rx="2" ry="0.8" fill="rgba(255,210,190,0.55)"/>');
+    } else {
+      p.push('<path d="M12.5,17.5 Q15,19 17.5,17.5" stroke="'+skd+'" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.6"/>');
+      p.push('<ellipse cx="15" cy="18" rx="1.8" ry="0.7" fill="'+shade(sk,-10)+'" opacity="0.35"/>');
+    }
+
+    /* YORUBA GELE (head-wrap) — shown on ~24% of front-three-row figures */
+    if (gele) {
+      p.push('<ellipse cx="15" cy="6" rx="8.5" ry="5.2" fill="'+gele+'" opacity="0.95"/>');
+      p.push('<ellipse cx="15" cy="3.5" rx="6.5" ry="3.2" fill="'+shade(gele,18)+'" opacity="0.92"/>');
+      p.push('<ellipse cx="20" cy="2.8" rx="4.2" ry="2.6" fill="'+shade(gele,28)+'" opacity="0.75"/>');
+      p.push('<path d="M8,6 Q15,2 22,5" stroke="'+shade(gele,-18)+'" stroke-width="0.65" fill="none" opacity="0.62"/>');
+    }
+
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 60" width="100%" height="100%">'+p.join('')+'</svg>';
+  }
+
+  /* ── row definitions (front-row first) ── */
+  var ROWS = [
+    { bot:0,   n:33, w:26, h:52, op:1.00, ps:[0,0,1,1,2,3] },
+    { bot:44,  n:28, w:22, h:44, op:0.93, ps:[0,1,2,3,4] },
+    { bot:82,  n:23, w:18, h:36, op:0.82, ps:[0,0,1,2,3,4] },
+    { bot:112, n:18, w:14, h:28, op:0.65, ps:[0,0,1] },
+    { bot:134, n:14, w:11, h:21, op:0.45, ps:[0,0,1] }
+  ];
+
+  for (var r = 0; r < ROWS.length; r++) {
+    var cfg = ROWS[r];
+    var rowEl = document.createElement('div');
+    rowEl.style.cssText = 'position:absolute;left:0;right:0;bottom:'+cfg.bot+'px;'+
+      'display:flex;justify-content:center;align-items:flex-end;gap:0;overflow:visible;';
+
+    for (var f = 0; f < cfg.n; f++) {
+      var sk = pick(SKINS), cl = pick(CLOTH), hr = pick(HAIR),
+          st = pick(SEATS), ps = cfg.ps[Math.floor(Math.random()*cfg.ps.length)],
+          ge = (r < 3 && Math.random() < 0.24) ? pick(GELEH) : null;
+      var swD = (f%2===0)?'1':'-1';
+      var swT = (2.5+Math.random()*1.9).toFixed(2);
+      var swL = (Math.random()*2.5).toFixed(2);
+
+      var el = document.createElement('div');
+      el.className = 'crowd-fig';
+      el.style.cssText = 'width:'+cfg.w+'px;height:'+cfg.h+'px;flex-shrink:0;opacity:'+cfg.op+';';
+      el.style.setProperty('--sw-dir', swD);
+      el.style.setProperty('--sw-dur', swT+'s');
+      el.style.setProperty('--sw-dly', swL+'s');
+      el.innerHTML = figSVG(sk, cl, hr, st, ps, ge);
+      rowEl.appendChild(el);
+    }
+    wrap.appendChild(rowEl);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   CONCEPT RENDERS (gallery section)
+════════════════════════════════════════════════════════════ */
+var HCOLS = [
+  '#e74c3c','#e67e22','#f1c40f','#2ecc71',
+  '#1abc9c','#3498db','#9b59b6','#e91e63',
+  '#c0392b','#d35400','#f39c12','#27ae60',
+  '#16a085','#2980b9','#8e44ad','#c2185b'
+];
+
+function buildConceptRenders() {
+  function makeRow(rowId, pitCls, styleFn) {
+    var el = document.getElementById(rowId);
+    if (!el) return;
+    var offset = rowId.indexOf('r2') !== -1 ? 8 : 0;
+    for (var i = 0; i < 8; i++) {
+      var d = document.createElement('div');
+      d.className = 'cv-pit ' + pitCls;
+      if (styleFn) styleFn(d, HCOLS[i + offset]);
+      d.textContent = '8';
+      el.appendChild(d);
+    }
+  }
+  makeRow('cva-r1','cv-pit-a',function(d,c){ d.style.background='radial-gradient(circle at 35% 30%,'+c+'cc,'+c+'55)'; d.style.borderColor=c+'77'; d.style.color='rgba(255,255,255,0.8)'; });
+  makeRow('cva-r2','cv-pit-a',function(d,c){ d.style.background='radial-gradient(circle at 35% 30%,'+c+'cc,'+c+'55)'; d.style.borderColor=c+'77'; d.style.color='rgba(255,255,255,0.8)'; });
+  makeRow('cvb-r1','cv-pit-b',function(d,c){ d.style.background='radial-gradient(circle,'+c+',#000)'; d.style.boxShadow='0 0 8px '+c+',0 0 18px '+c+'88'; d.style.borderColor='#000'; d.style.color=c; });
+  makeRow('cvb-r2','cv-pit-b',function(d,c){ d.style.background='radial-gradient(circle,'+c+',#000)'; d.style.boxShadow='0 0 8px '+c+',0 0 18px '+c+'88'; d.style.borderColor='#000'; d.style.color=c; });
+  makeRow('cvc-r1','cv-pit-c',null);
+  makeRow('cvc-r2','cv-pit-c',null);
+  makeRow('cvd-r1','cv-pit-d',function(d){ d.style.color='#c9a227'; });
+  makeRow('cvd-r2','cv-pit-d',function(d){ d.style.color='#c9a227'; });
+}
+
+/* ════════════════════════════════════════════════════════════
+   TIMER
+════════════════════════════════════════════════════════════ */
+var gameSeconds   = 0;
+var timerInterval = null;
+var elBcTime      = document.getElementById('bcTime');
+
+function startTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(tickTimer, 1000);
+}
+
+function tickTimer() {
+  gameSeconds++;
+  var m = Math.floor(gameSeconds / 60);
+  var s = gameSeconds % 60;
+  elBcTime.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+/* ════════════════════════════════════════════════════════════
+   COMMENTARY SYSTEM
+════════════════════════════════════════════════════════════ */
+var elComm = document.getElementById('commText');
+
+var COMM = {
+  start: [
+    'The arena erupts as the match begins — 128 seeds, 16 pots, infinite possibilities.',
+    'Silence falls across the stadium as the first move is prepared…',
+    'The AI Champion surveys the full board, computing thousands of positions per second.',
+    'A new game of Ayo Olopon begins — Africa\'s most strategic seed game at its finest.',
+    'The Challenger takes a deep breath. The champion shows no emotion. The board awaits.'
+  ],
+  aiSow: [
+    'The AI Champion selects with machine precision — a calculated sow from the top row.',
+    'Seeds cascade counterclockwise across the board. The crowd watches every drop.',
+    'A surgical move from the champion — maximum seeds placed in optimal positions.',
+    'The AI Champion demonstrates why it sits atop the world rankings with this sow.',
+    'Seeds scatter across the board in the characteristic counterclockwise flow.',
+    'A confident sow from the champion. The strategy is forming beautifully.',
+    'The AI calculates beyond what the human eye can follow — another masterful sow.',
+    'Every seed placed is a word in the language of Ayo Olopon. The champion speaks fluently.'
+  ],
+  youSow: [
+    'The Challenger makes their move — seeds flowing counterclockwise with purpose.',
+    'A bold choice from the Challenger. Will it bear fruit in the capture phase?',
+    'Seeds rain down across the bottom row. The crowd leans forward.',
+    'The human player responds — an audacious sow that could shift the balance.',
+    'The Challenger shows fighting spirit with this assertive sow.',
+    'Seeds cascade from the Challenger\'s chosen pit. The board transforms.',
+    'A tactical sow from the Challenger — every seed is a gamble and a gift.'
+  ],
+  aiCapture: [
+    'CAPTURE! The AI Champion harvests seeds with ruthless efficiency!',
+    'The AI senses the trap it laid three moves ago — and takes the seeds!',
+    'A brilliant capture chain from the champion! The crowd gasps!',
+    'Seeds seized from the bottom row! The AI extends its lead!',
+    'Cold calculation meets perfect execution — another capture for the champion!'
+  ],
+  youCapture: [
+    'CAPTURE! The Challenger strikes back and takes those seeds!',
+    'What a capture! The Challenger has found the gap in the champion\'s defence!',
+    'Seeds claimed by the Challenger — momentum is shifting in this arena!',
+    'The crowd erupts — the Challenger lands a capture chain!',
+    'A brilliant read of the board — the Challenger capitalises!'
+  ],
+  end: [
+    'An extraordinary game concludes. Both players bow. The board remembers every move.',
+    'The final seeds are collected. The scoreboard tells the story.',
+    'That was championship Ayo Olopon at its absolute finest. What a match.',
+    'The board is cleared. A new game is about to begin in this electrified arena.'
+  ]
+};
+
+var commTimeout = null;
+
+function say(type, extra) {
+  var pool = COMM[type] || COMM.start;
+  var msg  = pool[Math.floor(Math.random() * pool.length)];
+  if (extra) msg += ' ' + extra;
+  elComm.style.opacity = '0';
+  if (commTimeout) clearTimeout(commTimeout);
+  commTimeout = setTimeout(function() {
+    elComm.textContent = msg;
+    elComm.style.opacity = '1';
+  }, 160);
+}
+
+/* ════════════════════════════════════════════════════════════
+   AYO OLOPON GAME ENGINE
+   Pits 0–7  = bottom row (Human/You)  — left to right
+   Pits 8–15 = top row   (AI Champion) — displayed right to left (15…8)
+   Sow: counterclockwise = (idx + 1) % 16
+   Capture: if last pit is on opponent's side and has 2 or 3 seeds →
+            capture it, then walk backwards while condition holds
+════════════════════════════════════════════════════════════ */
+var board    = [];
+var scoreAI  = 0;
+var scoreYou = 0;
+var turn     = 'you';   // 'you' | 'ai'
+var mode     = 'none';  // 'none' | 'demo' | 'vsai'
+var busy     = false;
+var speed    = 200;     // ms per seed drop
+var gTimer   = null;
+var logItems = [];
+var pitEls   = new Array(16);
+
+/* DOM refs */
+var elSAI   = document.getElementById('scoreAI');
+var elSYou  = document.getElementById('scoreYou');
+var elTiAI  = document.getElementById('tiAI');
+var elTiYou = document.getElementById('tiYou');
+var elFigAI = document.getElementById('figAI');
+var elFigYou= document.getElementById('figYou');
+var elLog   = document.getElementById('simLog');
+var rowTop  = document.getElementById('rowTop');
+var rowBot  = document.getElementById('rowBot');
+
+/* ─── BUILD PIT DOM — called once in initSim() ─── */
+function initSim() {
+  rowTop.innerHTML = '';
+  rowBot.innerHTML = '';
+
+  // Bottom: pits 0–7 left→right (Human)
+  for (var i = 0; i < 8; i++) {
+    pitEls[i] = makePit(i, true);
+    rowBot.appendChild(pitEls[i]);
+  }
+  // Top: displayed 15→8 (AI), visual left=pit15, visual right=pit8
+  for (var j = 15; j >= 8; j--) {
+    pitEls[j] = makePit(j, false);
+    rowTop.appendChild(pitEls[j]);
+  }
+
+  resetGame();
+}
+
+function makePit(idx, isHuman) {
+  var el = document.createElement('div');
+  el.className = 'pit ' + (isHuman ? 'pit-h' : 'pit-ai');
+  el.dataset.idx = idx;
+
+  // Inner seeds wrapper — NEVER cleared after creation
+  var seeds = document.createElement('div');
+  seeds.className = 'pit-seeds';
+  var cnt = document.createElement('span');
+  cnt.className = 'pit-count';
+  cnt.textContent = '8';
+  seeds.appendChild(cnt);
+  el.appendChild(seeds);
+
+  // Pit number label
+  var lbl = document.createElement('div');
+  lbl.className = 'pit-lbl';
+  lbl.textContent = idx < 8 ? String(idx + 1) : String(16 - idx);
+  el.appendChild(lbl);
+
+  if (isHuman) {
+    el.addEventListener('click', function() {
+      var i = parseInt(this.dataset.idx, 10);
+      if (mode !== 'vsai' || busy || turn !== 'you') return;
+      if (board[i] === 0) return;
+      doPlayerMove(i);
+    });
+  }
+
+  return el;
+}
+
+/* ─── RESET ─── */
+function resetGame() {
+  board = [];
+  for (var i = 0; i < 16; i++) board.push(8);
+  scoreAI  = 0;
+  scoreYou = 0;
+  turn  = 'you';
+  busy  = false;
+  logItems = [];
+  if (gTimer) { clearTimeout(gTimer); gTimer = null; }
+  elSAI.textContent  = '0';
+  elSYou.textContent = '0';
+  elLog.innerHTML    = '';
+  setTI(null);
+  renderAll();
+}
+
+/* ─── RENDER ─── */
+function renderAll() {
+  for (var i = 0; i < 16; i++) renderPit(i);
+  rowTop.classList.toggle('row-active-ai',  mode !== 'none' && turn === 'ai');
+  rowBot.classList.toggle('row-active-you', mode !== 'none' && turn === 'you');
+}
+
+/*
+  renderPit: ONLY updates the count span's textContent and adds/removes state
+  classes. NEVER clears innerHTML of pit elements.
+*/
+function renderPit(i) {
+  var el = pitEls[i];
+  if (!el) return;
+  var n = board[i];
+
+  // Update count text
+  var cnt = el.querySelector('.pit-count');
+  if (cnt) cnt.textContent = n > 0 ? String(n) : '';
+
+  // State classes
+  el.classList.remove('pe', 'pd');
+  if (n === 0) el.classList.add('pe');
+  // Lock human pits unless it's their turn in vsai mode
+  if (i < 8) {
+    if (mode !== 'vsai' || busy || turn !== 'you' || n === 0) {
+      el.classList.add('pd');
+    }
+  }
+}
+
+/* ─── TURN INDICATORS & FIGURE ANIMATION ─── */
+function setTI(who) {
+  // who: 'ai' | 'you' | null
+  elTiAI.className  = 'pp-turn-ind ' + (who === 'ai'  ? 'ti-active-ai'  : 'ti-idle');
+  elTiYou.className = 'pp-turn-ind ' + (who === 'you' ? 'ti-active-you' : 'ti-idle');
+
+  elTiAI.textContent  = who === 'ai'  ? 'Thinking…' : 'Waiting';
+  elTiYou.textContent = who === 'you' ? 'Your Turn' : 'Waiting';
+
+  // Bob animation on the figure that's thinking
+  elFigAI.classList.toggle('thinking',  who === 'ai');
+  elFigYou.classList.toggle('thinking', who === 'you');
+  if (who === 'ai' || who === 'you') SND.turnChange(who);
+}
+
+/* ─── SCORE POP ─── */
+function popScore(whose) {
+  var el = whose === 'ai' ? elSAI : elSYou;
+  el.classList.remove('pop');
+  void el.offsetWidth; // reflow trick
+  el.classList.add('pop');
+  el.textContent = whose === 'ai' ? String(scoreAI) : String(scoreYou);
+  setTimeout(function() { el.classList.remove('pop'); }, 300);
+}
+
+/* ─── MOVE LOG ─── */
+function addLog(actor, type, text) {
+  var pill = document.createElement('div');
+  pill.className = 'log-pill ' +
+    (type === 'cap' ? 'lp-cap' : (actor === 'ai' ? 'lp-ai' : 'lp-you'));
+  pill.textContent = (actor === 'ai' ? 'AI' : 'You') + ': ' + text;
+  logItems.unshift(pill);
+  if (logItems.length > 6) logItems.length = 6;
+
+  elLog.innerHTML = '';
+  for (var k = 0; k < logItems.length; k++) {
+    elLog.appendChild(logItems[k]);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   ANIMATION — pure setTimeout chains, NO async/await
+════════════════════════════════════════════════════════════ */
+
+function animSow(srcIdx, onDone) {
+  var seeds = board[srcIdx];
+  board[srcIdx] = 0;
+
+  // Flash source pit
+  var srcEl = pitEls[srcIdx];
+  srcEl.classList.remove('psow');
+  void srcEl.offsetWidth;
+  srcEl.classList.add('psow');
+  renderPit(srcIdx); // sets count to 0
+
+  var remaining = seeds;
+  var cur = srcIdx;
+
+  function dropNext() {
+    cur = (cur + 1) % 16;
+    board[cur]++;
+
+    renderPit(cur);
+
+    // Seed landing sound — unique pitch per pit
+    SND.sow(cur);
+
+    // Flash receive animation
+    var el = pitEls[cur];
+    el.classList.remove('precv');
+    void el.offsetWidth;
+    el.classList.add('precv');
+    // Remove after animation completes
+    setTimeout(function() { el.classList.remove('precv'); }, 260);
+
+    remaining--;
+    if (remaining > 0) {
+      setTimeout(dropNext, speed);
+    } else {
+      // Done sowing — remove source flash
+      srcEl.classList.remove('psow');
+      setTimeout(function() { onDone(cur); }, Math.round(speed * 1.1));
+    }
+  }
+
+  setTimeout(dropNext, Math.round(speed * 1.3));
+}
+
+function animCapture(capIdx, actor, onDone) {
+  var captured = board[capIdx];
+  board[capIdx] = 0;
+
+  if (actor === 'ai') { scoreAI  += captured; popScore('ai'); }
+  else                { scoreYou += captured; popScore('you'); }
+
+  var pitLabel = capIdx < 8 ? String(capIdx + 1) : String(16 - capIdx);
+  addLog(actor, 'cap', 'captured ' + captured + ' from pit ' + pitLabel);
+
+  if (actor === 'ai') {
+    say('aiCapture', 'Pit ' + pitLabel + ' yields ' + captured + ' seeds to the champion.');
+  } else {
+    say('youCapture', 'Pit ' + pitLabel + ' — ' + captured + ' seeds taken!');
+  }
+
+  SND.capture(actor);
+
+  var el = pitEls[capIdx];
+  el.classList.remove('pcap');
+  void el.offsetWidth;
+  el.classList.add('pcap');
+  renderPit(capIdx); // shows 0
+
+  setTimeout(function() {
+    el.classList.remove('pcap');
+    onDone();
+  }, Math.round(speed * 2.4));
+}
+
+/*
+  chainCapture: recursively walk backwards from lastIdx while on opponent's
+  side and pit has 2 or 3 seeds.
+  actor = 'ai' → opponent side = pits 0–7
+  actor = 'you' → opponent side = pits 8–15
+*/
+function chainCapture(lastIdx, actor, onDone) {
+  var oppMin = actor === 'ai' ? 0 : 8;
+  var oppMax = actor === 'ai' ? 7 : 15;
+  var cur = lastIdx;
+
+  function step() {
+    if (cur < oppMin || cur > oppMax) { onDone(); return; }
+    if (board[cur] === 2 || board[cur] === 3) {
+      var idx = cur;
+      cur = (cur - 1 + 16) % 16;
+      animCapture(idx, actor, step);
+    } else {
+      onDone();
+    }
+  }
+  step();
+}
+
+/* ════════════════════════════════════════════════════════════
+   PERFORM MOVE
+════════════════════════════════════════════════════════════ */
+function performMove(idx, actor) {
+  busy = true;
+  var seeds    = board[idx];
+  var pitLabel = idx < 8 ? String(idx + 1) : String(16 - idx);
+  addLog(actor, 'sow', 'sowed ' + seeds + ' from pit ' + pitLabel);
+
+  if (actor === 'ai') {
+    say('aiSow');
+    elTiAI.textContent  = 'Sowing…';
+  } else {
+    say('youSow');
+    elTiYou.textContent = 'Sowing…';
+  }
+
+  animSow(idx, function(lastIdx) {
+    chainCapture(lastIdx, actor, function() {
+      renderAll();
+      busy = false;
+
+      if (isOver()) {
+        setTimeout(endGame, 500);
+        return;
+      }
+
+      // Switch turn
+      turn = (actor === 'ai') ? 'you' : 'ai';
+      renderAll();
+
+      if (mode === 'demo') {
+        setTI(turn);
+        gTimer = setTimeout(demoStep, speed * 2 + 400);
+
+      } else if (mode === 'vsai') {
+        if (turn === 'ai') {
+          setTI('ai');
+          gTimer = setTimeout(doAIMove, speed + 520);
+        } else {
+          setTI('you');
+          say('youSow');
+        }
+      }
+    });
+  });
+}
+
+/* ════════════════════════════════════════════════════════════
+   AI ENGINE — greedy bestMove with simMove lookahead + jitter
+════════════════════════════════════════════════════════════ */
+function bestMove(forAI) {
+  var s = forAI ? 8 : 0;
+  var e = forAI ? 15 : 7;
+  var best = -1;
+  var bestScore = -Infinity;
+  for (var i = s; i <= e; i++) {
+    if (board[i] === 0) continue;
+    var sc = simMove(i, forAI);
+    sc += Math.random() * 2.2; // tiny jitter
+    if (sc > bestScore) { bestScore = sc; best = i; }
+  }
+  return best;
+}
+
+function simMove(idx, forAI) {
+  var b    = board.slice();
+  var seeds = b[idx];
+  b[idx] = 0;
+  var cur = idx;
+  for (var s = 0; s < seeds; s++) {
+    cur = (cur + 1) % 16;
+    b[cur]++;
+  }
+  // Count potential captures
+  var oppMin = forAI ? 0 : 8;
+  var oppMax = forAI ? 7 : 15;
+  var total  = 0;
+  while (cur >= oppMin && cur <= oppMax && (b[cur] === 2 || b[cur] === 3)) {
+    total += b[cur];
+    b[cur] = 0;
+    cur = (cur - 1 + 16) % 16;
+  }
+  return total;
+}
+
+function doAIMove() {
+  if (mode !== 'vsai' || busy) return;
+  var idx = bestMove(true);
+  if (idx === -1) {
+    turn = 'you';
+    setTI('you');
+    say('youSow');
+    renderAll();
+    return;
+  }
+  performMove(idx, 'ai');
+}
+
+function doPlayerMove(idx) {
+  setTI(null);
+  performMove(idx, 'you');
+}
+
+/* ════════════════════════════════════════════════════════════
+   GAME OVER
+════════════════════════════════════════════════════════════ */
+function isOver() {
+  var youEmpty = true;
+  var aiEmpty  = true;
+  for (var i = 0; i < 8;  i++) if (board[i] > 0) { youEmpty = false; break; }
+  for (var j = 8; j < 16; j++) if (board[j] > 0) { aiEmpty  = false; break; }
+  return youEmpty || aiEmpty;
+}
+
+function endGame() {
+  // Collect remaining seeds
+  for (var i = 0; i < 8;  i++) { scoreYou += board[i]; board[i] = 0; }
+  for (var j = 8; j < 16; j++) { scoreAI  += board[j]; board[j] = 0; }
+
+  elSAI.textContent  = String(scoreAI);
+  elSYou.textContent = String(scoreYou);
+  renderAll();
+  setTI(null);
+  say('end');
+
+  var msg;
+  if (scoreYou > scoreAI)      { msg = 'You win! ' + scoreYou + ' vs ' + scoreAI;  SND.gameOver('you'); }
+  else if (scoreAI > scoreYou) { msg = 'AI wins! ' + scoreAI  + ' vs ' + scoreYou; SND.gameOver('ai');  }
+  else                         { msg = 'Draw! ' + scoreYou + ' each';               SND.gameOver('draw'); }
+  addLog('you', 'sow', '■ GAME OVER — ' + msg);
+
+  if (mode === 'demo') {
+    gTimer = setTimeout(function() { resetGame(); startAutoDemo(); }, 2600);
+  } else {
+    mode = 'none';
+    busy = false;
+    document.getElementById('btnDemo').classList.remove('son');
+    document.getElementById('btnVsai').classList.remove('son');
+  }
+}
+
+/* ════════════════════════════════════════════════════════════
+   DEMO MODE — AI vs AI
+════════════════════════════════════════════════════════════ */
+function startAutoDemo() {
+  if (gTimer) { clearTimeout(gTimer); gTimer = null; }
+  mode = 'demo';
+  resetGame();
+  document.getElementById('btnDemo').classList.add('son');
+  document.getElementById('btnVsai').classList.remove('son');
+  turn = 'ai';
+  setTI('ai');
+  renderAll();
+  say('start');
+  SND.gameStart();
+  gTimer = setTimeout(demoStep, 520);
+}
+
+function demoStep() {
+  if (mode !== 'demo' || busy) return;
+  if (isOver()) { endGame(); return; }
+  var idx = bestMove(turn === 'ai');
+  if (idx === -1) {
+    turn = (turn === 'ai') ? 'you' : 'ai';
+    setTI(turn);
+    gTimer = setTimeout(demoStep, 360);
+    return;
+  }
+  performMove(idx, turn);
+}
+
+/* ════════════════════════════════════════════════════════════
+   VS AI MODE
+════════════════════════════════════════════════════════════ */
+function startVsAI() {
+  if (gTimer) { clearTimeout(gTimer); gTimer = null; }
+  mode = 'vsai';
+  resetGame();
+  document.getElementById('btnVsai').classList.add('son');
+  document.getElementById('btnDemo').classList.remove('son');
+  turn = 'you';
+  setTI('you');
+  renderAll();
+  say('start');
+  SND.gameStart();
+}
+
+/* ════════════════════════════════════════════════════════════
+   CONTROLS
+════════════════════════════════════════════════════════════ */
+document.getElementById('btnDemo').addEventListener('click', startAutoDemo);
+document.getElementById('btnVsai').addEventListener('click', startVsAI);
+document.getElementById('btnReset').addEventListener('click', function() {
+  if (gTimer) { clearTimeout(gTimer); gTimer = null; }
+  mode = 'none';
+  document.getElementById('btnDemo').classList.remove('son');
+  document.getElementById('btnVsai').classList.remove('son');
+  resetGame();
+  say('start');
+});
+
+var SPEEDS = { s: 380, n: 200, f: 75 };
+function setSpeed(k) {
+  speed = SPEEDS[k];
+  document.getElementById('spS').classList.toggle('son', k === 's');
+  document.getElementById('spN').classList.toggle('son', k === 'n');
+  document.getElementById('spF').classList.toggle('son', k === 'f');
+}
+document.getElementById('spS').addEventListener('click', function() { setSpeed('s'); });
+document.getElementById('spN').addEventListener('click', function() { setSpeed('n'); });
+document.getElementById('spF').addEventListener('click', function() { setSpeed('f'); });
+
+/* ── Mute button ─────────────────────────────────────────── */
+document.getElementById('sndBtn').addEventListener('click', function() {
+  var off = SND.toggleMute();
+  this.textContent = off ? '🔇' : '🔊';
+  this.classList.toggle('snd-off', off);
+});
+
+/* Auto-login if session key already set — must run AFTER all var declarations */
+if (sessionStorage.getItem(SKEY) === '1') { unlock(); }
+
+}());
+</script>
+</body>
+</html>

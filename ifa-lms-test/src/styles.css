@@ -157,7 +157,22 @@ input, select, textarea { font: inherit; }
 .lbp__title span { color: var(--amber-lt); }
 .lbp__tagline {
   font-size: 0.95rem; color: var(--text-2); line-height: 1.65;
-  margin-bottom: 2rem; max-width: 380px;
+  margin-bottom: 1.2rem; max-width: 380px;
+}
+.lbp__motto {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-bottom: 1.8rem; max-width: 380px;
+  padding: 0.7rem 1rem;
+  background: linear-gradient(90deg, rgba(240,146,12,0.10), rgba(245,197,24,0.07), rgba(240,146,12,0.04));
+  border-left: 3px solid var(--amber);
+  border-radius: 0 8px 8px 0;
+}
+.lbp__motto-mark {
+  color: var(--amber); font-size: 0.7rem; flex-shrink: 0; opacity: 0.7;
+}
+.lbp__motto-text {
+  font-size: 0.88rem; font-style: italic; font-weight: 500;
+  color: var(--amber-lt); letter-spacing: 0.01em; line-height: 1.5;
 }
 .lbp__features {
   list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2.5rem;
@@ -1121,9 +1136,12 @@ input, select, textarea { font: inherit; }
   /* Side nav hidden — replaced by bottom nav */
   .sidebar { display: none; }
 
-  /* Pad content so it clears the fixed bottom nav + safe area */
+  /* Switch app-shell to column on mobile: content fills top, nav anchors to bottom */
+  .app-shell { flex-direction: column; }
+
+  /* Main content fills remaining height and scrolls internally */
   .app-main {
-    padding: 1rem 1rem calc(64px + env(safe-area-inset-bottom, 12px));
+    padding: 1rem;
   }
 
   /* Prevent greeting row overflow on narrow phones */
@@ -1137,27 +1155,72 @@ input, select, textarea { font: inherit; }
   .notices-panel { padding: 1rem; }
   .notice { padding: 0.65rem 0.75rem; }
 
-  /* Bottom navigation bar */
+  /* Bottom navigation bar — natural flex item at the bottom of the column shell */
   .mobile-nav {
     display: flex;
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    flex-direction: column;
+    flex-shrink: 0;
     background: rgba(4,8,16,0.98);
     border-top: 1px solid var(--border);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
+
+  /* Platforms strip — top section of the nav */
+  .mobile-nav__platforms {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .mobile-nav__platforms::-webkit-scrollbar { display: none; }
+  .mobile-nav__plat-label {
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding-right: 0.5rem;
+    border-right: 1px solid var(--border);
+  }
+  .mobile-nav__plat-link {
+    display: flex;
+    align-items: center;
+    gap: 0.28rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-2);
+    text-decoration: none;
+    padding: 0.22rem 0.5rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .mobile-nav__plat-link:active { color: var(--amber-lt); border-color: rgba(240,146,12,0.4); }
+  .mobile-nav__plat-sym { font-size: 0.82rem; color: var(--amber); }
+  .mobile-nav__plat-ext { font-size: 0.58rem; color: var(--text-3); }
+
+  /* Buttons row */
+  .mobile-nav__bar { display: flex; }
   .mobile-nav__item {
     flex: 1; display: flex; flex-direction: column;
     align-items: center; justify-content: center;
     gap: 0.18rem; padding: 0.5rem 0.2rem;
     color: var(--text-2); transition: color 0.15s;
-    min-height: 56px; position: relative;
+    min-height: 52px; position: relative;
   }
   .mobile-nav__item--active { color: var(--amber-lt); }
   .mobile-nav--admin .mobile-nav__item--admin-active { color: var(--violet-lt); }
-  .mobile-nav__sym { font-size: 1.25rem; line-height: 1; }
-  .mobile-nav__label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.02em; }
+  .mobile-nav__sym { font-size: 1.2rem; line-height: 1; }
+  .mobile-nav__label { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.02em; }
   .mobile-nav__badge {
-    position: absolute; top: 5px; right: calc(50% - 16px);
+    position: absolute; top: 4px; right: calc(50% - 16px);
     background: var(--pink); color: #fff;
     font-size: 0.6rem; font-weight: 800;
     min-width: 15px; height: 15px; border-radius: 8px; padding: 0 0.2rem;
@@ -1220,7 +1283,7 @@ input, select, textarea { font: inherit; }
 @media (max-width: 360px) {
   .login-card { padding: 1.5rem 1rem; }
   .login-card__title { font-size: 1.65rem; }
-  .app-main { padding: 0.75rem 0.75rem calc(64px + env(safe-area-inset-bottom, 12px)); }
+  .app-main { padding: 0.75rem; }
   .mobile-nav__label { font-size: 0.55rem; }
   .stat-grid { grid-template-columns: 1fr; }
   .student-edit-panel { padding: 0.6rem 0.75rem; }
