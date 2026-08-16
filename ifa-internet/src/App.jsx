@@ -436,7 +436,7 @@ function TOEBitSection() {
       kind: 'Energy',
       accent: '#f5c518',
       bgAccent: 'rgba(245,197,24,0.07)',
-      desc: 'The most fundamental Building Block of Everything (BBoE) — the Universal Building Block of all "building blocks" in modern science. Ogbe is Energy itself: the primordial, active, creative force.',
+      desc: 'The most fundamental Building Block of Everything (BBoE) — the Universal Building Block of all "building blocks" in modern science. Ogbe is Energy itself: the Primordial, Active, Creative Force.',
       reps: [
         {
           symText: 'I',
@@ -466,7 +466,7 @@ function TOEBitSection() {
       kind: 'Anergy',
       accent: '#4361ee',
       bgAccent: 'rgba(0,54,247,0.07)',
-      desc: 'Non-Energy — the Dual of Ogbe. Oyeku is Anergy: the complementary, receptive, potential force. Together with Ogbe it generates all the remaining 254 Odu Ifa.',
+      desc: 'Non-Energy — the Dual of Ogbe. Oyeku is Anergy: the Complementary, Receptive, Potential Force. Together with Ogbe it generates all the remaining 254 Odu Ifa.',
       reps: [
         {
           symText: '‖',

@@ -1,0 +1,591 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   IfaQuantum Platform — styles.css
+   The IFA Internet · CENProject · ifainternet.org/ifa-quantum/
+───────────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:           #030608;
+  --bg2:          #050b14;
+  --bg3:          #081020;
+  --card:         rgba(255,255,255,0.03);
+  --card-h:       rgba(255,255,255,0.06);
+  --br:           rgba(255,255,255,0.07);
+  --t1:           #eef1fb;
+  --t2:           #8892aa;
+  --t3:           #505869;
+  --quantum:      #00d4ff;
+  --quantum-dim:  rgba(0,212,255,0.08);
+  --quantum-glow: rgba(0,212,255,0.18);
+  --ifa:          #f0920c;
+  --ifa-dim:      rgba(240,146,12,0.08);
+  --orisa:        #8b5cf6;
+  --orisa-dim:    rgba(139,92,246,0.08);
+  --irunmole:     #ec4899;
+  --irunmole-dim: rgba(236,72,153,0.08);
+  --green:        #22c55e;
+  --green-dim:    rgba(34,197,94,0.08);
+  --ff:           'Inter', system-ui, -apple-system, sans-serif;
+  --fm:           'Space Mono', 'Courier New', monospace;
+}
+
+html  { scroll-behavior: smooth; }
+body  { background: var(--bg); color: var(--t1); font-family: var(--ff); line-height: 1.65; overflow-x: hidden; }
+a     { color: var(--quantum); text-decoration: none; }
+a:hover { text-decoration: underline; }
+strong { font-weight: 700; }
+
+/* ── Nav ──────────────────────────────────────────────────────────────────── */
+.iq-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(3,6,8,0.90); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--br);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 54px;
+}
+.iq-nav__logo {
+  font-family: var(--fm); font-size: 0.88rem;
+  color: var(--quantum); letter-spacing: 0.06em; font-weight: 700;
+  display: flex; align-items: center; gap: 6px;
+}
+.iq-nav__logo:hover { text-decoration: none; opacity: 0.85; }
+.iq-nav__logo-prefix { opacity: 0.45; font-weight: 400; font-size: 0.78rem; }
+.iq-nav__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--quantum); opacity: 0.7;
+  animation: iq-pulse 2s ease-in-out infinite;
+}
+@keyframes iq-pulse {
+  0%,100% { opacity: 0.7; transform: scale(1); }
+  50%      { opacity: 0.25; transform: scale(0.65); }
+}
+.iq-nav__links { display: flex; gap: 0.2rem; flex-wrap: wrap; }
+.iq-nav__link {
+  font-size: 0.72rem; font-weight: 500; padding: 5px 10px; border-radius: 4px;
+  color: var(--t2); transition: color 0.15s, background 0.15s; letter-spacing: 0.02em;
+}
+.iq-nav__link:hover { color: var(--t1); background: rgba(255,255,255,0.05); text-decoration: none; }
+.iq-nav__link--cta { color: var(--quantum); border: 1px solid rgba(0,212,255,0.3); }
+.iq-nav__link--cta:hover { background: var(--quantum-dim); color: var(--quantum); }
+
+/* ── Container ────────────────────────────────────────────────────────────── */
+.iq-container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Shared Typography ────────────────────────────────────────────────────── */
+.iq-eyebrow {
+  font-family: var(--fm); font-size: 0.66rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--quantum); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.iq-eyebrow::before {
+  content: ''; display: inline-block; width: 18px; height: 1px;
+  background: var(--quantum); opacity: 0.6;
+}
+.iq-section-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800;
+  line-height: 1.12; margin-bottom: 16px; color: var(--t1);
+}
+.iq-section-sub {
+  font-size: 1rem; color: var(--t2); max-width: 680px;
+  margin-bottom: 40px; line-height: 1.78;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
+.iq-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 11px 24px; border-radius: 6px; font-size: 0.88rem;
+  font-weight: 600; transition: all 0.15s; cursor: pointer;
+  border: none; font-family: var(--ff); letter-spacing: 0.02em;
+}
+.iq-btn--primary {
+  background: var(--quantum); color: #030608;
+}
+.iq-btn--primary:hover { background: #33ddff; text-decoration: none; color: #030608; }
+.iq-btn--ghost {
+  background: transparent; color: var(--ifa);
+  border: 1px solid rgba(240,146,12,0.4);
+}
+.iq-btn--ghost:hover { background: var(--ifa-dim); text-decoration: none; color: var(--ifa); }
+
+/* ── Pills / Tags ─────────────────────────────────────────────────────────── */
+.iq-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+.iq-pill {
+  font-family: var(--fm); font-size: 0.65rem; letter-spacing: 0.1em;
+  padding: 4px 10px; border-radius: 20px;
+  background: rgba(0,212,255,0.07); border: 1px solid rgba(0,212,255,0.22);
+  color: rgba(0,212,255,0.8); font-weight: 700;
+}
+.iq-tag {
+  font-family: var(--fm); font-size: 0.62rem; letter-spacing: 0.08em;
+  padding: 3px 8px; border-radius: 4px;
+  background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.2);
+  color: var(--quantum);
+}
+.iq-divider {
+  border: none; border-top: 1px solid var(--br); margin: 0 2rem;
+}
+
+/* ── Hero ──────────────────────────────────────────────────────────────────── */
+.iq-hero {
+  position: relative; overflow: hidden;
+  padding: 110px 2rem 80px;
+  background: var(--bg);
+}
+.iq-hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 40%, rgba(0,212,255,0.07) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 50% at 85% 70%, rgba(139,92,246,0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 55% 10%, rgba(240,146,12,0.04) 0%, transparent 60%);
+}
+/* Quantum circuit grid pattern overlay */
+.iq-hero::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  opacity: 0.025;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.8) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.8) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.iq-hero__inner {
+  position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: center;
+}
+.iq-hero__left {}
+.iq-hero__eyebrow {
+  font-family: var(--fm); font-size: 0.64rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--quantum); margin-bottom: 24px; opacity: 0.75;
+}
+.iq-hero__title {
+  font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 900;
+  line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 20px;
+}
+.iq-hero__title--ifa {
+  background: linear-gradient(135deg, #f0920c 0%, #fbbf24 50%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.iq-hero__title--q {
+  background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.iq-hero__subtitle {
+  font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 300;
+  color: var(--t1); margin-bottom: 16px; letter-spacing: 0.01em; opacity: 0.9;
+}
+.iq-hero__body {
+  font-size: 0.95rem; color: var(--t2); max-width: 540px;
+  margin-bottom: 28px; line-height: 1.8;
+}
+.iq-hero__ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* Hero right — image + qubit viz */
+.iq-hero__right {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+.iq-hero__img-wrap {
+  position: relative; border-radius: 18px; overflow: hidden;
+  border: 1px solid rgba(0,212,255,0.2);
+  box-shadow: 0 0 60px rgba(0,212,255,0.12), 0 24px 80px rgba(0,0,0,0.6);
+}
+.iq-hero__img { width: 100%; display: block; }
+.iq-hero__img-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,212,255,0.08) 100%);
+}
+.iq-qubit-row {
+  display: flex; gap: 16px; align-items: center; justify-content: center;
+  margin-top: 20px;
+}
+.iq-qubit-svg { width: 90px; height: 90px; }
+.iq-qubit-label {
+  font-family: var(--fm); font-size: 0.6rem; letter-spacing: 0.1em;
+  color: var(--t3); text-transform: uppercase; text-align: center; margin-top: 4px;
+}
+.iq-bloch-mini {
+  background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.15);
+  border-radius: 12px; padding: 12px 16px; text-align: center; flex: 1;
+}
+.iq-hero__eq {
+  font-family: var(--fm); font-size: 0.78rem;
+  color: rgba(0,212,255,0.75); letter-spacing: 0.04em;
+}
+.iq-hero__eq-label {
+  font-size: 0.58rem; color: var(--t3); text-transform: uppercase;
+  letter-spacing: 0.1em; display: block; margin-bottom: 6px;
+}
+
+/* ── Gallery ──────────────────────────────────────────────────────────────── */
+.iq-gallery {
+  background: var(--bg2); padding: 0 2rem 60px;
+  border-top: 1px solid var(--br); border-bottom: 1px solid var(--br);
+}
+.iq-gallery__grid {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 16px; padding-top: 60px;
+}
+.iq-gallery__item {
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid rgba(0,212,255,0.12);
+  background: var(--bg3);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.iq-gallery__item:hover {
+  border-color: rgba(0,212,255,0.3);
+  box-shadow: 0 0 32px rgba(0,212,255,0.08);
+}
+.iq-gallery__img { width: 100%; display: block; }
+.iq-gallery__caption {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px;
+  border-top: 1px solid rgba(0,212,255,0.1);
+}
+.iq-gallery__label {
+  font-family: var(--fm); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--quantum); opacity: 0.8;
+}
+.iq-gallery__sub {
+  font-size: 0.68rem; color: var(--t3); font-style: italic;
+}
+
+/* ── Section Wrappers ─────────────────────────────────────────────────────── */
+.iq-section {
+  padding: 88px 2rem;
+}
+.iq-section--alt { background: var(--bg2); }
+
+/* ── Framework (3-tier cards) ────────────────────────────────────────────── */
+.iq-framework-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.iq-tier-card {
+  position: relative; overflow: hidden;
+  border: 1px solid; border-radius: 16px;
+  padding: 32px 26px; transition: transform 0.18s, box-shadow 0.18s;
+}
+.iq-tier-card:hover { transform: translateY(-3px); box-shadow: 0 16px 60px rgba(0,0,0,0.5); }
+.iq-tier-card__glow {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.iq-tier-card__icon {
+  font-size: 2rem; margin-bottom: 14px; display: block; position: relative;
+}
+.iq-tier-card__id {
+  font-family: var(--fm); font-size: 0.88rem; font-weight: 700;
+  letter-spacing: 0.06em; margin-bottom: 4px; position: relative;
+}
+.iq-tier-card__tagline {
+  font-size: 0.72rem; color: var(--t3); text-transform: uppercase;
+  letter-spacing: 0.1em; margin-bottom: 16px; position: relative;
+}
+.iq-tier-card__body {
+  font-size: 0.88rem; color: var(--t2); line-height: 1.72;
+  margin-bottom: 20px; position: relative;
+}
+.iq-tier-card__tags { display: flex; flex-wrap: wrap; gap: 6px; position: relative; }
+
+/* ── Pillars grid ─────────────────────────────────────────────────────────── */
+.iq-pillars-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+.iq-pillar {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: 12px; padding: 22px 18px;
+  transition: background 0.15s, border-color 0.15s;
+  position: relative; overflow: hidden;
+}
+.iq-pillar:hover {
+  background: var(--card-h); border-color: rgba(0,212,255,0.22);
+}
+.iq-pillar::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: linear-gradient(90deg, var(--quantum), var(--orisa));
+  opacity: 0; transition: opacity 0.2s;
+}
+.iq-pillar:hover::before { opacity: 1; }
+.iq-pillar__num {
+  font-family: var(--fm); font-size: 0.6rem; letter-spacing: 0.12em;
+  color: var(--t3); margin-bottom: 10px;
+}
+.iq-pillar__icon { font-size: 1.5rem; margin-bottom: 10px; display: block; }
+.iq-pillar__label {
+  font-size: 0.82rem; font-weight: 700; color: var(--t1);
+  margin-bottom: 8px; letter-spacing: 0.02em;
+}
+.iq-pillar__body {
+  font-size: 0.78rem; color: var(--t2); line-height: 1.65;
+}
+
+/* ── Ifa Generalization ──────────────────────────────────────────────────── */
+.iq-gen-block {
+  background: linear-gradient(140deg, rgba(0,212,255,0.05) 0%, rgba(139,92,246,0.05) 100%);
+  border: 1px solid rgba(0,212,255,0.18);
+  border-radius: 16px; padding: 36px 32px; margin-bottom: 28px;
+}
+.iq-gen-eq {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: 0 12px; margin-bottom: 16px;
+}
+.iq-gen-eq:last-child { margin-bottom: 0; }
+.iq-gen-eq__term {
+  font-family: var(--fm); font-size: 1.4rem; font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.iq-gen-eq__term--ifa   { color: var(--quantum); }
+.iq-gen-eq__term--orisa { color: var(--orisa); }
+.iq-gen-eq__x {
+  font-family: var(--fm); font-size: 1.4rem; font-weight: 700;
+  color: var(--t1); letter-spacing: 0.04em;
+  font-style: italic;
+}
+.iq-gen-eq__def {
+  font-size: 0.88rem; color: var(--t2); font-style: italic; line-height: 1.6;
+}
+.iq-gen-sep {
+  border: none; border-top: 1px solid rgba(0,212,255,0.12);
+  margin: 20px 0;
+}
+.iq-gen-examples { display: flex; flex-wrap: wrap; gap: 8px; }
+.iq-gen-tag {
+  font-family: var(--fm); font-size: 0.65rem; letter-spacing: 0.08em;
+  padding: 4px 10px; border-radius: 4px;
+  background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.18);
+  color: var(--quantum);
+}
+
+/* ── 16 Laws grid ─────────────────────────────────────────────────────────── */
+.iq-laws-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.iq-law-cell {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: 10px; padding: 18px 14px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: default; position: relative; overflow: hidden;
+}
+.iq-law-cell:hover {
+  background: rgba(0,212,255,0.06);
+  border-color: rgba(0,212,255,0.3);
+}
+.iq-law-cell::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at top left, rgba(0,212,255,0.06) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.2s;
+}
+.iq-law-cell:hover::after { opacity: 1; }
+.iq-law-cell__num {
+  font-family: var(--fm); font-size: 0.58rem; letter-spacing: 0.1em;
+  color: var(--quantum); opacity: 0.55; margin-bottom: 8px; font-weight: 700;
+}
+.iq-law-cell__name {
+  font-size: 0.88rem; font-weight: 700; color: var(--t1);
+  margin-bottom: 4px; letter-spacing: 0.01em;
+}
+.iq-law-cell__en {
+  font-size: 0.7rem; color: var(--t3); font-style: italic;
+}
+
+/* ── Languages grid ───────────────────────────────────────────────────────── */
+.iq-lang-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.iq-lang-card {
+  background: var(--card); border: 1px solid; border-radius: 12px;
+  padding: 24px 20px; transition: background 0.15s;
+}
+.iq-lang-card:hover { background: var(--card-h); }
+.iq-lang-card__dot {
+  width: 8px; height: 8px; border-radius: 50%; margin-bottom: 14px;
+}
+.iq-lang-card__name {
+  font-family: var(--fm); font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.04em; margin-bottom: 10px;
+}
+.iq-lang-card__desc {
+  font-size: 0.8rem; color: var(--t2); line-height: 1.7;
+}
+
+/* ── Integration strip ───────────────────────────────────────────────────── */
+.iq-integration {
+  padding: 60px 2rem;
+  background: var(--bg2);
+  border-top: 1px solid var(--br); border-bottom: 1px solid var(--br);
+}
+.iq-integration__inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; gap: 0; flex-wrap: nowrap;
+  overflow-x: auto;
+}
+.iq-integ-node {
+  display: flex; flex-direction: column; align-items: center;
+  flex: 1; min-width: 120px;
+  text-align: center;
+}
+.iq-integ-node__icon {
+  width: 52px; height: 52px; border-radius: 50%;
+  border: 1px solid; display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; margin-bottom: 10px;
+}
+.iq-integ-node__name {
+  font-size: 0.75rem; font-weight: 700; margin-bottom: 4px;
+}
+.iq-integ-node__sub { font-size: 0.67rem; color: var(--t3); }
+.iq-integ-arrow {
+  font-size: 1.1rem; color: var(--t3); opacity: 0.4; flex-shrink: 0; padding: 0 6px;
+}
+
+/* ── Ifa Physics CTA ──────────────────────────────────────────────────────── */
+.iq-cta-section { padding: 80px 2rem; }
+.iq-cta-card {
+  max-width: 860px; margin: 0 auto;
+  position: relative; overflow: hidden;
+  background: linear-gradient(140deg, #070e22 0%, #030810 60%, #080d1e 100%);
+  border: 1px solid rgba(0,212,255,0.25); border-radius: 20px;
+  padding: 52px 48px;
+  box-shadow: 0 0 80px rgba(0,212,255,0.06), 0 32px 100px rgba(0,0,0,0.5);
+}
+.iq-cta-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--quantum), transparent);
+}
+.iq-cta-card__glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at top left, rgba(0,212,255,0.1) 0%, transparent 55%);
+}
+.iq-cta-card__title {
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 900;
+  margin: 10px 0 18px; line-height: 1.1; position: relative;
+  background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 80%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.iq-cta-card__body {
+  font-size: 0.95rem; color: var(--t2); line-height: 1.78;
+  margin-bottom: 28px; max-width: 680px; position: relative;
+}
+.iq-cta-card__tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; position: relative; }
+
+/* ── Footer ───────────────────────────────────────────────────────────────── */
+.iq-footer {
+  background: var(--bg2); border-top: 1px solid var(--br);
+  padding: 48px 2rem;
+}
+.iq-footer__inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; text-align: center;
+}
+.iq-footer__logo {
+  font-family: var(--fm); font-size: 1rem; font-weight: 700;
+  color: var(--quantum); letter-spacing: 0.08em;
+}
+.iq-footer__sub {
+  font-size: 0.8rem; color: var(--t3); line-height: 1.6;
+}
+.iq-footer__links {
+  display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+}
+.iq-footer__links a {
+  font-size: 0.78rem; color: var(--t3); transition: color 0.15s;
+}
+.iq-footer__links a:hover { color: var(--quantum); text-decoration: none; }
+
+/* ── Under Development Banner ────────────────────────────────────────────── */
+.iq-dev-banner {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(240,146,12,0.07); border: 1px solid rgba(240,146,12,0.32);
+  border-radius: 999px; padding: 6px 18px;
+  font-family: var(--fm); font-size: 0.68rem; font-weight: 700;
+  color: var(--ifa); letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 44px;
+}
+.iq-dev-dot {
+  display: inline-block; width: 7px; height: 7px;
+  border-radius: 50%; background: var(--ifa);
+  animation: iq-pulse 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ── IfaQuantum Computing ─────────────────────────────────────────────────── */
+.iq-computing-card {
+  display: flex; gap: 52px; align-items: center;
+  background: linear-gradient(140deg, rgba(0,212,255,0.04) 0%, rgba(3,6,8,0) 65%);
+  border: 1px solid rgba(0,212,255,0.14); border-radius: 20px;
+  padding: 44px 40px;
+}
+.iq-computing-card__vis {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  flex-shrink: 0; width: 130px;
+}
+.iq-computing-card__eq {
+  font-family: var(--fm); font-size: 0.62rem; color: rgba(0,212,255,0.62);
+  text-align: center; line-height: 1.6;
+}
+.iq-computing-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1;
+}
+.iq-computing-feat {
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.iq-computing-feat__icon {
+  font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; font-family: var(--fm);
+}
+.iq-computing-feat__label {
+  font-size: 0.85rem; font-weight: 700; color: var(--t1); margin-bottom: 4px;
+}
+.iq-computing-feat__desc { font-size: 0.76rem; color: var(--t2); line-height: 1.55; }
+
+/* ── IfaQuantum Atlas ─────────────────────────────────────────────────────── */
+.iq-atlas-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.iq-atlas-card {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: 12px; padding: 22px 18px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.iq-atlas-card:hover { background: var(--card-h); border-color: rgba(240,146,12,0.2); }
+.iq-atlas-card__icon { font-size: 1.5rem; margin-bottom: 10px; display: block; }
+.iq-atlas-card__label { font-size: 0.88rem; font-weight: 700; color: var(--t1); margin-bottom: 6px; }
+.iq-atlas-card__desc { font-size: 0.78rem; color: var(--t2); line-height: 1.6; }
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .iq-hero__inner { grid-template-columns: 1fr; gap: 40px; }
+  .iq-hero__right { order: -1; }
+  .iq-framework-grid { grid-template-columns: 1fr; gap: 14px; }
+  .iq-lang-grid { grid-template-columns: repeat(2, 1fr); }
+  .iq-laws-grid { grid-template-columns: repeat(2, 1fr); }
+  .iq-pillars-grid { grid-template-columns: repeat(2, 1fr); }
+  .iq-cta-card { padding: 36px 24px; }
+  .iq-gallery__grid { grid-template-columns: 1fr; }
+  .iq-atlas-grid { grid-template-columns: repeat(2, 1fr); }
+  .iq-computing-card { flex-direction: column; gap: 32px; padding: 32px 28px; }
+  .iq-computing-card__vis { flex-direction: row; width: auto; justify-content: center; gap: 24px; }
+}
+@media (max-width: 560px) {
+  .iq-hero { padding: 80px 1.2rem 60px; }
+  .iq-section { padding: 60px 1.2rem; }
+  .iq-lang-grid { grid-template-columns: 1fr; }
+  .iq-laws-grid { grid-template-columns: repeat(2, 1fr); }
+  .iq-pillars-grid { grid-template-columns: 1fr; }
+  .iq-nav { padding: 0 1.2rem; }
+  .iq-nav__logo-prefix { display: none; }
+  .iq-gallery { padding: 0 1.2rem 40px; }
+  .iq-gallery__grid { padding-top: 40px; }
+  .iq-atlas-grid { grid-template-columns: 1fr; }
+  .iq-computing-grid { grid-template-columns: 1fr; }
+  .iq-computing-card { padding: 24px 18px; }
+  .iq-computing-card__vis { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iq-nav__dot { animation: none; }
+}

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ifanimation — Recording Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./src/styles.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1280px; height: 720px; overflow: hidden; background: #07050f; }
+    #root { width: 1280px; height: 720px; overflow: hidden; }
+
+    /* ── Full-viewport stage ── */
+    .video-stage {
+      width: 1280px; height: 720px;
+      background: #07050f;
+      position: relative;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    /* Make scenes fill the full stage */
+    .video-stage .ifas { width: 1280px; height: 720px; padding: 2rem 3rem; }
+    .video-stage .ifanim-scene-wrap { width: 1280px; height: 720px; }
+
+    /* ── Title card ── */
+    .video-title {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: radial-gradient(ellipse 70% 60% at 50% 48%, rgba(80,30,180,0.28) 0%, transparent 70%),
+                  radial-gradient(ellipse 35% 35% at 50% 85%, rgba(255,215,0,0.08) 0%, transparent 70%);
+      animation: vid-fade-in 1s ease both;
+    }
+    @keyframes vid-fade-in  { from { opacity:0; } to { opacity:1; } }
+    @keyframes vid-fade-out { from { opacity:1; } to { opacity:0; } }
+    .video-title__glyph {
+      font-size: 3.8rem; color: #ffd700; margin-bottom: 1.1rem;
+      text-shadow: 0 0 60px rgba(255,215,0,0.9), 0 0 120px rgba(255,215,0,0.35);
+      animation: vid-glow-pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes vid-glow-pulse {
+      0%,100% { text-shadow: 0 0 50px rgba(255,215,0,0.8), 0 0 100px rgba(255,215,0,0.3); }
+      50%     { text-shadow: 0 0 90px #ffd700, 0 0 180px rgba(255,215,0,0.55); }
+    }
+    .video-title__platform {
+      font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,215,0,0.5);
+      margin-bottom: 0.85rem;
+    }
+    .video-title__main {
+      font-family: 'Nunito', sans-serif; font-size: 3.4rem; font-weight: 900;
+      color: #eef3ff; text-align: center; line-height: 1.08; letter-spacing: -0.01em;
+    }
+    .video-title__kids {
+      font-family: 'Nunito', sans-serif; font-size: 1.65rem; font-weight: 700;
+      color: rgba(255,215,0,0.88); margin-top: 0.3rem; letter-spacing: 0.04em;
+    }
+    .video-title__divider {
+      width: 110px; height: 2px; margin: 1.5rem auto;
+      background: linear-gradient(90deg, transparent, rgba(238,102,255,0.75), transparent);
+    }
+    .video-title__row {
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .video-title__anim {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700; color: #eef3ff;
+    }
+    .video-title__sep { color: rgba(255,215,0,0.35); font-size: 1.4rem; }
+    .video-title__ifanim {
+      font-family: 'Space Grotesk', sans-serif; font-size: 1.6rem; font-weight: 700;
+      color: #ee66ff; text-shadow: 0 0 22px rgba(238,102,255,0.55);
+    }
+    .video-title__tagline {
+      margin-top: 1rem; font-size: 0.88rem; letter-spacing: 0.1em;
+      color: rgba(238,243,255,0.38); text-transform: uppercase;
+    }
+    /* ── Outro ── */
+    .video-outro {
+      width:100%; height:100%; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:0.7rem;
+      animation: vid-fade-in 1s ease both;
+    }
+    .video-outro__glyph { font-size:2.8rem; color:#ffd700; text-shadow:0 0 50px rgba(255,215,0,0.8); }
+    .video-outro__text  { font-family:'Nunito',sans-serif; font-size:1.5rem; font-weight:900; color:#eef3ff; }
+    .video-outro__sub   { font-size:0.85rem; color:rgba(238,243,255,0.45); letter-spacing:0.14em; text-transform:uppercase; margin-top:0.3rem; }
+    .video-outro__url   { font-size:0.82rem; color:rgba(255,215,0,0.55); margin-top:0.6rem; letter-spacing:0.06em; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="../lib/react.min.js"></script>
+  <script src="../lib/react-dom.min.js"></script>
+  <script src="../lib/babel.min.js"></script>
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect } = React;
+
+    /* ── DATA ── */
+    const ODU = [
+      {id:1,  name:'Ogbe Meji'},   {id:2,  name:'Oyeku Meji'},
+      {id:3,  name:'Iwori Meji'},  {id:4,  name:'Odi Meji'},
+      {id:5,  name:'Irosun Meji'}, {id:6,  name:'Owonrin Meji'},
+      {id:7,  name:'Obara Meji'},  {id:8,  name:'Okanran Meji'},
+      {id:9,  name:'Ogunda Meji'}, {id:10, name:'Osa Meji'},
+      {id:11, name:'Ika Meji'},    {id:12, name:'Oturupon Meji'},
+      {id:13, name:'Otura Meji'},  {id:14, name:'Irete Meji'},
+      {id:15, name:'Ose Meji'},    {id:16, name:'Ofun Meji'},
+    ];
+    const IFANIM_COLORS = [
+      '#ffd700','#9988ff','#4da6ff','#40e0d0','#ff6b6b','#ffaa22',
+      '#ffa040','#ff4444','#40e080','#80ffdd','#b388ff','#ee99ff',
+      '#ee66ff','#88cc44','#ff80c0','#ffffff',
+    ];
+    const IFANIM_FIELDS = [
+      {label:'Physics',      emoji:'⚛️', col:'#4da6ff'},
+      {label:'Mathematics',  emoji:'∞',  col:'#ffd700'},
+      {label:'Biology',      emoji:'🧬', col:'#40e080'},
+      {label:'Chemistry',    emoji:'⚗️', col:'#ff6b6b'},
+      {label:'Astronomy',    emoji:'🔭', col:'#b388ff'},
+      {label:'Music',        emoji:'🎵', col:'#ffa040'},
+      {label:'Art',          emoji:'🎨', col:'#ee66ff'},
+      {label:'Language',     emoji:'📖', col:'#40e0d0'},
+      {label:'Philosophy',   emoji:'🦉', col:'#ffd700'},
+      {label:'History',      emoji:'🏛️', col:'#c8a870'},
+      {label:'Engineering',  emoji:'⚙️', col:'#aaaaaa'},
+      {label:'Medicine',     emoji:'💊', col:'#ff80c0'},
+      {label:'Economics',    emoji:'💹', col:'#40e080'},
+      {label:'Psychology',   emoji:'🧠', col:'#ff6b6b'},
+      {label:'Spirituality', emoji:'✨', col:'#ffd700'},
+      {label:'Nature',       emoji:'🌿', col:'#66dd66'},
+    ];
+
+    /* Sequence: -1=title, 0-6=scenes, 7=outro */
+    /* Durations (ms): title=4500, scenes per IFANIM_DURS, outro=4000 */
+    const SCENE_DURS = [4500, 3400, 5600, 5000, 5400, 5600, 5800, 5200, 4000];
+
+    /* ── AnimMarkCol ── */
+    function AnimMarkCol({code, color, barH, barW}) {
+      const bits = (code||'0000').split('').map(Number);
+      const gap = Math.round(barH * 0.22);
+      const dblGap = Math.round(barW * 0.6);
+      return (
+        <div style={{display:'flex',flexDirection:'column',gap,alignItems:'center'}}>
+          {bits.map((bit, i) => (
+            <div key={i} style={{display:'flex', gap:dblGap}}>
+              <div style={{width:barW, height:barH, borderRadius:barW/2,
+                background:color, boxShadow:`0 0 ${barW}px ${color}, 0 0 ${barW*2.5}px ${color}66`, flexShrink:0}} />
+              {bit===1 && (
+                <div style={{width:barW, height:barH, borderRadius:barW/2,
+                  background:color, boxShadow:`0 0 ${barW}px ${color}, 0 0 ${barW*2.5}px ${color}66`, flexShrink:0}} />
+              )}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    /* ── Scene 0 — THE BEGINNING ── */
+    function IfaScene0() {
+      return (
+        <div className="ifas ifas-0">
+          <div className="ifas-0__ifa">IFA</div>
+          <div className="ifas-0__main">The Structure of Everything</div>
+          <div className="ifas-0__dots" aria-hidden="true">
+            {IFANIM_COLORS.map((c,i) => (
+              <span key={i} className="ifas-0__dot"
+                style={{background:c, boxShadow:`0 0 14px ${c}`, animationDelay:(i*0.09)+'s'}} />
+            ))}
+          </div>
+          <div className="ifas-0__sub">All fields · All existence · One Single Structure</div>
+        </div>
+      );
+    }
+
+    /* ── Scene 1 — THE FOUNDATION ── */
+    function IfaScene1() {
+      return (
+        <div className="ifas ifas-1">
+          <div className="ifas-1__top">In the beginning…</div>
+          <div className="ifas-1__pair">
+            <div className="ifas-1__block ifas-1__oyeku">
+              <div className="ifas-1__cols">
+                <AnimMarkCol code="1111" color="#9988ff" barH={50} barW={12}/>
+                <AnimMarkCol code="1111" color="#9988ff" barH={50} barW={12}/>
+              </div>
+              <div className="ifas-1__mname" style={{color:'#9988ff'}}>Oyeku Meji</div>
+              <div className="ifas-1__mrole">The Void · The Dark · The End</div>
+            </div>
+            <div className="ifas-1__plus">+</div>
+            <div className="ifas-1__block ifas-1__ogbe">
+              <div className="ifas-1__cols">
+                <AnimMarkCol code="0000" color="#ffd700" barH={50} barW={12}/>
+                <AnimMarkCol code="0000" color="#ffd700" barH={50} barW={12}/>
+              </div>
+              <div className="ifas-1__mname" style={{color:'#ffd700'}}>Ejiogbe</div>
+              <div className="ifas-1__mrole">The Light · The Day · The Beginning</div>
+            </div>
+          </div>
+          <div className="ifas-1__fbar"/>
+          <div className="ifas-1__flabel">THE FOUNDATION OF ALL KNOWLEDGE AND ALL EXISTENCE</div>
+        </div>
+      );
+    }
+
+    /* ── Scene 2 — 16 ODU EMERGE ── */
+    function IfaScene2() {
+      return (
+        <div className="ifas ifas-2">
+          <div className="ifas-2__top">From Ogbe &amp; Oyeku, 16 Principal Odu emerge…</div>
+          <div className="ifas-2__grid">
+            {ODU.map((o,i) => (
+              <div key={o.id} className="ifas-2__odu"
+                style={{'--c':IFANIM_COLORS[i], animationDelay:(i*0.11)+'s'}}>
+                <span className="ifas-2__num">{o.id}</span>
+                <span className="ifas-2__name">{o.name}</span>
+              </div>
+            ))}
+          </div>
+          <div className="ifas-2__sub">16 Forces · 16 Principles · 16 Dimensions of Reality</div>
+        </div>
+      );
+    }
+
+    /* ── Scene 3 — 256 IFA ATOMS ── */
+    function IfaScene3() {
+      return (
+        <div className="ifas ifas-3">
+          <div className="ifas-3__eq">
+            <span style={{color:'#ffd700'}}>16</span>
+            <span className="ifas-3__op">×</span>
+            <span style={{color:'#b388ff'}}>16</span>
+            <span className="ifas-3__op">=</span>
+            <span style={{color:'#40e080'}}>256</span>
+            <span> Odu Ifa</span>
+          </div>
+          <div className="ifas-3__grid">
+            {Array.from({length:256},(_,i) => (
+              <div key={i} className="ifas-3__atom"
+                style={{background:IFANIM_COLORS[i%16],
+                  boxShadow:`0 0 4px ${IFANIM_COLORS[i%16]}`,
+                  animationDelay:(i*0.011)+'s'}} />
+            ))}
+          </div>
+          <div className="ifas-3__sub">The Ifa Atoms — Building Blocks of ALL Fields and ALL Existence</div>
+        </div>
+      );
+    }
+
+    /* ── Scene 4 — HOUSE OF IFA ── */
+    function IfaScene4() {
+      function wallBrick(side, i) {
+        const col = i%10, row = Math.floor(i/10);
+        const bw=14, bh=11, bg=2;
+        const x = (side==='L' ? 42 : 302) + col*(bw+bg);
+        const y = 150 + row*(bh+bg);
+        const c = IFANIM_COLORS[(i+(side==='L'?0:5))%16];
+        return (
+          <rect key={side+i} x={x} y={y} width={bw} height={bh} rx={2}
+            fill={c} opacity={0.86}
+            style={{animation:'ifanim-block 0.28s ease both',
+              animationDelay:((side==='L'?0:0.18)+i*0.022)+'s',
+              filter:`drop-shadow(0 0 4px ${c})`}} />
+        );
+      }
+      return (
+        <div className="ifas ifas-4">
+          <div className="ifas-4__top">Ifa — The House of Knowledge</div>
+          <div className="ifas-4__wrap">
+            <svg className="ifas-4__svg" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="s4bg" cx="50%" cy="8%" r="45%">
+                  <stop offset="0%" stopColor="#ffd700" stopOpacity="0.18"/>
+                  <stop offset="100%" stopColor="#ffd700" stopOpacity="0"/>
+                </radialGradient>
+              </defs>
+              <rect x={0} y={0} width={500} height={300} fill="url(#s4bg)"/>
+              <polygon points="250,14 494,142 6,142"
+                fill="rgba(255,215,0,0.04)" stroke="#ffd700" strokeWidth="2.8"
+                style={{filter:'drop-shadow(0 0 16px #ffd700)'}}/>
+              <polygon points="250,38 470,142 30,142"
+                fill="rgba(255,215,0,0.055)" stroke="rgba(255,215,0,0.4)" strokeWidth="1.2"/>
+              <polygon points="250,62 446,142 54,142"
+                fill="rgba(255,215,0,0.075)" stroke="rgba(255,215,0,0.25)" strokeWidth="1"/>
+              {Array.from({length:11},(_,i) => {
+                const y=78+i*5.8, hw=12+i*22, c=IFANIM_COLORS[i%16];
+                return <line key={'rb'+i} x1={250-hw} y1={y} x2={250+hw} y2={y}
+                  stroke={c} strokeWidth={2.8} opacity={0.58}
+                  style={{animation:'ifanim-block 0.26s ease both',
+                    animationDelay:(i*0.06)+'s',
+                    filter:`drop-shadow(0 0 5px ${c})`}}/>;
+              })}
+              <rect x={8} y={142} width={30} height={138} rx={4}
+                fill="rgba(255,215,0,0.05)" stroke="#ffd700" strokeWidth="1.5" opacity={0.7}
+                style={{animation:'ifanim-fade-up 0.6s 0.85s ease both'}}/>
+              <rect x={2} y={132} width={42} height={15} rx={3} fill="#ffd700" opacity={0.78}
+                style={{filter:'drop-shadow(0 0 12px #ffd700)',animation:'ifanim-pop 0.4s 0.95s ease both'}}/>
+              <rect x={462} y={142} width={30} height={138} rx={4}
+                fill="rgba(255,215,0,0.05)" stroke="#ffd700" strokeWidth="1.5" opacity={0.7}
+                style={{animation:'ifanim-fade-up 0.6s 0.85s ease both'}}/>
+              <rect x={456} y={132} width={42} height={15} rx={3} fill="#ffd700" opacity={0.78}
+                style={{filter:'drop-shadow(0 0 12px #ffd700)',animation:'ifanim-pop 0.4s 0.95s ease both'}}/>
+              {Array.from({length:100},(_,i) => wallBrick('L',i))}
+              {Array.from({length:100},(_,i) => wallBrick('R',i))}
+              <rect x={200} y={150} width={100} height={130} fill="rgba(3,1,26,0.88)"/>
+              <path d="M209,280 L209,196 Q209,158 250,158 Q291,158 291,196 L291,280"
+                fill="none" stroke="#ffd700" strokeWidth="2.2"
+                style={{filter:'drop-shadow(0 0 12px #ffd700)',animation:'ifanim-pop 0.5s 1.7s ease both'}}/>
+              <circle cx={250} cy={188} r={28} fill="none"
+                stroke="rgba(255,215,0,0.22)" strokeWidth="8"
+                style={{filter:'drop-shadow(0 0 10px rgba(255,215,0,0.5))',animation:'ifanim-atom-in 0.5s 2s ease both'}}/>
+              <circle cx={250} cy={188} r={16} fill="none"
+                stroke="rgba(153,136,255,0.5)" strokeWidth="4.5"
+                style={{filter:'drop-shadow(0 0 8px rgba(153,136,255,0.6))',animation:'ifanim-atom-in 0.5s 2.1s ease both'}}/>
+              <circle cx={250} cy={188} r={8} fill="rgba(255,215,0,0.25)"
+                style={{filter:'drop-shadow(0 0 16px #ffd700)',animation:'ifanim-pop 0.4s 2.2s ease both'}}/>
+              <text x={250} y={193} textAnchor="middle" fill="#ffd700"
+                fontSize={8.5} fontWeight="bold" fontFamily="Nunito,sans-serif" letterSpacing="2"
+                style={{filter:'drop-shadow(0 0 6px #ffd700)'}}>IFA</text>
+              <text x={250} y={248} textAnchor="middle"
+                fill="rgba(255,215,0,0.48)" fontSize={6.8} fontFamily="Nunito,sans-serif">256 ODU IFA</text>
+              <rect x={4} y={281} width={492} height={17} rx={4} fill="#ffd700"
+                style={{filter:'drop-shadow(0 0 24px #ffd700cc)',animation:'ifanim-pop 0.5s 2.6s ease both'}}/>
+              <text x={250} y={294} textAnchor="middle" fill="#07050f"
+                fontSize={9} fontWeight="bold" fontFamily="Nunito,sans-serif">
+                EJIOGBE + OYEKU MEJI — THE FOUNDATION
+              </text>
+              {[
+                {cx:72, cy:88, r:4.5, c:IFANIM_COLORS[0]},
+                {cx:178,cy:114,r:3.5, c:IFANIM_COLORS[3]},
+                {cx:322,cy:108,r:4,   c:IFANIM_COLORS[7]},
+                {cx:432,cy:92, r:4.5, c:IFANIM_COLORS[11]},
+                {cx:138,cy:68, r:3.5, c:IFANIM_COLORS[5]},
+                {cx:366,cy:74, r:4,   c:IFANIM_COLORS[13]},
+                {cx:250,cy:52, r:3,   c:IFANIM_COLORS[1]},
+                {cx:204,cy:108,r:3,   c:IFANIM_COLORS[9]},
+              ].map((p,i) => (
+                <circle key={'fp'+i} cx={p.cx} cy={p.cy} r={p.r} fill={p.c} opacity={0.82}
+                  style={{filter:`drop-shadow(0 0 7px ${p.c})`}}/>
+              ))}
+              <text x={250} y={23} textAnchor="middle" fill="#ffd700"
+                fontSize={20} fontFamily="serif"
+                style={{filter:'drop-shadow(0 0 22px #ffd700)'}}>✦</text>
+            </svg>
+          </div>
+          <div className="ifas-4__sub">One Single Structure — containing all of existence</div>
+        </div>
+      );
+    }
+
+    /* ── Scene 5 — ALL FIELDS ── */
+    function IfaScene5() {
+      return (
+        <div className="ifas ifas-5">
+          <div className="ifas-5__top">Every Field. Every Subject. Every Reality.</div>
+          <div className="ifas-5__arena">
+            <div className="ifas-5__hub">
+              <div className="ifas-5__hub-glyph">✦</div>
+              <div className="ifas-5__hub-name">IFA</div>
+            </div>
+            {IFANIM_FIELDS.map((f,i) => {
+              const angle = (i/IFANIM_FIELDS.length)*2*Math.PI - Math.PI/2;
+              const r=40, cx=50+r*Math.cos(angle), cy=50+r*Math.sin(angle);
+              return (
+                <div key={f.label} className="ifas-5__field"
+                  style={{left:cx+'%', top:cy+'%', color:f.col,
+                    borderColor:f.col, boxShadow:`0 0 10px ${f.col}55`,
+                    animationDelay:(0.1+i*0.19)+'s'}}>
+                  {f.emoji} {f.label}
+                </div>
+              );
+            })}
+          </div>
+          <div className="ifas-5__sub">All branches of the ONE Tree — the single Structure called Ifa</div>
+        </div>
+      );
+    }
+
+    /* ── Scene 6 — YOU ── */
+    function IfaScene6() {
+      return (
+        <div className="ifas ifas-6">
+          <div className="ifas-6__marks">
+            <AnimMarkCol code="1111" color="#9988ff" barH={26} barW={7}/>
+            <AnimMarkCol code="1111" color="#9988ff" barH={26} barW={7}/>
+            <div style={{width:18}}/>
+            <AnimMarkCol code="0000" color="#ffd700" barH={26} barW={7}/>
+            <AnimMarkCol code="0000" color="#ffd700" barH={26} barW={7}/>
+          </div>
+          <div className="ifas-6__you">YOU</div>
+          <div className="ifas-6__main">are learning the building blocks of</div>
+          <div className="ifas-6__everything">EVERYTHING</div>
+          <div className="ifas-6__dots">
+            {IFANIM_COLORS.map((c,i) => (
+              <div key={i} className="ifas-6__dot"
+                style={{background:c, boxShadow:`0 0 9px ${c}`, animationDelay:(i*0.08)+'s'}}/>
+            ))}
+          </div>
+          <div className="ifas-6__caption">
+            256 Odu Ifa · The Ifa Atoms · Building Blocks of All Knowledge and All Existence
+          </div>
+        </div>
+      );
+    }
+
+    function renderIfaScene(s) {
+      switch(s) {
+        case 0: return <IfaScene0/>;
+        case 1: return <IfaScene1/>;
+        case 2: return <IfaScene2/>;
+        case 3: return <IfaScene3/>;
+        case 4: return <IfaScene4/>;
+        case 5: return <IfaScene5/>;
+        case 6: return <IfaScene6/>;
+        default: return null;
+      }
+    }
+
+    /* ── Title Card ── */
+    function TitleCard() {
+      return (
+        <div className="video-title">
+          <div className="video-title__glyph">✦</div>
+          <div className="video-title__platform">The IFA Internet · CENProject</div>
+          <div className="video-title__main">Ifa Periodic Table</div>
+          <div className="video-title__kids">for Kids and Teens</div>
+          <div className="video-title__divider"/>
+          <div className="video-title__row">
+            <span className="video-title__anim">Ifa Animation</span>
+            <span className="video-title__sep"> · </span>
+            <span className="video-title__ifanim">Ifanimation</span>
+          </div>
+          <div className="video-title__tagline">The Story of Ifa — The Structure of Everything</div>
+        </div>
+      );
+    }
+
+    /* ── Outro Card ── */
+    function OutroCard() {
+      return (
+        <div className="video-outro">
+          <div className="video-outro__glyph">✦</div>
+          <div className="video-outro__text">IFA Internet</div>
+          <div className="video-outro__sub">256 Odu Ifa · The Structure of Everything</div>
+          <div className="video-outro__url">ifainternet.org/ifa-periodic-table/kids/</div>
+        </div>
+      );
+    }
+
+    /* ── VideoApp — auto-plays title → scenes 0–6 → outro ── */
+    /* Marker class on body so Python script can detect readiness */
+    function VideoApp() {
+      // scene: -2=blank(loading), -1=title, 0-6=animation scenes, 7=outro
+      const [scene, setScene] = useState(-2);
+
+      useEffect(() => {
+        document.body.classList.add('video-ready');
+        const timers = [];
+        let t = 600; // brief initial blank
+
+        // Title card
+        timers.push(setTimeout(() => setScene(-1), t));
+        t += SCENE_DURS[0]; // 4500ms
+
+        // Animation scenes 0–6
+        [3400,5600,5000,5400,5600,5800,5200].forEach((dur,i) => {
+          timers.push(setTimeout(() => setScene(i), t));
+          t += dur;
+        });
+
+        // Outro
+        timers.push(setTimeout(() => setScene(7), t));
+
+        return () => timers.forEach(clearTimeout);
+      }, []);
+
+      return (
+        <div className="video-stage">
+          {scene === -2 && <div style={{width:'100%',height:'100%',background:'#07050f'}}/>}
+          {scene === -1 && <TitleCard/>}
+          {scene >= 0 && scene <= 6 && (
+            <div className="ifanim-scene-wrap">{renderIfaScene(scene)}</div>
+          )}
+          {scene === 7 && <OutroCard/>}
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<VideoApp/>);
+  </script>
+</body>
+</html>

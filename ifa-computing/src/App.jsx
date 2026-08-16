@@ -326,6 +326,43 @@ const COMPUTER_TYPES = [
   { name: 'Quantum Computer',   bits: 'Qubit',    system: 'Superposition',        accent: '#0099ff' },
 ];
 
+// ── Kids Platform Promo ────────────────────────────────────────
+function KidsPromoSection() {
+  return (
+    <section id="kids" className="kids-promo">
+      <div className="container">
+        <div className="kids-promo__card">
+          <div className="kids-promo__blobs" aria-hidden="true">
+            <div className="kids-promo__blob kids-promo__blob--1" />
+            <div className="kids-promo__blob kids-promo__blob--2" />
+          </div>
+          <div className="kids-promo__inner">
+            <div className="kids-promo__badge">🌟 Ifa Computer for Kids &amp; Teens</div>
+            <h2 className="kids-promo__title">
+              <span style={{ color: '#f5c518' }}>Learn.</span>{' '}
+              <span style={{ color: '#00d9b8' }}>Think.</span>{' '}
+              <span style={{ color: '#7c4dff' }}>Build.</span>
+            </h2>
+            <p className="kids-promo__desc">
+              Master Ifa Matrix Math using cowrie shells, sacred palm nuts, kolanut &amp; Opele seeds —
+              or your favourite shapes. Build matrices, compute results, and become a thinker and
+              polymath in any career you choose!
+            </p>
+            <div className="kids-promo__features">
+              {['Ifa Matrix Playground', 'Yoruba Native Items', 'Add · Subtract · Multiply', '2×2 &amp; 3×3 Matrices'].map((f, i) => (
+                <span key={i} className="kids-promo__feat">{f}</span>
+              ))}
+            </div>
+            <a href="kids/" className="kids-promo__cta">
+              Open Ifa Computer for Kids 🚀
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── Header ─────────────────────────────────────────────────────
 function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -352,6 +389,7 @@ function Header() {
           <a className="nav-link" href="#information">Information</a>
           <a className="nav-link" href="#algorithm">Algorithm</a>
           <a className="nav-link" href="#language">Language</a>
+          <a className="nav-link" href="kids/">Kids 🌟</a>
           <a
             className="nav-link nav-link--cta"
             href="https://toe.cenproject.org/ifa-computer/"
@@ -1008,6 +1046,7 @@ function App() {
         <InformationSection />
         <AlgorithmSection />
         <LanguageSection />
+        <KidsPromoSection />
         <ComputerCTASection />
       </main>
       <Footer />

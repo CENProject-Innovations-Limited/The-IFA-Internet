@@ -930,6 +930,20 @@ function Ifanimation() {
             </>
           )}
         </div>
+
+        {/* DOWNLOAD */}
+        <div className="ifanim-dl">
+          <a
+            href="./ifanimation.mp4"
+            download="Ifanimation-Ifa-Periodic-Table-Kids.mp4"
+            className="ifanim-dl__btn"
+          >
+            ⬇ Download Video
+          </a>
+          <span className="ifanim-dl__info">
+            MP4 · HD · Share on WhatsApp &amp; Social Media
+          </span>
+        </div>
       </div>
     </section>
   );

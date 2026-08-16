@@ -559,7 +559,7 @@
       "description": "The polymathic viewing platform of the IFA Internet — examine any phenomenon, field, or system through the IFA framework lens. A premium platform for students of the IFA Academy of Polymaths.",
       "category": "tools",
       "alsoIn": ["education", "science"],
-      "url": "/ifa-lens/",
+      "url": "https://ifainternet.org/ifa-lens/",
       "featured": true,
       "local": true
     },
@@ -687,6 +687,17 @@
       "category": "science",
       "alsoIn": ["philosophy", "tech", "non-science"],
       "url": "/ebology-the-field-of-energy-exchange/",
+      "featured": true,
+      "local": true
+    },
+    {
+      "id": "iembok",
+      "name": "IEMBOK",
+      "subtitle": "Ifa/Orisa Engineering Management Body of Knowledge",
+      "description": "The IFABOK program that develops, studies, models, and builds engineering management using the mathematical, polymathic, holistic, and interdisciplinary approaches of Ifa/Orisa — applying this knowledge to create inventions and solve complex problems in society.",
+      "category": "tech",
+      "alsoIn": ["education", "science", "non-science"],
+      "url": "https://ifainternet.org/iembok/",
       "featured": true,
       "local": true
     }

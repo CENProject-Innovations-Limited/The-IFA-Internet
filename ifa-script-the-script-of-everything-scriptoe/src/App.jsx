@@ -98,11 +98,11 @@ const IDENTITIES = [
   },
   {
     id: 'scriptnet',
-    name: 'ScriptNet',
+    name: 'Script.IfaNet',
     abbr: 'The Script Network',
     icon: '◈',
     accent: '#f5c518',
-    desc: 'The network of all scripts — connecting every notation system, writing system, and encoding protocol into a single unified knowledge web. ScriptNet is the script layer of IfaNet, the Network of Everything.',
+    desc: 'The network of all scripts — connecting every notation system, writing system, and encoding protocol into a single unified knowledge web. Script.IfaNet is the script layer of IfaNet, the Network of Everything.',
   },
 ];
 
@@ -1366,7 +1366,7 @@ function PracticeSection() {
             <div className="practice__card-name">Script Networking</div>
             <p className="practice__card-desc">
               Scripts are not isolated — they form a network. IfaScript maps every writing system,
-              notation scheme, and encoding protocol as a node in ScriptNet, showing how all
+              notation scheme, and encoding protocol as a node in Script.IfaNet, showing how all
               scripts are interconnected expressions of the same underlying Consciousness-Energy.
             </p>
           </div>

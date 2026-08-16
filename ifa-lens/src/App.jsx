@@ -471,6 +471,182 @@ const POLYMATHIC_LINKS = [
   { name: 'IFA Analysis', subtitle: 'AnalysoE', url: '/ifa-analysis/', accent: '#f0920c', icon: '∫', desc: 'Unified analytical engine — meta-analysis across 256 Odu Ifa codes.' },
 ];
 
+// ── IfaNugget — Ayò Ọlọ́pọ́nfá Wisdom Cards ──────────────────
+const ATTITUDES = [
+  { num: '01', sym: '🌱', name: 'SOWING',      sub: 'Plant with Intention',    color: '#f0920c', desc: 'Every seed placed in the wrong pot costs you the game. Ayò teaches deliberate, purposeful action — never move without thought.' },
+  { num: '02', sym: '◉',  name: 'VISION',      sub: 'See Ahead',               color: '#8b5cf6', desc: 'The master looks 7 moves deep. Real Ayò players must read the board\'s future, not just its present state.' },
+  { num: '03', sym: '⚖',  name: 'BALANCE',     sub: 'Leave Room for All',      color: '#00d9b8', desc: 'The starvation rule forbids emptying your opponent\'s side. Ifa teaches: never take so much that you destroy the ecosystem of exchange.' },
+  { num: '04', sym: '⟳',  name: 'RHYTHM',      sub: 'Move with the Cycle',     color: '#6366f1', desc: 'Seeds flow counterclockwise without pause. Ayò teaches you to move in harmony with natural cycles, not against them.' },
+  { num: '05', sym: '⚡', name: 'OPPORTUNITY', sub: 'Capture the Chain',       color: '#f5c518', desc: 'Chain captures reward the attentive mind. Success belongs to those who recognise a sequence of opportunities and act swiftly.' },
+  { num: '06', sym: '▲',  name: 'PROGRESSION', sub: 'Rise Through the Levels', color: '#00c87c', desc: 'From Òpè to Àgbà-Ọ̀ta. True mastery is a journey of deliberate, incremental growth — one level at a time.' },
+  { num: '07', sym: '⬡',  name: 'KNOWLEDGE',   sub: 'Know Your 16 Fields',     color: '#e040fb', desc: 'Each of the 16 Pots maps to an Odu. The polymathic player — versed in all 16 — holds the deepest advantage.' },
+  { num: '08', sym: '◎',  name: 'HARMONY',     sub: 'Two Players, One Board',  color: '#3b9eff', desc: 'Ayò is not merely conquest — it is a meta-model of Ifa exchange. True victory is the elevation of both players through the game.' },
+];
+
+const POLYMATH_SKILLS = [
+  { sym: '∞',  name: 'Polymathic Vision',          color: '#8b5cf6', desc: 'See all 16 fields of knowledge as one unified system — the board as the universe, every move a cross-disciplinary insight.' },
+  { sym: '∑',  name: 'Mathematical Reasoning',     color: '#f0920c', desc: 'Apply Ifa mathematical methods across all disciplines. Every seed sown is an equation; every capture is a proof.' },
+  { sym: '⊕',  name: 'Interdisciplinary Thinking', color: '#00d9b8', desc: 'Cross knowledge boundaries as seeds cross pots. True insight lives at the intersection of all disciplines.' },
+  { sym: '⬡',  name: 'Systems Thinking',           color: '#6366f1', desc: 'The board is a living system. Every action ripples across the whole — think in systems, act in systems.' },
+  { sym: '⚡', name: 'Opportunity Intelligence',   color: '#f5c518', desc: 'Where others see empty pots, you see chain captures. Transform every obstacle into a sequence of advantages.' },
+  { sym: '⚖',  name: 'Ethics & Safety',            color: '#00c87c', desc: 'The starvation rule is law. Operate with the conviction that balance, fairness, and safety are non-negotiable in every field.' },
+  { sym: '◉',  name: 'Pattern Recognition',        color: '#e040fb', desc: 'Read the board across 256 Odu states. The master player sees the pattern before it fully forms.' },
+  { sym: 'Ẹ',  name: 'Deep Play',                  color: '#3b9eff', desc: 'Ayò means Joy. The deepest learning happens through play — engage fully, learn joyfully, grow continuously.' },
+  { sym: '⧖',  name: 'Strategic Patience',         color: '#ff6b35', desc: 'Know when to wait and when to act. Timing is the hidden variable in every equation — mastering it is mastery itself.' },
+  { sym: '⊛',  name: 'Wisdom in Action',           color: '#f472b6', desc: 'Translate insight into real-world impact. The game is preparation; the world is the board that truly matters.' },
+];
+
+// ── IfaNugget SVG helpers ─────────────────────────────────────
+function nuggetWrapSVG(text, x, y, maxW, fontSize, fill, lineH) {
+  const cpl = Math.floor(maxW / (fontSize * 0.57));
+  const words = text.split(' ');
+  const lines = [];
+  let cur = '';
+  words.forEach(w => {
+    if ((cur + w).length > cpl && cur) { lines.push(cur.trim()); cur = w + ' '; }
+    else cur += w + ' ';
+  });
+  if (cur.trim()) lines.push(cur.trim());
+  const lh = lineH || (fontSize + 3);
+  return lines.slice(0, 5).map((l, i) =>
+    `<text x="${x}" y="${y + i * lh}" fill="${fill}" font-size="${fontSize}" font-family="'Segoe UI',system-ui,sans-serif">${l.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</text>`
+  ).join('');
+}
+
+function nuggetGridSVG(W, H, step) {
+  const s = step || 60;
+  const lines = [];
+  for (let x = 0; x <= W; x += s) lines.push(`<line x1="${x}" y1="0" x2="${x}" y2="${H}" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>`);
+  for (let y = 0; y <= H; y += s) lines.push(`<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>`);
+  return lines.join('');
+}
+
+function buildAttitudesSVG() {
+  const W = 1200, H = 930;
+  const cols = 4, cw = 258, ch = 295, gap = 15;
+  const gridW = cols * cw + (cols - 1) * gap;
+  const gx = Math.round((W - gridW) / 2);
+  const gy = 220;
+
+  const potsSVG = ATTITUDES.flatMap((att, i) => [
+    `<circle cx="${120 + i * 122}" cy="172" r="18" fill="none" stroke="${att.color}" stroke-width="1.5" opacity="0.55"/>`,
+    `<circle cx="${120 + i * 122}" cy="172" r="7" fill="${att.color}" opacity="0.4"/>`,
+    `<circle cx="${120 + i * 122}" cy="197" r="16" fill="none" stroke="${att.color}" stroke-width="1" opacity="0.35"/>`,
+    `<circle cx="${120 + i * 122}" cy="197" r="5" fill="${att.color}" opacity="0.25"/>`,
+  ]).join('');
+
+  const cardsSVG = ATTITUDES.map((att, i) => {
+    const col = i % cols, row = Math.floor(i / cols);
+    const x = gx + col * (cw + gap), y = gy + row * (ch + gap);
+    return `
+      <g>
+        <rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="12" fill="#0a0f1a" stroke="${att.color}" stroke-width="1.5" stroke-opacity="0.5"/>
+        <rect x="${x}" y="${y}" width="4" height="${ch}" rx="2" fill="${att.color}"/>
+        <text x="${x + cw - 14}" y="${y + 22}" text-anchor="end" fill="${att.color}" font-size="10" font-family="monospace" font-weight="700" opacity="0.65">${att.num}</text>
+        <text x="${x + 18}" y="${y + 58}" fill="${att.color}" font-size="28" font-family="sans-serif">${att.sym}</text>
+        <text x="${x + 18}" y="${y + 92}" fill="#e8ecf2" font-size="15" font-family="'Segoe UI',system-ui,sans-serif" font-weight="800">${att.name}</text>
+        <rect x="${x + 18}" y="${y + 100}" width="36" height="2" rx="1" fill="${att.color}" opacity="0.7"/>
+        <text x="${x + 18}" y="${y + 120}" fill="${att.color}" font-size="10.5" font-family="'Segoe UI',system-ui,sans-serif">${att.sub}</text>
+        ${nuggetWrapSVG(att.desc, x + 18, y + 144, cw - 30, 11.5, '#6e90b8', 17)}
+      </g>`;
+  }).join('');
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+  <defs><radialGradient id="bg1" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="#0d1322"/><stop offset="100%" stop-color="#06080e"/></radialGradient></defs>
+  <rect width="${W}" height="${H}" fill="url(#bg1)"/>
+  ${nuggetGridSVG(W, H)}
+  <text x="${W/2}" y="46" text-anchor="middle" fill="#f0920c" font-size="10.5" font-family="'Segoe UI',system-ui,sans-serif" font-weight="700" letter-spacing="3">IFA ACADEMY OF POLYMATHS · IFANUGGET · IFANIMATION</text>
+  <text x="${W/2}" y="86" text-anchor="middle" fill="#e8ecf2" font-size="27" font-family="'Segoe UI',system-ui,sans-serif" font-weight="800">8 ATTITUDES YOU CAN LEARN FROM AYÒ IFÁ GAME</text>
+  <text x="${W/2}" y="114" text-anchor="middle" fill="#6e90b8" font-size="13" font-family="'Segoe UI',system-ui,sans-serif">Ayò Ọlọ́pọ́nfá · The 16-Pot Ifa Game · IfaLens Platform · ifainternet.org/ifa-lens</text>
+  <line x1="120" y1="134" x2="${W-120}" y2="134" stroke="rgba(240,146,12,0.22)" stroke-width="1"/>
+  ${potsSVG}
+  ${cardsSVG}
+  <text x="${W/2}" y="${H-16}" text-anchor="middle" fill="#1c2b3a" font-size="10" font-family="'Segoe UI',system-ui,sans-serif">ifainternet.org/ifa-lens · IFA Academy of Polymaths · Ayò Ọlọ́pọ́nfá · © CENProject Innovations Limited 2026</text>
+</svg>`;
+}
+
+function buildPolymathSVG() {
+  const W = 1200, H = 980;
+  const hx = 600, hy = 500, r = 310;
+  const n = POLYMATH_SKILLS.length;
+  const cw = 168, ch = 118;
+
+  const positions = POLYMATH_SKILLS.map((_, i) => {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI / n);
+    return { x: Math.round(hx + r * Math.cos(a)), y: Math.round(hy + r * Math.sin(a)) };
+  });
+
+  const linesSVG = positions.map((pos, i) =>
+    `<line x1="${hx}" y1="${hy}" x2="${pos.x}" y2="${pos.y}" stroke="${POLYMATH_SKILLS[i].color}" stroke-width="1" stroke-opacity="0.22" stroke-dasharray="5 5"/>`
+  ).join('');
+
+  const cardsSVG = positions.map((pos, i) => {
+    const sk = POLYMATH_SKILLS[i];
+    const x = pos.x - cw / 2, y = pos.y - ch / 2;
+    return `
+      <g>
+        <rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="10" fill="#0a0f1a" stroke="${sk.color}" stroke-width="1.5" stroke-opacity="0.5"/>
+        <text x="${pos.x}" y="${y + 26}" text-anchor="middle" fill="${sk.color}" font-size="18" font-family="sans-serif">${sk.sym}</text>
+        ${nuggetWrapSVG(sk.name, x + 10, y + 46, cw - 20, 10, '#e8ecf2', 13)}
+        ${nuggetWrapSVG(sk.desc, x + 10, y + 66, cw - 20, 9, '#6e90b8', 12)}
+      </g>`;
+  }).join('');
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+  <defs><radialGradient id="bg2" cx="50%" cy="48%" r="60%"><stop offset="0%" stop-color="#0d1322"/><stop offset="100%" stop-color="#06080e"/></radialGradient></defs>
+  <rect width="${W}" height="${H}" fill="url(#bg2)"/>
+  ${nuggetGridSVG(W, H)}
+  <text x="${W/2}" y="44" text-anchor="middle" fill="#8b5cf6" font-size="10.5" font-family="'Segoe UI',system-ui,sans-serif" font-weight="700" letter-spacing="3">IFA ACADEMY OF POLYMATHS · IFANUGGET · IFANIMATION</text>
+  <text x="${W/2}" y="82" text-anchor="middle" fill="#e8ecf2" font-size="25" font-family="'Segoe UI',system-ui,sans-serif" font-weight="800">THE POLYMATHIC MIND — WHAT AYÒ IFÁ TEACHES</text>
+  <text x="${W/2}" y="108" text-anchor="middle" fill="#6e90b8" font-size="13" font-family="'Segoe UI',system-ui,sans-serif">10 Polymathic Skills · IFA Academy of Polymaths · IfaLens Platform · ifainternet.org/ifa-lens</text>
+  <line x1="120" y1="128" x2="${W-120}" y2="128" stroke="rgba(139,92,246,0.2)" stroke-width="1"/>
+  <circle cx="${hx}" cy="${hy}" r="${r}" fill="none" stroke="rgba(139,92,246,0.07)" stroke-width="1"/>
+  ${linesSVG}
+  ${cardsSVG}
+  <circle cx="${hx}" cy="${hy}" r="100" fill="#0d1322" stroke="rgba(139,92,246,0.45)" stroke-width="2"/>
+  <circle cx="${hx}" cy="${hy}" r="82" fill="#0a0f1a" stroke="rgba(139,92,246,0.25)" stroke-width="1"/>
+  <text x="${hx}" y="${hy - 22}" text-anchor="middle" fill="#8b5cf6" font-size="26" font-family="sans-serif">⬡</text>
+  <text x="${hx}" y="${hy + 8}" text-anchor="middle" fill="#e8ecf2" font-size="12" font-family="'Segoe UI',system-ui,sans-serif" font-weight="800">Ayò Ọlọ́pọ́nfá</text>
+  <text x="${hx}" y="${hy + 24}" text-anchor="middle" fill="#6e90b8" font-size="10" font-family="'Segoe UI',system-ui,sans-serif">16-Pot Ifa Game</text>
+  <text x="${hx}" y="${hy + 40}" text-anchor="middle" fill="#6366f1" font-size="9" font-family="'Segoe UI',system-ui,sans-serif" letter-spacing="1">POLYMATHIC SKILLS</text>
+  <text x="${W/2}" y="${H-16}" text-anchor="middle" fill="#1c2b3a" font-size="10" font-family="'Segoe UI',system-ui,sans-serif">ifainternet.org/ifa-lens · IFA Academy of Polymaths · Ayò Ọlọ́pọ́nfá · © CENProject Innovations Limited 2026</text>
+</svg>`;
+}
+
+function nuggetDownload(designNum, format) {
+  const svg = designNum === 1 ? buildAttitudesSVG() : buildPolymathSVG();
+  const W = 1200, H = designNum === 1 ? 930 : 980;
+  const filename = designNum === 1 ? 'ayo-8-attitudes' : 'ayo-polymathic-skills';
+
+  const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+  const svgUrl = URL.createObjectURL(svgBlob);
+
+  if (format === 'svg') {
+    const a = document.createElement('a');
+    a.href = svgUrl; a.download = filename + '.svg';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(svgUrl), 1200);
+  } else {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = W * 2; canvas.height = H * 2;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(2, 2);
+      ctx.drawImage(img, 0, 0, W, H);
+      canvas.toBlob(pngBlob => {
+        const pngUrl = URL.createObjectURL(pngBlob);
+        const a = document.createElement('a');
+        a.href = pngUrl; a.download = filename + '.png';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(pngUrl), 1200);
+      }, 'image/png');
+      URL.revokeObjectURL(svgUrl);
+    };
+    img.src = svgUrl;
+  }
+}
+
 // ── Header ────────────────────────────────────────────────────
 function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -1497,6 +1673,228 @@ function AboutSection() {
   );
 }
 
+// ── IfaNugget Section ─────────────────────────────────────────
+function IfaNuggetSection() {
+  const [design, setDesign] = useState(0);
+  const sectionRef = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true); },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) obs.observe(sectionRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  return (
+    <section className="ifanugget" id="ifanugget" ref={sectionRef}>
+      <div className="section__inner">
+        <div className="section__head">
+          <div className="section__badge" style={{'--badge-c': '#f0920c'}}>
+            IfaNugget · Ifanimation · Ayò Ọlọ́pọ́nfá
+          </div>
+          <h2 className="section__title">
+            Wisdom from the{' '}
+            <span className="section__title-yoruba">16-Pot Ifa Game</span>
+          </h2>
+          <p className="section__lead">
+            Animated knowledge nuggets for polymathic learners — drawn from the ancient intelligence
+            of Ayò Ọlọ́pọ́nfá and the 256 Odu Ifa. For students of the IFA Academy of Polymaths:
+            kids, teens, adults, and professionals.
+          </p>
+        </div>
+
+        <div className="ifanugget__tabs">
+          <button
+            className={`ifanugget__tab${design === 0 ? ' ifanugget__tab--active' : ''}`}
+            onClick={() => setDesign(0)}
+          >
+            <span className="ifanugget__tab-sym">⬡</span>
+            8 Attitudes of Ayò Ifá
+          </button>
+          <button
+            className={`ifanugget__tab${design === 1 ? ' ifanugget__tab--active' : ''}`}
+            onClick={() => setDesign(1)}
+          >
+            <span className="ifanugget__tab-sym">∞</span>
+            The Polymathic Mind
+          </button>
+        </div>
+
+        {design === 0 && <AttitudesDisplay visible={visible} />}
+        {design === 1 && <PolymathDisplay  visible={visible} />}
+
+        <div className="ifanugget__actions">
+          <span className="ifanugget__dl-label">
+            Download Design {design + 1}:
+          </span>
+          <button
+            className="ifanugget__dl-btn ifanugget__dl-btn--png"
+            onClick={() => nuggetDownload(design + 1, 'png')}
+          >
+            ↓ PNG (2×)
+          </button>
+          <button
+            className="ifanugget__dl-btn ifanugget__dl-btn--svg"
+            onClick={() => nuggetDownload(design + 1, 'svg')}
+          >
+            ↓ SVG
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AttitudesDisplay({ visible }) {
+  return (
+    <div className={`nugget-d1${visible ? ' nugget--in' : ''}`}>
+      <div className="nugget-d1__seeds" aria-hidden="true">
+        {ATTITUDES.map((att, i) => (
+          <div key={i} className="nugget-seed"
+               style={{ '--sc': att.color, '--sx': `${6 + i * 11.5}%`, '--sd': `${i * 0.7}s` }}/>
+        ))}
+      </div>
+
+      <div className="nugget-d1__head">
+        <div className="nugget-d1__pots" aria-hidden="true">
+          {[...ATTITUDES, ...ATTITUDES].map((att, i) => (
+            <div key={i} className="nugget-pot"
+                 style={{ '--pc': att.color, animationDelay: `${i * 0.15}s` }}/>
+          ))}
+        </div>
+        <div className="nugget-d1__eyebrow">IfaNugget · Ifanimation</div>
+        <h3 className="nugget-d1__title">
+          8 Attitudes You Can Learn from Ayò Ifá Game
+        </h3>
+        <p className="nugget-d1__sub">
+          Ayò Ọlọ́pọ́nfá · The 16-Pot Ifa Game · IFA Academy of Polymaths
+        </p>
+      </div>
+
+      <div className="nugget-d1__grid">
+        {ATTITUDES.map((att, i) => (
+          <div key={i} className="att-card"
+               style={{ '--ac': att.color, animationDelay: `${i * 0.09}s` }}>
+            <div className="att-card__top">
+              <span className="att-card__num">{att.num}</span>
+              <span className="att-card__sym">{att.sym}</span>
+            </div>
+            <div className="att-card__name">{att.name}</div>
+            <div className="att-card__rule"/>
+            <div className="att-card__sub">{att.sub}</div>
+            <p className="att-card__desc">{att.desc}</p>
+            <div className="att-card__glow"/>
+          </div>
+        ))}
+      </div>
+
+      <div className="nugget-d1__footer">
+        <span>ifainternet.org/ifa-lens</span>
+        <span className="nugget-sep">·</span>
+        <span>IFA Academy of Polymaths</span>
+        <span className="nugget-sep">·</span>
+        <span>© CENProject 2026</span>
+      </div>
+    </div>
+  );
+}
+
+function PolymathDisplay({ visible }) {
+  const HX = 450, HY = 360, RAD = 260;
+  const n  = POLYMATH_SKILLS.length;
+
+  const positions = POLYMATH_SKILLS.map((_, i) => {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI / n);
+    return {
+      x: Math.round(HX + RAD * Math.cos(a)),
+      y: Math.round(HY + RAD * Math.sin(a)),
+    };
+  });
+
+  return (
+    <div className={`nugget-d2${visible ? ' nugget--in' : ''}`}>
+      <div className="nugget-d1__head">
+        <div className="nugget-d1__eyebrow" style={{color: 'var(--lens)'}}>
+          IfaNugget · Ifanimation
+        </div>
+        <h3 className="nugget-d1__title" style={{color: 'var(--lens)'}}>
+          The Polymathic Mind — What Ayò Ifá Teaches
+        </h3>
+        <p className="nugget-d1__sub">
+          10 Polymathic Skills · IFA Academy of Polymaths · IfaLens
+        </p>
+      </div>
+
+      {/* Hub-and-Spoke canvas (desktop) */}
+      <div className="nugget-d2__canvas">
+        <svg className="nugget-d2__svg"
+             viewBox="0 0 900 720"
+             preserveAspectRatio="xMidYMid meet"
+             aria-hidden="true">
+          <circle cx={HX} cy={HY} r={RAD}
+                  fill="none" stroke="rgba(139,92,246,0.08)" strokeWidth="1"/>
+          {positions.map((pos, i) => (
+            <line key={i}
+              x1={HX} y1={HY} x2={pos.x} y2={pos.y}
+              stroke={POLYMATH_SKILLS[i].color}
+              strokeWidth="1.2" strokeOpacity="0.28"
+              strokeDasharray="5 5"/>
+          ))}
+        </svg>
+
+        <div className="nugget-hub" style={{ left: HX, top: HY }}>
+          <div className="nugget-hub__ring nugget-hub__ring--3"/>
+          <div className="nugget-hub__ring nugget-hub__ring--2"/>
+          <div className="nugget-hub__ring nugget-hub__ring--1"/>
+          <div className="nugget-hub__core">
+            <div className="nugget-hub__sym">⬡</div>
+            <div className="nugget-hub__name">Ayò Ọlọ́pọ́nfá</div>
+            <div className="nugget-hub__sub">16-Pot Ifa Game</div>
+          </div>
+        </div>
+
+        {POLYMATH_SKILLS.map((skill, i) => (
+          <div key={i} className="skill-card"
+               style={{
+                 '--sc': skill.color,
+                 left: positions[i].x,
+                 top:  positions[i].y,
+                 animationDelay: `${0.25 + i * 0.08}s`,
+               }}>
+            <div className="skill-card__icon">{skill.sym}</div>
+            <div className="skill-card__name">{skill.name}</div>
+            <p className="skill-card__desc">{skill.desc}</p>
+            <div className="skill-card__glow"/>
+          </div>
+        ))}
+      </div>
+
+      {/* Mobile grid fallback */}
+      <div className="nugget-d2__mgrid">
+        {POLYMATH_SKILLS.map((skill, i) => (
+          <div key={i} className="skill-card skill-card--mg"
+               style={{ '--sc': skill.color, animationDelay: `${i * 0.07}s` }}>
+            <div className="skill-card__icon">{skill.sym}</div>
+            <div className="skill-card__name">{skill.name}</div>
+            <p className="skill-card__desc">{skill.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="nugget-d1__footer" style={{marginTop: '28px'}}>
+        <span>ifainternet.org/ifa-lens</span>
+        <span className="nugget-sep">·</span>
+        <span>IFA Academy of Polymaths</span>
+        <span className="nugget-sep">·</span>
+        <span>© CENProject 2026</span>
+      </div>
+    </div>
+  );
+}
+
 // ── Footer ────────────────────────────────────────────────────
 function Footer() {
   return (
@@ -1542,6 +1940,7 @@ function App() {
         <IfaTechSection />
         <EnergySection />
         <PolymathicArsenalSection />
+        <IfaNuggetSection />
         <AboutSection />
       </main>
       <Footer />

@@ -736,7 +736,11 @@ function IboDet2x2() {
               Ìbò Gbígbà in Practice — Watch the Evidence
             </div>
             <div className="ibodet2x2-evidence__desc">
-              See a highly respected Babalawo demonstrate the Ìbò sweeping process live. Observe the
+              See a highly respected Babalawo and president of{' '}
+              <a href="https://www.ifacouncil.org/" target="_blank" rel="noopener noreferrer">
+                the International Council for Ifá Religion (ICIR)
+              </a>
+              , Dr. Fayemi Fatunde Fakayode, demonstrate the Ìbò sweeping process live. Observe the
               column and row sweeps, the center termination, and how the orientation
               rule of Methods 1 and 2 manifests in a real divination session.
             </div>

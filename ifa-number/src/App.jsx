@@ -284,6 +284,7 @@ function IfaNumberApp() {
           <a className="ifn-nav__link" href="#infinity">Infinity</a>
           <a className="ifn-nav__link" href="#energy">Energy</a>
           <a className="ifn-nav__link" href="#production">Pair Prod.</a>
+          <a className="ifn-nav__link ifn-nav__link--ap" href="./ode-onka/">Òde Ònkà ↗</a>
           <a className="ifn-nav__link ifn-nav__link--ap" href="./ap-playground/" target="_blank" rel="noopener noreferrer">AP Playground ↗</a>
         </div>
       </nav>
@@ -311,6 +312,7 @@ function IfaNumberApp() {
         </p>
         <div className="ifn-hero__cta">
           <a href="#universe" className="ifn-btn ifn-btn--primary">Explore the Number Universe</a>
+          <a href="./ode-onka/" className="ifn-btn ifn-btn--ghost">Òde Ònkà ↗</a>
           <a href="./ap-playground/" className="ifn-btn ifn-btn--ghost" target="_blank" rel="noopener noreferrer">AP Playground ↗</a>
           <a href="https://ifainternet.org" className="ifn-btn ifn-btn--ghost" target="_blank" rel="noopener noreferrer">IFA Internet ↗</a>
         </div>
@@ -892,6 +894,37 @@ function IfaNumberApp() {
           </div>
           <a href="./ap-playground/" className="ifn-btn ifn-btn--ghost" target="_blank" rel="noopener noreferrer">
             Open AP Playground ↗
+          </a>
+        </div>
+      </section>
+
+      {/* ÒDE ÒNKÀ IFASIM CTA */}
+      <section className="ifn-ap-section">
+        <div className="ifn-ap-card" style={{borderColor:'rgba(139,92,246,0.3)', background:'linear-gradient(140deg,#09091e 0%,#060818 60%,#0b0a22 100%)'}}>
+          <div className="ifn-ap-card__glow" style={{background:'radial-gradient(ellipse at top left, rgba(139,92,246,0.18) 0%, transparent 65%)'}} />
+          <div className="ifn-ap-card__eyebrow" style={{color:'#8b5cf6'}}>IfaSim · IFA Number · Ìká Méjì — Odu #11</div>
+          <div className="ifn-ap-card__title">Òde Ònkà — World of Numbers</div>
+          <div className="ifn-ap-card__body">
+            <p>An Ifa Simulation (IfaSim) governed by <strong>Ìká Méjì</strong>. In this world, inhabitants speak <strong>Èdè Onka</strong> — OnkaLang, the Language of Numbers.</p>
+            <p>Explore Ifa Numbers (Ònkà Ifá), Orisa Numbers (Ònkàṣà), and the sacred meta-numbers that underlie everything in existence — revealed through Odu Ifa.</p>
+            <p>Discover the dual structures: Ifa Ònkà (the Odu that birthed all numbers) and Òrìṣà Ònkà (Numbers as Orisa).</p>
+          </div>
+          <div className="ifn-ap-card__stats">
+            <div className="ifn-ap-card__stat">
+              <span className="ifn-ap-card__stat-val" style={{color:'#8b5cf6'}}>Ònkàfá</span>
+              <span className="ifn-ap-card__stat-label">Ifa Numbers</span>
+            </div>
+            <div className="ifn-ap-card__stat">
+              <span className="ifn-ap-card__stat-val" style={{color:'#fbbf24'}}>Ònkàṣà</span>
+              <span className="ifn-ap-card__stat-label">Orisa Numbers</span>
+            </div>
+            <div className="ifn-ap-card__stat">
+              <span className="ifn-ap-card__stat-val" style={{color:'#f0920c'}}>Ìká Méjì</span>
+              <span className="ifn-ap-card__stat-label">Odu #11</span>
+            </div>
+          </div>
+          <a href="./ode-onka/" className="ifn-btn ifn-btn--primary" style={{background:'linear-gradient(135deg,#7c3aed,#8b5cf6)', boxShadow:'0 4px 20px rgba(139,92,246,0.35)'}}>
+            Enter Òde Ònkà →
           </a>
         </div>
       </section>

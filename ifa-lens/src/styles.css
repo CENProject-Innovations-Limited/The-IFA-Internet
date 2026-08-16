@@ -1201,3 +1201,257 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   .sub-gate__card { padding: 36px 24px 28px; }
   .sub-gate__title { font-size: 1.35rem; }
 }
+
+/* ── IfaNugget ────────────────────────────────────────────── */
+.ifanugget {
+  padding: 100px 0;
+  background: linear-gradient(180deg, var(--bg3) 0%, var(--bg) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.ifanugget::before {
+  content: '';
+  position: absolute;
+  top: -150px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 600px;
+  background: radial-gradient(ellipse, rgba(240,146,12,0.055) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ifanugget__tabs {
+  display: flex; gap: 12px; justify-content: center; margin-bottom: 36px;
+}
+.ifanugget__tab {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 26px; border-radius: 40px;
+  font-size: 0.87rem; font-weight: 700;
+  color: var(--muted); border: 1px solid var(--border);
+  background: var(--bg2); transition: all 0.22s; letter-spacing: 0.3px;
+}
+.ifanugget__tab-sym { font-size: 1.05rem; }
+.ifanugget__tab:hover { color: var(--text); border-color: rgba(255,255,255,0.14); }
+.ifanugget__tab--active {
+  color: var(--text);
+  background: linear-gradient(135deg, rgba(240,146,12,0.14), rgba(139,92,246,0.14));
+  border-color: rgba(240,146,12,0.38);
+}
+.ifanugget__actions {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; margin-top: 32px;
+}
+.ifanugget__dl-label {
+  font-size: 0.78rem; color: var(--muted); font-weight: 600; letter-spacing: 0.4px;
+}
+.ifanugget__dl-btn {
+  padding: 9px 20px; border-radius: 8px;
+  font-size: 0.8rem; font-weight: 700; border: 1px solid;
+  transition: all 0.2s; letter-spacing: 0.3px;
+}
+.ifanugget__dl-btn--png {
+  background: rgba(240,146,12,0.1); border-color: rgba(240,146,12,0.38); color: #ffaa32;
+}
+.ifanugget__dl-btn--png:hover { background: rgba(240,146,12,0.2); transform: translateY(-1px); }
+.ifanugget__dl-btn--svg {
+  background: rgba(139,92,246,0.09); border-color: rgba(139,92,246,0.38); color: #a78bfa;
+}
+.ifanugget__dl-btn--svg:hover { background: rgba(139,92,246,0.18); transform: translateY(-1px); }
+
+/* Design 1 wrapper */
+.nugget-d1 {
+  position: relative;
+  background: linear-gradient(155deg, #0d1322 0%, #06080e 100%);
+  border: 1px solid rgba(240,146,12,0.14);
+  border-radius: 20px; overflow: hidden;
+  padding: 40px 32px 32px;
+}
+/* Falling seed particles */
+.nugget-d1__seeds { position: absolute; inset: 0; pointer-events: none; }
+.nugget-seed {
+  position: absolute; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--sc); left: var(--sx); top: -8px;
+  opacity: 0.4; animation: nugget-fall 9s var(--sd) ease-in infinite;
+}
+/* Ayo pots row */
+.nugget-d1__pots {
+  display: flex; gap: 8px; justify-content: center; margin-bottom: 18px; flex-wrap: wrap;
+}
+.nugget-pot {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 1.5px solid var(--pc);
+  background: color-mix(in srgb, var(--pc) 14%, transparent);
+  position: relative;
+  animation: nugget-pot-pulse 2.8s ease-in-out infinite;
+}
+.nugget-pot::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--pc); opacity: 0.48;
+}
+/* Header text */
+.nugget-d1__head { text-align: center; margin-bottom: 32px; position: relative; z-index: 1; }
+.nugget-d1__eyebrow {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 2.5px;
+  text-transform: uppercase; color: #f0920c; margin-bottom: 10px;
+}
+.nugget-d1__title {
+  font-size: clamp(1.15rem, 2.4vw, 1.65rem); font-weight: 800;
+  color: var(--text); margin-bottom: 7px; line-height: 1.22;
+}
+.nugget-d1__sub { font-size: 0.8rem; color: var(--muted); }
+/* 4×2 grid */
+.nugget-d1__grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 13px; position: relative; z-index: 1;
+}
+/* Attitude cards */
+.att-card {
+  background: rgba(10,15,26,0.92);
+  border: 1px solid color-mix(in srgb, var(--ac) 30%, transparent);
+  border-left: 3px solid var(--ac);
+  border-radius: 12px; padding: 16px 14px;
+  position: relative; overflow: hidden;
+  transition: transform 0.24s, border-color 0.24s;
+  opacity: 0; transform: translateY(28px);
+}
+.nugget--in .att-card {
+  animation: nugget-card-in 0.48s ease forwards;
+}
+.att-card:hover { transform: translateY(-4px); border-color: var(--ac); }
+.att-card__top {
+  display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;
+}
+.att-card__num { font-size: 0.68rem; font-weight: 700; font-family: monospace; color: var(--ac); opacity: 0.65; }
+.att-card__sym {
+  font-size: 1.55rem; line-height: 1;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--ac) 50%, transparent));
+}
+.att-card__name { font-size: 0.86rem; font-weight: 800; color: var(--text); letter-spacing: 0.7px; margin-bottom: 6px; }
+.att-card__rule { width: 26px; height: 2px; background: var(--ac); border-radius: 1px; margin-bottom: 6px; opacity: 0.75; }
+.att-card__sub { font-size: 0.7rem; font-weight: 600; color: var(--ac); margin-bottom: 8px; }
+.att-card__desc { font-size: 0.71rem; color: var(--muted); line-height: 1.55; }
+.att-card__glow {
+  position: absolute; bottom: -28px; right: -28px; width: 72px; height: 72px;
+  border-radius: 50%; background: var(--ac); opacity: 0.04; pointer-events: none;
+}
+.att-card:hover .att-card__glow { opacity: 0.09; }
+/* Footer branding */
+.nugget-d1__footer {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; margin-top: 26px;
+  font-size: 0.68rem; color: #24364a; letter-spacing: 0.4px;
+}
+.nugget-sep { opacity: 0.45; }
+
+/* Design 2 wrapper */
+.nugget-d2 {
+  position: relative;
+  background: linear-gradient(155deg, #0d1322 0%, #06080e 100%);
+  border: 1px solid rgba(139,92,246,0.16);
+  border-radius: 20px; overflow: hidden;
+  padding: 40px 32px 32px;
+}
+/* Hub canvas (desktop) */
+.nugget-d2__canvas {
+  position: relative; width: 900px; height: 720px;
+  margin: 0 auto; display: block;
+}
+.nugget-d2__svg {
+  position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;
+}
+/* Hub */
+.nugget-hub { position: absolute; }
+.nugget-hub__ring {
+  position: absolute; border-radius: 50%; border: 1px solid rgba(139,92,246,0.35);
+}
+.nugget-hub__ring--1 { width: 138px; height: 138px; top: -69px; left: -69px; animation: nugget-hub-spin 22s linear infinite; }
+.nugget-hub__ring--2 { width: 168px; height: 168px; top: -84px; left: -84px; border-style: dashed; opacity: 0.45; animation: nugget-hub-spin 34s linear infinite reverse; }
+.nugget-hub__ring--3 { width: 200px; height: 200px; top: -100px; left: -100px; opacity: 0.18; }
+.nugget-hub__core {
+  width: 126px; height: 126px; border-radius: 50%;
+  background: radial-gradient(ellipse, #12193a 0%, #0a0f1a 100%);
+  border: 2px solid rgba(139,92,246,0.52);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1px; position: absolute; top: -63px; left: -63px; text-align: center;
+}
+.nugget-hub__sym { font-size: 1.55rem; color: var(--lens); filter: drop-shadow(0 0 8px rgba(139,92,246,0.6)); }
+.nugget-hub__name { font-size: 0.6rem; font-weight: 800; color: var(--text); line-height: 1.2; }
+.nugget-hub__sub  { font-size: 0.53rem; color: var(--muted); }
+/* Skill cards (hub layout) */
+.skill-card {
+  position: absolute; width: 150px;
+  transform: translate(-50%,-50%);
+  background: rgba(10,15,26,0.93);
+  border: 1px solid color-mix(in srgb, var(--sc) 38%, transparent);
+  border-radius: 10px; padding: 11px 10px;
+  text-align: center;
+  transition: transform 0.24s, border-color 0.24s;
+  opacity: 0;
+}
+.nugget--in .skill-card {
+  animation: nugget-skill-in 0.48s ease forwards;
+}
+.skill-card:hover { transform: translate(-50%,-50%) scale(1.07); border-color: var(--sc); z-index: 10; }
+.skill-card__icon {
+  font-size: 1.25rem; color: var(--sc); margin-bottom: 4px;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--sc) 45%, transparent));
+}
+.skill-card__name { font-size: 0.66rem; font-weight: 800; color: var(--text); margin-bottom: 5px; line-height: 1.25; }
+.skill-card__desc { font-size: 0.6rem; color: var(--muted); line-height: 1.45; }
+.skill-card__glow {
+  position: absolute; inset: 0; border-radius: 10px;
+  background: color-mix(in srgb, var(--sc) 5%, transparent); pointer-events: none;
+}
+.skill-card:hover .skill-card__glow { background: color-mix(in srgb, var(--sc) 10%, transparent); }
+/* Mobile grid (hidden on desktop) */
+.nugget-d2__mgrid { display: none; }
+/* Mobile skill card variant */
+.skill-card--mg {
+  position: static; width: auto;
+  transform: none; opacity: 0;
+}
+.nugget--in .skill-card--mg { animation: nugget-card-in 0.48s ease forwards; }
+.skill-card--mg:hover { transform: translateY(-3px); }
+
+/* ── Keyframes ────────────────────────────────────────────── */
+@keyframes nugget-card-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes nugget-skill-in {
+  from { opacity: 0; transform: translate(-50%,-50%) scale(0.55); }
+  to   { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+}
+@keyframes nugget-fall {
+  0%   { transform: translateY(0) scale(1); opacity: 0.4; }
+  85%  { opacity: 0.2; }
+  100% { transform: translateY(95vh) scale(0.4); opacity: 0; }
+}
+@keyframes nugget-hub-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes nugget-pot-pulse {
+  0%, 100% { opacity: 0.65; } 50% { opacity: 1; }
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 1000px) {
+  .nugget-d1__grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 920px) {
+  .nugget-d2__canvas { display: none; }
+  .nugget-d2__mgrid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+}
+@media (max-width: 640px) {
+  .nugget-d1__grid { grid-template-columns: 1fr 1fr; }
+  .nugget-d2__mgrid { grid-template-columns: 1fr; }
+  .ifanugget__tabs { flex-direction: column; align-items: stretch; }
+  .nugget-d1 { padding: 28px 16px 24px; }
+  .nugget-d2 { padding: 28px 16px 24px; }
+  .ifanugget__actions { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+  .nugget-d1__grid { grid-template-columns: 1fr; }
+}
