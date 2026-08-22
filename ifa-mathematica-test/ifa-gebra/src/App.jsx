@@ -385,6 +385,103 @@ function OdiSymbol({ size = 20, className = '' }) {
   );
 }
 
+// ─── OduMarkSymbol — Generic Odu mark symbol for any of the 16 Odu ─────────────
+// bits: [b0, b1, b2, b3] where 0 = double bar (Oyeku/Anergy), 1 = single bar (Ogbe/Energy)
+
+function OduMarkSymbol({ bits = [0,0,0,0], color = '#888', size = 20, className = '' }) {
+  const canvasRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width  = size * DPR;
+    canvas.height = size * DPR;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+    ctx.clearRect(0, 0, size, size);
+
+    const nRows  = 4;
+    const barW   = size * 0.115;
+    const dblGap = size * 0.055;
+    const colGap = size * 0.17;
+    const rowGap = size * 0.085;
+    const totalH = size * 0.82;
+    const barH   = (totalH - (nRows - 1) * rowGap) / nRows;
+    const startY = (size - totalH) / 2;
+
+    const colW   = 2 * barW + dblGap;
+    const totalW = 2 * colW + colGap;
+    const startX = (size - totalW) / 2;
+    const cx1    = startX + colW / 2;
+    const cx2    = startX + colW + colGap + colW / 2;
+
+    // Parse hex color to R, G, B
+    const hex = color.replace('#', '');
+    const cr = parseInt(hex.slice(0, 2), 16) || 128;
+    const cg = parseInt(hex.slice(2, 4), 16) || 128;
+    const cb = parseInt(hex.slice(4, 6), 16) || 128;
+
+    const LAYERS = [
+      [3.6,  `rgba(${cr},${cg},${cb},0.04)`, 4.5 ],
+      [2.2,  `rgba(${cr},${cg},${cb},0.11)`, 2.8 ],
+      [1.3,  `rgba(${cr},${cg},${cb},0.28)`, 1.6 ],
+      [0.7,  `rgba(${cr},${cg},${cb},0.62)`, 0.8 ],
+      [0.35, `rgba(${cr},${cg},${cb},0.86)`, 0.4 ],
+      [0.15, `rgba(${cr},${cg},${cb},0.96)`, 0.15],
+    ];
+
+    function roundRect(x, y, w, h) {
+      const rad = Math.min(w / 2, h / 2, size * 0.025);
+      ctx.beginPath();
+      ctx.moveTo(x + rad, y);
+      ctx.lineTo(x + w - rad, y);
+      ctx.arcTo(x + w, y, x + w, y + rad, rad);
+      ctx.lineTo(x + w, y + h - rad);
+      ctx.arcTo(x + w, y + h, x + w - rad, y + h, rad);
+      ctx.lineTo(x + rad, y + h);
+      ctx.arcTo(x, y + h, x, y + h - rad, rad);
+      ctx.lineTo(x, y + rad);
+      ctx.arcTo(x, y, x + rad, y, rad);
+      ctx.closePath();
+    }
+
+    function drawSingleBar(cx, y) {
+      LAYERS.forEach(([scale, rgba, blur]) => {
+        const w = barW * scale, h = barH + (scale - 1) * barH * 0.5;
+        ctx.save();
+        ctx.fillStyle   = rgba;
+        ctx.shadowColor = rgba;
+        ctx.shadowBlur  = blur * barW;
+        roundRect(cx - w / 2, y + (barH - h) / 2, w, h);
+        ctx.fill();
+        ctx.restore();
+      });
+    }
+
+    function drawCol(cx, colBits) {
+      colBits.forEach((bit, i) => {
+        const y = startY + i * (barH + rowGap);
+        if (bit === 0) {
+          drawSingleBar(cx - dblGap / 2 - barW / 2, y);
+          drawSingleBar(cx + dblGap / 2 + barW / 2, y);
+        } else {
+          drawSingleBar(cx, y);
+        }
+      });
+    }
+
+    drawCol(cx1, bits);
+    drawCol(cx2, bits);
+  }, [size, bits.join(','), color]);
+
+  return (
+    <canvas ref={canvasRef} className={className}
+      style={{ display: 'inline-block', verticalAlign: 'middle', width: size + 'px', height: size + 'px' }}
+      aria-label="Odu Ifa Marks Symbol" />
+  );
+}
+
 // ─── IfaExpr — Ifa Variable ───────────────────────────────────────────────────
 
 function IfaExpr({ char, charSize = '1.6rem', symSize = 11, charColor = 'var(--text-1)' }) {
@@ -409,6 +506,27 @@ const ALIASES = [
   { label: 'CEN Algebra',           color: '#14b8d4' },
   { label: 'Energy Algebra',        color: '#f0920c' },
   { label: 'ToEGebra',              color: '#e040fb' },
+];
+
+// All 16 Odu Ifa — bits: 1=single bar (Ogbe/Energy), 0=double bar (Oyeku/Anergy)
+// Codes verified against ifa-periodic-table/data/odu.json
+const ODU_CHESS = [
+  { id:'ogbe',     num:1,  name:'Ogbe',     yoruba:'Ẹ̀jì Ogbè',       color:'#f0c840', bits:[1,1,1,1] },
+  { id:'oyeku',    num:2,  name:'Oyeku',    yoruba:'Oyẹkú Mẹ́jì',     color:'#8892a4', bits:[0,0,0,0] },
+  { id:'iwori',    num:3,  name:'Iwori',    yoruba:'Ìwòrì Mẹ́jì',     color:'#a855f7', bits:[0,1,1,0] },
+  { id:'odi',      num:4,  name:'Odi',      yoruba:'Odí Mẹ́jì',       color:'#00c87c', bits:[1,0,0,1] },
+  { id:'irosun',   num:5,  name:'Irosun',   yoruba:'Ìrosùn Mẹ́jì',    color:'#e9498a', bits:[1,1,0,0] },
+  { id:'owonrin',  num:6,  name:'Owonrin',  yoruba:'Òwọ́nrín Mẹ́jì',  color:'#00d9b8', bits:[0,0,1,1] },
+  { id:'obara',    num:7,  name:'Obara',    yoruba:'Òbàrà Mẹ́jì',     color:'#f5c518', bits:[1,0,0,0] },
+  { id:'okanran',  num:8,  name:'Okanran',  yoruba:'Òkànràn Mẹ́jì',   color:'#4aa3ff', bits:[0,0,0,1] },
+  { id:'ogunda',   num:9,  name:'Ogunda',   yoruba:'Ògúndá Mẹ́jì',    color:'#e8772a', bits:[1,1,1,0] },
+  { id:'osa',      num:10, name:'Osa',      yoruba:'Òsá Mẹ́jì',       color:'#ff4d6d', bits:[0,1,1,1] },
+  { id:'ika',      num:11, name:'Ika',      yoruba:'Ìká Mẹ́jì',       color:'#00b4a6', bits:[0,1,0,0] },
+  { id:'oturupon', num:12, name:'Oturupon', yoruba:'Òtúrúpọ̀n Mẹ́jì', color:'#6b7280', bits:[0,0,1,0] },
+  { id:'otura',    num:13, name:'Otura',    yoruba:'Òtúrá Mẹ́jì',     color:'#c084fc', bits:[1,0,1,1] },
+  { id:'irete',    num:14, name:'Irete',    yoruba:'Ìrẹ̀tẹ̀ Mẹ́jì',   color:'#34d399', bits:[1,1,0,1] },
+  { id:'ose',      num:15, name:'Ose',      yoruba:'Òsẹ́ Mẹ́jì',      color:'#fb923c', bits:[1,0,1,0] },
+  { id:'ofun',     num:16, name:'Ofun',     yoruba:'Òfún Mẹ́jì',      color:'#818cf8', bits:[0,1,0,1] },
 ];
 
 const CLASSICAL_FIELDS = [
@@ -817,7 +935,7 @@ function IfaGebraMatrix() {
   const NR = 40;
 
   return (
-    <div style={{ margin: '56px 0 48px' }}>
+    <div className="ifg-matrix-wrap">
       <div style={{ textAlign: 'center', marginBottom: '24px' }}>
         <h3 className="ift-sub-heading" style={{ margin: '0 0 10px' }}>
           IfaGebra 0+8D Matrix —{' '}
@@ -1136,6 +1254,35 @@ function InfinitiesSection() {
             </div>
           </div>
         </div>
+
+        {/* ── The 16 IfaInfinities: ToE Infinities ─────────────────────────── */}
+        <div className="ifg-toe-wrap">
+          <div className="section__header section__header--center" style={{ marginBottom: '28px' }}>
+            <span className="section__eyebrow section__eyebrow--violet">Ifa Infinities</span>
+            <h3 className="ift-sub-heading" style={{ margin: '8px 0 12px' }}>
+              The 16 IfaInfinities:{' '}
+              <span style={{ color: ACCENT }}>ToE Infinities</span>
+            </h3>
+          </div>
+
+          <div className="ifg-toe-grid">
+            {[...ODU_CHESS].map((odu) => (
+              <div key={odu.id} className="ifg-toe-card" style={{ border: `1px solid ${odu.color}40` }}>
+                <div className="ifg-toe-card__num" style={{ color: odu.color }}>#{odu.num}</div>
+                {odu.num === 1
+                  ? <OgbeSymbol size={34} />
+                  : odu.num === 2
+                    ? <OyekuSymbol size={34} />
+                    : <OduMarkSymbol bits={odu.bits} color={odu.color} size={34} />
+                }
+                <div className="ifg-toe-card__name" style={{ color: odu.color }}>{odu.name}</div>
+                <div className="ifg-toe-card__yoruba">{odu.yoruba}</div>
+                <div className="ifg-toe-card__bits" style={{ color: `${odu.color}88` }}>{odu.bits.join('')}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );

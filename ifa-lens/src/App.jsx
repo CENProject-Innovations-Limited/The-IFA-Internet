@@ -352,10 +352,10 @@ const FRAME_PAIRS = [
     toAccent: '#f5c518',
     desc: 'Every physical law maps to a mathematical structure. IfaLens reveals the Consciousness-Energy equivalence between force and transformation, energy and functional norm.',
     translations: [
-      { source: 'Force', lens: 'CEN Transformation Operator', target: 'Linear Map / Morphism' },
-      { source: 'Energy', lens: 'CEN Ogbe Energy Field', target: 'Functional Norm' },
-      { source: 'Momentum', lens: 'Impulse Vector (ẹ̀kọ́ vector)', target: 'Gradient / Derivative' },
-      { source: 'Wave Function (Ψ)', lens: 'IfaWave Function', target: 'Fourier Basis Element' },
+      { source: 'Force', lens: 'Energy (Ogbe)', target: 'Linear Map / Morphism' },
+      { source: 'Energy', lens: 'Energy (Ogbe)', target: 'Functional Norm' },
+      { source: 'Momentum', lens: 'Energy (Ogbe)', target: 'Gradient / Derivative' },
+      { source: 'Wave Function (Ψ)', lens: 'Energy (Ogbe)', target: 'Fourier Basis Element' },
     ],
   },
   {
@@ -365,10 +365,10 @@ const FRAME_PAIRS = [
     toAccent: '#00d9b8',
     desc: 'Music is physics in experiential form. IfaLens shows how every musical element corresponds to a physical phenomenon — all are expressions of CEN Energy in oscillation.',
     translations: [
-      { source: 'Rhythm', lens: 'Temporal Frequency Pattern', target: 'Oscillation / Frequency' },
-      { source: 'Harmony', lens: 'Resonance Energy State', target: 'Wave Superposition' },
-      { source: 'Melody', lens: 'CEN Energy Sequence', target: 'Signal Envelope' },
-      { source: 'Chord', lens: 'Odu Harmonic Set', target: 'Coupled Oscillators' },
+      { source: 'Rhythm', lens: 'Energy (Ogbe)', target: 'Oscillation / Frequency' },
+      { source: 'Harmony', lens: 'Energy (Ogbe)', target: 'Wave Superposition' },
+      { source: 'Melody', lens: 'Energy (Ogbe)', target: 'Signal Envelope' },
+      { source: 'Chord', lens: 'Energy (Ogbe)', target: 'Coupled Oscillators' },
     ],
   },
   {
@@ -378,10 +378,10 @@ const FRAME_PAIRS = [
     toAccent: '#a855f7',
     desc: 'Markets are information systems. IfaLens translates financial structures into information-theoretic equivalents — both are energy flowing through network channels.',
     translations: [
-      { source: 'Price Signal', lens: 'CEN Information Carrier', target: 'Shannon Entropy' },
-      { source: 'Risk', lens: 'CEN Uncertainty Measure', target: 'Kolmogorov Complexity' },
-      { source: 'Portfolio', lens: 'Knowledge Ensemble', target: 'Error-Correcting Code' },
-      { source: 'Market', lens: 'CEN Information Network', target: 'Channel Capacity' },
+      { source: 'Price Signal', lens: 'Energy (Ogbe)', target: 'Shannon Entropy' },
+      { source: 'Risk', lens: 'Energy (Ogbe)', target: 'Kolmogorov Complexity' },
+      { source: 'Portfolio', lens: 'Energy (Ogbe)', target: 'Error-Correcting Code' },
+      { source: 'Market', lens: 'Energy (Ogbe)', target: 'Channel Capacity' },
     ],
   },
   {
@@ -391,10 +391,10 @@ const FRAME_PAIRS = [
     toAccent: '#38bdf8',
     desc: 'Language and computation share deep structural roots. IfaLens maps linguistic forms to computational equivalents via IfaLang — the Language of Everything.',
     translations: [
-      { source: 'Grammar', lens: 'IfaLang Formal Syntax', target: 'Context-Free Grammar' },
-      { source: 'Semantics', lens: 'CEN Meaning State', target: 'Type System / Semantics' },
-      { source: 'Phoneme', lens: 'Minimal Sound Energy Unit', target: 'Bit / Token' },
-      { source: 'Discourse', lens: 'CEN Information Flow', target: 'Program Execution' },
+      { source: 'Grammar', lens: 'Energy (Ogbe)', target: 'Context-Free Grammar' },
+      { source: 'Semantics', lens: 'Energy (Ogbe)', target: 'Type System / Semantics' },
+      { source: 'Phoneme', lens: 'Energy (Ogbe)', target: 'Bit / Token' },
+      { source: 'Discourse', lens: 'Energy (Ogbe)', target: 'Program Execution' },
     ],
   },
 ];
@@ -1253,6 +1253,82 @@ function IfascopesSection() {
             </div>
           ))}
         </div>
+
+        {/* IfaLang Key Vocabulary: narrowscope vs IfaScope */}
+        <div className="ifalang-vocab">
+          <div className="ifalang-vocab__label">IfaLang · Key Vocabulary</div>
+
+          <div className="ifalang-vocab__grid">
+
+            {/* narrowscope */}
+            <div className="ifalang-vocab__card ifalang-vocab__card--narrow">
+              <div className="ifalang-vocab__card-header">
+                <span className="ifalang-vocab__icon">⊟</span>
+                <div>
+                  <h3 className="ifalang-vocab__term">narrowscope</h3>
+                  <span className="ifalang-vocab__pron">pron. /ˈnarəʊskōp/ — like <em>microscope</em> or <em>horoscope</em></span>
+                </div>
+              </div>
+              <p className="ifalang-vocab__def">
+                The siloed or fragmented approach to knowledge prevalent in modern (Western) education
+                systems — where each field is studied in isolation, cut off from the whole. Narrowscope
+                produces specialists who see their silo deeply but cannot see the connections between
+                all fields that constitute the full landscape of knowledge.
+              </p>
+              <div className="ifalang-vocab__chips">
+                <span className="ifalang-vocab__chip">fragmented knowledge</span>
+                <span className="ifalang-vocab__chip">siloed disciplines</span>
+                <span className="ifalang-vocab__chip">Western education model</span>
+              </div>
+            </div>
+
+            {/* IfaScope / OrisaScope */}
+            <div className="ifalang-vocab__card ifalang-vocab__card--ifa">
+              <div className="ifalang-vocab__card-header">
+                <span className="ifalang-vocab__icon">◉</span>
+                <div>
+                  <h3 className="ifalang-vocab__term">IfaScope <span className="ifalang-vocab__aka">· OrisaScope</span></h3>
+                  <span className="ifalang-vocab__pron">also: <em>polyscope</em> — a polymathic scope</span>
+                </div>
+              </div>
+              <p className="ifalang-vocab__def">
+                The polymathic, unified scope of knowledge rooted in Ifa — seeing all fields of
+                knowledge as One and interweaving them together. IfaScope / OrisaScope recognises that
+                every discipline is a translation of the same underlying Consciousness-Energy (CEN),
+                and that true understanding requires holding all fields simultaneously in view.
+              </p>
+              <div className="ifalang-vocab__chips">
+                <span className="ifalang-vocab__chip ifalang-vocab__chip--ifa">unified knowledge</span>
+                <span className="ifalang-vocab__chip ifalang-vocab__chip--ifa">polymathic</span>
+                <span className="ifalang-vocab__chip ifalang-vocab__chip--ifa">polyscope</span>
+                <span className="ifalang-vocab__chip ifalang-vocab__chip--ifa">IFA Internet</span>
+              </div>
+            </div>
+
+          </div>
+
+          {/* contrast bar */}
+          <div className="ifalang-vocab__contrast">
+            <div className="ifalang-vocab__contrast-side ifalang-vocab__contrast-side--narrow">
+              <span className="ifalang-vocab__contrast-label">narrowscope</span>
+              <span className="ifalang-vocab__contrast-sub">Fragmented · Siloed · Finite</span>
+            </div>
+            <div className="ifalang-vocab__contrast-vs">
+              <svg viewBox="0 0 60 24" width="60" height="24" aria-hidden="true">
+                <polygon points="0,6 14,12 0,18" fill="#8b5cf6" opacity="0.7"/>
+                <line x1="14" y1="12" x2="46" y2="12" stroke="#8b5cf6" strokeWidth="1.5" opacity="0.5"/>
+                <polygon points="60,6 46,12 60,18" fill="#8b5cf6" opacity="0.7"/>
+              </svg>
+              <span>vs</span>
+            </div>
+            <div className="ifalang-vocab__contrast-side ifalang-vocab__contrast-side--ifa">
+              <span className="ifalang-vocab__contrast-label">IfaScope · OrisaScope</span>
+              <span className="ifalang-vocab__contrast-sub">Unified · Polymathic · Infinite</span>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );

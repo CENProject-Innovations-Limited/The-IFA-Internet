@@ -3,177 +3,7 @@
    toe.cenproject.org
 ───────────────────────────────────────────────────────────── */
 
-const { useState, useEffect, useRef } = React;
-
-// ── OgbeSymbol (SymboE — Ogbe Energy Symbol canvas) ──────────
-function OgbeSymbol({ size = 52 }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const s = size;
-    canvas.width  = s;
-    canvas.height = s;
-    const ctx = canvas.getContext('2d');
-    const cx = s / 2, cy = s / 2, r = s * 0.36;
-    const gold = '#f5c518';
-    ctx.clearRect(0, 0, s, s);
-    const draw = (alpha, lineW) => {
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.strokeStyle = gold;
-      ctx.lineWidth   = lineW;
-      ctx.lineCap     = 'round';
-      // 4-lobed lemniscate cross (horizontal + vertical)
-      for (let rot = 0; rot < 2; rot++) {
-        ctx.beginPath();
-        for (let t = 0; t <= Math.PI * 2; t += 0.01) {
-          const scale = Math.cos(2 * t) >= 0 ? Math.sqrt(Math.cos(2 * t)) : 0;
-          const x = cx + (rot === 0 ? 1 : 0) * r * scale * Math.cos(t) +
-                         (rot === 1 ? 1 : 0) * r * scale * Math.sin(t);
-          const y = cy + (rot === 0 ? 1 : 0) * r * scale * Math.sin(t) +
-                         (rot === 1 ? 1 : 0) * r * scale * Math.cos(t);
-          t < 0.02 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      }
-      ctx.restore();
-    };
-    draw(0.12, s * 0.22);
-    draw(0.22, s * 0.13);
-    draw(0.55, s * 0.055);
-    draw(1.00, s * 0.022);
-  }, [size]);
-  return React.createElement('canvas', { ref, width: size, height: size,
-    style: { display: 'block', margin: '0 auto' } });
-}
-
-// ── OyekuSymbol (SymboN — Oyeku Anergy Symbol canvas) ─────────
-function OyekuSymbol({ size = 52 }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const s = size;
-    canvas.width  = s;
-    canvas.height = s;
-    const ctx = canvas.getContext('2d');
-    const cx = s / 2, cy = s / 2, r = s * 0.36;
-    const gold = '#f5c518';
-    ctx.clearRect(0, 0, s, s);
-    // Draw SymboE base (same 4-lobed lemniscate cross)
-    const drawLobes = (alpha, lineW) => {
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.strokeStyle = gold;
-      ctx.lineWidth   = lineW;
-      ctx.lineCap     = 'round';
-      for (let rot = 0; rot < 2; rot++) {
-        ctx.beginPath();
-        for (let t = 0; t <= Math.PI * 2; t += 0.01) {
-          const scale = Math.cos(2 * t) >= 0 ? Math.sqrt(Math.cos(2 * t)) : 0;
-          const x = cx + (rot === 0 ? 1 : 0) * r * scale * Math.cos(t) +
-                         (rot === 1 ? 1 : 0) * r * scale * Math.sin(t);
-          const y = cy + (rot === 0 ? 1 : 0) * r * scale * Math.sin(t) +
-                         (rot === 1 ? 1 : 0) * r * scale * Math.cos(t);
-          t < 0.02 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-      }
-      ctx.restore();
-    };
-    drawLobes(0.12, s * 0.22);
-    drawLobes(0.22, s * 0.13);
-    drawLobes(0.55, s * 0.055);
-    drawLobes(1.00, s * 0.022);
-    // Draw diagonal line: upper-right → lower-left (SymboN slash)
-    const ext = s * 0.30;
-    const diag = [[cx + ext, cy - ext], [cx - ext, cy + ext]];
-    const drawDiag = (alpha, lineW, blur) => {
-      ctx.save();
-      ctx.globalAlpha = alpha;
-      ctx.strokeStyle = gold;
-      ctx.lineWidth   = lineW;
-      ctx.lineCap     = 'round';
-      ctx.shadowColor = gold;
-      ctx.shadowBlur  = blur;
-      ctx.beginPath();
-      ctx.moveTo(diag[0][0], diag[0][1]);
-      ctx.lineTo(diag[1][0], diag[1][1]);
-      ctx.stroke();
-      ctx.restore();
-    };
-    drawDiag(0.03, s * 0.20, s * 0.12);
-    drawDiag(0.07, s * 0.12, s * 0.08);
-    drawDiag(0.16, s * 0.07, s * 0.05);
-    drawDiag(0.34, s * 0.03, s * 0.03);
-    drawDiag(0.62, s * 0.014, s * 0.015);
-    drawDiag(0.90, s * 0.007, s * 0.007);
-    drawDiag(0.95, s * 0.003, s * 0.003);
-  }, [size]);
-  return React.createElement('canvas', { ref, width: size, height: size,
-    style: { display: 'block', margin: '0 auto' } });
-}
-
-// ── MetaCircleCanvas (IfaZero / IfaOne Metarepresentation) ─────
-function MetaCircleCanvas({ gold = true, size = 44 }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const DPR = window.devicePixelRatio || 1;
-    canvas.width        = size * DPR;
-    canvas.height       = size * DPR;
-    canvas.style.width  = size + 'px';
-    canvas.style.height = size + 'px';
-    const ctx = canvas.getContext('2d');
-    ctx.scale(DPR, DPR);
-    const cx = size / 2, cy = size / 2;
-    const R   = size * 0.360;   /* circle radius  */
-    const ARR = size * 0.135;   /* arrowhead size */
-
-    /* Full-circle glow layers */
-    const circL = gold
-      ? [[2.2,'rgba(245,197,24,0.15)',5],[1.0,'rgba(245,197,24,0.58)',2.5],[0.5,'rgba(255,248,210,0.92)',1]]
-      : [[2.2,'rgba(225,35,65,0.18)', 4],[1.0,'rgba(235,55,80,0.65)', 2.5],[0.5,'rgba(255,120,140,0.88)',1]];
-    for (const [lw, color, blur] of circL) {
-      ctx.save();
-      ctx.strokeStyle = color; ctx.lineWidth = lw;
-      ctx.shadowColor = color; ctx.shadowBlur = blur;
-      ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke();
-      ctx.restore();
-    }
-
-    /* Arrowhead: IfaZero tip at right (cx+R, cy); IfaOne tip at left (cx-R, cy); both angle π/2 (↓) */
-    const tipX = gold ? cx + R : cx - R;
-    const angle = Math.PI / 2;
-    const arrL = gold
-      ? [['rgba(245,197,24,0.42)',7],['rgba(255,248,210,0.92)',1.5]]
-      : [['rgba(225,35,65,0.44)', 6],['rgba(255,120,140,0.90)',1.5]];
-    for (const [color, blur] of arrL) {
-      ctx.save();
-      ctx.translate(tipX, cy); ctx.rotate(angle);
-      ctx.shadowColor = color; ctx.shadowBlur = blur; ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(-ARR, -ARR * 0.44);
-      ctx.lineTo(-ARR,  ARR * 0.44);
-      ctx.closePath(); ctx.fill();
-      ctx.restore();
-    }
-
-    /* Centre dot */
-    const dotColor = gold ? 'rgba(245,197,24,1)'  : 'rgba(230,40,65,1)';
-    const dotFill  = gold ? 'rgba(255,248,210,1)' : 'rgba(255,170,185,1)';
-    ctx.save();
-    ctx.shadowColor = dotColor; ctx.shadowBlur = 7;
-    ctx.fillStyle = dotFill;
-    ctx.beginPath(); ctx.arc(cx, cy, 1.8, 0, 2 * Math.PI); ctx.fill();
-    ctx.restore();
-  }, [gold, size]);
-  return React.createElement('canvas', { ref,
-    style: { display:'block', flexShrink:0 } });
-}
+const { useState, useEffect } = React;
 
 // ── Category color map ────────────────────────────────────────
 const CAT_COLOR = {
@@ -197,57 +27,90 @@ const APP_ICON = {
   'ifa-game':           'G',
   'ifa-analysis':       'IA',
   'ifa-mechanics':      'M',
-  'ifagebra':           'IG',
-  'ifa-number':         'IN',
-  'ifa-art':            '🎭',
+  'ifa-physics':        'PH',
 };
+
+// ── Intro Overlay ─────────────────────────────────────────────
+function IntroOverlay({ onClose }) {
+  return (
+    <div className="intro-overlay" role="dialog" aria-modal="true" aria-label="Audio Intro">
+      <div className="intro-overlay__inner">
+        <div className="intro-overlay__badge">The IFA Internet · Audio Intro</div>
+        <h2 className="intro-overlay__title">Orunmila</h2>
+        <p className="intro-overlay__artist">Ifagbenusola Owomide Popoola</p>
+        <div className="intro-overlay__player">
+          <iframe
+            style={{ borderRadius: '12px' }}
+            src="https://open.spotify.com/embed/track/6bwuE7eBzjjOz6Sy9bhKPU?utm_source=generator&theme=0"
+            width="100%"
+            height="152"
+            frameBorder="0"
+            allowFullScreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title="Orunmila — Ifagbenusola Owomide Popoola on Spotify"
+          />
+        </div>
+        <button className="intro-overlay__enter" onClick={onClose}>
+          Enter The IFA Internet →
+        </button>
+        <button className="intro-overlay__skip" onClick={onClose}>
+          Skip intro
+        </button>
+      </div>
+    </div>
+  );
+}
 
 // ── Header ────────────────────────────────────────────────────
 function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
-
-  const close = () => setMenuOpen(false);
-
   return (
-    <>
-      <header className="header">
-        <div className="header__inner">
-          <a href="/" className="header__logo">
-            <img src="./src/assets/itoe_logo.png" alt="iTOE" className="header__logo-mark" fetchpriority="high" />
-            <div className="header__logo-text">
-              <span className="header__logo-title">The IFA Internet</span>
-            </div>
-          </a>
-          <nav className="header__nav">
-            <a className="nav-link" href="#mission">Mission</a>
-            <a className="nav-link" href="#platforms">Platforms</a>
-            <a className="nav-link" href="#networking">Networking</a>
-            <a className="nav-link" href="https://cenproject.org/" target="_blank" rel="noopener noreferrer">CENProject</a>
-            <a className="nav-link nav-link--cta" href="https://toe.cenproject.org" target="_blank" rel="noopener noreferrer">Explore</a>
-          </nav>
-          <button
-            className={`nav-hamburger${menuOpen ? ' nav-hamburger--open' : ''}`}
-            onClick={() => setMenuOpen(o => !o)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={menuOpen}
-          >
-            <span className="nav-hamburger__icon">{menuOpen ? '✕' : '☰'}</span>
-          </button>
-        </div>
-      </header>
-      <div className={`nav-drawer${menuOpen ? ' nav-drawer--open' : ''}`} role="navigation" aria-label="Mobile navigation">
-        <a className="nav-drawer__link" href="#mission" onClick={close}>Mission</a>
-        <a className="nav-drawer__link" href="#platforms" onClick={close}>Platforms</a>
-        <a className="nav-drawer__link" href="#networking" onClick={close}>Networking</a>
-        <a className="nav-drawer__link" href="https://cenproject.org/" target="_blank" rel="noopener noreferrer" onClick={close}>CENProject</a>
-        <a className="nav-drawer__cta" href="https://toe.cenproject.org" target="_blank" rel="noopener noreferrer" onClick={close}>Explore →</a>
+    <header className="header">
+      <div className="header__inner">
+        <a href="/" className="header__logo">
+          <img src="../src/assets/itoe_logo.png" alt="iTOE" className="header__logo-mark" />
+          <div className="header__logo-text">
+            <span className="header__logo-title">The IFA Internet</span>
+          </div>
+        </a>
+        <nav className="header__nav">
+          <a className="nav-link" href="#mission">Mission</a>
+          <a className="nav-link" href="#platforms">Platforms</a>
+          <a className="nav-link" href="#networking">Networking</a>
+          <a className="nav-link" href="https://cenproject.org/" className="nav-link">CENProject</a>
+          <a className="nav-link nav-link--cta" href="https://toe.cenproject.org" target="_blank" rel="noopener noreferrer">Explore</a>
+        </nav>
       </div>
-    </>
+    </header>
+  );
+}
+
+// ── Mobile Bottom Bar ─────────────────────────────────────────
+function MobileBar() {
+  const items = [
+    { sym: '⌂',  label: 'Home',      href: '/' },
+    { sym: '◈',  label: 'Mission',   href: '#mission' },
+    { sym: '⊞',  label: 'Platforms', href: '#platforms' },
+    { sym: '◉',  label: 'Network',   href: '#networking' },
+    { sym: '→',  label: 'Explore',   href: 'https://toe.cenproject.org', target: '_blank' },
+  ];
+  return (
+    <nav className="mobile-bar" aria-label="Mobile navigation">
+      <div className="mobile-bar__row">
+        {items.map(it => (
+          <a
+            key={it.label}
+            className="mobile-bar__item"
+            href={it.href}
+            target={it.target || undefined}
+            rel={it.target ? 'noopener noreferrer' : undefined}
+          >
+            <span className="mobile-bar__sym">{it.sym}</span>
+            <span>{it.label}</span>
+          </a>
+        ))}
+      </div>
+    </nav>
   );
 }
 
@@ -361,9 +224,7 @@ function StatsBar({ stats }) {
       <div className="stats__inner container">
         {stats.map(s => (
           <div key={s.label} className="stat">
-            <div className="stat__value">
-              {s.value === 'SYMBOE' ? <OgbeSymbol size={52} /> : s.value}
-            </div>
+            <div className="stat__value">{s.value}</div>
             <div className="stat__label">{s.label}</div>
             <div className="stat__sub">{s.sub}</div>
           </div>
@@ -392,33 +253,6 @@ function MissionSection({ mission }) {
             </div>
           ))}
         </div>
-
-        <div className="mission-manifesto">
-          <p className="mission-manifesto__lead">
-            CENProject is building the Infrastructure for knowledge unification.
-          </p>
-          <p className="mission-manifesto__sub">
-            The IFA Internet is the Ecosystem through which that Infrastructure is researched, taught, represented, and implemented.
-          </p>
-          <blockquote className="mission-manifesto__pull">
-            Ifá is the foundational intellectual source, not the boundary of the project.
-          </blockquote>
-          <p className="mission-manifesto__body">
-            The goal is not to make the world Yoruba.<br />
-            The goal is to contribute a Yoruba-derived approach to one of humanity's oldest challenges:
-          </p>
-          <p className="mission-manifesto__question">
-            How do we organize, integrate, learn, and create knowledge as a coherent whole?
-          </p>
-          <div className="mission-ioe">
-            <span className="mission-ioe__badge">IFA IoE</span>
-            <h3 className="mission-ioe__subtitle">The IFA Internet of Everything</h3>
-            <p className="mission-ioe__body">
-              Using Ifa and Orisa Traditions (IoT) to build the Internet of Everything (IoE) and connect all fields together as One.
-            </p>
-          </div>
-        </div>
-
       </div>
     </section>
   );
@@ -496,7 +330,7 @@ function TOEBitSection() {
       kind: 'Energy',
       accent: '#f5c518',
       bgAccent: 'rgba(245,197,24,0.07)',
-      desc: 'The most fundamental Building Block of Everything (BBoE) — the Universal Building Block of all "building blocks" in modern science. Ogbe is Energy itself: the Primordial, Active, Creative Force.',
+      desc: 'The most fundamental Building Block of Everything (BBoE) — the Universal Building Block of all "building blocks" in modern science. Ogbe is Energy itself: the primordial, active, creative force.',
       reps: [
         {
           symText: 'I',
@@ -526,7 +360,7 @@ function TOEBitSection() {
       kind: 'Anergy',
       accent: '#4361ee',
       bgAccent: 'rgba(0,54,247,0.07)',
-      desc: 'Non-Energy — the Dual of Ogbe. Oyeku is Anergy: the Complementary, Receptive, Potential Force. Together with Ogbe it generates all the remaining 254 Odu Ifa.',
+      desc: 'Non-Energy — the Dual of Ogbe. Oyeku is Anergy: the complementary, receptive, potential force. Together with Ogbe it generates all the remaining 254 Odu Ifa.',
       reps: [
         {
           symText: '‖',
@@ -598,16 +432,32 @@ function TOEBitSection() {
                   <div key={i} className="toebit-rep">
                     <div className="toebit-rep__sym">
                       {r.symSvg === 'duoinfinity' && (
-                        <OgbeSymbol size={44} />
+                        <img
+                          src="../src/assets/duoinfinity_logo.png"
+                          alt="Duoinfinity — Ifa Infinity"
+                          className="toebit-sym-img"
+                        />
                       )}
                       {r.symSvg === 'duoninfinity' && (
-                        <OyekuSymbol size={44} />
+                        <img
+                          src="../src/assets/duoninfinity_logo.png"
+                          alt="Duoninfinity — Ifa Ninfinity"
+                          className="toebit-sym-img"
+                        />
                       )}
                       {r.symSvg === 'ifazero' && (
-                        <MetaCircleCanvas gold={true} size={44} />
+                        <img
+                          src="../src/assets/IfaZero.png"
+                          alt="IfaZero Metarepresentation"
+                          className="toebit-sym-img"
+                        />
                       )}
                       {r.symSvg === 'ifaone' && (
-                        <MetaCircleCanvas gold={false} size={44} />
+                        <img
+                          src="../src/assets/IfaOne.png"
+                          alt="IfaOne Metarepresentation"
+                          className="toebit-sym-img"
+                        />
                       )}
                       {r.symText && r.symText}
                     </div>
@@ -710,7 +560,7 @@ function PlatformsSection({ platforms, categories }) {
           <span className="section__eyebrow">Platform Catalog</span>
           <h2 className="section__title">All IFA Platforms</h2>
           <p className="section__desc">
-            64+ Platforms spanning every field ... mathematics, sciences, technology, networking, language, philosophy, education, others — all unified in one Theory of Everything (TOE).
+            40+ Platforms spanning every field ... mathematics, sciences, technology, networking, language, philosophy, education, others — all unified in one Theory of Everything (TOE).
           </p>
         </div>
 
@@ -874,8 +724,6 @@ function NetworkingSection({ networking }) {
         <div style={{ textAlign: 'center', marginTop: '40px' }}>
           <a
             href="/ifa-networking-toe-networking/"
-            target="_blank"
-            rel="noopener noreferrer"
             className="btn btn--secondary"
           >
             Explore IFA Networking →
@@ -907,59 +755,6 @@ function NetworkingSection({ networking }) {
             </a>
           </div>
         </div>
-
-        {/* Social Networks subsection */}
-        <div className="ifa-networks ifa-social-networks">
-          <h3 className="ifa-networks__title">Social Networks</h3>
-          <p className="ifa-networks__desc">
-            Indigenous social media platforms:
-          </p>
-          <div className="ifa-networks__list">
-            <a
-              href="https://2geda.net/"
-              className="ifa-network-card ifa-network-card--social"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="ifa-network-card__name">2Geda</span>
-              <span className="ifa-network-card__url">Nigeria's first indigenous social media platform</span>
-            </a>
-          </div>
-        </div>
-
-        {/* Ìmọ̀Net subsection */}
-        <div className="ifa-networks ifa-imonet">
-          <h3 className="ifa-networks__title">Ìmọ̀Net <span className="ifa-networks__title-sub">(Indigenous Educational Networks)</span></h3>
-          <p className="ifa-networks__desc">
-            Indigenous knowledge and educational channels:
-          </p>
-          <div className="ifa-networks__list">
-            <a
-              href="https://scienceinyoruba.org/"
-              className="ifa-network-card ifa-network-card--edu"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="ifa-network-card__name">Science in Yorùbá</span>
-            </a>
-            <a
-              href="https://www.youtube.com/@waaseretv"
-              className="ifa-network-card ifa-network-card--edu"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="ifa-network-card__name">Wàá Ṣere</span>
-            </a>
-            <a
-              href="https://www.youtube.com/@Arojinle1"
-              className="ifa-network-card ifa-network-card--edu"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span className="ifa-network-card__name">Àròjinlẹ̀</span>
-            </a>
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -973,12 +768,12 @@ function Footer({ footer }) {
         <div className="footer__inner">
           <div className="footer__brand">
             <div className="footer__logo">
-              <img src="./src/assets/itoe_logo.png" alt="iTOE" className="footer__logo-mark" loading="lazy" decoding="async" />
+              <img src="../src/assets/itoe_logo.png" alt="iTOE" className="footer__logo-mark" />
               <span>The IFA Internet</span>
             </div>
             <p className="footer__tagline">{footer.tagline}</p>
             <p className="footer__tagline" style={{ marginTop: 4 }}>
-              Part of the <a href="https://cenproject.org/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)' }}>CENProject</a> — Consciousness-Energy Research.
+              Part of the <a href="https://cenproject.org/" style={{ color: 'var(--gold)' }}>CENProject</a> — Consciousness-Energy Research.
             </p>
           </div>
           <nav className="footer__links">
@@ -1009,11 +804,19 @@ function Footer({ footer }) {
 
 // ── App (root) ────────────────────────────────────────────────
 function App() {
+  const [showIntro, setShowIntro] = useState(() => {
+    try { return !sessionStorage.getItem('ifa-intro-seen'); } catch { return true; }
+  });
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
+  function closeIntro() {
+    try { sessionStorage.setItem('ifa-intro-seen', '1'); } catch {}
+    setShowIntro(false);
+  }
+
   useEffect(() => {
-    fetch('./data/platforms.json')
+    fetch('../data/platforms.json')
       .then(r => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
@@ -1022,19 +825,24 @@ function App() {
       .catch(e => setError(e.message));
   }, []);
 
+  const intro = showIntro ? <IntroOverlay onClose={closeIntro} /> : null;
+
   if (error) {
     return (
-      <div style={{
-        minHeight: '100vh', display: 'flex', alignItems: 'center',
-        justifyContent: 'center', flexDirection: 'column', gap: 16,
-        color: 'var(--text-2)', fontFamily: 'monospace',
-      }}>
-        <span style={{ fontSize: '2rem' }}>⚠</span>
-        <p>Failed to load data: {error}</p>
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-3)' }}>
-          Make sure the app is served over HTTP (not file://)
-        </p>
-      </div>
+      <>
+        {intro}
+        <div style={{
+          minHeight: '100vh', display: 'flex', alignItems: 'center',
+          justifyContent: 'center', flexDirection: 'column', gap: 16,
+          color: 'var(--text-2)', fontFamily: 'monospace',
+        }}>
+          <span style={{ fontSize: '2rem' }}>⚠</span>
+          <p>Failed to load data: {error}</p>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-3)' }}>
+            Make sure the app is served over HTTP (not file://)
+          </p>
+        </div>
+      </>
     );
   }
 
@@ -1044,6 +852,7 @@ function App() {
     const ogbeColH = 4 * 44 + 3 * 10;
 
     return (
+      <>
       <div style={{
         position: 'fixed', inset: 0,
         background: '#060e1c',
@@ -1136,7 +945,7 @@ function App() {
 
             {/* Right: IfaInfinity(4-Bit) — the precise metamathematical symbol */}
             <img
-              src="./src/assets/IfaInfinity4Bit.png"
+              src="../src/assets/IfaInfinity4Bit.png"
               alt="IfaInfinity 4-Bit"
               style={{
                 height: ogbeColH,
@@ -1172,12 +981,16 @@ function App() {
         </div>
 
       </div>
+      {intro}
+    </>
     );
   }
 
   return (
     <>
+      {intro}
       <Header />
+      <MobileBar />
       <main>
         <HeroSection hero={data.hero} />
         <StatsBar stats={data.stats} />

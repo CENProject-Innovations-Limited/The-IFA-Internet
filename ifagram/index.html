@@ -54,6 +54,37 @@
       flex-direction: column;
       align-items: center;
     }
+    /* ── Ifa Notations — Squaket Operator ───────────────────── */
+    .notation-title {
+      font-size: 1.08rem;
+      letter-spacing: 0.09em;
+      color: rgba(245, 197, 24, 0.78);
+      text-align: center;
+      margin-bottom: 8px;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+    .notation-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: rgba(245, 197, 24, 0.36);
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .squaket-eq-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .sq-sym {
+      font-size: 2.5rem;
+      color: rgba(245, 197, 24, 0.60);
+      font-family: Georgia, serif;
+      line-height: 1;
+      padding: 0 4px;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
@@ -482,6 +513,222 @@
     Ifa Sigma Symbol — Temic Sigma<br>
     Modified &Sigma; &middot; Ifa Script summation operator
   </div>
+
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       Ifa Notations — The Squaket Operator · Squa-Ket Notation
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="meta-heading">Ifa Notations</div>
+  <div class="notation-title">The Squaket Operator: IfaBrackets</div>
+  <div class="notation-sub">ToE Brackets: the Brackets for Everything (BracketoE)</div>
+
+  <!-- Main equation: Ogbe = ( ) -->
+  <div class="squaket-eq-row">
+    <canvas id="sqn1"></canvas>
+    <span class="sq-sym">=</span>
+    <!-- Squa ( bracket — small inline: arc with top & bottom bars -->
+    <svg viewBox="-12 0 106 280" width="68" height="180"
+         style="display:block;overflow:visible;" aria-label="Squa operator">
+      <defs>
+        <path id="squaket-squa-sm"
+              d="M 82,6 L 46,6 C 0,76 0,204 46,274 L 82,274"
+              fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </defs>
+      <use href="#squaket-squa-sm" stroke="rgba(245,197,24,0.025)" stroke-width="38"/>
+      <use href="#squaket-squa-sm" stroke="rgba(245,197,24,0.07)"  stroke-width="22"/>
+      <use href="#squaket-squa-sm" stroke="rgba(245,197,24,0.16)"  stroke-width="12"/>
+      <use href="#squaket-squa-sm" stroke="rgba(245,197,24,0.34)"  stroke-width="5.5"/>
+      <use href="#squaket-squa-sm" stroke="rgba(245,197,24,0.62)"  stroke-width="2.4"/>
+      <use href="#squaket-squa-sm" stroke="rgba(245,197,24,0.90)"  stroke-width="1.1"/>
+      <use href="#squaket-squa-sm" stroke="rgba(255,248,210,0.95)" stroke-width="0.55"/>
+    </svg>
+    <!-- Ket ) bracket — small inline: arc with top & bottom bars -->
+    <svg viewBox="-6 0 106 280" width="68" height="180"
+         style="display:block;overflow:visible;" aria-label="Ket operator">
+      <defs>
+        <path id="squaket-ket-sm"
+              d="M 6,6 L 42,6 C 88,76 88,204 42,274 L 6,274"
+              fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </defs>
+      <use href="#squaket-ket-sm" stroke="rgba(245,197,24,0.025)" stroke-width="38"/>
+      <use href="#squaket-ket-sm" stroke="rgba(245,197,24,0.07)"  stroke-width="22"/>
+      <use href="#squaket-ket-sm" stroke="rgba(245,197,24,0.16)"  stroke-width="12"/>
+      <use href="#squaket-ket-sm" stroke="rgba(245,197,24,0.34)"  stroke-width="5.5"/>
+      <use href="#squaket-ket-sm" stroke="rgba(245,197,24,0.62)"  stroke-width="2.4"/>
+      <use href="#squaket-ket-sm" stroke="rgba(245,197,24,0.90)"  stroke-width="1.1"/>
+      <use href="#squaket-ket-sm" stroke="rgba(255,248,210,0.95)" stroke-width="0.55"/>
+    </svg>
+  </div>
+  <div class="label" style="margin-top: 22px;">
+    The Squaket Operator for Composition Operation<br>
+    <span style="font-size:0.78rem;letter-spacing:0.18em;opacity:0.62;">Squa-Ket Notation</span>
+  </div>
+
+  <!-- Large Squa ( and Ket ) operators -->
+  <div class="meta-row" style="margin-top: 68px; gap: 100px;">
+
+    <!-- Squa operator large: arc with top & bottom bars -->
+    <div class="meta-item">
+      <svg viewBox="-14 0 124 352" width="100" height="340"
+           style="display:block;overflow:visible;" aria-label="Squa operator">
+        <defs>
+          <path id="squaket-squa-lg"
+                d="M 96,8 L 52,8 C 0,108 0,244 52,344 L 96,344"
+                fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </defs>
+        <use href="#squaket-squa-lg" stroke="rgba(245,197,24,0.03)" stroke-width="44"/>
+        <use href="#squaket-squa-lg" stroke="rgba(245,197,24,0.07)" stroke-width="26"/>
+        <use href="#squaket-squa-lg" stroke="rgba(245,197,24,0.16)" stroke-width="15"/>
+        <use href="#squaket-squa-lg" stroke="rgba(245,197,24,0.34)" stroke-width="7"/>
+        <use href="#squaket-squa-lg" stroke="rgba(245,197,24,0.62)" stroke-width="3"/>
+        <use href="#squaket-squa-lg" stroke="rgba(245,197,24,0.90)" stroke-width="1.4"/>
+        <use href="#squaket-squa-lg" stroke="rgba(255,248,210,0.95)" stroke-width="0.7"/>
+      </svg>
+      <div class="label">Squa operator</div>
+    </div>
+
+    <!-- Ket operator large: arc with top & bottom bars -->
+    <div class="meta-item">
+      <svg viewBox="-6 0 120 352" width="100" height="340"
+           style="display:block;overflow:visible;" aria-label="Ket operator">
+        <defs>
+          <path id="squaket-ket-lg"
+                d="M 6,8 L 50,8 C 102,108 102,244 50,344 L 6,344"
+                fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </defs>
+        <use href="#squaket-ket-lg" stroke="rgba(245,197,24,0.03)" stroke-width="44"/>
+        <use href="#squaket-ket-lg" stroke="rgba(245,197,24,0.07)" stroke-width="26"/>
+        <use href="#squaket-ket-lg" stroke="rgba(245,197,24,0.16)" stroke-width="15"/>
+        <use href="#squaket-ket-lg" stroke="rgba(245,197,24,0.34)" stroke-width="7"/>
+        <use href="#squaket-ket-lg" stroke="rgba(245,197,24,0.62)" stroke-width="3"/>
+        <use href="#squaket-ket-lg" stroke="rgba(245,197,24,0.90)" stroke-width="1.4"/>
+        <use href="#squaket-ket-lg" stroke="rgba(255,248,210,0.95)" stroke-width="0.7"/>
+      </svg>
+      <div class="label">Ket operator</div>
+    </div>
+
+  </div>
+
+  <!-- Bottom equivalence: Ogbe = crossed Ogbe -->
+  <div class="squaket-eq-row" style="margin-top: 68px;">
+    <canvas id="sqn2"></canvas>
+    <span class="sq-sym">=</span>
+    <canvas id="sqn3"></canvas>
+  </div>
+
+  <script>
+    /* ── Squaket lemniscate canvases ─────────────────────────────
+       Three 180×180 canvas elements:
+         sqn1 — plain lemniscate (main equation, left of brackets)
+         sqn2 — plain lemniscate (bottom equation, left side)
+         sqn3 — crossed lemniscate (bottom equation, right side)
+    ──────────────────────────────────────────────────────────── */
+    const SQZ  = 180;
+    const SQAP = 66;
+    const DPRQ = window.devicePixelRatio || 1;
+
+    function sqInit(id) {
+      const el = document.getElementById(id);
+      el.width        = SQZ * DPRQ;
+      el.height       = SQZ * DPRQ;
+      el.style.width  = SQZ + 'px';
+      el.style.height = SQZ + 'px';
+      const c = el.getContext('2d');
+      c.scale(DPRQ, DPRQ);
+      c.fillStyle = '#020408';
+      c.fillRect(0, 0, SQZ, SQZ);
+      return c;
+    }
+
+    function sqBuildH(t0, t1, amp, ccx, ccy) {
+      const pts = [], N = 3000;
+      for (let i = 0; i <= N; i++) {
+        const t  = t0 + (t1 - t0) * i / N;
+        const c2 = Math.cos(2 * t);
+        if (c2 < 1e-10) continue;
+        const rho = amp * Math.sqrt(c2);
+        pts.push([ccx + rho * Math.cos(t), ccy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+
+    function sqBuildV(t0, t1, amp, ccx, ccy) {
+      const pts = [], N = 3000;
+      for (let i = 0; i <= N; i++) {
+        const t   = t0 + (t1 - t0) * i / N;
+        const mc2 = -Math.cos(2 * t);
+        if (mc2 < 1e-10) continue;
+        const rho = amp * Math.sqrt(mc2);
+        pts.push([ccx + rho * Math.cos(t), ccy + rho * Math.sin(t)]);
+      }
+      return pts;
+    }
+
+    function sqStroke(ctx, pts, lw, rgba, blur) {
+      if (!pts.length) return;
+      ctx.save();
+      ctx.strokeStyle = rgba; ctx.lineWidth   = lw;
+      ctx.shadowColor = rgba; ctx.shadowBlur  = blur;
+      ctx.lineCap = 'round';  ctx.lineJoin    = 'round';
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function sqDrawLobe(ctx, pts) {
+      sqStroke(ctx, pts, 32, 'rgba(245,197,24,0.025)', 52);
+      sqStroke(ctx, pts, 18, 'rgba(245,197,24,0.07)',  36);
+      sqStroke(ctx, pts, 10, 'rgba(245,197,24,0.16)',  22);
+      sqStroke(ctx, pts,  5, 'rgba(245,197,24,0.34)',  13);
+      sqStroke(ctx, pts,  2, 'rgba(245,197,24,0.62)',   7);
+      sqStroke(ctx, pts,  1, 'rgba(245,197,24,0.90)',   3.5);
+      sqStroke(ctx, pts, 0.5,'rgba(255,248,210,0.95)',  1.5);
+    }
+
+    function sqDot(ctx) {
+      ctx.save();
+      ctx.shadowColor = 'rgba(245,197,24,1)';
+      ctx.shadowBlur  = 16;
+      ctx.fillStyle   = 'rgba(255,248,210,1)';
+      ctx.beginPath();
+      ctx.arc(SQZ / 2, SQZ / 2, 2.2, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function sqDraw(id, crossed) {
+      const ctx = sqInit(id);
+      const ccx = SQZ / 2, ccy = SQZ / 2, amp = SQAP;
+      const lobes = [
+        sqBuildH(-Math.PI / 4,   Math.PI / 4,  amp, ccx, ccy),
+        sqBuildH( 3*Math.PI / 4, 5*Math.PI / 4, amp, ccx, ccy),
+        sqBuildV(  Math.PI / 4,  3*Math.PI / 4, amp, ccx, ccy),
+        sqBuildV(5*Math.PI / 4,  7*Math.PI / 4, amp, ccx, ccy),
+      ];
+      for (const lobe of lobes) sqDrawLobe(ctx, lobe);
+      sqDot(ctx);
+      if (crossed) {
+        /* diagonal "/" from lower-left to upper-right through centre */
+        const ext = amp * 0.90;
+        const lp  = [[ccx - ext, ccy + ext], [ccx + ext, ccy - ext]];
+        sqStroke(ctx, lp, 32, 'rgba(245,197,24,0.025)', 52);
+        sqStroke(ctx, lp, 18, 'rgba(245,197,24,0.07)',  36);
+        sqStroke(ctx, lp, 10, 'rgba(245,197,24,0.16)',  22);
+        sqStroke(ctx, lp,  5, 'rgba(245,197,24,0.34)',  13);
+        sqStroke(ctx, lp,  2, 'rgba(245,197,24,0.62)',   7);
+        sqStroke(ctx, lp,  1, 'rgba(245,197,24,0.90)',   3.5);
+        sqStroke(ctx, lp, 0.5,'rgba(255,248,210,0.95)',  1.5);
+      }
+    }
+
+    sqDraw('sqn1', false);
+    sqDraw('sqn2', false);
+    sqDraw('sqn3', true);
+  </script>
 
 </body>
 </html>

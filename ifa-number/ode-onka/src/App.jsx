@@ -4,6 +4,17 @@
 
 const { useState, useEffect } = React;
 
+// ─── useWindowWidth ───────────────────────────────────────────────────────────
+function useWindowWidth() {
+  const [w, setW] = useState(window.innerWidth);
+  useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener('resize', h, { passive: true });
+    return () => window.removeEventListener('resize', h);
+  }, []);
+  return w;
+}
+
 // ─── OgbeSymbol ───────────────────────────────────────────────────────────────
 
 function OgbeSymbol({ size = 20 }) {
@@ -295,6 +306,30 @@ const IFANUM_MATRIX = [
   },
 ];
 
+// ─── IfaNum 0+8D Matrix data ──────────────────────────────────────────────────
+
+const STEAMSEX_DIMS = [
+  { letter:'S', name:'Science',      short:'Sci',  color:'#f0920c', desc:'The Science of Numbers'            },
+  { letter:'T', name:'Technology',   short:'Tech', color:'#14b8d4', desc:'The Technology of Numbers'         },
+  { letter:'E', name:'Engineering',  short:'Eng',  color:'#00c87c', desc:'The Engineering of Numbers'        },
+  { letter:'A', name:'Arts',         short:'Arts', color:'#ec4899', desc:'The Arts of Numbers'                },
+  { letter:'M', name:'Mathematics',  short:'Math', color:'#f5c518', desc:'The Mathematics of Numbers'        },
+  { letter:'S', name:'Social',       short:'Soc',  color:'#8b5cf6', desc:'The Social Science of Numbers'     },
+  { letter:'E', name:'Education',    short:'Edu',  color:'#3b9eff', desc:'The Education of Numbers'          },
+  { letter:'X', name:'Others',       short:'X',    color:'#6366f1', desc:'The Unknown Dimensions of Numbers' },
+];
+
+const SIDECHRX_DIMS = [
+  { letter:'S', name:'Symmetry',     short:'Sym',  color:'#f0920c', desc:'The Symmetry Laws of Numbers'     },
+  { letter:'I', name:'Invariance',   short:'Inv',  color:'#6366f1', desc:'The Invariance Laws of Numbers'   },
+  { letter:'D', name:'Duality',      short:'Dual', color:'#14b8d4', desc:'The Duality Laws of Numbers'      },
+  { letter:'E', name:'Emergence',    short:'Emg',  color:'#10b981', desc:'The Emergence Laws of Numbers'    },
+  { letter:'C', name:'Composition',  short:'Comp', color:'#ec4899', desc:'The Composition Laws of Numbers'  },
+  { letter:'H', name:'Holism',       short:'Hol',  color:'#f5c518', desc:'The Holism Laws of Numbers'       },
+  { letter:'R', name:'Reductionism', short:'Red',  color:'#8b5cf6', desc:'The Reductionism Laws of Numbers' },
+  { letter:'X', name:'Others',       short:'X',    color:'#a78bfa', desc:'The Unknown Laws of Numbers'      },
+];
+
 // ─── Intro Overlay ───────────────────────────────────────────────────────────
 
 function IkaMejiAnim({ phase }) {
@@ -481,6 +516,7 @@ function HeroSection() {
       <div className="oo-hero__bg" aria-hidden="true">
         <div className="oo-hero__blob oo-hero__blob--1"/>
         <div className="oo-hero__blob oo-hero__blob--2"/>
+        <div className="oo-hero__blob oo-hero__blob--3"/>
       </div>
       <div className="oo-container">
         <div className="oo-eyebrow">IfaSim · IFA Number · Ìká Méjì — Odu #11</div>
@@ -642,9 +678,7 @@ function OrisaNumbersSection() {
             <div key={i} className="oo-orisa-card" style={{'--oc': o.color}}>
               <div className="oo-orisa-card__name">{o.name}</div>
               <div className="oo-orisa-card__nums">
-                {o.nums.map(n => (
-                  <span key={n} className="oo-orisa-num">{n}</span>
-                ))}
+                <span className="oo-orisa-num">{o.nums.join(', ')}</span>
               </div>
               <p className="oo-orisa-card__desc">{o.desc}</p>
             </div>
@@ -945,7 +979,12 @@ function IfaNumMatrixSectionInner() {
       <div className="oo-container">
         <div className="oo-eyebrow">IfaNum Matrix · OnkaLang · IFABOK</div>
         <h2 className="oo-section-title">IfaNum Matrix</h2>
-        <p className="oo-section-sub">Ifa Number Matrix — Every classical number system expressed as an Ifanum subset.</p>
+        <div className="inm-matrix-intro">
+          <p className="oo-section-sub">Ifa Number Matrix — Every classical number system expressed as an Ifanum subset.</p>
+          <p className="oo-section-sub">At the most fundamental level, what we mean by a Matrix here are the 256 Odu Ifa and the 16 Odu Orisa. They are universal meta-matrices.</p>
+          <p className="oo-section-sub">At an emergent level, we refer to matrices in modern math and STEM.</p>
+          <p className="oo-section-sub">Also, in Consciousness Science and related fields, matrix also means the matrix that we perceive as reality or nature.</p>
+        </div>
 
         {/* Ifanum subset statement */}
         <div className="inm-subset">
@@ -986,6 +1025,8 @@ function IfaNumMatrixSectionInner() {
           </div>
         </div>
 
+        <h3 className="inm-matrix-subheading">The Matrix of Number Perception</h3>
+
         {/* 4×4 Matrix grid — each cell is one Odu Matrix (energy or dual) */}
         <div className="inm-matrix-grid">
           {IFANUM_MATRIX.flatMap(data => {
@@ -1001,6 +1042,180 @@ function IfaNumMatrixSectionInner() {
             ];
           })}
         </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── IfaNum 0+8D Radial Matrix ────────────────────────────────────────────────
+
+function IfaNumRadialMatrix({ dims, variant }) {
+  const [activeIdx, setActiveIdx] = useState(null);
+  const ww = useWindowWidth();
+  const sm  = ww < 520;
+  const W   = sm ? 340 : 560;
+  const H   = sm ? 292 : 480;
+  const cx  = W / 2, cy = H / 2;
+  const orbitR = sm ? 102 : 165;
+  const nodeR  = sm ?  19  : 30;
+  const isEllipse = variant === 'sidechrx';
+  const cRx = sm ? (isEllipse ? 40 : 31) : (isEllipse ? 68 : 52);
+  const cRy = sm ? (isEllipse ? 27 : 31) : (isEllipse ? 44 : 52);
+  const lOff  = sm ? nodeR + 8  : nodeR + 12;
+  const lFsz  = sm ? 7 : 8.5;
+  const foW   = sm ? 30 : 56,  foH  = sm ? 18 : 30;
+  const nfoW  = sm ? 22 : 34,  nfoH = sm ? 16 : 24;
+  const gradId = `inm0g-${variant}`;
+
+  const positions = dims.map((_, i) => {
+    const a = (i / 8) * 2 * Math.PI - Math.PI / 2;
+    const ca = Math.cos(a), sa = Math.sin(a);
+    const cRim = isEllipse
+      ? (cRx * cRy) / Math.sqrt((cRy * ca) ** 2 + (cRx * sa) ** 2)
+      : cRx;
+    return {
+      nx: cx + orbitR * ca,               ny: cy + orbitR * sa,
+      sx: cx + (cRim + 5) * ca,           sy: cy + (cRim + 5) * sa,
+      ex: cx + (orbitR - nodeR - 4) * ca, ey: cy + (orbitR - nodeR - 4) * sa,
+      lx: cx + (orbitR + lOff) * ca,
+      ly: cy + (orbitR + lOff) * sa,
+      a,
+    };
+  });
+
+  const anchors   = ['middle','start','start','start','middle','end','end','end'];
+  const dBaseline = ['auto','middle','middle','middle','hanging','middle','middle','middle'];
+  const toggle = i => setActiveIdx(ai => ai === i ? null : i);
+  const active = activeIdx !== null ? dims[activeIdx] : null;
+
+  return (
+    <div className="inm0-wrap">
+      <svg viewBox={`0 0 ${W} ${H}`} className="inm0-svg">
+        <defs>
+          <radialGradient id={gradId}>
+            <stop offset="0%"   stopColor="#f5c518" stopOpacity="0.18"/>
+            <stop offset="100%" stopColor="#f5c518" stopOpacity="0"/>
+          </radialGradient>
+        </defs>
+
+        {/* Orbit ring */}
+        <circle cx={cx} cy={cy} r={orbitR} fill="none"
+          stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3 8"/>
+
+        {/* Spokes */}
+        {positions.map((p, i) => (
+          <line key={i} x1={p.sx} y1={p.sy} x2={p.ex} y2={p.ey}
+            stroke={activeIdx === i ? dims[i].color : 'rgba(255,255,255,0.13)'}
+            strokeWidth={activeIdx === i ? 2 : 1}
+            style={{transition:'stroke 0.3s, stroke-width 0.3s'}}/>
+        ))}
+
+        {/* Center glow */}
+        {isEllipse
+          ? <ellipse cx={cx} cy={cy} rx={cRx+14} ry={cRy+14} fill={`url(#${gradId})`}/>
+          : <circle  cx={cx} cy={cy} r={cRx+14}              fill={`url(#${gradId})`}/>}
+
+        {/* Center node */}
+        {isEllipse
+          ? <ellipse cx={cx} cy={cy} rx={cRx} ry={cRy}
+              fill="#04080f" stroke="#f5c518" strokeWidth="2"/>
+          : <circle  cx={cx} cy={cy} r={cRx}
+              fill="#04080f" stroke="#f5c518" strokeWidth="2"/>}
+
+        {/* Center n_Ogbe via foreignObject */}
+        <foreignObject x={cx - foW/2} y={cy - foH/2} width={foW} height={foH}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',
+            width:'100%',height:'100%'}}>
+            <IfaNumOgbe sym="n" symSize={sm ? "0.85rem" : "1.2rem"} iconSize={sm ? 9 : 12} color="#f5c518"/>
+          </div>
+        </foreignObject>
+
+        {/* Outer nodes */}
+        {positions.map((p, i) => {
+          const d = dims[i];
+          const isA = activeIdx === i;
+          return (
+            <g key={i} onClick={() => toggle(i)} style={{cursor:'pointer'}}>
+              <circle cx={p.nx} cy={p.ny} r={nodeR+10}
+                fill={d.color} fillOpacity={isA ? 0.12 : 0}
+                style={{transition:'fill-opacity 0.3s'}}/>
+              <circle cx={p.nx} cy={p.ny} r={nodeR}
+                fill="#060c18"
+                stroke={isA ? d.color : 'rgba(255,255,255,0.18)'}
+                strokeWidth={isA ? 2.2 : 1.5}
+                style={{transition:'stroke 0.3s, stroke-width 0.3s'}}/>
+              <foreignObject x={p.nx - nfoW/2} y={p.ny - nfoH/2} width={nfoW} height={nfoH}>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'center',
+                  width:'100%',height:'100%'}}>
+                  <IfaNumOgbe sym={d.letter} symSize={sm ? "0.7rem" : "0.85rem"} iconSize={sm ? 6 : 8}
+                    color={isA ? d.color : 'rgba(200,210,235,0.65)'}/>
+                </div>
+              </foreignObject>
+              <text x={p.lx} y={p.ly}
+                textAnchor={anchors[i]} dominantBaseline={dBaseline[i]}
+                fontSize={lFsz} fontFamily="system-ui,sans-serif"
+                fill={isA ? d.color : 'rgba(136,146,170,0.72)'}
+                style={{transition:'fill 0.3s',pointerEvents:'none'}}>
+                {sm ? d.short : d.name}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+
+      {/* Description panel */}
+      <div className="inm0-desc"
+        style={active ? {borderColor:active.color+'44',background:active.color+'0d'} : {}}>
+        {active ? (
+          <>
+            <span className="inm0-desc__sym">
+              <IfaNumOgbe sym={active.letter} symSize="1rem" iconSize={10} color={active.color}/>
+            </span>
+            <span className="inm0-desc__name" style={{color:active.color}}>{active.name}</span>
+            <span className="inm0-desc__sep">—</span>
+            <span className="inm0-desc__text">{active.desc}</span>
+          </>
+        ) : (
+          <span className="inm0-desc__hint">Click a node to explore</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── IfaNum 0+8D Section ──────────────────────────────────────────────────────
+
+function IfaNum0Plus8DSection() {
+  const [slide, setSlide] = useState(0);
+  const labels = ['IfaNum STEAMSEX Matrix', 'IfaNum SIDECHRX Matrix'];
+  return (
+    <section id="ifanum-0plus8d" className="oo-section oo-section--alt">
+      <div className="oo-container">
+        <div className="oo-eyebrow">IfaNum 0+8D Matrix · IfaSlider · OnkaLang</div>
+        <h2 className="oo-section-title">The IfaNum Matrix (Featuring IfaSlider)</h2>
+        <p className="oo-section-sub">
+          The Ifanum{' '}
+          <IfaNumOgbe sym="n" symSize="1rem" iconSize={10} color="var(--t1)"/>{' '}
+          at the Centre, with its 8 Dimensions radiating outward.
+          Use the <strong>IfaSlider</strong> to switch between the two 0+8D Matrices.
+          Click any Node to explore its Dimension.
+        </p>
+
+        <div className="inm0-slider">
+          {labels.map((label, i) => (
+            <button key={i}
+              className={`inm0-slider__tab${slide === i ? ' inm0-slider__tab--active' : ''}`}
+              onClick={() => setSlide(i)}>
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="inm0-matrix-title">{labels[slide]}</div>
+
+        {slide === 0
+          ? <IfaNumRadialMatrix key="steamsex" dims={STEAMSEX_DIMS} variant="steamsex"/>
+          : <IfaNumRadialMatrix key="sidechrx" dims={SIDECHRX_DIMS} variant="sidechrx"/>}
       </div>
     </section>
   );
@@ -1036,6 +1251,7 @@ function App() {
           <IfaNumbersSection />
           <OrisaNumbersSection />
           <IfaNumMatrixSection />
+          <IfaNum0Plus8DSection />
         </main>
         <OdeOnkaFooter />
       </div>

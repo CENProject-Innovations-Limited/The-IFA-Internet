@@ -1,0 +1,511 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   IfaProject Platform — styles.css
+   The IFA Internet · CENProject · ifainternet.org/ifa-project/
+───────────────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #030608;
+  --bg2:       #060a10;
+  --bg3:       #090f1c;
+  --card:      rgba(255,255,255,0.03);
+  --card-h:    rgba(255,255,255,0.06);
+  --br:        rgba(255,255,255,0.07);
+  --t1:        #eef1fb;
+  --t2:        #8892aa;
+  --t3:        #505869;
+  --gold:      #f5c518;
+  --gold-dim:  rgba(245,197,24,0.08);
+  --gold-glow: rgba(245,197,24,0.18);
+  --cyan:      #00d4ff;
+  --cyan-dim:  rgba(0,212,255,0.08);
+  --orisa:     #8b5cf6;
+  --ff:        'Inter', system-ui, -apple-system, sans-serif;
+  --fm:        'Space Mono', 'Courier New', monospace;
+}
+
+html  { scroll-behavior: smooth; overflow-x: hidden; }
+body  { background: var(--bg); color: var(--t1); font-family: var(--ff); line-height: 1.65; overflow-x: hidden; }
+a     { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+strong { font-weight: 700; }
+
+/* ── Nav ───────────────────────────────────────────────────────────────────── */
+.ip-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(3,6,8,0.92); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--br);
+}
+.ip-nav__inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 2rem;
+  height: 54px; display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+}
+.ip-nav__logo {
+  font-family: var(--fm); font-size: 0.88rem;
+  color: var(--gold); letter-spacing: 0.06em; font-weight: 700;
+  display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;
+}
+.ip-nav__logo:hover { text-decoration: none; opacity: 0.85; }
+.ip-nav__logo-prefix { opacity: 0.4; font-weight: 400; font-size: 0.75rem; }
+.ip-nav__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); opacity: 0.7;
+  animation: ip-pulse 2s ease-in-out infinite;
+}
+@keyframes ip-pulse {
+  0%,100% { opacity: 0.7; transform: scale(1); }
+  50%      { opacity: 0.25; transform: scale(0.65); }
+}
+.ip-nav__links { display: flex; gap: 0.2rem; flex-wrap: wrap; min-width: 0; }
+.ip-nav__link {
+  font-size: 0.72rem; font-weight: 500; padding: 5px 10px; border-radius: 4px;
+  color: var(--t2); transition: color 0.15s, background 0.15s;
+  letter-spacing: 0.02em; white-space: nowrap;
+}
+.ip-nav__link:hover { color: var(--t1); background: rgba(255,255,255,0.05); text-decoration: none; }
+.ip-nav__link--cta { color: var(--gold); border: 1px solid rgba(245,197,24,0.3); }
+.ip-nav__link--cta:hover { background: var(--gold-dim); color: var(--gold); }
+
+/* ── Container ─────────────────────────────────────────────────────────────── */
+.ip-container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Shared Typography ─────────────────────────────────────────────────────── */
+.ip-eyebrow {
+  font-family: var(--fm); font-size: 0.66rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.ip-eyebrow::before {
+  content: ''; display: inline-block; width: 18px; height: 1px;
+  background: var(--gold); opacity: 0.6; flex-shrink: 0;
+}
+.ip-section-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800;
+  line-height: 1.12; margin-bottom: 16px; color: var(--t1);
+}
+.ip-section-sub {
+  font-size: 1rem; color: var(--t2); max-width: 680px;
+  margin-bottom: 40px; line-height: 1.78;
+}
+.ip-section-sub a { color: var(--gold); }
+.ip-section-sub a:hover { text-decoration: underline; }
+
+/* ── Sections ──────────────────────────────────────────────────────────────── */
+.ip-section { padding: 80px 0; }
+.ip-section--alt { background: var(--bg2); }
+
+/* ── Buttons ───────────────────────────────────────────────────────────────── */
+.ip-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 11px 24px; border-radius: 6px; font-size: 0.88rem;
+  font-weight: 600; transition: all 0.18s; cursor: pointer;
+  border: none; font-family: var(--ff); letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.ip-btn--primary { background: var(--gold); color: #030608; }
+.ip-btn--primary:hover { background: #ffd93d; text-decoration: none; color: #030608; }
+.ip-btn--ghost {
+  background: transparent; color: var(--gold);
+  border: 1px solid rgba(245,197,24,0.4);
+}
+.ip-btn--ghost:hover { background: var(--gold-dim); text-decoration: none; color: var(--gold); }
+
+/* ── Pills / Tags ──────────────────────────────────────────────────────────── */
+.ip-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+.ip-pill {
+  font-family: var(--fm); font-size: 0.65rem; letter-spacing: 0.1em;
+  padding: 4px 10px; border-radius: 20px;
+  background: rgba(245,197,24,0.07); border: 1px solid rgba(245,197,24,0.22);
+  color: rgba(245,197,24,0.8); font-weight: 700;
+}
+.ip-tag {
+  font-family: var(--fm); font-size: 0.62rem; letter-spacing: 0.06em;
+  padding: 3px 8px; border-radius: 4px;
+  background: transparent; border: 1px solid rgba(255,255,255,0.12);
+  color: var(--t2); font-weight: 600;
+}
+
+/* ── Hero ──────────────────────────────────────────────────────────────────── */
+.ip-hero {
+  padding: 80px 0 70px;
+  background: radial-gradient(ellipse at 65% 30%, rgba(245,197,24,0.06) 0%, transparent 62%),
+              radial-gradient(ellipse at 20% 70%, rgba(0,212,255,0.03) 0%, transparent 50%);
+}
+.ip-hero__inner {
+  display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: center;
+}
+.ip-hero__left { min-width: 0; }
+.ip-hero__title {
+  font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 900;
+  line-height: 1.0; margin-bottom: 24px; letter-spacing: -0.02em;
+}
+.ip-hero__title-main { color: var(--gold); display: block; }
+.ip-hero__title-sub {
+  color: var(--t2); font-size: 0.48em; font-weight: 400;
+  letter-spacing: 0.1em; display: block; margin-top: 6px;
+  font-family: var(--fm); text-transform: uppercase;
+}
+.ip-hero__body {
+  font-size: 1.05rem; color: var(--t2); line-height: 1.82; margin-bottom: 28px;
+}
+.ip-hero__ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+.ip-hero__right {
+  display: flex; align-items: center; justify-content: center; min-width: 0;
+}
+.ip-hero-svg { width: 100%; max-width: 380px; height: auto; }
+
+/* ── Hero SVG node labels ──────────────────────────────────────────────────── */
+.ip-hero-node-label {
+  font-size: 7px; font-family: monospace; text-anchor: middle;
+}
+
+/* ── Names Section ─────────────────────────────────────────────────────────── */
+.ip-names-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.ip-name-card {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: 12px; padding: 26px 22px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ip-name-card:hover { border-color: rgba(245,197,24,0.28); background: var(--card-h); }
+.ip-name-card__num {
+  font-family: var(--fm); font-size: 0.64rem; color: var(--gold);
+  opacity: 0.45; letter-spacing: 0.14em; margin-bottom: 10px;
+}
+.ip-name-card__label {
+  font-size: 1.02rem; font-weight: 700; color: var(--t1); margin-bottom: 10px;
+}
+.ip-name-card__desc { font-size: 0.87rem; color: var(--t2); line-height: 1.68; }
+
+/* ── Featured Projects ─────────────────────────────────────────────────────── */
+.ip-featured-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.ip-feat-card {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: 14px; padding: 28px 22px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  text-decoration: none; color: inherit;
+}
+.ip-feat-card:hover {
+  border-color: rgba(255,255,255,0.14); background: var(--card-h);
+  transform: translateY(-2px); text-decoration: none;
+}
+.ip-feat-card__icon { font-size: 2rem; line-height: 1; }
+.ip-feat-card__name { font-size: 1.12rem; font-weight: 800; }
+.ip-feat-card__sub  {
+  font-size: 0.76rem; color: var(--t2); font-family: var(--fm);
+  letter-spacing: 0.04em;
+}
+.ip-feat-card__desc {
+  font-size: 0.87rem; color: var(--t2); line-height: 1.72; flex: 1; margin-top: 4px;
+}
+.ip-feat-card__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.ip-feat-card__cta {
+  font-size: 0.78rem; font-weight: 600; color: var(--gold);
+  margin-top: 4px; font-family: var(--fm); letter-spacing: 0.04em;
+}
+
+/* ── Games / PlayIfa Section ───────────────────────────────────────────────── */
+.ip-games-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 36px;
+}
+.ip-game-card {
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: 12px; padding: 24px 20px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ip-game-card:hover { border-color: rgba(245,197,24,0.26); background: var(--card-h); }
+.ip-game-card__icon { font-size: 1.8rem; margin-bottom: 14px; }
+.ip-game-card__name { font-size: 0.95rem; font-weight: 700; color: var(--t1); margin-bottom: 8px; }
+.ip-game-card__desc { font-size: 0.84rem; color: var(--t2); line-height: 1.66; }
+.ip-playifa-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* ── Academy Section ───────────────────────────────────────────────────────── */
+.ip-steamsex {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 44px;
+}
+.ip-steamsex__dim {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  background: var(--card); border: 1px solid var(--br);
+  border-radius: 10px; padding: 14px 16px; min-width: 80px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ip-steamsex__dim:hover { background: var(--card-h); }
+.ip-steamsex__letter {
+  font-family: var(--fm); font-size: 1.3rem; font-weight: 700;
+}
+.ip-steamsex__label {
+  font-size: 0.63rem; color: var(--t2); letter-spacing: 0.05em; text-align: center;
+}
+.ip-academy-cards {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+}
+.ip-academy-card {
+  background: var(--card); border: 1px solid var(--br); border-radius: 12px;
+  padding: 24px 20px; display: flex; flex-direction: column; gap: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ip-academy-card:hover { border-color: rgba(245,197,24,0.26); background: var(--card-h); }
+.ip-academy-card__icon { font-size: 1.6rem; line-height: 1; }
+.ip-academy-card__title { font-size: 0.94rem; font-weight: 700; color: var(--t1); }
+.ip-academy-card__desc  { font-size: 0.82rem; color: var(--t2); line-height: 1.66; flex: 1; }
+.ip-academy-card__link  {
+  font-size: 0.78rem; color: var(--gold); font-family: var(--fm);
+  font-weight: 600; letter-spacing: 0.03em;
+}
+.ip-academy-card__link:hover { text-decoration: underline; }
+
+/* ── All Projects Grid ─────────────────────────────────────────────────────── */
+.ip-all-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+}
+.ip-all-card {
+  background: var(--card); border: 1px solid var(--br); border-radius: 10px;
+  padding: 16px 14px; display: flex; flex-direction: column; gap: 6px;
+  transition: border-color 0.2s, background 0.2s;
+  text-decoration: none; color: inherit;
+}
+.ip-all-card:hover {
+  border-color: rgba(255,255,255,0.13); background: var(--card-h);
+  text-decoration: none;
+}
+.ip-all-card__dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  margin-bottom: 2px;
+}
+.ip-all-card__name { font-size: 0.84rem; font-weight: 600; color: var(--t1); }
+.ip-all-card__sub  { font-size: 0.73rem; color: var(--t2); line-height: 1.4; }
+
+/* ── Footer ────────────────────────────────────────────────────────────────── */
+.ip-footer {
+  background: var(--bg3); border-top: 1px solid var(--br);
+  padding: 52px 0 28px;
+}
+.ip-footer__top {
+  display: flex; justify-content: space-between; gap: 40px;
+  margin-bottom: 36px; flex-wrap: wrap;
+}
+.ip-footer__logo {
+  font-family: var(--fm); font-size: 1rem; font-weight: 700;
+  color: var(--gold); display: block; margin-bottom: 10px;
+}
+.ip-footer__tagline {
+  font-size: 0.82rem; color: var(--t2); max-width: 380px; line-height: 1.74;
+}
+.ip-footer__links {
+  display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: flex-start;
+  padding-top: 4px;
+}
+.ip-footer__links a {
+  font-size: 0.82rem; color: var(--t2); transition: color 0.15s;
+}
+.ip-footer__links a:hover { color: var(--t1); text-decoration: none; }
+.ip-footer__bottom {
+  display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  border-top: 1px solid var(--br); padding-top: 20px;
+  font-size: 0.76rem; color: var(--t3); font-family: var(--fm);
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .ip-hero__inner { grid-template-columns: 1fr; gap: 44px; }
+  .ip-hero__right { order: -1; }
+  .ip-hero-svg { max-width: 280px; }
+  .ip-names-grid { grid-template-columns: repeat(2, 1fr); }
+  .ip-featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .ip-games-grid { grid-template-columns: repeat(2, 1fr); }
+  .ip-academy-cards { grid-template-columns: repeat(2, 1fr); }
+  .ip-all-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 680px) {
+  .ip-container { padding: 0 1.2rem; }
+  .ip-nav__inner { padding: 0 1.2rem; }
+  .ip-section { padding: 56px 0; }
+  .ip-hero { padding: 52px 0 44px; }
+  .ip-nav__links {
+    overflow-x: auto; flex-wrap: nowrap; min-width: 0;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 0;
+  }
+  .ip-nav__links::-webkit-scrollbar { display: none; }
+  .ip-names-grid { grid-template-columns: 1fr; }
+  .ip-featured-grid { grid-template-columns: 1fr; }
+  .ip-games-grid { grid-template-columns: 1fr; }
+  .ip-academy-cards { grid-template-columns: 1fr 1fr; }
+  .ip-all-grid { grid-template-columns: repeat(2, 1fr); }
+  .ip-steamsex { gap: 8px; }
+  .ip-steamsex__dim { min-width: 70px; padding: 12px 10px; }
+  .ip-footer__top { flex-direction: column; gap: 24px; }
+  .ip-footer__bottom { flex-direction: column; gap: 8px; }
+}
+
+@media (max-width: 480px) {
+  .ip-hero__title { font-size: clamp(2rem, 9vw, 2.6rem); }
+  .ip-academy-cards { grid-template-columns: 1fr; }
+  .ip-steamsex__dim { min-width: 60px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ip-nav__dot { animation: none; }
+  .ip-feat-card { transition: none; }
+}
+
+/* ── Floating Glyphs ────────────────────────────────────────────────────────── */
+.ip-glyphs { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.ip-glyph {
+  position: absolute; bottom: -8%;
+  color: var(--gold); font-family: var(--fm); font-weight: 700;
+  animation: ip-float linear infinite;
+  user-select: none; will-change: transform;
+}
+@keyframes ip-float {
+  0%   { transform: translateY(0) rotate(0deg);   opacity: 0.18; }
+  40%  { opacity: 0.09; }
+  100% { transform: translateY(-115vh) rotate(15deg); opacity: 0; }
+}
+
+/* ── Animated SVG ───────────────────────────────────────────────────────────── */
+.ip-edge {
+  animation: ip-dash 3s linear infinite;
+}
+@keyframes ip-dash {
+  from { stroke-dashoffset: 24; }
+  to   { stroke-dashoffset: 0; }
+}
+.ip-pulse-ring {
+  animation: ip-ring 2.8s ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes ip-ring {
+  0%   { transform: scale(1);    opacity: 0.25; }
+  80%  { transform: scale(1.25); opacity: 0.04; }
+  100% { transform: scale(1.3);  opacity: 0; }
+}
+.ip-node--center {
+  animation: ip-node-pulse 3s ease-in-out infinite;
+}
+@keyframes ip-node-pulse {
+  0%, 100% { opacity: 0.92; }
+  50%       { opacity: 0.6; }
+}
+
+/* ── Stats Bar ──────────────────────────────────────────────────────────────── */
+.ip-stats {
+  background: var(--bg3); border-top: 1px solid var(--br); border-bottom: 1px solid var(--br);
+  padding: 32px 0;
+}
+.ip-stats__grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-left: 1px solid var(--br);
+}
+.ip-stat {
+  text-align: center; padding: 8px 20px;
+  border-right: 1px solid var(--br);
+}
+.ip-stat__num {
+  font-family: var(--fm); font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+.ip-stat__label { font-size: 0.88rem; font-weight: 700; color: var(--t1); margin-bottom: 3px; }
+.ip-stat__sub { font-size: 0.7rem; color: var(--t3); font-family: var(--fm); letter-spacing: 0.04em; }
+
+/* ── Discover Section ────────────────────────────────────────────────────────── */
+.ip-discover-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.ip-discover-card {
+  background: var(--card); border: 1px solid var(--br); border-radius: 16px;
+  padding: 28px 24px; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative; overflow: hidden;
+  outline: none;
+}
+.ip-discover-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--dc, var(--gold)); transform: scaleX(0);
+  transform-origin: left; transition: transform 0.25s ease;
+}
+.ip-discover-card:hover::before,
+.ip-discover-card--active::before { transform: scaleX(1); }
+.ip-discover-card:hover { border-color: rgba(255,255,255,0.14); background: var(--card-h); }
+.ip-discover-card--active { border-color: rgba(255,255,255,0.18); background: var(--card-h); }
+.ip-discover-card__top { display: flex; align-items: center; gap: 14px; }
+.ip-discover-card__emoji { font-size: 2rem; line-height: 1; flex-shrink: 0; }
+.ip-discover-card__audience { font-size: 1.12rem; font-weight: 800; }
+.ip-discover-card__age { font-size: 0.74rem; color: var(--t2); font-family: var(--fm); margin-top: 2px; }
+.ip-discover-card__toggle { margin-left: auto; font-size: 0.85rem; color: var(--t2); flex-shrink: 0; }
+.ip-discover-card__body { margin-top: 20px; }
+.ip-discover-card__body p { font-size: 0.88rem; color: var(--t2); line-height: 1.74; margin-bottom: 14px; }
+.ip-discover-picks { display: flex; flex-wrap: wrap; gap: 8px; }
+.ip-pick {
+  font-size: 0.7rem; font-family: var(--fm); font-weight: 700; letter-spacing: 0.06em;
+  padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(245,197,24,0.3);
+  color: rgba(245,197,24,0.85);
+}
+
+/* ── Enhanced Featured Cards ─────────────────────────────────────────────────── */
+.ip-feat-card { position: relative; overflow: hidden; }
+.ip-feat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--fc, var(--gold)); transform: scaleX(0);
+  transform-origin: left; transition: transform 0.28s ease;
+}
+.ip-feat-card:hover::before { transform: scaleX(1); }
+.ip-feat-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+
+/* ── Game Card as link ────────────────────────────────────────────────────────── */
+a.ip-game-card {
+  display: flex; flex-direction: column;
+  text-decoration: none; color: inherit;
+}
+a.ip-game-card:hover { text-decoration: none; color: inherit; }
+.ip-game-card__cta {
+  font-size: 0.75rem; font-family: var(--fm); color: var(--gold);
+  font-weight: 600; margin-top: auto; padding-top: 12px; letter-spacing: 0.04em;
+}
+
+/* ── Filter Bar ──────────────────────────────────────────────────────────────── */
+.ip-filter-bar {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 28px; flex-wrap: wrap;
+}
+.ip-filter-cats { display: flex; gap: 8px; flex-wrap: wrap; }
+.ip-filter-btn {
+  font-family: var(--fm); font-size: 0.68rem; letter-spacing: 0.07em; font-weight: 600;
+  padding: 6px 14px; border-radius: 20px; border: 1px solid var(--br);
+  background: transparent; color: var(--t2); cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.ip-filter-btn:hover { color: var(--t1); border-color: rgba(255,255,255,0.2); background: var(--card); }
+.ip-filter-btn--active { color: var(--gold); border-color: rgba(245,197,24,0.45); background: var(--gold-dim); }
+.ip-search {
+  flex: 1; max-width: 240px; padding: 7px 14px; border-radius: 20px;
+  border: 1px solid var(--br); background: var(--card); color: var(--t1);
+  font-family: var(--fm); font-size: 0.78rem; outline: none;
+  transition: border-color 0.15s;
+}
+.ip-search:focus { border-color: rgba(245,197,24,0.45); }
+.ip-search::placeholder { color: var(--t3); }
+.ip-no-results {
+  font-size: 0.88rem; color: var(--t2); padding: 24px; text-align: center;
+  font-family: var(--fm); letter-spacing: 0.04em; border: 1px dashed var(--br);
+  border-radius: 10px; margin-bottom: 28px;
+}
+
+/* ── Responsive additions ────────────────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .ip-stats__grid    { grid-template-columns: repeat(2, 1fr); }
+  .ip-discover-grid  { grid-template-columns: 1fr; }
+}
+@media (max-width: 680px) {
+  .ip-stats__grid    { grid-template-columns: repeat(2, 1fr); }
+  .ip-filter-bar     { gap: 8px; }
+  .ip-search         { max-width: 100%; width: 100%; }
+}
+@media (max-width: 480px) {
+  .ip-stat__num      { font-size: 1.8rem; }
+}

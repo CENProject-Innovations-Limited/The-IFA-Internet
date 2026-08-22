@@ -1,0 +1,678 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   IfaProject Platform — App.jsx  (v2 — Interactive Edition)
+   The IFA Internet · CENProject · ifainternet.org/ifa-project/
+───────────────────────────────────────────────────────────────────────────── */
+
+const { useState, useEffect, useRef } = React;
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const NAMES = [
+  { num:'01', label:'IfaProject',
+    desc:'The primary designation — an umbrella platform for all structured projects within the IFA Internet ecosystem, spanning knowledge, science, technology, art, and culture.' },
+  { num:'02', label:'Consciousness Project',
+    desc:'Projects that explore, model, and apply the science of consciousness — grounding all knowledge in the CEN (Consciousness-Energy-Nature) field of the IFA Body of Knowledge.' },
+  { num:'03', label:'ToE Project',
+    desc:'Theory of Everything Projects — each platform is a node in the unified Theory of Everything, from physics and mathematics to medicine, language, and economics.' },
+  { num:'04', label:'IFA Internet Project',
+    desc:'All projects built on, for, and through the IFA Internet — the structured knowledge network of the IFABOK, accessible to all users and IFA Academy of Polymaths students.' },
+  { num:'05', label:'IFABOK Project',
+    desc:'Projects rooted in the IFA Body of Knowledge — the axiomatic, encyclopaedic system of knowledge encoded in the 256 Odu Ifa and the CEN Unified Field.' },
+  { num:'06', label:'Energy-Based Project',
+    desc:'All IFA Internet projects are Energy-Based — every platform, tool, and knowledge system is grounded in the science and philosophy of energy exchange (Ebology).' },
+];
+
+const FEATURED = [
+  { icon:'⚕', name:'Ifa Medicine', sub:'ToE Medicine · Consciousness Medicine', color:'#00c87c',
+    desc:'The Medicine of Everything — grounding all medical science and healing arts in the 256 Odu Ifa, the CEN field, and the unified theory of health as energy exchange.',
+    tags:['Medicine','Health','ToE','CEN'], href:'../ifa-medicine-toe-medicine/', cta:'Explore Ifa Medicine →' },
+  { icon:'🖥', name:'Ifa Computer', sub:'Ifa Computing · CEN Computing', color:'#3b9eff',
+    desc:'The science and architecture of computing grounded in Ifa Mathematics — introducing IfaBit, OduByte, and the axiomatic computing framework of the IFA Internet.',
+    tags:['Computing','Architecture','IfaBit'], href:'../ifa-computing/', cta:'Explore Ifa Computing →' },
+  { icon:'🤖', name:'Ifa AI — Ifai', sub:'Consciousness AI · IfaIntelligence', color:'#8b5cf6',
+    desc:'The Intelligence of Everything — Ifa Artificial Intelligence models intelligence as Consciousness in action, grounded in the CEN field and the 256 Odu Ifa knowledge structures.',
+    tags:['AI','Intelligence','CEN','Ifai'], href:'../ifai/', cta:'Explore Ifai →' },
+  { icon:'🗺', name:'Ifaltas', sub:'Ifa Atlas · The Map of Everything', color:'#f0920c',
+    desc:'The Atlas of Everything — Ifaltas maps the entire terrain of the IFA Internet: every platform, knowledge field, and connection across the IFABOK universe.',
+    tags:['Atlas','Map','Knowledge','ToE'], href:'../ifa-atlas/', cta:'Explore Ifaltas →' },
+  { icon:'⚛', name:'IfaQuantum', sub:'Ifa Quantum · Consciousness Quantum Field', color:'#00d4ff',
+    desc:'The Quantum Field of Everything — IfaQuantum applies quantum mechanics through the lens of the 256 Odu Ifa, unifying quantum theory with the Consciousness field.',
+    tags:['Quantum','Physics','CEN','Field'], href:'../ifa-quantum/', cta:'Explore IfaQuantum →' },
+  { icon:'∑', name:'Ifa Mathematics', sub:'ToE Mathematics · IfaGebra · IfaCalc', color:'#f5c518',
+    desc:'The Mathematics of Everything — Ifa Mathematics is the axiomatic mathematical foundation of the IFA Internet, encoding the 256 Odu Ifa as the universal mathematical matrix.',
+    tags:['Mathematics','IfaGebra','Axioms'], href:'https://toe.cenproject.org/ifa-mathematics-toe-mathematics/', cta:'Explore Ifa Mathematics →' },
+];
+
+const GAMES = [
+  { icon:'⬡', name:'Ayo Oloponfa', href:'https://www.playifagames.org/',
+    desc:'The ancient Yoruba strategy game elevated to a ToE experience — encoding the 256 Odu Ifa in the mechanics of play. Strategy as spiritual and intellectual practice.' },
+  { icon:'🎞', name:'Ifanimation Project', href:'./ifanimation/',
+    desc:'From Ikin to Internet — how four ancient African computers quietly invented binary code. An illustrated infographic and story for curious minds of all ages.' },
+  { icon:'📖', name:'IFA Comics', href:'https://www.playifagames.org/',
+    desc:'Illustrated stories grounded in Ifa narratives, Odu Ifa knowledge, and IFA Internet lore — making the IFABOK universe accessible through the art of visual storytelling.' },
+  { icon:'🎬', name:'IFA Animations', href:'https://www.playifagames.org/',
+    desc:'Animated explorations of Ifa knowledge, Orisa mythology, and IFA Internet science — bringing the living intelligence of the 256 Odu Ifa to life through motion.' },
+  { icon:'🃏', name:'Odu Card Games', href:'https://www.playifagames.org/',
+    desc:'Card-based games encoding the 256 Odu Ifa as playable knowledge decks — combining strategy, memory, and Ifa wisdom in interactive game experiences.' },
+  { icon:'🌐', name:'PlayIfa Universe', href:'https://www.playifagames.org/',
+    desc:'The full PlayIfa Games universe — an expanding catalogue of games, simulations, and interactive experiences rooted in the CEN field and the IFA Body of Knowledge.' },
+];
+
+const AUDIENCE_PATHS = [
+  { emoji:'🌟', audience:'Kids', age:'Ages 8–12', color:'#f5c518',
+    desc:'Discover how ancient African nuts and shells secretly invented binary code — the same math that runs every phone on Earth! Learn through games, comics, and animated stories.',
+    picks:['Ifanimation Project','PlayIfa Games','IFA Comics','Ayo Oloponfa'],
+    cta:'Start with PlayIfa Games →', href:'https://www.playifagames.org/' },
+  { emoji:'⚡', audience:'Teens', age:'Ages 13–17', color:'#00d4ff',
+    desc:'Explore Ifa Computing, IfaQuantum, and the Mathematics of Everything — real science grounded in ancient wisdom that shaped how computers and the Internet were born.',
+    picks:['Ifa Computer','IfaQuantum','Ifa AI — Ifai','Ifa Mathematics'],
+    cta:'Explore Ifa Computing →', href:'../ifa-computing/' },
+  { emoji:'🔭', audience:'Adults', age:'All levels', color:'#00c87c',
+    desc:'Dive into the IFABOK — a complete body of knowledge spanning medicine, physics, economics, computing, art, and the Theory of Everything, unified through the 256 Odu Ifa.',
+    picks:['IFABOK','Ebology','IFA Academy','CEN Unified Field'],
+    cta:'Explore All Projects →', href:'#all' },
+];
+
+const STEAMSEX = [
+  { letter:'S', label:'Science'     },
+  { letter:'T', label:'Technology'  },
+  { letter:'E', label:'Engineering' },
+  { letter:'A', label:'Arts'        },
+  { letter:'M', label:'Mathematics' },
+  { letter:'S', label:'Social Sci.' },
+  { letter:'E', label:'Economics'   },
+  { letter:'X', label:'X-Factor'    },
+];
+const STEAM_COLORS = ['#00c87c','#3b9eff','#f0920c','#8b5cf6','#f5c518','#e9498a','#00d4ff','#f5c518'];
+
+const ACADEMY = [
+  { icon:'∑',  title:'Ifa Mathematics',   link:'https://toe.cenproject.org/ifa-mathematics-toe-mathematics/',
+    desc:'Axiomatic mathematics grounded in the 256 Odu Ifa — IfaGebra, IfaCalc, IfaNumber theory, and the mathematical foundations of the IFA Internet.' },
+  { icon:'⌨',  title:'Ifa Language',      link:'../ifa-lang/',
+    desc:'IfaLang — the Language of Everything. The formal language system of the IFA Internet, encoding knowledge across all dimensions of reality.' },
+  { icon:'⚕',  title:'Ifa Medicine',      link:'../ifa-medicine-toe-medicine/',
+    desc:'ToE Medicine — the medical science and healing arts of the IFA Internet, grounding health in energy exchange and the 256 Odu Ifa.' },
+  { icon:'⚛',  title:'Ifa Physics',       link:'../ifa-physics-test/',
+    desc:'IfaPhysics — the Physics of Everything, unifying all physical theories through the 16 Principal Ifa Codes and the CEN Unified Field.' },
+  { icon:'🤖', title:'Ifa AI — Ifai',     link:'../ifai/',
+    desc:'Consciousness AI and machine intelligence grounded in the CEN field — the Artificial Intelligence platform of the IFA Internet.' },
+  { icon:'⬡',  title:'Ebology',           link:'../ebology-the-field-of-energy-exchange/',
+    desc:'The Field of Energy Exchange — EnxBOK, Eboconomics, and the Ebo Economy. The energy science foundation of all IFA Internet projects.' },
+  { icon:'🏛',  title:'Ifa Architecture', link:'../ifa-architecture/',
+    desc:'The Architecture of Everything — design, structure, and spatial knowledge grounded in Ifa principles and the axiomatic IFABOK framework.' },
+  { icon:'📅', title:'Ifa Calendar',      link:'../ifa-calendar/',
+    desc:'The Calendar of Everything — Ifa time-keeping, cosmic cycles, and the temporal framework of the 256 Odu Ifa encoded in the IFA Calendar system.' },
+];
+
+const FILTER_CATS = ['All','Science','Technology','Mathematics','Arts','Games','Knowledge'];
+
+const ALL_PROJECTS = [
+  { name:'Ifa Analysis',        sub:'Ifanalysis · Data ToE',               color:'#f5c518', cat:'Science',     href:'../ifa-analysis/' },
+  { name:'Ifa Architecture',    sub:'Design & Structure ToE',              color:'#00c87c', cat:'Arts',        href:'../ifa-architecture/' },
+  { name:'Ifa Art',             sub:'Creative ToE · IfaAesthetics',        color:'#e9498a', cat:'Arts',        href:'../ifa-art-test/' },
+  { name:'Ifaltas',             sub:'Ifa Atlas · Map of Everything',        color:'#f0920c', cat:'Knowledge',   href:'../ifa-atlas/' },
+  { name:'Ifa Calendar',        sub:'Time & Cycles ToE',                   color:'#8b5cf6', cat:'Arts',        href:'../ifa-calendar/' },
+  { name:'Ifa Computing',       sub:'Ifa Computer · CEN Computing',        color:'#3b9eff', cat:'Technology',  href:'../ifa-computing/' },
+  { name:'Ebology',             sub:'Energy Exchange · EnxBOK',            color:'#f0920c', cat:'Science',     href:'../ebology-the-field-of-energy-exchange/' },
+  { name:'Ifa Evolution',       sub:'IfaEvolution · ToE Evolution',        color:'#00c87c', cat:'Science',     href:'../ifa-evolution-test/' },
+  { name:'Ifa Game',            sub:'Game Theory · IFA Games',             color:'#f5c518', cat:'Games',       href:'../ifa-game/' },
+  { name:'IfaGram',             sub:'IFA Social Network',                  color:'#e9498a', cat:'Technology',  href:'../ifagram/' },
+  { name:'Ifagraphy',           sub:'Geography & TOEgraphy',               color:'#3b9eff', cat:'Arts',        href:'../ifagraphy-toegraphy/' },
+  { name:'Ifa AI — Ifai',       sub:'Consciousness AI · IfaIntelligence',  color:'#8b5cf6', cat:'Technology',  href:'../ifai/' },
+  { name:'IEMbok',              sub:'IFA Energy Management BOK',           color:'#00d4ff', cat:'Knowledge',   href:'../iembok/' },
+  { name:'Ifa Labs',            sub:'IFA Research & Experiments',          color:'#f0920c', cat:'Technology',  href:'../ifa-labs/' },
+  { name:'Ifa Language',        sub:'IfaLang · Language of Everything',    color:'#f5c518', cat:'Arts',        href:'../ifa-lang/' },
+  { name:'Ifa Learn',           sub:'IFA Learning Platform',               color:'#00c87c', cat:'Knowledge',   href:'../ifa-learn-test/' },
+  { name:'Ifa Lens',            sub:'Vision & Optics ToE',                 color:'#3b9eff', cat:'Science',     href:'../ifa-lens/' },
+  { name:'Ifa LMS',             sub:'Learning Management System',          color:'#8b5cf6', cat:'Knowledge',   href:'../ifa-lms-test/' },
+  { name:'Ifa Mathematica',     sub:'Applied Ifa Mathematics',             color:'#f5c518', cat:'Mathematics', href:'../ifa-mathematica-test/' },
+  { name:'Ifa Matrix',          sub:'Odu Matrix · 256-Odu Framework',      color:'#00c87c', cat:'Mathematics', href:'../ifa-matrix-test/' },
+  { name:'Ifa Mechanics',       sub:'Forces & Motion ToE',                 color:'#f0920c', cat:'Science',     href:'../ifa-mechanics/' },
+  { name:'Ifa Medicine',        sub:'ToE Medicine · Healing Science',      color:'#00c87c', cat:'Science',     href:'../ifa-medicine-toe-medicine/' },
+  { name:'Ifa Number',          sub:'Number Theory · IfaNumber',           color:'#f5c518', cat:'Mathematics', href:'../ifa-number/' },
+  { name:'Ifa Periodic Table',  sub:'Elements ToE · Odu Periodicity',      color:'#3b9eff', cat:'Mathematics', href:'../ifa-periodic-table/' },
+  { name:'Ifa Physics',         sub:'IfaPhy · Physics of Everything',      color:'#00d4ff', cat:'Science',     href:'../ifa-physics-test/' },
+  { name:'IfaQuantum',          sub:'Quantum Field · Consciousness Quantum',color:'#00d4ff', cat:'Science',    href:'../ifa-quantum/' },
+  { name:'Ifa Schema',          sub:'Knowledge Architecture · IfaSchema',  color:'#8b5cf6', cat:'Technology',  href:'../ifa-schema-test/' },
+  { name:'Ifa Script',          sub:'Script of Everything · ScriptToE',    color:'#e9498a', cat:'Arts',        href:'../ifa-script-the-script-of-everything-scriptoe/' },
+  { name:'PlayIfa Games',       sub:'Games · Comics · Animations',         color:'#f0920c', cat:'Games',       href:'https://www.playifagames.org/' },
+  { name:'Ifa Internet',        sub:'The IFA Internet Portal',             color:'#f5c518', cat:'Knowledge',   href:'../' },
+];
+
+// ─── FLOATING GLYPHS ─────────────────────────────────────────────────────────
+
+function FloatingGlyphs() {
+  const items = [
+    { g:'|',  x:8,   d:0.0, dur:7.5 },
+    { g:'||', x:18,  d:1.2, dur:9.0 },
+    { g:'|',  x:30,  d:0.5, dur:7.0 },
+    { g:'||', x:42,  d:2.1, dur:8.5 },
+    { g:'|',  x:55,  d:0.8, dur:9.5 },
+    { g:'||', x:65,  d:1.8, dur:7.8 },
+    { g:'|',  x:75,  d:1.1, dur:8.2 },
+    { g:'||', x:86,  d:0.3, dur:9.2 },
+    { g:'|',  x:92,  d:2.5, dur:7.3 },
+    { g:'||', x:3,   d:1.6, dur:8.8 },
+    { g:'|',  x:48,  d:3.0, dur:9.8 },
+    { g:'||', x:97,  d:0.7, dur:8.0 },
+    { g:'|',  x:24,  d:1.4, dur:7.6 },
+    { g:'||', x:71,  d:2.8, dur:9.1 },
+  ];
+  return (
+    <div className="ip-glyphs" aria-hidden="true">
+      {items.map((item, i) => (
+        <span key={i} className="ip-glyph"
+              style={{
+                left: `${item.x}%`,
+                animationDelay: `${item.d}s`,
+                animationDuration: `${item.dur}s`,
+                fontSize: `${0.7 + (i % 3) * 0.25}rem`,
+                opacity: 0.12 + (i % 4) * 0.04,
+              }}>
+          {item.g}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+// ─── HERO SVG ─────────────────────────────────────────────────────────────────
+
+function HeroSVG() {
+  const nodes = [
+    { cx:190, cy:165, r:30,  label:'IfaProject', color:'#f5c518' },
+    { cx:72,  cy:78,  r:17,  label:'Medicine',   color:'#00c87c' },
+    { cx:306, cy:72,  r:17,  label:'IfaQuantum', color:'#00d4ff' },
+    { cx:336, cy:220, r:17,  label:'Ifai',       color:'#8b5cf6' },
+    { cx:52,  cy:240, r:17,  label:'Computing',  color:'#3b9eff' },
+    { cx:190, cy:302, r:15,  label:'Games',      color:'#f0920c' },
+    { cx:108, cy:178, r:12,  label:'Ifaltas',    color:'#e9498a' },
+    { cx:272, cy:158, r:12,  label:'Ebology',    color:'#f0920c' },
+    { cx:190, cy:55,  r:12,  label:'Math',       color:'#f5c518' },
+    { cx:290, cy:308, r:10,  label:'Script',     color:'#8b5cf6' },
+    { cx:90,  cy:308, r:10,  label:'Language',   color:'#00c87c' },
+  ];
+  const edges = [
+    [0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],
+    [1,6],[2,7],[3,7],[4,6],[5,9],[5,10],[1,10],[3,9],
+  ];
+  return (
+    <svg className="ip-hero-svg" viewBox="0 0 380 360" fill="none"
+         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="hg" cx="50%" cy="45%" r="55%">
+          <stop offset="0%"   stopColor="rgba(245,197,24,0.09)"/>
+          <stop offset="100%" stopColor="transparent"/>
+        </radialGradient>
+        <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="2.8" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow2" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <ellipse cx="190" cy="180" rx="175" ry="165" fill="url(#hg)"/>
+      {/* Animated dashed edges */}
+      {edges.map(([a, b], i) => (
+        <line key={i}
+          x1={nodes[a].cx} y1={nodes[a].cy}
+          x2={nodes[b].cx} y2={nodes[b].cy}
+          stroke="rgba(255,255,255,0.1)" strokeWidth="1"
+          strokeDasharray="4 8"
+          className="ip-edge"
+          style={{ animationDelay:`${i * 0.22}s` }}
+        />
+      ))}
+      {/* Pulsing outer rings around center */}
+      <circle cx="190" cy="165" r="46"
+        fill="none" stroke="#f5c518" strokeWidth="0.6"
+        className="ip-pulse-ring"/>
+      <circle cx="190" cy="165" r="64"
+        fill="none" stroke="#f5c518" strokeWidth="0.3"
+        className="ip-pulse-ring" style={{ animationDelay:'0.9s' }}/>
+      {/* Nodes */}
+      {nodes.map((n, i) => (
+        <g key={i} filter={i === 0 ? 'url(#glow2)' : 'url(#glow)'}>
+          <circle cx={n.cx} cy={n.cy} r={n.r}
+            fill={`${n.color}18`} stroke={n.color}
+            strokeWidth={i === 0 ? 2 : 1.2}
+            className={i === 0 ? 'ip-node--center' : ''}
+          />
+          <text x={n.cx} y={n.cy + (i === 0 ? 4 : 3)}
+            textAnchor="middle"
+            fill={i === 0 ? n.color : 'rgba(255,255,255,0.65)'}
+            fontSize={i === 0 ? 8 : 6}
+            fontWeight={i === 0 ? '700' : '400'}
+            fontFamily="monospace">
+            {n.label}
+          </text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ─── STATS BAR ────────────────────────────────────────────────────────────────
+
+function StatsBar() {
+  const stats = [
+    { num:256, suffix:'',  label:'Odu Ifa',        sub:'Sacred knowledge codes'         },
+    { num:30,  suffix:'+', label:'Platforms',       sub:'Active IFA Internet projects'   },
+    { num:8,   suffix:'',  label:'STEAMSEX Fields', sub:'Dimensions of knowledge'        },
+    { num:1,   suffix:'',  label:'CEN Universe',    sub:'One unified field of knowledge' },
+  ];
+  const [counts, setCounts] = useState(stats.map(() => 0));
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      stats.forEach((s, i) => {
+        const end = s.num;
+        const step = Math.ceil(end / 40);
+        let cur = 0;
+        const t = setInterval(() => {
+          cur = Math.min(cur + step, end);
+          setCounts(prev => { const n = [...prev]; n[i] = cur; return n; });
+          if (cur >= end) clearInterval(t);
+        }, 28);
+      });
+      obs.disconnect();
+    }, { threshold: 0.5 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div className="ip-stats" ref={ref}>
+      <div className="ip-container">
+        <div className="ip-stats__grid">
+          {stats.map((s, i) => (
+            <div key={i} className="ip-stat">
+              <div className="ip-stat__num">{counts[i]}{s.suffix}</div>
+              <div className="ip-stat__label">{s.label}</div>
+              <div className="ip-stat__sub">{s.sub}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── NAV ──────────────────────────────────────────────────────────────────────
+
+function Nav() {
+  return (
+    <nav className="ip-nav">
+      <div className="ip-nav__inner">
+        <a href="../" className="ip-nav__logo">
+          <span className="ip-nav__logo-prefix">The IFA Internet /</span>
+          <div className="ip-nav__dot" />
+          IfaProject
+        </a>
+        <div className="ip-nav__links">
+          <a href="#names"    className="ip-nav__link">About</a>
+          <a href="#discover" className="ip-nav__link">Discover</a>
+          <a href="#featured" className="ip-nav__link">Featured</a>
+          <a href="#games"    className="ip-nav__link">PlayIfa</a>
+          <a href="#academy"  className="ip-nav__link">Academy</a>
+          <a href="#all"      className="ip-nav__link">All Projects</a>
+          <a href="https://www.playifagames.org/" target="_blank" rel="noopener noreferrer"
+             className="ip-nav__link ip-nav__link--cta">PlayIfa Games ↗</a>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+// ─── HERO ─────────────────────────────────────────────────────────────────────
+
+function Hero() {
+  return (
+    <section className="ip-hero" style={{ position:'relative', overflow:'hidden' }}>
+      <FloatingGlyphs />
+      <div className="ip-container" style={{ position:'relative', zIndex:1 }}>
+        <div className="ip-hero__inner">
+          <div className="ip-hero__left">
+            <div className="ip-pills">
+              <span className="ip-pill">IFABOK Project</span>
+              <span className="ip-pill">Consciousness Project</span>
+              <span className="ip-pill">ToE Project</span>
+              <span className="ip-pill">Energy-Based Project</span>
+            </div>
+            <h1 className="ip-hero__title">
+              <span className="ip-hero__title-main">IfaProject</span>
+              <span className="ip-hero__title-sub">IFA Internet Project Platform</span>
+            </h1>
+            <p className="ip-hero__body">
+              <strong>IfaProject</strong> is the project platform of the IFA Internet — also known as the{' '}
+              <strong>Consciousness Project</strong>, <strong>ToE Project</strong>,{' '}
+              <strong>IFA Internet Project</strong>, <strong>IFABOK Project</strong>, and{' '}
+              <strong>Energy-Based Project</strong>. Every platform, tool, and knowledge system on the IFA
+              Internet is an IfaProject — grounded in the 256 Odu Ifa, the CEN Unified Field, and the
+              axiomatic science of the IFABOK.
+            </p>
+            <div className="ip-hero__ctas">
+              <a href="#featured" className="ip-btn ip-btn--primary">Explore Projects</a>
+              <a href="#discover" className="ip-btn ip-btn--ghost">Find Your Path</a>
+            </div>
+          </div>
+          <div className="ip-hero__right">
+            <HeroSVG />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── NAMES SECTION ────────────────────────────────────────────────────────────
+
+function NamesSection() {
+  return (
+    <section className="ip-section ip-section--alt" id="names">
+      <div className="ip-container">
+        <div className="ip-eyebrow">What is IfaProject</div>
+        <h2 className="ip-section-title">Six Names, One Platform</h2>
+        <p className="ip-section-sub">
+          IfaProject is known by six interchangeable names — each highlighting a different dimension of its
+          scope and purpose within the IFA Internet ecosystem.
+        </p>
+        <div className="ip-names-grid">
+          {NAMES.map((n, i) => (
+            <div key={i} className="ip-name-card">
+              <div className="ip-name-card__num">{n.num}</div>
+              <div className="ip-name-card__label">{n.label}</div>
+              <div className="ip-name-card__desc">{n.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── DISCOVER SECTION ─────────────────────────────────────────────────────────
+
+function DiscoverSection() {
+  const [active, setActive] = useState(null);
+  return (
+    <section className="ip-section" id="discover">
+      <div className="ip-container">
+        <div className="ip-eyebrow">Find Your Path</div>
+        <h2 className="ip-section-title">Built for Every Curious Mind</h2>
+        <p className="ip-section-sub">
+          Whether you're 8 or 80, IfaProject has a starting point for you. Tap your audience to discover
+          the best first steps across the IFA Internet.
+        </p>
+        <div className="ip-discover-grid">
+          {AUDIENCE_PATHS.map((p, i) => (
+            <div key={i}
+                 className={`ip-discover-card${active === i ? ' ip-discover-card--active' : ''}`}
+                 style={{ '--dc': p.color }}
+                 onClick={() => setActive(active === i ? null : i)}
+                 role="button" tabIndex={0}
+                 onKeyDown={e => e.key === 'Enter' && setActive(active === i ? null : i)}>
+              <div className="ip-discover-card__top">
+                <span className="ip-discover-card__emoji">{p.emoji}</span>
+                <div>
+                  <div className="ip-discover-card__audience" style={{ color:p.color }}>{p.audience}</div>
+                  <div className="ip-discover-card__age">{p.age}</div>
+                </div>
+                <span className="ip-discover-card__toggle" aria-hidden="true">
+                  {active === i ? '↑' : '↓'}
+                </span>
+              </div>
+              {active === i && (
+                <div className="ip-discover-card__body">
+                  <p>{p.desc}</p>
+                  <div className="ip-discover-picks">
+                    {p.picks.map((pick, j) => (
+                      <span key={j} className="ip-pick"
+                            style={{ borderColor:`${p.color}55`, color:p.color }}>
+                        {pick}
+                      </span>
+                    ))}
+                  </div>
+                  <a href={p.href} className="ip-btn ip-btn--primary"
+                     style={{ background:p.color, color:'#030608', marginTop:'20px', display:'inline-flex' }}
+                     target={p.href.startsWith('http') ? '_blank' : undefined}
+                     rel={p.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+                    {p.cta}
+                  </a>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── FEATURED PROJECTS ────────────────────────────────────────────────────────
+
+function FeaturedSection() {
+  return (
+    <section className="ip-section ip-section--alt" id="featured">
+      <div className="ip-container">
+        <div className="ip-eyebrow">Key IfaProjects</div>
+        <h2 className="ip-section-title">Featured Projects</h2>
+        <p className="ip-section-sub">
+          The flagship projects of the IFA Internet — each a self-contained knowledge platform grounded in
+          the 256 Odu Ifa and the CEN Unified Field, available to all IFA Internet users and IFA Academy
+          of Polymaths students.
+        </p>
+        <div className="ip-featured-grid">
+          {FEATURED.map((p, i) => (
+            <a key={i} href={p.href} className="ip-feat-card"
+               style={{ '--fc': p.color }}
+               target={p.href.startsWith('http') ? '_blank' : undefined}
+               rel={p.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+              <div className="ip-feat-card__icon">{p.icon}</div>
+              <div className="ip-feat-card__name" style={{ color:p.color }}>{p.name}</div>
+              <div className="ip-feat-card__sub">{p.sub}</div>
+              <p className="ip-feat-card__desc">{p.desc}</p>
+              <div className="ip-feat-card__tags">
+                {p.tags.map((t, j) => <span key={j} className="ip-tag">{t}</span>)}
+              </div>
+              <div className="ip-feat-card__cta" style={{ color:p.color }}>{p.cta}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── GAMES / PLAYIFA SECTION ──────────────────────────────────────────────────
+
+function GamesSection() {
+  return (
+    <section className="ip-section" id="games">
+      <div className="ip-container">
+        <div className="ip-eyebrow">PlayIfa Games</div>
+        <h2 className="ip-section-title">Games, Comics &amp; Animations</h2>
+        <p className="ip-section-sub">
+          PlayIfa Games brings the IFA Body of Knowledge to life through interactive play — games, comics,
+          animations, and immersive experiences rooted in Ifa wisdom, Orisa mythology, and the living
+          science of the 256 Odu Ifa. Available at{' '}
+          <a href="https://www.playifagames.org/" target="_blank" rel="noopener noreferrer">
+            playifagames.org
+          </a>.
+        </p>
+        <div className="ip-games-grid">
+          {GAMES.map((g, i) => (
+            <a key={i} href={g.href} className="ip-game-card"
+               target={g.href.startsWith('http') ? '_blank' : undefined}
+               rel={g.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+              <div className="ip-game-card__icon">{g.icon}</div>
+              <div className="ip-game-card__name">{g.name}</div>
+              <p className="ip-game-card__desc">{g.desc}</p>
+              <div className="ip-game-card__cta">Visit →</div>
+            </a>
+          ))}
+        </div>
+        <div className="ip-playifa-cta">
+          <a href="https://www.playifagames.org/" target="_blank" rel="noopener noreferrer"
+             className="ip-btn ip-btn--primary">Visit PlayIfa Games ↗</a>
+          <a href="./ifanimation/" className="ip-btn ip-btn--ghost">
+            Ifanimation: From Ikin to Internet →
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── ACADEMY SECTION ──────────────────────────────────────────────────────────
+
+function AcademySection() {
+  return (
+    <section className="ip-section ip-section--alt" id="academy">
+      <div className="ip-container">
+        <div className="ip-eyebrow">IFA Academy of Polymaths</div>
+        <h2 className="ip-section-title">Projects for the Academy</h2>
+        <p className="ip-section-sub">
+          The IFA Academy of Polymaths gives students access to the full depth of the IFA Internet —
+          spanning all STEAMSEX dimensions of knowledge. Every IfaProject platform is a learning resource
+          for Academy students pursuing mastery across all fields of knowledge.
+        </p>
+        <div className="ip-steamsex">
+          {STEAMSEX.map((s, i) => (
+            <div key={i} className="ip-steamsex__dim">
+              <span className="ip-steamsex__letter" style={{ color:STEAM_COLORS[i] }}>{s.letter}</span>
+              <span className="ip-steamsex__label">{s.label}</span>
+            </div>
+          ))}
+        </div>
+        <div className="ip-academy-cards">
+          {ACADEMY.map((a, i) => (
+            <div key={i} className="ip-academy-card">
+              <div className="ip-academy-card__icon">{a.icon}</div>
+              <div className="ip-academy-card__title">{a.title}</div>
+              <p className="ip-academy-card__desc">{a.desc}</p>
+              <a href={a.link} className="ip-academy-card__link"
+                 target={a.link.startsWith('http') ? '_blank' : undefined}
+                 rel={a.link.startsWith('http') ? 'noopener noreferrer' : undefined}>
+                Visit Platform →
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── ALL PROJECTS SECTION ─────────────────────────────────────────────────────
+
+function AllProjectsSection() {
+  const [filter, setFilter] = useState('All');
+  const [search, setSearch] = useState('');
+  const visible = ALL_PROJECTS.filter(p =>
+    (filter === 'All' || p.cat === filter) &&
+    (!search || p.name.toLowerCase().includes(search.toLowerCase()) ||
+                p.sub.toLowerCase().includes(search.toLowerCase()))
+  );
+  return (
+    <section className="ip-section" id="all">
+      <div className="ip-container">
+        <div className="ip-eyebrow">IFABOK Universe</div>
+        <h2 className="ip-section-title">All IfaProjects</h2>
+        <p className="ip-section-sub">
+          The complete landscape of IFA Internet projects — 30+ platforms spanning every field of
+          knowledge, all grounded in the 256 Odu Ifa and the CEN Unified Field.
+        </p>
+        <div className="ip-filter-bar">
+          <div className="ip-filter-cats">
+            {FILTER_CATS.map(c => (
+              <button key={c}
+                      className={`ip-filter-btn${filter === c ? ' ip-filter-btn--active' : ''}`}
+                      onClick={() => setFilter(c)}>
+                {c}
+              </button>
+            ))}
+          </div>
+          <input className="ip-search" placeholder="Search projects…"
+                 value={search} onChange={e => setSearch(e.target.value)} />
+        </div>
+        {visible.length === 0 && (
+          <p className="ip-no-results">No projects found for "{search}" in {filter}.</p>
+        )}
+        <div className="ip-all-grid">
+          {visible.map((p, i) => (
+            <a key={i} href={p.href} className="ip-all-card"
+               target={p.href.startsWith('http') ? '_blank' : undefined}
+               rel={p.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+              <div className="ip-all-card__dot" style={{ background:p.color }}/>
+              <div className="ip-all-card__name">{p.name}</div>
+              <div className="ip-all-card__sub">{p.sub}</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── FOOTER ───────────────────────────────────────────────────────────────────
+
+function Footer() {
+  return (
+    <footer className="ip-footer">
+      <div className="ip-container">
+        <div className="ip-footer__top">
+          <div>
+            <span className="ip-footer__logo">IfaProject Platform</span>
+            <p className="ip-footer__tagline">
+              The IFA Internet Project — Consciousness Project · ToE Project · IFABOK Project ·
+              Energy-Based Project. Built on the 256 Odu Ifa and the CEN Unified Field.
+            </p>
+          </div>
+          <div className="ip-footer__links">
+            <a href="#names">About</a>
+            <a href="#discover">Discover</a>
+            <a href="#featured">Featured</a>
+            <a href="#games">PlayIfa</a>
+            <a href="#academy">Academy</a>
+            <a href="#all">All Projects</a>
+            <a href="../">IFA Internet</a>
+            <a href="https://www.playifagames.org/" target="_blank" rel="noopener noreferrer">PlayIfa Games ↗</a>
+            <a href="https://cenproject.org/" target="_blank" rel="noopener noreferrer">CENProject ↗</a>
+          </div>
+        </div>
+        <div className="ip-footer__bottom">
+          <span>© 2026 CENProject Innovations Limited. All rights reserved.</span>
+          <span>The IFA Internet — IfaProject Platform</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ─── APP ──────────────────────────────────────────────────────────────────────
+
+function App() {
+  return (
+    <>
+      <Nav />
+      <main>
+        <Hero />
+        <StatsBar />
+        <NamesSection />
+        <DiscoverSection />
+        <FeaturedSection />
+        <GamesSection />
+        <AcademySection />
+        <AllProjectsSection />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);

@@ -113,6 +113,63 @@ function OyekuSymbol({ size = 44 }) {
     style: { display: 'block', flexShrink: 0, marginTop: '1px' } });
 }
 
+// ── MetaCircleCanvas (IfaZero / IfaOne Metarepresentation) ─────
+function MetaCircleCanvas({ gold = true, size = 44 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width        = size * DPR;
+    canvas.height       = size * DPR;
+    canvas.style.width  = size + 'px';
+    canvas.style.height = size + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+    const cx = size / 2, cy = size / 2;
+    const R   = size * 0.360;
+    const ARR = size * 0.135;
+
+    const circL = gold
+      ? [[2.2,'rgba(245,197,24,0.15)',5],[1.0,'rgba(245,197,24,0.58)',2.5],[0.5,'rgba(255,248,210,0.92)',1]]
+      : [[2.2,'rgba(225,35,65,0.18)', 4],[1.0,'rgba(235,55,80,0.65)', 2.5],[0.5,'rgba(255,120,140,0.88)',1]];
+    for (const [lw, color, blur] of circL) {
+      ctx.save();
+      ctx.strokeStyle = color; ctx.lineWidth = lw;
+      ctx.shadowColor = color; ctx.shadowBlur = blur;
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke();
+      ctx.restore();
+    }
+
+    const tipX = gold ? cx + R : cx - R;
+    const angle = Math.PI / 2;
+    const arrL = gold
+      ? [['rgba(245,197,24,0.42)',7],['rgba(255,248,210,0.92)',1.5]]
+      : [['rgba(225,35,65,0.44)', 6],['rgba(255,120,140,0.90)',1.5]];
+    for (const [color, blur] of arrL) {
+      ctx.save();
+      ctx.translate(tipX, cy); ctx.rotate(angle);
+      ctx.shadowColor = color; ctx.shadowBlur = blur; ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-ARR, -ARR * 0.44);
+      ctx.lineTo(-ARR,  ARR * 0.44);
+      ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+
+    const dotColor = gold ? 'rgba(245,197,24,1)'  : 'rgba(230,40,65,1)';
+    const dotFill  = gold ? 'rgba(255,248,210,1)' : 'rgba(255,170,185,1)';
+    ctx.save();
+    ctx.shadowColor = dotColor; ctx.shadowBlur = 7;
+    ctx.fillStyle = dotFill;
+    ctx.beginPath(); ctx.arc(cx, cy, 1.8, 0, 2 * Math.PI); ctx.fill();
+    ctx.restore();
+  }, [gold, size]);
+  return React.createElement('canvas', { ref,
+    style: { display:'block', flexShrink:0, marginTop:'1px' } });
+}
+
 // ════════════════════════════════════════════════════════════
 // GLYPH HELPERS  (Periodic Table section)
 // ════════════════════════════════════════════════════════════
@@ -503,7 +560,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <img className="ifa-binary__meta-glyph ifa-binary__meta-glyph--img" src="./images/IfaZero.png" alt="IfaZero Metarepresentation" />
+                  <MetaCircleCanvas gold={true} size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>IfaZero Metarepresentation</strong>
                     <p>Circle with clockwise arrow on the right — the Energy (Ogbe) directional symbol.</p>
@@ -553,7 +610,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <img className="ifa-binary__meta-glyph ifa-binary__meta-glyph--img" src="./images/IfaOne.png" alt="IfaOne Metarepresentation" />
+                  <MetaCircleCanvas gold={false} size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>IfaOne Metarepresentation</strong>
                     <p>Circle with counterclockwise arrow on the left — the Anergy (Oyeku) directional symbol.</p>

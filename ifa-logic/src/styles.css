@@ -1,0 +1,456 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   IfaLogic Platform — TOE Logic · Logic of Everything (Logic-oE)
+   The IFA Internet · CENProject · ifainternet.org/ifa-logic/
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Reset & Root ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Design Tokens ─────────────────────────────────────────────────────────── */
+:root {
+  --bg:          #040810;
+  --bg-2:        #060c18;
+  --bg-3:        #081020;
+  --bg-card:     rgba(6,10,20,0.90);
+  --bg-glass:    rgba(8,14,26,0.65);
+  --bg-alt:      #05090f;
+
+  --gold:        #f5c518;
+  --gold-lt:     #ffd84a;
+  --violet:      #8b5cf6;
+  --violet-lt:   #a78bfa;
+  --electric:    #3b9eff;
+  --electric-lt: #7dc3ff;
+  --jade:        #00c87c;
+  --jade-lt:     #38e8a0;
+  --amber:       #f0920c;
+  --amber-lt:    #ffaa32;
+  --cyan:        #14b8d4;
+  --cyan-lt:     #38d4ee;
+
+  --text-1:  #eef3ff;
+  --text-2:  #6e90b8;
+  --text-3:  #2b4468;
+
+  --border:   rgba(245,197,24,0.10);
+  --border-2: rgba(245,197,24,0.22);
+  --border-v: rgba(139,92,246,0.18);
+
+  --radius:    12px;
+  --radius-sm: 8px;
+
+  --glow-gold:   0 0 40px rgba(245,197,24,0.16);
+  --glow-violet: 0 0 40px rgba(139,92,246,0.22);
+}
+
+/* ── Utilities ─────────────────────────────────────────────────────────────── */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+.accent--gold {
+  background: linear-gradient(120deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.accent--violet {
+  background: linear-gradient(120deg, var(--violet-lt), var(--violet));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.accent--cyan {
+  background: linear-gradient(120deg, var(--cyan-lt), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.accent--amber {
+  background: linear-gradient(120deg, var(--amber-lt), var(--amber));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.accent--jade {
+  background: linear-gradient(120deg, var(--jade-lt), var(--jade));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ── Nav ───────────────────────────────────────────────────────────────────── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 56px;
+  background: rgba(4,8,16,0.90);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+}
+.nav__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px;
+}
+.nav__wordmark {
+  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--text-2); text-decoration: none;
+}
+.nav__wordmark span { color: var(--violet); }
+.nav__links { display: flex; gap: 6px; }
+.nav__link {
+  font-size: 0.75rem; font-weight: 600; color: var(--text-2);
+  text-decoration: none; padding: 6px 12px; border-radius: 6px;
+  transition: color 0.2s, background 0.2s;
+}
+.nav__link:hover { color: var(--text-1); background: rgba(139,92,246,0.10); }
+
+/* ── Hero ──────────────────────────────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 100px 0 60px;
+  position: relative; overflow: hidden;
+}
+.hero__bg-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 48% at 50% 40%, rgba(139,92,246,0.10) 0%, transparent 68%),
+    radial-gradient(ellipse 40% 30% at 50% 60%, rgba(245,197,24,0.04) 0%, transparent 60%);
+}
+.hero__content { text-align: center; position: relative; z-index: 1; }
+.hero__eyebrow {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--violet);
+  margin-bottom: 20px;
+}
+.hero__title {
+  font-size: clamp(2.4rem, 6vw, 4.4rem); font-weight: 900;
+  color: var(--text-1); line-height: 1.1; margin-bottom: 12px;
+}
+.hero__sub {
+  font-size: clamp(0.9rem, 2vw, 1.05rem); color: var(--text-2);
+  max-width: 680px; margin: 0 auto 28px;
+  line-height: 1.7;
+}
+.hero__aliases {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  margin-bottom: 36px;
+}
+.hero__alias {
+  font-size: 0.73rem; font-weight: 600; padding: 5px 14px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--ac) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ac) 28%, transparent);
+  color: var(--ac); letter-spacing: 0.03em;
+}
+.hero__ifa-symbol {
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 6px; margin: 32px 0;
+}
+.hero__ifa-char {
+  font-size: 5rem; color: var(--gold); font-family: Georgia, serif;
+  line-height: 1; text-shadow: 0 0 40px rgba(245,197,24,0.38);
+}
+.hero__ifa-label {
+  font-size: 0.78rem; letter-spacing: 0.12em; color: var(--text-3);
+  margin-top: 10px; text-align: center;
+  text-transform: uppercase;
+}
+.hero__ifa-box {
+  background: color-mix(in srgb, var(--gold) 5%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--gold) 20%, transparent);
+  border-radius: 16px; padding: 32px 40px; display: inline-block;
+  text-align: center; margin: 20px auto;
+  box-shadow: var(--glow-gold);
+}
+
+/* ── Section base ──────────────────────────────────────────────────────────── */
+.section { padding: 80px 0; }
+.section--alt { background: var(--bg-alt); }
+.section--dark { background: var(--bg-2); }
+.section__header { margin-bottom: 52px; }
+.section__header--center { text-align: center; }
+.section__eyebrow {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; margin-bottom: 14px;
+}
+.section__eyebrow--violet { color: var(--violet); }
+.section__eyebrow--cyan   { color: var(--cyan); }
+.section__eyebrow--amber  { color: var(--amber); }
+.section__eyebrow--jade   { color: var(--jade); }
+.section__eyebrow--gold   { color: var(--gold); }
+.section__title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800;
+  color: var(--text-1); line-height: 1.2; margin-bottom: 16px;
+}
+.section__subtitle {
+  font-size: 0.95rem; color: var(--text-2); max-width: 680px;
+  line-height: 1.75;
+}
+.section__header--center .section__subtitle { margin: 0 auto; }
+
+/* ── Body text ─────────────────────────────────────────────────────────────── */
+.il-body {
+  font-size: 0.92rem; color: var(--text-2); line-height: 1.78; margin-bottom: 14px;
+}
+
+/* ── Split layout ──────────────────────────────────────────────────────────── */
+.il-split {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: start;
+}
+@media (max-width: 860px) {
+  .il-split { grid-template-columns: 1fr; }
+  .il-split .il-split__img { order: -1; }
+}
+
+/* ── Figures ───────────────────────────────────────────────────────────────── */
+.il-fig { margin: 0; }
+.il-fig--center { text-align: center; }
+.il-img {
+  width: 100%; border-radius: 10px;
+  border: 1px solid var(--border);
+  display: block; background: var(--bg-card);
+}
+.il-img--wide { max-width: 800px; margin: 0 auto; }
+.il-fig-cap {
+  font-size: 0.73rem; color: var(--text-3);
+  font-style: italic; margin-top: 8px;
+  line-height: 1.5; text-align: center;
+}
+
+/* ── Highlight box ─────────────────────────────────────────────────────────── */
+.il-box {
+  background: color-mix(in srgb, var(--hc) 7%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--hc) 28%, transparent);
+  border-left: 3px solid var(--hc);
+  border-radius: 8px; padding: 16px 18px; margin-top: 18px;
+}
+.il-box__label {
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--hc); margin-bottom: 8px;
+}
+.il-box__text {
+  font-size: 0.85rem; color: var(--text-2); line-height: 1.65; margin: 0;
+}
+
+/* ── Operator images row ───────────────────────────────────────────────────── */
+.il-op-grid {
+  display: flex; flex-direction: column; gap: 40px; margin-top: 20px;
+}
+
+/* ── OrisaLogic dual card ──────────────────────────────────────────────────── */
+.il-dual-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;
+}
+@media (max-width: 640px) { .il-dual-row { grid-template-columns: 1fr; } }
+.il-dual-card {
+  border-radius: var(--radius); padding: 28px 24px;
+  border: 1px solid var(--border-c);
+  background: color-mix(in srgb, var(--dc) 6%, var(--bg-card));
+  text-align: center;
+}
+.il-dual-card__sym {
+  font-size: 2.4rem; line-height: 1; margin-bottom: 12px;
+  color: var(--dc);
+}
+.il-dual-card__title {
+  font-size: 1.05rem; font-weight: 800; color: var(--text-1); margin-bottom: 8px;
+}
+.il-dual-card__body {
+  font-size: 0.83rem; color: var(--text-2); line-height: 1.65;
+}
+
+/* ── Amulu operators grid ──────────────────────────────────────────────────── */
+.il-amulu-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px; margin-top: 28px;
+}
+.il-amulu-card {
+  background: color-mix(in srgb, var(--c) 7%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--c) 20%, transparent);
+  border-radius: var(--radius-sm); padding: 18px 16px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.il-amulu-card:hover {
+  border-color: color-mix(in srgb, var(--c) 45%, transparent);
+  transform: translateY(-2px);
+}
+.il-amulu-card__glyph {
+  font-size: 1.6rem; color: var(--c);
+  font-family: monospace; line-height: 1; margin-bottom: 8px;
+}
+.il-amulu-card__name {
+  font-size: 0.85rem; font-weight: 800; color: var(--text-1); margin-bottom: 4px;
+}
+.il-amulu-card__label {
+  font-size: 0.72rem; color: var(--c);
+  letter-spacing: 0.04em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 10px;
+}
+.il-amulu-card__desc {
+  font-size: 0.78rem; color: var(--text-2); line-height: 1.55;
+}
+
+/* ── Truth Table ───────────────────────────────────────────────────────────── */
+.il-table-wrap { overflow-x: auto; margin-top: 20px; }
+.il-table {
+  width: 100%; border-collapse: collapse; font-size: 0.88rem;
+}
+.il-table thead tr { border-bottom: 2px solid var(--cyan); }
+.il-table th {
+  text-align: left; padding: 10px 16px;
+  color: var(--cyan); font-weight: 800;
+  letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.72rem;
+}
+.il-table td { padding: 12px 16px; color: var(--text-1); }
+.il-table tr { border-bottom: 1px solid rgba(20,184,212,0.10); }
+.il-table tr:nth-child(even) { background: rgba(20,184,212,0.04); }
+.il-table td.il-table__rep {
+  font-family: monospace; color: var(--cyan); font-weight: 700;
+  font-size: 1rem; line-height: 1.8; padding-bottom: 18px;
+}
+
+/* ── IfaExpr inline (∀₍ₒ₎ style) ──────────────────────────────────────────── */
+.il-expr { display: inline-flex; align-items: flex-end; }
+.il-expr__name { color: var(--cyan); }
+
+/* ── Under development placeholder ────────────────────────────────────────── */
+.il-wip {
+  border: 1px dashed color-mix(in srgb, var(--violet) 40%, transparent);
+  border-radius: var(--radius); padding: 48px 24px;
+  text-align: center;
+  background: color-mix(in srgb, var(--violet) 4%, var(--bg-card));
+}
+.il-wip__badge {
+  display: inline-block; font-size: 0.68rem; font-weight: 800;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--violet);
+  border: 1px solid color-mix(in srgb, var(--violet) 40%, transparent);
+  border-radius: 20px; padding: 4px 14px; margin-bottom: 20px;
+}
+.il-wip__title {
+  font-size: 1.4rem; font-weight: 800; color: var(--text-1); margin-bottom: 10px;
+}
+.il-wip__sub {
+  font-size: 0.88rem; color: var(--text-2); max-width: 500px;
+  margin: 0 auto; line-height: 1.7;
+}
+.il-wip__grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px; margin-top: 32px; opacity: 0.5;
+}
+.il-wip__cell {
+  border: 1px dashed rgba(139,92,246,0.30);
+  border-radius: 6px; padding: 14px;
+  font-size: 0.78rem; color: var(--text-3);
+  font-family: monospace; text-align: center;
+}
+
+/* ── Logic Gate Part Header ────────────────────────────────────────────────── */
+.il-part-header { margin-bottom: 32px; }
+.il-part-header__label {
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--violet); margin-bottom: 6px;
+}
+.il-part-header__title {
+  font-size: 1.4rem; font-weight: 800; color: var(--text-1); margin: 0 0 10px;
+}
+.il-part-header__sub {
+  font-size: 0.88rem; color: var(--text-2); max-width: 640px; line-height: 1.7; margin: 0;
+}
+
+/* ── Logic Gate Grid ───────────────────────────────────────────────────────── */
+.il-gate-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.il-gate-card {
+  background: color-mix(in srgb, var(--gc) 6%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--gc) 22%, transparent);
+  border-radius: var(--radius-sm);
+  padding: 20px 18px 18px;
+  display: flex; flex-direction: column; gap: 12px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.il-gate-card:hover {
+  border-color: color-mix(in srgb, var(--gc) 48%, transparent);
+  transform: translateY(-2px);
+}
+.il-gate-card__top { display: flex; align-items: center; gap: 14px; }
+.il-gate-card__sym {
+  font-size: 2.2rem; line-height: 1;
+  color: var(--gc);
+  text-shadow: 0 0 24px color-mix(in srgb, var(--gc) 55%, transparent);
+  min-width: 42px; text-align: center; flex-shrink: 0;
+}
+.il-gate-card__name {
+  font-size: 1.0rem; font-weight: 800; color: var(--text-1); line-height: 1.2; margin-bottom: 5px;
+}
+.il-gate-card__arity {
+  display: inline-block; font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  border: 1px solid; border-radius: 4px; padding: 1px 8px;
+}
+.il-gate-card__meaning {
+  font-size: 0.80rem; color: var(--text-1); font-style: italic; line-height: 1.5;
+}
+.il-gate-card__desc {
+  font-size: 0.76rem; color: var(--text-2); line-height: 1.65; margin-top: auto;
+}
+
+/* ── Mini Truth Table ──────────────────────────────────────────────────────── */
+.il-mini-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.78rem; font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
+  border-radius: 6px; overflow: hidden;
+}
+.il-mini-table th {
+  font-weight: 700; color: var(--text-3); letter-spacing: 0.06em;
+  text-align: center; padding: 4px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.03);
+}
+.il-mini-table td {
+  text-align: center; padding: 3px 8px; color: var(--text-2);
+}
+.il-mini-table tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+.il-mini-table tbody tr:last-child { border-bottom: none; }
+.il-mini-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+/* Matrix notation string — shown in quantum gate cards */
+.il-mat-str {
+  font-family: 'SF Mono', 'Fira Mono', 'Consolas', monospace;
+  font-size: 0.70rem; color: var(--text-3);
+  letter-spacing: 0.04em; line-height: 1.4;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px; padding: 4px 8px;
+  text-align: center;
+}
+
+@media (max-width: 1080px) { .il-gate-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px)  { .il-gate-grid { grid-template-columns: 1fr; } }
+
+/* ── Footer ────────────────────────────────────────────────────────────────── */
+.footer {
+  border-top: 1px solid var(--border); padding: 36px 0;
+  text-align: center;
+}
+.footer__text {
+  font-size: 0.78rem; color: var(--text-3); line-height: 1.8;
+}
+.footer__link { color: var(--text-2); text-decoration: none; }
+.footer__link:hover { color: var(--violet); }
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .section { padding: 56px 0; }
+  .hero { padding: 88px 0 48px; }
+  .nav__links { display: none; }
+  .il-amulu-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 420px) {
+  .il-amulu-grid { grid-template-columns: 1fr; }
+}

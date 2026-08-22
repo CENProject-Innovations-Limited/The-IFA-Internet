@@ -112,6 +112,66 @@ function OyekuSymbol({ size = 44 }) {
     style: { display: 'block', flexShrink: 0, marginTop: '1px' } });
 }
 
+// ── MetaCircleCanvas (IfaZero / IfaOne Metarepresentation) ─────
+function MetaCircleCanvas({ gold = true, size = 44 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width        = size * DPR;
+    canvas.height       = size * DPR;
+    canvas.style.width  = size + 'px';
+    canvas.style.height = size + 'px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(DPR, DPR);
+    const cx = size / 2, cy = size / 2;
+    const R   = size * 0.360;   /* circle radius  */
+    const ARR = size * 0.135;   /* arrowhead size */
+
+    /* Full-circle glow layers */
+    const circL = gold
+      ? [[2.2,'rgba(245,197,24,0.15)',5],[1.0,'rgba(245,197,24,0.58)',2.5],[0.5,'rgba(255,248,210,0.92)',1]]
+      : [[2.2,'rgba(225,35,65,0.18)', 4],[1.0,'rgba(235,55,80,0.65)', 2.5],[0.5,'rgba(255,120,140,0.88)',1]];
+    for (const [lw, color, blur] of circL) {
+      ctx.save();
+      ctx.strokeStyle = color; ctx.lineWidth = lw;
+      ctx.shadowColor = color; ctx.shadowBlur = blur;
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke();
+      ctx.restore();
+    }
+
+    /* Arrowhead: IfaZero tip at right (cx+R, cy); IfaOne tip at left (cx-R, cy); both angle π/2 (↓) */
+    const tipX = gold ? cx + R : cx - R;
+    const angle = Math.PI / 2;
+    const arrL = gold
+      ? [['rgba(245,197,24,0.42)',7],['rgba(255,248,210,0.92)',1.5]]
+      : [['rgba(225,35,65,0.44)', 6],['rgba(255,120,140,0.90)',1.5]];
+    for (const [color, blur] of arrL) {
+      ctx.save();
+      ctx.translate(tipX, cy); ctx.rotate(angle);
+      ctx.shadowColor = color; ctx.shadowBlur = blur; ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-ARR, -ARR * 0.44);
+      ctx.lineTo(-ARR,  ARR * 0.44);
+      ctx.closePath(); ctx.fill();
+      ctx.restore();
+    }
+
+    /* Centre dot */
+    const dotColor = gold ? 'rgba(245,197,24,1)'  : 'rgba(230,40,65,1)';
+    const dotFill  = gold ? 'rgba(255,248,210,1)' : 'rgba(255,170,185,1)';
+    ctx.save();
+    ctx.shadowColor = dotColor; ctx.shadowBlur = 7;
+    ctx.fillStyle = dotFill;
+    ctx.beginPath(); ctx.arc(cx, cy, 1.8, 0, 2 * Math.PI); ctx.fill();
+    ctx.restore();
+  }, [gold, size]);
+  return React.createElement('canvas', { ref,
+    style: { display:'block', flexShrink:0, marginTop:'1px' } });
+}
+
 // ── Five Pillars of Ifa Computing ─────────────────────────────
 const PILLARS = [
   {
@@ -720,7 +780,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <img className="ifa-binary__meta-glyph ifa-binary__meta-glyph--img" src="./images/IfaZero.png" alt="IfaZero Metarepresentation" />
+                  <MetaCircleCanvas gold={true} size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>IfaZero Metarepresentation</strong>
                     <p>Circle with clockwise arrow on the right — the Energy (Ogbe) directional symbol.</p>
@@ -770,7 +830,7 @@ function IfaBinaryEncoding() {
                   </div>
                 </li>
                 <li className="ifa-binary__meta">
-                  <img className="ifa-binary__meta-glyph ifa-binary__meta-glyph--img" src="./images/IfaOne.png" alt="IfaOne Metarepresentation" />
+                  <MetaCircleCanvas gold={false} size={44} />
                   <div className="ifa-binary__meta-text">
                     <strong>IfaOne Metarepresentation</strong>
                     <p>Circle with counterclockwise arrow on the left — the Anergy (Oyeku) directional symbol.</p>
@@ -791,6 +851,518 @@ function IfaBinaryEncoding() {
             the same as zero (0) and one (1) in modern mathematics or computing."
           </blockquote>
         </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Computing Systems SVGs & Section ────────────────────────────
+
+function IkinSVG() {
+  return (
+    <svg viewBox="0 0 155 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cs-ik-bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#1a1205" />
+          <stop offset="100%" stopColor="#06080e" />
+        </radialGradient>
+        <radialGradient id="cs-ik-n" cx="35%" cy="30%" r="60%">
+          <stop offset="0%" stopColor="#3d1e0a" />
+          <stop offset="100%" stopColor="#0d0804" />
+        </radialGradient>
+      </defs>
+      <rect width="155" height="100" fill="url(#cs-ik-bg)" />
+      {/* Nut 1 */}
+      <ellipse cx="38" cy="52" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="34" cy="49" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="36" cy="50" r="1.1" fill="#060402" /><circle cx="39" cy="49" r="1.1" fill="#060402" /><circle cx="37" cy="53" r="1.1" fill="#060402" /><circle cx="40" cy="53" r="1.1" fill="#060402" />
+      {/* Nut 2 */}
+      <ellipse cx="55" cy="42" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="51" cy="39" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="53" cy="40" r="1.1" fill="#060402" /><circle cx="56" cy="39" r="1.1" fill="#060402" /><circle cx="54" cy="44" r="1.1" fill="#060402" /><circle cx="57" cy="44" r="1.1" fill="#060402" />
+      {/* Nut 3 */}
+      <ellipse cx="46" cy="63" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="42" cy="60" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="44" cy="61" r="1.1" fill="#060402" /><circle cx="47" cy="60" r="1.1" fill="#060402" /><circle cx="45" cy="65" r="1.1" fill="#060402" /><circle cx="48" cy="65" r="1.1" fill="#060402" />
+      {/* Nut 4 */}
+      <ellipse cx="65" cy="55" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="61" cy="52" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="63" cy="53" r="1.1" fill="#060402" /><circle cx="66" cy="52" r="1.1" fill="#060402" /><circle cx="64" cy="57" r="1.1" fill="#060402" /><circle cx="67" cy="57" r="1.1" fill="#060402" />
+      {/* Nut 5 */}
+      <ellipse cx="30" cy="68" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="26" cy="65" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="28" cy="66" r="1.1" fill="#060402" /><circle cx="31" cy="65" r="1.1" fill="#060402" /><circle cx="29" cy="70" r="1.1" fill="#060402" /><circle cx="32" cy="70" r="1.1" fill="#060402" />
+      {/* Nut 6 */}
+      <ellipse cx="60" cy="72" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="56" cy="69" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="58" cy="70" r="1.1" fill="#060402" /><circle cx="61" cy="69" r="1.1" fill="#060402" /><circle cx="59" cy="74" r="1.1" fill="#060402" /><circle cx="62" cy="74" r="1.1" fill="#060402" />
+      {/* Nut 7 */}
+      <ellipse cx="44" cy="38" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="40" cy="35" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="42" cy="36" r="1.1" fill="#060402" /><circle cx="45" cy="35" r="1.1" fill="#060402" /><circle cx="43" cy="40" r="1.1" fill="#060402" /><circle cx="46" cy="40" r="1.1" fill="#060402" />
+      {/* Nut 8 */}
+      <ellipse cx="72" cy="42" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="68" cy="39" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="70" cy="40" r="1.1" fill="#060402" /><circle cx="73" cy="39" r="1.1" fill="#060402" /><circle cx="71" cy="44" r="1.1" fill="#060402" /><circle cx="74" cy="44" r="1.1" fill="#060402" />
+      {/* Nut 9 */}
+      <ellipse cx="75" cy="65" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="71" cy="62" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="73" cy="63" r="1.1" fill="#060402" /><circle cx="76" cy="62" r="1.1" fill="#060402" /><circle cx="74" cy="67" r="1.1" fill="#060402" /><circle cx="77" cy="67" r="1.1" fill="#060402" />
+      {/* Nut 10 */}
+      <ellipse cx="36" cy="82" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="32" cy="79" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="34" cy="80" r="1.1" fill="#060402" /><circle cx="37" cy="79" r="1.1" fill="#060402" /><circle cx="35" cy="84" r="1.1" fill="#060402" /><circle cx="38" cy="84" r="1.1" fill="#060402" />
+      {/* Nut 11 */}
+      <ellipse cx="58" cy="84" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="54" cy="81" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="56" cy="82" r="1.1" fill="#060402" /><circle cx="59" cy="81" r="1.1" fill="#060402" /><circle cx="57" cy="86" r="1.1" fill="#060402" /><circle cx="60" cy="86" r="1.1" fill="#060402" />
+      {/* Nut 12 */}
+      <ellipse cx="72" cy="79" rx="9" ry="6.5" fill="url(#cs-ik-n)" />
+      <ellipse cx="68" cy="76" rx="2.5" ry="1.8" fill="rgba(255,220,100,0.08)" />
+      <circle cx="70" cy="77" r="1.1" fill="#060402" /><circle cx="73" cy="76" r="1.1" fill="#060402" /><circle cx="71" cy="81" r="1.1" fill="#060402" /><circle cx="74" cy="81" r="1.1" fill="#060402" />
+      {/* Binary output marks — right side */}
+      <line x1="107" y1="34" x2="107" y2="58" stroke="rgba(245,197,24,0.82)" strokeWidth="2.2" strokeLinecap="round" />
+      <line x1="117" y1="34" x2="117" y2="58" stroke="rgba(245,197,24,0.45)" strokeWidth="2.2" strokeLinecap="round" />
+      <line x1="127" y1="34" x2="127" y2="58" stroke="rgba(245,197,24,0.45)" strokeWidth="2.2" strokeLinecap="round" />
+      <text x="100" y="72" fontFamily="'Courier New',monospace" fontSize="7.5" fill="rgba(245,197,24,0.55)" letterSpacing="0.5">| = Ogbe</text>
+      <text x="100" y="83" fontFamily="'Courier New',monospace" fontSize="7.5" fill="rgba(245,197,24,0.35)" letterSpacing="0.5">|| = Oyeku</text>
+      {/* Label */}
+      <text x="6" y="13" fontFamily="'Courier New',monospace" fontSize="7.5" fill="rgba(245,197,24,0.72)" letterSpacing="0.8">16 IKIN</text>
+    </svg>
+  );
+}
+
+function OpeleSVG() {
+  const seeds = [9, 28, 47, 66, 85, 104, 123, 142];
+  return (
+    <svg viewBox="0 0 155 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cs-op-bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#18110a" />
+          <stop offset="100%" stopColor="#06080e" />
+        </radialGradient>
+        <radialGradient id="cs-op-s" cx="35%" cy="28%" r="60%">
+          <stop offset="0%" stopColor="#3a2008" />
+          <stop offset="100%" stopColor="#0e0804" />
+        </radialGradient>
+      </defs>
+      <rect width="155" height="100" fill="url(#cs-op-bg)" />
+      {/* Wavy cord */}
+      <path d="M4,32 C14,28 18,36 28,32 C38,28 42,36 52,32 C62,28 66,36 76,32 C86,28 90,36 100,32 C110,28 114,36 124,32 C134,28 138,36 148,32" fill="none" stroke="rgba(232,160,48,0.55)" strokeWidth="1.4" strokeLinecap="round" />
+      {seeds.map((x, i) => {
+        const tilt = i % 2 === 0 ? 9 : -9;
+        return (
+          <g key={i} transform={`translate(${x},0)`}>
+            {/* Bead on cord */}
+            <circle cx="0" cy="32" r="3.2" fill="#1a0e06" stroke="rgba(232,160,48,0.45)" strokeWidth="0.8" />
+            {/* String to seed */}
+            <line x1="0" y1="35" x2="0" y2="54" stroke="rgba(232,160,48,0.35)" strokeWidth="0.9" />
+            {/* Seed */}
+            <g transform={`translate(0,67) rotate(${tilt})`}>
+              <ellipse cx="0" cy="0" rx="7.5" ry="13" fill="url(#cs-op-s)" />
+              <ellipse cx="-2" cy="-4" rx="3" ry="5" fill="rgba(255,200,100,0.07)" />
+            </g>
+          </g>
+        );
+      })}
+      <text x="18" y="10" fontFamily="'Courier New',monospace" fontSize="7" fill="rgba(232,160,48,0.70)" letterSpacing="0.6">8 SEEDS · 1 THROW</text>
+    </svg>
+  );
+}
+
+function ErindinlogunSVG() {
+  const shells = [];
+  for (let row = 0; row < 4; row++) {
+    for (let col = 0; col < 4; col++) {
+      const cx = 18 + col * 32 + (row % 2) * 5;
+      const cy = 13 + row * 22;
+      const mouthUp = (row + col) % 2 === 0;
+      shells.push({ cx, cy, mouthUp, key: row * 4 + col });
+    }
+  }
+  return (
+    <svg viewBox="0 0 155 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cs-er-bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#081414" />
+          <stop offset="100%" stopColor="#06080e" />
+        </radialGradient>
+        <radialGradient id="cs-er-sh" cx="40%" cy="30%" r="60%">
+          <stop offset="0%" stopColor="#e8e0cc" />
+          <stop offset="100%" stopColor="#b8ac90" />
+        </radialGradient>
+      </defs>
+      <rect width="155" height="100" fill="url(#cs-er-bg)" />
+      {shells.map(({ cx, cy, mouthUp, key }) => (
+        <g key={key}>
+          <ellipse cx={cx} cy={cy} rx="11" ry="7.5" fill="url(#cs-er-sh)" />
+          <ellipse cx={cx - 1} cy={cy - 2} rx="7" ry="4" fill="rgba(255,255,240,0.55)" />
+          {mouthUp ? (
+            <>
+              <ellipse cx={cx} cy={cy + 1} rx="6.5" ry="2.5" fill="#0c0a06" />
+              <line x1={cx - 4} y1={cy + 1} x2={cx - 4} y2={cy + 4.5} stroke="rgba(180,160,100,0.55)" strokeWidth="0.7" />
+              <line x1={cx - 2} y1={cy + 1} x2={cx - 2} y2={cy + 4.5} stroke="rgba(180,160,100,0.55)" strokeWidth="0.7" />
+              <line x1={cx} y1={cy + 1} x2={cx} y2={cy + 4.5} stroke="rgba(180,160,100,0.55)" strokeWidth="0.7" />
+              <line x1={cx + 2} y1={cy + 1} x2={cx + 2} y2={cy + 4.5} stroke="rgba(180,160,100,0.55)" strokeWidth="0.7" />
+              <line x1={cx + 4} y1={cy + 1} x2={cx + 4} y2={cy + 4.5} stroke="rgba(180,160,100,0.55)" strokeWidth="0.7" />
+            </>
+          ) : (
+            <ellipse cx={cx} cy={cy + 1} rx="6" ry="2" fill="none" stroke="rgba(120,100,60,0.28)" strokeWidth="0.8" />
+          )}
+        </g>
+      ))}
+      <text x="113" y="87" fontFamily="'Courier New',monospace" fontSize="11" fill="rgba(0,212,255,0.80)" fontWeight="700">16</text>
+      <text x="104" y="96" fontFamily="'Courier New',monospace" fontSize="7" fill="rgba(0,212,255,0.60)" letterSpacing="0.4">COWRIES</text>
+    </svg>
+  );
+}
+
+function AgbigbaSVG() {
+  const xs = [22, 52, 82, 112];
+  return (
+    <svg viewBox="0 0 155 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cs-ag-bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#100a18" />
+          <stop offset="100%" stopColor="#06080e" />
+        </radialGradient>
+        <radialGradient id="cs-ag-n" cx="32%" cy="28%" r="60%">
+          <stop offset="0%" stopColor="#2d1c09" />
+          <stop offset="100%" stopColor="#0e0804" />
+        </radialGradient>
+      </defs>
+      <rect width="155" height="100" fill="url(#cs-ag-bg)" />
+      {/* Horizontal cords */}
+      <line x1="10" y1="32" x2="132" y2="32" stroke="rgba(155,127,212,0.38)" strokeWidth="1.2" />
+      <line x1="10" y1="72" x2="132" y2="72" stroke="rgba(155,127,212,0.38)" strokeWidth="1.2" />
+      {/* Vertical connectors */}
+      {xs.map(x => (
+        <line key={x} x1={x} y1="40" x2={x} y2="62" stroke="rgba(155,127,212,0.22)" strokeWidth="0.9" />
+      ))}
+      {/* Row 1 nuts */}
+      {xs.map(x => (
+        <g key={'r1-' + x}>
+          <ellipse cx={x} cy="32" rx="13" ry="8.5" fill="url(#cs-ag-n)" />
+          <ellipse cx={x} cy="32" rx="9" ry="5" fill="none" stroke="rgba(155,127,212,0.22)" strokeWidth="0.8" />
+          <ellipse cx={x - 4} cy="28" rx="3" ry="1.8" fill="rgba(245,197,24,0.12)" />
+          <ellipse cx={x} cy="39.5" rx="4.5" ry="2.5" fill="#0e0804" stroke="rgba(155,127,212,0.18)" strokeWidth="0.7" />
+        </g>
+      ))}
+      {/* Row 2 nuts */}
+      {xs.map(x => (
+        <g key={'r2-' + x}>
+          <ellipse cx={x} cy="72" rx="13" ry="8.5" fill="url(#cs-ag-n)" />
+          <ellipse cx={x} cy="72" rx="9" ry="5" fill="none" stroke="rgba(155,127,212,0.22)" strokeWidth="0.8" />
+          <ellipse cx={x - 4} cy="68" rx="3" ry="1.8" fill="rgba(245,197,24,0.12)" />
+          <ellipse cx={x} cy="79.5" rx="4.5" ry="2.5" fill="#0e0804" stroke="rgba(155,127,212,0.18)" strokeWidth="0.7" />
+        </g>
+      ))}
+      {/* Metal rod */}
+      <rect x="137" y="10" width="5" height="82" rx="2.5" fill="#1a1a22" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
+      <rect x="136" y="8" width="7" height="5" rx="1.5" fill="#252530" />
+      <text x="6" y="10" fontFamily="'Courier New',monospace" fontSize="7" fill="rgba(155,127,212,0.72)" letterSpacing="0.5">4+4 PARALLEL</text>
+    </svg>
+  );
+}
+
+function LaptopSVG() {
+  const bits = [1, 0, 1, 1, 0, 0, 1, 0];
+  const cols = [40, 62, 84, 106];
+  const rows = [33, 59];
+  return (
+    <svg viewBox="0 0 155 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cs-lp-bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#14110a" />
+          <stop offset="100%" stopColor="#06080e" />
+        </radialGradient>
+        <linearGradient id="cs-lp-bd" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#1e1c14" />
+          <stop offset="100%" stopColor="#0e0c08" />
+        </linearGradient>
+      </defs>
+      <rect width="155" height="100" fill="url(#cs-lp-bg)" />
+      {/* Screen body */}
+      <rect x="22" y="6" width="111" height="74" rx="7" fill="url(#cs-lp-bd)" stroke="rgba(245,197,24,0.45)" strokeWidth="1.2" />
+      {/* Screen inner */}
+      <rect x="27" y="11" width="101" height="64" rx="4" fill="#030508" />
+      {/* Bits */}
+      {rows.map((ry, ri) =>
+        cols.map((cx, ci) => {
+          const bit = bits[ri * 4 + ci];
+          return (
+            <text key={ri * 4 + ci} x={cx} y={ry}
+              fontFamily="'Courier New',monospace" fontSize="14" fontWeight="700"
+              textAnchor="middle"
+              fill={bit === 1 ? 'rgba(245,197,24,0.92)' : 'rgba(67,97,238,0.50)'}>
+              {bit}
+            </text>
+          );
+        })
+      )}
+      {/* Screen label */}
+      <text x="77.5" y="68" fontFamily="'Courier New',monospace" fontSize="6.5" fill="rgba(245,197,24,0.35)" textAnchor="middle" letterSpacing="0.8">CLASSICAL BITS</text>
+      {/* Laptop base */}
+      <rect x="14" y="80" width="127" height="15" rx="4" fill="url(#cs-lp-bd)" stroke="rgba(245,197,24,0.18)" strokeWidth="0.9" />
+      {/* Trackpad */}
+      <rect x="57" y="83" width="41" height="9" rx="2" fill="rgba(245,197,24,0.04)" stroke="rgba(245,197,24,0.14)" strokeWidth="0.7" />
+      {/* Keyboard keys left */}
+      {[18, 24, 30, 36, 42, 48].map(kx => (
+        <g key={'kl-' + kx}>
+          <rect x={kx} y="83" width="3.5" height="3" rx="0.6" fill="rgba(245,197,24,0.12)" />
+          <rect x={kx} y="89" width="3.5" height="3" rx="0.6" fill="rgba(245,197,24,0.12)" />
+        </g>
+      ))}
+      {/* Keyboard keys right */}
+      {[103, 109, 115, 121, 127, 133].map(kx => (
+        <g key={'kr-' + kx}>
+          <rect x={kx} y="83" width="3.5" height="3" rx="0.6" fill="rgba(245,197,24,0.12)" />
+          <rect x={kx} y="89" width="3.5" height="3" rx="0.6" fill="rgba(245,197,24,0.12)" />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function QuantumSVG() {
+  return (
+    <svg viewBox="0 0 155 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="cs-qm-bg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#120d22" />
+          <stop offset="100%" stopColor="#06080e" />
+        </radialGradient>
+        <radialGradient id="cs-qm-core" cx="38%" cy="32%" r="60%">
+          <stop offset="0%" stopColor="#d0aeff" />
+          <stop offset="100%" stopColor="#6030c8" />
+        </radialGradient>
+        <radialGradient id="cs-qm-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(155,100,240,0.22)" />
+          <stop offset="100%" stopColor="rgba(155,100,240,0)" />
+        </radialGradient>
+      </defs>
+      <rect width="155" height="100" fill="url(#cs-qm-bg)" />
+      {/* Outer glow */}
+      <circle cx="77" cy="48" r="34" fill="url(#cs-qm-glow)" />
+      {/* Orbital ellipses */}
+      <ellipse cx="77" cy="48" rx="46" ry="16" fill="none" stroke="rgba(155,100,240,0.32)" strokeWidth="1.1" transform="rotate(-35,77,48)" />
+      <ellipse cx="77" cy="48" rx="46" ry="16" fill="none" stroke="rgba(155,100,240,0.32)" strokeWidth="1.1" transform="rotate(35,77,48)" />
+      <ellipse cx="77" cy="48" rx="46" ry="16" fill="none" stroke="rgba(155,100,240,0.32)" strokeWidth="1.1" transform="rotate(90,77,48)" />
+      {/* Core glow ring */}
+      <circle cx="77" cy="48" r="16" fill="rgba(155,100,240,0.07)" stroke="rgba(155,100,240,0.18)" strokeWidth="0.9" />
+      {/* Inner ring */}
+      <circle cx="77" cy="48" r="9" fill="rgba(155,100,240,0.12)" stroke="rgba(155,100,240,0.28)" strokeWidth="0.8" />
+      {/* Center qubit sphere */}
+      <circle cx="77" cy="48" r="5.5" fill="url(#cs-qm-core)" stroke="rgba(255,245,255,0.70)" strokeWidth="0.9" />
+      <circle cx="75" cy="46" r="1.5" fill="rgba(255,255,255,0.55)" />
+      {/* Orbiting particles */}
+      <circle cx="123" cy="48" r="3.2" fill="#c8a8f8" stroke="rgba(255,255,255,0.25)" strokeWidth="0.7" />
+      <circle cx="24" cy="22" r="3.2" fill="#c8a8f8" stroke="rgba(255,255,255,0.25)" strokeWidth="0.7" />
+      <circle cx="50" cy="88" r="3.2" fill="#c8a8f8" stroke="rgba(255,255,255,0.25)" strokeWidth="0.7" />
+      {/* Labels */}
+      <text x="44" y="16" fontFamily="'Courier New',monospace" fontSize="9.5" fill="rgba(155,100,240,0.80)">|0⟩ + |1⟩</text>
+      <text x="77" y="96" fontFamily="'Courier New',monospace" fontSize="7" fill="rgba(155,100,240,0.65)" textAnchor="middle" letterSpacing="1">QUBIT</text>
+    </svg>
+  );
+}
+
+function ComputingSystemsSection() {
+  const [panel, setPanel] = useState(0);
+
+  const ANCIENT = [
+    { id:'ikin', name:'Ikin Ifá Computing', alt:'Ikinfá Computing',
+      color:'#f5c518', bit:'ikin ifabit', bitAlt:'ikinfabit',
+      desc:'16 sacred palm nuts rapidly passed between hands — one or two remain per throw, yielding a single binary mark. Eight throws build one complete Ifa sign from 256 possible Odù.',
+      spec:[['Input','16 palm nuts'],['Output','| or || mark'],['Throws/Sign','8 throws'],['Base','Binary (Base-2)']],
+      Svg: IkinSVG },
+    { id:'opele', name:'Ọ̀pẹ̀lẹ̀ Computing', alt:null,
+      color:'#e8a030', bit:'ọ̀pẹ̀lẹ̀bit', bitAlt:null,
+      desc:'8 seed-halves strung on a chain — one toss reads all 8 faces simultaneously, producing a complete Ifa sign in a single instant. The portable, high-speed Ifa computer.',
+      spec:[['Input','1 chain, 8 halves'],['Output','Full sign, 1 throw'],['Speed','Instant'],['Base','Binary (Base-2)']],
+      Svg: OpeleSVG },
+    { id:'erindinlogun', name:'Ẹ́rìndínlógún Computing', alt:'Ifa Hexadecimal Computing · IfaHex Computing',
+      color:'#00d4ff', bit:'ẹ́rìndínlógúnbit', bitAlt:null,
+      desc:'16 sacred cowrie shells cast onto a mat — counted by how many land mouth-up, yielding 17 possible values (0–16). The most widely used Ifa computing system in West Africa.',
+      spec:[['Input','16 cowrie shells'],['Output','0–16 mouth-up'],['Throws','1 throw'],['Base','Hexadecimal+']],
+      Svg: ErindinlogunSVG },
+    { id:'agbigba', name:'Agbigba Computing', alt:null,
+      color:'#9b7fd4', bit:'agbigbabit', bitAlt:null,
+      desc:'Multiple marker-strung cords cast simultaneously — each cord reads 4 markers at once, computing 4 Odù in parallel in a single motion. The ancient prototype of parallel computing.',
+      spec:[['Input','Multiple cords'],['Output','4 Odù per throw'],['Processing','Parallel'],['Base','Quaternary+ (parallel)']],
+      Svg: AgbigbaSVG },
+  ];
+
+  const MODERN = [
+    { id:'classical', name:'Classical Computer', color:'#f5c518',
+      bit:'classical bit', bitNote:'4 bits = 1 nibble · 8 bits = 1 byte',
+      desc:'Processes all information in binary — each bit is exactly 0 or 1. Billions of these bits, combined in circuits running at billions of cycles per second, power every phone, laptop, and server on Earth.',
+      spec:[['Unit','Bit (0 or 1)'],['Nibble','4 bits'],['Byte','8 bits'],['Speed','GHz range']],
+      Svg: LaptopSVG },
+    { id:'quantum', name:'Quantum Computer', color:'#9b7fd4',
+      bit:'qubit', bitNote:'4 qubits → 16 states · 8 qubits → 256 states',
+      desc:'A qubit can be 0, 1, or both simultaneously (superposition). Entangled qubits explore enormous solution spaces at once — the same parallel logic ancient Agbigba pioneered millennia ago.',
+      spec:[['Unit','Qubit (0, 1, both)'],['4 Qubits','16 states at once'],['8 Qubits','256 states at once'],['Style','Superposition']],
+      Svg: QuantumSVG },
+  ];
+
+  const items = panel === 0 ? ANCIENT : MODERN;
+
+  return (
+    <section id="computing-systems" className="section section--alt">
+      <div className="container">
+        <div className="section__header">
+          <span className="section__eyebrow" style={{ color:'#00d9b8' }}>
+            IFA Computing · From Ancient to Modern
+          </span>
+          <h2 className="section__title">
+            Ancient &amp; Modern{' '}
+            <span style={{ color:'#00d9b8' }}>Computing Systems</span>
+          </h2>
+          <p className="section__desc">
+            Every modern computer has a direct Ifa ancestor. The same binary logic that powers
+            today's laptops and quantum machines was first encoded in sacred Yoruba divination
+            instruments — millennia before the first electronic circuit was built.
+          </p>
+        </div>
+
+        {/* Panel toggle */}
+        <div className="cs-toggle" role="tablist">
+          <button role="tab" aria-selected={panel===0}
+            className={'cs-toggle__btn'+(panel===0?' cs-toggle__btn--on':'')}
+            onClick={() => setPanel(0)}>
+            <span aria-hidden="true">🌿</span> Ancient IFA Computing
+          </button>
+          <button role="tab" aria-selected={panel===1}
+            className={'cs-toggle__btn'+(panel===1?' cs-toggle__btn--on':'')}
+            onClick={() => setPanel(1)}>
+            <span aria-hidden="true">💻</span> Modern Computing
+          </button>
+        </div>
+
+        {/* Bit info ribbon */}
+        <div className="cs-ribbon">
+          {panel === 0 ? (
+            <>
+              <div className="cs-ribbon__cell">
+                <span className="cs-ribbon__num">1</span>
+                <span className="cs-ribbon__tag">IfaBit</span>
+                <span className="cs-ribbon__sub">InfiniteBit</span>
+              </div>
+              <span className="cs-ribbon__arr" aria-hidden="true">→</span>
+              <div className="cs-ribbon__cell">
+                <span className="cs-ribbon__num">4</span>
+                <span className="cs-ribbon__tag">ifabits</span>
+                <span className="cs-ribbon__sub">= 1 ifanibble</span>
+              </div>
+              <span className="cs-ribbon__arr" aria-hidden="true">→</span>
+              <div className="cs-ribbon__cell">
+                <span className="cs-ribbon__num">8</span>
+                <span className="cs-ribbon__tag">ifabits</span>
+                <span className="cs-ribbon__sub">= 1 ifabyte</span>
+              </div>
+              <span className="cs-ribbon__div" aria-hidden="true" />
+              <div className="cs-ribbon__law">
+                Governed by <em>Oju Odufa Merindinlogun</em> — the 16 Ifa Laws of Nature
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="cs-ribbon__cell">
+                <span className="cs-ribbon__num">1</span>
+                <span className="cs-ribbon__tag">Bit</span>
+                <span className="cs-ribbon__sub">0 or 1</span>
+              </div>
+              <span className="cs-ribbon__arr" aria-hidden="true">→</span>
+              <div className="cs-ribbon__cell">
+                <span className="cs-ribbon__num">4</span>
+                <span className="cs-ribbon__tag">Bits</span>
+                <span className="cs-ribbon__sub">= 1 Nibble</span>
+              </div>
+              <span className="cs-ribbon__arr" aria-hidden="true">→</span>
+              <div className="cs-ribbon__cell">
+                <span className="cs-ribbon__num">8</span>
+                <span className="cs-ribbon__tag">Bits</span>
+                <span className="cs-ribbon__sub">= 1 Byte</span>
+              </div>
+              <span className="cs-ribbon__div" aria-hidden="true" />
+              <div className="cs-ribbon__law">
+                Classical &amp; Quantum computing systems
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Cards grid */}
+        <div className={'cs-grid cs-grid--'+(panel===0?'ancient':'modern')}>
+          {items.map(sys => {
+            const Svg = sys.Svg;
+            return (
+              <div key={sys.id} className="cs-card" style={{ '--cs-c': sys.color }}>
+                <div className="cs-card__vis">
+                  <Svg />
+                  <div className="cs-card__badge">
+                    <span className="cs-card__bit">{sys.bit}</span>
+                    {sys.bitAlt && <span className="cs-card__bit-alt"> · {sys.bitAlt}</span>}
+                    {sys.bitNote && <span className="cs-card__bit-note">{sys.bitNote}</span>}
+                  </div>
+                </div>
+                <div className="cs-card__body">
+                  <h3 className="cs-card__name">{sys.name}</h3>
+                  {sys.alt && <div className="cs-card__alt">{sys.alt}</div>}
+                  <p className="cs-card__desc">{sys.desc}</p>
+                  <div className="cs-card__specs">
+                    {sys.spec.map(([k,v],j) => (
+                      <div key={j} className="cs-card__spec">
+                        <span className="cs-card__sk">{k}</span>
+                        <span className="cs-card__sv">{v}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Connection bridge */}
+        <div className="cs-bridge">
+          <span className="cs-bridge__ey">THE CONNECTION</span>
+          <p className="cs-bridge__tx">
+            <strong>IfaBits are InfiniteBits</strong> — governed by <em>Oju Odufa Merindinlogun</em>,
+            the 16 Ifa Laws of Nature. Unlike classical bits (finite, exactly 0 or 1), IfaBits encode
+            infinite-dimensional information states. Every classical bit and every quantum qubit is a
+            special case of an IFABit — making IFABit the most fundamental unit of computation across
+            all systems, ancient and modern.
+          </p>
+
+          {/* Bridge diagram */}
+          <div className="cs-bridge__diagram">
+            <svg viewBox="0 0 520 80" xmlns="http://www.w3.org/2000/svg" className="cs-bridge__svg" aria-hidden="true">
+
+              {/* Left label */}
+              <text x="4" y="48" fontFamily="'Courier New', monospace" fontSize="13" fontWeight="700" fill="#8892aa">The Ancient</text>
+
+              {/* Right label */}
+              <text x="380" y="48" fontFamily="'Courier New', monospace" fontSize="13" fontWeight="700" fill="#8892aa">The Modern</text>
+
+              {/* Shaft */}
+              <line x1="122" y1="44" x2="336" y2="44" stroke="#f5c518" strokeWidth="2" opacity="0.9" />
+
+              {/* Left arrowhead (pointing left) */}
+              <polygon points="122,38 108,44 122,50" fill="#f5c518" opacity="0.9" />
+
+              {/* Right arrowhead (pointing right) */}
+              <polygon points="336,38 350,44 336,50" fill="#f5c518" opacity="0.9" />
+
+              {/* "Ifa" above midpoint */}
+              <text x="238" y="28" textAnchor="middle" fontFamily="'Courier New', monospace" fontSize="14" fontWeight="700" fill="#f5c518" letterSpacing="1">Ifa</text>
+            </svg>
+            <p className="cs-bridge__caption">
+              The IFA Internet: Odu Ifa Is the Bridge That Connects Ancient African Sciences with Modern Western Sciences.
+            </p>
+          </div>
+        </div>
+
       </div>
     </section>
   );
@@ -1042,6 +1614,7 @@ function App() {
         <HeroSection />
         <PillarsSection />
         <IfaBitSection />
+        <ComputingSystemsSection />
         <IfaBinaryEncoding />
         <InformationSection />
         <AlgorithmSection />

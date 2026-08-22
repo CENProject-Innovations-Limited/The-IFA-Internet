@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ifanimation Project — From Ikin to Internet | IfaProject · The IFA Internet</title>
+<meta name="description" content="From Ikin to Internet — how four ancient African computers quietly invented the binary idea that still runs every phone, laptop, and network on Earth. An Ifanimation Project infographic by the IFA Internet." />
+<meta name="theme-color" content="#0B0E1A" />
+<link rel="icon" type="image/png" href="../../src/assets/itoe_favicon.png" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Mono:wght@500;600&display=swap');
+
+:root{
+  --ink:#0B0E1A;
+  --ink-panel:#141B33;
+  --ink-panel-2:#1B234A;
+  --gold:#E8B94D;
+  --coral:#E2542D;
+  --teal:#22B8A0;
+  --violet:#9B7FD4;
+  --cream:#F6EFE1;
+  --cream-dim:#C8C2B4;
+  --line: rgba(246,239,225,0.14);
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+
+body{
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -5%, rgba(232,185,77,0.10), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 100% 10%, rgba(34,184,160,0.10), transparent 60%),
+    var(--ink);
+  color:var(--cream);
+  font-family:'Noto Sans', sans-serif;
+  line-height:1.55;
+  overflow-x:hidden;
+}
+
+/* ── BACK NAV ── */
+.back-nav{
+  background:rgba(11,14,26,0.96); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+  padding:0 24px; height:46px;
+  display:flex; align-items:center; gap:10px;
+  position:sticky; top:0; z-index:100;
+}
+.back-nav a{
+  font-family:'Noto Sans Mono', monospace; font-size:0.75rem;
+  color:var(--gold); text-decoration:none; opacity:0.85;
+  transition:opacity .15s;
+}
+.back-nav a:hover{ opacity:1; }
+.back-nav__sep{ color:var(--line); font-size:0.75rem; }
+.back-nav__current{ font-family:'Noto Sans Mono', monospace; font-size:0.75rem; color:var(--cream-dim); opacity:0.6; }
+
+.wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+
+.mono{font-family:'Noto Sans Mono', monospace; letter-spacing:0.02em;}
+
+/* ---------- HERO ---------- */
+.hero{padding:64px 0 40px; text-align:center; position:relative;}
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'Noto Sans Mono', monospace; font-size:11.5px; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--gold);
+  border:1px solid rgba(232,185,77,0.35); border-radius:999px;
+  padding:6px 14px; margin-bottom:22px;
+}
+.eyebrow::before{content:"●"; font-size:8px; color:var(--teal);}
+
+h1.title{
+  font-family:'Noto Serif', serif; font-weight:700;
+  font-size:clamp(38px, 6.5vw, 68px); line-height:1.02;
+  letter-spacing:-0.01em;
+  background:linear-gradient(120deg, var(--cream) 30%, var(--gold) 70%, var(--teal) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  margin-bottom:18px;
+}
+.subtitle{
+  font-size:clamp(15px, 2.2vw, 19px); color:var(--cream-dim); max-width:620px;
+  margin:0 auto 40px; font-weight:500;
+}
+.subtitle b{color:var(--cream); font-weight:600;}
+
+/* binary-to-chip strip */
+.strip{max-width:760px; margin:0 auto 8px;}
+.strip svg{width:100%; height:auto; display:block;}
+
+.hero-caption{font-size:11.5px; color:var(--cream-dim); font-family:'Noto Sans Mono',monospace; letter-spacing:0.08em; opacity:0.75;}
+
+/* ---------- SECTION SHELL ---------- */
+section{padding:56px 0;}
+.section-head{text-align:center; max-width:640px; margin:0 auto 40px;}
+.section-eyebrow{
+  font-family:'Noto Sans Mono', monospace; font-size:12px; letter-spacing:0.18em;
+  text-transform:uppercase; margin-bottom:12px; font-weight:600;
+}
+h2{
+  font-family:'Noto Serif', serif; font-weight:700;
+  font-size:clamp(26px, 4vw, 38px); letter-spacing:-0.01em; margin-bottom:12px;
+}
+.section-sub{color:var(--cream-dim); font-size:15px;}
+
+.divider{
+  height:1px; width:100%;
+  background:linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
+}
+
+/* ---------- BIG IDEA ---------- */
+.idea-card{
+  display:grid; grid-template-columns:120px 1fr; gap:28px; align-items:center;
+  background:linear-gradient(135deg, var(--ink-panel), var(--ink-panel-2));
+  border:1px solid var(--line); border-radius:20px; padding:32px;
+}
+.idea-icon{width:100%; height:auto;}
+.idea-card h3{
+  font-family:'Noto Serif', serif; font-size:22px; margin-bottom:10px; color:var(--gold);
+}
+.idea-card p{color:var(--cream-dim); font-size:15px;}
+.idea-formula{
+  display:inline-block; margin-top:14px; font-family:'Noto Sans Mono', monospace;
+  font-size:13px; background:rgba(232,185,77,0.1); border:1px solid rgba(232,185,77,0.3);
+  color:var(--gold); padding:6px 12px; border-radius:8px;
+}
+
+/* ---------- CARD GRID ---------- */
+.grid{display:grid; grid-template-columns:repeat(2, 1fr); gap:22px; margin-top:8px;}
+@media (max-width:720px){ .grid{grid-template-columns:1fr;} .idea-card{grid-template-columns:1fr; text-align:center;} .idea-icon{max-width:100px; margin:0 auto;} }
+
+.card{
+  background:var(--ink-panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:26px;
+  position:relative;
+  overflow:hidden;
+  transition:transform .2s ease, border-color .2s ease;
+}
+.card:hover{transform:translateY(-3px);}
+.card .glow{
+  position:absolute; top:-40%; right:-30%; width:220px; height:220px;
+  border-radius:50%; filter:blur(50px); opacity:0.18; pointer-events:none;
+}
+.card-top{display:flex; align-items:flex-start; gap:16px; margin-bottom:14px;}
+.icon-box{
+  width:56px; height:56px; flex:none; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(246,239,225,0.05); border:1px solid var(--line);
+}
+.icon-box svg{width:34px; height:34px;}
+.card h3{font-family:'Noto Serif', serif; font-size:19px; margin-bottom:3px;}
+.card .yoruba{font-size:13.5px; font-family:'Noto Sans Mono', monospace; opacity:0.7; letter-spacing:0.01em;}
+.card .kicker{
+  display:inline-block; font-size:11px; font-weight:600; letter-spacing:0.06em;
+  text-transform:uppercase; padding:3px 9px; border-radius:999px; margin-top:6px;
+}
+.card p.body{font-size:14.5px; color:var(--cream-dim); margin-bottom:16px;}
+.spec{
+  display:grid; grid-template-columns:1fr 1fr; gap:8px 14px;
+  font-family:'Noto Sans Mono', monospace; font-size:11.5px;
+  border-top:1px solid var(--line); padding-top:14px; margin-bottom:14px;
+}
+.spec div span{display:block;}
+.spec .k{opacity:0.5; letter-spacing:0.08em; text-transform:uppercase; font-size:9.5px; margin-bottom:2px;}
+.tag{
+  display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600;
+  font-family:'Noto Sans Mono', monospace; padding:8px 12px; border-radius:10px; width:100%;
+}
+
+/* pair accents */
+.p-gold{color:var(--gold);}
+.p-coral{color:var(--coral);}
+.p-teal{color:var(--teal);}
+.p-violet{color:var(--violet);}
+.bg-gold{background:rgba(232,185,77,0.12); border:1px solid rgba(232,185,77,0.3);}
+.bg-coral{background:rgba(226,84,45,0.12); border:1px solid rgba(226,84,45,0.3);}
+.bg-teal{background:rgba(34,184,160,0.12); border:1px solid rgba(34,184,160,0.3);}
+.bg-violet{background:rgba(155,127,212,0.12); border:1px solid rgba(155,127,212,0.3);}
+.glow-gold{background:var(--gold);} .glow-coral{background:var(--coral);}
+.glow-teal{background:var(--teal);} .glow-violet{background:var(--violet);}
+
+/* ---------- CONNECTOR ---------- */
+.connector{padding:20px 0 8px; text-align:center;}
+.connector svg{width:100%; max-width:900px; height:auto;}
+.connector-label{
+  font-family:'Noto Sans Mono', monospace; font-size:12px; letter-spacing:0.1em;
+  text-transform:uppercase; color:var(--cream-dim); margin-top:10px;
+}
+
+/* ---------- CTA ---------- */
+.cta{
+  background:linear-gradient(135deg, rgba(232,185,77,0.08), rgba(34,184,160,0.08));
+  border:1px solid var(--line); border-radius:20px; padding:36px; text-align:center;
+}
+.cta h3{font-family:'Noto Serif', serif; font-size:24px; margin-bottom:10px;}
+.cta p{color:var(--cream-dim); font-size:14.5px; margin-bottom:22px;}
+.cta-links{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+.btn{
+  font-family:'Noto Sans', sans-serif; font-weight:600; font-size:14px; text-decoration:none;
+  padding:12px 20px; border-radius:12px; display:inline-flex; align-items:center; gap:8px;
+  transition:opacity .15s ease;
+}
+.btn:hover{opacity:0.85;}
+.btn-primary{background:var(--gold); color:var(--ink);}
+.btn-secondary{background:transparent; color:var(--cream); border:1px solid var(--line);}
+
+/* ---------- FOOTER ---------- */
+footer{padding:36px 0 60px; text-align:center;}
+.foot-logo{
+  font-family:'Noto Serif', serif; font-weight:700; font-size:15px; margin-bottom:8px;
+  letter-spacing:-0.01em;
+}
+.foot-logo span{color:var(--gold);}
+footer .credit{font-size:12.5px; color:var(--cream-dim); max-width:480px; margin:0 auto 6px;}
+footer .disclaimer{font-size:11px; color:var(--cream-dim); opacity:0.6; max-width:520px; margin:14px auto 0;}
+footer a{color:var(--teal); text-decoration:none;}
+</style>
+</head>
+<body>
+
+<!-- BACK NAVIGATION -->
+<nav class="back-nav">
+  <a href="../">← IfaProject Platform</a>
+  <span class="back-nav__sep">/</span>
+  <span class="back-nav__current">Ifanimation Project</span>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="eyebrow">THE IFA INTERNET · IFABOK · IFANIMATION PROJECT</span>
+    <h1 class="title">Ifanimation Project</h1>
+    <p class="subtitle">From <b>Ikin</b> to <b>Internet</b> — how four ancient African computers quietly invented the binary idea that still runs every phone, laptop, and network on Earth.</p>
+
+    <div class="strip">
+      <svg viewBox="0 0 760 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- 8 ifa binary marks morphing into a byte -->
+        <g font-family="Noto Sans Mono" font-size="10" fill="#C8C2B4" opacity="0.7">
+          <text x="10" y="14">ÌKIN</text>
+          <text x="700" y="14" text-anchor="end">BYTE</text>
+        </g>
+        <!-- marks -->
+        <g stroke="#E8B94D" stroke-width="3" stroke-linecap="round">
+          <line x1="20" y1="35" x2="20" y2="55"/>
+          <line x1="45" y1="35" x2="45" y2="55"/><line x1="53" y1="35" x2="53" y2="55"/>
+          <line x1="78" y1="35" x2="78" y2="55"/>
+          <line x1="103" y1="35" x2="103" y2="55"/><line x1="111" y1="35" x2="111" y2="55"/>
+          <line x1="136" y1="35" x2="136" y2="55"/>
+          <line x1="161" y1="35" x2="161" y2="55"/><line x1="169" y1="35" x2="169" y2="55"/>
+          <line x1="194" y1="35" x2="194" y2="55"/>
+          <line x1="219" y1="35" x2="219" y2="55"/><line x1="227" y1="35" x2="227" y2="55"/>
+        </g>
+        <path d="M260 45 L300 45" stroke="#8A8474" stroke-width="1.5" stroke-dasharray="3 4"/>
+        <g font-family="Noto Sans Mono" font-size="18" font-weight="600" fill="#22B8A0" letter-spacing="4">
+          <text x="315" y="52">01001101</text>
+        </g>
+        <path d="M545 45 L580 45" stroke="#8A8474" stroke-width="1.5" stroke-dasharray="3 4"/>
+        <!-- chip -->
+        <g transform="translate(600,20)">
+          <rect x="0" y="0" width="50" height="50" rx="8" fill="none" stroke="#9B7FD4" stroke-width="3"/>
+          <rect x="15" y="15" width="20" height="20" rx="3" fill="#9B7FD4" opacity="0.25" stroke="#9B7FD4" stroke-width="2"/>
+          <g stroke="#9B7FD4" stroke-width="2.5">
+            <line x1="-8" y1="12" x2="0" y2="12"/><line x1="-8" y1="25" x2="0" y2="25"/><line x1="-8" y1="38" x2="0" y2="38"/>
+            <line x1="50" y1="12" x2="58" y2="12"/><line x1="50" y1="25" x2="58" y2="25"/><line x1="50" y1="38" x2="58" y2="38"/>
+            <line x1="12" y1="-8" x2="12" y2="0"/><line x1="25" y1="-8" x2="25" y2="0"/><line x1="38" y1="-8" x2="38" y2="0"/>
+            <line x1="12" y1="50" x2="12" y2="58"/><line x1="25" y1="50" x2="25" y2="58"/><line x1="38" y1="50" x2="38" y2="58"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+    <div class="hero-caption">SINGLE MARK = 1 · DOUBLE MARK = 0 · 8 THROWS = ONE FULL BYTE</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- BIG IDEA -->
+  <section>
+    <div class="idea-card">
+      <svg class="idea-icon" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="#E8B94D" stroke-width="2" stroke-dasharray="4 5" opacity="0.5"/>
+        <text x="60" y="55" text-anchor="middle" font-family="Noto Sans Mono" font-size="26" font-weight="700" fill="#E8B94D">2⁸</text>
+        <text x="60" y="80" text-anchor="middle" font-family="Noto Sans Mono" font-size="15" fill="#F6EFE1">= 256</text>
+      </svg>
+      <div>
+        <h3>The Big Idea: One Byte, 256 Odù</h3>
+        <p>Every time a Babalawo casts the sacred palm nuts, it comes down to just two outcomes — a single mark or a double mark, like a coin flip. Flip that "coin" 8 times and you get 256 possible patterns. That's the exact same number of values packed into one <b style="color:#F6EFE1">byte</b> of computer memory (0–255). Yoruba diviners were running 8-bit binary code — the same math inside your phone — long before the first computer was ever built.</p>
+        <span class="idea-formula">8 binary marks → 256 Odù → 1 byte (0–255)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANCIENT COMPUTERS -->
+  <section>
+    <div class="section-head">
+      <div class="section-eyebrow" style="color:var(--gold)">PART ONE · IMMEMORIAL</div>
+      <h2>Meet the Ancient Computers</h2>
+      <p class="section-sub">Four Yoruba divination tools, redesigned here as the hardware they really were: input, output, memory, and processor — built from nuts, shells, seeds and string.</p>
+    </div>
+
+    <div class="grid">
+
+      <!-- IKIN -->
+      <div class="card">
+        <div class="glow glow-gold"></div>
+        <div class="card-top">
+          <div class="icon-box">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <g fill="none" stroke="#E8B94D" stroke-width="2.5">
+                <circle cx="16" cy="16" r="5"/><circle cx="28" cy="12" r="5"/><circle cx="10" cy="28" r="5"/>
+                <circle cx="24" cy="27" r="5"/><circle cx="14" cy="41" r="5"/><circle cx="32" cy="40" r="5"/>
+              </g>
+              <g stroke="#22B8A0" stroke-width="2.5" stroke-linecap="round">
+                <line x1="44" y1="14" x2="44" y2="26"/>
+                <line x1="50" y1="14" x2="50" y2="26"/>
+                <line x1="47" y1="34" x2="47" y2="46"/>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <h3>Ikin Ifá Computer</h3>
+            <div class="yoruba">Ìkin Ifá</div>
+            <span class="kicker bg-gold p-gold">The Original Processor</span>
+          </div>
+        </div>
+        <p class="body">Sixteen sacred palm nuts pass quickly from hand to hand, leaving one or two behind each round. One mark, two marks — a physical coin flip. Do it eight times and a Babalawo builds one full binary sign, one bit at a time.</p>
+        <div class="spec">
+          <div><span class="k">Input</span><span>16 palm nuts</span></div>
+          <div><span class="k">Output</span><span>single/double mark</span></div>
+          <div><span class="k">Cycles</span><span>8 throws / sign</span></div>
+          <div><span class="k">Memory</span><span>256 Odù archive</span></div>
+        </div>
+        <div class="tag bg-gold p-gold">→ becomes the Classical Computer</div>
+      </div>
+
+      <!-- OPELE -->
+      <div class="card">
+        <div class="glow glow-coral"></div>
+        <div class="card-top">
+          <div class="icon-box">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 10 L18 20 L10 30 L20 40 L12 50" fill="none" stroke="#E2542D" stroke-width="2" stroke-dasharray="1 4" stroke-linecap="round"/>
+              <g fill="#E2542D" opacity="0.9">
+                <ellipse cx="8" cy="10" rx="5" ry="4"/><ellipse cx="18" cy="20" rx="5" ry="4"/>
+                <ellipse cx="10" cy="30" rx="5" ry="4"/><ellipse cx="20" cy="40" rx="5" ry="4"/>
+                <ellipse cx="12" cy="50" rx="5" ry="4"/>
+              </g>
+              <g stroke="#22B8A0" stroke-width="2.5" stroke-linecap="round">
+                <line x1="38" y1="12" x2="52" y2="12"/><line x1="38" y1="20" x2="48" y2="20"/>
+                <line x1="38" y1="28" x2="52" y2="28"/>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <h3>Ọ̀pẹ̀lẹ̀ Computer</h3>
+            <div class="yoruba">Ọ̀pẹ̀lẹ̀</div>
+            <span class="kicker bg-coral p-coral">The Portable Model</span>
+          </div>
+        </div>
+        <p class="body">Eight seed-halves linked into one chain. Flick it once and all eight faces land at the same time — a whole 8-bit sign computed in a single toss, instead of eight. Small enough to carry anywhere.</p>
+        <div class="spec">
+          <div><span class="k">Input</span><span>1 chain, 8 halves</span></div>
+          <div><span class="k">Output</span><span>full sign, one throw</span></div>
+          <div><span class="k">Speed</span><span>instant read</span></div>
+          <div><span class="k">Form</span><span>pocket-sized</span></div>
+        </div>
+        <div class="tag bg-coral p-coral">→ becomes the Mobile Phone</div>
+      </div>
+
+      <!-- ERINDINLOGUN -->
+      <div class="card">
+        <div class="glow glow-teal"></div>
+        <div class="card-top">
+          <div class="icon-box">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <g fill="none" stroke="#22B8A0" stroke-width="2.2">
+                <path d="M14 14 Q18 10 22 14 Q22 20 14 20 Q10 18 14 14 Z"/>
+                <path d="M32 10 Q37 6 41 10 Q41 17 32 17 Q28 14 32 10 Z"/>
+                <path d="M12 32 Q17 28 21 32 Q21 39 12 39 Q8 36 12 32 Z"/>
+                <path d="M30 30 Q35 26 40 30 Q40 37 30 37 Q26 34 30 30 Z"/>
+                <path d="M20 46 Q25 42 30 46 Q30 53 20 53 Q16 50 20 46 Z"/>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <h3>Ẹ́rìndínlógún Computer</h3>
+            <div class="yoruba">Ẹ́rìndínlógún · "Òòṣà Computer"</div>
+            <span class="kicker bg-teal p-teal">The Everyday Network</span>
+          </div>
+        </div>
+        <p class="body">Sixteen cowrie shells are cast onto a mat and read by how many land mouth-up. It taps into many different Òrìṣà — each one its own knowledge server — making it the most widely used oracle in the community.</p>
+        <div class="spec">
+          <div><span class="k">Input</span><span>16 cowrie shells</span></div>
+          <div><span class="k">Output</span><span>shells face-up count</span></div>
+          <div><span class="k">Network</span><span>many Òrìṣà "servers"</span></div>
+          <div><span class="k">Users</span><span>community-wide</span></div>
+        </div>
+        <div class="tag bg-teal p-teal">→ becomes The Internet</div>
+      </div>
+
+      <!-- AGBIGBA -->
+      <div class="card">
+        <div class="glow glow-violet"></div>
+        <div class="card-top">
+          <div class="icon-box">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="#9B7FD4" stroke-width="2.2" stroke-linecap="round">
+                <line x1="10" y1="6" x2="10" y2="52"/>
+                <line x1="20" y1="6" x2="20" y2="52"/>
+                <line x1="30" y1="6" x2="30" y2="52"/>
+                <line x1="40" y1="6" x2="40" y2="52"/>
+              </g>
+              <g fill="#9B7FD4">
+                <circle cx="10" cy="16" r="2.6"/><circle cx="10" cy="28" r="2.6"/><circle cx="10" cy="40" r="2.6"/>
+                <circle cx="20" cy="14" r="2.6"/><circle cx="20" cy="26" r="2.6"/><circle cx="20" cy="38" r="2.6"/>
+                <circle cx="30" cy="18" r="2.6"/><circle cx="30" cy="30" r="2.6"/><circle cx="30" cy="42" r="2.6"/>
+                <circle cx="40" cy="12" r="2.6"/><circle cx="40" cy="24" r="2.6"/><circle cx="40" cy="36" r="2.6"/>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <h3>Agbigba Computer</h3>
+            <div class="yoruba">Àgbìgbà</div>
+            <span class="kicker bg-violet p-violet">The Parallel Processor</span>
+          </div>
+        </div>
+        <p class="body">Instead of one string, Agbigba uses several cords at once, each strung with four markers. Throw them together and you don't get one answer — you get four Odù at the same time, computed side by side in a single motion.</p>
+        <div class="spec">
+          <div><span class="k">Input</span><span>multiple 4-mark cords</span></div>
+          <div><span class="k">Output</span><span>4 Odù per throw</span></div>
+          <div><span class="k">Processing</span><span>parallel & simultaneous</span></div>
+          <div><span class="k">Style</span><span>direct & fast</span></div>
+        </div>
+        <div class="tag bg-violet p-violet">→ becomes the Quantum Computer</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONNECTOR -->
+  <div class="connector">
+    <svg viewBox="0 0 700 40" xmlns="http://www.w3.org/2000/svg">
+      <g stroke-width="2.5" stroke-linecap="round">
+        <line x1="0" y1="20" x2="140" y2="20" stroke="#E8B94D" stroke-dasharray="1 6"/>
+        <line x1="180" y1="20" x2="320" y2="20" stroke="#E2542D" stroke-dasharray="1 6"/>
+        <line x1="360" y1="20" x2="500" y2="20" stroke="#22B8A0" stroke-dasharray="1 6"/>
+        <line x1="540" y1="20" x2="680" y2="20" stroke="#9B7FD4" stroke-dasharray="1 6"/>
+      </g>
+      <path d="M690 20 l-8 -5 v10 z" fill="#9B7FD4"/>
+    </svg>
+    <div class="connector-label">same binary idea · millenia later</div>
+  </div>
+
+  <!-- MODERN COMPUTERS -->
+  <section>
+    <div class="section-head">
+      <div class="section-eyebrow" style="color:var(--teal)">PART TWO · TODAY</div>
+      <h2>Meet Their Modern Descendants</h2>
+      <p class="section-sub">Same binary logic, new hardware. Here's where each ancient computer's big idea ended up.</p>
+    </div>
+
+    <div class="grid">
+
+      <!-- CLASSICAL -->
+      <div class="card">
+        <div class="glow glow-gold"></div>
+        <div class="card-top">
+          <div class="icon-box">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <rect x="16" y="16" width="28" height="28" rx="4" fill="none" stroke="#E8B94D" stroke-width="2.5"/>
+              <rect x="24" y="24" width="12" height="12" rx="2" fill="#E8B94D" opacity="0.25" stroke="#E8B94D" stroke-width="2"/>
+              <g stroke="#E8B94D" stroke-width="2">
+                <line x1="6" y1="22" x2="16" y2="22"/><line x1="6" y1="30" x2="16" y2="30"/><line x1="6" y1="38" x2="16" y2="38"/>
+                <line x1="44" y1="22" x2="54" y2="22"/><line x1="44" y1="30" x2="54" y2="30"/><line x1="44" y1="38" x2="54" y2="38"/>
+                <line x1="22" y1="6" x2="22" y2="16"/><line x1="30" y1="6" x2="30" y2="16"/><line x1="38" y1="6" x2="38" y2="16"/>
+                <line x1="22" y1="44" x2="22" y2="54"/><line x1="30" y1="44" x2="30" y2="54"/><line x1="38" y1="44" x2="38" y2="54"/>
+              </g>
+            </svg>
+          </div>
+          <div>
+            <h3>Classical Computer</h3>
+            <span class="kicker bg-gold p-gold">Inspired by Ìkin Ifá</span>
+          </div>
+        </div>
+        <p class="body">Every laptop and desktop runs on the idea a Babalawo used first: break every answer into two states, 1 or 0, and combine enough of them to represent words, pictures, games — even this page.</p>
+        <div class="spec">
+          <div><span class="k">Logic</span><span>binary, 1s & 0s</span></div>
+          <div><span class="k">Unit</span><span>8 bits = 1 byte</span></div>
+          <div><span class="k">Storage</span><span>billions of bytes</span></div>
+          <div><span class="k">Job</span><span>one step at a time</span></div>
+        </div>
+      </div>
+
+      <!-- MOBILE -->
+      <div class="card">
+        <div class="glow glow-coral"></div>
+        <div class="card-top">
+          <div class="icon-box">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <rect x="18" y="6" width="24" height="48" rx="6" fill="none" stroke="#E2542D" stroke-width="2.5"/>
+              <line x1="24" y1="14" x2="36" y2="14" stroke="#E2542D" stroke-width="2"/>
+              <rect x="22" y="20" width="16" height="26" rx="2" fill="#E2542D" opacity="0.18" stroke="#E2542D" stroke-width="1.5"/>
+              <circle cx="30" cy="50" r="2" fill="#E2542D"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Mobile Phone</h3>
+            <span class="kicker bg-coral p-coral">Inspired by Ọ̀pẹ̀lẹ̀</span>
+          </div>
+        </div>
+        <p class="body">Just like the Ọ̀pẹ̀lẹ̀'s single flick, your phone is built for speed you carry anywhere — one tap computes an answer instantly, wherever you are.</p>
+        <div class="spec">
+          <div><span class="k">Input</span><span>touch, voice, camera</span></div>
+          <div><span class="k">Output</span><span>instant answer</span></div>
+          <div><span class="k">Form</span><span>pocket-sized</span></div>
+          <div><span class="k">Always</span><span>in your hand</span></div>
+        </div>
+      </div>
+
+      <!-- INTERNET -->
+      <div class="card">
+        <div class="glow glow-teal"></div>
+        <div class="card-top">
+          <div class="icon-box">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="22" fill="none" stroke="#22B8A0" stroke-width="2.2"/>
+              <ellipse cx="30" cy="30" rx="9" ry="22" fill="none" stroke="#22B8A0" stroke-width="1.6" opacity="0.7"/>
+              <line x1="8" y1="30" x2="52" y2="30" stroke="#22B8A0" stroke-width="1.6" opacity="0.7"/>
+              <line x1="12" y1="18" x2="48" y2="18" stroke="#22B8A0" stroke-width="1.2" opacity="0.5"/>
+              <line x1="12" y1="42" x2="48" y2="42" stroke="#22B8A0" stroke-width="1.2" opacity="0.5"/>
+              <circle cx="30" cy="30" r="2.6" fill="#22B8A0"/><circle cx="30" cy="8" r="2.2" fill="#22B8A0"/>
+              <circle cx="52" cy="30" r="2.2" fill="#22B8A0"/><circle cx="8" cy="30" r="2.2" fill="#22B8A0"/>
+            </svg>
+          </div>
+          <div>
+            <h3>The Internet</h3>
+            <span class="kicker bg-teal p-teal">Inspired by Ẹ́rìndínlógún</span>
+          </div>
+        </div>
+        <p class="body">The Internet connects billions of devices the same way Ẹ́rìndínlógún connects many Òrìṣà — one question travels through countless servers worldwide before an answer comes back to you.</p>
+        <div class="spec">
+          <div><span class="k">Nodes</span><span>billions of devices</span></div>
+          <div><span class="k">Network</span><span>worldwide</span></div>
+          <div><span class="k">Users</span><span>everyone, everywhere</span></div>
+          <div><span class="k">Job</span><span>carry the message</span></div>
+        </div>
+      </div>
+
+      <!-- QUANTUM -->
+      <div class="card">
+        <div class="glow glow-violet"></div>
+        <div class="card-top">
+          <div class="icon-box">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="30" cy="30" r="4" fill="#9B7FD4"/>
+              <ellipse cx="30" cy="30" rx="24" ry="10" fill="none" stroke="#9B7FD4" stroke-width="2" transform="rotate(0 30 30)"/>
+              <ellipse cx="30" cy="30" rx="24" ry="10" fill="none" stroke="#9B7FD4" stroke-width="2" transform="rotate(60 30 30)"/>
+              <ellipse cx="30" cy="30" rx="24" ry="10" fill="none" stroke="#9B7FD4" stroke-width="2" transform="rotate(120 30 30)"/>
+              <circle cx="54" cy="30" r="2.4" fill="#9B7FD4"/><circle cx="6" cy="30" r="2.4" fill="#9B7FD4"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Quantum Computer</h3>
+            <span class="kicker bg-violet p-violet">Inspired by Agbigba</span>
+          </div>
+        </div>
+        <p class="body">Where a classical computer checks answers one at a time, a quantum computer — like Agbigba's many cords cast together — explores many possibilities at once, tackling some problems dramatically faster.</p>
+        <div class="spec">
+          <div><span class="k">Unit</span><span>qubits, not just bits</span></div>
+          <div><span class="k">Style</span><span>many states at once</span></div>
+          <div><span class="k">Status</span><span>still being invented</span></div>
+          <div><span class="k">Best at</span><span>huge, complex problems</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding-top:0;">
+    <div class="cta">
+      <h3>Keep Exploring the Ifa Internet</h3>
+      <p>Play with real Ifa binary math and try the game that started it all.</p>
+      <div class="cta-links">
+        <a class="btn btn-primary" href="https://ifainternet.org/ifa-computing/kids/" target="_blank" rel="noopener">Ifa Computer for Kids &amp; Teens →</a>
+        <a class="btn btn-secondary" href="https://www.playifagames.org/ayo-oloponfa/" target="_blank" rel="noopener">Play Àyò Olopón Game →</a>
+        <a class="btn btn-secondary" href="../">← Back to IfaProject</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-logo">THE IFA INTERNET <span>· IFABOK</span></div>
+    <p class="credit">Ifanimation Project — a student animation project exploring the Ifa Body of Knowledge, from ancient Yoruba divination computers to the machines we use today.</p>
+    <p class="credit"><a href="https://ifainternet.org" target="_blank" rel="noopener">ifainternet.org</a> · <a href="../">IfaProject Platform</a></p>
+    <p class="disclaimer">All illustrations here are original, stylized designs inspired by traditional Ifá divination tools — not reproductions of any specific photograph, artifact, or museum object.</p>
+  </footer>
+
+</div>
+</body>
+</html>

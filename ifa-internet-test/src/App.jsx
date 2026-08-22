@@ -788,16 +788,16 @@ function App() {
   if (error) {
     return (
       <div style={{
-        minHeight: '100vh', display: 'flex', alignItems: 'center',
-        justifyContent: 'center', flexDirection: 'column', gap: 16,
-        color: 'var(--text-2)', fontFamily: 'monospace',
-      }}>
-        <span style={{ fontSize: '2rem' }}>⚠</span>
-        <p>Failed to load data: {error}</p>
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-3)' }}>
-          Make sure the app is served over HTTP (not file://)
-        </p>
-      </div>
+          minHeight: '100vh', display: 'flex', alignItems: 'center',
+          justifyContent: 'center', flexDirection: 'column', gap: 16,
+          color: 'var(--text-2)', fontFamily: 'monospace',
+        }}>
+          <span style={{ fontSize: '2rem' }}>⚠</span>
+          <p>Failed to load data: {error}</p>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-3)' }}>
+            Make sure the app is served over HTTP (not file://)
+          </p>
+        </div>
     );
   }
 
