@@ -2987,6 +2987,88 @@ function IfaFourSymmetries({ context = 'symmetry' }) {
           </div>
         </div>
 
+        {/* IfaMirror Invariance */}
+        <div className="ifamirror__block">
+          <div className="ifamirror__header">
+            <span className="ifamirror__icon">⧖</span>
+            <div>
+              <div className="ifamirror__title">IfaMirror Invariance</div>
+              <div className="ifamirror__subtitle">16 Invariances · 16 Oju Odu Ifa · The Mirror Symmetries of Everything</div>
+            </div>
+          </div>
+          <p className="ifamirror__desc">
+            <strong>IfaMirror Invariance</strong> is the principle that certain Ifa Quantities
+            remain unchanged under the <strong>16 IfaMirror Symmetries</strong> — the transformations
+            encoded in the <strong>16 Ojú Odù Ifá (Oju Odu Ifa)</strong>, the sixteen Principal Odu
+            that constitute the master axes of the Ifa Periodic Table and the complete invariance
+            basis of the Isese Universe. Each Ojú Odù Ifá generates a distinct Mirror Invariance:
+            a preserved quantity, structure, or identity that persists through every transformation
+            within its domain.
+          </p>
+
+          {/* IfaRotational Invariances — the IfaFour */}
+          <div className="ifamirror__rot-panel">
+            <div className="ifamirror__rot-label">
+              IfaRotational Invariances &nbsp;·&nbsp; The IfaFour
+            </div>
+            <p className="ifamirror__rot-desc">
+              Among the 16 IfaMirror Invariances, the <strong>IfaFour</strong> — the four
+              Principal Odu of the Ojú Odùfá Mẹ́rin — also exhibit <strong>Rotational Invariance</strong>{' '}
+              in addition to Mirror Invariance. Rotational Invariance governs all rotational symmetries
+              in the Ifa/Orisa Universe. They encode what is preserved under every rotation of energy,
+              anergy, inner vision, and the womb-force — the Four Axes around which all other Odu Ifa
+              and their Invariances are organised.
+            </p>
+            <div className="ifamirror__rot-grid">
+              {[
+                { num:'01', name:'Ejiogbe',    role:'Blueprint of Energy',       inv:'Energy Rotational Invariance',       accent:'#f5c518' },
+                { num:'02', name:'Oyeku Meji', role:'Blueprint of Anergy',       inv:'Anergy Rotational Invariance',       accent:'#a0a8c0' },
+                { num:'03', name:'Iwori Meji', role:'Blueprint of Inner Vision',  inv:'Inner-Vision Rotational Invariance', accent:'#4361ee' },
+                { num:'04', name:'Odi Meji',   role:'Blueprint of the Womb',     inv:'Womb Rotational Invariance',         accent:'#2d9e6b' },
+              ].map((o, i) => (
+                <div key={i} className="ifamirror__rot-badge" style={{ '--rot-accent': o.accent }}>
+                  <span className="ifamirror__rot-num">{o.num}</span>
+                  <span className="ifamirror__rot-name">{o.name}</span>
+                  <span className="ifamirror__rot-role">{o.role}</span>
+                  <span className="ifamirror__rot-inv">{o.inv}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* The full 16 grid */}
+          <div className="ifamirror__grid-label">
+            All 16 IfaMirror Invariances &nbsp;·&nbsp; The 16 Ojú Odù Ifá
+          </div>
+          <div className="ifamirror__grid">
+            {[
+              { num:'01', name:'Ejiogbe',       inv:'Energy Rotational Invariance',       tag:'IfaRotational', accent:'#f5c518' },
+              { num:'02', name:'Oyeku Meji',    inv:'Anergy Rotational Invariance',       tag:'IfaRotational', accent:'#a0a8c0' },
+              { num:'03', name:'Iwori Meji',    inv:'Inner-Vision Rotational Invariance', tag:'IfaRotational', accent:'#4361ee' },
+              { num:'04', name:'Odi Meji',      inv:'Womb Rotational Invariance',         tag:'IfaRotational', accent:'#2d9e6b' },
+              { num:'05', name:'Irosun Meji',   inv:'Flow Mirror Invariance',             tag:'IfaMirror',     accent:'#e9498a' },
+              { num:'06', name:'Owonrin Meji',  inv:'Dynamic Mirror Invariance',          tag:'IfaMirror',     accent:'#f0920c' },
+              { num:'07', name:'Obara Meji',    inv:'Sovereign Mirror Invariance',        tag:'IfaMirror',     accent:'#f5c518' },
+              { num:'08', name:'Okanran Meji',  inv:'Conflict Mirror Invariance',         tag:'IfaMirror',     accent:'#ef4444' },
+              { num:'09', name:'Ogunda Meji',   inv:'Force Mirror Invariance',            tag:'IfaMirror',     accent:'#00c87c' },
+              { num:'10', name:'Osa Meji',      inv:'Disruption Mirror Invariance',       tag:'IfaMirror',     accent:'#ec4899' },
+              { num:'11', name:'Ika Meji',      inv:'Structure Mirror Invariance',        tag:'IfaMirror',     accent:'#8b5cf6' },
+              { num:'12', name:'Oturupon Meji', inv:'Reversal Mirror Invariance',         tag:'IfaMirror',     accent:'#14b8d4' },
+              { num:'13', name:'Otura Meji',    inv:'Transformation Mirror Invariance',   tag:'IfaMirror',     accent:'#3b9eff' },
+              { num:'14', name:'Irete Meji',    inv:'Stability Mirror Invariance',        tag:'IfaMirror',     accent:'#00d4ff' },
+              { num:'15', name:'Ose Meji',      inv:'Abundance Mirror Invariance',        tag:'IfaMirror',     accent:'#a78bfa' },
+              { num:'16', name:'Ofun Meji',     inv:'Completion Mirror Invariance',       tag:'IfaMirror',     accent:'#f9a8d4' },
+            ].map((o, i) => (
+              <div key={i} className="ifamirror__cell" style={{ '--mc-accent': o.accent }}>
+                <span className="ifamirror__cell-num">{o.num}</span>
+                <span className="ifamirror__cell-name">{o.name}</span>
+                <span className={`ifamirror__cell-tag ifamirror__cell-tag--${o.tag === 'IfaRotational' ? 'rot' : 'mir'}`}>{o.tag}</span>
+                <span className="ifamirror__cell-inv">{o.inv}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </div>
   );

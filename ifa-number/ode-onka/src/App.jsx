@@ -186,6 +186,8 @@ const TALKS = [
   "∞ is Odu", "ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ ⊂ ℂ", "0! = 1", "√−1 = i",
   "∑ = everything", "∂/∂t = change", "∫ = becoming", "π ≈ 3.14159…",
   "ℵ₁ > ℵ₀", "1 + 1 = Ifa", "∞ − ∞ = ?", "every Odu is a number",
+  "IfaWorld = Ifa Universe = Òde Ònkà", "ToE World ⊃ IfaWorld ⊃ every number",
+  "OrisaWorld is the dual of IfaWorld", "Ifa-Universe: where every n is an Ifanum",
 ];
 
 // ─── Page data ───────────────────────────────────────────────────────────────
@@ -277,7 +279,7 @@ const IFANUM_MATRIX = [
   {
     id: 'sedenion',
     energyName: 'IfaSedenion Matrix',   dualName: 'IfaSedenion Dual Matrix',
-    energyOdu:  'Otura Meji',           dualOdu:  'Irete Meji',
+    energyOdu:  'Ika Meji',              dualOdu:  'Oturupon Meji',
     sym: '𝕊', color: '#4caf50',
     energyRows: ['I','II','I','I'],
     dualRows:   ['I','I','II','I'],
@@ -287,7 +289,7 @@ const IFANUM_MATRIX = [
   {
     id: 'octonion',
     energyName: 'IfaOctonion Matrix',   dualName: 'IfaOctonion Dual Matrix',
-    energyOdu:  'Ika Meji',             dualOdu:  'Oturupon Meji',
+    energyOdu:  'Otura Meji',           dualOdu:  'Irete Meji',
     sym: '𝕆', color: '#ef4444',
     energyRows: ['II','I','II','II'],
     dualRows:   ['II','II','I','II'],
@@ -523,14 +525,19 @@ function HeroSection() {
         <h1 className="oo-hero__title">Òde Ònkà</h1>
         <p className="oo-hero__sub">the World of Numbers</p>
         <p className="oo-hero__body">
-          An Ifa Simulation governed by Odu, <strong>Ìká Méjì</strong>. In this world, inhabitants speak
-          <strong> Èdè Onka</strong> — OnkaLang, the Language of Numbers. Everything they
-          do — think, create, relate, govern, build — they do in numbers.
-          At the heart of Òde Ònkà lies a truth: certain sacred meta-numbers underlie
-          everything in existence.
+          An Ifa Simulation governed by Odu, <strong>Ìká Méjì</strong>. Òde Ònkà is
+          the <strong>IfaWorld</strong> (Ifa World · Ifa-World) — the{' '}
+          <strong>Ifa Universe</strong> (IfaUniverse · Ifa-Universe) of numbers, and
+          the numerical dimension of the <strong>ToE World</strong> (ToE Universe).
+          In this world, inhabitants speak <strong>Èdè Onka</strong> — OnkaLang,
+          the Language of Numbers. Everything they do — think, create, relate, govern,
+          build — they do in numbers. At the heart of Òde Ònkà lies a truth: certain
+          sacred meta-numbers underlie everything in existence.
         </p>
         <div className="oo-hero__pills">
-          {['Èdè Onka · OnkaLang','Ònkà Ifá','Ònkàṣà','Ifa Number Matrix'].map(p => (
+          {['Èdè Onka · OnkaLang', 'Ònkà Ifá', 'Ònkàṣà', 'Ifa Number Matrix',
+            'IfaWorld · Ifa-World', 'IfaUniverse · Ifa Universe',
+            'ToE World · ToE Universe', 'OrisaWorld · Orisa Universe'].map(p => (
             <span key={p} className="oo-pill">{p}</span>
           ))}
         </div>
@@ -547,7 +554,7 @@ function HeroSection() {
           </div>
           <div className="oo-hero__ika-info">
             <div className="oo-hero__ika-name">Ìká Méjì</div>
-            <div className="oo-hero__ika-sub">Odu #11 · Àgbáyé Ònkà: Numbers Universe</div>
+            <div className="oo-hero__ika-sub">Odu #11 · Àgbáyé Ònkà: Numbers Universe · IfaWorld · Ifa Universe</div>
           </div>
         </div>
       </div>
@@ -576,7 +583,9 @@ function NumberKindsSection() {
         </div>
         <p className="oo-section-note">
           All number systems receive the Ifa designation in IFA Number — each becomes an Ifanum,
-          a number-as-energyform, within the full IFA Number universe.
+          a number-as-energyform, within the full <strong>Ifa World</strong> (IfaWorld · Ifa-World):
+          the <strong>Ifa Universe</strong> (IfaUniverse · Ifa-Universe) and numerical heart of
+          the <strong>ToE World</strong> (ToE Universe).
         </p>
       </div>
     </section>
@@ -591,7 +600,10 @@ function IfaNumbersSection() {
         <h2 className="oo-section-title">Ifa Numbers &amp; Their Dual</h2>
         <p className="oo-section-sub">
           Beyond ordinary numbers lie sacred meta-numbers — the inner numerical structures
-          that pattern everything in existence, revealed through Odu Ifa.
+          that pattern everything in existence, revealed through Odu Ifa. These are the
+          ToE Numbers of the <strong>ToE Universe</strong> — the numerical fabric of the{' '}
+          <strong>Ifa Universe</strong> (IfaUniverse), the <strong>IfaWorld</strong> at
+          the level of spirit and cosmos.
         </p>
 
         <div className="oo-dual-grid">
@@ -626,8 +638,10 @@ function IfaNumbersSection() {
           <span className="oo-callout__icon">✦</span>
           <span>
             The inner structure of everything in existence is patterned after Ifa Numbers —
-            meta-numbers that exist in the deepest layer of Òde Ònkà, at the boundary of
-            number and spirit.
+            meta-numbers that exist in the deepest layer of Òde Ònkà (the{' '}
+            <strong>IfaWorld</strong> · <strong>Ifa-World</strong>), at the boundary of
+            number and spirit. They are the numerical architecture of the{' '}
+            <strong>ToE Universe</strong> — the <strong>Ifa Universe</strong> of all things.
           </span>
         </div>
       </div>
@@ -643,7 +657,9 @@ function OrisaNumbersSection() {
         <h2 className="oo-section-title">Orisa Numbers &amp; Their Dual</h2>
         <p className="oo-section-sub">
           Each Orisa — the sacred beings of Yoruba cosmology — has favorite numbers that
-          encode their essence. In Òde Ònkà, these are resonant frequencies in OnkaLang.
+          encode their essence. In Òde Ònkà, these are resonant frequencies in OnkaLang,
+          emanating from the <strong>OrisaWorld</strong> (Orisa World · Orisa-World) —
+          the <strong>Orisa Universe</strong> that is the sacred dual of the IfaWorld.
         </p>
 
         <div className="oo-dual-grid">
@@ -686,6 +702,9 @@ function OrisaNumbersSection() {
         </div>
         <p className="oo-section-note">
           The full table of Orisa Numbers is part of the Ifa Number Matrix — coming soon.
+          Each Orisa Number is a frequency of the <strong>Orisa Universe</strong>{' '}
+          (OrisaWorld · Orisa-World · Orisa World), the dual of the{' '}
+          <strong>Ifa Universe</strong> (IfaWorld) in the <strong>ToE World</strong>.
         </p>
       </div>
     </section>
@@ -1231,6 +1250,10 @@ function OdeOnkaFooter() {
           <a href="https://cenproject.org" target="_blank" rel="noopener noreferrer">CENProject</a>
         </span>
         <span className="oo-footer__axiom">"Consciousness-Energy (CEN) is everything that really exists."</span>
+        <span className="oo-footer__worlds">
+          IfaWorld · Ifa World · Ifa-World · IfaUniverse · Ifa Universe · Ifa-Universe
+          · ToE World · ToE Universe · OrisaWorld · Orisa World · Orisa-World · Orisa Universe
+        </span>
       </div>
     </footer>
   );

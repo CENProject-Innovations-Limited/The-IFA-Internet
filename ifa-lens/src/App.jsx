@@ -13,13 +13,14 @@ const { useState, useEffect, useRef } = React;
 const LMS_STORAGE_KEY  = 'ifaLMS_v2';
 const LENS_SESSION_KEY = 'ifalens_user';
 
-// Fallback seed students — used if IfaLMS data isn't in localStorage yet
+// Fallback seed users — used if IfaLMS data isn't in localStorage yet
 const SEED_STUDENTS = [
-  { username: 'adewale',  password: 'student123', name: 'Adewale Okafor'  },
-  { username: 'chiamaka', password: 'student123', name: 'Chiamaka Nwosu'  },
-  { username: 'tayo',     password: 'student123', name: 'Tayo Adeleke'    },
-  { username: 'emeka',    password: 'student123', name: 'Emeka Obi'       },
-  { username: 'ngozi',    password: 'student123', name: 'Ngozi Adeyemi'   },
+  { username: 'admin',    password: 'OrisaIfa22233.', name: 'IFA Academy Admin',  role: 'admin',   status: 'approved' },
+  { username: 'adewale',  password: 'student123',     name: 'Adewale Okafor',     role: 'student', status: 'approved' },
+  { username: 'chiamaka', password: 'student123',     name: 'Chiamaka Nwosu',     role: 'student', status: 'pending'  },
+  { username: 'tayo',     password: 'student123',     name: 'Tayo Adeleke',       role: 'student', status: 'approved' },
+  { username: 'emeka',    password: 'student123',     name: 'Emeka Obi',          role: 'student', status: 'pending'  },
+  { username: 'ngozi',    password: 'student123',     name: 'Ngozi Adeyemi',      role: 'student', status: 'approved' },
 ];
 
 function getLmsUsers() {
@@ -51,7 +52,7 @@ function SubscriptionGate({ onUnlock }) {
     e.preventDefault();
     const users = getLmsUsers();
     const user = users.find(
-      u => u.role === 'student' && u.username === username.trim() && u.password === password
+      u => u.username === username.trim() && u.password === password
     );
     if (user) {
       localStorage.setItem(LENS_SESSION_KEY, JSON.stringify({ username: user.username, name: user.name }));
@@ -648,13 +649,27 @@ function nuggetDownload(designNum, format) {
 }
 
 // ── Header ────────────────────────────────────────────────────
-function Header() {
-  const [scrolled, setScrolled] = useState(false);
+function Header({ onLogout, userName }) {
+  const [scrolled,  setScrolled]  = useState(false);
+  const [menuOpen,  setMenuOpen]  = useState(false);
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', fn);
     return () => window.removeEventListener('scroll', fn);
   }, []);
+
+  /* close menu when user scrolls (common mobile UX) */
+  useEffect(() => {
+    if (!menuOpen) return;
+    const fn = () => setMenuOpen(false);
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
+  }, [menuOpen]);
+
+  const close = () => setMenuOpen(false);
+  const firstName = userName ? userName.split(' ')[0] : '';
+
   return (
     <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
       <div className="header__inner">
@@ -664,6 +679,8 @@ function Header() {
           <span className="header__logo-sep">·</span>
           <span className="header__logo-tag">LensoE</span>
         </a>
+
+        {/* ── Desktop nav ── */}
         <nav className="header__nav">
           <a href="#ifaview"   className="header__link">IfaView</a>
           <a href="#ifascopes" className="header__link">Ifascopes</a>
@@ -671,11 +688,78 @@ function Header() {
           <a href="#ifa-tech"  className="header__link">Technologies</a>
           <a href="#energy"    className="header__link">CEN Energy</a>
           <a href="#about"     className="header__link">About</a>
+          <a href="./lens-kids/" className="header__link">Kids &amp; Teens ✦</a>
           <a href="https://toe.cenproject.org/ifalens/" target="_blank" className="header__cta">
             Open Platform →
           </a>
+          <div className="header__user-zone">
+            {firstName && <span className="header__user-name">◎ {firstName}</span>}
+            {firstName && <span className="header__user-sep">·</span>}
+            <button className="header__logout-btn" onClick={onLogout} title="Sign out of IfaLens">
+              Sign out
+            </button>
+          </div>
         </nav>
+
+        {/* ── Mobile right: first name + sign-out + burger ── */}
+        <div className="header__mobile-right">
+          {firstName && <span className="header__user-name header__user-name--mobile">◎ {firstName}</span>}
+          {firstName && (
+            <button
+              className="header__logout-btn header__logout-btn--sm"
+              onClick={onLogout}
+              title="Sign out of IfaLens"
+            >
+              Sign out
+            </button>
+          )}
+          <button
+            className={`header__burger${menuOpen ? ' header__burger--open' : ''}`}
+            onClick={() => setMenuOpen(v => !v)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
       </div>
+
+      {/* ── Mobile nav dropdown ── */}
+      {menuOpen && (
+        <nav className="header__mobile-nav" aria-label="Mobile navigation">
+          <div className="header__mobile-links">
+            <a href="#ifaview"   className="header__mobile-link" onClick={close}>IfaView</a>
+            <a href="#ifascopes" className="header__mobile-link" onClick={close}>Ifascopes</a>
+            <a href="#frame-ref" className="header__mobile-link" onClick={close}>Frame-Ref</a>
+            <a href="#ifa-tech"  className="header__mobile-link" onClick={close}>Technologies</a>
+            <a href="#energy"    className="header__mobile-link" onClick={close}>CEN Energy</a>
+            <a href="#about"     className="header__mobile-link" onClick={close}>About</a>
+            <a href="./lens-kids/" className="header__mobile-link" onClick={close}>Kids &amp; Teens ✦</a>
+          </div>
+          <div className="header__mobile-foot">
+            <a
+              href="https://toe.cenproject.org/ifalens/"
+              target="_blank"
+              className="header__mobile-cta"
+              onClick={close}
+            >
+              Open Platform →
+            </a>
+            {firstName && (
+              <div className="header__mobile-user">
+                <span className="header__user-name">◎ {firstName}</span>
+                <span className="header__user-sep">·</span>
+                <button
+                  className="header__logout-btn"
+                  onClick={() => { close(); onLogout(); }}
+                >
+                  Sign out
+                </button>
+              </div>
+            )}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
@@ -1984,6 +2068,7 @@ function Footer() {
         </div>
         <nav className="footer__links">
           <a href="/">IFA Internet</a>
+          <a href="./lens-kids/">Kids &amp; Teens Edition</a>
           <a href="https://toe.cenproject.org/ifalens/" target="_blank" rel="noopener noreferrer">Full Platform</a>
           <a href="/ifa-analysis/">IFA Analysis</a>
           <a href="/ifa-mechanics/">IFA Mechanics</a>
@@ -1999,14 +2084,28 @@ function Footer() {
 // ── App ───────────────────────────────────────────────────────
 function App() {
   const [unlocked, setUnlocked] = useState(() => getLensSession() !== null);
+  const [lensUser, setLensUser] = useState(() => getLensSession());
+
+  function handleUnlock() {
+    const session = getLensSession();
+    setLensUser(session);
+    setUnlocked(true);
+  }
+
+  function handleLogout() {
+    // Only clears the IfaLens session — never touches ifaLMS_v2
+    localStorage.removeItem(LENS_SESSION_KEY);
+    setLensUser(null);
+    setUnlocked(false);
+  }
 
   if (!unlocked) {
-    return <SubscriptionGate onUnlock={() => setUnlocked(true)} />;
+    return <SubscriptionGate onUnlock={handleUnlock} />;
   }
 
   return (
     <>
-      <Header />
+      <Header onLogout={handleLogout} userName={lensUser ? lensUser.name : ''} />
       <main>
         <HeroSection />
         <IfaViewSection />

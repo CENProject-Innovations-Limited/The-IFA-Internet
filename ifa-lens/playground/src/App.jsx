@@ -793,6 +793,7 @@ function PlaygroundHeader() {
         </div>
         <nav className="pg-header__nav">
           <a href="/" className="pg-header__link">IFA Internet</a>
+          <a href="../playground-kids/" className="pg-header__link">Kids &amp; Teens ✦</a>
           <a href="/ifa-lens/" className="pg-header__cta">IfaLens →</a>
         </nav>
       </div>
@@ -1839,6 +1840,8 @@ function App() {
         <div className="pg-footer__inner">
           <div className="pg-footer__brand">
             <a href="../" className="pg-footer__link">IfaLens</a>
+            <span> · </span>
+            <a href="../playground-kids/" className="pg-footer__link">Kids &amp; Teens Playground</a>
             <span> · </span>
             <a href="/" className="pg-footer__link">IFA Internet</a>
             <span> · </span>

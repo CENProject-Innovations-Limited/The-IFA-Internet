@@ -310,22 +310,22 @@ function IfaMatrix({ name, sym, displayRows, isEnergy, color, pureSymbol, oduNam
 // ─────────────────────────────────────────────────────────────────────────────
 
 const ODU = [
-  { n:'Ogbè',     en:'Opening · Beginnings'  },
-  { n:'Òyèkú',    en:'Closure · Transition'  },
-  { n:'Ìwòrì',    en:'Inner Vision'           },
-  { n:'Òdí',      en:'Concealment · Depth'   },
-  { n:'Ìròsùn',   en:'Flow · Life Force'     },
-  { n:'Ọ̀wọ́nrín',  en:'Emergence · Surprise'  },
-  { n:'Òbàrà',    en:'Kingship · Expansion'  },
-  { n:'Ọ̀kàràn',   en:'Conflict · Resolution' },
-  { n:'Ògúndá',   en:'Pathfinding · Action'  },
-  { n:'Ọ̀sá',     en:'Speed · Disruption'    },
-  { n:'Ìká',      en:'Numbers · Cleverness'  },
-  { n:'Òtùrúpọ̀n', en:'Reversal · Healing'    },
-  { n:'Òtúrá',    en:'Pact · Alignment'      },
-  { n:'Ìrẹtẹ̀',    en:'Patience · Foundation' },
-  { n:'Ọ̀sẹ̀',     en:'Prosperity · Growth'   },
-  { n:'Òfún',     en:'Light · Completion'    },
+  { n:'Ogbè Méjì',      en:'Opening · Beginnings'  },
+  { n:'Òyèkú Méjì',     en:'Closure · Transition'  },
+  { n:'Ìwòrì Méjì',     en:'Inner Vision'           },
+  { n:'Òdí Méjì',       en:'Concealment · Depth'   },
+  { n:'Ìròsùn Méjì',    en:'Flow · Life Force'     },
+  { n:'Ọ̀wọ́nrín Méjì',  en:'Emergence · Surprise'  },
+  { n:'Òbàrà Méjì',     en:'Kingship · Expansion'  },
+  { n:'Ọ̀kànràn Méjì',  en:'Conflict · Resolution' },
+  { n:'Ògúndá Méjì',    en:'Pathfinding · Action'  },
+  { n:'Ọ̀sá Méjì',      en:'Speed · Disruption'    },
+  { n:'Ìká Méjì',       en:'Numbers · Cleverness'  },
+  { n:'Òtùrúpọ̀n Méjì', en:'Reversal · Healing'    },
+  { n:'Òtúrá Méjì',     en:'Pact · Alignment'      },
+  { n:'Ìrẹtẹ̀ Méjì',    en:'Patience · Foundation' },
+  { n:'Ọ̀sẹ̀ Méjì',     en:'Prosperity · Growth'   },
+  { n:'Òfún Méjì',      en:'Light · Completion'    },
 ];
 
 const PILLARS = [
@@ -353,8 +353,8 @@ const IFANUM_MATRIX = [
   { id:'reals',     energyName:'IfaReals Matrix',        dualName:'IfaReals Dual Matrix',     energyOdu:'Irosun Meji',dualOdu:'Owonrin Meji',  sym:'ℝ',  color:'#14b8d4', energyRows:['II','II','I','I'],  dualRows:['I','I','II','II'] },
   { id:'quaternion',energyName:'IfaComplex Matrix',      dualName:'IfaComplex Dual Matrix',   energyOdu:'Obara Meji', dualOdu:'Okanran Meji',  sym:'ℍ',  color:'#ec4899', energyRows:['II','I','I','I'],   dualRows:['I','I','I','II'] },
   { id:'complex',   energyName:'IfaQuaternion Matrix',   dualName:'IfaQuaternion Dual Matrix',energyOdu:'Ogunda Meji',dualOdu:'Osa Meji',      sym:'ℂ',  color:'#8b5cf6', energyRows:['II','II','II','I'], dualRows:['I','II','II','II'] },
-  { id:'sedenion',  energyName:'IfaSedenion Matrix',     dualName:'IfaSedenion Dual Matrix',  energyOdu:'Otura Meji', dualOdu:'Irete Meji',    sym:'𝕊',  color:'#4caf50', energyRows:['I','II','I','I'],   dualRows:['I','I','II','I'] },
-  { id:'octonion',  energyName:'IfaOctonion Matrix',     dualName:'IfaOctonion Dual Matrix',  energyOdu:'Ika Meji',   dualOdu:'Oturupon Meji', sym:'𝕆',  color:'#ef4444', energyRows:['II','I','II','II'], dualRows:['II','II','I','II'] },
+  { id:'sedenion',  energyName:'IfaSedenion Matrix',     dualName:'IfaSedenion Dual Matrix',  energyOdu:'Ika Meji',   dualOdu:'Oturupon Meji', sym:'𝕊',  color:'#4caf50', energyRows:['I','II','I','I'],   dualRows:['I','I','II','I'] },
+  { id:'octonion',  energyName:'IfaOctonion Matrix',     dualName:'IfaOctonion Dual Matrix',  energyOdu:'Otura Meji', dualOdu:'Irete Meji',    sym:'𝕆',  color:'#ef4444', energyRows:['II','I','II','II'], dualRows:['II','II','I','II'] },
   { id:'ifax',      energyName:'IfaX Matrix',            dualName:'IfaGeneralization',        energyOdu:'Ose Meji',   dualOdu:'Ofun Meji',     sym:'X',  color:'#a78bfa', energyRows:['II','I','II','I'],  dualRows:['I','II','I','II'] },
 ];
 

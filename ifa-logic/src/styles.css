@@ -100,6 +100,11 @@ body {
   transition: color 0.2s, background 0.2s;
 }
 .nav__link:hover { color: var(--text-1); background: rgba(139,92,246,0.10); }
+.nav__link--kids {
+  color: var(--gold); border: 1px solid rgba(251,191,36,0.30);
+  border-radius: 6px; padding: 5px 11px;
+}
+.nav__link--kids:hover { color: #fff; background: rgba(251,191,36,0.15); border-color: rgba(251,191,36,0.60); }
 
 /* ── Hero ──────────────────────────────────────────────────────────────────── */
 .hero {
@@ -353,7 +358,11 @@ body {
   text-transform: uppercase; color: var(--violet); margin-bottom: 6px;
 }
 .il-part-header__title {
-  font-size: 1.4rem; font-weight: 800; color: var(--text-1); margin: 0 0 10px;
+  font-size: 1.4rem; font-weight: 800; color: var(--text-1); margin: 0 0 6px;
+}
+.il-part-header__subheading {
+  font-size: 0.78rem; font-weight: 800; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--violet); margin: 0 0 10px;
 }
 .il-part-header__sub {
   font-size: 0.88rem; color: var(--text-2); max-width: 640px; line-height: 1.7; margin: 0;
@@ -393,6 +402,14 @@ body {
   letter-spacing: 0.10em; text-transform: uppercase;
   border: 1px solid; border-radius: 4px; padding: 1px 8px;
 }
+.il-gate-card__schematic {
+  display: flex; align-items: center; justify-content: center;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.055);
+  border-radius: 6px;
+}
+.il-gate-card__schematic svg { max-width: 120px; height: auto; }
 .il-gate-card__meaning {
   font-size: 0.80rem; color: var(--text-1); font-style: italic; line-height: 1.5;
 }
@@ -432,6 +449,41 @@ body {
 
 @media (max-width: 1080px) { .il-gate-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px)  { .il-gate-grid { grid-template-columns: 1fr; } }
+
+/* ── Matrix Tab Switcher ───────────────────────────────────────────────────── */
+.il-tabs {
+  display: flex; gap: 10px; margin-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+.il-tab {
+  display: flex; flex-direction: column; align-items: flex-start;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  padding: 10px 20px 12px; cursor: pointer; transition: border-color 0.2s, background 0.2s;
+  border-radius: 6px 6px 0 0; gap: 2px;
+  position: relative; bottom: -1px;
+}
+.il-tab:hover { background: rgba(255,255,255,0.04); }
+.il-tab--active { border-bottom-color: var(--tc); background: color-mix(in srgb, var(--tc) 8%, transparent); }
+.il-tab__label {
+  font-size: 0.62rem; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--tc); opacity: 0.75;
+  transition: opacity 0.2s;
+}
+.il-tab--active .il-tab__label { opacity: 1; }
+.il-tab__title {
+  font-size: 0.88rem; font-weight: 700; color: var(--text-2);
+  transition: color 0.2s;
+}
+.il-tab--active .il-tab__title { color: var(--text-1); }
+.il-panel { animation: il-fadein 0.22s ease; }
+@keyframes il-fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 640px) {
+  .il-tabs { gap: 4px; }
+  .il-tab { padding: 8px 12px 10px; }
+  .il-tab__title { font-size: 0.78rem; }
+}
 
 /* ── Footer ────────────────────────────────────────────────────────────────── */
 .footer {

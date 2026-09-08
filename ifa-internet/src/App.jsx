@@ -805,8 +805,7 @@ function NetworkingSection({ networking }) {
           <div className="inet-split__intro">
             <p className="inet-split__lead">
               The IFA Internet is a <strong>natural and conscious Internet</strong> — rooted in the Living Energy of{' '}
-              <strong>Ogbe</strong>, the primal Force of existence. As the Internet of Internets, it encompasses all
-              artificial Internets: the classical Internet (the modern Internet), the quantum Internet, and others yet
+              <strong>Ogbe</strong>, the primal Force of existence. As the Internet of Internets, it provides a Blueprint for every artificial Internets: the classical Internet (the modern Internet), the quantum Internet, and others yet
               to emerge.
             </p>
           </div>

@@ -650,6 +650,11 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .oo-footer__inner a { color: rgba(240,146,12,0.7); }
 .oo-footer__inner a:hover { color: var(--amber); text-decoration: none; }
 .oo-footer__axiom { font-style: italic; }
+.oo-footer__worlds {
+  display: block; margin-top: 10px;
+  font-size: 0.68rem; color: rgba(110,144,184,0.38);
+  letter-spacing: 0.04em; line-height: 1.8;
+}
 
 /* ══════════════════════════════════════════════════════════════════════
    IFANUM MATRIX SECTION

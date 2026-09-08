@@ -1,0 +1,470 @@
+/* ─────────────────────────────────────────────────────────────
+   IfaLens Kids & Teens — styles.css
+   LensoE · Beginners Edition
+   CENProject · IFA Internet
+───────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:      #07091a;
+  --bg-alt:  #0a0d20;
+  --bg-card: #0e1226;
+  --bg-deep: #05070f;
+  --border:  rgba(255, 255, 255, 0.08);
+  --text-1:  #e8ecf2;
+  --text-2:  #8892aa;
+  --text-3:  #505869;
+  --violet:  #a855f7;
+  --teal:    #00d9b8;
+  --gold:    #f5c518;
+  --blue:    #4aa3ff;
+  --pink:    #e9498a;
+  --green:   #00c87c;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text-1);
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ──────────────────────────────────────────
+   HEADER
+────────────────────────────────────────── */
+.lk-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(7, 9, 26, 0.8);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s, backdrop-filter 0.3s;
+}
+.lk-header--scrolled {
+  border-bottom-color: var(--border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.lk-header__inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.lk-header__brand { display: flex; align-items: center; gap: 10px; }
+.lk-header__back {
+  font-size: 0.82rem; font-weight: 600; color: var(--text-2);
+  transition: color 0.2s;
+}
+.lk-header__back:hover { color: var(--text-1); }
+.lk-header__sep { color: var(--text-3); }
+.lk-header__title { font-size: 0.95rem; font-weight: 700; }
+.lk-header__ifa   { color: var(--green); }
+.lk-header__badge {
+  font-size: 0.58rem; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--violet);
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.32);
+  border-radius: 99px; padding: 2px 9px;
+}
+.lk-header__nav   { display: flex; align-items: center; gap: 16px; }
+.lk-header__link  { font-size: 0.82rem; color: var(--text-2); transition: color 0.2s; }
+.lk-header__link:hover { color: var(--violet); }
+.lk-header__cta {
+  font-size: 0.82rem; font-weight: 700; color: var(--violet);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 99px; padding: 5px 15px;
+  transition: background 0.2s;
+}
+.lk-header__cta:hover { background: rgba(168, 85, 247, 0.12); }
+
+/* ──────────────────────────────────────────
+   HERO
+────────────────────────────────────────── */
+.lk-hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 100px 24px 64px;
+  background:
+    radial-gradient(ellipse at 65% 38%, rgba(168, 85, 247, 0.14) 0%, transparent 58%),
+    radial-gradient(ellipse at 18% 80%, rgba(0, 217, 184, 0.09) 0%, transparent 50%),
+    var(--bg);
+  position: relative; overflow: hidden;
+}
+.lk-hero::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(168,85,247,0.055) 1px, transparent 1px);
+  background-size: 38px 38px;
+}
+.lk-hero__inner {
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  display: flex; align-items: center; gap: 56px;
+}
+.lk-hero__text { flex: 1; }
+.lk-hero__eyebrow {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--violet); margin-bottom: 16px;
+}
+.lk-hero__title {
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 900; line-height: 1.08;
+  letter-spacing: -0.025em; margin-bottom: 20px;
+}
+.lk-hero__sub {
+  font-size: 1.05rem; color: var(--text-2);
+  line-height: 1.72; max-width: 500px; margin-bottom: 26px;
+}
+.lk-hero__sub strong { color: var(--text-1); }
+.lk-hero__pills {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;
+}
+.lk-pill {
+  font-size: 0.75rem; font-weight: 700;
+  padding: 4px 13px; border-radius: 99px;
+  color: var(--pc); border: 1px solid color-mix(in srgb, var(--pc) 35%, transparent);
+  background: color-mix(in srgb, var(--pc) 10%, transparent);
+}
+.lk-hero__ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.lk-btn {
+  font-size: 0.9rem; font-weight: 700; padding: 12px 26px;
+  border-radius: 99px; transition: all 0.2s; display: inline-block; cursor: pointer;
+}
+.lk-btn--primary {
+  background: var(--violet); color: #fff;
+  box-shadow: 0 4px 28px rgba(168, 85, 247, 0.38);
+}
+.lk-btn--primary:hover { background: #9333ea; transform: translateY(-1px); }
+.lk-btn--ghost {
+  background: transparent; color: var(--text-1);
+  border: 1px solid var(--border);
+}
+.lk-btn--ghost:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+.lk-hero__visual {
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Lens SVG animations */
+.lk-lens-svg { display: block; }
+.lk-ring { transform-origin: 120px 120px; }
+.lk-ring--1 { animation: lk-spin 20s linear infinite; }
+.lk-ring--2 { animation: lk-spin 13s linear infinite reverse; }
+.lk-core-pulse { animation: lk-core-anim 3.2s ease-in-out infinite; }
+@keyframes lk-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes lk-core-anim {
+  0%, 100% { opacity: 0.72; r: 36; }
+  50%       { opacity: 1;    r: 39; }
+}
+
+/* ──────────────────────────────────────────
+   SHARED SECTION ATOMS
+────────────────────────────────────────── */
+.lk-section     { padding: 84px 24px; }
+.lk-section--alt    { background: var(--bg-alt); }
+.lk-section--energy { background: var(--bg); }
+.lk-container   { max-width: 1100px; margin: 0 auto; }
+.lk-eyebrow {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--violet); margin-bottom: 10px;
+}
+.lk-title {
+  font-size: clamp(1.7rem, 3.6vw, 2.5rem);
+  font-weight: 900; line-height: 1.14;
+  letter-spacing: -0.015em; margin-bottom: 12px;
+}
+.lk-subtitle {
+  font-size: 0.96rem; color: var(--text-2);
+  line-height: 1.72; max-width: 640px; margin-bottom: 44px;
+}
+
+/* Accent colours */
+.lk-ac { }
+.lk-ac--violet { color: var(--violet); }
+.lk-ac--teal   { color: var(--teal); }
+.lk-ac--gold   { color: var(--gold); }
+.lk-ac--blue   { color: var(--blue); }
+.lk-ac--pink   { color: var(--pink); }
+.lk-ac--green  { color: var(--green); }
+
+/* 3-column grid helper */
+.lk-grid3 {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+
+/* ──────────────────────────────────────────
+   INTRO CARDS
+────────────────────────────────────────── */
+.lk-intro-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px 24px;
+  border-top: 2px solid var(--cc);
+  transition: transform 0.22s;
+}
+.lk-intro-card:hover { transform: translateY(-4px); }
+.lk-intro-card__icon  { font-size: 2rem; margin-bottom: 14px; }
+.lk-intro-card__title {
+  font-size: 1rem; font-weight: 800; color: var(--cc);
+  margin-bottom: 8px;
+}
+.lk-intro-card__body  { font-size: 0.88rem; color: var(--text-2); line-height: 1.7; }
+
+/* ──────────────────────────────────────────
+   IFAVIEW — ENERGY SECTION
+────────────────────────────────────────── */
+.lk-energy-banner {
+  background: linear-gradient(135deg, rgba(168,85,247,0.1), rgba(0,217,184,0.07));
+  border: 1px solid rgba(168,85,247,0.22);
+  border-radius: 16px; padding: 28px 32px;
+  margin-bottom: 36px; text-align: center;
+}
+.lk-energy-formula {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; flex-wrap: wrap; margin-bottom: 12px;
+}
+.lk-ef__part {
+  font-size: 1.15rem; font-weight: 800; padding: 5px 14px;
+  border-radius: 8px;
+}
+.lk-ef__part--a { color: var(--blue);   background: rgba(74,163,255,0.12); }
+.lk-ef__part--b { color: var(--pink);   background: rgba(233,73,138,0.12); }
+.lk-ef__part--c { color: var(--gold);   background: rgba(245,197,24,0.12); }
+.lk-ef__op     { font-size: 1.3rem; color: var(--text-3); font-weight: 700; }
+.lk-ef__result {
+  font-size: 1.2rem; font-weight: 900;
+  color: var(--teal);
+  text-shadow: 0 0 18px rgba(0,217,184,0.4);
+}
+.lk-energy-caption {
+  font-size: 0.9rem; color: var(--text-2); font-style: italic;
+}
+.lk-energy-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px 20px; text-align: center;
+}
+.lk-energy-card__icon  { font-size: 1.8rem; margin-bottom: 8px; }
+.lk-energy-card__label {
+  font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--teal); margin-bottom: 8px;
+}
+.lk-energy-card__body  { font-size: 0.86rem; color: var(--text-2); line-height: 1.68; }
+
+/* ──────────────────────────────────────────
+   SUPER LENS CARDS (SIDECHRX)
+────────────────────────────────────────── */
+.lk-lenses-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+}
+.lk-lens-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-left: 3px solid var(--lc);
+  border-radius: 12px; padding: 16px 18px;
+  cursor: pointer; transition: background 0.2s;
+  outline: none;
+}
+.lk-lens-card:hover,
+.lk-lens-card--open { background: rgba(255,255,255,0.04); }
+.lk-lens-card--open { border-color: var(--lc); }
+.lk-lens-card__top  {
+  display: flex; align-items: center; gap: 14px;
+}
+.lk-lens-card__icon {
+  font-size: 1.55rem; width: 38px; text-align: center;
+  flex-shrink: 0; color: var(--lc);
+}
+.lk-lens-card__info { flex: 1; min-width: 0; }
+.lk-lens-card__id {
+  font-size: 0.58rem; font-weight: 800; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--lc); opacity: 0.8;
+}
+.lk-lens-card__name { font-size: 0.95rem; font-weight: 800; }
+.lk-lens-card__kid  { font-size: 0.76rem; color: var(--lc); font-weight: 600; }
+.lk-lens-card__arrow{ font-size: 0.6rem; color: var(--text-3); flex-shrink: 0; }
+.lk-lens-card__body {
+  margin-top: 14px; padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.lk-lens-card__desc {
+  font-size: 0.88rem; color: var(--text-2);
+  line-height: 1.72; margin-bottom: 12px;
+}
+.lk-lens-card__fact {
+  background: rgba(255,255,255,0.04);
+  border-radius: 8px; padding: 10px 14px;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.lk-lens-card__fact-lbl {
+  font-size: 0.7rem; font-weight: 800;
+  color: var(--gold); white-space: nowrap; flex-shrink: 0;
+}
+.lk-lens-card__fact-txt {
+  font-size: 0.82rem; color: var(--text-2); line-height: 1.55;
+}
+
+/* ──────────────────────────────────────────
+   KNOWLEDGE WORLD CARDS (STEAMSEX)
+────────────────────────────────────────── */
+.lk-worlds-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+}
+.lk-world-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-top: 2px solid var(--wc);
+  border-radius: 14px; padding: 20px 14px;
+  cursor: pointer; text-align: center;
+  transition: background 0.2s, transform 0.2s;
+  outline: none;
+}
+.lk-world-card:hover { background: rgba(255,255,255,0.05); transform: translateY(-3px); }
+.lk-world-card--open { background: rgba(255,255,255,0.05); transform: none; }
+.lk-world-card__icon {
+  font-size: 1.8rem; margin-bottom: 8px;
+  color: var(--wc);
+}
+.lk-world-card__name {
+  font-size: 0.84rem; font-weight: 800; margin-bottom: 4px;
+}
+.lk-world-card__kid  {
+  font-size: 0.7rem; color: var(--wc); font-weight: 600;
+}
+.lk-world-card__expand {
+  margin-top: 12px; text-align: left;
+  border-top: 1px solid var(--border); padding-top: 12px;
+}
+.lk-world-card__desc {
+  font-size: 0.78rem; color: var(--text-2);
+  line-height: 1.65; margin-bottom: 10px;
+}
+.lk-world-card__tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.lk-world-tag {
+  font-size: 0.62rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 99px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+}
+
+/* ──────────────────────────────────────────
+   SCOPE CARDS (Ifascopes)
+────────────────────────────────────────── */
+.lk-scopes-row {
+  display: flex; gap: 16px;
+  overflow-x: auto; padding-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+.lk-scope-card {
+  flex: 0 0 200px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-top: 2px solid var(--sc);
+  border-radius: 14px; padding: 24px 18px; text-align: center;
+  transition: transform 0.22s;
+}
+.lk-scope-card:hover { transform: translateY(-5px); }
+.lk-scope-card__icon { font-size: 2.2rem; margin-bottom: 10px; }
+.lk-scope-card__name {
+  font-size: 0.82rem; font-weight: 800;
+  color: var(--sc); margin-bottom: 8px;
+}
+.lk-scope-card__desc {
+  font-size: 0.78rem; color: var(--text-2); line-height: 1.65;
+}
+
+/* ──────────────────────────────────────────
+   SKILL CARDS
+────────────────────────────────────────── */
+.lk-skills-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.lk-skill-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-left: 3px solid var(--skc);
+  border-radius: 14px; padding: 22px 20px;
+  transition: transform 0.22s;
+}
+.lk-skill-card:hover { transform: translateY(-3px); }
+.lk-skill-card__icon { font-size: 1.5rem; margin-bottom: 9px; }
+.lk-skill-card__name {
+  font-size: 0.92rem; font-weight: 800;
+  color: var(--skc); margin-bottom: 6px;
+}
+.lk-skill-card__desc {
+  font-size: 0.84rem; color: var(--text-2); line-height: 1.68;
+}
+
+/* ──────────────────────────────────────────
+   CTA SECTION
+────────────────────────────────────────── */
+.lk-cta-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+}
+.lk-cta-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 26px 20px; text-align: center;
+  transition: transform 0.22s, border-color 0.22s;
+  display: block;
+}
+.lk-cta-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--ctac);
+}
+.lk-cta-card__icon  { font-size: 2.2rem; margin-bottom: 10px; }
+.lk-cta-card__label {
+  font-size: 0.9rem; font-weight: 800;
+  color: var(--ctac); margin-bottom: 4px;
+}
+.lk-cta-card__sub   { font-size: 0.72rem; color: var(--text-3); }
+
+/* ──────────────────────────────────────────
+   FOOTER
+────────────────────────────────────────── */
+.lk-footer {
+  background: var(--bg-deep);
+  border-top: 1px solid var(--border);
+  padding: 30px 24px;
+}
+.lk-footer__inner {
+  max-width: 1100px; margin: 0 auto; text-align: center;
+}
+.lk-footer__brand {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 6px; font-size: 0.85rem; color: var(--text-3);
+  margin-bottom: 8px;
+}
+.lk-footer__link { color: var(--text-2); transition: color 0.2s; }
+.lk-footer__link:hover { color: var(--text-1); }
+.lk-footer__note { font-size: 0.73rem; color: var(--text-3); line-height: 1.6; }
+
+/* ──────────────────────────────────────────
+   RESPONSIVE
+────────────────────────────────────────── */
+@media (max-width: 960px) {
+  .lk-hero__inner { flex-direction: column; text-align: center; gap: 40px; }
+  .lk-hero__sub   { max-width: 100%; }
+  .lk-hero__pills { justify-content: center; }
+  .lk-hero__ctas  { justify-content: center; }
+  .lk-worlds-grid { grid-template-columns: repeat(2, 1fr); }
+  .lk-cta-grid    { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 720px) {
+  .lk-lenses-grid { grid-template-columns: 1fr; }
+  .lk-grid3       { grid-template-columns: 1fr; }
+  .lk-skills-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 500px) {
+  .lk-hero  { padding: 90px 16px 52px; }
+  .lk-section { padding: 56px 16px; }
+  .lk-worlds-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .lk-skills-grid { grid-template-columns: 1fr; }
+  .lk-cta-grid    { grid-template-columns: repeat(2, 1fr); }
+  .lk-header__nav .lk-header__link { display: none; }
+}
+@media (max-width: 380px) {
+  .lk-cta-grid    { grid-template-columns: 1fr; }
+  .lk-worlds-grid { grid-template-columns: 1fr; }
+}

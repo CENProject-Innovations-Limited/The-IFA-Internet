@@ -30,6 +30,38 @@ const APP_ICON = {
   'ifa-physics':        'PH',
 };
 
+// ── Intro Overlay ─────────────────────────────────────────────
+function IntroOverlay({ onClose }) {
+  return (
+    <div className="intro-overlay" role="dialog" aria-modal="true" aria-label="Audio Intro">
+      <div className="intro-overlay__inner">
+        <div className="intro-overlay__badge">The IFA Internet · Audio Intro</div>
+        <h2 className="intro-overlay__title">Orunmila</h2>
+        <p className="intro-overlay__artist">Ifagbenusola Owomide Popoola</p>
+        <div className="intro-overlay__player">
+          <iframe
+            style={{ borderRadius: '12px' }}
+            src="https://open.spotify.com/embed/track/6bwuE7eBzjjOz6Sy9bhKPU?utm_source=generator&theme=0"
+            width="100%"
+            height="152"
+            frameBorder="0"
+            allowFullScreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            title="Orunmila — Ifagbenusola Owomide Popoola on Spotify"
+          />
+        </div>
+        <button className="intro-overlay__enter" onClick={onClose}>
+          Enter The IFA Internet →
+        </button>
+        <button className="intro-overlay__skip" onClick={onClose}>
+          Skip intro
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ── Header ────────────────────────────────────────────────────
 function Header() {
   return (
@@ -623,8 +655,7 @@ function NetworkingSection({ networking }) {
           <div className="inet-split__intro">
             <p className="inet-split__lead">
               The IFA Internet is a <strong>natural and conscious Internet</strong> — rooted in the Living Energy of{' '}
-              <strong>Ogbe</strong>, the primal Force of existence. As the Internet of Internets, it encompasses all
-              artificial Internets: the classical Internet (the modern Internet), the quantum Internet, and others yet
+              <strong>Ogbe</strong>, the primal Force of existence. As the Internet of Internets, it provides a Blueprint for every artificial Internets: the classical Internet (the modern Internet), the quantum Internet, and others yet
               to emerge.
             </p>
           </div>
@@ -772,8 +803,16 @@ function Footer({ footer }) {
 
 // ── App (root) ────────────────────────────────────────────────
 function App() {
+  const [showIntro, setShowIntro] = useState(() => {
+    try { return !sessionStorage.getItem('ifa-intro-seen'); } catch { return true; }
+  });
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+
+  function closeIntro() {
+    try { sessionStorage.setItem('ifa-intro-seen', '1'); } catch {}
+    setShowIntro(false);
+  }
 
   useEffect(() => {
     fetch('../data/platforms.json')
@@ -785,9 +824,13 @@ function App() {
       .catch(e => setError(e.message));
   }, []);
 
+  const intro = showIntro ? <IntroOverlay onClose={closeIntro} /> : null;
+
   if (error) {
     return (
-      <div style={{
+      <>
+        {intro}
+        <div style={{
           minHeight: '100vh', display: 'flex', alignItems: 'center',
           justifyContent: 'center', flexDirection: 'column', gap: 16,
           color: 'var(--text-2)', fontFamily: 'monospace',
@@ -798,6 +841,7 @@ function App() {
             Make sure the app is served over HTTP (not file://)
           </p>
         </div>
+      </>
     );
   }
 
@@ -807,6 +851,7 @@ function App() {
     const ogbeColH = 4 * 44 + 3 * 10;
 
     return (
+      <>
       <div style={{
         position: 'fixed', inset: 0,
         background: '#060e1c',
@@ -935,11 +980,14 @@ function App() {
         </div>
 
       </div>
+      {intro}
+    </>
     );
   }
 
   return (
     <>
+      {intro}
       <Header />
       <MobileBar />
       <main>

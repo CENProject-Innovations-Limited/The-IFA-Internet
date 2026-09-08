@@ -28,6 +28,7 @@ const APP_ICON = {
   'ifa-analysis':       'IA',
   'ifa-mechanics':      'M',
   'ifa-physics':        'PH',
+  'ifalens':            '◎',
 };
 
 // ── Intro Overlay ─────────────────────────────────────────────
@@ -77,7 +78,7 @@ function Header() {
           <a className="nav-link" href="#mission">Mission</a>
           <a className="nav-link" href="#platforms">Platforms</a>
           <a className="nav-link" href="#networking">Networking</a>
-          <a className="nav-link" href="https://cenproject.org/" className="nav-link">CENProject</a>
+          <a className="nav-link" href="https://cenproject.org/">CENProject</a>
           <a className="nav-link nav-link--cta" href="https://toe.cenproject.org" target="_blank" rel="noopener noreferrer">Explore</a>
         </nav>
       </div>
@@ -655,8 +656,7 @@ function NetworkingSection({ networking }) {
           <div className="inet-split__intro">
             <p className="inet-split__lead">
               The IFA Internet is a <strong>natural and conscious Internet</strong> — rooted in the Living Energy of{' '}
-              <strong>Ogbe</strong>, the primal Force of existence. As the Internet of Internets, it encompasses all
-              artificial Internets: the classical Internet (the modern Internet), the quantum Internet, and others yet
+              <strong>Ogbe</strong>, the primal Force of existence. As the Internet of Internets, it provides a Blueprint for every artificial Internets: the classical Internet (the modern Internet), the quantum Internet, and others yet
               to emerge.
             </p>
           </div>

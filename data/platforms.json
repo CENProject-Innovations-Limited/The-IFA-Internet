@@ -280,11 +280,12 @@
     {
       "id": "ifa-logic",
       "name": "IFA Logic",
-      "subtitle": "Logic of Everything",
-      "description": "The logical foundations of the Theory of Everything derived from IFA principles.",
+      "subtitle": "TOE Logic · Logic of Everything",
+      "description": "IfaLogic — the Ifa-based Logic System that unifies binary, ternary, and meta-logic through the 256 Odu Ifa. Features IfaBrackets, Ifa Truth Table, Amulu Matrix, Ifa Binary Logic, Ifa Ternary Logic (Ifanary), and the CEN Logic framework.",
       "category": "math",
       "url": "/ifa-logic/",
-      "featured": false
+      "featured": false,
+      "local": true
     },
     {
       "id": "ifalgorithm",
@@ -536,11 +537,13 @@
     {
       "id": "ifalens",
       "name": "IfaLens",
-      "subtitle": "Lens of Everything",
-      "description": "Examine any phenomenon through the IFA framework lens.",
+      "subtitle": "LensoE — The Lens of Everything",
+      "description": "The polymathic viewing platform of the IFA Internet. Examine any discipline — science, arts, mathematics, technology — through the IFA framework lens using IfaView, Ifascopes, Frame-Ref, CEN Energy, and IFA Transformation Theory.",
       "category": "tools",
-      "url": "/ifalens/",
-      "featured": false
+      "alsoIn": ["education", "tech", "science"],
+      "url": "/ifa-lens/",
+      "featured": true,
+      "local": true
     },
     {
       "id": "ifa-spectrum",

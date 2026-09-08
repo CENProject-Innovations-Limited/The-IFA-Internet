@@ -1643,6 +1643,100 @@ button { font: inherit; cursor: pointer; border: none; background: none; }
   .ifa-four__formalism { padding: 28px 16px 40px; }
 }
 
+/* ─── IfaMirror Invariance block ──────────────────────────── */
+.ifamirror__block {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 48px 0 8px;
+  border-top: 1px solid var(--border);
+}
+.ifamirror__header {
+  display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;
+}
+.ifamirror__icon {
+  font-size: 1.7rem; color: var(--amber, #f5c518); flex-shrink: 0; margin-top: 2px;
+}
+.ifamirror__title {
+  font-size: 1.05rem; font-weight: 800; color: var(--text-1); margin-bottom: 4px;
+}
+.ifamirror__subtitle {
+  font-size: 0.75rem; color: var(--text-2); letter-spacing: 0.04em;
+}
+.ifamirror__desc {
+  font-size: 0.875rem; color: var(--text-2); line-height: 1.8;
+  margin-bottom: 36px; max-width: 820px;
+}
+
+/* Rotational panel */
+.ifamirror__rot-panel {
+  background: rgba(245,197,24,0.04);
+  border: 1px solid rgba(245,197,24,0.15);
+  border-radius: 14px;
+  padding: 28px 28px 24px;
+  margin-bottom: 36px;
+}
+.ifamirror__rot-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.13em;
+  text-transform: uppercase; color: #f5c518; margin-bottom: 12px;
+}
+.ifamirror__rot-desc {
+  font-size: 0.83rem; color: var(--text-2); line-height: 1.75;
+  margin-bottom: 22px; max-width: 760px;
+}
+.ifamirror__rot-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+}
+.ifamirror__rot-badge {
+  border-left: 3px solid var(--rot-accent, #f5c518);
+  background: rgba(255,255,255,0.03);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.ifamirror__rot-num  { font-size: 0.65rem; color: var(--rot-accent,#f5c518); font-weight: 700; }
+.ifamirror__rot-name { font-size: 0.82rem; font-weight: 700; color: var(--text-1); }
+.ifamirror__rot-role { font-size: 0.7rem;  color: var(--text-2); }
+.ifamirror__rot-inv  { font-size: 0.67rem; color: var(--rot-accent,#f5c518); font-style: italic; margin-top: 4px; }
+
+/* Full 16 grid */
+.ifamirror__grid-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.13em;
+  text-transform: uppercase; color: var(--text-3);
+  margin-bottom: 14px;
+}
+.ifamirror__grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  margin-bottom: 48px;
+}
+.ifamirror__cell {
+  border: 1px solid rgba(255,255,255,0.07);
+  border-top: 2px solid var(--mc-accent, #f5c518);
+  border-radius: 8px;
+  padding: 12px 12px 10px;
+  background: var(--surface, #0b0f1a);
+  display: flex; flex-direction: column; gap: 3px;
+  transition: border-color .2s, transform .2s;
+}
+.ifamirror__cell:hover { border-color: var(--mc-accent,#f5c518); transform: translateY(-2px); }
+.ifamirror__cell-num  { font-size: 0.62rem; color: var(--mc-accent,#f5c518); font-weight: 700; }
+.ifamirror__cell-name { font-size: 0.8rem;  font-weight: 700; color: var(--text-1); }
+.ifamirror__cell-tag  { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; border-radius: 4px; padding: 2px 6px;
+  display: inline-block; width: fit-content; margin: 2px 0; }
+.ifamirror__cell-tag--rot { background: rgba(245,197,24,0.12); color: #f5c518; }
+.ifamirror__cell-tag--mir { background: rgba(139,92,246,0.12); color: #a78bfa; }
+.ifamirror__cell-inv  { font-size: 0.67rem; color: var(--text-2); line-height: 1.4; }
+
+@media (max-width: 768px) {
+  .ifamirror__rot-grid { grid-template-columns: 1fr 1fr; }
+  .ifamirror__grid     { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .ifamirror__rot-grid { grid-template-columns: 1fr; }
+  .ifamirror__grid     { grid-template-columns: 1fr 1fr; }
+  .ifamirror__block    { padding: 32px 0 8px; }
+}
+
 .portal-math {
   padding: 52px 0;
   background: var(--bg-3);

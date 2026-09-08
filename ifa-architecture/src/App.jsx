@@ -436,6 +436,30 @@ const EASTERN_ARCH = [
   },
 ];
 
+// ── Banking Quarters ──────────────────────────────────────────
+const BANKING_QUARTERS = [
+  {
+    q: 'Q1', yoruba: 'Ìlàrindún Àkọ́kọ́', odu: 'Ejiogbe', num: '01',
+    accent: '#f5c518',
+    desc: 'The First Quarter — governed by Ejiogbe, Blueprint of Energy and primal creative force. The opening Ìlàrindún of the Kọ́jọ́dá fiscal cycle: the season of generative investment, new financial foundations, and the full light of productive beginnings in the Isese Economy.',
+  },
+  {
+    q: 'Q2', yoruba: 'Ìlàrindún Ìkejì', odu: 'Oyeku Meji', num: '02',
+    accent: '#a0a8c0',
+    desc: 'The Second Quarter — governed by Oyeku Meji, Blueprint of Anergy and the receptive void. The period of consolidation, deep reserves, and the productive tension of holding — the financial intelligence of knowing when to contain rather than to spend.',
+  },
+  {
+    q: 'Q3', yoruba: 'Ìlàrindún Ìkẹ́ta', odu: 'Iwori Meji', num: '03',
+    accent: '#4361ee',
+    desc: 'The Third Quarter — governed by Iwori Meji, Blueprint of Inner Vision. The mid-cycle period of introspection, financial audit, and knowledge-driven review — the deep intelligence of the Isese Economy that turns inward to assess and realign.',
+  },
+  {
+    q: 'Q4', yoruba: 'Ìlàrindún Ìkẹ́rin', odu: 'Odi Meji', num: '04',
+    accent: '#2d9e6b',
+    desc: 'The Fourth Quarter — governed by Odi Meji, Blueprint of the Womb. The completion-and-generation period: closing one Kọ́jọ́dá cycle, containing and protecting accumulated wealth, and seeding the generative potential of the next Kọ́jọ́dá Year.',
+  },
+];
+
 // ── Smart Home Features ───────────────────────────────────────
 const SMART_HOME_FEATURES = [
   {
@@ -597,6 +621,7 @@ function Header() {
           <a className="nav-link" href="#western">Western</a>
           <a className="nav-link" href="#eastern">Eastern</a>
           <a className="nav-link" href="#smart-homes">Smart Ifa Homes</a>
+          <a className="nav-link" href="#ifa-banking">IfaBanks</a>
           <a className="nav-link" href="#modelling">Modelling</a>
           <a className="nav-link nav-link--cta" href="https://toe.cenproject.org" target="_blank" rel="noopener noreferrer">Explore iTOE</a>
         </nav>
@@ -905,6 +930,262 @@ function ModellingSection() {
   );
 }
 
+// ── Ifa Banking Section ────────────────────────────────────────
+function IfaBankingSection() {
+  return (
+    <section id="ifa-banking" className="section section--alt">
+      <div className="container">
+
+        {/* Header */}
+        <div className="section__header">
+          <span className="section__eyebrow" style={{ color: '#f5c518' }}>
+            Ifarch · Orisarch · Isese Economy
+          </span>
+          <h2 className="section__title">
+            Energy-Based Banking:{' '}
+            <span style={{ color: '#f5c518' }}>IfaBanks</span>{' '}
+            and{' '}
+            <span style={{ color: '#4361ee' }}>OrisaBanks</span>
+          </h2>
+          <p className="section__desc">
+            IfaBanks and OrisaBanks are Energy-Based financial institutions constructed using
+            the <strong style={{ color: '#f5c518' }}>Ifa Periodic Table</strong> as a Machine — in what
+            are called <strong>IfaConstructions</strong> (for IfaBanks) and{' '}
+            <strong>OrisaConstructions</strong> (for OrisaBanks). The 256 Odu Ifa provide
+            the Axiomatic Blueprint for every structural, operational, and temporal dimension
+            of Isese Economy banking.
+          </p>
+        </div>
+
+        {/* IfaBanks | OrisaBanks dual panel */}
+        <div className="smarthomes__tech-grid" style={{ marginBottom: '48px' }}>
+          <div className="smarthomes__tech-card smarthomes__tech-card--ifa">
+            <div className="smarthomes__tc-bar" style={{ background: '#f5c518' }} />
+            <div className="smarthomes__tc-inner">
+              <div className="smarthomes__tc-symbol" style={{ color: '#f5c518' }}>⊞</div>
+              <div className="smarthomes__tc-name">IfaBanks</div>
+              <div className="smarthomes__tc-sub" style={{ color: '#f5c518' }}>
+                IfaConstructions · Ifa Banking · Banking for Everything
+              </div>
+              <p className="smarthomes__tc-desc">
+                IfaBanks are Energy-Based banks designed and constructed through
+                <strong> IfaConstructions</strong> — using the 256 Odu Ifa encoded in the
+                Ifa Periodic Table as the architectural machine. Every policy, product, and
+                period of an IfaBank is grounded in Ogbenergy (Ogbe Energy — the CEN Unified Field)
+                and the Axiomatic Science of the IFABOK.
+              </p>
+              <ul className="smarthomes__tc-list smarthomes__tc-list--ifa">
+                <li>Constructed via IfaConstructions using the Ifa Periodic Table as Machine</li>
+                <li>256 Odu Ifa as the operational and structural blueprint</li>
+                <li>Kọ́jọ́dá Q (Ìlàrindún) fiscal cycle for all banking periods</li>
+                <li>Grounded in CEN field and Isese Economy principles</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="smarthomes__tech-card smarthomes__tech-card--orisa">
+            <div className="smarthomes__tc-bar" style={{ background: '#4361ee' }} />
+            <div className="smarthomes__tc-inner">
+              <div className="smarthomes__tc-symbol" style={{ color: '#4361ee' }}>⬡</div>
+              <div className="smarthomes__tc-name">OrisaBanks</div>
+              <div className="smarthomes__tc-sub" style={{ color: '#4361ee' }}>
+                OrisaConstructions · Orisa Banking · Dual of IfaBanks
+              </div>
+              <p className="smarthomes__tc-desc">
+                OrisaBanks are the Anergy-side dual of IfaBanks — built through
+                <strong> OrisaConstructions</strong>. Each Orisa governs a distinct dimension of
+                financial intelligence: Àjé holds the primordial force of wealth itself; Ọrúnmìlà holds the knowledge blueprint; Ọ̀ṣun governs
+                wealth flow; Ògún provides iron infrastructure; Ṣàngó commands transactional
+                power; Yemọja sustains communal finance, among others. Together they form the living Orisa
+                Financial System of the Isese Economy.
+              </p>
+              <ul className="smarthomes__tc-list smarthomes__tc-list--orisa">
+                <li>Constructed via OrisaConstructions using the Ifa Periodic Table as Machine</li>
+                <li>Orisa principles mapped to every banking function and financial zone</li>
+                <li>Kọ́jọ́dá Q (Ìlàrindún) fiscal cycle for all Orisa banking periods</li>
+                <li>The Anergy-side dual of IfaBank architecture and operations</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Ìlàrindún key tool */}
+        <div className="banking__ilarindun">
+          <div className="banking__ilarindun-header">
+            <div className="banking__ilarindun-eyebrow">
+              Key Tool of Ifa Banking &amp; Orisa Banking Systems
+            </div>
+            <h3 className="banking__ilarindun-title">
+              Ìlàrindún{' '}
+              <span className="banking__ilarindun-alt">(Ìlàrin Ọdún)</span>
+            </h3>
+            <div className="banking__ilarindun-sub">
+              Kọ́jọ́dá Year-Quarter (Kọ́jọ́dá&nbsp;Q) &nbsp;·&nbsp;
+              Ifa Equivalent of the Western Fiscal Year (FY)
+            </div>
+            <p className="banking__ilarindun-desc">
+              <strong>Ìlàrindún</strong> — also written <em>Ìlàrin Ọdún</em> — is the
+              <strong> Kọ́jọ́dá Year-Quarter (Kọ́jọ́dá&nbsp;Q)</strong>: the primary
+              temporal-financial instrument of the Ifa and Orisa Banking Systems, and the
+              direct Isese equivalent of the Western <strong>Fiscal Year (FY)</strong> quarter.
+              Ìlàrindún divides the Kọ́jọ́dá Year (the Yoruba native calendar year) into
+              <strong> four sacred periods</strong> — the <em>Crucial Four Ifa Periods</em> of
+              the Isese Economy. Each Ìlàrindún is governed by different Odu Ifa, especially the{' '}
+              <strong>Ojú Odùfá Mẹ́rin (IfaFour)</strong> — the Four Invariant Ifa Laws of
+              Nature: the four Principal Odu that encode some of the foundational Forces governing all
+              existence, as covered in the Ifa Periodic Table.
+            </p>
+          </div>
+
+          {/* Ojú Odùfá Mẹ́rin panel */}
+          <div className="banking__ojuodufameerin">
+            <div className="banking__oodu-label">
+              Ojú Odùfá Mẹ́rin &nbsp;·&nbsp; IfaFour — The Four Invariant Ifa Laws of Nature
+            </div>
+            <div className="banking__oodu-grid">
+              {[
+                { name: 'Ejiogbe',    accent: '#f5c518', role: 'Blueprint of Energy'       },
+                { name: 'Oyeku Meji', accent: '#a0a8c0', role: 'Blueprint of Anergy'       },
+                { name: 'Iwori Meji', accent: '#4361ee', role: 'Blueprint of Inner Vision' },
+                { name: 'Odi Meji',   accent: '#2d9e6b', role: 'Blueprint of the Womb'     },
+              ].map((o, i) => (
+                <div key={i} className="banking__oodu-badge"
+                     style={{ '--ob-accent': o.accent }}>
+                  <span className="banking__oodu-num">0{i + 1}</span>
+                  <span className="banking__oodu-name">{o.name}</span>
+                  <span className="banking__oodu-role">{o.role}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Four Kọ́jọ́dá Quarter cards */}
+          <div className="banking__quarters">
+            {BANKING_QUARTERS.map((q, i) => (
+              <div key={i} className="banking__qcard"
+                   style={{ '--qc-accent': q.accent }}>
+                <div className="banking__qcard-bar" />
+                <div className="banking__qcard-head">
+                  <span className="banking__qcard-q">Kọ́jọ́dá {q.q}</span>
+                  <span className="banking__qcard-num">{q.num}</span>
+                </div>
+                <div className="banking__qcard-yoruba">{q.yoruba}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Ọ̀rúndún — key financial tool */}
+        <div className="banking__ilarundon">
+          <div className="banking__ilarundon-eyebrow">
+            Another Key Tool of Isese Economy · Ifa/Orisa Economy · IfaOrisa Econs
+          </div>
+          <h3 className="banking__ilarundon-title">
+            Ọ̀rúndún{' '}
+            <span className="banking__ilarundon-alt">(Ọrún Ọdún)</span>
+            {': '}
+            <span className="banking__ilarundon-alt2">Ìlàrúndún</span>
+          </h3>
+          <div className="banking__ilarundon-sub">
+            The Opening of a New Kọ́jọ́dá Q
+          </div>
+          <p className="banking__ilarundon-desc">
+            <strong>Ọ̀rúndún</strong> — also rendered <em>Ọrún Ọdún</em> (the Beginning of a New Kojoda Q)
+            — is a foundational temporal-financial instrument of the Isese Economy. It marks
+            the celestial cycle unit that underpins the rhythm of Ifa and Orisa economic life.
+            <strong> Ìlàrúndún</strong> is its inaugural moment: the sacred opening of a new{' '}
+            <strong>Kọ́jọ́dá Q (Ìlàrindún)</strong> — analogous to the start of a new fiscal
+            quarter in Western banking.
+          </p>
+
+          {/* Building blocks */}
+          <div className="banking__rundon-label">
+            Building Blocks of Ọ̀rúndún
+          </div>
+          <div className="banking__rundon-grid">
+
+            <div className="banking__rundon-card banking__rundon-card--oja">
+              <div className="banking__rundon-bar" style={{ background: '#e9498a' }} />
+              <div className="banking__rundon-inner">
+                <div className="banking__rundon-symbol" style={{ color: '#e9498a' }}>⊕</div>
+                <div className="banking__rundon-name">Ọjà ọjọ́ márùn-márùn</div>
+                <div className="banking__rundon-tag">5-Day Market Cycle · Traditional Yoruba Society</div>
+                <p className="banking__rundon-body">
+                  The <strong>Ọjà ọjọ́ márùn-márùn</strong> — the five-day market cycle — is the
+                  heartbeat of traditional Yoruba economic life. Every five days, communities
+                  converge at the Ọjà (market) for trade, exchange, and social covenant. This
+                  cycle is not merely commercial; it is a sacred temporal unit aligning human
+                  economic activity with the rhythms of Orisa and the land. It is the ancestral
+                  precursor to the modern market week and the living root of Isese Economy's
+                  5-day financial period.
+                </p>
+              </div>
+            </div>
+
+            <div className="banking__rundon-card banking__rundon-card--ororun">
+              <div className="banking__rundon-bar" style={{ background: '#f5c518' }} />
+              <div className="banking__rundon-inner">
+                <div className="banking__rundon-symbol" style={{ color: '#f5c518' }}>⊙</div>
+                <div className="banking__rundon-name">Ọrọọ́rún</div>
+                <div className="banking__rundon-tag">5-Day Period · Kọ́jọ́dá Calendar</div>
+                <p className="banking__rundon-body">
+                  <strong>Ọrọọ́rún</strong> is the formal 5-Day Period unit of the{' '}
+                  <strong>Kọ́jọ́dá Calendar</strong> — the Ifa native calendar system. Where the
+                  Western calendar uses weeks of 7 days, Isese Economy uses Ọrọọ́rún: 5-day
+                  spans that divide the Kọ́jọ́dá Year into precise, Odu-governed intervals.
+                  Multiple Ọrọọ́rún compose each Kọ́jọ́dá Q (Ìlàrindún), giving IfaBanks and
+                  OrisaBanks their sub-quarterly financial cadence and making Ọrọọ́rún the
+                  Isese equivalent of the fiscal week.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <p className="banking__ilarundon-synthesis">
+            Just as the Western fiscal calendar is structured from weeks into quarters,
+            Isese Economy builds upward from the <strong>Ọjà ọjọ́ márùn-márùn</strong> →
+            <strong> Ọrọọ́rún</strong> (5-day period) →
+            <strong> Ọ̀rúndún / Ìlàrúndún</strong> →
+            <strong> Kọ́jọ́dá Q (Ìlàrindún)</strong> →
+            <strong> Kọ́jọ́dá Year</strong>: a living financial calendar rooted in the
+            sacred time-structure of Ifa and Orisa.
+          </p>
+        </div>
+
+        {/* Periodic Table CTA */}
+        <div className="banking__pt-cta">
+          <div className="banking__pt-cta-inner">
+            <div className="banking__pt-cta-icon">⊛</div>
+            <div className="banking__pt-cta-text">
+              <div className="banking__pt-cta-title">Ifa Periodic Table</div>
+              <div className="banking__pt-cta-sub">
+                Explore the 256 Odu Ifa — the Machine used to construct IfaBanks,
+                OrisaBanks, and every architecture of the Isese Economy.
+              </div>
+            </div>
+            <a href="https://ifainternet.org/ifa-periodic-table/"
+               className="btn btn--primary"
+               target="_blank"
+               rel="noopener noreferrer">
+              Explore Ifa Periodic Table →
+            </a>
+          </div>
+        </div>
+
+        <blockquote className="arch-axiom" style={{ borderLeftColor: '#f5c518', marginTop: 0 }}>
+          "IfaBanks and OrisaBanks are not financial institutions built on paper — they are
+          architectural realities constructed from the 256 Odu Ifa, governed by the
+          Kọ́jọ́dá Year-Quarter (Ìlàrindún), and grounded in the Invariant Laws of the
+          Isese Economy."
+          <cite>— Ifarch · Orisarch · The IFA Internet</cite>
+        </blockquote>
+
+      </div>
+    </section>
+  );
+}
+
 // ── Smart Homes Section ────────────────────────────────────────
 function SmartHomesSection() {
   return (
@@ -1077,6 +1358,7 @@ function Footer() {
             <a href="#western" className="footer__link">Western Architecture</a>
             <a href="#eastern" className="footer__link">Eastern Architecture</a>
             <a href="#smart-homes" className="footer__link">Smart Homes</a>
+            <a href="#ifa-banking" className="footer__link">IfaBanks &amp; OrisaBanks</a>
             <a href="#modelling" className="footer__link">Ifa Modelling</a>
             <a href="https://toe.cenproject.org/ifa-periodic-table/" className="footer__link" target="_blank" rel="noopener noreferrer">Ifa Periodic Table</a>
           </nav>
@@ -1104,6 +1386,7 @@ function App() {
         <WesternArchSection />
         <EasternArchSection />
         <SmartHomesSection />
+        <IfaBankingSection />
         <ModellingSection />
       </main>
       <Footer />
