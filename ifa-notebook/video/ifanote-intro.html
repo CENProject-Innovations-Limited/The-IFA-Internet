@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1280" />
+<script>
+/* Mobile viewport scaling — run synchronously before any paint */
+(function(){
+  function applyScale(){
+    var w = window.innerWidth || screen.width;
+    if(w < 1280){
+      var s = +(w / 1280).toFixed(5);
+      document.querySelector('meta[name=viewport]').content =
+        'width=1280,initial-scale='+s+',minimum-scale=0.1,maximum-scale=3.0,user-scalable=yes';
+      /* --mob-factor lets CSS calc() compensate for the viewport scale-down.
+         Any value multiplied by --mob-factor will appear at its intended physical pixel size. */
+      var factor = +(1280 / w).toFixed(4);
+      document.documentElement.style.setProperty('--mob-factor', factor);
+    }
+  }
+  applyScale();
+  /* Re-apply on orientation change */
+  window.addEventListener('orientationchange', function(){ setTimeout(applyScale, 350); });
+})();
+</script>
+<title>IfaNote — The Notebook for Everything | Video Presentation</title>
+<style>
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#020509;color:#f0ecff;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;overflow:hidden;
+  -webkit-font-smoothing:antialiased}
+
+/* ── Design tokens ── */
+:root{
+  --gold:#f5c518;--gold-lt:#ffe066;--gold-dk:#c09000;
+  --amber:#f0920c;--violet:#7c3aed;--violet-lt:#a78bfa;
+  --electric:#3b9eff;--electric-lt:#7dc3ff;
+  --jade:#00c87c;--jade-lt:#38e8a0;
+  --rose:#e8488a;--rose-lt:#f472b6;
+  --text-1:#f0ecff;--text-2:#8070b8;--text-3:#3a2860;
+  --bg:#020509;--bg-2:#0d0720;--bg-3:#10092a;
+}
+
+/* ── Video stage ── */
+#stage{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.scene{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  opacity:0;transition:opacity 0.7s ease;
+  pointer-events:none;overflow:hidden;
+}
+.scene--active{opacity:1;pointer-events:auto}
+
+/* ── HUD ── */
+#hud{position:fixed;bottom:0;left:0;right:0;z-index:999}
+#progress{height:3px;background:rgba(255,255,255,0.08)}
+#progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--violet),var(--gold));transition:width 0.25s linear}
+#caption{
+  padding:14px 40px 18px;
+  font-size:17px;font-weight:500;
+  color:#e8e0ff;
+  background:linear-gradient(to top,rgba(2,5,9,0.95) 60%,transparent);
+  text-align:center;line-height:1.5;min-height:64px;
+  letter-spacing:0.01em;
+}
+#play-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(2,5,9,0.92);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;
+}
+#play-overlay h2{font-size:2rem;font-weight:900;color:var(--gold-lt);letter-spacing:0.04em}
+#play-overlay p{font-size:1rem;color:var(--text-2)}
+.play-btns{display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center}
+#play-btn{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--violet);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;color:#fff;
+  box-shadow:0 0 40px rgba(124,58,237,0.6);
+  transition:transform 0.2s;
+}
+#play-btn:hover{transform:scale(1.1)}
+#rec-btn{
+  padding:14px 28px;border-radius:100px;
+  background:linear-gradient(135deg,#dc2626,#7c3aed);border:none;cursor:pointer;
+  font-size:1rem;font-weight:800;color:#fff;letter-spacing:0.06em;
+  box-shadow:0 0 32px rgba(220,38,38,0.5);
+  transition:transform 0.2s,box-shadow 0.2s;
+  display:flex;align-items:center;gap:8px;
+}
+#rec-btn:hover{transform:scale(1.04);box-shadow:0 0 48px rgba(220,38,38,0.7)}
+#dl-html-btn{
+  padding:10px 20px;border-radius:100px;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.15);cursor:pointer;
+  font-size:.82rem;font-weight:700;color:var(--text-2);letter-spacing:0.04em;
+  transition:background 0.2s,color 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+}
+#dl-html-btn:hover{background:rgba(255,255,255,0.1);color:var(--text-1)}
+/* Recording indicator */
+#rec-indicator{
+  position:fixed;top:18px;right:18px;z-index:99999;
+  display:none;align-items:center;gap:8px;
+  background:rgba(220,38,38,0.18);border:1px solid rgba(220,38,38,0.4);
+  padding:8px 16px;border-radius:100px;
+  font-size:.78rem;font-weight:800;color:#f87171;letter-spacing:0.08em;
+}
+@keyframes rec-blink{0%,100%{opacity:1}50%{opacity:0.2}}
+#rec-dot{width:8px;height:8px;border-radius:50%;background:#ef4444;animation:rec-blink 1s ease infinite}
+
+/* ── Keyframes ── */
+@keyframes fade-up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+@keyframes pulse-glow{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes type{from{width:0}to{width:100%}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes slide-in-right{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slide-in-left{from{opacity:0;transform:translateX(-60px)}to{opacity:1;transform:translateX(0)}}
+@keyframes pop-in{0%{opacity:0;transform:scale(0.7)}80%{transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes draw-line{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
+@keyframes count-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes orbit{from{transform:rotate(0deg) translateX(160px) rotate(0deg)}to{transform:rotate(360deg) translateX(160px) rotate(-360deg)}}
+
+/* ── Shared components ── */
+.eyebrow{
+  font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  padding:5px 16px;border-radius:100px;margin-bottom:18px;
+  display:inline-block;
+}
+.eyebrow--gold{background:rgba(245,197,24,0.12);color:var(--gold-lt);border:1px solid rgba(245,197,24,0.3)}
+.eyebrow--violet{background:rgba(124,58,237,0.14);color:var(--violet-lt);border:1px solid rgba(124,58,237,0.3)}
+.eyebrow--jade{background:rgba(0,200,124,0.10);color:var(--jade-lt);border:1px solid rgba(0,200,124,0.25)}
+.eyebrow--electric{background:rgba(59,158,255,0.12);color:var(--electric-lt);border:1px solid rgba(59,158,255,0.28)}
+.eyebrow--rose{background:rgba(232,72,138,0.12);color:var(--rose-lt);border:1px solid rgba(232,72,138,0.28)}
+.eyebrow--amber{background:rgba(240,146,12,0.12);color:#ffaa32;border:1px solid rgba(240,146,12,0.28)}
+
+.big-title{
+  font-size:clamp(2.8rem,5.5vw,5rem);font-weight:900;line-height:1.08;
+  text-align:center;letter-spacing:-0.01em;
+}
+.grad-gold{
+  background:linear-gradient(135deg,#fff 20%,var(--gold-lt) 60%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.grad-violet{
+  background:linear-gradient(135deg,var(--violet-lt),#fff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.section-sub{font-size:1.1rem;color:var(--text-2);text-align:center;max-width:640px;line-height:1.65;margin-top:14px}
+
+/* ── Background elements ── */
+.bg-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(124,58,237,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(124,58,237,0.04) 1px,transparent 1px);
+  background-size:52px 52px;
+}
+.bg-orb{
+  position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;
+}
+.orb-violet{background:radial-gradient(circle,rgba(124,58,237,0.35) 0%,transparent 70%)}
+.orb-gold{background:radial-gradient(circle,rgba(245,197,24,0.2) 0%,transparent 70%)}
+.orb-rose{background:radial-gradient(circle,rgba(232,72,138,0.18) 0%,transparent 70%)}
+.orb-jade{background:radial-gradient(circle,rgba(0,200,124,0.18) 0%,transparent 70%)}
+.orb-electric{background:radial-gradient(circle,rgba(59,158,255,0.2) 0%,transparent 70%)}
+
+/* float symbols */
+.float-sym{
+  position:absolute;font-size:1.8rem;font-weight:900;opacity:0.08;
+  pointer-events:none;animation:float 6s ease-in-out infinite;
+  color:var(--violet-lt);
+}
+
+/* ── SCENE 1: Hook ── */
+#s1{background:var(--bg)}
+.hook-line{
+  font-size:clamp(2rem,4vw,3.4rem);font-weight:800;color:#fff;
+  text-align:center;line-height:1.3;opacity:0;
+}
+.hook-line--1{animation:fade-up 0.8s ease 0.5s forwards}
+.hook-line--2{animation:fade-up 0.8s ease 2s forwards;color:var(--gold-lt)}
+.hook-line--3{animation:fade-up 0.8s ease 3.8s forwards;font-size:clamp(1.2rem,2.5vw,2rem);color:var(--text-2)}
+.hook-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.hook-particle{
+  position:absolute;width:3px;height:3px;border-radius:50%;background:var(--violet-lt);
+  animation:float 4s ease-in-out infinite;opacity:0.3;
+}
+
+/* ── SCENE 2: Brand ── */
+#s2{background:var(--bg)}
+.brand-orb{
+  position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,0.25) 0%,rgba(245,197,24,0.08) 40%,transparent 70%);
+  animation:pulse-glow 3s ease-in-out infinite;
+  pointer-events:none;
+}
+.brand-wordmark{
+  font-size:clamp(4rem,8vw,7rem);font-weight:900;letter-spacing:-0.02em;
+  background:linear-gradient(135deg,#fff 10%,var(--gold-lt) 50%,var(--amber) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:fade-up 0.9s ease 0.3s both;
+  position:relative;z-index:1;
+}
+.brand-sub{
+  font-size:clamp(1.2rem,2.5vw,1.8rem);font-weight:600;color:var(--violet-lt);
+  animation:fade-up 0.9s ease 1s both;margin-top:10px;
+  position:relative;z-index:1;text-align:center;
+}
+.brand-attr{
+  font-size:.85rem;color:var(--text-2);letter-spacing:.08em;
+  animation:fade-up 0.8s ease 2s both;margin-top:20px;
+  position:relative;z-index:1;
+}
+.brand-float{
+  position:absolute;font-size:2rem;font-weight:900;
+  animation:float var(--dur,6s) ease-in-out infinite var(--delay,0s);
+  opacity:0.18;
+}
+
+/* ── SCENE 3: Problem ── */
+#s3{background:var(--bg-2)}
+.problem-grid{
+  display:grid;grid-template-columns:repeat(4,160px);gap:16px;
+  margin-bottom:40px;
+}
+.problem-tool{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;padding:18px 14px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.problem-tool__icon{font-size:1.8rem;margin-bottom:8px;display:block}
+.problem-tool__label{font-size:.78rem;color:var(--text-2);font-weight:600}
+.problem-tool__x{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:3rem;color:#f43f5e;font-weight:900;opacity:0;
+  animation:fade-in 0.4s ease var(--xd,1s) forwards;
+  background:rgba(244,63,94,0.08);
+}
+.problem-stmt{
+  font-size:clamp(1.4rem,2.8vw,2.2rem);font-weight:700;color:var(--text-1);
+  text-align:center;animation:fade-up 0.8s ease 3.2s both;
+}
+.problem-stmt span{color:var(--gold)}
+
+/* ── SCENE 4: Solution ── */
+#s4{background:var(--bg)}
+.solution-center{
+  position:absolute;width:100px;height:100px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,0.5) 0%,rgba(245,197,24,0.3) 60%,transparent 80%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;font-weight:900;color:var(--gold-lt);
+  box-shadow:0 0 50px rgba(124,58,237,0.4);z-index:2;
+  animation:pulse-glow 2s ease-in-out infinite;
+}
+.field-pill{
+  position:absolute;font-size:.72rem;font-weight:700;letter-spacing:.04em;
+  padding:5px 12px;border-radius:100px;white-space:nowrap;
+  border:1px solid color-mix(in srgb,var(--pc) 30%,transparent);
+  background:color-mix(in srgb,var(--pc) 10%,transparent);
+  color:color-mix(in srgb,var(--pc) 85%,#fff);
+  opacity:0;animation:pop-in 0.4s ease var(--fd,0s) forwards;
+}
+.solution-title{
+  position:absolute;bottom:120px;left:50%;transform:translateX(-50%);
+  font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;text-align:center;
+  animation:fade-up 0.8s ease 4s both;
+  white-space:nowrap;
+}
+
+/* ── COMPONENT SCENES ── */
+.comp-scene{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:0;
+}
+.comp-icon{
+  font-size:5rem;animation:pop-in 0.6s ease 0.2s both;
+  margin-bottom:24px;
+  filter:drop-shadow(0 0 40px var(--ci));
+}
+.comp-en{
+  font-size:clamp(2.4rem,4.5vw,3.8rem);font-weight:900;
+  color:var(--text-1);animation:fade-up 0.7s ease 0.6s both;
+  letter-spacing:-0.01em;
+}
+.comp-yo{
+  font-size:1.1rem;font-weight:700;color:var(--ci);letter-spacing:.06em;
+  animation:fade-up 0.6s ease 0.9s both;margin-top:4px;
+}
+.comp-body{
+  font-size:1.02rem;color:var(--text-2);line-height:1.65;
+  max-width:640px;text-align:center;margin-top:20px;
+  animation:fade-up 0.7s ease 1.2s both;
+}
+.comp-pills{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;
+  margin-top:22px;animation:fade-up 0.6s ease 1.6s both;
+}
+.comp-pill{
+  font-size:.72rem;font-weight:700;letter-spacing:.07em;padding:5px 14px;
+  border-radius:100px;background:color-mix(in srgb,var(--ci) 12%,transparent);
+  color:color-mix(in srgb,var(--ci) 85%,#fff);
+  border:1px solid color-mix(in srgb,var(--ci) 28%,transparent);
+}
+
+/* ── CELL TYPE SCENES ── */
+.cell-scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:40px}
+.cell-demo{
+  width:100%;max-width:780px;
+  background:rgba(13,7,32,0.9);border:1px solid rgba(124,58,237,0.18);
+  border-left:3px solid var(--cc);border-radius:14px;overflow:hidden;
+  animation:slide-in-right 0.7s ease 0.3s both;
+}
+.cell-hdr{
+  display:flex;align-items:center;gap:10px;padding:10px 16px;
+  background:rgba(124,58,237,0.07);border-bottom:1px solid rgba(124,58,237,0.12);
+}
+.cell-badge{
+  font-size:.65rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 9px;border-radius:4px;
+  background:color-mix(in srgb,var(--cc) 18%,transparent);
+  color:var(--cc);border:1px solid color-mix(in srgb,var(--cc) 32%,transparent);
+}
+.cell-hint{font-size:.72rem;color:var(--text-2);flex:1}
+.cell-run{
+  font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:6px;
+  background:var(--violet);color:#fff;border:none;cursor:pointer;margin-left:auto;
+}
+.cell-body{padding:18px 20px}
+
+.cell-label{
+  position:absolute;left:40px;top:50%;transform:translateY(-50%);
+  max-width:320px;
+}
+.cell-label h3{
+  font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;color:var(--text-1);
+  animation:slide-in-left 0.7s ease 0.2s both;
+}
+.cell-label p{
+  font-size:.95rem;color:var(--text-2);line-height:1.6;margin-top:10px;
+  animation:slide-in-left 0.7s ease 0.6s both;
+}
+.cell-label .cell-pills{
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;
+  animation:slide-in-left 0.6s ease 1s both;
+}
+
+/* split layout for cell scenes */
+.cell-split{
+  position:absolute;inset:0;display:grid;grid-template-columns:1fr 1.1fr;
+  align-items:center;padding:40px 48px;gap:40px;
+}
+
+/* Odu marks */
+.odu-marks-demo{display:flex;gap:40px;justify-content:center;padding:24px 0}
+.odu-col{display:flex;flex-direction:column;align-items:center;gap:4px}
+.odu-col-label{font-size:.65rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--electric);margin-bottom:8px}
+.odu-mark{
+  width:38px;height:28px;border-radius:5px;display:flex;align-items:center;justify-content:center;gap:4px;
+  background:rgba(59,158,255,0.08);border:1px solid rgba(59,158,255,0.2);
+  cursor:pointer;
+}
+.odu-mark__bar{width:4px;height:16px;border-radius:2px;background:var(--text-1)}
+.odu-result-demo{
+  text-align:center;padding:12px;border-top:1px solid rgba(124,58,237,0.15);
+  margin-top:8px;
+}
+.odu-result-name{font-size:1.2rem;font-weight:800;color:var(--gold)}
+.odu-result-badge{font-size:.72rem;color:var(--text-2);margin-top:4px}
+
+/* Code demo */
+.code-pre{
+  font-family:'Courier New',monospace;font-size:.82rem;line-height:1.6;
+  color:#c8d8ee;padding:16px 18px;
+  overflow:hidden;
+}
+.code-kw{color:#a78bfa}
+.code-fn{color:#7dc3ff}
+.code-str{color:#86efac}
+.code-num{color:#f0920c}
+.code-comment{color:#4a5568}
+.code-output{
+  background:rgba(16,9,40,0.8);border-top:1px solid rgba(59,158,255,0.15);
+  padding:10px 18px;font-family:'Courier New',monospace;font-size:.8rem;
+  color:var(--jade-lt);line-height:1.6;
+}
+
+/* Math demo */
+.math-latex{
+  font-family:'Courier New',monospace;font-size:.9rem;color:#c8d8ee;padding:14px 18px;
+}
+.math-render{
+  padding:16px 24px;text-align:center;border-top:1px solid rgba(59,158,255,0.12);
+  font-size:1.4rem;color:var(--text-1);
+}
+.math-formula{font-style:italic;letter-spacing:.04em}
+.math-big{font-size:2rem}
+
+/* Mermaid demo */
+.mermaid-code{
+  font-family:'Courier New',monospace;font-size:.78rem;color:#c8d8ee;
+  padding:14px 18px;line-height:1.6;
+}
+.mermaid-render{padding:16px;display:flex;justify-content:center}
+.flow-diagram{display:flex;flex-direction:column;align-items:center;gap:6px}
+.flow-node{
+  padding:8px 18px;border-radius:6px;font-size:.78rem;font-weight:700;
+  background:rgba(59,158,255,0.15);border:1px solid rgba(59,158,255,0.35);
+  color:var(--electric-lt);
+}
+.flow-arrow{color:var(--text-2);font-size:1rem}
+
+/* Art/Ifagram demo */
+.art-toolbar{
+  display:flex;align-items:center;gap:10px;padding:10px 16px;
+  background:rgba(244,63,94,0.06);border-bottom:1px solid rgba(244,63,94,0.15);
+}
+.art-tool{
+  font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:6px;
+  background:rgba(244,63,94,0.12);color:var(--rose-lt);border:1px solid rgba(244,63,94,0.25);
+}
+.art-canvas-demo{
+  height:160px;background:#020509;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.art-svg{width:240px;height:140px}
+
+/* Multimedia demo */
+.media-url-row{display:flex;gap:8px;padding:14px 16px;align-items:center}
+.media-url-input{
+  flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);
+  border-radius:6px;padding:8px 12px;font-size:.78rem;color:var(--electric-lt);
+  font-family:'Courier New',monospace;
+}
+.media-embed-btn{
+  padding:8px 16px;border-radius:6px;background:var(--electric);color:#fff;
+  font-size:.75rem;font-weight:700;border:none;
+}
+.media-preview{
+  padding:12px 16px;display:flex;align-items:center;gap:16px;
+  border-top:1px solid rgba(59,158,255,0.12);
+}
+.media-thumb{
+  width:100px;height:60px;border-radius:6px;background:rgba(59,158,255,0.15);
+  display:flex;align-items:center;justify-content:center;font-size:1.8rem;
+  border:1px solid rgba(59,158,255,0.25);
+}
+.media-info{font-size:.8rem;color:var(--text-2)}
+.media-info strong{display:block;color:var(--text-1);font-size:.88rem;margin-bottom:3px}
+
+/* Others demo */
+.others-tabs{display:flex;gap:8px;padding:12px 16px;background:rgba(148,163,184,0.05)}
+.others-tab{
+  font-size:.72rem;font-weight:700;padding:5px 12px;border-radius:6px;
+  background:transparent;color:var(--text-2);border:1px solid transparent;
+}
+.others-tab--active{background:rgba(148,163,184,0.12);color:var(--text-1);border-color:rgba(148,163,184,0.2)}
+.others-body{padding:14px 16px}
+.others-quote{
+  border-left:3px solid var(--violet-lt);padding:10px 16px;
+  background:rgba(124,58,237,0.07);border-radius:0 8px 8px 0;
+  font-size:.9rem;color:var(--text-1);font-style:italic;line-height:1.6;
+}
+.others-attr{font-size:.75rem;color:var(--text-2);margin-top:6px;font-style:normal;padding-left:20px}
+
+/* ── SCENE 7: Environment ── */
+#s7{background:var(--bg-2)}
+.env-mockup{
+  width:100%;max-width:960px;
+  background:rgba(13,7,32,0.95);border:1px solid rgba(124,58,237,0.2);
+  border-radius:16px;overflow:hidden;
+  animation:fade-up 0.7s ease 0.3s both;
+  box-shadow:0 0 60px rgba(124,58,237,0.15);
+}
+.env-topbar{
+  display:flex;align-items:center;gap:8px;padding:10px 16px;
+  background:rgba(10,5,20,0.9);border-bottom:1px solid rgba(124,58,237,0.15);
+  flex-wrap:wrap;
+}
+.env-back{font-size:.75rem;color:var(--violet-lt);font-weight:700;padding:4px 10px;
+  background:rgba(124,58,237,0.1);border-radius:6px;border:1px solid rgba(124,58,237,0.22)}
+.env-title{font-size:.85rem;font-weight:800;color:var(--gold-lt);flex-shrink:0}
+.env-sep{color:var(--text-3);font-size:.85rem}
+.add-btn{
+  font-size:.65rem;font-weight:800;padding:4px 9px;border-radius:5px;border:none;cursor:pointer;
+}
+.add-btn--odu{background:rgba(16,185,129,0.15);color:#34d399;border:1px solid rgba(16,185,129,0.28)}
+.add-btn--text{background:rgba(59,158,255,0.12);color:#7dc3ff;border:1px solid rgba(59,158,255,0.25)}
+.add-btn--code{background:rgba(240,146,12,0.12);color:#ffaa32;border:1px solid rgba(240,146,12,0.28)}
+.add-btn--art{background:rgba(244,63,94,0.12);color:#f87171;border:1px solid rgba(244,63,94,0.28)}
+.add-btn--media{background:rgba(139,92,246,0.12);color:#c4b5fd;border:1px solid rgba(139,92,246,0.28)}
+.add-btn--math{background:rgba(6,182,212,0.12);color:#67e8f9;border:1px solid rgba(6,182,212,0.28)}
+.add-btn--schem{background:rgba(132,204,22,0.12);color:#a3e635;border:1px solid rgba(132,204,22,0.28)}
+.add-btn--others{background:rgba(148,163,184,0.1);color:#94a3b8;border:1px solid rgba(148,163,184,0.2)}
+.run-all-btn{
+  margin-left:auto;font-size:.72rem;font-weight:800;padding:5px 14px;
+  border-radius:6px;background:var(--jade);color:#fff;border:none;cursor:pointer;
+  animation:pulse-glow 2s ease-in-out infinite;
+}
+.file-btn{
+  font-size:.72rem;font-weight:800;padding:5px 12px;
+  border-radius:6px;background:rgba(124,58,237,0.15);color:var(--violet-lt);
+  border:1px solid rgba(124,58,237,0.3);cursor:pointer;
+}
+
+.env-cells-preview{padding:16px;display:flex;flex-direction:column;gap:10px}
+.env-cell-row{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  background:rgba(124,58,237,0.04);border:1px solid rgba(124,58,237,0.1);
+  border-radius:8px;border-left:2px solid var(--rc);
+}
+.env-cell-num{
+  font-size:.65rem;font-weight:800;color:var(--rc);width:28px;text-align:center;
+  font-family:'Courier New',monospace;
+}
+.env-cell-type-badge{
+  font-size:.62rem;font-weight:900;padding:2px 8px;border-radius:3px;letter-spacing:.1em;
+  background:color-mix(in srgb,var(--rc) 14%,transparent);
+  color:var(--rc);border:1px solid color-mix(in srgb,var(--rc) 28%,transparent);
+}
+.env-cell-preview{flex:1;font-size:.78rem;color:var(--text-2);font-family:'Courier New',monospace;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.env-cell-ctrls{display:flex;gap:4px}
+.env-ctrl{
+  width:22px;height:22px;border-radius:4px;border:none;cursor:pointer;
+  font-size:.6rem;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.05);color:var(--text-2);
+}
+
+/* File menu */
+.file-menu-overlay{
+  position:absolute;top:44px;right:16px;z-index:50;
+  background:rgba(10,5,20,0.98);border:1px solid rgba(124,58,237,0.25);
+  border-radius:12px;overflow:hidden;min-width:180px;
+  animation:fade-up 0.3s ease both;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+}
+.file-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 16px;font-size:.8rem;color:var(--text-1);cursor:pointer;
+  border-bottom:1px solid rgba(124,58,237,0.07);
+}
+.file-item:last-child{border-bottom:none}
+.file-item:hover{background:rgba(124,58,237,0.08)}
+.file-item--danger{color:#f87171}
+.file-hint{font-size:.65rem;color:var(--text-2);font-family:'Courier New',monospace}
+.file-section-label{
+  font-size:.6rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-2);padding:8px 16px 4px;
+}
+.file-sep{height:1px;background:rgba(124,58,237,0.1)}
+
+/* ── SCENE 8: Odu wisdom ── */
+#s8{background:var(--bg-3)}
+.odu-grid-demo{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:8px;
+  max-width:800px;width:100%;
+}
+.odu-card-mini{
+  padding:10px 6px;border-radius:8px;text-align:center;
+  background:color-mix(in srgb,var(--oc) 8%,rgba(13,7,32,0.8));
+  border:1px solid color-mix(in srgb,var(--oc) 22%,transparent);
+  animation:pop-in 0.4s ease var(--od,0s) both;
+}
+.odu-card-mini__num{font-size:.55rem;color:var(--text-2);letter-spacing:.08em;margin-bottom:3px}
+.odu-card-mini__name{font-size:.72rem;font-weight:800;color:var(--oc);line-height:1.2}
+.odu-card-mini__field{font-size:.55rem;color:var(--text-2);margin-top:2px}
+.odu-card-mini__code{
+  font-family:'Courier New',monospace;font-size:.6rem;
+  color:color-mix(in srgb,var(--oc) 60%,transparent);
+  margin-top:4px;letter-spacing:.04em;
+}
+
+/* ── SCENE 9: Features ── */
+#s9{background:var(--bg-2)}
+.features-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  max-width:900px;width:100%;
+}
+.feat-card{
+  padding:20px 18px;border-radius:12px;
+  background:color-mix(in srgb,var(--fc) 5%,rgba(13,7,32,0.8));
+  border:1px solid color-mix(in srgb,var(--fc) 20%,transparent);
+  animation:pop-in 0.4s ease var(--ff,0s) both;
+}
+.feat-card__icon{font-size:1.6rem;margin-bottom:8px;display:block;color:var(--fi)}
+.feat-card__title{font-size:.88rem;font-weight:800;color:var(--text-1);margin-bottom:4px}
+.feat-card__body{font-size:.72rem;color:var(--text-2);line-height:1.5}
+
+/* ── SCENE 10: CTA ── */
+#s10{background:var(--bg)}
+.cta-logo{
+  font-size:clamp(3rem,6vw,5rem);font-weight:900;letter-spacing:-0.02em;
+  background:linear-gradient(135deg,#fff 20%,var(--gold-lt) 60%,var(--amber) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:fade-up 0.8s ease 0.3s both;
+}
+.cta-tag{
+  font-size:1.2rem;font-weight:600;color:var(--violet-lt);
+  animation:fade-up 0.7s ease 0.8s both;margin-top:8px;
+}
+.cta-pulse{
+  width:180px;height:4px;border-radius:2px;margin:28px auto;
+  background:linear-gradient(90deg,var(--violet),var(--gold),var(--jade));
+  animation:shimmer 3s linear infinite;
+  background-size:300% 100%;
+}
+.cta-action{
+  font-size:1.4rem;font-weight:800;color:var(--text-1);
+  animation:fade-up 0.7s ease 1.4s both;
+}
+.cta-url{
+  font-family:'Courier New',monospace;font-size:1rem;color:var(--jade-lt);
+  margin-top:10px;animation:fade-up 0.7s ease 1.8s both;
+  background:rgba(0,200,124,0.08);padding:8px 20px;border-radius:8px;
+  border:1px solid rgba(0,200,124,0.22);
+}
+.cta-url-env{
+  font-family:'Courier New',monospace;font-size:.88rem;color:var(--electric-lt);
+  margin-top:8px;animation:fade-up 0.7s ease 2.2s both;
+}
+.cta-badges{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  margin-top:24px;animation:fade-up 0.6s ease 2.6s both;
+}
+.cta-badge{
+  font-size:.72rem;font-weight:800;letter-spacing:.06em;padding:6px 14px;
+  border-radius:100px;
+}
+
+/* ── Conversion overlay ── */
+#convert-overlay{
+  position:fixed;inset:0;z-index:99998;
+  background:rgba(2,5,9,0.96);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+}
+#convert-overlay h3{font-size:1.5rem;font-weight:800;color:var(--gold-lt);letter-spacing:.04em}
+#convert-overlay p{font-size:.9rem;color:var(--text-2);text-align:center;max-width:460px}
+#convert-bar-wrap{width:360px;height:8px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden}
+#convert-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--violet),var(--gold));border-radius:100px;transition:width .3s linear}
+#convert-pct{font-size:1rem;font-weight:800;color:var(--text-2)}
+
+/* Landscape tip — hidden by default, shown only on portrait touch phones */
+#mob-landscape-tip{display:none}
+
+/* ── Mobile / Touch — calc(var(--mob-factor) * BASE) ensures elements appear
+   at their intended physical pixel size despite the 1280px viewport scale-down.
+   Example: on a 390px phone, --mob-factor = 3.282, so
+     calc(3.282 * 100px) = 328px CSS → 328 × 0.305 = 100px physical ✓ ── */
+@media (hover:none) and (pointer:coarse){
+  /* ── Play overlay ── */
+  #play-overlay{
+    gap:calc(var(--mob-factor,1) * 24px);
+    padding:calc(var(--mob-factor,1) * 48px) calc(var(--mob-factor,1) * 36px);
+  }
+  #play-overlay h2{font-size:calc(var(--mob-factor,1) * 38px)}
+  #play-overlay>p{font-size:calc(var(--mob-factor,1) * 18px);color:var(--text-2)}
+  .play-btns{
+    flex-direction:column;align-items:center;
+    gap:calc(var(--mob-factor,1) * 22px);
+  }
+  #play-btn{
+    width:calc(var(--mob-factor,1) * 104px);
+    height:calc(var(--mob-factor,1) * 104px);
+    font-size:calc(var(--mob-factor,1) * 36px);
+    box-shadow:0 0 calc(var(--mob-factor,1) * 50px) rgba(124,58,237,0.7);
+  }
+  /* getDisplayMedia not available on mobile — hide record button */
+  #rec-btn{display:none}
+  #dl-html-btn{
+    font-size:calc(var(--mob-factor,1) * 15px);
+    padding:calc(var(--mob-factor,1) * 14px) calc(var(--mob-factor,1) * 30px);
+    border-radius:calc(var(--mob-factor,1) * 100px);
+  }
+
+  /* ── HUD — caption & progress bar ── */
+  #caption{
+    font-size:calc(var(--mob-factor,1) * 19px);
+    line-height:1.55;
+    padding:calc(var(--mob-factor,1) * 20px)
+            calc(var(--mob-factor,1) * 44px)
+            calc(var(--mob-factor,1) * 28px);
+    min-height:calc(var(--mob-factor,1) * 90px);
+  }
+  #progress{height:calc(var(--mob-factor,1) * 6px)}
+  /* Show landscape tip only in portrait */
+  #mob-landscape-tip{
+    display:block;
+    font-size:calc(var(--mob-factor,1) * 13px);
+    color:rgba(255,255,255,0.35);
+    letter-spacing:0.03em;
+    margin-top:calc(var(--mob-factor,1) * 4px);
+  }
+}
+
+/* ── Landscape phone: tighter overlay, side-by-side buttons ── */
+@media (hover:none) and (pointer:coarse) and (orientation:landscape){
+  #play-overlay{
+    gap:calc(var(--mob-factor,1) * 14px);
+    padding:calc(var(--mob-factor,1) * 24px) calc(var(--mob-factor,1) * 32px);
+  }
+  #play-overlay h2{font-size:calc(var(--mob-factor,1) * 26px)}
+  #play-overlay>p{font-size:calc(var(--mob-factor,1) * 14px)}
+  #play-btn{
+    width:calc(var(--mob-factor,1) * 80px);
+    height:calc(var(--mob-factor,1) * 80px);
+    font-size:calc(var(--mob-factor,1) * 28px);
+  }
+  .play-btns{flex-direction:row;gap:calc(var(--mob-factor,1) * 18px)}
+  #caption{font-size:calc(var(--mob-factor,1) * 17px);min-height:calc(var(--mob-factor,1) * 70px)}
+  /* Hide landscape tip when already in landscape */
+  #mob-landscape-tip{display:none}
+}
+</style>
+<!-- ffmpeg.wasm single-threaded build (no SharedArrayBuffer required) -->
+<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+</head>
+<body>
+
+<!-- ── Conversion overlay ── -->
+<div id="convert-overlay">
+  <h3>Converting to MP4…</h3>
+  <p>Processing your recording with ffmpeg.wasm — this usually takes 30–90 seconds. Do not close this tab.</p>
+  <div id="convert-bar-wrap"><div id="convert-bar"></div></div>
+  <div id="convert-pct">0%</div>
+  <p style="font-size:.75rem;color:#3a2860">Your MP4 will download automatically when done.</p>
+</div>
+
+<!-- ── Recording indicator ── -->
+<div id="rec-indicator">
+  <div id="rec-dot"></div>
+  REC · Recording video…
+</div>
+
+<!-- ── Play overlay ── -->
+<div id="play-overlay">
+  <h2>IfaNote — The Notebook for Everything</h2>
+  <p>4-minute video presentation · Auto-plays through all scenes</p>
+  <div class="play-btns">
+    <button id="play-btn" onclick="startVideo()" title="Watch in browser">▶</button>
+    <button id="rec-btn" onclick="startRecording()" title="Record & download as MP4">⏺ Record &amp; Download MP4</button>
+  </div>
+  <a id="dl-html-btn" href="./ifanote-intro.html" download="ifanote-intro.html">⬇ Download Presentation (HTML)</a>
+  <p style="font-size:.78rem;color:#3a2860;margin-top:4px">▶ Watch · ⏺ Record captures a real .webm video · ⬇ Save standalone HTML</p>
+  <!-- Shown only on portrait touch devices -->
+  <p id="mob-landscape-tip">📱 Rotate to landscape for best experience</p>
+</div>
+
+<!-- ── Stage ── -->
+<div id="stage">
+
+<!-- ─── SCENE 1: HOOK ─── -->
+<div class="scene" id="s1">
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-violet" style="width:500px;height:500px;top:-100px;right:-80px;opacity:.3"></div>
+  <div class="bg-orb orb-gold" style="width:360px;height:360px;bottom:60px;left:-80px;opacity:.2"></div>
+  <div class="hook-particles" id="hookParts"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:18px;position:relative;z-index:1">
+    <div class="hook-line hook-line--1">What if...</div>
+    <div class="hook-line hook-line--2">one notebook</div>
+    <div class="hook-line hook-line--2" style="animation-delay:2.8s">could hold <em style="color:var(--gold)">everything</em> you know?</div>
+    <div class="hook-line hook-line--3" style="animation-delay:5s">Every field. Every formula. Every culture.</div>
+  </div>
+</div>
+
+<!-- ─── SCENE 2: BRAND ─── -->
+<div class="scene" id="s2">
+  <div class="bg-grid"></div>
+  <div class="brand-orb"></div>
+  <div class="bg-orb orb-gold" style="width:300px;height:300px;bottom:-40px;left:-40px;opacity:.15"></div>
+
+  <!-- floating symbols -->
+  <span class="brand-float" style="top:12%;left:8%;--dur:7s;--delay:0s">⊕</span>
+  <span class="brand-float" style="top:10%;right:6%;--dur:9s;--delay:1s">∞</span>
+  <span class="brand-float" style="top:50%;left:4%;--dur:8s;--delay:2s">Ψ</span>
+  <span class="brand-float" style="top:22%;right:10%;--dur:6s;--delay:0.5s">◎</span>
+  <span class="brand-float" style="bottom:18%;left:12%;--dur:10s;--delay:1.5s">⟳</span>
+  <span class="brand-float" style="bottom:14%;right:8%;--dur:7s;--delay:3s">✦</span>
+  <span class="brand-float" style="top:70%;right:14%;--dur:11s;--delay:0.8s">∿</span>
+  <span class="brand-float" style="top:38%;left:2%;--dur:8s;--delay:2.2s">☰</span>
+
+  <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1">
+    <span class="eyebrow eyebrow--gold" style="animation:fade-in 0.6s ease 0.1s both">The IFA Internet · CENProject</span>
+    <div class="brand-wordmark">IfaNote</div>
+    <div class="brand-sub">The Notebook for Everything</div>
+    <div class="brand-attr" style="animation-delay:1.8s">Open-Source · Browser-Native · The Consciousness Notebook</div>
+    <div style="display:flex;gap:14px;margin-top:28px;animation:fade-up 0.7s ease 2.4s both">
+      <span class="eyebrow eyebrow--violet" style="animation:none">⚙ IfaKernel</span>
+      <span class="eyebrow eyebrow--electric" style="animation:none">✍ IfaPen</span>
+      <span class="eyebrow eyebrow--jade" style="animation:none">✦ IfaLight</span>
+      <span class="eyebrow eyebrow--gold" style="animation:none">📖 IfaBook</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 3: PROBLEM ─── -->
+<div class="scene" id="s3">
+  <div class="bg-grid" style="opacity:.5"></div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center">
+    <span class="eyebrow eyebrow--rose" style="animation:fade-in 0.5s ease 0.2s both">The Problem</span>
+    <h2 style="font-size:clamp(1.6rem,3.5vw,2.8rem);font-weight:800;color:var(--text-1);text-align:center;margin-bottom:32px;animation:fade-up 0.7s ease 0.5s both">Knowledge has always been fragmented</h2>
+    <div class="problem-grid">
+      <div class="problem-tool" style="animation:pop-in 0.4s ease 0.8s both">
+        <span class="problem-tool__icon">🔬</span>
+        <span class="problem-tool__label">Science<br>Notebook</span>
+        <div class="problem-tool__x" style="--xd:2.5s">✕</div>
+      </div>
+      <div class="problem-tool" style="animation:pop-in 0.4s ease 1s both">
+        <span class="problem-tool__icon">💻</span>
+        <span class="problem-tool__label">Code<br>Editor</span>
+        <div class="problem-tool__x" style="--xd:2.8s">✕</div>
+      </div>
+      <div class="problem-tool" style="animation:pop-in 0.4s ease 1.2s both">
+        <span class="problem-tool__icon">∑</span>
+        <span class="problem-tool__label">Math<br>Tool</span>
+        <div class="problem-tool__x" style="--xd:3.1s">✕</div>
+      </div>
+      <div class="problem-tool" style="animation:pop-in 0.4s ease 1.4s both">
+        <span class="problem-tool__icon">🎨</span>
+        <span class="problem-tool__label">Art<br>Canvas</span>
+        <div class="problem-tool__x" style="--xd:3.4s">✕</div>
+      </div>
+    </div>
+    <div class="problem-stmt">Knowledge was always <span>separated</span>.<br>Until now.</div>
+  </div>
+</div>
+
+<!-- ─── SCENE 4: SOLUTION ─── -->
+<div class="scene" id="s4">
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-violet" style="width:400px;height:400px;opacity:.2;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+
+  <!-- Center orb -->
+  <div class="solution-center" style="z-index:3">📓</div>
+
+  <!-- Field pills arranged around center -->
+  <span class="field-pill" style="--pc:#f0920c;top:8%;left:42%;--fd:.3s">Mathematics</span>
+  <span class="field-pill" style="--pc:#3b9eff;top:14%;left:22%;--fd:.5s">Physics</span>
+  <span class="field-pill" style="--pc:#3b9eff;top:14%;right:18%;--fd:.7s">Quantum Science</span>
+  <span class="field-pill" style="--pc:#f0920c;top:26%;left:8%;--fd:.9s">Ifa Science</span>
+  <span class="field-pill" style="--pc:#a78bfa;top:26%;right:5%;--fd:1.1s">Philosophy</span>
+  <span class="field-pill" style="--pc:#3b9eff;top:38%;left:3%;--fd:1.3s">Chemistry</span>
+  <span class="field-pill" style="--pc:#f5c518;top:38%;right:3%;--fd:1.5s">Computer Science</span>
+  <span class="field-pill" style="--pc:#00c87c;top:50%;left:1%;--fd:1.7s">Economics</span>
+  <span class="field-pill" style="--pc:#e8488a;top:50%;right:1%;--fd:1.9s">Visual Art</span>
+  <span class="field-pill" style="--pc:#f0920c;top:62%;left:5%;--fd:2.1s">IfaGebra</span>
+  <span class="field-pill" style="--pc:#a78bfa;top:62%;right:5%;--fd:2.3s">Logic</span>
+  <span class="field-pill" style="--pc:#3b9eff;top:74%;left:12%;--fd:2.5s">Engineering</span>
+  <span class="field-pill" style="--pc:#00c87c;top:74%;right:12%;--fd:2.7s">Linguistics</span>
+  <span class="field-pill" style="--pc:#f5c518;bottom:10%;left:34%;--fd:2.9s">AI & ML</span>
+  <span class="field-pill" style="--pc:#e8488a;top:20%;left:38%;--fd:3.1s">Music Theory</span>
+  <span class="field-pill" style="--pc:#3b9eff;bottom:22%;right:22%;--fd:3.3s">Biology</span>
+  <span class="field-pill" style="--pc:#a78bfa;bottom:28%;left:8%;--fd:3.5s">Metaphysics</span>
+  <span class="field-pill" style="--pc:#f0920c;top:6%;right:36%;--fd:3.7s">Orisa Studies</span>
+  <span class="field-pill" style="--pc:#00c87c;bottom:14%;right:8%;--fd:3.9s">Literature</span>
+  <span class="field-pill" style="--pc:#3b9eff;bottom:8%;left:18%;--fd:4.1s">Astronomy</span>
+
+  <div class="solution-title">
+    <span class="grad-gold">30+ fields. One environment.</span>
+  </div>
+</div>
+
+<!-- ─── SCENE 5a: IfaKernel ─── -->
+<div class="scene" id="s5a">
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-violet" style="width:500px;height:500px;top:-80px;right:-80px;opacity:.25"></div>
+  <div class="bg-orb" style="width:300px;height:300px;bottom:-40px;left:-40px;opacity:.2;background:radial-gradient(circle,rgba(240,146,12,0.3) 0%,transparent 70%)"></div>
+  <div class="comp-scene" style="--ci:#f0920c">
+    <span class="eyebrow eyebrow--amber">Component 1 of 4</span>
+    <div class="comp-icon" style="--ci:#f0920c">⚙</div>
+    <div class="comp-en">IfaKernel</div>
+    <div class="comp-yo" style="--ci:#f0920c">Kórókin — The Computational Heart</div>
+    <p class="comp-body">The engine that processes every field of knowledge as unified, mathematical, and deeply connected. Executes IfaLang expressions, evaluates Odu-based axioms, resolves IfaGebra operations, and bridges all modern programming languages.</p>
+    <div class="comp-pills" style="--ci:#f0920c">
+      <span class="comp-pill">IfaLang Kernel</span>
+      <span class="comp-pill">Odu Axiom Resolver</span>
+      <span class="comp-pill">IfaGebra Engine</span>
+      <span class="comp-pill">JS · Python · C</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 5b: IfaPen ─── -->
+<div class="scene" id="s5b">
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-electric" style="width:460px;height:460px;top:-60px;left:-60px;opacity:.2"></div>
+  <div class="comp-scene" style="--ci:#3b9eff">
+    <span class="eyebrow eyebrow--electric">Component 2 of 4</span>
+    <div class="comp-icon" style="--ci:#3b9eff;font-size:4.5rem">✍</div>
+    <div class="comp-en">IfaPen</div>
+    <div class="comp-yo" style="--ci:#3b9eff">Gégéfà — The Intelligent Cell Editor</div>
+    <p class="comp-body">Write IfaLang, mathematics, poetry, science, philosophy, code, and non-scientific knowledge side-by-side in one unified environment. Understands mixed-language input, Odu marks, IfaGebra notation, and LaTeX/Markdown seamlessly.</p>
+    <div class="comp-pills" style="--ci:#3b9eff">
+      <span class="comp-pill">Markdown</span>
+      <span class="comp-pill">Odu Marks</span>
+      <span class="comp-pill">LaTeX</span>
+      <span class="comp-pill">Multi-Language</span>
+      <span class="comp-pill">Aebajiogbe Script</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 5c: IfaLight ─── -->
+<div class="scene" id="s5c">
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-jade" style="width:460px;height:460px;bottom:-80px;right:-60px;opacity:.2"></div>
+  <div class="comp-scene" style="--ci:#00c87c">
+    <span class="eyebrow eyebrow--jade">Component 3 of 4</span>
+    <div class="comp-icon" style="--ci:#00c87c">✦</div>
+    <div class="comp-en">IfaLight</div>
+    <div class="comp-yo" style="--ci:#00c87c">Ináfá — The Rendering Engine</div>
+    <p class="comp-body">Converts every knowledge expression into illuminated, interactive output: mathematical plots, Odu mark diagrams, knowledge graphs, IFABit state maps, simulation outputs, and multimedia. Makes knowledge visible and intuitive.</p>
+    <div class="comp-pills" style="--ci:#00c87c">
+      <span class="comp-pill">Math Plots</span>
+      <span class="comp-pill">Odu Diagrams</span>
+      <span class="comp-pill">Knowledge Graphs</span>
+      <span class="comp-pill">IFABit Maps</span>
+      <span class="comp-pill">Multimedia</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 5d: IfaBook ─── -->
+<div class="scene" id="s5d">
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-gold" style="width:400px;height:400px;top:-60px;right:-40px;opacity:.18"></div>
+  <div class="comp-scene" style="--ci:#f5c518">
+    <span class="eyebrow eyebrow--gold">Component 4 of 4</span>
+    <div class="comp-icon" style="--ci:#f5c518">📖</div>
+    <div class="comp-en">IfaBook</div>
+    <div class="comp-yo" style="--ci:#f5c518">Ìwéfá — Storage, Organisation & Publishing</div>
+    <p class="comp-body">Where your knowledge lives, grows, and is shared with the world. Manages notebooks as plain-text files, enables reactive cell graphs so changing one value updates all dependents instantly, and integrates with the IFABOK and the full IFA Internet.</p>
+    <div class="comp-pills" style="--ci:#f5c518">
+      <span class="comp-pill">.ifanb Files</span>
+      <span class="comp-pill">Reactive Graphs</span>
+      <span class="comp-pill">IFABOK Integration</span>
+      <span class="comp-pill">Export PDF · Word · .ifa</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 6a: Odu Cell ─── -->
+<div class="scene" id="s6a">
+  <div class="bg-grid" style="opacity:.4"></div>
+  <div class="cell-split">
+    <div class="cell-label">
+      <span class="eyebrow eyebrow--jade" style="animation:slide-in-left 0.5s ease 0.1s both">Cell Type 1 of 8</span>
+      <h3 style="--cc:#10b981;color:var(--jade-lt)">Odu Cell</h3>
+      <p>IFABit notation for all 256 Odu Ifa. Toggle each mark between single (|) and double (||) strokes. Auto-identifies the Odu name, domain, and field of knowledge.</p>
+      <div class="cell-pills">
+        <span class="eyebrow eyebrow--jade" style="animation:none;font-size:.6rem">256 Odu Ifa</span>
+        <span class="eyebrow eyebrow--jade" style="animation:none;font-size:.6rem">IFABit Encoding</span>
+        <span class="eyebrow eyebrow--jade" style="animation:none;font-size:.6rem">Méjì Detection</span>
+      </div>
+    </div>
+    <div class="cell-demo" style="--cc:#10b981">
+      <div class="cell-hdr">
+        <span class="cell-badge" style="--cc:#10b981">ODU</span>
+        <span class="cell-hint">Click marks to toggle | ↔ ||</span>
+        <span style="font-size:.65rem;color:var(--jade-lt);padding:2px 8px;background:rgba(16,185,129,.1);border-radius:4px;border:1px solid rgba(16,185,129,.22)">✓ #1–1</span>
+      </div>
+      <div class="cell-body">
+        <div class="odu-marks-demo">
+          <div class="odu-col">
+            <div class="odu-col-label">Òsì (Left)</div>
+            <div class="odu-mark"><span class="odu-mark__bar"></span></div>
+            <div class="odu-mark"><span class="odu-mark__bar"></span></div>
+            <div class="odu-mark"><span class="odu-mark__bar"></span></div>
+            <div class="odu-mark"><span class="odu-mark__bar"></span></div>
+          </div>
+          <div style="font-size:1.4rem;color:var(--text-3);align-self:center">·</div>
+          <div class="odu-col">
+            <div class="odu-col-label" style="color:var(--amber)">Ọtún (Right)</div>
+            <div class="odu-mark" style="border-color:rgba(240,146,12,0.3);background:rgba(240,146,12,0.07)"><span class="odu-mark__bar"></span></div>
+            <div class="odu-mark" style="border-color:rgba(240,146,12,0.3);background:rgba(240,146,12,0.07)"><span class="odu-mark__bar"></span></div>
+            <div class="odu-mark" style="border-color:rgba(240,146,12,0.3);background:rgba(240,146,12,0.07)"><span class="odu-mark__bar"></span></div>
+            <div class="odu-mark" style="border-color:rgba(240,146,12,0.3);background:rgba(240,146,12,0.07)"><span class="odu-mark__bar"></span></div>
+          </div>
+        </div>
+        <div class="odu-result-demo">
+          <div class="odu-result-name">Ogbè Ogbè &nbsp;<span style="color:var(--violet-lt);font-size:.8rem">Méjì ✦</span></div>
+          <div class="odu-result-badge">#1–1 &nbsp;·&nbsp; Light · Creation &nbsp;·&nbsp; Mathematics</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 6b: Text Cell ─── -->
+<div class="scene" id="s6b">
+  <div class="bg-grid" style="opacity:.4"></div>
+  <div class="cell-split">
+    <div class="cell-label">
+      <span class="eyebrow eyebrow--electric" style="animation:slide-in-left 0.5s ease 0.1s both">Cell Type 2 of 8</span>
+      <h3 style="color:var(--electric-lt)">Text Cell</h3>
+      <p>Full Markdown support — headings, bold, italic, and live preview. Switch to <strong style="color:var(--gold)">Aebajiogbe-Oduduwa</strong> mode for native Yoruba script with RTL input and the dedicated on-screen keyboard.</p>
+      <div class="cell-pills">
+        <span class="eyebrow eyebrow--electric" style="animation:none;font-size:.6rem">Markdown</span>
+        <span class="eyebrow eyebrow--electric" style="animation:none;font-size:.6rem">Live Preview</span>
+        <span class="eyebrow eyebrow--electric" style="animation:none;font-size:.6rem">Aebajiogbe Script</span>
+      </div>
+    </div>
+    <div class="cell-demo" style="--cc:#3b9eff">
+      <div class="cell-hdr">
+        <span class="cell-badge" style="--cc:#3b9eff">TEXT</span>
+        <span style="font-size:.65rem;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--text-2)">H1</span>
+        <span style="font-size:.65rem;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--text-2)">H2</span>
+        <span style="font-size:.65rem;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--text-2);font-weight:900">B</span>
+        <span style="font-size:.65rem;padding:2px 7px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--text-2);font-style:italic">I</span>
+        <select style="font-size:.65rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text-2);border-radius:4px;padding:2px 6px">
+          <option>Latin</option><option>Aebajiogbe-Oduduwa</option>
+        </select>
+        <span class="cell-run">▶ Run</span>
+      </div>
+      <div class="cell-body" style="padding:0">
+        <div class="code-pre" style="color:#c8d8ee">
+<span class="code-comment"># The Theory of Everything</span>
+**IfaNote** merges all knowledge fields.
+*Mathematics, physics, and Ifa wisdom*
+flow together in one living notebook.
+        </div>
+        <div class="code-output" style="color:var(--text-1);font-family:inherit;font-size:.88rem;padding:14px 18px">
+          <h3 style="font-size:1.05rem;color:var(--text-1);margin-bottom:6px">The Theory of Everything</h3>
+          <p style="font-size:.85rem;color:var(--text-2)"><strong style="color:var(--text-1)">IfaNote</strong> merges all knowledge fields. <em>Mathematics, physics, and Ifa wisdom</em> flow together in one living notebook.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 6c: Code Cell ─── -->
+<div class="scene" id="s6c">
+  <div class="bg-grid" style="opacity:.4"></div>
+  <div class="cell-split">
+    <div class="cell-label">
+      <span class="eyebrow eyebrow--amber" style="animation:slide-in-left 0.5s ease 0.1s both">Cell Type 3 of 8</span>
+      <h3 style="color:#ffaa32">Code Cell</h3>
+      <p>Run <strong style="color:var(--gold)">JavaScript</strong> instantly in your browser, or <strong style="color:#22d3ee">Python 3</strong> via Pyodide WebAssembly — with numpy, math, and the full standard library. C language in Phase II.</p>
+      <div class="cell-pills">
+        <span class="eyebrow eyebrow--amber" style="animation:none;font-size:.6rem">⚡ JavaScript</span>
+        <span class="eyebrow eyebrow--electric" style="animation:none;font-size:.6rem">🐍 Python (Pyodide)</span>
+        <span class="eyebrow eyebrow--violet" style="animation:none;font-size:.6rem">C — Phase II</span>
+      </div>
+    </div>
+    <div class="cell-demo" style="--cc:#f0920c">
+      <div class="cell-hdr">
+        <span class="cell-badge" style="--cc:#f0920c">JS</span>
+        <select style="font-size:.65rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--amber);border-radius:4px;padding:2px 6px">
+          <option>JavaScript</option><option>Python</option><option>C</option>
+        </select>
+        <span class="cell-hint">JavaScript · runs in your browser</span>
+        <span class="cell-run">▶ Run</span>
+      </div>
+      <div class="cell-body" style="padding:0">
+        <div class="code-pre">
+<span class="code-kw">const</span> <span class="code-fn">ψ</span> = x =&gt; Math.sin(x) * Math.cos(x / <span class="code-num">2</span>);
+<span class="code-kw">for</span> (<span class="code-kw">let</span> i = <span class="code-num">0</span>; i &lt; <span class="code-num">4</span>; i++) {
+  console.log(<span class="code-str">`Ψ(${i}) = ${ψ(i).toFixed(4)}`</span>);
+}
+        </div>
+        <div class="code-output">
+Ψ(0) = 0.0000<br>
+Ψ(1) = 0.3508<br>
+Ψ(2) = 0.4947<br>
+Ψ(3) = 0.0707
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 6d: Math Cell ─── -->
+<div class="scene" id="s6d">
+  <div class="bg-grid" style="opacity:.4"></div>
+  <div class="cell-split">
+    <div class="cell-label">
+      <span class="eyebrow eyebrow--electric" style="animation:slide-in-left 0.5s ease 0.1s both;--cc:#06b6d4">Cell Type 4 of 8</span>
+      <h3 style="color:#67e8f9">Math Cell</h3>
+      <p>Write LaTeX — inline with <code style="color:var(--gold)">$…$</code> or display with <code style="color:var(--gold)">$$…$$</code>. Rendered live by <strong>KaTeX</strong>. Supports the full LaTeX math library — integrals, summations, matrices, and beyond.</p>
+      <div class="cell-pills">
+        <span class="eyebrow eyebrow--electric" style="animation:none;font-size:.6rem;--ct:#06b6d4">∑ KaTeX</span>
+        <span class="eyebrow eyebrow--electric" style="animation:none;font-size:.6rem">Display Mode</span>
+        <span class="eyebrow eyebrow--electric" style="animation:none;font-size:.6rem">Inline Mode</span>
+      </div>
+    </div>
+    <div class="cell-demo" style="--cc:#06b6d4">
+      <div class="cell-hdr">
+        <span class="cell-badge" style="--cc:#06b6d4">∑ MATH</span>
+        <span class="cell-hint">LaTeX · rendered by KaTeX</span>
+        <span class="cell-run" style="background:#06b6d4">▶ Run</span>
+      </div>
+      <div class="cell-body" style="padding:0">
+        <div class="math-latex">$$E = mc^2$$<br>$$\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$</div>
+        <div class="math-render">
+          <div style="margin-bottom:16px">
+            <span class="math-formula math-big"><em>E</em> = <em>mc</em>²</span>
+          </div>
+          <div>
+            <span class="math-formula">∫₀^∞ e<sup>−x²</sup> dx = <sup>√π</sup>⁄<sub>2</sub></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 6e: Schematics ─── -->
+<div class="scene" id="s6e">
+  <div class="bg-grid" style="opacity:.4"></div>
+  <div class="cell-split">
+    <div class="cell-label">
+      <span class="eyebrow eyebrow--jade" style="animation:slide-in-left 0.5s ease 0.1s both;--cc:#84cc16">Cell Type 5 of 8</span>
+      <h3 style="color:#a3e635">Schematics Cell</h3>
+      <p>Write <strong style="color:#a3e635">Mermaid</strong> syntax and render flowcharts, sequence diagrams, class diagrams, Gantt charts, mind maps, pie charts, and timelines — or use plain ASCII art.</p>
+      <div class="cell-pills">
+        <span class="eyebrow eyebrow--jade" style="animation:none;font-size:.6rem">⊞ Mermaid</span>
+        <span class="eyebrow eyebrow--jade" style="animation:none;font-size:.6rem">ASCII Art</span>
+        <span class="eyebrow eyebrow--jade" style="animation:none;font-size:.6rem">9 Diagram Types</span>
+      </div>
+    </div>
+    <div class="cell-demo" style="--cc:#84cc16">
+      <div class="cell-hdr">
+        <span class="cell-badge" style="--cc:#84cc16">⊞ SCHEM</span>
+        <span class="cell-hint">Mermaid diagrams · ASCII art</span>
+        <span class="cell-run" style="background:#84cc16;color:#020509">▶ Run</span>
+      </div>
+      <div class="cell-body" style="padding:0">
+        <div class="mermaid-code">
+flowchart TD<br>
+&nbsp;&nbsp;A[<span style="color:#a3e635">Odu Ifa</span>] --> B{<span style="color:#f5c518">256 Patterns</span>}<br>
+&nbsp;&nbsp;B --> C[<span style="color:#3b9eff">IFABit Code</span>]<br>
+&nbsp;&nbsp;C --> D[<span style="color:#00c87c">All Knowledge</span>]
+        </div>
+        <div class="mermaid-render">
+          <div class="flow-diagram">
+            <div class="flow-node">Odu Ifa</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node" style="background:rgba(245,197,24,.12);border-color:rgba(245,197,24,.35);color:var(--gold-lt)">256 Patterns</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node" style="background:rgba(0,200,124,.1);border-color:rgba(0,200,124,.3);color:var(--jade-lt)">All Knowledge</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 6f: Art Cell ─── -->
+<div class="scene" id="s6f">
+  <div class="bg-grid" style="opacity:.4"></div>
+  <div class="cell-split">
+    <div class="cell-label">
+      <span class="eyebrow eyebrow--rose" style="animation:slide-in-left 0.5s ease 0.1s both">Cell Type 6 of 8</span>
+      <h3 style="color:var(--rose-lt)">Art Cell — Ifagram</h3>
+      <p>A full drawing canvas built into your notebook. Pen, eraser, colour picker, and brush size — create Ifa-inspired visual art, diagrams, and sketches directly alongside your knowledge.</p>
+      <div class="cell-pills">
+        <span class="eyebrow eyebrow--rose" style="animation:none;font-size:.6rem">✏ Pen Tool</span>
+        <span class="eyebrow eyebrow--rose" style="animation:none;font-size:.6rem">◻ Eraser</span>
+        <span class="eyebrow eyebrow--rose" style="animation:none;font-size:.6rem">Colour & Size</span>
+      </div>
+    </div>
+    <div class="cell-demo" style="--cc:#f43f5e">
+      <div class="cell-hdr">
+        <span class="cell-badge" style="--cc:#f43f5e">🎨 ART</span>
+        <span class="cell-hint">Draw · colour · erase · Ifagram canvas</span>
+      </div>
+      <div class="art-toolbar">
+        <span class="art-tool" style="background:rgba(244,63,94,0.2);border-color:rgba(244,63,94,.4)">✏ Pen</span>
+        <span class="art-tool">◻ Erase</span>
+        <input type="color" value="#f43f5e" style="width:28px;height:24px;border:none;border-radius:4px;cursor:pointer;background:transparent">
+        <input type="range" min="1" max="30" value="4" style="width:80px;accent-color:#f43f5e">
+        <span style="font-size:.65rem;color:var(--text-2)">4px</span>
+        <span style="margin-left:auto;font-size:.65rem;color:var(--text-2)">Clear</span>
+      </div>
+      <div class="art-canvas-demo">
+        <svg class="art-svg" viewBox="0 0 240 140">
+          <!-- Animated drawing of an Ifa-inspired pattern -->
+          <circle cx="120" cy="70" r="50" fill="none" stroke="#7c3aed" stroke-width="1.5" opacity="0.4" />
+          <circle cx="120" cy="70" r="30" fill="none" stroke="#f5c518" stroke-width="1" opacity="0.3" />
+          <!-- Cross marks -->
+          <line x1="120" y1="20" x2="120" y2="120" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4 2" opacity="0.5"/>
+          <line x1="70" y1="70" x2="170" y2="70" stroke="#f43f5e" stroke-width="2" stroke-dasharray="4 2" opacity="0.5"/>
+          <!-- Ifa marks (|) -->
+          <rect x="108" y="38" width="4" height="16" rx="2" fill="#f5c518"/>
+          <rect x="128" y="38" width="4" height="16" rx="2" fill="#f5c518"/>
+          <rect x="108" y="86" width="4" height="16" rx="2" fill="#f5c518"/>
+          <rect x="128" y="86" width="4" height="16" rx="2" fill="#f5c518"/>
+          <!-- Center glow dot -->
+          <circle cx="120" cy="70" r="6" fill="#f43f5e" opacity="0.8"/>
+          <circle cx="120" cy="70" r="10" fill="none" stroke="#f43f5e" stroke-width="1" opacity="0.4"/>
+          <!-- orbit dots -->
+          <circle cx="120" cy="20" r="3" fill="#a78bfa" opacity="0.7"/>
+          <circle cx="170" cy="70" r="3" fill="#00c87c" opacity="0.7"/>
+          <circle cx="120" cy="120" r="3" fill="#3b9eff" opacity="0.7"/>
+          <circle cx="70" cy="70" r="3" fill="#f0920c" opacity="0.7"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 6g: Multimedia ─── -->
+<div class="scene" id="s6g">
+  <div class="bg-grid" style="opacity:.4"></div>
+  <div class="cell-split">
+    <div class="cell-label">
+      <span class="eyebrow eyebrow--violet" style="animation:slide-in-left 0.5s ease 0.1s both">Cell Type 7 of 8</span>
+      <h3 style="color:var(--violet-lt)">Multimedia Cell</h3>
+      <p>Paste any URL and embed it directly in your notebook — images, videos, audio files, YouTube, and Vimeo all detected and rendered automatically. Knowledge with full media richness.</p>
+      <div class="cell-pills">
+        <span class="eyebrow eyebrow--violet" style="animation:none;font-size:.6rem">▶ YouTube</span>
+        <span class="eyebrow eyebrow--violet" style="animation:none;font-size:.6rem">🎵 Audio</span>
+        <span class="eyebrow eyebrow--violet" style="animation:none;font-size:.6rem">🖼 Images</span>
+        <span class="eyebrow eyebrow--violet" style="animation:none;font-size:.6rem">Vimeo</span>
+      </div>
+    </div>
+    <div class="cell-demo" style="--cc:#8b5cf6">
+      <div class="cell-hdr">
+        <span class="cell-badge" style="--cc:#8b5cf6">▶ MEDIA</span>
+        <span class="cell-hint">Image · video · audio · YouTube · Vimeo</span>
+      </div>
+      <div class="media-url-row">
+        <div class="media-url-input">https://www.youtube.com/watch?v=dQw4w9WgXcQ</div>
+        <div class="media-embed-btn" style="background:#8b5cf6">Embed ▶</div>
+      </div>
+      <div class="media-preview">
+        <div class="media-thumb" style="background:rgba(139,92,246,.15);border-color:rgba(139,92,246,.3)">▶</div>
+        <div class="media-info">
+          <strong>YouTube Video</strong>
+          <span>youtube.com · Embedded · Full controls</span><br>
+          <span style="font-size:.7rem;color:var(--violet-lt);margin-top:4px;display:inline-block">Also: images · mp4 · mp3 · Vimeo · links</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 6h: Others ─── -->
+<div class="scene" id="s6h">
+  <div class="bg-grid" style="opacity:.4"></div>
+  <div class="cell-split">
+    <div class="cell-label">
+      <span class="eyebrow eyebrow--violet" style="animation:slide-in-left 0.5s ease 0.1s both;--cc:#94a3b8">Cell Type 8 of 8</span>
+      <h3 style="color:#94a3b8">Others Cell</h3>
+      <p>For everything that doesn't fit elsewhere. Three modes: <strong style="color:var(--text-1)">📝 Notes</strong> for general ideas, <strong style="color:var(--text-1)">🔖 Bookmarks</strong> with title, URL, and description, and beautifully styled <strong style="color:var(--text-1)">💬 Quotes</strong>.</p>
+      <div class="cell-pills">
+        <span style="font-size:.68rem;font-weight:700;padding:4px 12px;border-radius:100px;border:1px solid rgba(148,163,184,0.25);color:#94a3b8;background:rgba(148,163,184,0.08)">📝 Notes</span>
+        <span style="font-size:.68rem;font-weight:700;padding:4px 12px;border-radius:100px;border:1px solid rgba(148,163,184,0.25);color:#94a3b8;background:rgba(148,163,184,0.08)">🔖 Bookmarks</span>
+        <span style="font-size:.68rem;font-weight:700;padding:4px 12px;border-radius:100px;border:1px solid rgba(148,163,184,0.25);color:#94a3b8;background:rgba(148,163,184,0.08)">💬 Quotes</span>
+      </div>
+    </div>
+    <div class="cell-demo" style="--cc:#94a3b8">
+      <div class="cell-hdr">
+        <span class="cell-badge" style="--cc:#94a3b8">… OTHERS</span>
+        <select style="font-size:.65rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--text-2);border-radius:4px;padding:2px 6px">
+          <option>💬 Quote</option><option>📝 Note</option><option>🔖 Bookmark</option>
+        </select>
+      </div>
+      <div class="cell-body" style="padding:14px 18px">
+        <div style="font-family:'Courier New',monospace;font-size:.82rem;color:#c8d8ee;margin-bottom:12px">Ìmọ̀ ni ipilẹ̀ àṣà wa — Knowledge is the foundation of our culture.</div>
+        <blockquote class="others-quote">
+          Ìmọ̀ ni ipilẹ̀ àṣà wa.
+          <cite class="others-attr">— Yoruba proverb · Captured in IfaNote</cite>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 7: Environment ─── -->
+<div class="scene" id="s7">
+  <div class="bg-grid" style="opacity:.3"></div>
+  <div style="position:relative;z-index:1;width:100%;max-width:1000px;padding:0 24px">
+    <div style="text-align:center;margin-bottom:20px;animation:fade-up 0.6s ease 0.1s both">
+      <span class="eyebrow eyebrow--amber">The IfaNote Environment</span>
+      <h2 class="big-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);margin-top:8px"><span class="grad-gold">One reactive workspace for everything</span></h2>
+    </div>
+    <div class="env-mockup" style="position:relative">
+      <!-- Topbar -->
+      <div class="env-topbar">
+        <span class="env-back">← IfaNote</span>
+        <span class="env-sep">·</span>
+        <span class="env-title">📓 My IfaNote Research</span>
+        <span class="env-sep" style="flex:1"></span>
+        <button class="add-btn add-btn--odu">＋ Odu</button>
+        <button class="add-btn add-btn--text">＋ Text</button>
+        <button class="add-btn add-btn--code">＋ Code</button>
+        <button class="add-btn add-btn--art">＋ Art</button>
+        <button class="add-btn add-btn--media">＋ Media</button>
+        <button class="add-btn add-btn--math">＋ Math</button>
+        <button class="add-btn add-btn--schem">＋ Schem</button>
+        <button class="add-btn add-btn--others">＋ Others</button>
+        <button class="run-all-btn">▶▶ Run All</button>
+        <button class="file-btn">File ▾</button>
+      </div>
+
+      <!-- Cells preview -->
+      <div class="env-cells-preview">
+        <div class="env-cell-row" style="--rc:#10b981">
+          <span class="env-cell-num">[1]</span>
+          <span class="env-cell-type-badge" style="--rc:#10b981">ODU</span>
+          <span class="env-cell-preview">Ogbè Ogbè · #1–1 · Méjì ✦ · Light · Creation · Mathematics</span>
+          <div class="env-cell-ctrls">
+            <button class="env-ctrl">↑</button><button class="env-ctrl">↓</button>
+            <button class="env-ctrl">⌫</button><button class="env-ctrl" style="color:#f87171">×</button>
+          </div>
+        </div>
+        <div class="env-cell-row" style="--rc:#3b9eff">
+          <span class="env-cell-num">[2]</span>
+          <span class="env-cell-type-badge" style="--rc:#3b9eff">TEXT</span>
+          <span class="env-cell-preview"># The IFA Internet — Theory of Everything · **bold** · *italic* · Markdown</span>
+          <div class="env-cell-ctrls">
+            <button class="env-ctrl">↑</button><button class="env-ctrl">↓</button>
+            <button class="env-ctrl">⌫</button><button class="env-ctrl" style="color:#f87171">×</button>
+          </div>
+        </div>
+        <div class="env-cell-row" style="--rc:#f0920c">
+          <span class="env-cell-num">[3]</span>
+          <span class="env-cell-type-badge" style="--rc:#f0920c">JS</span>
+          <span class="env-cell-preview">const ψ = x => Math.sin(x) * Math.cos(x/2); for (let i=0; i&lt;4; i++) …</span>
+          <div class="env-cell-ctrls">
+            <button class="env-ctrl">↑</button><button class="env-ctrl">↓</button>
+            <button class="env-ctrl">⌫</button><button class="env-ctrl" style="color:#f87171">×</button>
+          </div>
+        </div>
+        <div class="env-cell-row" style="--rc:#06b6d4">
+          <span class="env-cell-num">[4]</span>
+          <span class="env-cell-type-badge" style="--rc:#06b6d4">∑ MATH</span>
+          <span class="env-cell-preview">$$E = mc^2$$ · $$\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$</span>
+          <div class="env-cell-ctrls">
+            <button class="env-ctrl">↑</button><button class="env-ctrl">↓</button>
+            <button class="env-ctrl">⌫</button><button class="env-ctrl" style="color:#f87171">×</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- File menu overlay (shown in scene) -->
+      <div class="file-menu-overlay" id="fileMenuDemo" style="opacity:0;transition:opacity 0.5s ease 1.8s">
+        <button class="file-item">📂 Open…</button>
+        <div class="file-sep"></div>
+        <button class="file-item">💾 Save <span class="file-hint">.ifanb</span></button>
+        <div class="file-sep"></div>
+        <div class="file-section-label">Save As</div>
+        <button class="file-item" style="padding-left:24px">Plain text <span class="file-hint">.ifa</span></button>
+        <button class="file-item" style="padding-left:24px">Word <span class="file-hint">.doc</span></button>
+        <button class="file-item" style="padding-left:24px">PDF <span class="file-hint">print dialog</span></button>
+        <div class="file-sep"></div>
+        <button class="file-item">⧉ Duplicate</button>
+        <div class="file-sep"></div>
+        <button class="file-item file-item--danger">🗑 Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 8: Odu Wisdom ─── -->
+<div class="scene" id="s8">
+  <div class="bg-grid" style="opacity:.3"></div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:20px">
+    <div style="text-align:center">
+      <span class="eyebrow eyebrow--gold">Rooted in Ifa</span>
+      <h2 class="big-title" style="font-size:clamp(1.6rem,3vw,2.4rem);margin-top:8px">
+        <span class="grad-gold">All 256 Odu Ifa — Encoded & Alive</span>
+      </h2>
+      <p class="section-sub" style="font-size:.9rem;margin-top:8px">Every Odu maps to a field of knowledge, a domain, and an IFABit pattern.</p>
+    </div>
+    <div class="odu-grid-demo" id="oduGrid"></div>
+    <div style="display:flex;gap:20px;margin-top:4px;animation:fade-up 0.7s ease 3.5s both">
+      <span class="eyebrow eyebrow--gold" style="animation:none">IFABit Encoding</span>
+      <span class="eyebrow eyebrow--violet" style="animation:none">Aebajiogbe-Oduduwa Script</span>
+      <span class="eyebrow eyebrow--jade" style="animation:none">Domain → Field Mapping</span>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCENE 9: Features ─── -->
+<div class="scene" id="s9">
+  <div class="bg-grid" style="opacity:.3"></div>
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;max-width:960px;padding:0 24px">
+    <div style="text-align:center">
+      <span class="eyebrow eyebrow--violet">Key Features</span>
+      <h2 class="big-title" style="font-size:clamp(1.8rem,3.5vw,2.8rem);margin-top:8px">
+        <span class="grad-violet">Nine Dimensions of a New Way to Think</span>
+      </h2>
+    </div>
+    <div class="features-grid" id="featGrid"></div>
+  </div>
+</div>
+
+<!-- ─── SCENE 10: CTA ─── -->
+<div class="scene" id="s10">
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-violet" style="width:600px;height:600px;opacity:.2;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="bg-orb orb-gold" style="width:300px;height:300px;bottom:-40px;right:-60px;opacity:.12"></div>
+
+  <!-- Floating symbols -->
+  <span class="brand-float" style="top:10%;left:6%;--dur:7s;--delay:0s;font-size:2.4rem">⊕</span>
+  <span class="brand-float" style="top:8%;right:8%;--dur:9s;--delay:1s;font-size:2rem">∞</span>
+  <span class="brand-float" style="bottom:20%;left:8%;--dur:8s;--delay:2s;font-size:1.6rem">Ψ</span>
+  <span class="brand-float" style="bottom:16%;right:6%;--dur:10s;--delay:0.5s;font-size:2rem">✦</span>
+  <span class="brand-float" style="top:45%;left:2%;--dur:6s;--delay:1.5s">⟳</span>
+  <span class="brand-float" style="top:42%;right:2%;--dur:11s;--delay:3s">∿</span>
+
+  <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1">
+    <span class="eyebrow eyebrow--gold" style="animation:fade-in 0.6s ease 0.3s both">Available Now</span>
+    <div class="cta-logo">IfaNote</div>
+    <div class="cta-tag">The Notebook for Everything</div>
+    <div class="cta-pulse"></div>
+    <div class="cta-action">Start your notebook today</div>
+    <div class="cta-url">ifainternet.org/ifa-notebook/</div>
+    <div class="cta-url-env">Environment: ifainternet.org/ifa-notebook/env/</div>
+    <div class="cta-badges">
+      <span class="cta-badge eyebrow eyebrow--jade" style="animation:none">⚡ Browser-Native</span>
+      <span class="cta-badge eyebrow eyebrow--violet" style="animation:none">🤝 Open Source</span>
+      <span class="cta-badge eyebrow eyebrow--gold" style="animation:none">∞ Free for All</span>
+      <span class="cta-badge eyebrow eyebrow--electric" style="animation:none">🎓 All Ages</span>
+    </div>
+    <div style="margin-top:24px;font-size:.78rem;color:var(--text-3);animation:fade-up 0.6s ease 3s both">
+      The IFA Internet &nbsp;·&nbsp; CENProject &nbsp;·&nbsp; IFA = Ifa For All
+    </div>
+  </div>
+</div>
+
+</div><!-- /stage -->
+
+<!-- ── HUD ── -->
+<div id="hud">
+  <div id="progress"><div id="progress-fill"></div></div>
+  <div id="caption">Click ▶ to begin</div>
+</div>
+
+<script>
+/* ── Scene manifest ── */
+const SCENES = [
+  { id:'s1',  start:0,   dur:12,  cap:'What if one notebook could hold everything you know? Every field. Every formula. Every culture.' },
+  { id:'s2',  start:12,  dur:14,  cap:'Introducing IfaNote — The Notebook for Everything. Built on the IFA Internet by CENProject.' },
+  { id:'s3',  start:26,  dur:16,  cap:'For too long, knowledge has been fragmented — scattered across separate tools for science, code, math, and art. Never one unified place.' },
+  { id:'s4',  start:42,  dur:20,  cap:'IfaNote is the first environment that treats every field of knowledge as one — mathematical, unified, and deeply computable.' },
+  { id:'s5a', start:62,  dur:14,  cap:'IfaKernel — Kórókin. The computational heart. Executes IfaLang, evaluates Odu axioms, and bridges all modern programming languages.' },
+  { id:'s5b', start:76,  dur:14,  cap:'IfaPen — Gégéfà. The intelligent cell editor. Write code, mathematics, philosophy, and Odu marks side by side in one environment.' },
+  { id:'s5c', start:90,  dur:14,  cap:'IfaLight — Ináfá. The rendering engine. Converts knowledge into illuminated interactive output — plots, Odu diagrams, and knowledge graphs.' },
+  { id:'s5d', start:104, dur:14,  cap:'IfaBook — Ìwéfá. Storage, organisation, and publishing. Reactive cell graphs, .ifanb files, and full IFABOK integration.' },
+  { id:'s6a', start:118, dur:12,  cap:'Odu Cell — IFABit notation for all 256 Odu Ifa. Toggle each mark to identify any Odu, its domain, field of knowledge, and IFABit code.' },
+  { id:'s6b', start:130, dur:12,  cap:'Text Cell — Full Markdown with headings, bold, italic, and live preview. Switch to Aebajiogbe-Oduduwa mode for native Yoruba script input.' },
+  { id:'s6c', start:142, dur:12,  cap:'Code Cell — Run JavaScript instantly in your browser, or Python 3 via Pyodide WebAssembly with numpy and the full standard library.' },
+  { id:'s6d', start:154, dur:11,  cap:'Math Cell — Write LaTeX and render it live with KaTeX. Inline and display modes. Every formula, from Euclid to Ife, beautifully rendered.' },
+  { id:'s6e', start:165, dur:11,  cap:'Schematics Cell — Mermaid diagrams rendered from simple syntax. Flowcharts, sequence diagrams, mind maps, Gantt charts, and ASCII art.' },
+  { id:'s6f', start:176, dur:11,  cap:'Art Cell — The Ifagram canvas. Draw, sketch, and create Ifa-inspired visual art with pen, eraser, colour, and brush size — directly in your notebook.' },
+  { id:'s6g', start:187, dur:11,  cap:'Multimedia Cell — Paste any URL to embed images, videos, audio, YouTube, or Vimeo directly in your notebook. Full media richness.' },
+  { id:'s6h', start:198, dur:10,  cap:'Others Cell — Notes, bookmarks with title and URL, and beautifully styled quotes. A place for everything that doesn\'t fit elsewhere.' },
+  { id:'s7',  start:208, dur:24,  cap:'The IfaNote Environment — one reactive workspace. Add any cell type, run all at once. Save as .ifanb, export to PDF, Word, or plain .ifa text.' },
+  { id:'s8',  start:232, dur:16,  cap:'Rooted in the 256 Odu Ifa — the axiomatic language matrix of everything. Every Odu maps to a field, domain, and IFABit pattern.' },
+  { id:'s9',  start:248, dur:16,  cap:'Nine dimensions of a completely new way to think, learn, and create — for thinkers, scientists, artists, programmers, and kids alike.' },
+  { id:'s10', start:264, dur:20,  cap:'IfaNote — The Notebook for Everything. Start your notebook today at ifainternet.org/ifa-notebook/' },
+];
+
+const TOTAL = SCENES[SCENES.length - 1].start + SCENES[SCENES.length - 1].dur;
+
+/* ── Odu data ── */
+const ODU = [
+  {n:'Ogbè',      latin:'Ogbe',     c:'#f5c518',field:'Mathematics',  code:'1111',d:.05},
+  {n:'Ọ̀yẹ̀kú',   latin:'Oyeku',    c:'#a78bfa',field:'Philosophy',   code:'0000',d:.15},
+  {n:'Ìwòrì',    latin:'Iwori',    c:'#3b9eff',field:'Physics',      code:'0110',d:.25},
+  {n:'Òdí',      latin:'Odi',      c:'#10b981',field:'Biology',      code:'1001',d:.35},
+  {n:'Ìrosún',   latin:'Irosun',   c:'#f43f5e',field:'Medicine',     code:'1100',d:.45},
+  {n:'Ọ̀wọ́nrín', latin:'Owonrin',  c:'#f97316',field:'Engineering',  code:'0011',d:.55},
+  {n:'Ọ̀bárà',   latin:'Obara',    c:'#f59e0b',field:'Economics',    code:'1000',d:.65},
+  {n:'Ọ̀kànràn', latin:'Okanran',  c:'#ec4899',field:'Governance',   code:'0001',d:.75},
+  {n:'Ògúndá',   latin:'Ogunda',   c:'#dc2626',field:'Law',          code:'1110',d:.85},
+  {n:'Ọ̀sá',     latin:'Osa',      c:'#818cf8',field:'Technology',   code:'0111',d:.95},
+  {n:'Ìká',      latin:'Ika',      c:'#14b8a6',field:'Finance',      code:'0100',d:1.05},
+  {n:'Òtúrúpọ̀n',latin:'Oturupon', c:'#84cc16',field:'Architecture',code:'0010',d:1.15},
+  {n:'Òtúrá',    latin:'Otura',    c:'#06b6d4',field:'Astronomy',    code:'1011',d:1.25},
+  {n:'Ìrẹtẹ̀',   latin:'Irete',    c:'#f472b6',field:'History',      code:'1101',d:1.35},
+  {n:'Ọ̀ṣẹ́',     latin:'Ose',      c:'#c084fc',field:'Arts & Music', code:'1010',d:1.45},
+  {n:'Òfún',     latin:'Ofun',     c:'#cbd5e1',field:'Metaphysics',  code:'0101',d:1.55},
+];
+
+/* ── Features data ── */
+const FEATS = [
+  {i:'∞',  t:'Every Field, One Environment', b:'From quantum physics to Yoruba philosophy — every discipline unified.',             fi:'#f0920c',fc:'rgba(240,146,12,0.35)',d:.1},
+  {i:'Ψ',  t:'IfaLang Kernel',               b:'Write in IfaLang or any modern language — polyglot computation in one namespace.',  fi:'#7dc3ff',fc:'rgba(59,158,255,0.35)',d:.3},
+  {i:'⟳',  t:'Reactive Computation',         b:'Change any value and every dependent cell updates instantly across all fields.',    fi:'#38e8a0',fc:'rgba(0,200,124,0.35)', d:.5},
+  {i:'◉',  t:'Odu Ifa Cell Types',           b:'Native cells for IFABit marks, IfaGebra, Àṣẹ flows, and cowrie probability.',      fi:'#f5c518',fc:'rgba(245,197,24,0.35)',d:.7},
+  {i:'🌐', t:'IFABOK Integration',           b:'Every notebook grounded in the IFA Body of Knowledge and 256 Odu axioms.',         fi:'#a78bfa',fc:'rgba(139,92,246,0.35)',d:.9},
+  {i:'⚡', t:'Browser-Native & Offline',     b:'Runs via WASM — no server required. Offline-first. Plain-text .ifa files you own.',fi:'#14d4f4',fc:'rgba(20,212,244,0.35)',d:1.1},
+  {i:'🎨', t:'Multimedia Output',            b:'Charts, audio, video, 3D visualisations, and Opon Ifa diagrams — first-class.',    fi:'#e9498a',fc:'rgba(233,73,138,0.35)',d:1.3},
+  {i:'🤝', t:'Open Source & Universal',      b:'Fully open-source, community-driven, and free for all thinkers everywhere.',       fi:'#00c87c',fc:'rgba(0,200,124,0.35)', d:1.5},
+  {i:'🏫', t:'Education for All Ages',       b:'For kids, teens, and adults alike — visual, interactive, and culturally rich.',    fi:'#ffaa32',fc:'rgba(240,146,12,0.35)',d:1.7},
+];
+
+/* ── Build Odu grid ── */
+function buildOduGrid() {
+  const g = document.getElementById('oduGrid');
+  ODU.forEach(o => {
+    const el = document.createElement('div');
+    el.className = 'odu-card-mini';
+    el.style.cssText = `--oc:${o.c};--od:${o.d}s`;
+    el.innerHTML = `
+      <div class="odu-card-mini__num">#${ODU.indexOf(o)+1}</div>
+      <div class="odu-card-mini__name">${o.n}</div>
+      <div class="odu-card-mini__field">${o.field}</div>
+      <div class="odu-card-mini__code">${o.code}</div>
+    `;
+    g.appendChild(el);
+  });
+}
+
+/* ── Build Features grid ── */
+function buildFeatGrid() {
+  const g = document.getElementById('featGrid');
+  FEATS.forEach(f => {
+    const el = document.createElement('div');
+    el.className = 'feat-card';
+    el.style.cssText = `--fc:${f.fc};--fi:${f.fi};--ff:${f.d}s`;
+    el.innerHTML = `
+      <span class="feat-card__icon">${f.i}</span>
+      <div class="feat-card__title">${f.t}</div>
+      <div class="feat-card__body">${f.b}</div>
+    `;
+    g.appendChild(el);
+  });
+}
+
+/* ── Particles for scene 1 ── */
+function buildParticles() {
+  const c = document.getElementById('hookParts');
+  for (let i = 0; i < 30; i++) {
+    const d = document.createElement('div');
+    d.className = 'hook-particle';
+    d.style.cssText = `
+      left:${Math.random()*100}%;top:${Math.random()*100}%;
+      animation-delay:${Math.random()*3}s;
+      animation-duration:${4+Math.random()*4}s;
+      width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;
+      opacity:${0.1+Math.random()*0.3};
+      background:${Math.random()>0.5?'#7c3aed':'#f5c518'};
+    `;
+    c.appendChild(d);
+  }
+}
+
+/* ── Scene controller ── */
+let rafId = null;
+let startTs = null;
+let curSceneIdx = -1;
+
+function tick(ts) {
+  if (!startTs) startTs = ts;
+  const elapsed = (ts - startTs) / 1000;
+
+  // Progress bar
+  document.getElementById('progress-fill').style.width =
+    Math.min(elapsed / TOTAL * 100, 100) + '%';
+
+  // Scene switching
+  let targetIdx = -1;
+  for (let i = 0; i < SCENES.length; i++) {
+    if (elapsed >= SCENES[i].start && elapsed < SCENES[i].start + SCENES[i].dur) {
+      targetIdx = i; break;
+    }
+  }
+
+  if (targetIdx !== curSceneIdx) {
+    if (curSceneIdx >= 0) {
+      document.getElementById(SCENES[curSceneIdx].id).classList.remove('scene--active');
+    }
+    if (targetIdx >= 0) {
+      const sc = document.getElementById(SCENES[targetIdx].id);
+      sc.classList.add('scene--active');
+      document.getElementById('caption').textContent = SCENES[targetIdx].cap;
+
+      // Trigger file menu fade-in on scene 7
+      if (SCENES[targetIdx].id === 's7') {
+        const fm = document.getElementById('fileMenuDemo');
+        if (fm) setTimeout(() => fm.style.opacity = '1', 1800);
+      }
+    }
+    curSceneIdx = targetIdx;
+  }
+
+  if (elapsed < TOTAL + 1) {
+    rafId = requestAnimationFrame(tick);
+  } else {
+    // Hold last scene
+    document.getElementById('caption').textContent = 'Visit ifainternet.org/ifa-notebook/ to start your notebook today.';
+  }
+}
+
+function startVideo() {
+  document.getElementById('play-overlay').style.display = 'none';
+  buildParticles();
+  buildOduGrid();
+  buildFeatGrid();
+  rafId = requestAnimationFrame(tick);
+}
+
+/* ── Screen-record & MP4 download ── */
+let mediaRecorder = null;
+let recordedChunks = [];
+
+// Detect whether native MP4 recording is supported (Chrome 130+, Safari)
+function nativeMp4Type() {
+  return ['video/mp4;codecs=avc1,mp4a.40.2', 'video/mp4;codecs=avc1', 'video/mp4']
+    .find(t => { try { return MediaRecorder.isTypeSupported(t); } catch(e){ return false; } });
+}
+function bestWebmType() {
+  return ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm']
+    .find(t => { try { return MediaRecorder.isTypeSupported(t); } catch(e){ return false; } }) || 'video/webm';
+}
+
+function triggerDownload(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const a   = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 8000);
+}
+
+async function convertToMp4(webmBlob) {
+  const ov  = document.getElementById('convert-overlay');
+  const bar = document.getElementById('convert-bar');
+  const pct = document.getElementById('convert-pct');
+  ov.style.display = 'flex';
+
+  try {
+    // Load ffmpeg.wasm (single-threaded build, no SharedArrayBuffer needed)
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ff = createFFmpeg({
+      log: false,
+      corePath: 'https://unpkg.com/@ffmpeg/core@0.11.0/dist/ffmpeg-core.js'
+    });
+    ff.setProgress(({ ratio }) => {
+      const p = Math.round(Math.min(ratio, 1) * 100);
+      bar.style.width = p + '%';
+      pct.textContent = p + '%';
+    });
+
+    await ff.load();
+    ff.FS('writeFile', 'input.webm', await fetchFile(webmBlob));
+    // ultrafast preset keeps conversion time reasonable in the browser
+    await ff.run('-i', 'input.webm', '-c:v', 'libx264', '-preset', 'ultrafast',
+                 '-crf', '22', '-movflags', '+faststart', '-an', 'output.mp4');
+    const data = ff.FS('readFile', 'output.mp4');
+    const mp4  = new Blob([data.buffer], { type: 'video/mp4' });
+    ov.style.display = 'none';
+    triggerDownload(mp4, 'ifanote-intro.mp4');
+  } catch (err) {
+    console.error('MP4 conversion failed:', err);
+    ov.style.display = 'none';
+    // Fall back: offer the webm
+    if (confirm('MP4 conversion failed — download as WebM instead?\n(WhatsApp and TikTok both accept WebM on desktop.)')) {
+      triggerDownload(webmBlob, 'ifanote-intro.webm');
+    }
+  }
+}
+
+async function startRecording() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+    alert('Screen recording requires Chrome or Edge.\nOpen this page in Chrome and try again.');
+    return;
+  }
+
+  let stream;
+  try {
+    stream = await navigator.mediaDevices.getDisplayMedia({
+      video: { frameRate: 30, width: 1280, height: 720 },
+      audio: false
+    });
+  } catch (err) {
+    startVideo(); return; // user cancelled — just play
+  }
+
+  const mp4Type  = nativeMp4Type();
+  const mimeType = mp4Type || bestWebmType();
+  const useNativeMp4 = Boolean(mp4Type);
+
+  recordedChunks = [];
+  mediaRecorder  = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 6_000_000 });
+
+  mediaRecorder.ondataavailable = e => {
+    if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+  };
+
+  mediaRecorder.onstop = async () => {
+    stream.getTracks().forEach(t => t.stop());
+    document.getElementById('rec-indicator').style.display = 'none';
+    const blob = new Blob(recordedChunks, { type: mimeType });
+
+    if (useNativeMp4) {
+      // Browser encoded directly to MP4 — download immediately
+      triggerDownload(blob, 'ifanote-intro.mp4');
+    } else {
+      // Recorded WebM — convert to MP4 via ffmpeg.wasm
+      await convertToMp4(blob);
+    }
+  };
+
+  stream.getVideoTracks()[0].onended = () => {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+  };
+
+  mediaRecorder.start(200);
+  document.getElementById('rec-indicator').style.display = 'flex';
+
+  startVideo();
+
+  // Auto-stop when the presentation ends
+  setTimeout(() => {
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+  }, (TOTAL + 2) * 1000);
+}
+</script>
+</body>
+</html>

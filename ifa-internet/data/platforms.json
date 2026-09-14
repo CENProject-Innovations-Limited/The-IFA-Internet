@@ -564,6 +564,17 @@
       "local": true
     },
     {
+      "id": "ifa-note",
+      "name": "IfaNote",
+      "subtitle": "NoteE — The Notebook for Everything",
+      "description": "A reactive notebook environment for code, Odu Ifa marks, mathematics, schematics, art, and universal knowledge. Write in any script — including the Aebajiogbe-Oduduwa writing system. Add Text, Code, Math, Odu Ifa, Schematics, Art & Design, and Multimedia cells. Save your notebook as .ifanb, export to plain text, Word, or PDF.",
+      "category": "tools",
+      "alsoIn": ["education", "tech"],
+      "url": "/ifa-notebook/",
+      "featured": true,
+      "local": true
+    },
+    {
       "id": "ifa-spectrum",
       "name": "IFA Spectrum",
       "subtitle": "Spectrum of Everything",

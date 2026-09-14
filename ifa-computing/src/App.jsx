@@ -1330,7 +1330,7 @@ function ComputingSystemsSection() {
           <p className="cs-bridge__tx">
             <strong>IfaBits are InfiniteBits</strong> — governed by <em>Oju Odufa Merindinlogun</em>,
             the 16 Ifa Laws of Nature. Unlike classical bits (finite, exactly 0 or 1), IfaBits encode
-            infinite-dimensional information states. Every classical bit and every quantum qubit is a
+            doubly infinite-dimensional information States. Every classical bit and every quantum qubit is a
             special case of an IFABit — making IFABit the most fundamental unit of computation across
             all systems, ancient and modern.
           </p>
