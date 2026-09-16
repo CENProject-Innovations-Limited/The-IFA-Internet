@@ -1070,6 +1070,8 @@ function IfaBankingSection() {
                   <span className="banking__qcard-num">{q.num}</span>
                 </div>
                 <div className="banking__qcard-yoruba">{q.yoruba}</div>
+                <div className="banking__qcard-odu">{q.odu}</div>
+                <div className="banking__qcard-desc">{q.desc}</div>
               </div>
             ))}
           </div>

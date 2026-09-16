@@ -1223,10 +1223,18 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
   .smarthomes__nexus-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
   .smarthomes__nexus-col--right { border-left: none; border-top: 1px solid var(--border); }
   .smarthomes__nexus-center { border-left: none; border-right: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  /* Isese Economy — collapse to 2-col at tablet */
+  .banking__oodu-grid   { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .banking__quarters    { grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* Building blocks: single column from 900px down for readability */
+  .banking__rundon-grid { grid-template-columns: 1fr; gap: 16px; }
 }
 
 @media (max-width: 640px) {
-  .section { padding: 70px 0; }
+  .section { padding: 60px 0; }
+  .container { padding: 0 16px; }
+  .section__header { margin-bottom: 44px; }
 
   /* ── Mobile header: two-row layout with scrollable nav ── */
   .header { height: auto; }
@@ -1254,28 +1262,176 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
     font-size: 0.72rem;
     padding: 5px 9px;
     white-space: nowrap;
+    min-height: 34px;
+    display: inline-flex;
+    align-items: center;
   }
   .nav-link--cta { margin-left: 2px; }
 
   /* Push hero down to clear the taller two-row header (~88px) */
   .hero { padding-top: 90px; }
-
+  .hero__inner { padding: 48px 16px 60px; }
   .hero__rings { display: none; }
+  .hero__stats { gap: 20px; }
+  .hero__ctas { gap: 10px; }
+  .hero__ctas .btn { flex: 1; min-width: 130px; justify-content: center; }
+
   .identity-grid { grid-template-columns: 1fr; }
   .fields-grid { grid-template-columns: 1fr; }
   .heritage-grid { grid-template-columns: 1fr; }
-  .hero__stats { gap: 24px; }
+  .heritage-card__visual { height: 150px; }
+  .heritage-card__body { padding: 16px 18px; }
+  .heritage-card__highlights { padding: 14px 18px 10px; }
+  .heritage-card__more { margin: 0 18px 14px; }
+  .heritage-card__wiki-link { margin: 0 18px 18px; }
+  .heritage-card__explore-btn { min-height: 38px; }
+
   .modelling-cta__inner { flex-direction: column; align-items: flex-start; }
+  .modelling-cta { padding: 24px 20px; }
   .odu-bp-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  .odu-bp-stats { gap: 20px; padding: 24px 20px; }
   .footer__bottom { flex-direction: column; align-items: flex-start; }
+
+  .dual-panel__side { padding: 28px 22px; }
+  .identity-card { padding: 22px 18px; }
+
   .smarthomes__nexus-col { padding: 24px 20px; }
-  .smarthomes__nexus-center { padding: 24px 20px; }
+  .smarthomes__nexus-center { padding: 24px 20px; min-width: 0; }
   .smarthomes__features-grid { grid-template-columns: 1fr; }
-  .banking__quarters { grid-template-columns: 1fr 1fr; }
+  .smarthomes__tc-inner { padding: 22px 20px 26px; }
+
+  /* Quarter cards: single column on all phones — cards have odu + desc content */
+  .banking__quarters { grid-template-columns: 1fr; gap: 12px; }
   .banking__oodu-grid { grid-template-columns: 1fr 1fr; }
   .banking__pt-cta-inner { flex-direction: column; align-items: flex-start; }
   .banking__rundon-grid { grid-template-columns: 1fr; }
   .banking__ilarundon { padding: 28px 20px 24px; }
+  .banking__ilarindun { padding: 28px 20px; }
+  .banking__ojuodufameerin { padding: 18px 20px; }
+  .banking__ilarindun-header { margin-bottom: 24px; }
+  .banking__ilarindun-sub { font-size: 0.82rem; }
+
+  /* Disable hover transforms on touch — avoids sticky hover states */
+  @media (hover: none) {
+    .heritage-card:hover,
+    .identity-card:hover,
+    .field-card:hover,
+    .odu-bp-card:hover,
+    .orisa-model-card:hover,
+    .smarthomes__tech-card--ifa:hover,
+    .smarthomes__tech-card--orisa:hover,
+    .smarthomes__feature:hover,
+    .banking__qcard:hover,
+    .banking__rundon-card:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+/* ── Extra-small screens (≤ 480px) ─────────────────────────── */
+@media (max-width: 480px) {
+  .container { padding: 0 14px; }
+  .section { padding: 50px 0; }
+  .section__header { margin-bottom: 36px; }
+  .section__desc { font-size: 0.95rem; }
+
+  .hero__inner { padding: 36px 14px 52px; }
+  .hero__eyebrow { font-size: 0.68rem; letter-spacing: 0.1em; }
+  .hero__desc { font-size: 0.95rem; margin-bottom: 32px; }
+  .hero__stats { gap: 14px; margin-bottom: 32px; }
+  .hero__stat-value { font-size: 1.75rem; }
+  .hero__stat-label { font-size: 0.68rem; }
+  .hero__stat { min-width: 56px; }
+
+  .heritage-card__visual { height: 130px; }
+  .heritage-card__body { padding: 14px 14px 16px; }
+  .heritage-card__name { font-size: 0.95rem; }
+  .heritage-card__highlights { padding: 12px 14px 8px; }
+  .heritage-card__hl-item { font-size: 0.77rem; }
+  .heritage-card__more { margin: 0 14px 12px; font-size: 0.77rem; }
+  .heritage-card__wiki-link { margin: 0 14px 14px; }
+
+  .identity-card { padding: 18px 16px; }
+  .identity-card__symbol { font-size: 1.6rem; }
+  .identity-card__name { font-size: 0.95rem; }
+  .identity-card__desc { font-size: 0.82rem; }
+
+  .dual-panel__side { padding: 22px 16px; }
+  .dual-panel__name { font-size: 1.2rem; }
+  .dual-panel__desc { font-size: 0.82rem; }
+
+  .odu-bp-card { padding: 12px 10px; min-height: 80px; }
+  .odu-bp-card__name { font-size: 0.82rem; }
+  .odu-bp-stats { gap: 14px; padding: 18px 14px; }
+  .odu-bp-stat__num { font-size: 1.7rem; }
+  .odu-bp-stat__label { font-size: 0.68rem; }
+
+  .field-card { padding: 18px 14px; }
+  .field-card__name { font-size: 0.88rem; }
+
+  .orisa-model-card { padding: 20px 16px; }
+  .orisa-model-card__orisa { font-size: 1rem; }
+
+  .modelling-cta { padding: 20px 16px; }
+  .modelling-cta__icon { font-size: 1.8rem; }
+  .modelling-cta__title { font-size: 0.95rem; }
+  .arch-axiom { padding: 16px 18px; font-size: 0.9rem; }
+
+  .smarthomes__feature { padding: 18px 14px 20px; }
+  .smarthomes__tc-inner { padding: 18px 16px 22px; }
+  .smarthomes__nexus-col { padding: 20px 16px; }
+  .smarthomes__nexus-center { padding: 20px 16px; }
+  .smarthomes__nexus-title { font-size: 0.82rem; }
+
+  .banking__ilarindun { padding: 20px 14px; }
+  .banking__ilarundon { padding: 22px 14px 18px; }
+  .banking__qcard-head { padding: 12px 12px 4px; }
+  .banking__qcard-yoruba { padding: 0 12px 4px; font-size: 0.88rem; }
+  .banking__qcard-odu { padding: 0 12px 8px; font-size: 0.75rem; }
+  .banking__qcard-desc { padding: 10px 12px 14px; font-size: 0.78rem; }
+  .banking__pt-cta-inner { padding: 20px 16px; }
+  .banking__rundon-inner { padding: 18px 16px; }
+  .banking__ojuodufameerin { padding: 16px 14px; }
+  .banking__oodu-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .banking__oodu-badge { padding: 12px 14px; }
+  .banking__oodu-name { font-size: 0.85rem; }
+  .banking__oodu-role { font-size: 0.7rem; }
+  .banking__ilarundon-title { font-size: 1.4rem; }
+  .banking__ilarindun-desc { font-size: 0.9rem; }
+  .banking__ilarundon-synthesis { padding: 12px 14px; font-size: 0.82rem; }
+  .banking__ilarindun-header { margin-bottom: 18px; }
+  .banking__rundon-name { font-size: 0.95rem; }
+  .banking__rundon-body { font-size: 0.82rem; }
+
+  .btn { padding: 10px 20px; font-size: 0.85rem; }
+  .footer { padding: 44px 0 24px; }
+  .footer__inner { gap: 20px; }
+}
+
+/* ── Very small screens (≤ 380px) ──────────────────────────── */
+@media (max-width: 380px) {
+  .container { padding: 0 12px; }
+  .hero__ctas { flex-direction: column; }
+  .hero__ctas .btn { width: 100%; justify-content: center; }
+  .hero__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; justify-items: center; }
+  /* quarters already single-col from 640px; keep oodu 2-col */
+  .banking__quarters { grid-template-columns: 1fr; }
+  .banking__oodu-grid { grid-template-columns: 1fr 1fr; }
+  .banking__qcard-yoruba { font-size: 0.95rem; }
+  .banking__qcard-desc { font-size: 0.82rem; }
+  .banking__oodu-badge { padding: 8px 10px; }
+  .banking__oodu-name { font-size: 0.82rem; }
+  .banking__oodu-role { font-size: 0.68rem; }
+  .banking__ilarundon-title { font-size: 1.2rem; }
+  .banking__ilarindun-title { font-size: 1.3rem; }
+  .banking__ilarindun-sub { font-size: 0.76rem; letter-spacing: 0; }
+  .banking__rundon-inner { padding: 14px; }
+  .banking__ilarundon-synthesis { padding: 10px 12px; font-size: 0.8rem; }
+  .banking__ojuodufameerin { padding: 12px; }
+  .banking__pt-cta-inner .btn { width: 100%; text-align: center; justify-content: center; }
+  .odu-bp-grid { grid-template-columns: repeat(4, 1fr); }
+  .heritage-card__visual { height: 120px; }
 }
 
 /* ── Ifa Banking Section ─────────────────────────────────────── */
@@ -1503,4 +1659,57 @@ button { cursor: pointer; border: none; background: none; font: inherit; color: 
 .banking__pt-cta-sub {
   font-size: 0.85rem; color: var(--muted);
   line-height: 1.5;
+}
+
+/* ── Ifa Banking Section — Responsive (must stay AFTER base banking styles) ── */
+@media (max-width: 900px) {
+  .banking__oodu-grid   { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .banking__quarters    { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .banking__rundon-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+@media (max-width: 640px) {
+  .banking__quarters    { grid-template-columns: 1fr; gap: 12px; }
+  .banking__oodu-grid   { grid-template-columns: 1fr 1fr; }
+  .banking__pt-cta-inner { flex-direction: column; align-items: flex-start; }
+  .banking__rundon-grid { grid-template-columns: 1fr; }
+  .banking__ilarundon   { padding: 28px 20px 24px; }
+  .banking__ilarindun   { padding: 28px 20px; }
+  .banking__ojuodufameerin { padding: 18px 20px; }
+  .banking__ilarindun-header { margin-bottom: 24px; }
+  .banking__ilarindun-sub { font-size: 0.82rem; }
+}
+@media (max-width: 480px) {
+  .banking__ilarindun   { padding: 20px 14px; }
+  .banking__ilarundon   { padding: 22px 14px 18px; }
+  .banking__qcard-head  { padding: 12px 12px 4px; }
+  .banking__qcard-yoruba { padding: 0 12px 4px; font-size: 0.88rem; }
+  .banking__qcard-odu   { padding: 0 12px 8px; font-size: 0.75rem; }
+  .banking__qcard-desc  { padding: 10px 12px 14px; font-size: 0.78rem; }
+  .banking__pt-cta-inner { padding: 20px 16px; }
+  .banking__rundon-inner { padding: 18px 16px; }
+  .banking__ojuodufameerin { padding: 16px 14px; }
+  .banking__oodu-grid   { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .banking__oodu-badge  { padding: 12px 14px; }
+  .banking__oodu-name   { font-size: 0.85rem; }
+  .banking__oodu-role   { font-size: 0.7rem; }
+  .banking__ilarundon-title { font-size: 1.4rem; }
+  .banking__ilarindun-desc { font-size: 0.9rem; }
+  .banking__ilarundon-synthesis { padding: 12px 14px; font-size: 0.82rem; }
+  .banking__ilarindun-header { margin-bottom: 18px; }
+  .banking__rundon-name { font-size: 0.95rem; }
+  .banking__rundon-body { font-size: 0.82rem; }
+}
+@media (max-width: 380px) {
+  .banking__quarters    { grid-template-columns: 1fr; }
+  .banking__oodu-grid   { grid-template-columns: 1fr 1fr; }
+  .banking__oodu-badge  { padding: 8px 10px; }
+  .banking__oodu-name   { font-size: 0.82rem; }
+  .banking__oodu-role   { font-size: 0.68rem; }
+  .banking__ilarundon-title { font-size: 1.2rem; }
+  .banking__ilarindun-title { font-size: 1.3rem; }
+  .banking__ilarindun-sub { font-size: 0.76rem; letter-spacing: 0; }
+  .banking__rundon-inner { padding: 14px; }
+  .banking__ilarundon-synthesis { padding: 10px 12px; font-size: 0.8rem; }
+  .banking__ojuodufameerin { padding: 12px; }
+  .banking__pt-cta-inner .btn { width: 100%; text-align: center; justify-content: center; }
 }

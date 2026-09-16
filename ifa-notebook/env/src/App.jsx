@@ -20,10 +20,33 @@ const INAIFA_ODU = [
   { name:'Ọ̀sá',      latin:'Osa',       num:10, color:'#818cf8', domain:'Speed · Surprise',      field:'Technology',   code:'0111' },
   { name:'Ìká',       latin:'Ika',       num:11, color:'#14b8a6', domain:'Wealth · Wisdom',       field:'Finance',      code:'0100' },
   { name:'Òtúrúpọ̀n', latin:'Oturupon',  num:12, color:'#84cc16', domain:'Covenant · Ground',     field:'Architecture', code:'0010' },
-  { name:'Òtúrá',     latin:'Otura',     num:13, color:'#06b6d4', domain:'Creation · God',        field:'Astronomy',    code:'1011' },
+  { name:'Òtúrá',     latin:'Otura',     num:13, color:'#06b6d4', domain:'Creation · Olódumàre', field:'Astronomy',    code:'1011' },
   { name:'Ìrẹtẹ̀',    latin:'Irete',     num:14, color:'#f472b6', domain:'Destiny · Firmness',    field:'History',      code:'1101' },
   { name:'Ọ̀ṣẹ́',      latin:'Ose',       num:15, color:'#c084fc', domain:'Prosperity · Beauty',   field:'Arts & Music', code:'1010' },
   { name:'Òfún',      latin:'Ofun',      num:16, color:'#cbd5e1', domain:'Death · Rebirth',       field:'Metaphysics',  code:'0101' },
+];
+
+/* ── STEAMSEX & SIDECHRX data (for Odu cell matrices) ───────────────────── */
+const NB_STEAMSEX = [
+  { letter:'S', name:'(Natural) Science', short:'Science',    color:'#f0920c' },
+  { letter:'T', name:'Technology',        short:'Technology', color:'#14b8d4' },
+  { letter:'E', name:'Engineering',       short:'Engineering',color:'#00c87c' },
+  { letter:'A', name:'Arts',              short:'Arts',       color:'#ec4899' },
+  { letter:'M', name:'Mathematics',       short:'Math',       color:'#f5c518' },
+  { letter:'S', name:'Social Science',    short:'Social',     color:'#8b5cf6' },
+  { letter:'E', name:'Education',         short:'Education',  color:'#3b9eff' },
+  { letter:'X', name:'Others (Unknowns)', short:'Unknowns',   color:'#6366f1' },
+];
+
+const NB_SIDECHRX = [
+  { letter:'S', name:'Symmetry',     color:'#f0920c' },
+  { letter:'I', name:'Invariance',   color:'#6366f1' },
+  { letter:'D', name:'Duality',      color:'#14b8d4' },
+  { letter:'E', name:'Emergence',    color:'#00c87c' },
+  { letter:'C', name:'Composition',  color:'#ef4444' },
+  { letter:'H', name:'Holism',       color:'#8b5cf6' },
+  { letter:'R', name:'Reductionism', color:'#3b9eff' },
+  { letter:'X', name:'Simulation',   color:'#ec4899' },
 ];
 
 /* ── Cell colours ─────────────────────────────────────────────────────────── */
@@ -246,6 +269,25 @@ const MERMAID_KEYWORDS = ['flowchart','graph','sequenceDiagram','classDiagram',
 function isMermaidSrc(src) {
   const first = src.trimStart().toLowerCase();
   return MERMAID_KEYWORDS.some(k => first.startsWith(k.toLowerCase()));
+}
+
+/* ── Graphviz / DOT (diagram renderer) ──────────────────────────────────────── */
+let _viz = null, _vizPromise = null;
+function loadVizOnce() {
+  if (_viz) return Promise.resolve(_viz);
+  if (_vizPromise) return _vizPromise;
+  _vizPromise = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/@viz-js/viz@3/lib/viz-standalone.js';
+    s.onload = () => {
+      window.Viz.instance()
+        .then(v => { _viz = v; resolve(v); })
+        .catch(reject);
+    };
+    s.onerror = () => reject(new Error('Failed to load Graphviz — check your connection.'));
+    document.head.appendChild(s);
+  });
+  return _vizPromise;
 }
 
 /* ── Aebajiogbe-Oduduwa keyboard layout ──────────────────────────────────── */
@@ -527,60 +569,178 @@ function MathSymbolsKeyboard({ onInsert }) {
   );
 }
 
+/* ── Math evaluator (standalone — no hook deps) ───────────────────────────── */
+function evalCalcExpr(e, isDeg, ansVal) {
+  if (!e || !e.trim()) return null;
+  const D2R = Math.PI / 180, R2D = 180 / Math.PI;
+  const factorial = n => {
+    n = Math.round(Math.abs(n));
+    if (n > 170) return Infinity;
+    let r = 1; for (let i = 2; i <= n; i++) r *= i; return r;
+  };
+  const nCr = (n, k) => factorial(n) / (factorial(k) * factorial(n - k));
+  const nPr = (n, k) => factorial(n) / factorial(n - k);
+  const sinFn  = isDeg ? d => Math.sin(d * D2R)  : x => Math.sin(x);
+  const cosFn  = isDeg ? d => Math.cos(d * D2R)  : x => Math.cos(x);
+  const tanFn  = isDeg ? d => Math.tan(d * D2R)  : x => Math.tan(x);
+  const asinFn = isDeg ? x => Math.asin(x) * R2D : x => Math.asin(x);
+  const acosFn = isDeg ? x => Math.acos(x) * R2D : x => Math.acos(x);
+  const atanFn = isDeg ? x => Math.atan(x) * R2D : x => Math.atan(x);
+  try {
+    const s = e
+      .replace(/×/g,  '*').replace(/÷/g, '/').replace(/−/g, '-')
+      .replace(/\^/g, '**')
+      .replace(/π/g,  '(Math.PI)')
+      .replace(/φ/g,  '(1.6180339887498948)')
+      .replace(/γ/g,  '(0.5772156649015329)')
+      .replace(/\bAns\b/g, ansVal != null ? '(' + ansVal + ')' : '0')
+      /* hyperbolic — before basic trig */
+      .replace(/asinh\(/g,'Math.asinh(').replace(/acosh\(/g,'Math.acosh(').replace(/atanh\(/g,'Math.atanh(')
+      .replace(/sinh\(/g, 'Math.sinh(' ).replace(/cosh\(/g, 'Math.cosh(' ).replace(/tanh\(/g, 'Math.tanh(')
+      /* inverse trig — before basic trig */
+      .replace(/asin\(/g,'asinFn(').replace(/acos\(/g,'acosFn(').replace(/atan2\(/g,'Math.atan2(').replace(/atan\(/g,'atanFn(')
+      /* basic trig */
+      .replace(/sin\(/g,'sinFn(').replace(/cos\(/g,'cosFn(').replace(/tan\(/g,'tanFn(')
+      /* logs — log₂ before log */
+      .replace(/log₂\(/g,'Math.log2(').replace(/log\(/g,'Math.log10(').replace(/ln\(/g,'Math.log(')
+      /* roots / exp */
+      .replace(/√\(/g,'Math.sqrt(').replace(/∛\(/g,'Math.cbrt(').replace(/exp\(/g,'Math.exp(')
+      /* misc */
+      .replace(/abs\(/g,'Math.abs(').replace(/ceil\(/g,'Math.ceil(').replace(/floor\(/g,'Math.floor(')
+      .replace(/round\(/g,'Math.round(').replace(/sign\(/g,'Math.sign(').replace(/trunc\(/g,'Math.trunc(')
+      .replace(/max\(/g,'Math.max(').replace(/min\(/g,'Math.min(')
+      .replace(/hypot\(/g,'Math.hypot(').replace(/clz32\(/g,'Math.clz32(')
+      .replace(/nCr\(/g,'nCr(').replace(/nPr\(/g,'nPr(')
+      .replace(/(\d+(?:\.\d+)?)\s*!/g,'factorial($1)')
+      .replace(/\brandom\b/g,'(Math.random())')
+      /* e constant — after all function replacements */
+      .replace(/\be\b/g,'(Math.E)');
+    /* jshint ignore:start */
+    const fn = new Function(
+      'Math','sinFn','cosFn','tanFn','asinFn','acosFn','atanFn','factorial','nCr','nPr',
+      '"use strict";return(' + s + ')'
+    );
+    /* jshint ignore:end */
+    const v = fn(Math,sinFn,cosFn,tanFn,asinFn,acosFn,atanFn,factorial,nCr,nPr);
+    if (typeof v !== 'number') return { ok: true, val: String(v), num: NaN };
+    if (!isFinite(v)) return { ok: false, val: isNaN(v) ? 'Error' : (v > 0 ? '∞' : '-∞'), num: v };
+    const str = Number.isInteger(v) ? String(v) : (+v.toFixed(12)).toString();
+    return { ok: true, val: str, num: v };
+  } catch(_) { return { ok: false, val: 'Error', num: NaN }; }
+}
+
 /* ── MathCalculator ────────────────────────────────────────────────────────── */
 function MathCalculator({ mode }) {
   const [expr,    setExpr]    = useState('');
   const [result,  setResult]  = useState('');
   const [history, setHistory] = useState([]);
+  const [deg,     setDeg]     = useState(true);    // true = DEG, false = RAD
+  const [mem,     setMem]     = useState(0);
+  const [ans,     setAns]     = useState(null);
+  const [liveRes, setLiveRes] = useState(null);
+  const [copied,  setCopied]  = useState(false);
 
-  function safeEval(e) {
-    try {
-      const s = e
-        .replace(/×/g, '*').replace(/÷/g, '/')
-        .replace(/π/g, 'Math.PI').replace(/\be\b/g, 'Math.E')
-        .replace(/sin\(/g, 'Math.sin(').replace(/cos\(/g, 'Math.cos(')
-        .replace(/tan\(/g, 'Math.tan(').replace(/asin\(/g, 'Math.asin(')
-        .replace(/acos\(/g, 'Math.acos(').replace(/atan\(/g, 'Math.atan(')
-        .replace(/log\(/g, 'Math.log10(').replace(/ln\(/g, 'Math.log(')
-        .replace(/√\(/g, 'Math.sqrt(').replace(/abs\(/g, 'Math.abs(')
-        .replace(/ceil\(/g, 'Math.ceil(').replace(/floor\(/g, 'Math.floor(')
-        .replace(/−/g, '-');
-      /* jshint ignore:start */
-      const v = Function('"use strict";return (' + s + ')')();
-      /* jshint ignore:end */
-      if (typeof v !== 'number') return { ok: true, val: String(v) };
-      if (!isFinite(v)) return { ok: false, val: isNaN(v) ? 'Error' : 'Infinity' };
-      return { ok: true, val: Number.isInteger(v) ? String(v) : (+v.toFixed(10)).toString() };
-    } catch(_) { return { ok: false, val: 'Error' }; }
+  /* live preview while building expression */
+  useEffect(() => {
+    if (!expr.trim()) { setLiveRes(null); return; }
+    const r = evalCalcExpr(expr, deg, ans);
+    if (r && r.ok && r.val !== expr.trim()) setLiveRes(r.val);
+    else setLiveRes(null);
+  }, [expr, deg, ans]);
+
+  function pressEq() {
+    if (!expr.trim()) return;
+    const r = evalCalcExpr(expr, deg, ans);
+    if (!r) return;
+    setResult(r.val);
+    if (r.ok && isFinite(r.num)) {
+      setAns(r.num);
+      setHistory(h => [{ expr, result: r.val }, ...h].slice(0, 30));
+      setExpr(r.val);
+    }
+    setLiveRes(null);
   }
 
   function press(k) {
-    if (k === 'C')  { setExpr(''); setResult(''); return; }
-    if (k === '⌫') { setExpr(x => x.slice(0, -1)); setResult(''); return; }
-    if (k === '=') {
-      if (!expr.trim()) return;
-      const r = safeEval(expr);
-      setResult(r.val);
-      if (r.ok) {
-        setHistory(h => [{ expr, result: r.val }, ...h].slice(0, 8));
-        setExpr(r.val);
-      }
+    if (k === 'C')       { setExpr(''); setResult(''); setLiveRes(null); return; }
+    if (k === '⌫')      { setExpr(x => x.slice(0, -1)); setResult(''); return; }
+    if (k === '=')       { pressEq(); return; }
+    if (k === 'DEG/RAD') { setDeg(d => !d); return; }
+    if (k === 'MC')      { setMem(0); return; }
+    if (k === 'MR')      { setExpr(x => x + String(mem)); setResult(''); return; }
+    if (k === 'M+') {
+      const r = evalCalcExpr(expr, deg, ans);
+      if (r && r.ok && isFinite(r.num)) setMem(m => +(m + r.num).toPrecision(14));
       return;
+    }
+    if (k === 'M−') {
+      const r = evalCalcExpr(expr, deg, ans);
+      if (r && r.ok && isFinite(r.num)) setMem(m => +(m - r.num).toPrecision(14));
+      return;
+    }
+    if (k === 'Ans')  { setExpr(x => x + (ans != null ? String(ans) : '0')); setResult(''); return; }
+    if (k === 'x²')   { setExpr(x => '(' + (x || '0') + ')^2'); setResult(''); return; }
+    if (k === 'x³')   { setExpr(x => '(' + (x || '0') + ')^3'); setResult(''); return; }
+    if (k === '1/x')  { setExpr(x => '1/(' + (x || '1') + ')'); setResult(''); return; }
+    if (k === 'n!')   { setExpr(x => (x || '0') + '!'); setResult(''); return; }
+    if (k === '+/-')  {
+      setExpr(x => {
+        if (!x || x === '0') return '-';
+        if (x.startsWith('-(') && x.endsWith(')')) return x.slice(2, -1);
+        return '-(' + x + ')';
+      });
+      setResult(''); return;
     }
     setExpr(x => x + k);
     setResult('');
   }
 
+  function copyResult() {
+    const txt = result || liveRes || expr;
+    if (txt && navigator.clipboard) {
+      navigator.clipboard.writeText(txt).then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1200);
+      }).catch(() => {});
+    }
+  }
+
   function btnClass(k) {
-    if (k === '=')  return 'nb-calc-btn nb-calc-btn--eq';
-    if (k === 'C')  return 'nb-calc-btn nb-calc-btn--clr';
-    if (k === '⌫') return 'nb-calc-btn nb-calc-btn--del';
+    if (k === '=')        return 'nb-calc-btn nb-calc-btn--eq';
+    if (k === 'C')        return 'nb-calc-btn nb-calc-btn--clr';
+    if (k === '⌫')       return 'nb-calc-btn nb-calc-btn--del';
+    if (k === 'DEG/RAD')  return 'nb-calc-btn nb-calc-btn--toggle';
+    if (['MC','MR','M+','M−'].includes(k)) return 'nb-calc-btn nb-calc-btn--mem';
+    if (k === 'Ans')      return 'nb-calc-btn nb-calc-btn--ans';
     if (['+','−','×','÷','^','%'].includes(k)) return 'nb-calc-btn nb-calc-btn--op';
-    if (['sin(','cos(','tan(','asin(','acos(','atan(','log(','ln(','√(','abs(','ceil(','floor('].includes(k))
-      return 'nb-calc-btn nb-calc-btn--fn';
-    if (['π','e'].includes(k)) return 'nb-calc-btn nb-calc-btn--const';
+    if (['x²','x³','1/x','n!','+/-'].includes(k)) return 'nb-calc-btn nb-calc-btn--op2';
+    if (['π','e','φ','γ'].includes(k)) return 'nb-calc-btn nb-calc-btn--const';
+    if (['sin(','cos(','tan(','asin(','acos(','atan(',
+         'sinh(','cosh(','tanh(','asinh(','acosh(','atanh(',
+         'ln(','log(','log₂(','√(','∛(','exp(',
+         'abs(','ceil(','floor(','round(','sign(',
+         'nCr(','nPr(','atan2(','random',
+         'max(','min(','hypot('].includes(k)) return 'nb-calc-btn nb-calc-btn--fn';
     return 'nb-calc-btn';
   }
+
+  /* 6-column scientific rows — grouped by function category */
+  const sciRows = [
+    /* memory & mode */
+    ['DEG/RAD', 'Ans',   'MC',    'MR',    'M+',    'M−'   ],
+    /* basic trig */
+    ['sin(',    'cos(',  'tan(',  'asin(', 'acos(', 'atan(' ],
+    /* hyperbolic */
+    ['sinh(',   'cosh(', 'tanh(', 'asinh(','acosh(','atanh('],
+    /* power / unary */
+    ['x²',      'x³',   '^',     'exp(',  '1/x',   'n!'    ],
+    /* root / log */
+    ['√(',      '∛(',   'ln(',   'log(',  'log₂(', '+/-'   ],
+    /* combinatorics / geometry */
+    ['abs(',    'round(','ceil(', 'floor(','nCr(',  'nPr('  ],
+    /* constants & misc */
+    ['π',       'e',    'φ',     'γ',     'sign(', 'random'],
+  ];
 
   const basicRows = [
     ['C', '(', ')', '⌫'],
@@ -590,33 +750,61 @@ function MathCalculator({ mode }) {
     ['0', '.', '=', '+'],
   ];
 
-  const sciRows = [
-    ['sin(', 'cos(', 'tan(', 'π'],
-    ['asin(', 'acos(', 'atan(', 'e'],
-    ['log(', 'ln(', '√(', '^'],
-    ['abs(', 'ceil(', 'floor(', '%'],
-  ];
+  const hasErr = ['Error','∞','-∞'].includes(result);
 
   return (
     <div className="nb-calc" onClick={e => e.stopPropagation()}>
+
+      {/* ── Display ── */}
       <div className="nb-calc__display">
+        <div className="nb-calc__status-row">
+          {mode === 'scientific' && (
+            <span className={'nb-calc__badge nb-calc__badge--mode' + (deg ? '' : ' nb-calc__badge--rad')}>
+              {deg ? 'DEG' : 'RAD'}
+            </span>
+          )}
+          {mem !== 0 && (
+            <span className="nb-calc__badge nb-calc__badge--mem">
+              M:{(+mem.toPrecision(6)).toString()}
+            </span>
+          )}
+          {ans != null && <span className="nb-calc__badge nb-calc__badge--ans">Ans</span>}
+          {(result || liveRes) && (
+            <button className="nb-calc__copy-btn" title={copied ? 'Copied!' : 'Copy result'}
+              onClick={e => { e.stopPropagation(); copyResult(); }}>
+              {copied ? '✓' : '⎘'}
+            </button>
+          )}
+        </div>
         <div className="nb-calc__expr">{expr || '0'}</div>
-        {result && <div className={'nb-calc__result' + (result === 'Error' || result === 'Infinity' ? ' nb-calc__result--err' : '')}>{result}</div>}
+        {liveRes && !result && (
+          <div className="nb-calc__live">≈ {liveRes}</div>
+        )}
+        {result && (
+          <div className={'nb-calc__result' + (hasErr ? ' nb-calc__result--err' : '')}>
+            {result}
+          </div>
+        )}
       </div>
+
+      {/* ── Scientific panel ── */}
       {mode === 'scientific' && (
-        <div className="nb-calc__grid nb-calc__grid--sci">
+        <div className="nb-calc__sci-panel">
           {sciRows.map((row, ri) => (
-            <div key={ri} className="nb-calc__row">
+            <div key={ri} className="nb-calc__row nb-calc__row--6">
               {row.map(k => (
                 <button key={k} className={btnClass(k)}
-                  onClick={e => { e.stopPropagation(); press(k); }}>
-                  {k}
+                  onClick={e => { e.stopPropagation(); press(k); }}
+                  title={k === 'DEG/RAD' ? (deg ? 'Switch to Radians' : 'Switch to Degrees') : k}>
+                  {k === 'DEG/RAD' ? (deg ? 'DEG' : 'RAD') : k}
                 </button>
               ))}
             </div>
           ))}
         </div>
       )}
+
+      {/* ── Basic grid ── */}
       <div className="nb-calc__grid">
         {basicRows.map((row, ri) => (
           <div key={ri} className="nb-calc__row">
@@ -629,10 +817,21 @@ function MathCalculator({ mode }) {
           </div>
         ))}
       </div>
+
+      {/* ── History ── */}
       {history.length > 0 && (
         <div className="nb-calc__history">
+          <div className="nb-calc__history-hdr">
+            <span>History ({history.length})</span>
+            <button className="nb-calc__history-clear"
+              onClick={e => { e.stopPropagation(); setHistory([]); setAns(null); }}>
+              Clear
+            </button>
+          </div>
           {history.map((h, i) => (
-            <div key={i} className="nb-calc__history-item">
+            <div key={i} className="nb-calc__history-item"
+              title="Click to reuse result"
+              onClick={e => { e.stopPropagation(); setExpr(h.result); setResult(''); }}>
               <span className="nb-calc__history-expr">{h.expr}</span>
               <span className="nb-calc__history-eq"> = </span>
               <span className="nb-calc__history-result">{h.result}</span>
@@ -800,83 +999,379 @@ function generateWordHTML(cells, title, fontFaceCSS = '') {
 
 /* ── IfagramCanvas (Art & Design cell) ───────────────────────────────────── */
 function IfagramCanvas({ cell, onChange }) {
-  const canvasRef = useRef(null);
-  const drawing   = useRef(false);
-  const lastPos   = useRef(null);
-  const [tool,  setTool]  = useState('pen');
-  const [color, setColor] = useState('#f43f5e');
-  const [size,  setSize]  = useState(4);
+  const canvasRef  = useRef(null);
+  const drawing    = useRef(false);
+  const startPos   = useRef(null);
+  const snapshot   = useRef(null);
+  const historyRef = useRef([]);
+  const redoRef    = useRef([]);
+
+  const [tool,      setTool]      = useState('pen');
+  const [color,     setColor]     = useState('#f43f5e');
+  const [fillColor, setFillColor] = useState('#1a2535');
+  const [bgColor,   setBgColor]   = useState('#020509');
+  const [size,      setSize]      = useState(4);
+  const [opacity,   setOpacity]   = useState(100);
+  const [filled,    setFilled]    = useState(false);
+  const [showGrid,  setShowGrid]  = useState(false);
+  const [cursorPos, setCursorPos] = useState(null);
+  const [textState, setTextState] = useState(null);
+  const [textVal,   setTextVal]   = useState('');
+  const [fontSize,  setFontSize]  = useState(22);
+  const [undoLen,   setUndoLen]   = useState(0);
+  const [redoLen,   setRedoLen]   = useState(0);
+
+  const CW = 900, CH = 520;
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !cell.canvasData) return;
+    const ctx    = canvas.getContext('2d');
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, CW, CH);
+    if (cell.canvasData) {
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+        historyRef.current = [canvas.toDataURL()];
+        setUndoLen(1);
+      };
+      img.src = cell.canvasData;
+    } else {
+      historyRef.current = [canvas.toDataURL()];
+      setUndoLen(1);
+    }
+  }, []); // eslint-disable-line
+
+  function pushHistory() {
+    const url = canvasRef.current.toDataURL();
+    historyRef.current.push(url);
+    if (historyRef.current.length > 50) historyRef.current.shift();
+    redoRef.current = [];
+    setUndoLen(historyRef.current.length);
+    setRedoLen(0);
+  }
+
+  function restoreURL(url) {
+    const canvas = canvasRef.current, ctx = canvas.getContext('2d');
+    ctx.globalAlpha = 1;
+    ctx.clearRect(0, 0, CW, CH);
     const img = new Image();
-    img.onload = () => canvas.getContext('2d').drawImage(img, 0, 0);
-    img.src = cell.canvasData;
-  }, []); // restore once on mount
+    img.onload = () => ctx.drawImage(img, 0, 0);
+    img.src = url;
+  }
+
+  function undo() {
+    if (historyRef.current.length <= 1) return;
+    const cur = historyRef.current.pop();
+    redoRef.current.push(cur);
+    const prev = historyRef.current[historyRef.current.length - 1];
+    restoreURL(prev);
+    setUndoLen(historyRef.current.length);
+    setRedoLen(redoRef.current.length);
+    onChange({ canvasData: prev });
+  }
+
+  function redo() {
+    if (!redoRef.current.length) return;
+    const next = redoRef.current.pop();
+    historyRef.current.push(next);
+    restoreURL(next);
+    setUndoLen(historyRef.current.length);
+    setRedoLen(redoRef.current.length);
+    onChange({ canvasData: next });
+  }
 
   function getPos(e) {
-    const canvas = canvasRef.current;
-    const rect = canvas.getBoundingClientRect();
-    const sx = canvas.width / rect.width, sy = canvas.height / rect.height;
-    const src = e.touches ? e.touches[0] : e;
-    return { x: (src.clientX - rect.left) * sx, y: (src.clientY - rect.top) * sy };
+    const r  = canvasRef.current.getBoundingClientRect();
+    const sx = CW / r.width, sy = CH / r.height;
+    const s  = e.touches ? e.touches[0] : e;
+    return {
+      x:  Math.round((s.clientX - r.left) * sx),
+      y:  Math.round((s.clientY - r.top)  * sy),
+      cx: s.clientX - r.left,
+      cy: s.clientY - r.top,
+    };
+  }
+
+  function applyStyle(ctx) {
+    ctx.globalAlpha = opacity / 100;
+    ctx.strokeStyle = color;
+    ctx.fillStyle   = color;
+    ctx.lineWidth   = size;
+    ctx.lineCap     = 'round';
+    ctx.lineJoin    = 'round';
+  }
+
+  function hexToRgba(hex) {
+    const h = hex.replace('#', '');
+    return [
+      parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16),
+      parseInt(h.slice(4, 6), 16), Math.round((opacity / 100) * 255),
+    ];
+  }
+
+  function floodFill(px, py) {
+    const canvas = canvasRef.current, ctx = canvas.getContext('2d');
+    const data = ctx.getImageData(0, 0, CW, CH), d = data.data;
+    const i0 = (py * CW + px) * 4;
+    const [tr, tg, tb, ta] = [d[i0], d[i0+1], d[i0+2], d[i0+3]];
+    const [fr, fg, fb, fa] = hexToRgba(color);
+    if (tr===fr && tg===fg && tb===fb && ta===fa) return;
+    const vis = new Uint8Array(CW * CH), stk = [px + py * CW];
+    while (stk.length) {
+      const n = stk.pop(), cx = n % CW, cy = Math.floor(n / CW);
+      if (cx<0||cy<0||cx>=CW||cy>=CH||vis[n]) continue;
+      const k = n * 4;
+      if (d[k]!==tr||d[k+1]!==tg||d[k+2]!==tb||d[k+3]!==ta) continue;
+      vis[n]=1; d[k]=fr; d[k+1]=fg; d[k+2]=fb; d[k+3]=fa;
+      stk.push(n+1, n-1, n+CW, n-CW);
+    }
+    ctx.putImageData(data, 0, 0);
+    pushHistory();
+    onChange({ canvasData: canvas.toDataURL() });
+  }
+
+  function pickColor(px, py) {
+    const d = canvasRef.current.getContext('2d').getImageData(px, py, 1, 1).data;
+    setColor('#' + [d[0],d[1],d[2]].map(v => v.toString(16).padStart(2,'0')).join(''));
+    setTool('pen');
+  }
+
+  function drawShapePreview(ctx, sp, ep) {
+    applyStyle(ctx);
+    ctx.beginPath();
+    if (tool === 'line') {
+      ctx.moveTo(sp.x, sp.y); ctx.lineTo(ep.x, ep.y); ctx.stroke();
+    } else if (tool === 'rect') {
+      if (filled) { ctx.fillStyle = fillColor; ctx.fillRect(sp.x, sp.y, ep.x-sp.x, ep.y-sp.y); }
+      ctx.strokeStyle = color; ctx.strokeRect(sp.x, sp.y, ep.x-sp.x, ep.y-sp.y);
+    } else if (tool === 'ellipse') {
+      const rx = Math.abs(ep.x-sp.x)/2, ry = Math.abs(ep.y-sp.y)/2;
+      ctx.ellipse((sp.x+ep.x)/2, (sp.y+ep.y)/2, rx||1, ry||1, 0, 0, Math.PI*2);
+      if (filled) { ctx.fillStyle = fillColor; ctx.fill(); }
+      ctx.strokeStyle = color; ctx.stroke();
+    } else if (tool === 'triangle') {
+      ctx.moveTo((sp.x+ep.x)/2, sp.y); ctx.lineTo(ep.x, ep.y);
+      ctx.lineTo(sp.x, ep.y); ctx.closePath();
+      if (filled) { ctx.fillStyle = fillColor; ctx.fill(); }
+      ctx.strokeStyle = color; ctx.stroke();
+    } else if (tool === 'star') {
+      const cx=(sp.x+ep.x)/2, cy=(sp.y+ep.y)/2;
+      const outerR=Math.max(Math.abs(ep.x-sp.x),Math.abs(ep.y-sp.y))/2, innerR=outerR*0.42;
+      for (let i=0;i<10;i++) {
+        const a=Math.PI/5*i - Math.PI/2, r=i%2===0?outerR:innerR;
+        i===0?ctx.moveTo(cx+r*Math.cos(a),cy+r*Math.sin(a)):ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));
+      }
+      ctx.closePath();
+      if (filled) { ctx.fillStyle = fillColor; ctx.fill(); }
+      ctx.strokeStyle = color; ctx.stroke();
+    } else if (tool === 'arrow') {
+      const dx=ep.x-sp.x, dy=ep.y-sp.y, ang=Math.atan2(dy,dx), len=Math.hypot(dx,dy);
+      ctx.moveTo(sp.x, sp.y); ctx.lineTo(ep.x, ep.y); ctx.stroke();
+      const hw=Math.max(size*2.5,12);
+      ctx.beginPath();
+      ctx.moveTo(ep.x, ep.y);
+      ctx.lineTo(ep.x-hw*Math.cos(ang-0.45), ep.y-hw*Math.sin(ang-0.45));
+      ctx.lineTo(ep.x-hw*Math.cos(ang+0.45), ep.y-hw*Math.sin(ang+0.45));
+      ctx.closePath(); ctx.fillStyle=color; ctx.fill();
+    }
   }
 
   function onStart(e) {
     e.preventDefault(); e.stopPropagation();
-    drawing.current = true;
     const p = getPos(e), ctx = canvasRef.current.getContext('2d');
-    lastPos.current = p;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, size / 2, 0, Math.PI * 2);
-    ctx.fillStyle = tool === 'eraser' ? '#020509' : color;
-    ctx.fill();
+    if (tool === 'text') {
+      setTextState({ x: p.x, y: p.y, cx: p.cx, cy: p.cy }); setTextVal(''); return;
+    }
+    if (tool === 'fill')    { floodFill(p.x, p.y); return; }
+    if (tool === 'eyedrop') { pickColor(p.x, p.y); return; }
+    drawing.current = true; startPos.current = p;
+    if (['line','rect','ellipse','triangle','star','arrow'].includes(tool)) {
+      snapshot.current = ctx.getImageData(0, 0, CW, CH);
+    } else {
+      applyStyle(ctx);
+      if (tool === 'brush') ctx.lineWidth = size * 3;
+      ctx.beginPath(); ctx.arc(p.x, p.y, (tool==='brush'?size*1.5:size)/2, 0, Math.PI*2); ctx.fill();
+    }
   }
 
   function onMove(e) {
     e.preventDefault();
+    const p = getPos(e);
+    setCursorPos({ x: p.x, y: p.y });
     if (!drawing.current) return;
-    const p = getPos(e), ctx = canvasRef.current.getContext('2d');
-    ctx.beginPath();
-    ctx.moveTo(lastPos.current.x, lastPos.current.y);
-    ctx.lineTo(p.x, p.y);
-    ctx.strokeStyle = tool === 'eraser' ? '#020509' : color;
-    ctx.lineWidth = size; ctx.lineCap = ctx.lineJoin = 'round';
-    ctx.stroke();
-    lastPos.current = p;
+    const ctx = canvasRef.current.getContext('2d');
+    if (tool === 'pen' || tool === 'brush') {
+      applyStyle(ctx);
+      if (tool === 'brush') ctx.lineWidth = size * 3;
+      ctx.beginPath(); ctx.moveTo(startPos.current.x, startPos.current.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+      startPos.current = p;
+    } else if (tool === 'spray') {
+      ctx.globalAlpha = (opacity / 100) * 0.08;
+      ctx.fillStyle = color;
+      const r = size * 4;
+      for (let i = 0; i < 30; i++) {
+        const a=Math.random()*Math.PI*2, dist=Math.random()*r;
+        ctx.beginPath(); ctx.arc(p.x+dist*Math.cos(a), p.y+dist*Math.sin(a), 1, 0, Math.PI*2); ctx.fill();
+      }
+    } else if (tool === 'eraser') {
+      ctx.globalAlpha = 1; ctx.strokeStyle = bgColor;
+      ctx.lineWidth = size * 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.beginPath(); ctx.moveTo(startPos.current.x, startPos.current.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+      startPos.current = p;
+    } else if (['line','rect','ellipse','triangle','star','arrow'].includes(tool)) {
+      ctx.putImageData(snapshot.current, 0, 0);
+      drawShapePreview(canvasRef.current.getContext('2d'), startPos.current, p);
+    }
   }
 
   function onEnd() {
     if (!drawing.current) return;
-    drawing.current = false;
+    drawing.current = false; snapshot.current = null;
+    pushHistory();
+    onChange({ canvasData: canvasRef.current.toDataURL() });
+  }
+
+  function commitText() {
+    if (!textState || !textVal.trim()) { setTextState(null); return; }
+    const ctx = canvasRef.current.getContext('2d');
+    applyStyle(ctx);
+    ctx.font = `${fontSize}px sans-serif`;
+    ctx.fillText(textVal, textState.x, textState.y + fontSize);
+    setTextState(null); setTextVal('');
+    pushHistory();
     onChange({ canvasData: canvasRef.current.toDataURL() });
   }
 
   function clear() {
-    const canvas = canvasRef.current;
-    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-    onChange({ canvasData: null });
+    const canvas = canvasRef.current, ctx = canvas.getContext('2d');
+    ctx.globalAlpha = 1; ctx.fillStyle = bgColor; ctx.fillRect(0, 0, CW, CH);
+    pushHistory();
+    onChange({ canvasData: canvas.toDataURL() });
   }
 
+  function download() {
+    const a = document.createElement('a');
+    a.href = canvasRef.current.toDataURL('image/png');
+    a.download = 'ifagram.png'; a.click();
+  }
+
+  const TOOLS = [
+    { id: 'pen',      label: '✏ Pen'      },
+    { id: 'brush',    label: '🖌 Brush'   },
+    { id: 'spray',    label: '✦ Spray'    },
+    { id: 'eraser',   label: '◻ Erase'   },
+    { id: 'line',     label: '╱ Line'     },
+    { id: 'arrow',    label: '→ Arrow'    },
+    { id: 'rect',     label: '▭ Rect'     },
+    { id: 'ellipse',  label: '◯ Ellipse'  },
+    { id: 'triangle', label: '△ Triangle' },
+    { id: 'star',     label: '★ Star'     },
+    { id: 'text',     label: 'T Text'     },
+    { id: 'fill',     label: '▨ Fill'     },
+    { id: 'eyedrop',  label: '◈ Pick'     },
+  ];
+
+  const SWATCHES = [
+    '#f43f5e','#f97316','#eab308','#84cc16',
+    '#22c55e','#14b8d4','#6366f1','#a855f7',
+    '#ec4899','#ffffff','#8892aa','#020509',
+  ];
+
+  const cursors = { eraser:'cell', eyedrop:'crosshair', text:'text', fill:'copy', spray:'default' };
+  const scaleX  = canvasRef.current ? canvasRef.current.getBoundingClientRect().width / CW : 1;
+
   return (
-    <div className="nb-ifagram">
-      <div className="nb-ifagram__toolbar">
-        <button className={'nb-ifagram-tool' + (tool === 'pen'    ? ' nb-ifagram-tool--active' : '')}
-          onClick={e => { e.stopPropagation(); setTool('pen'); }}>✏ Pen</button>
-        <button className={'nb-ifagram-tool' + (tool === 'eraser' ? ' nb-ifagram-tool--active' : '')}
-          onClick={e => { e.stopPropagation(); setTool('eraser'); }}>◻ Erase</button>
-        <input type="color" className="nb-ifagram-color" value={color}
-          onChange={e => setColor(e.target.value)} onClick={e => e.stopPropagation()} title="Colour" />
-        <input type="range" className="nb-ifagram-size" min={1} max={30} value={size}
-          onChange={e => setSize(Number(e.target.value))} onClick={e => e.stopPropagation()} title="Size" />
-        <span className="nb-ifagram-size-label">{size}px</span>
-        <button className="nb-ifagram-clear" onClick={e => { e.stopPropagation(); clear(); }}>Clear</button>
+    <div className="nb-ifagram" onClick={e => e.stopPropagation()}>
+
+      {/* Row 1: Tool buttons */}
+      <div className="nb-ifagram__toolbar nb-ifagram__toolbar--tools">
+        {TOOLS.map(t => (
+          <button key={t.id}
+            className={'nb-ifagram-tool' + (tool === t.id ? ' nb-ifagram-tool--active' : '')}
+            onClick={e => { e.stopPropagation(); setTool(t.id); }}>{t.label}</button>
+        ))}
+        <label className="nb-ifagram-opt-label" style={{marginLeft:'auto'}}>
+          <input type="checkbox" checked={filled} onChange={e => setFilled(e.target.checked)} /> Filled
+        </label>
+        <label className="nb-ifagram-opt-label">
+          <input type="checkbox" checked={showGrid} onChange={e => setShowGrid(e.target.checked)} /> Grid
+        </label>
       </div>
-      <canvas ref={canvasRef} className="nb-ifagram__canvas" width={900} height={440}
-        onMouseDown={onStart} onMouseMove={onMove} onMouseUp={onEnd} onMouseLeave={onEnd}
-        onTouchStart={onStart} onTouchMove={onMove} onTouchEnd={onEnd}
-        style={{ cursor: tool === 'eraser' ? 'cell' : 'crosshair' }} />
+
+      {/* Row 2: Colour pickers + sliders */}
+      <div className="nb-ifagram__toolbar nb-ifagram__toolbar--opts">
+        <span className="nb-ifagram-lbl">Stroke</span>
+        <input type="color" className="nb-ifagram-color" value={color}
+          onChange={e => setColor(e.target.value)} onClick={e => e.stopPropagation()} title="Stroke colour" />
+        <span className="nb-ifagram-lbl">Fill</span>
+        <input type="color" className="nb-ifagram-color" value={fillColor}
+          onChange={e => setFillColor(e.target.value)} onClick={e => e.stopPropagation()} title="Fill colour (shapes)" />
+        <span className="nb-ifagram-lbl">BG</span>
+        <input type="color" className="nb-ifagram-color" value={bgColor}
+          onChange={e => setBgColor(e.target.value)} onClick={e => e.stopPropagation()} title="Background / eraser colour" />
+        <span className="nb-ifagram-lbl" style={{marginLeft:6}}>Size</span>
+        <input type="range" className="nb-ifagram-size" min={1} max={60} value={size}
+          onChange={e => setSize(Number(e.target.value))} onClick={e => e.stopPropagation()} />
+        <span className="nb-ifagram-size-label">{size}px</span>
+        <span className="nb-ifagram-lbl" style={{marginLeft:6}}>Opacity</span>
+        <input type="range" className="nb-ifagram-size" min={5} max={100} value={opacity}
+          onChange={e => setOpacity(Number(e.target.value))} onClick={e => e.stopPropagation()} />
+        <span className="nb-ifagram-size-label">{opacity}%</span>
+        {tool === 'text' && (<>
+          <span className="nb-ifagram-lbl" style={{marginLeft:6}}>Font</span>
+          <input type="range" className="nb-ifagram-size" min={8} max={80} value={fontSize}
+            onChange={e => setFontSize(Number(e.target.value))} onClick={e => e.stopPropagation()} />
+          <span className="nb-ifagram-size-label">{fontSize}px</span>
+        </>)}
+      </div>
+
+      {/* Row 3: Swatches + undo/redo/download/clear */}
+      <div className="nb-ifagram__toolbar nb-ifagram__toolbar--actions">
+        {SWATCHES.map(sw => (
+          <button key={sw} className="nb-ifagram-swatch"
+            style={{ background: sw, outline: color === sw ? '2px solid rgba(255,255,255,0.85)' : 'none', outlineOffset: '2px' }}
+            onClick={e => { e.stopPropagation(); setColor(sw); }} title={sw} />
+        ))}
+        <div style={{marginLeft:'auto', display:'flex', gap:5, alignItems:'center'}}>
+          <button className="nb-ifagram-tool" onClick={e => { e.stopPropagation(); undo(); }}
+            disabled={undoLen <= 1} title="Undo">↩ Undo</button>
+          <button className="nb-ifagram-tool" onClick={e => { e.stopPropagation(); redo(); }}
+            disabled={redoLen === 0} title="Redo">↪ Redo</button>
+          <button className="nb-ifagram-tool" onClick={e => { e.stopPropagation(); download(); }}
+            title="Download as PNG">⬇ Save</button>
+          <button className="nb-ifagram-clear" onClick={e => { e.stopPropagation(); clear(); }}>Clear</button>
+        </div>
+      </div>
+
+      {/* Canvas */}
+      <div className="nb-ifagram__canvas-wrap">
+        <canvas ref={canvasRef} className="nb-ifagram__canvas" width={CW} height={CH}
+          onMouseDown={onStart} onMouseMove={onMove}
+          onMouseUp={onEnd} onMouseLeave={e => { if (drawing.current) onEnd(); setCursorPos(null); }}
+          onTouchStart={onStart} onTouchMove={onMove} onTouchEnd={onEnd}
+          style={{ cursor: cursors[tool] || 'crosshair' }} />
+        {showGrid && <div className="nb-ifagram__grid-overlay" />}
+        {textState && (
+          <div className="nb-ifagram__text-overlay" style={{ left: textState.cx, top: textState.cy }}>
+            <input autoFocus className="nb-ifagram__text-input"
+              value={textVal} onChange={e => setTextVal(e.target.value)}
+              style={{ fontSize: Math.max(10, fontSize * scaleX) + 'px', color }}
+              onKeyDown={e => { if (e.key==='Enter'){e.preventDefault();commitText();} if(e.key==='Escape')setTextState(null); }}
+              onBlur={commitText} placeholder="Type, then Enter…" />
+          </div>
+        )}
+      </div>
+
+      {/* Status bar */}
+      <div className="nb-ifagram__status">
+        <span>{CW} × {CH} px</span>
+        {cursorPos && <span>x {cursorPos.x}  y {cursorPos.y}</span>}
+        <span style={{marginLeft:'auto'}}>
+          {TOOLS.find(t => t.id === tool)?.label} · {size}px · {opacity}%
+          {filled && ['rect','ellipse','triangle','star'].includes(tool) ? ' · filled' : ''}
+        </span>
+      </div>
     </div>
   );
 }
@@ -1160,6 +1655,170 @@ function OduMarkInput({ right, left, onChangeRight, onChangeLeft, oduTopic, onCh
   );
 }
 
+/* ── Matrix center-label word-wrap helper ────────────────────────────────── */
+function matrixCenterLines(label) {
+  const words = label.split(' ');
+  if (words.length === 1 || label.length <= 8) return [label];
+  const mid = Math.ceil(words.length / 2);
+  return [words.slice(0, mid).join(' '), words.slice(mid).join(' ')];
+}
+
+/* ── OduSteamsexMatrix — STEAMSEX 8-dim radial diagram ──────────────────── */
+function OduSteamsexMatrix({ topic }) {
+  const label = topic.trim() || 'IFA';
+  const lines = matrixCenterLines(label);
+  const cx = 150, cy = 150, orbit = 105, cR = 30, dR = 20;
+  const fs   = label.length > 12 ? 6 : label.length > 7 ? 8.5 : 11;
+  const nodes = NB_STEAMSEX.map((d, i) => {
+    const a = (i / 8) * 2 * Math.PI - Math.PI / 2;
+    return { ...d, x: cx + orbit * Math.cos(a), y: cy + orbit * Math.sin(a), a };
+  });
+  return (
+    <div className="nb-odu-matrix">
+      <div className="nb-odu-matrix__label">STEAMSEX Matrix</div>
+      <svg viewBox="0 0 300 300" className="nb-matrix-svg">
+        {/* Orbit ring */}
+        <circle cx={cx} cy={cy} r={orbit} fill="none" stroke="rgba(255,255,255,0.05)"
+          strokeWidth="1" strokeDasharray="3 6" />
+        {/* Spokes */}
+        {nodes.map((d, i) => {
+          const sx = cx + (cR + 4) * Math.cos(d.a), sy = cy + (cR + 4) * Math.sin(d.a);
+          const ex = cx + (orbit - dR - 3) * Math.cos(d.a), ey = cy + (orbit - dR - 3) * Math.sin(d.a);
+          return <line key={i} x1={sx} y1={sy} x2={ex} y2={ey}
+            stroke={d.color} strokeWidth="1.2" opacity="0.55" />;
+        })}
+        {/* Dim nodes */}
+        {nodes.map((d, i) => (
+          <g key={i}>
+            <circle cx={d.x} cy={d.y} r={dR} fill="#070e1c" stroke={d.color} strokeWidth="1.5" />
+            <text x={d.x} y={d.y - 2} textAnchor="middle" fill={d.color}
+              fontSize="12" fontWeight="800" fontFamily="monospace">{d.letter}</text>
+            <text x={d.x} y={d.y + 10} textAnchor="middle" fill={d.color}
+              fontSize="5.5" opacity="0.8">{d.short}</text>
+          </g>
+        ))}
+        {/* Center node */}
+        <circle cx={cx} cy={cy} r={cR} fill="#070e1c" stroke="#f0920c" strokeWidth="2" />
+        {lines.map((l, i) => (
+          <text key={i} x={cx}
+            y={cy + (lines.length === 1 ? 4 : i === 0 ? -1 : fs * 1.35 + 3)}
+            textAnchor="middle" fill="#f0920c"
+            fontSize={fs} fontWeight="900" fontFamily="monospace">{l}</text>
+        ))}
+        {/* Ring label */}
+        <text x={cx} y={290} textAnchor="middle" fill="rgba(255,255,255,0.13)"
+          fontSize="5.5" letterSpacing="2" fontFamily="monospace">S·T·E·A·M·S·E·X</text>
+      </svg>
+    </div>
+  );
+}
+
+/* ── OduSidechrxMatrix — SIDECHRX 8-principle radial diagram ────────────── */
+function OduSidechrxMatrix({ topic, rightOdu }) {
+  const label = topic.trim() || 'IFA';
+  const lines = matrixCenterLines(label);
+  const cx = 150, cy = 150, orbit = 105, cR = 30, dR = 20;
+  const fs   = label.length > 12 ? 6 : label.length > 7 ? 8.5 : 11;
+  // Map right Odu number → SIDECHRX index (1-8 → 0-7 primary; 9-16 → 0-7 anti)
+  const activeIdx = rightOdu ? (rightOdu.num <= 8 ? rightOdu.num - 1 : rightOdu.num - 9) : -1;
+  const isAnti    = rightOdu ? rightOdu.num > 8 : false;
+  const activeColor = activeIdx >= 0 ? NB_SIDECHRX[activeIdx].color : '#f0920c';
+  const nodes = NB_SIDECHRX.map((d, i) => {
+    const a = (i / 8) * 2 * Math.PI - Math.PI / 2;
+    const isActive = i === activeIdx;
+    return { ...d, x: cx + orbit * Math.cos(a), y: cy + orbit * Math.sin(a), a, isActive };
+  });
+  return (
+    <div className="nb-odu-matrix">
+      <div className="nb-odu-matrix__label">SIDECHRX Matrix{isAnti ? ' · Anti' : ''}</div>
+      <svg viewBox="0 0 300 300" className="nb-matrix-svg">
+        <circle cx={cx} cy={cy} r={orbit} fill="none" stroke="rgba(255,255,255,0.05)"
+          strokeWidth="1" strokeDasharray="3 6" />
+        {nodes.map((d, i) => {
+          const sx = cx + (cR + 4) * Math.cos(d.a), sy = cy + (cR + 4) * Math.sin(d.a);
+          const ex = cx + (orbit - dR - 3) * Math.cos(d.a), ey = cy + (orbit - dR - 3) * Math.sin(d.a);
+          return <line key={i} x1={sx} y1={sy} x2={ex} y2={ey}
+            stroke={d.color} strokeWidth={d.isActive ? 2 : 1.2}
+            opacity={d.isActive ? 0.9 : 0.35} />;
+        })}
+        {nodes.map((d, i) => (
+          <g key={i}>
+            {d.isActive && <circle cx={d.x} cy={d.y} r={dR + 7} fill={d.color} opacity="0.15" />}
+            <circle cx={d.x} cy={d.y} r={dR} fill="#070e1c" stroke={d.color}
+              strokeWidth={d.isActive ? 2.5 : 1.5} opacity={d.isActive ? 1 : 0.45} />
+            <text x={d.x} y={d.y - 2} textAnchor="middle" fill={d.color}
+              fontSize="12" fontWeight="800" fontFamily="monospace"
+              opacity={d.isActive ? 1 : 0.5}>{d.letter}</text>
+            <text x={d.x} y={d.y + 10} textAnchor="middle" fill={d.color}
+              fontSize="5.5" opacity={d.isActive ? 0.9 : 0.4}>{d.name}</text>
+          </g>
+        ))}
+        {/* Center node */}
+        <circle cx={cx} cy={cy} r={cR} fill="#070e1c" stroke={activeColor} strokeWidth="2" />
+        {lines.map((l, i) => (
+          <text key={i} x={cx}
+            y={cy + (lines.length === 1 ? 4 : i === 0 ? -1 : fs * 1.35 + 3)}
+            textAnchor="middle" fill={activeColor}
+            fontSize={fs} fontWeight="900" fontFamily="monospace">{l}</text>
+        ))}
+        <text x={cx} y={290} textAnchor="middle" fill="rgba(255,255,255,0.13)"
+          fontSize="5.5" letterSpacing="2" fontFamily="monospace">S·I·D·E·C·H·R·X</text>
+      </svg>
+    </div>
+  );
+}
+
+/* ── OduSteamsexOduMatrix — 16 Odu STEAMSEX radial diagram ──────────────── */
+function OduSteamsexOduMatrix({ topic, rightOdu, leftOdu }) {
+  const label    = topic.trim() || 'IFA';
+  const lines    = matrixCenterLines(label);
+  const cx = 165, cy = 165, orbit = 122, cR = 30, nR = 14;
+  const fs       = label.length > 12 ? 6 : label.length > 7 ? 8.5 : 11;
+  const rightNum = rightOdu ? rightOdu.num : -1;
+  const leftNum  = leftOdu  ? leftOdu.num  : -1;
+  const nodes = INAIFA_ODU.map((o, i) => {
+    const a = (i / 16) * 2 * Math.PI - Math.PI / 2;
+    const isActive = o.num === rightNum || o.num === leftNum;
+    return { ...o, x: cx + orbit * Math.cos(a), y: cy + orbit * Math.sin(a), a, isActive };
+  });
+  return (
+    <div className="nb-odu-matrix">
+      <div className="nb-odu-matrix__label">Odu STEAMSEX Matrix · 16 Odu Ifa</div>
+      <svg viewBox="0 0 330 330" className="nb-matrix-svg" style={{ maxWidth: 330 }}>
+        <circle cx={cx} cy={cy} r={orbit} fill="none" stroke="rgba(255,255,255,0.05)"
+          strokeWidth="1" strokeDasharray="3 6" />
+        {nodes.map((d, i) => {
+          const sx = cx + (cR + 4) * Math.cos(d.a), sy = cy + (cR + 4) * Math.sin(d.a);
+          const ex = cx + (orbit - nR - 3) * Math.cos(d.a), ey = cy + (orbit - nR - 3) * Math.sin(d.a);
+          return <line key={i} x1={sx} y1={sy} x2={ex} y2={ey}
+            stroke={d.color} strokeWidth={d.isActive ? 2 : 1}
+            opacity={d.isActive ? 0.9 : 0.28} />;
+        })}
+        {nodes.map((d, i) => (
+          <g key={i}>
+            {d.isActive && <circle cx={d.x} cy={d.y} r={nR + 6} fill={d.color} opacity="0.18" />}
+            <circle cx={d.x} cy={d.y} r={nR} fill="#070e1c" stroke={d.color}
+              strokeWidth={d.isActive ? 2.5 : 1.2} opacity={d.isActive ? 1 : 0.38} />
+            <text x={d.x} y={d.y + 4} textAnchor="middle" fill={d.color}
+              fontSize="7.5" fontWeight="800" fontFamily="monospace"
+              opacity={d.isActive ? 1 : 0.45}>{String(d.num).padStart(2,'0')}</text>
+          </g>
+        ))}
+        {/* Center node */}
+        <circle cx={cx} cy={cy} r={cR} fill="#070e1c" stroke="#f0920c" strokeWidth="2" />
+        {lines.map((l, i) => (
+          <text key={i} x={cx}
+            y={cy + (lines.length === 1 ? 4 : i === 0 ? -1 : fs * 1.35 + 3)}
+            textAnchor="middle" fill="#f0920c"
+            fontSize={fs} fontWeight="900" fontFamily="monospace">{l}</text>
+        ))}
+        <text x={cx} y={320} textAnchor="middle" fill="rgba(255,255,255,0.13)"
+          fontSize="5.5" letterSpacing="1.5" fontFamily="monospace">ODU STEAMSEX MATRIX · 16 ODU IFA</text>
+      </svg>
+    </div>
+  );
+}
+
 /* ── TerminalPanel ────────────────────────────────────────────────────────── */
 function TerminalPanel({ lang }) {
   const [history, setHistory] = useState([
@@ -1317,7 +1976,9 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
   }
 
   // Art, Multimedia, Others, and calculator-mode Math have no terminal run button
-  const isRunnable = ['code', 'text', 'schematics'].includes(cell.type) ||
+  // Schematics: only Mermaid and Graphviz need Run; SVG and ASCII auto-render on change
+  const isRunnable = ['code', 'text'].includes(cell.type) ||
+    (cell.type === 'schematics' && (!cell.schemTool || cell.schemTool === 'mermaid' || cell.schemTool === 'graphviz')) ||
     (cell.type === 'math' && (!cell.mathTool || cell.mathTool === 'latex'));
 
   return (
@@ -1395,6 +2056,18 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
             </select>
           )}
 
+          {/* Odu view selector — odu cells only */}
+          {cell.type === 'odu' && (
+            <select className="nb-odu-view-select" value={cell.oduView || 'odu'}
+              onChange={e => { e.stopPropagation(); onChange({ oduView: e.target.value }); }}
+              onClick={e => e.stopPropagation()} aria-label="Odu cell view">
+              <option value="odu">Odu</option>
+              <option value="steamsex">STEAMSEX Matrix</option>
+              <option value="sidechrx">SIDECHRX Matrix</option>
+              <option value="steamsex-odu">Odu STEAMSEX Matrix</option>
+            </select>
+          )}
+
           {/* Math tool selector — math cells only */}
           {isMath && (
             <select className="nb-math-mode-select" value={cell.mathTool || 'latex'}
@@ -1403,6 +2076,18 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
               <option value="latex">LaTeX</option>
               <option value="calc-basic">Calc: Basic</option>
               <option value="calc-sci">Calc: Scientific</option>
+            </select>
+          )}
+
+          {/* Schematics tool selector */}
+          {isSchematics && (
+            <select className="nb-schem-tool-select" value={cell.schemTool || 'mermaid'}
+              onChange={e => { e.stopPropagation(); onChange({ schemTool: e.target.value, output: null }); }}
+              onClick={e => e.stopPropagation()} aria-label="Schematics tool" disabled={cell.running}>
+              <option value="mermaid">Mermaid</option>
+              <option value="graphviz">Graphviz DOT</option>
+              <option value="svg">SVG Code</option>
+              <option value="ascii">ASCII Art</option>
             </select>
           )}
 
@@ -1419,11 +2104,15 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
           {!cell.running && (
             isCode       && !isScratch  ? <span className="nb-cell__hdr-note">{cfg.hint}</span> :
             cell.type === 'odu'         ? <span className="nb-cell__hdr-note">Click marks to toggle | ↔ ||</span> :
-            isArt                       ? <span className="nb-cell__hdr-note">Draw · colour · erase</span> :
+            isArt                       ? <span className="nb-cell__hdr-note">Pen · Brush · Spray · Shapes · Text · Fill · Undo/Redo</span> :
             isMultimedia                ? <span className="nb-cell__hdr-note">Image · video · audio · YouTube · Vimeo</span> :
             isMath && (!cell.mathTool || cell.mathTool === 'latex') ? <span className="nb-cell__hdr-note">KaTeX · press Run</span> :
             isMath                      ? null :
-            isSchematics                ? <span className="nb-cell__hdr-note">Mermaid diagrams · ASCII art</span> :
+            isSchematics && (!cell.schemTool || cell.schemTool === 'mermaid') ? <span className="nb-cell__hdr-note">flowchart · sequence · class · ER · state · gantt · mindmap</span> :
+            isSchematics && cell.schemTool === 'graphviz' ? <span className="nb-cell__hdr-note">DOT: digraph G &#123; A -&gt; B &#125; · press Run</span> :
+            isSchematics && cell.schemTool === 'svg'      ? <span className="nb-cell__hdr-note">SVG markup — auto-renders on input</span> :
+            isSchematics && cell.schemTool === 'ascii'    ? <span className="nb-cell__hdr-note">ASCII art — renders as plain text</span> :
+            isSchematics                ? null :
             null
           )}
           {cell.running && (
@@ -1514,6 +2203,18 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
             onChangeName={n => onChange({ oduName: n })} />
         )}
 
+        {/* Odu matrices — rendered below marks when a matrix view is selected */}
+        {cell.type === 'odu' && (() => {
+          const v  = cell.oduView || 'odu';
+          const ro = codeToOdu(cell.right);
+          const lo = codeToOdu(cell.left);
+          const topic = cell.oduTopic || '';
+          if (v === 'steamsex')     return <OduSteamsexMatrix    topic={topic} />;
+          if (v === 'sidechrx')     return <OduSidechrxMatrix    topic={topic} rightOdu={ro} />;
+          if (v === 'steamsex-odu') return <OduSteamsexOduMatrix topic={topic} rightOdu={ro} leftOdu={lo} />;
+          return null;
+        })()}
+
         {/* Art & Design — Ifagram canvas */}
         {isArt && <IfagramCanvas key={cell.clearKey || 0} cell={cell} onChange={onChange} />}
 
@@ -1546,28 +2247,66 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
         )}
 
         {/* Schematics / Technical Designs */}
-        {isSchematics && (
-          <>
-            <textarea className="nb-schem-input"
-              value={cell.input || ''}
-              onChange={e => onChange({ input: e.target.value, output: null })}
-              onFocus={onFocus}
-              placeholder={'Mermaid diagram:\n  flowchart TD\n    A[Start] --> B{Choice}\n    B -->|Yes| C[Done]\n    B -->|No|  D[Retry]\n\nOr plain ASCII art — press Run to render.'}
-              rows={Math.max(4, ((cell.input || '').match(/\n/g)||[]).length + 2)}
-              spellCheck={false} disabled={cell.running}
-            />
-            {cell.output && !cell.running && cell.output.svg && (
-              <div className="nb-schem-render" dangerouslySetInnerHTML={{ __html: cell.output.svg }} />
-            )}
-            {cell.output && !cell.running && !cell.output.svg && cell.output.ok && (
-              <div className="nb-schem-render"><code className="nb-schem-ascii">{cell.input}</code></div>
-            )}
-            {cell.output && !cell.running && cell.output.error && (
-              <p className="nb-schem-err">⚠ {cell.output.error}</p>
-            )}
-            <p className="nb-schem-hint">Mermaid: flowchart · sequenceDiagram · classDiagram · gantt · pie · mindmap — or plain ASCII art</p>
-          </>
-        )}
+        {isSchematics && (() => {
+          const tool = cell.schemTool || 'mermaid';
+          const placeholders = {
+            mermaid:  'flowchart TD\n  A[Start] --> B{Choice}\n  B -->|Yes| C[Done]\n  B -->|No|  D[Retry]\n\nOr: sequenceDiagram · classDiagram · erDiagram · gantt · pie · mindmap',
+            graphviz: 'digraph G {\n  rankdir=LR\n  A -> B -> C\n  B -> D\n}\n\nPress Run to render.',
+            svg:      '<svg viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">\n  <rect x="10" y="10" width="80" height="40" rx="6" fill="#10b981"/>\n  <text x="50" y="35" text-anchor="middle" fill="white" font-size="13">Block</text>\n  <line x1="90" y1="30" x2="120" y2="30" stroke="#84cc16" stroke-width="2" marker-end="url(#a)"/>\n</svg>',
+            ascii:    '  [Source] ──► [Process] ──► [Output]\n      │                        ▲\n      └──────[Alt Path]────────┘',
+          };
+          return (
+            <>
+              <textarea className="nb-schem-input"
+                value={cell.input || ''}
+                onChange={e => {
+                  const val = e.target.value;
+                  if (tool === 'svg') {
+                    onChange({ input: val, output: val.trim() ? { ok: true, svgRaw: val.trim() } : null });
+                  } else if (tool === 'ascii') {
+                    onChange({ input: val, output: val.trim() ? { ok: true, ascii: true } : null });
+                  } else {
+                    onChange({ input: val, output: null });
+                  }
+                }}
+                onFocus={onFocus}
+                placeholder={placeholders[tool] || placeholders.mermaid}
+                rows={Math.max(4, ((cell.input || '').match(/\n/g)||[]).length + 2)}
+                spellCheck={false} disabled={cell.running}
+              />
+              {/* Mermaid rendered SVG */}
+              {(tool === 'mermaid') && cell.output && !cell.running && cell.output.svg && (
+                <div className="nb-schem-render" dangerouslySetInnerHTML={{ __html: cell.output.svg }} />
+              )}
+              {/* Mermaid fallback: ASCII art display */}
+              {(tool === 'mermaid') && cell.output && !cell.running && !cell.output.svg && !cell.output.error && cell.output.ok && (
+                <div className="nb-schem-render"><code className="nb-schem-ascii">{cell.input}</code></div>
+              )}
+              {/* Graphviz rendered SVG */}
+              {tool === 'graphviz' && cell.output && !cell.running && cell.output.svg && (
+                <div className="nb-schem-render nb-schem-render--graphviz" dangerouslySetInnerHTML={{ __html: cell.output.svg }} />
+              )}
+              {/* SVG Code — auto-renders */}
+              {tool === 'svg' && cell.output && cell.output.svgRaw && (
+                <div className="nb-schem-render nb-schem-render--svg" dangerouslySetInnerHTML={{ __html: cell.output.svgRaw }} />
+              )}
+              {/* ASCII Art — auto-renders */}
+              {tool === 'ascii' && cell.output && cell.output.ascii && (
+                <div className="nb-schem-render"><code className="nb-schem-ascii">{cell.input}</code></div>
+              )}
+              {/* Error */}
+              {cell.output && !cell.running && cell.output.error && (
+                <p className="nb-schem-err">⚠ {cell.output.error}</p>
+              )}
+              <p className="nb-schem-hint">
+                {tool === 'mermaid'  && 'Mermaid: flowchart · sequenceDiagram · classDiagram · erDiagram · gantt · pie · mindmap · stateDiagram'}
+                {tool === 'graphviz' && 'DOT: graph { } · digraph { } · subgraph · node/edge attributes — press Run to render'}
+                {tool === 'svg'      && 'SVG markup — auto-renders as you type · supports all standard SVG elements'}
+                {tool === 'ascii'    && 'ASCII art — renders as monospace text · use box-drawing chars for clean diagrams'}
+              </p>
+            </>
+          );
+        })()}
 
         {/* Others — Note / Bookmark / Quote */}
         {isOthers && <OthersCell cell={cell} onChange={onChange} />}
@@ -1822,21 +2561,42 @@ function App() {
       if (cell.type === 'schematics') {
         const src = (cell.input || '').trim();
         if (!src) return cs;
-        if (isMermaidSrc(src)) {
-          loadMermaidOnce()
-            .then(async mermaid => {
+        const tool = cell.schemTool || 'mermaid';
+
+        if (tool === 'mermaid') {
+          if (isMermaidSrc(src)) {
+            loadMermaidOnce()
+              .then(async mermaid => {
+                try {
+                  const { svg } = await mermaid.render('nb-m-' + id + '-' + Date.now(), src);
+                  updateCell(id, { running: false, output: { ok: true, svg } });
+                } catch(e) {
+                  updateCell(id, { running: false, output: { ok: false, svg: null, error: 'Diagram error: ' + e.message } });
+                }
+              })
+              .catch(e => updateCell(id, { running: false, output: { ok: false, svg: null, error: String(e) } }));
+            return cs.map(c => c.id === id ? { ...c, running: true, output: null } : c);
+          }
+          // ASCII art fallback in Mermaid mode
+          return cs.map(c => c.id === id ? { ...c, output: { ok: true, svg: null } } : c);
+        }
+
+        if (tool === 'graphviz') {
+          loadVizOnce()
+            .then(viz => {
               try {
-                const { svg } = await mermaid.render('nb-m-' + id + '-' + Date.now(), src);
+                const svg = viz.renderString(src, { format: 'svg' });
                 updateCell(id, { running: false, output: { ok: true, svg } });
               } catch(e) {
-                updateCell(id, { running: false, output: { ok: false, svg: null, error: 'Diagram error: ' + e.message } });
+                updateCell(id, { running: false, output: { ok: false, svg: null, error: 'DOT error: ' + e.message } });
               }
             })
             .catch(e => updateCell(id, { running: false, output: { ok: false, svg: null, error: String(e) } }));
           return cs.map(c => c.id === id ? { ...c, running: true, output: null } : c);
         }
-        // ASCII art / plain text — display as-is
-        return cs.map(c => c.id === id ? { ...c, output: { ok: true, svg: null } } : c);
+
+        // svg / ascii: handled via onChange auto-render — Run is a no-op
+        return cs;
       }
 
       return cs;
@@ -1846,7 +2606,8 @@ function App() {
   function runAll() {
     const pythonCells = cells.filter(c => c.type === 'code' && c.lang === 'python' && !c.running);
     const mathCells   = cells.filter(c => c.type === 'math' && !c.running && (c.input || '').trim() && (!c.mathTool || c.mathTool === 'latex'));
-    const schemCells  = cells.filter(c => c.type === 'schematics' && !c.running && (c.input || '').trim());
+    const schemCells  = cells.filter(c => c.type === 'schematics' && !c.running && (c.input || '').trim() &&
+      (!c.schemTool || c.schemTool === 'mermaid' || c.schemTool === 'graphviz'));
 
     setCells(cs => cs.map(c => {
       if (c.type === 'text') return { ...c, output: { ok: true, lines: [] } };
@@ -1858,7 +2619,7 @@ function App() {
         return c; // scratch
       }
       if (c.type === 'math' && (c.input || '').trim() && (!c.mathTool || c.mathTool === 'latex')) return { ...c, running: true, output: null };
-      if (c.type === 'schematics' && (c.input || '').trim()) return { ...c, running: true, output: null };
+      if (c.type === 'schematics' && (c.input || '').trim() && (!c.schemTool || c.schemTool === 'mermaid' || c.schemTool === 'graphviz')) return { ...c, running: true, output: null };
       return c;
     }));
 
@@ -1875,8 +2636,20 @@ function App() {
     });
 
     schemCells.forEach(c => {
-      const src = c.input.trim();
-      if (isMermaidSrc(src)) {
+      const src  = c.input.trim();
+      const tool = c.schemTool || 'mermaid';
+      if (tool === 'graphviz') {
+        loadVizOnce()
+          .then(viz => {
+            try {
+              const svg = viz.renderString(src, { format: 'svg' });
+              updateCell(c.id, { running: false, output: { ok: true, svg } });
+            } catch(e) {
+              updateCell(c.id, { running: false, output: { ok: false, svg: null, error: 'DOT error: ' + e.message } });
+            }
+          })
+          .catch(e => updateCell(c.id, { running: false, output: { ok: false, svg: null, error: String(e) } }));
+      } else if (isMermaidSrc(src)) {
         loadMermaidOnce()
           .then(async mermaid => {
             try {

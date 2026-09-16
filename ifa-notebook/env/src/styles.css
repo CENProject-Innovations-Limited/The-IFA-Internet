@@ -830,10 +830,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .nb-font-select       { max-width: 72px; font-size: 0.58rem; }
   .nb-script-select     { max-width: 64px; font-size: 10px; height: 22px; }
   .nb-math-mode-select  { max-width: 88px; font-size: 0.58rem; }
+  .nb-schem-tool-select { max-width: 96px; font-size: 0.58rem; }
   .nb-math-kb-toggle    { font-size: 0.56rem; padding: 2px 6px; }
   .nb-calc              { max-width: 100%; }
   .nb-calc-btn          { min-height: 36px; font-size: 0.82rem; }
   .nb-calc-btn--fn      { font-size: 0.64rem; min-height: 30px; }
+  .nb-calc__row--6 .nb-calc-btn { min-height: 26px; font-size: 0.58rem; }
 
   /* Control buttons — min 36px tap area */
   .nb-ctrl-btn { padding: 6px 10px; font-size: 0.74rem; min-height: 36px; }
@@ -876,10 +878,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .nb-ctrl-btn--term, .nb-ctrl-btn--term-on { min-height: 36px; padding: 6px 10px; }
 
   /* Art canvas toolbar — larger touch targets */
-  .nb-ifagram__toolbar { gap: 5px; padding: 6px 8px; flex-wrap: wrap; }
-  .nb-ifagram-tool  { padding: 6px 10px; min-height: 36px; font-size: 0.72rem; }
-  .nb-ifagram-color { width: 36px; height: 36px; }
-  .nb-ifagram-size  { width: 52px; }
+  .nb-ifagram__toolbar { gap: 4px; padding: 5px 7px; flex-wrap: wrap; }
+  .nb-ifagram-tool  { padding: 5px 8px; min-height: 34px; font-size: 0.68rem; }
+  .nb-ifagram-color { width: 32px; height: 28px; }
+  .nb-ifagram-size  { width: 48px; }
+  .nb-ifagram-swatch { width: 20px; height: 20px; }
 
   /* Multimedia: stack URL input + button vertically */
   .nb-media__url-row  { flex-direction: column; gap: 6px; }
@@ -906,14 +909,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
   /* Calculator — fill container width; refine display and buttons */
   .nb-calc               { width: 100%; }
-  .nb-calc__display      { padding: 8px 12px 6px; min-height: 48px; }
+  .nb-calc__display      { padding: 8px 12px 6px; min-height: 52px; }
   .nb-calc__expr         { font-size: 0.9rem; }
   .nb-calc__result       { font-size: 1.1rem; }
   .nb-calc__grid         { padding: 6px; gap: 4px; }
   .nb-calc__row          { gap: 4px; }
   .nb-calc-btn           { min-height: 40px; font-size: 0.88rem; }
-  .nb-calc-btn--fn       { min-height: 36px; font-size: 0.56rem; }
-  .nb-calc__history-expr { max-width: none; flex: 1; overflow: hidden; }
+  .nb-calc-btn--fn       { min-height: 34px; font-size: 0.56rem; }
+  .nb-calc__sci-panel    { padding: 5px 6px; gap: 3px; }
+  .nb-calc__row--6       { gap: 3px; }
+  .nb-calc__row--6 .nb-calc-btn { min-height: 32px; font-size: 0.6rem; }
   .nb-calc__history      { padding: 5px 8px 6px; }
 }
 
@@ -935,6 +940,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   /* Even tighter selects */
   .nb-lang-select, .nb-font-select, .nb-math-mode-select { max-width: 74px; }
   .nb-script-select { max-width: 56px; }
+  .nb-schem-tool-select { max-width: 80px; }
 
   /* Keyboard keys */
   .odu-kb__key { font-size: 14px; min-width: 24px; padding: 4px 3px; }
@@ -947,8 +953,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .nb-abd-kb__key  { min-width: 24px; font-size: 0.78rem; padding: 3px 4px; min-height: 34px; }
 
   /* Calculator — more compact on very small phones */
-  .nb-calc-btn     { min-height: 36px; font-size: 0.82rem; }
-  .nb-calc-btn--fn { min-height: 32px; font-size: 0.52rem; }
+  .nb-calc-btn               { min-height: 36px; font-size: 0.82rem; }
+  .nb-calc-btn--fn           { min-height: 32px; font-size: 0.52rem; }
+  .nb-calc__row--6 .nb-calc-btn { min-height: 26px; font-size: 0.52rem; }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -956,39 +963,76 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 ══════════════════════════════════════════════════════════════════════════════ */
 
 /* ── Art & Design (Ifagram) ──────────────────────────────────────────────── */
+/* ── Art & Design (IfagramCanvas) ────────────────────────────────────────── */
 .nb-ifagram { display: flex; flex-direction: column; }
 .nb-ifagram__toolbar {
-  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  padding: 7px 12px;
-  background: rgba(244,63,94,0.04);
-  border: 1px solid rgba(244,63,94,0.15);
-  border-radius: 6px 6px 0 0;
+  display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
+  padding: 5px 10px;
+  border: 1px solid rgba(244,63,94,0.14); border-bottom: none;
 }
+.nb-ifagram__toolbar:first-child { border-radius: 6px 6px 0 0; }
+.nb-ifagram__toolbar--tools   { background: rgba(244,63,94,0.05); }
+.nb-ifagram__toolbar--opts    { background: rgba(244,63,94,0.03); }
+.nb-ifagram__toolbar--actions { background: rgba(10,18,30,0.55); }
 .nb-ifagram-tool {
-  font-size: 0.72rem; padding: 3px 10px; border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.66rem; padding: 3px 8px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.09);
   background: rgba(255,255,255,0.03); color: #7090b8;
-  cursor: pointer; transition: all 0.15s;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
 }
 .nb-ifagram-tool--active,
 .nb-ifagram-tool:hover { background: rgba(244,63,94,0.13); border-color: rgba(244,63,94,0.4); color: #f43f5e; }
+.nb-ifagram-tool:disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+.nb-ifagram-lbl { font-size: 0.57rem; color: #4a6080; white-space: nowrap; }
 .nb-ifagram-color {
-  width: 30px; height: 24px; padding: 2px;
-  border: 1px solid rgba(255,255,255,0.15); border-radius: 4px;
+  width: 26px; height: 20px; padding: 1px;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 3px;
   background: transparent; cursor: pointer; flex-shrink: 0;
 }
-.nb-ifagram-size { width: 72px; accent-color: #f43f5e; cursor: pointer; vertical-align: middle; }
-.nb-ifagram-size-label { font-size: 0.6rem; color: #3a4a60; min-width: 24px; }
+.nb-ifagram-size  { width: 62px; accent-color: #f43f5e; cursor: pointer; vertical-align: middle; }
+.nb-ifagram-size-label { font-size: 0.57rem; color: #3a4a60; min-width: 26px; }
+.nb-ifagram-swatch {
+  width: 17px; height: 17px; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 3px; cursor: pointer; flex-shrink: 0;
+  transition: transform 0.1s; outline-offset: 2px;
+}
+.nb-ifagram-swatch:hover { transform: scale(1.3); }
+.nb-ifagram-opt-label {
+  font-size: 0.62rem; color: #607090; display: flex; align-items: center;
+  gap: 3px; cursor: pointer; user-select: none; white-space: nowrap;
+}
+.nb-ifagram-opt-label input { accent-color: #f43f5e; cursor: pointer; }
 .nb-ifagram-clear {
-  font-size: 0.62rem; padding: 3px 10px; border-radius: 4px; margin-left: auto;
+  font-size: 0.62rem; padding: 3px 10px; border-radius: 4px;
   border: 1px solid rgba(244,63,94,0.22); color: #f43f5e;
   background: rgba(244,63,94,0.05); cursor: pointer; transition: background 0.15s; white-space: nowrap;
 }
 .nb-ifagram-clear:hover { background: rgba(244,63,94,0.14); }
+.nb-ifagram__canvas-wrap { position: relative; }
 .nb-ifagram__canvas {
   display: block; width: 100%;
   border: 1px solid rgba(244,63,94,0.15); border-top: none;
-  border-radius: 0 0 6px 6px; touch-action: none; background: #020509;
+  border-radius: 0; touch-action: none;
+}
+.nb-ifagram__grid-overlay {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+.nb-ifagram__text-overlay { position: absolute; z-index: 10; pointer-events: all; }
+.nb-ifagram__text-input {
+  background: rgba(2,5,9,0.78); border: 1px dashed rgba(244,63,94,0.55);
+  outline: none; padding: 2px 6px; min-width: 100px;
+  font-family: sans-serif; border-radius: 2px;
+}
+.nb-ifagram__status {
+  display: flex; align-items: center; gap: 16px;
+  padding: 3px 10px; font-size: 0.57rem; color: #3a4960;
+  background: rgba(244,63,94,0.02);
+  border: 1px solid rgba(244,63,94,0.12); border-top: none;
+  border-radius: 0 0 6px 6px;
 }
 
 /* ── Multimedia ──────────────────────────────────────────────────────────── */
@@ -1234,6 +1278,35 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nb-math-mode-select:disabled { opacity: 0.45; cursor: not-allowed; }
 .nb-math-mode-select option { background: #070e1c; color: #d4e1f5; }
 
+/* ── Schematics tool selector ─────────────────────────────────────────────── */
+.nb-schem-tool-select {
+  font-size: 0.62rem;
+  font-weight: 600;
+  font-family: inherit;
+  color: #84cc16;
+  background: rgba(132,204,22,0.06);
+  border: 1px solid rgba(132,204,22,0.22);
+  border-radius: 4px;
+  padding: 2px 20px 2px 7px;
+  height: 24px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2384cc16' opacity='.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 5px center;
+}
+.nb-schem-tool-select:hover { border-color: rgba(132,204,22,0.45); background-color: rgba(132,204,22,0.1); }
+.nb-schem-tool-select:focus { border-color: rgba(132,204,22,0.55); box-shadow: 0 0 0 2px rgba(132,204,22,0.08); }
+.nb-schem-tool-select:disabled { opacity: 0.45; cursor: not-allowed; }
+.nb-schem-tool-select option { background: #070e1c; color: #d4e1f5; }
+
+/* Graphviz output — light-background SVG needs inversion for dark theme */
+.nb-schem-render--graphviz svg { filter: invert(1) hue-rotate(180deg); max-width: 100%; height: auto; }
+.nb-schem-render--svg svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
 /* ── Math symbols keyboard toggle button ─────────────────────────────────── */
 .nb-math-kb-toggle {
   font-size: 0.62rem;
@@ -1383,15 +1456,48 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border: 1px solid rgba(6,182,212,0.14);
   border-radius: 8px;
   overflow: hidden;
-  max-width: 340px;
+  max-width: 400px;
 }
 
+/* Display */
 .nb-calc__display {
   padding: 10px 14px 8px;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.32);
   border-bottom: 1px solid rgba(6,182,212,0.1);
-  min-height: 56px;
+  min-height: 60px;
 }
+.nb-calc__status-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 18px;
+  margin-bottom: 3px;
+}
+.nb-calc__badge {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+}
+.nb-calc__badge--mode { background: rgba(245,158,11,0.14); color: #fbbf24; border: 1px solid rgba(245,158,11,0.22); }
+.nb-calc__badge--rad  { background: rgba(6,182,212,0.14);  color: #67e8f9; border: 1px solid rgba(6,182,212,0.22); }
+.nb-calc__badge--mem  { background: rgba(139,92,246,0.14); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.22); }
+.nb-calc__badge--ans  { background: rgba(16,185,129,0.12); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.2); }
+.nb-calc__copy-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #3a4a60;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0 3px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.nb-calc__copy-btn:hover { color: #22d3ee; }
 
 .nb-calc__expr {
   font-family: 'Courier New', monospace;
@@ -1401,7 +1507,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   line-height: 1.3;
   min-height: 1.3em;
 }
-
+.nb-calc__live {
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #2a5060;
+  text-align: right;
+  font-style: italic;
+  margin-top: 1px;
+}
 .nb-calc__result {
   font-family: 'Courier New', monospace;
   font-size: 1.3rem;
@@ -1410,21 +1523,39 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   margin-top: 2px;
   text-align: right;
 }
-.nb-calc__result--err { color: #f87171; font-size: 0.9rem; }
+.nb-calc__result--err { color: #f87171; font-size: 0.95rem; }
 
+/* Scientific panel */
+.nb-calc__sci-panel {
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(6,182,212,0.025);
+  border-bottom: 1px solid rgba(6,182,212,0.1);
+}
+.nb-calc__row--6 {
+  display: flex;
+  gap: 3px;
+}
+.nb-calc__row--6 .nb-calc-btn {
+  flex: 1;
+  min-height: 28px;
+  font-size: 0.62rem;
+  padding: 2px 1px;
+  min-width: 0;
+}
+
+/* Basic grid */
 .nb-calc__grid {
   padding: 8px;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
-.nb-calc__grid--sci {
-  background: rgba(6,182,212,0.03);
-  border-bottom: 1px solid rgba(6,182,212,0.1);
-}
-
 .nb-calc__row { display: flex; gap: 5px; }
 
+/* Buttons — base */
 .nb-calc-btn {
   flex: 1;
   min-height: 40px;
@@ -1437,10 +1568,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   cursor: pointer;
   transition: background 0.1s, border-color 0.1s;
   text-align: center;
+  padding: 0 2px;
+  line-height: 1.2;
 }
 .nb-calc-btn:hover  { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); }
-.nb-calc-btn:active { background: rgba(255,255,255,0.12); }
+.nb-calc-btn:active { background: rgba(255,255,255,0.14); transform: scale(0.97); }
 
+/* Equals */
 .nb-calc-btn--eq {
   background: rgba(6,182,212,0.14);
   border-color: rgba(6,182,212,0.3);
@@ -1449,6 +1583,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .nb-calc-btn--eq:hover { background: rgba(6,182,212,0.26); border-color: rgba(6,182,212,0.5); }
 
+/* Clear */
 .nb-calc-btn--clr {
   background: rgba(244,63,94,0.08);
   border-color: rgba(244,63,94,0.2);
@@ -1456,6 +1591,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .nb-calc-btn--clr:hover { background: rgba(244,63,94,0.18); }
 
+/* Backspace */
 .nb-calc-btn--del {
   background: rgba(244,63,94,0.05);
   border-color: rgba(244,63,94,0.15);
@@ -1463,16 +1599,27 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .nb-calc-btn--del:hover { background: rgba(244,63,94,0.12); }
 
+/* Operators */
 .nb-calc-btn--op {
   background: rgba(6,182,212,0.08);
   border-color: rgba(6,182,212,0.18);
   color: #67e8f9;
 }
-.nb-calc-btn--op:hover { background: rgba(6,182,212,0.15); }
+.nb-calc-btn--op:hover { background: rgba(6,182,212,0.16); }
 
+/* Unary / secondary ops */
+.nb-calc-btn--op2 {
+  background: rgba(6,182,212,0.05);
+  border-color: rgba(6,182,212,0.13);
+  color: #a5f3fc;
+  font-size: 0.75rem;
+}
+.nb-calc-btn--op2:hover { background: rgba(6,182,212,0.12); }
+
+/* Functions */
 .nb-calc-btn--fn {
   font-family: inherit;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   background: rgba(139,92,246,0.08);
   border-color: rgba(139,92,246,0.18);
   color: #c4b5fd;
@@ -1480,6 +1627,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .nb-calc-btn--fn:hover { background: rgba(139,92,246,0.18); }
 
+/* Constants */
 .nb-calc-btn--const {
   background: rgba(245,158,11,0.08);
   border-color: rgba(245,158,11,0.18);
@@ -1487,28 +1635,82 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .nb-calc-btn--const:hover { background: rgba(245,158,11,0.18); }
 
+/* DEG/RAD toggle */
+.nb-calc-btn--toggle {
+  background: rgba(245,158,11,0.1);
+  border-color: rgba(245,158,11,0.25);
+  color: #fbbf24;
+  font-weight: 700;
+  font-size: 0.62rem;
+}
+.nb-calc-btn--toggle:hover { background: rgba(245,158,11,0.22); }
+
+/* Memory */
+.nb-calc-btn--mem {
+  background: rgba(139,92,246,0.07);
+  border-color: rgba(139,92,246,0.18);
+  color: #a78bfa;
+  font-size: 0.62rem;
+}
+.nb-calc-btn--mem:hover { background: rgba(139,92,246,0.16); }
+
+/* Ans */
+.nb-calc-btn--ans {
+  background: rgba(16,185,129,0.07);
+  border-color: rgba(16,185,129,0.18);
+  color: #6ee7b7;
+  font-weight: 600;
+  font-size: 0.68rem;
+}
+.nb-calc-btn--ans:hover { background: rgba(16,185,129,0.15); }
+
+/* History */
 .nb-calc__history {
-  padding: 6px 10px 8px;
+  padding: 5px 10px 8px;
   border-top: 1px solid rgba(6,182,212,0.08);
   display: flex;
   flex-direction: column;
   gap: 2px;
-  max-height: 120px;
+  max-height: 150px;
   overflow-y: auto;
 }
-
+.nb-calc__history-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #3a4a60;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.nb-calc__history-clear {
+  background: none;
+  border: none;
+  color: #3a4a60;
+  font-size: 0.6rem;
+  cursor: pointer;
+  padding: 0;
+  letter-spacing: normal;
+}
+.nb-calc__history-clear:hover { color: #f87171; }
 .nb-calc__history-item {
   display: flex;
   align-items: baseline;
   gap: 4px;
-  font-size: 0.68rem;
+  font-size: 0.67rem;
   font-family: 'Courier New', monospace;
-  opacity: 0.6;
+  opacity: 0.65;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 1px 3px;
+  transition: opacity 0.12s, background 0.12s;
 }
-
-.nb-calc__history-expr   { color: #a5f3fc; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px; }
-.nb-calc__history-eq     { color: #3a4a60; }
-.nb-calc__history-result { color: #22d3ee; font-weight: 600; }
+.nb-calc__history-item:hover { opacity: 1; background: rgba(6,182,212,0.06); }
+.nb-calc__history-expr   { color: #a5f3fc; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+.nb-calc__history-eq     { color: #3a4a60; flex-shrink: 0; }
+.nb-calc__history-result { color: #22d3ee; font-weight: 600; flex-shrink: 0; }
 
 /* ── Print / PDF ─────────────────────────────────────────────────────────── */
 @media print {
@@ -1586,6 +1788,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
   /* Canvas: render as image (already data-URL) */
   .nb-ifagram__canvas { width: 100%; height: auto; }
+  .nb-ifagram__status { display: none; }
 }
 
 /* ── Aebajiogbe-Oduduwa font ──────────────────────────────────────────────── */
@@ -1613,6 +1816,49 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .nb-script-select:hover { border-color: rgba(59,158,255,0.55); }
 .nb-script-select option { background: #0e1828; color: #f0f5ff; }
+
+/* ── Odu view selector ───────────────────────────────────────────────────── */
+.nb-odu-view-select {
+  font-size: 11px;
+  padding: 2px 20px 2px 7px;
+  border-radius: 4px;
+  border: 1px solid rgba(16,185,129,0.28);
+  background: rgba(16,185,129,0.07);
+  color: #6ee7b7;
+  cursor: pointer;
+  height: 24px;
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2310b981' opacity='.55'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 5px center;
+  transition: border-color .15s, background-color .15s;
+}
+.nb-odu-view-select:hover { border-color: rgba(16,185,129,0.55); background-color: rgba(16,185,129,0.11); }
+.nb-odu-view-select:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16,185,129,0.08); }
+.nb-odu-view-select option { background: #070e1c; color: #d4e1f5; }
+
+/* ── Odu Matrix (in-cell SVG diagrams) ──────────────────────────────────── */
+.nb-odu-matrix {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 0 6px;
+}
+.nb-odu-matrix__label {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.18);
+}
+.nb-matrix-svg {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+}
 
 /* ── Aebajiogbe virtual keyboard ─────────────────────────────────────────── */
 .odu-kb {
