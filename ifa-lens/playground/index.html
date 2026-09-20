@@ -9,13 +9,18 @@
   <meta property="og:description" content="Interactive Ifa Periodic Table of Everything (PToE) — 0+8D SIDECHRX Matrix. Click any field to open its polymathic analysis through the 8 SIDECHRX dimensions." />
   <meta name="theme-color" content="#06080e" />
   <link rel="icon" type="image/png" href="../../src/assets/itoe_favicon.png" />
-  <link rel="stylesheet" href="./src/styles.css?v=14" />
+  <link rel="stylesheet" href="./src/styles.css?v=19" />
 </head>
 <body>
   <div id="root"></div>
   <script src="../../lib/react.min.js"></script>
   <script src="../../lib/react-dom.min.js"></script>
   <script src="../../lib/babel.min.js"></script>
-  <script type="text/babel" data-presets="react" src="./src/App.jsx?v=22"></script>
+  <!-- Export libraries (loaded async; used only when user clicks an export button) -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.12.0/pptxgen.bundle.js"></script>
+  <script type="text/babel" data-presets="react" src="./src/App.jsx?v=29"></script>
 </body>
 </html>

@@ -1289,6 +1289,142 @@ input, select, textarea { font: inherit; }
   .student-edit-panel { padding: 0.6rem 0.75rem; }
 }
 
+/* ── IfaNote Scholar's Desk Prompt ───────────────────────────────────────── */
+.ifanote-prompt {
+  position: relative;
+  margin: 2rem 0 0.5rem;
+  padding: 1.2rem 1.4rem 1.1rem;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(135deg, rgba(8,20,14,0.92) 0%, rgba(6,12,22,0.96) 100%);
+  border: 1px solid rgba(0,200,124,0.22);
+  box-shadow: 0 0 32px rgba(0,200,124,0.06), inset 0 1px 0 rgba(0,200,124,0.08);
+  overflow: hidden;
+}
+.ifanote-prompt__pulse {
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,200,124,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ifanote-prompt__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+.ifanote-prompt__icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.ifanote-prompt__label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--jade);
+  margin-bottom: 2px;
+}
+.ifanote-prompt__course {
+  font-size: 0.78rem;
+  color: var(--text-2);
+  line-height: 1.3;
+}
+.ifanote-prompt__course strong {
+  color: var(--text-1);
+  font-weight: 600;
+}
+.ifanote-prompt__tip-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--jade);
+  background: rgba(0,200,124,0.1);
+  border: 1px solid rgba(0,200,124,0.25);
+  border-radius: 20px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.ifanote-prompt__tip-btn:hover {
+  background: rgba(0,200,124,0.22);
+  color: var(--jade-lt);
+}
+.ifanote-prompt__tip {
+  font-size: 0.85rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+.ifanote-prompt__actions {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+.ifanote-prompt__cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: rgba(0,200,124,0.16);
+  color: var(--jade-lt);
+  border: 1px solid rgba(0,200,124,0.35);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.12s;
+}
+.ifanote-prompt__cta:hover {
+  background: rgba(0,200,124,0.28);
+  border-color: var(--jade);
+  color: var(--jade-lt);
+  transform: translateY(-1px);
+}
+.ifanote-prompt__lens {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: rgba(59,158,255,0.1);
+  color: var(--electric);
+  border: 1px solid rgba(59,158,255,0.25);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.12s;
+}
+.ifanote-prompt__lens:hover {
+  background: rgba(59,158,255,0.22);
+  border-color: var(--electric);
+  transform: translateY(-1px);
+}
+
+/* IfaNote sidebar link accent */
+.sidebar__platform-link--note {
+  border-top: 1px dashed rgba(0,200,124,0.15);
+  margin-top: 2px;
+  padding-top: 6px;
+  color: var(--jade);
+}
+.sidebar__platform-link--note .sidebar__platform-sym { color: var(--jade); }
+.sidebar__platform-link--note:hover { background: rgba(0,200,124,0.08); color: var(--jade-lt); }
+
+/* IfaNote mobile nav link accent */
+.mobile-nav__plat-link--note { color: var(--jade); }
+.mobile-nav__plat-link--note .mobile-nav__plat-sym { color: var(--jade); }
+.mobile-nav__plat-link--note:hover { color: var(--jade-lt); }
+
+@media (max-width: 768px) {
+  .ifanote-prompt { margin: 1.5rem 0 0; padding: 1rem 1rem 0.9rem; }
+  .ifanote-prompt__actions { gap: 0.5rem; }
+}
+
 /* ── Touch devices: disable hover transforms that scramble content on scroll ── */
 @media (hover: none) and (pointer: coarse) {
   .course-card:hover       { transform: none; box-shadow: none; }

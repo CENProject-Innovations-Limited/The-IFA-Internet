@@ -999,7 +999,8 @@ function generateWordHTML(cells, title, fontFaceCSS = '') {
 
 /* ── IfagramCanvas (Art & Design cell) ───────────────────────────────────── */
 function IfagramCanvas({ cell, onChange }) {
-  const canvasRef  = useRef(null);
+  const canvasRef   = useRef(null);
+  const fileInputRef = useRef(null);
   const drawing    = useRef(false);
   const startPos   = useRef(null);
   const snapshot   = useRef(null);
@@ -1256,6 +1257,70 @@ function IfagramCanvas({ cell, onChange }) {
     a.download = 'ifagram.png'; a.click();
   }
 
+  // Draw an image (src = data URL or object URL) onto the canvas, scaled to fill
+  function pasteImage(src, onDone) {
+    const img = new Image();
+    img.onload = () => {
+      const ctx = canvasRef.current.getContext('2d');
+      const scale = Math.min(CW / img.width, CH / img.height);
+      const w = Math.round(img.width  * scale);
+      const h = Math.round(img.height * scale);
+      const x = Math.round((CW - w) / 2);
+      const y = Math.round((CH - h) / 2);
+      ctx.globalAlpha = 1;
+      ctx.drawImage(img, x, y, w, h);
+      if (onDone) onDone();
+      pushHistory();
+      onChange({ canvasData: canvasRef.current.toDataURL() });
+    };
+    img.src = src;
+  }
+
+  // Paste button — reads image from system clipboard via Clipboard API
+  async function pasteFromClipboard() {
+    try {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        const imageType = item.types.find(t => t.startsWith('image/'));
+        if (imageType) {
+          const blob = await item.getType(imageType);
+          const url  = URL.createObjectURL(blob);
+          pasteImage(url, () => URL.revokeObjectURL(url));
+          return;
+        }
+      }
+      alert('No image found in clipboard.\nCopy an image first, then click Paste.');
+    } catch {
+      // Clipboard API denied — guide user to Ctrl+V on the canvas
+      alert('Clipboard access was denied.\nClick the canvas area and press Ctrl+V (or Cmd+V) to paste.');
+    }
+  }
+
+  // Open image from local file
+  function openFile(e) {
+    const file = e.target.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = ev => pasteImage(ev.target.result);
+    reader.readAsDataURL(file);
+    e.target.value = '';   // reset so the same file can be re-selected
+  }
+
+  // Ctrl+V / Cmd+V directly on the canvas wrapper
+  function onCanvasPaste(e) {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        const blob = item.getAsFile();
+        const url  = URL.createObjectURL(blob);
+        pasteImage(url, () => URL.revokeObjectURL(url));
+        e.preventDefault();
+        return;
+      }
+    }
+  }
+
   const TOOLS = [
     { id: 'pen',      label: '✏ Pen'      },
     { id: 'brush',    label: '🖌 Brush'   },
@@ -1334,6 +1399,12 @@ function IfagramCanvas({ cell, onChange }) {
             onClick={e => { e.stopPropagation(); setColor(sw); }} title={sw} />
         ))}
         <div style={{marginLeft:'auto', display:'flex', gap:5, alignItems:'center'}}>
+          <button className="nb-ifagram-tool nb-ifagram-tool--paste"
+            onClick={e => { e.stopPropagation(); pasteFromClipboard(); }}
+            title="Paste image from clipboard (or press Ctrl+V on the canvas)">📋 Paste</button>
+          <button className="nb-ifagram-tool nb-ifagram-tool--paste"
+            onClick={e => { e.stopPropagation(); fileInputRef.current.click(); }}
+            title="Open image from file">📂 Open</button>
           <button className="nb-ifagram-tool" onClick={e => { e.stopPropagation(); undo(); }}
             disabled={undoLen <= 1} title="Undo">↩ Undo</button>
           <button className="nb-ifagram-tool" onClick={e => { e.stopPropagation(); redo(); }}
@@ -1342,10 +1413,14 @@ function IfagramCanvas({ cell, onChange }) {
             title="Download as PNG">⬇ Save</button>
           <button className="nb-ifagram-clear" onClick={e => { e.stopPropagation(); clear(); }}>Clear</button>
         </div>
+        {/* Hidden file input for Open */}
+        <input ref={fileInputRef} type="file" accept="image/*"
+          style={{ display: 'none' }} onChange={openFile} />
       </div>
 
       {/* Canvas */}
-      <div className="nb-ifagram__canvas-wrap">
+      <div className="nb-ifagram__canvas-wrap" tabIndex={0} onPaste={onCanvasPaste}
+        style={{ outline: 'none' }}>
         <canvas ref={canvasRef} className="nb-ifagram__canvas" width={CW} height={CH}
           onMouseDown={onStart} onMouseMove={onMove}
           onMouseUp={onEnd} onMouseLeave={e => { if (drawing.current) onEnd(); setCursorPos(null); }}
@@ -1383,8 +1458,10 @@ function detectMediaType(url) {
   if (/\.(jpe?g|png|gif|webp|svg|avif|bmp)(\?|#|$)/.test(u))  return 'image';
   if (/\.(mp4|webm|ogv|mov)(\?|#|$)/.test(u))                  return 'video';
   if (/\.(mp3|wav|ogg|flac|aac|m4a)(\?|#|$)/.test(u))         return 'audio';
+  if (/\.(pdf)(\?|#|$)/.test(u))                                return 'pdf';
   if (/(?:youtube\.com\/watch|youtu\.be\/)/.test(u))            return 'youtube';
   if (/vimeo\.com\/\d+/.test(u))                                return 'vimeo';
+  if (/open\.spotify\.com\//.test(u))                           return 'spotify';
   return 'link';
 }
 
@@ -1398,29 +1475,238 @@ function vimeoId(url) {
   return m ? m[1] : null;
 }
 
+function spotifyEmbedUrl(url) {
+  /* https://open.spotify.com/track/ID → https://open.spotify.com/embed/track/ID */
+  return url.replace(/open\.spotify\.com\/(?!embed\/)/, 'open.spotify.com/embed/');
+}
+
+const MEDIA_TOOLS = [
+  { id: 'url',    label: '🔗 URL' },
+  { id: 'file',   label: '📁 File' },
+  { id: 'camera', label: '📷 Camera' },
+  { id: 'record', label: '🎙 Record' },
+];
+
 function MultimediaCell({ cell, onChange }) {
+  const tool = cell.mediaTool || 'url';
+
+  /* ── Camera state ───────────────────────────── */
+  const videoRef     = useRef(null);
+  const camStreamRef = useRef(null);
+  const snapCanvasRef = useRef(null);
+  const [camActive, setCamActive]   = useState(false);
+  const [camError,  setCamError]    = useState(null);
+
+  /* ── Recorder state ─────────────────────────── */
+  const recorderRef  = useRef(null);
+  const chunksRef    = useRef([]);
+  const timerRef     = useRef(null);
+  const [recording,  setRecording]  = useState(false);
+  const [recTime,    setRecTime]    = useState(0);
+  const [recError,   setRecError]   = useState(null);
+
+  /* cleanup on unmount */
+  useEffect(() => {
+    return () => { _stopCamera(); _stopRecorder(); };
+  }, []);
+
+  /* stop camera / recorder when leaving their tab */
+  useEffect(() => {
+    if (tool !== 'camera') _stopCamera();
+    if (tool !== 'record') _stopRecorder();
+  }, [tool]);
+
+  function _stopCamera() {
+    if (camStreamRef.current) {
+      camStreamRef.current.getTracks().forEach(t => t.stop());
+      camStreamRef.current = null;
+    }
+    setCamActive(false);
+    setCamError(null);
+  }
+
+  function _stopRecorder() {
+    if (recorderRef.current && recorderRef.current.state !== 'inactive') {
+      recorderRef.current.stop();
+    }
+    clearInterval(timerRef.current);
+    setRecording(false);
+    setRecTime(0);
+    setRecError(null);
+  }
+
+  async function startCamera() {
+    setCamError(null);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      camStreamRef.current = stream;
+      if (videoRef.current) { videoRef.current.srcObject = stream; }
+      setCamActive(true);
+    } catch(_) {
+      setCamError('Camera access denied or not available in this browser.');
+    }
+  }
+
+  function capturePhoto() {
+    if (!videoRef.current || !camActive) return;
+    const v = videoRef.current;
+    const c = snapCanvasRef.current;
+    c.width  = v.videoWidth;
+    c.height = v.videoHeight;
+    c.getContext('2d').drawImage(v, 0, 0);
+    const dataUrl = c.toDataURL('image/png');
+    _stopCamera();
+    onChange({ output: { ok: true, mediaType: 'image', url: dataUrl } });
+  }
+
+  async function startRecording() {
+    setRecError(null);
+    chunksRef.current = [];
+    setRecTime(0);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      recorderRef.current = recorder;
+      recorder.ondataavailable = e => { if (e.data.size > 0) chunksRef.current.push(e.data); };
+      recorder.onstop = () => {
+        stream.getTracks().forEach(t => t.stop());
+        clearInterval(timerRef.current);
+        setRecording(false);
+        const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
+        const url  = URL.createObjectURL(blob);
+        onChange({ output: { ok: true, mediaType: 'audio', url } });
+      };
+      recorder.start();
+      setRecording(true);
+      timerRef.current = setInterval(() => setRecTime(t => t + 1), 1000);
+    } catch(_) {
+      setRecError('Microphone access denied or not available in this browser.');
+    }
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    let mediaType = 'link';
+    if      (file.type.startsWith('image/'))       mediaType = 'image';
+    else if (file.type.startsWith('video/'))        mediaType = 'video';
+    else if (file.type.startsWith('audio/'))        mediaType = 'audio';
+    else if (file.type === 'application/pdf')       mediaType = 'pdf';
+    onChange({ output: { ok: true, mediaType, url: URL.createObjectURL(file), fileName: file.name } });
+  }
+
+  function fmtTime(s) {
+    return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+  }
+
   function embed() {
     const url = (cell.input || '').trim();
     if (!url) return;
     onChange({ output: { ok: true, mediaType: detectMediaType(url), url } });
   }
+
   const mt = cell.output ? cell.output.mediaType : null;
+
   return (
     <div className="nb-media">
-      <div className="nb-media__url-row">
-        <input className="nb-media__url-input" type="url"
-          placeholder="Paste a URL — image, video, audio, YouTube, Vimeo, or any link…"
-          value={cell.input || ''}
-          onChange={e => onChange({ input: e.target.value, output: null })}
-          onKeyDown={e => { if (e.key === 'Enter') embed(); e.stopPropagation(); }}
-          onClick={e => e.stopPropagation()} />
-        <button className="nb-media__embed-btn" onClick={e => { e.stopPropagation(); embed(); }}>Embed ▶</button>
+
+      {/* ── Tool tabs ─────────────────────────────────────────────── */}
+      <div className="nb-media__tabs">
+        {MEDIA_TOOLS.map(t => (
+          <button key={t.id}
+            className={'nb-media__tab' + (tool === t.id ? ' nb-media__tab--active' : '')}
+            onClick={e => { e.stopPropagation(); onChange({ mediaTool: t.id, output: null }); }}>
+            {t.label}
+          </button>
+        ))}
       </div>
+
+      {/* ── URL mode ──────────────────────────────────────────────── */}
+      {tool === 'url' && (
+        <div className="nb-media__url-row">
+          <input className="nb-media__url-input" type="url"
+            placeholder="Paste a URL — image, video, audio, YouTube, Vimeo, Spotify, PDF…"
+            value={cell.input || ''}
+            onChange={e => onChange({ input: e.target.value, output: null })}
+            onKeyDown={e => { if (e.key === 'Enter') embed(); e.stopPropagation(); }}
+            onClick={e => e.stopPropagation()} />
+          <button className="nb-media__embed-btn" onClick={e => { e.stopPropagation(); embed(); }}>Embed ▶</button>
+        </div>
+      )}
+
+      {/* ── File mode ─────────────────────────────────────────────── */}
+      {tool === 'file' && (
+        <div className="nb-media__dropzone"
+          onDragOver={e => { e.preventDefault(); e.stopPropagation(); }}
+          onDrop={e => { e.preventDefault(); e.stopPropagation(); handleFile(e.dataTransfer.files[0]); }}
+          onClick={e => { e.stopPropagation(); document.getElementById('nb-file-' + cell.id)?.click(); }}>
+          <span className="nb-media__drop-icon">📁</span>
+          <span className="nb-media__drop-text">Click or drag & drop a file</span>
+          <span className="nb-media__drop-sub">Image · Video · Audio · PDF</span>
+          <input id={'nb-file-' + cell.id} type="file"
+            accept="image/*,video/*,audio/*,application/pdf"
+            style={{ display: 'none' }}
+            onChange={e => { handleFile(e.target.files[0]); e.target.value = ''; }}
+            onClick={e => e.stopPropagation()} />
+        </div>
+      )}
+
+      {/* ── Camera mode ───────────────────────────────────────────── */}
+      {tool === 'camera' && (
+        <div className="nb-media__camera">
+          {camError && <p className="nb-media__error">{camError}</p>}
+          <div className="nb-media__cam-view">
+            <video ref={videoRef} autoPlay playsInline muted
+              style={{ display: camActive ? 'block' : 'none', width: '100%', borderRadius: '6px' }} />
+            {!camActive && !camError && (
+              <div className="nb-media__cam-placeholder">
+                <span style={{ fontSize: '2rem' }}>📷</span>
+                <span>Camera is off</span>
+              </div>
+            )}
+          </div>
+          <canvas ref={snapCanvasRef} style={{ display: 'none' }} />
+          <div className="nb-media__cam-controls">
+            {!camActive
+              ? <button className="nb-media__action-btn" onClick={e => { e.stopPropagation(); startCamera(); }}>Start Camera</button>
+              : <>
+                  <button className="nb-media__action-btn nb-media__action-btn--green"
+                    onClick={e => { e.stopPropagation(); capturePhoto(); }}>📸 Capture</button>
+                  <button className="nb-media__action-btn nb-media__action-btn--red"
+                    onClick={e => { e.stopPropagation(); _stopCamera(); }}>Stop</button>
+                </>
+            }
+          </div>
+        </div>
+      )}
+
+      {/* ── Record mode ───────────────────────────────────────────── */}
+      {tool === 'record' && (
+        <div className="nb-media__recorder">
+          {recError && <p className="nb-media__error">{recError}</p>}
+          <div className="nb-media__rec-display">
+            <span className={'nb-media__rec-dot' + (recording ? ' nb-media__rec-dot--on' : '')} />
+            <span className="nb-media__rec-time">{fmtTime(recTime)}</span>
+            <span className="nb-media__rec-label">{recording ? 'Recording…' : 'Ready'}</span>
+          </div>
+          <div className="nb-media__cam-controls">
+            {!recording
+              ? <button className="nb-media__action-btn"
+                  onClick={e => { e.stopPropagation(); startRecording(); }}>🎙 Start Recording</button>
+              : <button className="nb-media__action-btn nb-media__action-btn--red"
+                  onClick={e => { e.stopPropagation(); recorderRef.current && recorderRef.current.stop(); }}>⏹ Stop</button>
+            }
+          </div>
+        </div>
+      )}
+
+      {/* ── Preview (shared across all modes) ─────────────────────── */}
       {cell.output && cell.output.url && (
         <div className="nb-media__preview">
-          {mt === 'image'   && <img src={cell.output.url} alt="media" loading="lazy" />}
+          {mt === 'image'   && <img src={cell.output.url} alt={cell.output.fileName || 'media'} loading="lazy" />}
           {mt === 'video'   && <video src={cell.output.url} controls />}
-          {mt === 'audio'   && <audio src={cell.output.url} controls style={{ width:'100%' }} />}
+          {mt === 'audio'   && <audio src={cell.output.url} controls style={{ width: '100%' }} />}
+          {mt === 'pdf'     && <iframe src={cell.output.url} title={cell.output.fileName || 'PDF'}
+                                 className="nb-media__pdf" />}
           {mt === 'youtube' && (
             <iframe src={`https://www.youtube.com/embed/${youtubeId(cell.output.url)}`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -1430,6 +1716,11 @@ function MultimediaCell({ cell, onChange }) {
             <iframe src={`https://player.vimeo.com/video/${vimeoId(cell.output.url)}`}
               allow="autoplay; fullscreen; picture-in-picture" allowFullScreen title="Vimeo video" />
           )}
+          {mt === 'spotify' && (
+            <iframe src={spotifyEmbedUrl(cell.output.url)}
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy" title="Spotify" className="nb-media__spotify" />
+          )}
           {mt === 'link' && (
             <div className="nb-media__link-card">
               <span className="nb-media__link-icon">🔗</span>
@@ -1437,6 +1728,9 @@ function MultimediaCell({ cell, onChange }) {
                 {cell.output.url}
               </a>
             </div>
+          )}
+          {cell.output.fileName && (
+            <p className="nb-media__file-name">{cell.output.fileName}</p>
           )}
         </div>
       )}
@@ -1929,6 +2223,7 @@ function TerminalPanel({ lang }) {
 function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp, onMoveDown, onChange, isFirst, isLast }) {
   const textareaRef  = useRef(null);  // for Aebajiogbe cursor-position insertion
   const mathInputRef = useRef(null);  // for Math cell cursor-position insertion
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const lang    = cell.lang || 'js';
   const cfg     = cell.type === 'code' ? (LANG_CONFIG[lang] || LANG_CONFIG.js) : null;
   const clr     = cfg ? cfg.color : (CELL_CLR[cell.type] || '#888');
@@ -2105,7 +2400,7 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
             isCode       && !isScratch  ? <span className="nb-cell__hdr-note">{cfg.hint}</span> :
             cell.type === 'odu'         ? <span className="nb-cell__hdr-note">Click marks to toggle | ↔ ||</span> :
             isArt                       ? <span className="nb-cell__hdr-note">Pen · Brush · Spray · Shapes · Text · Fill · Undo/Redo</span> :
-            isMultimedia                ? <span className="nb-cell__hdr-note">Image · video · audio · YouTube · Vimeo</span> :
+            isMultimedia                ? <span className="nb-cell__hdr-note">URL · File upload · Camera · Microphone</span> :
             isMath && (!cell.mathTool || cell.mathTool === 'latex') ? <span className="nb-cell__hdr-note">KaTeX · press Run</span> :
             isMath                      ? null :
             isSchematics && (!cell.schemTool || cell.schemTool === 'mermaid') ? <span className="nb-cell__hdr-note">flowchart · sequence · class · ER · state · gantt · mindmap</span> :
@@ -2137,9 +2432,23 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
             <button className="nb-ctrl-btn nb-ctrl-btn--clr" onClick={e => { e.stopPropagation(); onClear(); }}
               title={cell.type === 'odu' ? 'Reset marks to Ogbe' : 'Clear cell content'}
               aria-label={cell.type === 'odu' ? 'Reset to Ogbe' : 'Clear cell'}>⌫</button>
-            <button className="nb-ctrl-btn nb-ctrl-btn--del" onClick={e => { e.stopPropagation(); onDelete(); }} title="Delete cell" aria-label="Delete cell">×</button>
+            <button className="nb-ctrl-btn nb-ctrl-btn--del" onClick={e => { e.stopPropagation(); setConfirmDelete(true); }} title="Delete cell" aria-label="Delete cell">×</button>
           </div>
         </div>
+
+        {/* ── Delete confirmation dialog ─────────────────────────────────── */}
+        {confirmDelete && (
+          <div className="nb-confirm-overlay" onClick={e => e.stopPropagation()}>
+            <div className="nb-confirm-dialog">
+              <p className="nb-confirm-title">Delete IfaCell</p>
+              <p className="nb-confirm-body">Are you sure you want to delete this cell?</p>
+              <div className="nb-confirm-actions">
+                <button className="nb-confirm-btn nb-confirm-btn--yes" onClick={() => { setConfirmDelete(false); onDelete(); }}>Yes, Delete</button>
+                <button className="nb-confirm-btn nb-confirm-btn--no"  onClick={() => setConfirmDelete(false)}>No, Keep</button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Scratch — info panel */}
         {isScratch && (

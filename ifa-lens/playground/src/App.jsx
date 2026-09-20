@@ -90,7 +90,7 @@ const PTOE_DATA = [
   { id: 'x4', row: 4, col: 7, name: 'X₄', ifaName: 'Ifa X₄', alias: null },
   { id: 'x5', row: 5, col: 7, name: 'X₅', ifaName: 'Ifa X₅', alias: null },
   { id: 'x6', row: 6, col: 7, name: 'X₆', ifaName: 'Ifa X₆', alias: null },
-  /* row 7 — discipline expansion (IfaCircle Matrix only) */
+  /* row 7 — discipline expansion */
   { id: 'astronomy',    row: 7, col: 0, name: 'Astronomy',              ifaName: 'Ifa Astronomy',              alias: 'IfaAstro'    },
   { id: 'info-tech',    row: 7, col: 1, name: 'Information Technology', ifaName: 'Ifa Information Technology', alias: 'IfaIT'       },
   { id: 'aero-eng',     row: 7, col: 2, name: 'Aerospace Engineering',  ifaName: 'Ifa Aerospace Engineering',  alias: 'IfaAeroEng'  },
@@ -460,7 +460,7 @@ function OgbeSymboE({ size = 12 }) {
 
 /* ── PToE Grid — STEAMSEX column layout ──────────────────────── */
 function PToEGrid({ isIfa, onCellClick }) {
-  const ROWS = [1, 2, 3, 4, 5, 6];
+  const ROWS = [1, 2, 3, 4, 5, 6, 7];
   return (
     <div className="ptoe-wrap">
       <div className="ptoe-scroll">
@@ -803,6 +803,37 @@ function PlaygroundHeader() {
 
 /* ── Ifa Import Tab ─────────────────────────────────────────── */
 
+const XAAL_EXAMPLES = [
+  {
+    x: 'Physics', y: 'Language',
+    notation: 'PaaL',
+    color: '#4aa3ff',
+    headline: 'Ifa Physics is the physical language/form of Energy.',
+    desc: 'Physics expressed as a language — the physical vocabulary, grammar, and syntax through which Energy articulates itself in material form. Every physical law is a sentence; every particle, a word.',
+  },
+  {
+    x: 'Mathematics', y: 'Language',
+    notation: 'MaaL',
+    color: '#a855f7',
+    headline: 'Ifa Mathematics is the mathematical language/form of Energy.',
+    desc: 'Mathematics expressed as a language — the mathematical grammar of Energy. Numbers, operations, and equations are the linguistic structures through which Energy expresses itself in abstract, universal form.',
+  },
+  {
+    x: 'Music', y: 'Language',
+    notation: 'MusicaaL',
+    color: '#e9498a',
+    headline: 'Ifa Music is the sonic language/form of Energy.',
+    desc: 'Music expressed as a language — the rhythmic, tonal language through which Energy speaks through sound, time, and vibration. Every melody is an energy statement; every rhythm, a grammatical pattern.',
+  },
+  {
+    x: 'Economics', y: 'Mathematics',
+    notation: 'EcoaaM',
+    color: '#00c87c',
+    headline: 'Ifa Economics expressed as Mathematics — Eboconomics in mathematical form.',
+    desc: 'Economics expressed as Mathematics (XaaY, not XaaL) — demonstrating that the XaaY framework goes beyond Language. The mathematical structure of value exchange, scarcity, and the Ebo Economy.',
+  },
+];
+
 const IMPORT_EXAMPLES = [
   { fieldA: 'Mathematics', fieldB: 'Physics',     colorA: '#a855f7', colorB: '#4aa3ff', result: 'Mathematical Physics',   dual: 'Physicomathematics'  },
   { fieldA: 'Economics',   fieldB: 'Physics',     colorA: '#00c87c', colorB: '#4aa3ff', result: 'Econophysics',            dual: 'Physicoeconomics'    },
@@ -990,6 +1021,8 @@ function IfaImportTab() {
   const [fa, setFa] = useState('Mathematics');
   const [fb, setFb] = useState('Physics');
   const [eofxField, setEofxField] = useState('');
+  const [xaalX, setXaalX] = useState('');
+  const [xaalY, setXaalY] = useState('Language');
 
   const fAdata = IMPORT_FIELDS.find(f => f.name === fa) || IMPORT_FIELDS[0];
   const fBdata = IMPORT_FIELDS.find(f => f.name === fb) || IMPORT_FIELDS[1];
@@ -1152,6 +1185,141 @@ function IfaImportTab() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* ── Knowledge as a Language (XaaL) ── */}
+      <div className="iimport-xaal">
+        <div className="iimport-section-hd">
+          <h3 className="iimport-section-title">
+            Knowledge as a Language <span className="iimport-tag iimport-tag--xaal">XaaL · XaaY</span>
+          </h3>
+          <p className="iimport-section-sub">
+            IFABOK — Knowledge as Energy, expressed as Language and beyond
+          </p>
+        </div>
+
+        <div className="iimport-xaal__body">
+          <p className="iimport-lead">
+            The <strong>Ifa Body of Knowledge (IFABOK)</strong> is the study of Energy that manifests
+            as all fields of knowledge.
+          </p>
+          <p className="iimport-lead">
+            Among other purposes, IFABOK studies knowledge (as a whole) as a single meta-Structure
+            known as <strong>Energy</strong> — and how it expresses itself in every field{' '}
+            (<strong>STEAMSEX</strong>) as <em>language</em>.
+          </p>
+          <p className="iimport-lead">
+            Here, <strong>Physics</strong> is Energy of the form, type, state, or expressed and
+            interpreted in <em>physics language</em>; i.e.,{' '}
+            <strong>Ifa Physics</strong> (Energy-based Physics) is the physical language, form, or
+            state of Energy — the <em>physical language or form of Energy</em>.
+          </p>
+          <p className="iimport-lead">
+            Likewise, <strong><em>X</em> field</strong> is Energy of the form or expressed in{' '}
+            <em>X language</em>; i.e., <strong>Ifa <em>X</em></strong> (Energy-based <em>X</em>) is
+            the <em>X language or form of Energy</em>.
+          </p>
+        </div>
+
+        {/* Core formula */}
+        <div className="iimport-xaal__formula-wrap">
+          <div className="iimport-xaal__formula">
+            <span className="iimport-xaal__f-x">Ifa <em>X</em></span>
+            <span className="iimport-xaal__f-eq">=</span>
+            <span className="iimport-xaal__f-rhs">
+              <em>X</em> as a Language <span className="iimport-xaal__f-notation">(XaaL)</span>
+            </span>
+          </div>
+          <div className="iimport-xaal__formula iimport-xaal__formula--sub">
+            <span className="iimport-xaal__f-x iimport-xaal__f-x--sm">Ifa <em>X</em></span>
+            <span className="iimport-xaal__f-eq">=</span>
+            <span className="iimport-xaal__f-rhs iimport-xaal__f-rhs--sm">
+              Energy of the form <em>X</em>, expressed as Language
+            </span>
+          </div>
+        </div>
+
+        {/* Examples grid */}
+        <div className="iimport-xaal__examples">
+          {XAAL_EXAMPLES.map(ex => (
+            <div key={ex.notation} className="iimport-xaal__card" style={{ '--xaal-color': ex.color }}>
+              <div className="iimport-xaal__card-head">
+                <span className="iimport-xaal__card-x" style={{ color: ex.color }}>
+                  {ex.x} as a {ex.y}
+                </span>
+                <span className="iimport-xaal__card-notation">{ex.notation}</span>
+              </div>
+              <p className="iimport-xaal__card-headline">{ex.headline}</p>
+              <p className="iimport-xaal__card-desc">{ex.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* XaaY builder */}
+        <div className="iimport-xaal__builder">
+          <label className="iimport-eofx__builder-lbl">
+            Build your own <strong>XaaY</strong> — enter any field <em>X</em> expressed as field <em>Y</em>:
+          </label>
+          <div className="iimport-xaal__builder-row">
+            <div className="iimport-xaal__builder-field">
+              <span className="iimport-xaal__builder-lbl2">Field X</span>
+              <input
+                className="iimport-xaal__input"
+                type="text"
+                placeholder="e.g. Physics, Music, Law…"
+                value={xaalX}
+                onChange={e => setXaalX(e.target.value)}
+                maxLength={60}
+              />
+            </div>
+            <div className="iimport-xaal__builder-sep">as a</div>
+            <div className="iimport-xaal__builder-field">
+              <span className="iimport-xaal__builder-lbl2">Field Y</span>
+              <input
+                className="iimport-xaal__input"
+                type="text"
+                placeholder="e.g. Language, Mathematics…"
+                value={xaalY}
+                onChange={e => setXaalY(e.target.value)}
+                maxLength={60}
+              />
+            </div>
+          </div>
+          {xaalX.trim() && xaalY.trim() && (
+            <div className="iimport-xaal__result">
+              <div className="iimport-xaal__result-title">
+                <span className="iimport-xaal__result-name">{xaalX.trim()} as a {xaalY.trim()}</span>
+                <span className="iimport-xaal__result-tag">XaaY</span>
+              </div>
+              <p className="iimport-xaal__result-eq">
+                Ifa <strong>{xaalX.trim()}</strong> = Energy of the form{' '}
+                <em>{xaalX.trim()}</em>, expressed as <em>{xaalY.trim()}</em>
+              </p>
+              <p className="iimport-xaal__result-desc">
+                <strong>Ifa {xaalX.trim()}</strong> (Energy-based {xaalX.trim()}) is the{' '}
+                <em>{xaalX.trim()}</em>-language or form of Energy — viewed through the lens of{' '}
+                <em>{xaalY.trim()}</em>.
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* XaaY generalisation note */}
+        <div className="iimport-xaal__general">
+          <div className="iimport-xaal__general-hd">
+            <span className="iimport-xaal__general-tag">Generalisation</span>
+            <span className="iimport-xaal__general-title">XaaL → XaaY</span>
+          </div>
+          <p className="iimport-xaal__general-body">
+            <strong>XaaL</strong> is the canonical form — <em>X as a Language</em> — where any
+            field <em>X</em> is expressed in, or interpreted as, language. This is generalised to{' '}
+            <strong>XaaY</strong>: any field <em>X</em> expressed as, or interpreted through, any
+            other field <em>Y</em> — not only Language. XaaY is thus a universal IFABOK meta-operator
+            for cross-field expression, expanding the scope of Ifa Import beyond linguistic form
+            into any structural or conceptual translation between knowledge domains.
+          </p>
+        </div>
+
       </div>
 
     </div>
@@ -1635,10 +1803,10 @@ function TabBar({ activeTab, onTab }) {
     { id: 'ifaview',      label: 'IfaView',      sub: 'ToE View · Knowledge Explorer',    soon: false },
     { id: 'ifa-map',      label: 'Ifa Map',      sub: 'ToE Map · ConMap · Map of Everything', soon: false },
     { id: 'ifa-import',   label: 'Ifa Import',   sub: 'FunctoE · IFABOK Field Connector', soon: false },
+    { id: 'ifa-note',     label: 'IfaNote',       sub: 'Ifa Notebook · Knowledge Computing', soon: false },
     { id: 'ifanalogy',    label: 'Ifanalogy',    sub: 'Coming Soon',                      soon: true  },
     { id: 'ifa-connections', label: 'Ifa Connections', sub: 'Coming Soon',               soon: true  },
     { id: 'frame-lab',    label: 'Ifa Frame Lab', sub: 'Coming Soon',                     soon: true  },
-    { id: 'ifa-matrix',   label: 'IFA Matrix',   sub: 'Coming Soon',                      soon: true  },
     { id: 'ifa-transform', label: 'Ifa Transform', sub: 'Coming Soon',                    soon: true  },
   ];
   return (
@@ -1656,6 +1824,516 @@ function TabBar({ activeTab, onTab }) {
           </button>
         ))}
       </div>
+    </div>
+  );
+}
+
+/* ── Ifa PT Constructor ────────────────────────────────────────── */
+
+/* Knowledge base: field → disciplines → sub-disciplines */
+const PT_FIELD_KB = {
+  'Natural Science': { color: '#4aa3ff', icon: '⚗', disciplines: {
+    'Physics':               ['Classical Mechanics','Quantum Mechanics','Thermodynamics','Electromagnetism','Optics','Relativity & Cosmology','Nuclear Physics','Statistical Mechanics'],
+    'Chemistry':             ['Physical Chemistry','Organic Chemistry','Inorganic Chemistry','Analytical Chemistry','Biochemistry','Computational Chemistry','Environmental Chemistry','Green Chemistry'],
+    'Biology':               ['Cell Biology','Genetics','Ecology','Evolutionary Biology','Physiology','Microbiology','Molecular Biology','Developmental Biology'],
+    'Geology':               ['Mineralogy','Petrology','Geomorphology','Tectonics','Stratigraphy','Geochemistry','Volcanology','Seismology'],
+    'Astronomy':             ['Astrophysics','Cosmology','Planetary Science','Stellar Astronomy','Observational Astronomy','Astrochemistry','Galactic Astronomy','Space Physics'],
+    'Environmental Science': ['Climate Science','Hydrology','Soil Science','Atmospheric Science','Conservation Biology','Oceanography','Environmental Chemistry','Pollution Science'],
+    'Materials Science':     ['Crystallography','Polymers','Nanomaterials','Biomaterials','Semiconductor Science','Metallurgy','Composites','Surface Science'],
+    'Atmospheric Science':   ['Meteorology','Climate Modeling','Aeronomy','Cloud Physics','Weather Systems','Paleoclimatology','Remote Sensing','Atmospheric Chemistry'],
+  }},
+  'Mathematics': { color: '#a855f7', icon: '∑', disciplines: {
+    'Pure Mathematics':         ['Number Theory','Abstract Algebra','Topology','Real Analysis','Complex Analysis','Category Theory','Measure Theory','Linear Algebra'],
+    'Applied Mathematics':      ['Numerical Analysis','Optimization','Mathematical Physics','Mathematical Biology','Cryptography','Control Theory','Mathematical Finance','Operations Research'],
+    'Statistics':               ['Probability Theory','Bayesian Statistics','Frequentist Statistics','Statistical Inference','Multivariate Analysis','Stochastic Processes','Time Series Analysis','Machine Learning Statistics'],
+    'Geometry':                 ['Euclidean Geometry','Non-Euclidean Geometry','Differential Geometry','Algebraic Geometry','Projective Geometry','Discrete Geometry','Convex Geometry','Computational Geometry'],
+    'Logic':                    ['Propositional Logic','Predicate Logic','Modal Logic','Set Theory','Model Theory','Proof Theory','Type Theory','Intuitionistic Logic'],
+    'Combinatorics':            ['Graph Theory','Combinatorial Optimization','Enumerative Combinatorics','Ramsey Theory','Coding Theory','Combinatorial Geometry','Design Theory','Extremal Combinatorics'],
+    'Computational Mathematics':['Algorithm Theory','Computational Complexity','Numerical Methods','Symbolic Computation','Information Theory','Discrete Mathematics','Parallel Computing','Quantum Computing'],
+    'Differential Equations':   ['Ordinary DEs','Partial DEs','Dynamical Systems','Chaos Theory','Integral Equations','Functional Analysis','Bifurcation Theory','Stability Theory'],
+  }},
+  'Technology': { color: '#00d9b8', icon: '⌬', disciplines: {
+    'Computer Science':       ['Algorithms & Data Structures','Operating Systems','Database Systems','Computer Architecture','Programming Languages','Distributed Systems','Compilers & Languages','Parallel Computing'],
+    'Artificial Intelligence':['Machine Learning','Deep Learning','Natural Language Processing','Computer Vision','Robotics','Knowledge Representation','Reinforcement Learning','AI Ethics'],
+    'Information Technology': ['Network Administration','Cybersecurity','Cloud Computing','IT Infrastructure','Data Management','Systems Integration','IT Governance','Digital Transformation'],
+    'Software Engineering':   ['Software Architecture','Agile Methods','DevOps','Software Testing','Human-Computer Interaction','Software Quality','Requirements Engineering','Software Maintenance'],
+    'Data Science':           ['Data Mining','Big Data Analytics','Data Visualization','Predictive Modeling','Feature Engineering','Data Engineering','Statistical Learning','Time Series Analysis'],
+    'Telecommunications':     ['Signal Processing','Wireless Communications','Optical Communications','Network Protocols','Mobile Computing','Satellite Systems','Network Security','5G & Beyond'],
+    'Biotechnology':          ['Genomics','Proteomics','Bioinformatics','Gene Editing','Synthetic Biology','Bioprocessing','Agricultural Biotechnology','Pharmaceutical Biotechnology'],
+    'Cognitive Computing':    ['Brain-Computer Interface','Neuromorphic Computing','Cognitive Architecture','Human-AI Interaction','Explainable AI','Affective Computing','Autonomous Systems','Cognitive Robotics'],
+  }},
+  'Engineering': { color: '#f5c518', icon: '⚙', disciplines: {
+    'Mechanical Engineering':   ['Thermodynamics','Fluid Mechanics','Solid Mechanics','Machine Design','Manufacturing Processes','Control Systems','Vibration & Acoustics','HVAC Systems'],
+    'Electrical Engineering':   ['Circuit Theory','Power Systems','Electronics','Electromagnetics','Signal Processing','Control Engineering','Microelectronics','Power Electronics'],
+    'Civil Engineering':        ['Structural Engineering','Geotechnical Engineering','Transportation Engineering','Environmental Engineering','Hydraulics','Construction Management','Urban Planning','Bridge Engineering'],
+    'Chemical Engineering':     ['Process Design','Reaction Engineering','Transport Phenomena','Thermodynamics','Process Control','Biochemical Engineering','Polymer Engineering','Nanotechnology'],
+    'Aerospace Engineering':    ['Aerodynamics','Propulsion','Flight Mechanics','Spacecraft Design','Orbital Mechanics','Avionics','Structural Mechanics','Materials & Manufacturing'],
+    'Biomedical Engineering':   ['Biomechanics','Medical Devices','Neural Engineering','Tissue Engineering','Biomedical Imaging','Clinical Engineering','Rehabilitation Engineering','Wearable Technology'],
+    'Industrial Engineering':   ['Operations Research','Systems Engineering','Quality Engineering','Human Factors','Supply Chain','Production Planning','Simulation & Modeling','Ergonomics'],
+    'Environmental Engineering':['Water Treatment','Air Quality','Waste Management','Environmental Remediation','Sustainability Engineering','Environmental Modeling','Renewable Energy Systems','Carbon Capture'],
+  }},
+  'Arts': { color: '#e9498a', icon: '✦', disciplines: {
+    'Visual Arts':            ['Painting','Sculpture','Photography','Printmaking','Drawing','Installation Art','Digital Art','Mixed Media'],
+    'Performing Arts':        ['Theatre','Dance','Opera','Mime & Physical Theatre','Circus Arts','Performance Art','Street Theatre','Site-Specific Performance'],
+    'Music':                  ['Composition','Music Theory','Ethnomusicology','Musicology','Music Technology','Improvisation','Orchestration','Music Production'],
+    'Literature':             ['Poetry','Fiction','Non-Fiction','Drama','Literary Criticism','Comparative Literature','Translation Studies','Creative Writing'],
+    'Architecture & Design':  ['Architectural Design','Urban Design','Interior Design','Industrial Design','Graphic Design','Fashion Design','Landscape Design','Sustainable Design'],
+    'Film & Media':           ['Cinematography','Film Theory','Screenwriting','Animation','Documentary','Media Studies','Sound Design','Game Design'],
+    'Traditional & Folk Arts':['Oral Tradition','Folk Music','Traditional Crafts','Indigenous Arts','Ritual Arts','Cultural Heritage','Storytelling','Material Culture'],
+    'Cultural Studies':       ['Cultural Theory','Pop Culture','Cultural Identity','Postcolonial Studies','Media Culture','Gender Studies','Globalization & Culture','Heritage Studies'],
+  }},
+  'Social Science': { color: '#00c87c', icon: '⊛', disciplines: {
+    'Sociology':             ['Social Theory','Social Structure','Cultural Sociology','Economic Sociology','Political Sociology','Medical Sociology','Environmental Sociology','Digital Sociology'],
+    'Psychology':            ['Cognitive Psychology','Social Psychology','Developmental Psychology','Clinical Psychology','Neuropsychology','Organizational Psychology','Health Psychology','Positive Psychology'],
+    'Anthropology':          ['Cultural Anthropology','Physical Anthropology','Linguistic Anthropology','Archaeological Anthropology','Medical Anthropology','Ecological Anthropology','Visual Anthropology','Urban Anthropology'],
+    'Economics':             ['Microeconomics','Macroeconomics','Behavioral Economics','Development Economics','International Economics','Econometrics','Environmental Economics','Health Economics'],
+    'Political Science':     ['Political Theory','Comparative Politics','International Relations','Public Policy','Political Economy','Electoral Studies','Security Studies','Political Sociology'],
+    'Geography':             ['Physical Geography','Human Geography','Economic Geography','Political Geography','Urban Geography','Biogeography','Cultural Geography','GIS & Remote Sensing'],
+    'Communication Studies': ['Media Theory','Organizational Communication','Political Communication','Interpersonal Communication','Rhetoric','Journalism','Digital Media Studies','Intercultural Communication'],
+    'History':               ['Ancient History','Medieval History','Modern History','Cultural History','Economic History','Historiography','Social History','Oral History'],
+  }},
+  'Education': { color: '#ff8c35', icon: '⬡', disciplines: {
+    'Curriculum Studies':        ['Curriculum Theory','Curriculum Design','Instructional Design','Assessment','Standards & Frameworks','Curriculum Evaluation','Cross-Curricular Learning','Competency-Based Education'],
+    'Educational Psychology':    ['Learning Theories','Motivation','Cognitive Development','Special Education','Educational Measurement','Classroom Psychology','Social-Emotional Learning','Learning Disabilities'],
+    'Pedagogy':                  ['Teaching Methods','Active Learning','Project-Based Learning','Differentiated Instruction','Inclusive Education','Critical Pedagogy','Constructivist Pedagogy','Culturally Responsive Teaching'],
+    'Educational Technology':    ['E-Learning','Learning Management Systems','Gamification','Adaptive Learning','Digital Literacy','Educational AI','Virtual Reality in Education','Open Educational Resources'],
+    'Higher Education':          ['University Policy','Academic Research','Faculty Development','Graduate Education','Accreditation','Student Affairs','Internationalization','Research Commercialization'],
+    'Early Childhood Education': ['Play-Based Learning','Child Development','Early Literacy','Numeracy Foundations','Family Engagement','STEM in ECE','Social-Emotional Development','Multilingual Education'],
+    'Educational Leadership':    ['School Administration','Educational Policy','Change Management','Community Engagement','Equity in Education','School Finance','Instructional Leadership','Leadership Ethics'],
+    'Comparative Education':     ['Education Systems','Cross-Cultural Pedagogy','International Education','Education Policy Comparison','Global Learning Outcomes','Education Reform','Education Equity','Development Education'],
+  }},
+};
+
+const PT_EXTRA_FIELDS = {
+  'Law': { color: '#94a3b8', icon: '⚖', disciplines: {
+    'Constitutional Law': ['Fundamental Rights','Separation of Powers','Judicial Review','Constitutional Interpretation','Federalism','Civil Liberties','Constitutional Amendments','Emergency Powers'],
+    'Criminal Law':       ['Criminal Procedure','Substantive Criminal Law','Criminology','Penology','Criminal Justice','Victimology','Cyber Crime','White-Collar Crime'],
+    'International Law':  ['Public International Law','Private International Law','Human Rights Law','Humanitarian Law','Trade Law','Environmental Law','International Criminal Law','Diplomatic Law'],
+    'Contract Law':       ['Formation of Contracts','Contract Interpretation','Breach & Remedies','Commercial Contracts','Consumer Protection','E-Commerce Law','Standard Form Contracts','Agency Law'],
+    'Property Law':       ['Real Property','Intellectual Property','Personal Property','Land Law','Trusts & Estates','Environmental Property','Mining Law','Water Rights'],
+    'Administrative Law': ['Regulatory Framework','Judicial Review','Administrative Procedure','Government Liability','Public Law','Regulatory Policy','Ombudsman & Accountability','Information Rights'],
+    'Tort Law':           ['Negligence','Strict Liability','Defamation','Nuisance','Trespass','Product Liability','Vicarious Liability','Remedies in Tort'],
+    'Family Law':         ['Marriage & Divorce','Child Custody','Adoption','Domestic Relations','Child Protection','Inheritance Law','Surrogacy Law','Elder Law'],
+  }},
+  'Medicine': { color: '#f87171', icon: '✚', disciplines: {
+    'Anatomy':           ['Gross Anatomy','Neuroanatomy','Histology','Embryology','Radiological Anatomy','Comparative Anatomy','Surgical Anatomy','Developmental Anatomy'],
+    'Physiology':        ['Cardiovascular Physiology','Respiratory Physiology','Renal Physiology','Neurophysiology','Endocrinology','Gastrointestinal Physiology','Reproductive Physiology','Exercise Physiology'],
+    'Pathology':         ['General Pathology','Systemic Pathology','Clinical Pathology','Molecular Pathology','Forensic Pathology','Immunopathology','Neuropathology','Dermatopathology'],
+    'Pharmacology':      ['Pharmacokinetics','Pharmacodynamics','Clinical Pharmacology','Toxicology','Neuropharmacology','Chemotherapy','Psychopharmacology','Antimicrobial Pharmacology'],
+    'Surgery':           ['General Surgery','Orthopedic Surgery','Neurosurgery','Cardiovascular Surgery','Plastic Surgery','Minimally Invasive Surgery','Transplant Surgery','Paediatric Surgery'],
+    'Internal Medicine': ['Cardiology','Gastroenterology','Nephrology','Pulmonology','Oncology','Rheumatology','Endocrinology','Infectious Disease'],
+    'Psychiatry':        ['Mood Disorders','Anxiety Disorders','Psychotic Disorders','Addiction Medicine','Child Psychiatry','Forensic Psychiatry','Neuropsychiatry','Psychopharmacology'],
+    'Community Medicine':['Disease Prevention','Primary Healthcare','Health Promotion','Epidemiological Methods','Occupational Medicine','Environmental Medicine','Travel Medicine','Screening Programs'],
+  }},
+  'Business': { color: '#fb923c', icon: '◈', disciplines: {
+    'Management':         ['Strategic Management','Operations Management','Organizational Behavior','Human Resource Management','Change Management','Project Management','Knowledge Management','Corporate Governance'],
+    'Marketing':          ['Consumer Behavior','Brand Management','Digital Marketing','Market Research','Advertising','International Marketing','Content Marketing','Social Media Marketing'],
+    'Finance':            ['Corporate Finance','Investment Analysis','Financial Markets','Risk Management','Accounting','Taxation','Behavioral Finance','Financial Planning'],
+    'Entrepreneurship':   ['New Venture Creation','Innovation Management','Business Model Design','Startup Finance','Social Entrepreneurship','Intrapreneurship','Design Thinking','Lean Startup'],
+    'Operations':         ['Supply Chain Management','Quality Management','Lean Operations','Process Improvement','Logistics','Procurement','Sustainability Operations','Digital Operations'],
+    'Business Analytics': ['Business Intelligence','Data-Driven Decision Making','Forecasting','Performance Management','Customer Analytics','Financial Analytics','Text Analytics','Prescriptive Analytics'],
+    'International Business':['Global Strategy','Cross-Cultural Management','International Trade','Foreign Direct Investment','Multinational Operations','Global Talent Management','Export Management','Trade Policy'],
+    'Leadership & Strategy': ['Leadership Theory','Strategic Planning','Executive Decision Making','Organizational Development','Corporate Culture','Competitive Strategy','Business Ethics','Stakeholder Management'],
+  }},
+  'Sports Science': { color: '#34d399', icon: '◉', disciplines: {
+    'Exercise Physiology':    ['Cardiorespiratory Fitness','Muscle Physiology','Energy Systems','Training Adaptation','Body Composition','Thermoregulation','Hormonal Responses','High-Altitude Physiology'],
+    'Biomechanics':           ['Movement Analysis','Force & Motion','Kinematics','Kinetics','Sports Equipment Design','Injury Biomechanics','Gait Analysis','Computational Biomechanics'],
+    'Sports Psychology':      ['Athletic Performance','Motivation & Goal Setting','Team Dynamics','Mental Toughness','Coaching Psychology','Performance Anxiety','Mindfulness in Sport','Imagery & Visualization'],
+    'Nutrition Science':      ['Sports Nutrition','Hydration','Supplementation','Recovery Nutrition','Weight Management','Nutritional Periodization','Gut Health & Performance','Anti-Doping Nutrition'],
+    'Strength & Conditioning':['Resistance Training','Speed & Power Development','Endurance Training','Periodization','Functional Training','Rehabilitation Exercise','Youth Athletic Development','Tactical Periodization'],
+    'Sports Medicine':        ['Injury Prevention','Sports Rehabilitation','Concussion Management','Orthopaedic Sports Medicine','Doping & Pharmacology','Athlete Health Monitoring','Tendon & Ligament Repair','Imaging in Sport'],
+    'Motor Control':          ['Movement Learning','Neuromuscular Control','Coordination','Perceptual-Motor Skills','Motor Development','Timing & Rhythm','Skill Acquisition','Motor Rehabilitation'],
+    'Sports Management':      ['Event Management','Sports Marketing','Athlete Management','Venue Operations','Sports Law','Media & Broadcasting','Sponsorship','Sports Finance'],
+  }},
+  'Public Health': { color: '#38bdf8', icon: '✦', disciplines: {
+    'Epidemiology':      ['Infectious Disease Epidemiology','Chronic Disease Epidemiology','Molecular Epidemiology','Clinical Epidemiology','Social Epidemiology','Environmental Epidemiology','Genetic Epidemiology','Outbreak Investigation'],
+    'Biostatistics':     ['Study Design','Statistical Methods','Survival Analysis','Longitudinal Data Analysis','Spatial Statistics','Clinical Trials','Meta-Analysis','Systematic Review Methods'],
+    'Health Policy':     ['Health Systems','Health Economics','Healthcare Reform','Global Health Policy','Insurance & Financing','Evidence-Based Policy','Digital Health Policy','Pharmaceutical Policy'],
+    'Global Health':     ['Tropical Medicine','International Health Programs','Health Equity','Pandemic Preparedness','Global Mental Health','Social Determinants','Refugee Health','One Health'],
+    'Environmental Health':['Occupational Health','Toxicology','Air & Water Quality','Climate & Health','Radiation Health','Food Safety','Built Environment & Health','Disaster Health'],
+    'Health Promotion':  ['Behavioral Change','Community Health','Health Communication','Wellness Programs','Preventive Medicine','Health Literacy','Social Marketing in Health','Digital Health Promotion'],
+    'Community Health':  ['Community Diagnosis','Health Needs Assessment','Community Mobilization','Peer Health Education','Grassroots Programs','Social Capital','Health Equity','Community Partnerships'],
+    'Nutrition & Dietetics':['Nutritional Epidemiology','Dietary Assessment','Clinical Nutrition','Food Systems','Nutritional Policy','Sports Nutrition','Malnutrition','Food Security'],
+  }},
+};
+
+function buildPTLookup() {
+  const map = {};
+  const allFields = { ...PT_FIELD_KB, ...PT_EXTRA_FIELDS };
+  for (const [fieldName, fieldData] of Object.entries(allFields)) {
+    for (const discName of Object.keys(fieldData.disciplines)) {
+      map[discName.toLowerCase()] = { fieldName, ...fieldData };
+    }
+  }
+  return map;
+}
+const PT_LOOKUP = buildPTLookup();
+
+function lookupPTField(disc) {
+  const norm = disc.toLowerCase().trim();
+  const allFields = { ...PT_FIELD_KB, ...PT_EXTRA_FIELDS };
+  // 1. Exact match
+  if (PT_LOOKUP[norm]) return PT_LOOKUP[norm];
+  // 2. Fuzzy: disc contains key or key contains disc
+  for (const [key, val] of Object.entries(PT_LOOKUP)) {
+    if (norm.includes(key) || key.includes(norm)) return val;
+  }
+  // 3. Also check field names themselves
+  for (const [fieldName, fieldData] of Object.entries(allFields)) {
+    if (fieldName.toLowerCase().includes(norm) || norm.includes(fieldName.toLowerCase())) {
+      return { fieldName, ...fieldData };
+    }
+  }
+  // 4. Generic fallback — build a placeholder field around the entered discipline
+  return {
+    fieldName: disc,
+    color: '#8b5cf6',
+    icon: '◈',
+    disciplines: {
+      [disc]:          ['Sub-discipline 1','Sub-discipline 2','Sub-discipline 3','Sub-discipline 4','Sub-discipline 5','Sub-discipline 6','Sub-discipline 7','Sub-discipline 8'],
+      'Theory':        ['Foundations','Principles','Models','Frameworks','Axioms','Paradigms','Epistemology','Ontology'],
+      'Methods':       ['Quantitative','Qualitative','Mixed Methods','Experimental','Observational','Computational','Systemic','Comparative'],
+      'Applications':  ['Case Studies','Practice','Industry Use','Research','Innovation','Design','Implementation','Evaluation'],
+      'History':       ['Origins','Classical Period','Modern Period','Contemporary','Key Figures','Milestones','Schools of Thought','Future Directions'],
+      'Intersections': ['Interdisciplinary Links','Adjacent Fields','Cross-Domain','Emerging Areas','Debates','Applied Intersections','Global Perspectives','Digital Dimensions'],
+      'Tools':         ['Instruments','Software','Techniques','Measurement','Standards','Protocols','Frameworks','Platforms'],
+      'Ethics':        ['Principles','Professional Ethics','Applied Ethics','Governance','Policy','Social Responsibility','Global Ethics','Emerging Challenges'],
+      'Innovation':    ['Research Frontiers','Emerging Trends','Disruptive Ideas','Technology Transfer','Open Innovation','Collaborative Research','Future Scenarios','Breakthrough Areas'],
+    },
+  };
+}
+
+/* ── Export helpers ── */
+async function ptExportPNG(el, title) {
+  if (typeof html2canvas === 'undefined') { alert('PNG export library not loaded yet — please wait a moment and try again.'); return; }
+  const canvas = await html2canvas(el, { backgroundColor: '#0c0f1a', scale: 2, useCORS: true });
+  const link = document.createElement('a');
+  link.download = (title || 'ifa-pt') + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+async function ptExportPDF(el, title) {
+  if (typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined') { alert('PDF export library not loaded yet — please try again.'); return; }
+  const canvas = await html2canvas(el, { backgroundColor: '#0c0f1a', scale: 2, useCORS: true });
+  const { jsPDF } = window.jspdf;
+  const imgW = 297; // A4 landscape mm width
+  const imgH = (canvas.height / canvas.width) * imgW;
+  const pdf = new jsPDF({ orientation: imgH < imgW ? 'landscape' : 'portrait', unit: 'mm', format: 'a4' });
+  pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgW, Math.min(imgH, 210));
+  pdf.save((title || 'ifa-pt') + '.pdf');
+}
+
+function ptExportXLSX(ptData) {
+  if (typeof XLSX === 'undefined') { alert('Excel export library not loaded yet — please try again.'); return; }
+  const { cols, main } = ptData;
+  const maxRows = Math.max(...cols.map(c => c.subs.length), 1);
+  const header = ['Row / Discipline', ...cols.map(c => c.name)];
+  const rows = Array.from({ length: maxRows }, (_, ri) => [
+    `R${ri + 1}`,
+    ...cols.map(c => c.subs[ri] || ''),
+  ]);
+  const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, `Ifa PT of ${main}`.slice(0, 31));
+  XLSX.writeFile(wb, `ifa-pt-${main.toLowerCase().replace(/\s+/g, '-')}.xlsx`);
+}
+
+async function ptExportPPT(ptData) {
+  if (typeof PptxGenJS === 'undefined') { alert('PowerPoint export library not loaded yet — please try again.'); return; }
+  const { cols, main, fieldColor } = ptData;
+  const maxRows = Math.max(...cols.map(c => c.subs.length), 1);
+  const pptx = new PptxGenJS();
+  pptx.layout = 'LAYOUT_WIDE';
+  const slide = pptx.addSlide();
+  slide.background = { color: '0c0f1a' };
+  slide.addText(`Ifa Periodic Table of ${main}`, {
+    x: 0.3, y: 0.1, w: '95%', h: 0.55,
+    fontSize: 22, bold: true, color: 'f5c518', fontFace: 'Arial',
+  });
+  const tableRows = [
+    [{ text: 'Sub-discipline', options: { bold: true, color: 'ffffff', fill: '1a1d2e' } },
+     ...cols.map(c => ({ text: c.name, options: { bold: true, color: fieldColor ? fieldColor.replace('#','') : '8b5cf6', fill: '1a1d2e' } }))],
+    ...Array.from({ length: maxRows }, (_, ri) => [
+      { text: `R${ri + 1}`, options: { color: 'a855f7', bold: true, fill: '10131f' } },
+      ...cols.map(c => ({ text: c.subs[ri] || '', options: { color: 'c8d0e0', fill: '0c0f1a' } })),
+    ]),
+  ];
+  slide.addTable(tableRows, {
+    x: 0.3, y: 0.75, w: 12.7, h: 6.2,
+    border: { type: 'solid', pt: 0.5, color: '2a2d3e' },
+    fontSize: 9,
+  });
+  pptx.writeFile({ fileName: `ifa-pt-${main.toLowerCase().replace(/\s+/g, '-')}.pptx` });
+}
+
+/* ── Editable cell ── */
+function EditableCell({ value, onCommit, className, style, placeholder }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (ref.current && document.activeElement !== ref.current) {
+      ref.current.textContent = value;
+    }
+  }, [value]);
+  return (
+    <span
+      ref={ref}
+      contentEditable
+      suppressContentEditableWarning
+      className={className}
+      style={style}
+      data-ph={placeholder || ''}
+      onBlur={e => onCommit(e.currentTarget.textContent.trim())}
+      onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); e.currentTarget.blur(); } }}
+    />
+  );
+}
+
+const CTOR_COL_COLORS = [
+  '#8b5cf6','#4aa3ff','#00d9b8','#f5c518',
+  '#e9498a','#00c87c','#ff8c35','#94a3b8',
+  '#f87171','#fb923c','#34d399','#38bdf8',
+];
+
+function PtoeConstructor() {
+  const [input,     setInput]     = useState('');
+  const [ptData,    setPtData]    = useState(null);
+  const [exporting, setExporting] = useState(null);
+  const ptRef = useRef(null);
+
+  function generate() {
+    const disc = input.trim();
+    if (!disc) return;
+    const { fieldName, color: fieldColor, icon: fieldIcon, disciplines } = lookupPTField(disc);
+    const discNames = Object.keys(disciplines);
+    const norm = disc.toLowerCase();
+    let mainIdx = discNames.findIndex(d => d.toLowerCase() === norm);
+    if (mainIdx === -1) mainIdx = discNames.findIndex(d => d.toLowerCase().includes(norm) || norm.includes(d.toLowerCase()));
+    if (mainIdx === -1) mainIdx = 0;
+    const ordered = [discNames[mainIdx], ...discNames.filter((_, i) => i !== mainIdx)];
+    const cols = ordered.slice(0, 7).map((name, i) => ({
+      name,
+      subs: [...disciplines[name]],
+      color: CTOR_COL_COLORS[i],
+    }));
+    cols.push({ name: 'Others', subs: ['X₁','X₂','X₃','X₄','X₅','X₆','X₇','X₈'], color: '#8892a4', isOthers: true });
+    setPtData({ main: disc, fieldName, fieldColor, fieldIcon, cols });
+  }
+
+  function updateColName(ci, name) {
+    setPtData(prev => {
+      const cols = prev.cols.map((c, i) => i === ci ? { ...c, name } : c);
+      return { ...prev, cols };
+    });
+  }
+
+  function updateSub(ci, ri, val) {
+    setPtData(prev => {
+      const cols = prev.cols.map((c, i) => {
+        if (i !== ci) return c;
+        const subs = [...c.subs]; subs[ri] = val; return { ...c, subs };
+      });
+      return { ...prev, cols };
+    });
+  }
+
+  function addRow() {
+    setPtData(prev => ({
+      ...prev,
+      cols: prev.cols.map(c => ({ ...c, subs: [...c.subs, ''] })),
+    }));
+  }
+
+  function addCol() {
+    setPtData(prev => {
+      const maxRows = Math.max(...prev.cols.map(c => c.subs.length), 1);
+      const others = prev.cols[prev.cols.length - 1];
+      const newCol = {
+        name: 'New Discipline',
+        subs: Array(maxRows).fill(''),
+        color: CTOR_COL_COLORS[prev.cols.length % CTOR_COL_COLORS.length],
+      };
+      return { ...prev, cols: [...prev.cols.slice(0, -1), newCol, others] };
+    });
+  }
+
+  async function doExport(fmt) {
+    setExporting(fmt);
+    try {
+      if (fmt === 'png')  await ptExportPNG(ptRef.current, `Ifa PT of ${ptData.main}`);
+      if (fmt === 'pdf')  await ptExportPDF(ptRef.current, `Ifa PT of ${ptData.main}`);
+      if (fmt === 'xlsx') ptExportXLSX(ptData);
+      if (fmt === 'ppt')  await ptExportPPT(ptData);
+    } catch (e) { console.error('Export error', e); alert('Export failed: ' + e.message); }
+    setExporting(null);
+  }
+
+  const maxRows = ptData ? Math.max(...ptData.cols.map(c => c.subs.length), 1) : 0;
+
+  return (
+    <div className="ptoe-ctor">
+
+      {/* ── Header ── */}
+      <div className="ptoe-ctor__hd">
+        <div className="ptoe-ctor__badge-row">
+          <span className="ptoe-ctor__badge">Ifa PT Constructor</span>
+          <span className="ptoe-ctor__badge-sub">Field Periodic Table Generator</span>
+        </div>
+        <h3 className="ptoe-ctor__title">Build Your Ifa Periodic Table</h3>
+        <p className="ptoe-ctor__lead">
+          Enter any discipline — the system auto-fills its sibling disciplines and their
+          sub-disciplines. Edit any cell inline, add rows or columns, then export.
+        </p>
+      </div>
+
+      {/* ── Generate bar (shown when no PT generated yet) ── */}
+      {!ptData && (
+        <div className="ptoe-ctor__gen-bar">
+          <input
+            className="ptoe-ctor__input ptoe-ctor__input--main"
+            type="text"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="e.g. Physics, Sociology, Architecture, Law, Music…"
+            onKeyDown={e => e.key === 'Enter' && generate()}
+          />
+          <button
+            className="ptoe-ctor__generate-btn"
+            onClick={generate}
+            disabled={!input.trim()}
+          >
+            Generate Ifa PT of <em>{input.trim() || 'X'}</em> ↗
+          </button>
+        </div>
+      )}
+
+      {/* ── Generated & editable PT ── */}
+      {ptData && (
+        <div className="ptoe-ctor__result">
+
+          {/* Result header */}
+          <div className="ptoe-ctor__result-hd">
+            <div>
+              <div className="ptoe-ctor__result-title">
+                Ifa Periodic Table of <strong>{ptData.main}</strong>
+              </div>
+              <div className="ptoe-ctor__result-sub">
+                {ptData.fieldName} · {ptData.cols.length} discipline columns · {maxRows} sub-discipline rows
+                <span className="ptoe-ctor__edit-hint"> — click any cell or header to edit</span>
+              </div>
+            </div>
+            <button className="ptoe-ctor__reset-btn" onClick={() => { setPtData(null); setInput(''); }}>
+              ← New PT
+            </button>
+          </div>
+
+          {/* Export bar */}
+          <div className="ptoe-ctor__export-bar">
+            <span className="ptoe-ctor__export-lbl">Export:</span>
+            {[
+              { fmt: 'png',  label: 'PNG'   },
+              { fmt: 'pdf',  label: 'PDF'   },
+              { fmt: 'xlsx', label: 'Excel' },
+              { fmt: 'ppt',  label: 'PPT'   },
+            ].map(({ fmt, label }) => (
+              <button
+                key={fmt}
+                className={`ptoe-ctor__export-btn${exporting === fmt ? ' ptoe-ctor__export-btn--busy' : ''}`}
+                onClick={() => doExport(fmt)}
+                disabled={!!exporting}
+              >
+                {exporting === fmt ? '…' : label}
+              </button>
+            ))}
+          </div>
+
+          {/* Editable grid */}
+          <div className="ptoe-ctor__grid-wrap" ref={ptRef}>
+            <div className="ptoe-ctor__grid" style={{ '--ctor-cols': ptData.cols.length }}>
+
+              {/* Column headers */}
+              <div className="ptoe-ctor__col-headers">
+                <div className="ptoe-ctor__corner">
+                  <span className="ptoe-ctor__corner-vi">VI ↓</span>
+                  <span className="ptoe-ctor__corner-hi">HI →</span>
+                </div>
+                {ptData.cols.map((col, ci) => (
+                  <div
+                    key={ci}
+                    className={`ptoe-ctor__col-hd${col.isOthers ? ' ptoe-ctor__col-hd--others' : ''}`}
+                    style={{ '--cc': col.color }}
+                  >
+                    <span className="ptoe-ctor__col-num">
+                      {col.isOthers ? '◈' : `D${ci + 1}`}
+                    </span>
+                    <EditableCell
+                      value={col.name}
+                      onCommit={v => updateColName(ci, v || col.name)}
+                      className="ptoe-ctor__col-disc ptoe-ctor__col-disc--edit"
+                      placeholder="Discipline…"
+                    />
+                    {!col.isOthers && (
+                      <span className="ptoe-ctor__col-ifa">Ifa {col.name}</span>
+                    )}
+                  </div>
+                ))}
+                {/* Add column button */}
+                <button className="ptoe-ctor__add-col-btn" onClick={addCol} title="Add discipline column">
+                  + Col
+                </button>
+              </div>
+
+              {/* Data rows */}
+              {Array.from({ length: maxRows }, (_, ri) => (
+                <div key={ri} className="ptoe-ctor__row">
+                  <div className="ptoe-ctor__row-hd">
+                    <span className="ptoe-ctor__row-r">R{ri + 1}</span>
+                  </div>
+                  {ptData.cols.map((col, ci) => {
+                    const val = col.subs[ri] !== undefined ? col.subs[ri] : '';
+                    return (
+                      <div
+                        key={ci}
+                        className="ptoe-ctor__cell ptoe-ctor__cell--edit"
+                        style={{ '--cc': col.color }}
+                      >
+                        {!col.isOthers && (
+                          <span className="ptoe-ctor__cell-ifa">Ifa</span>
+                        )}
+                        <EditableCell
+                          value={val}
+                          onCommit={v => updateSub(ci, ri, v)}
+                          className="ptoe-ctor__cell-name ptoe-ctor__cell-name--edit"
+                          placeholder={col.isOthers ? `X${ri + 1}` : `Sub ${ri + 1}…`}
+                        />
+                      </div>
+                    );
+                  })}
+                  {/* empty cell under add-col button area */}
+                  <div className="ptoe-ctor__add-col-spacer" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Add row button */}
+          <button className="ptoe-ctor__add-row-btn" onClick={addRow}>
+            + Add Row
+          </button>
+
+          {/* HI / VI axes */}
+          <div className="ptoe-ctor__axes">
+            <div className="ptoe-ctor__axis">
+              <span>→</span>
+              <strong>HI</strong> — Horizontal Integration: sibling disciplines in the same field
+            </div>
+            <div className="ptoe-ctor__axis">
+              <span>↓</span>
+              <strong>VI</strong> — Vertical Integration: sub-disciplines within each discipline
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1818,8 +2496,33 @@ function IfaViewTab() {
         </>
       )}
 
+      {/* Ifa PT Constructor */}
+      <PtoeConstructor />
+
       {/* Cell Modal (shared across all systems) */}
       <CellModal cell={selected} isIfa={system === 2} onClose={closeModal} />
+    </div>
+  );
+}
+
+/* ── IfaNote Tab — embedded ifa-notebook/env ──────────────────── */
+function IfaNoteTab() {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div className="ifanote-tab">
+      {!loaded && (
+        <div className="ifanote-tab__loading">
+          <div className="ifanote-tab__loading-icon">◉</div>
+          <p className="ifanote-tab__loading-text">Loading IfaNote…</p>
+        </div>
+      )}
+      <iframe
+        src="https://ifainternet.org/ifa-notebook/env/"
+        className={`ifanote-tab__frame${loaded ? ' ifanote-tab__frame--ready' : ''}`}
+        title="IfaNote — Ifa Notebook"
+        allow="clipboard-read; clipboard-write"
+        onLoad={() => setLoaded(true)}
+      />
     </div>
   );
 }
@@ -1835,6 +2538,7 @@ function App() {
         {tab === 'ifaview'    && <IfaViewTab />}
         {tab === 'ifa-import' && <IfaImportTab />}
         {tab === 'ifa-map'    && <IfaMapTab />}
+        {tab === 'ifa-note'   && <IfaNoteTab />}
       </main>
       <footer className="pg-footer">
         <div className="pg-footer__inner">

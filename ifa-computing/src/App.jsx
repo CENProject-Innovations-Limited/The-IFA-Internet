@@ -386,6 +386,127 @@ const COMPUTER_TYPES = [
   { name: 'Quantum Computer',   bits: 'Qubit',    system: 'Superposition',        accent: '#0099ff' },
 ];
 
+// ── Ifa Computers — IfaNote + Ayò Ọlọ́pọ́nfá ──────────────────
+const IFA_COMPUTERS = [
+  {
+    id: 'ifanote',
+    name: 'IfaNote',
+    subtitle: 'The Ifa Notebook Computer',
+    tag: 'Knowledge · Computation · Exploration',
+    icon: '◉',
+    accent: '#00d9b8',
+    href: 'https://ifainternet.org/ifa-notebook/',
+    stream: ['O|OO|', '||O|O', 'OO||O', '|OO||'],
+    desc: 'A living knowledge computation environment — write, explore, and compute through the Ifa lens. IfaNote is the IFA Internet\'s interactive notebook computer: every cell a computation, every page an Odu exploration across the full depth of the Theory of Everything.',
+    chips: ['Interactive Cells', 'Odu Ifa Matrix', 'Knowledge Computing', 'IFA Internet'],
+    cta: 'Open IfaNote →',
+    externalNote: 'ifa-notebook',
+  },
+  {
+    id: 'ayo',
+    name: 'Ayò Ọlọ́pọ́nfá',
+    subtitle: 'The Ifa Strategy Computer',
+    tag: 'Strategy · Odu · Sacred Mancala Computing',
+    icon: '⬡',
+    accent: '#f5c518',
+    href: 'https://playifagames.org/ayo-oloponfa/',
+    stream: ['||OO|', 'O||O|', '|OO||', 'OO|O|'],
+    desc: 'Ancient Yoruba wisdom encoded as a living Ifa Computer. Ayò Ọlọ́pọ́nfá is the sacred Mancala of Ọlọ́pọ́nfá — where every move is a divination, every seed an IfaBit, and every board state a unique configuration among the 256 Odu computations. Where play becomes prophecy.',
+    chips: ['Odu Ifa Logic', 'IfaBit Strategy', 'Sacred Mancala', 'IFA Games'],
+    cta: 'Play Ayò Ọlọ́pọ́nfá →',
+    externalNote: 'playifagames.org',
+  },
+];
+
+function IfaComputersSection() {
+  return (
+    <section id="ifa-computers" className="section ifa-computers">
+      <div className="container">
+        <div className="section__header">
+          <span className="section__eyebrow" style={{ color: '#f5c518' }}>
+            Live Ifa Computing Platforms
+          </span>
+          <h2 className="section__title">
+            The Two Major{' '}
+            <span style={{ color: '#f5c518' }}>Ifa Computers</span>
+          </h2>
+          <p className="section__desc">
+            Ifa Computing is not theoretical — it runs live. IfaNote and Ayò Ọlọ́pọ́nfá are two
+            distinct Ifa Computer implementations: one a knowledge computation environment,
+            the other a sacred strategy machine. Both compute through the 256 Odu Ifa.
+          </p>
+        </div>
+
+        <div className="ifc-duo">
+          {IFA_COMPUTERS.map(c => (
+            <a
+              key={c.id}
+              href={c.href}
+              className="ifc-card"
+              style={{ '--ifc-accent': c.accent }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {/* Ambient glow */}
+              <div className="ifc-card__glow" aria-hidden="true" />
+
+              {/* Animated Odu binary stream */}
+              <div className="ifc-card__stream" aria-hidden="true">
+                {c.stream.map((row, ri) => (
+                  <div key={ri} className="ifc-card__stream-row">
+                    {row.split('').map((ch, ci) => (
+                      <span
+                        key={ci}
+                        className="ifc-card__stream-ch"
+                        style={{ '--ich-d': `${(ri * 5 + ci) * 0.16}s` }}
+                      >
+                        {ch}
+                      </span>
+                    ))}
+                  </div>
+                ))}
+              </div>
+
+              {/* Accent stripe */}
+              <div className="ifc-card__stripe" />
+
+              <div className="ifc-card__body">
+                <div className="ifc-card__top-row">
+                  <span className="ifc-card__icon">{c.icon}</span>
+                  <span className="ifc-card__tag">{c.tag}</span>
+                </div>
+
+                <h3 className="ifc-card__name">{c.name}</h3>
+                <p className="ifc-card__subtitle">{c.subtitle}</p>
+
+                <p className="ifc-card__desc">{c.desc}</p>
+
+                <div className="ifc-card__chips">
+                  {c.chips.map((t, i) => (
+                    <span key={i} className="ifc-card__chip">{t}</span>
+                  ))}
+                </div>
+
+                <div className="ifc-card__cta-row">
+                  <span className="ifc-card__cta">{c.cta}</span>
+                  <span className="ifc-card__external">{c.externalNote}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        {/* Connector axiom */}
+        <p className="ifc-axiom">
+          <span className="ifc-axiom__glyph">O · |</span>
+          Every Ifa Computer executes through the primal IFABit pair —
+          Ogbe (Energy) and Oyeku (Anergy) — the universal instruction set.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 // ── Kids Platform Promo ────────────────────────────────────────
 function KidsPromoSection() {
   return (
@@ -1619,6 +1740,7 @@ function App() {
         <InformationSection />
         <AlgorithmSection />
         <LanguageSection />
+        <IfaComputersSection />
         <KidsPromoSection />
         <ComputerCTASection />
       </main>

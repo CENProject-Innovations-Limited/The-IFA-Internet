@@ -1611,6 +1611,16 @@ function MobileStudentNav({ activeView, setStudentView, onLogout, user }) {
           <span>Ifa Periodic Table</span>
           <span className="mobile-nav__plat-ext">↗</span>
         </a>
+        <a className="mobile-nav__plat-link" href="https://ifainternet.org/ifa-lens/playground/" target="_blank" rel="noopener noreferrer">
+          <span className="mobile-nav__plat-sym">🔭</span>
+          <span>IfaLens</span>
+          <span className="mobile-nav__plat-ext">↗</span>
+        </a>
+        <a className="mobile-nav__plat-link mobile-nav__plat-link--note" href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+          <span className="mobile-nav__plat-sym">📝</span>
+          <span>IfaNote</span>
+          <span className="mobile-nav__plat-ext">↗</span>
+        </a>
       </div>
       <div className="mobile-nav__bar">
         {nav.map(n => (
@@ -1650,6 +1660,16 @@ function MobileAdminNav({ activeView, setAdminView, onLogout, pendingCount }) {
         <a className="mobile-nav__plat-link" href="https://ifainternet.org/ifa-periodic-table/" target="_blank" rel="noopener noreferrer">
           <span className="mobile-nav__plat-sym">◎</span>
           <span>Ifa Periodic Table</span>
+          <span className="mobile-nav__plat-ext">↗</span>
+        </a>
+        <a className="mobile-nav__plat-link" href="https://ifainternet.org/ifa-lens/playground/" target="_blank" rel="noopener noreferrer">
+          <span className="mobile-nav__plat-sym">🔭</span>
+          <span>IfaLens</span>
+          <span className="mobile-nav__plat-ext">↗</span>
+        </a>
+        <a className="mobile-nav__plat-link mobile-nav__plat-link--note" href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+          <span className="mobile-nav__plat-sym">📝</span>
+          <span>IfaNote</span>
           <span className="mobile-nav__plat-ext">↗</span>
         </a>
       </div>
@@ -1718,6 +1738,18 @@ function StudentSidebar({ activeView, setStudentView, user, onLogout }) {
           <span>Ifa Periodic Table</span>
           <span className="sidebar__platform-ext">↗</span>
         </a>
+        <a className="sidebar__platform-link"
+           href="https://ifainternet.org/ifa-lens/playground/" target="_blank" rel="noopener noreferrer">
+          <span className="sidebar__platform-sym">🔭</span>
+          <span>IfaLens</span>
+          <span className="sidebar__platform-ext">↗</span>
+        </a>
+        <a className="sidebar__platform-link sidebar__platform-link--note"
+           href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+          <span className="sidebar__platform-sym">📝</span>
+          <span>IfaNote</span>
+          <span className="sidebar__platform-ext">↗</span>
+        </a>
       </div>
 
       <div className="sidebar__user">
@@ -1729,6 +1761,54 @@ function StudentSidebar({ activeView, setStudentView, user, onLogout }) {
         <button className="sidebar__logout" onClick={onLogout} title="Sign out">⏻</button>
       </div>
     </aside>
+  );
+}
+
+// ─── IFANOTE SCHOLAR'S DESK PROMPT ───────────────────────────────────────────
+
+const SCHOLAR_TIPS = [
+  'Great polymaths write as they learn. Capture every insight from your IFABOK lessons — your IfaNote is your personal wisdom journal.',
+  'As you explore the 256 Odu Ifa, jot down the patterns, connections, and revelations you discover. Knowledge written stays knowledge owned.',
+  'Open IfaNote and create a study map of each Odu as you encounter it. Your notes become your own living IFABOK.',
+  'Every lesson holds a gem. Before you move to the next chapter, take a moment to record what spoke to you in IfaNote.',
+  'Use IfaNote to link your IFABOK studies to your everyday life — note where Odu principles appear in your world.',
+  'The Babalawo records every divination. You too should record every lesson. Open IfaNote and begin your scholar\'s archive.',
+];
+
+function IfaNotePrompt({ user, courses }) {
+  const [tipIdx, setTipIdx] = useState(0);
+  const enrolled = courses.filter(c => (user.enrolled || []).includes(c.id));
+  const activeCourse = enrolled[0] || null;
+
+  function nextTip() { setTipIdx(i => (i + 1) % SCHOLAR_TIPS.length); }
+
+  return (
+    <div className="ifanote-prompt">
+      <div className="ifanote-prompt__pulse" />
+      <div className="ifanote-prompt__header">
+        <span className="ifanote-prompt__icon">📝</span>
+        <div>
+          <div className="ifanote-prompt__label">Scholar's Desk</div>
+          {activeCourse && (
+            <div className="ifanote-prompt__course">
+              Studying: <strong>{activeCourse.title}</strong>
+            </div>
+          )}
+        </div>
+        <button className="ifanote-prompt__tip-btn" onClick={nextTip} title="Next scholar tip">
+          Next tip ›
+        </button>
+      </div>
+      <p className="ifanote-prompt__tip">{SCHOLAR_TIPS[tipIdx]}</p>
+      <div className="ifanote-prompt__actions">
+        <a className="ifanote-prompt__cta" href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+          Open IfaNote ↗
+        </a>
+        <a className="ifanote-prompt__lens" href="https://ifainternet.org/ifa-lens/playground/" target="_blank" rel="noopener noreferrer">
+          Explore with IfaLens ↗
+        </a>
+      </div>
+    </div>
   );
 }
 
@@ -1802,6 +1882,9 @@ function StudentHome({ user, courses, completedMats, igaScores, setStudentView, 
           })}
         </div>
       )}
+
+      {/* Scholar's Desk — IfaNote Prompt */}
+      <IfaNotePrompt user={user} courses={courses} />
 
       {/* IGA Mini Grid */}
       <h3 className="s-section-title" style={{ marginTop: '2rem' }}>IGA Progress</h3>
@@ -2178,6 +2261,18 @@ function AdminSidebar({ activeView, setAdminView, onLogout, pendingCount }) {
            href="https://ifainternet.org/ifa-periodic-table/" target="_blank" rel="noopener noreferrer">
           <span className="sidebar__platform-sym">◎</span>
           <span>Ifa Periodic Table</span>
+          <span className="sidebar__platform-ext">↗</span>
+        </a>
+        <a className="sidebar__platform-link"
+           href="https://ifainternet.org/ifa-lens/playground/" target="_blank" rel="noopener noreferrer">
+          <span className="sidebar__platform-sym">🔭</span>
+          <span>IfaLens</span>
+          <span className="sidebar__platform-ext">↗</span>
+        </a>
+        <a className="sidebar__platform-link sidebar__platform-link--note"
+           href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+          <span className="sidebar__platform-sym">📝</span>
+          <span>IfaNote</span>
           <span className="sidebar__platform-ext">↗</span>
         </a>
       </div>
