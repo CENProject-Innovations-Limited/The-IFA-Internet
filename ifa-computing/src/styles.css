@@ -1256,6 +1256,81 @@ img { max-width: 100%; }
   background: var(--bg-card);
 }
 
+/* ── Hamburger button ────────────────────────────────────────── */
+.header__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition);
+}
+.header__burger:hover { background: rgba(255,255,255,0.07); }
+
+.header__burger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  transform-origin: center;
+}
+
+.header__burger--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.header__burger--open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.header__burger--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile nav panel ────────────────────────────────────────── */
+.header__mobile-nav {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: rgba(6, 8, 14, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 4px 16px 16px;
+}
+
+.header--menu-open { border-bottom-color: transparent; }
+
+.mobile-nav__link {
+  display: flex;
+  align-items: center;
+  padding: 14px 8px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  transition: color var(--transition);
+}
+.mobile-nav__link:last-child { border-bottom: none; }
+.mobile-nav__link:hover,
+.mobile-nav__link:active { color: var(--text); }
+
+.mobile-nav__link--cta {
+  justify-content: center;
+  color: var(--comp);
+  background: var(--comp-dim);
+  border: 1px solid rgba(0, 217, 184, 0.25) !important;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+.mobile-nav__link--cta:hover { background: var(--comp-glow); color: var(--comp); }
+
 /* ── Responsive ──────────────────────────────────────────────── */
 
 /* Prevent horizontal overflow globally */
@@ -1280,7 +1355,9 @@ body { overflow-x: hidden; }
 
   /* Header */
   .header          { padding: 0 16px; }
+  .header__inner   { gap: 12px; }
   .header__nav     { display: none; }
+  .header__burger  { display: flex; }
 
   /* Hero */
   .hero            { padding: 100px 16px 60px; min-height: auto; }
@@ -1347,25 +1424,31 @@ body { overflow-x: hidden; }
   .comp-axiom      { padding: 20px 18px; font-size: 0.9rem; }
 }
 
-/* ── Small mobile: ≤ 480px ── */
-@media (max-width: 480px) {
-  /* Layout */
-  .section         { padding: 44px 0; }
-  .section__header { margin-bottom: 32px; }
-
-  /* Hero stats: 2×2 grid */
+/* ── Mid mobile: ≤ 600px ── */
+@media (max-width: 600px) {
+  /* Hero stats → 2×2 grid (catches landscape phones) */
   .hero__stats     { display: grid; grid-template-columns: 1fr 1fr; }
   .hero__stat      { border-right: none; border-bottom: 1px solid var(--border); }
   .hero__stat:nth-child(odd)  { border-right: 1px solid var(--border); }
   .hero__stat:nth-child(3),
   .hero__stat:nth-child(4)    { border-bottom: none; }
 
+  /* Bit tabs → explicit 2×2 grid */
+  .bit-tabs        { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .bit-tab         { min-width: unset; }
+
+  /* Back label hidden, save space for brand name */
+  .header__back-label { display: none; }
+}
+
+/* ── Small mobile: ≤ 480px ── */
+@media (max-width: 480px) {
+  /* Layout */
+  .section         { padding: 44px 0; }
+  .section__header { margin-bottom: 32px; }
+
   /* Pillars → single column */
   .pillars-grid    { grid-template-columns: 1fr; }
-
-  /* Bit tabs → 2×2 */
-  .bit-tabs        { display: grid; grid-template-columns: 1fr 1fr; }
-  .bit-tab         { min-width: unset; }
 
   /* Info / Lang → single column */
   .info-grid       { grid-template-columns: 1fr; }

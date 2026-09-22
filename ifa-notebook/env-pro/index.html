@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IfaNote Pro — Premium Notebook Environment | IFA Internet</title>
+  <meta name="description" content="IfaNote Pro — the premium reactive notebook for code, Odu Ifa, AI assistance, multi-notebook management, themes, and universal knowledge. Part of the IFA Internet." />
+  <meta name="theme-color" content="#03060d" />
+  <link rel="icon" type="image/png" href="../../src/assets/itoe_favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gentium+Plus:ital@0;1&family=Noto+Sans:ital,wght@0,400;0,600;1,400&family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./src/styles.css" />
+  <style>
+    @media (max-width: 480px) {
+      .nb-odu-input   { align-items: stretch !important; }
+      .nb-odu-figures { display: flex !important; flex-wrap: nowrap !important;
+                        flex-direction: row !important; width: 100% !important;
+                        gap: 8px !important; justify-content: center !important; }
+      .nb-odu-result  { flex-direction: column !important; align-items: flex-start !important;
+                        width: 100% !important; gap: 6px !important; padding: 8px 10px !important; }
+      .nb-odu-name-input { width: 100% !important; max-width: 100% !important; min-width: 0 !important; }
+      .nb-odu-topic      { width: 100% !important; max-width: 100% !important; min-width: 0 !important; margin-left: 0 !important; }
+      .nb-odu-result__domain { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="../../lib/react.min.js"></script>
+  <script src="../../lib/react-dom.min.js"></script>
+  <script src="../../lib/babel.min.js"></script>
+  <script type="text/babel" data-presets="react" src="./src/App.jsx"></script>
+</body>
+</html>

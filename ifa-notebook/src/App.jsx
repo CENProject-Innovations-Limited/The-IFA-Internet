@@ -24,7 +24,7 @@ const COMPONENTS = [
     nameYo: 'Gégéfà',
     icon: '✍',
     variant: 'pen',
-    body: 'IfaPen (Gégéfà) is the authoring and input layer of IfaNote — the intelligent, reactive cell editor that lets you write IfaLang, mathematics, poetry, science, philosophy, code, and non-scientific knowledge side-by-side in one unified environment. IfaPen understands mixed-language input, rendering Odu marks, IfaGebra notation, and standard LaTeX/Markdown seamlessly in the same notebook.',
+    body: 'A key IfaLang System and Interface, the IfaPen (Gégéfà) is the authoring and input layer of IfaNote — the intelligent, reactive cell editor that lets you write IfaLang, mathematics, poetry, science, philosophy, code, and non-scientific knowledge side-by-side in one unified environment. IfaPen is a Tool of the Ifa Editor and understands mixed-language input, rendering Odu marks, IfaGebra notation, and standard LaTeX/Markdown seamlessly in the same notebook.',
     demoText: 'IfaPen · Gégéfà',
   },
   {
@@ -378,6 +378,10 @@ function Hero({ onWatchIntro }) {
           IFA Note — <strong>I</strong>fa <strong>F</strong>or <strong>A</strong>ll Note
         </p>
 
+        <p style={{ fontSize:'0.8rem', letterSpacing:'0.06em', color:'#c4953a', margin:'-10px 0 20px', fontStyle:'italic', opacity:0.82 }}>
+          ✦ Òṣùṣù Odù (Òṣùṣodù) — Ẹ̀rọfá ✦
+        </p>
+
         <p className="hero__motto">
           <span className="m-think">Think Everything.</span>{' '}
           <span className="m-code">Code Everything.</span>{' '}
@@ -405,6 +409,8 @@ function Hero({ onWatchIntro }) {
           {['IfaNoteBook','IFA Note','Consciousness Notebook','ToE NoteBook','ToE Note',
             'ToENote','IFABOK Notebook','The Notebook for Everything (NotoE)','Energy-Based Notebook',
             'Orisa Note','OrisaNote','Orisa NoteBook','OrisaNoteBook',
+            'IfaPad','Ifa Pad','Orisa Pad','OrisaPad','ToE Pad','Ifa Tablet','IfaTab','Orisa Tablet','OrisaTab',
+            'Ifa Notepad','Orisa Notepad','IFABOK Journal','IFA Internet Journal',
           ].map(n => (
             <span className="hero__name-pill" key={n}>{n}</span>
           ))}
@@ -480,6 +486,331 @@ function AboutSection() {
             <p className="about-card__body">{card.body}</p>
           </div>
         ))}
+      </div>
+    </section>
+  );
+}
+
+/* ── IfaShell & IfaKernel Section ──────────────────────────────────────────── */
+function IfaShellKernelSection() {
+  const [tab, setTab] = useState('natural');
+
+  useEffect(() => {
+    if (document.getElementById('isk-kf')) return;
+    const s = document.createElement('style');
+    s.id = 'isk-kf';
+    s.textContent = `
+      @keyframes isk-ring-expand {
+        0%   { transform: scale(0.5); opacity: 0.78; }
+        100% { transform: scale(2.8); opacity: 0; }
+      }
+      @keyframes isk-core-pulse {
+        0%, 100% { transform: scale(1);    opacity: 0.95; }
+        50%       { transform: scale(1.32); opacity: 0.58; }
+      }
+      @keyframes isk-shell-breathe {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0.70; }
+      }
+      @keyframes isk-outer-spin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
+      @keyframes isk-float-in {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+    `;
+    document.head.appendChild(s);
+  }, []);
+
+  const isNatural = tab === 'natural';
+  const isShell   = tab === 'shell';
+  const isKernel  = tab === 'kernel';
+  const shellColor  = isShell  ? '#14d4f4' : '#c4853a';
+  const kernelColor = isKernel ? '#f0920c' : '#f5c518';
+
+  const TABS = [
+    { key:'natural', label:'🌿 Ìkin Ifá',    color:'#c4853a' },
+    { key:'shell',   label:'⬡ IfaShell',     color:'#14d4f4' },
+    { key:'kernel',  label:'⚙ IfaKernel',    color:'#f0920c' },
+  ];
+
+  return (
+    <section id="ifa-shell-kernel" className="section section--wide"
+             aria-labelledby="isk-title">
+      <div className="grad-divider" style={{ marginBottom:'72px' }} />
+
+      <p className="section__eyebrow">Ifa Architecture of Natural Computing</p>
+      <h2 className="section__title" id="isk-title">IfaShell &amp; IfaKernel</h2>
+      <p className="section__sub" style={{ maxWidth:'680px', margin:'0 auto 52px' }}>
+        In the Natural Computing of Odu Ifa, Ọrúnmìlà encoded the Architecture of the Ikin Ifá —
+        Ìkara (Shell) wrapping Kórókin (the Seed or Kernel) — a computing Principle at the heart of every
+        modern operating system, rediscovered millennia later.
+      </p>
+
+      <div style={{
+        display:'flex', gap:'52px', alignItems:'flex-start',
+        flexWrap:'wrap', justifyContent:'center', maxWidth:'1000px', margin:'0 auto'
+      }}>
+
+        {/* ── Left: Animated Ikin Ifá SVG ─────────────────────────────────────── */}
+        <div style={{ flex:'0 0 auto', display:'flex', flexDirection:'column', alignItems:'center', gap:'18px' }}>
+
+          <svg viewBox="0 0 160 210" width="188" height="248" overflow="visible"
+               aria-label="Ìkara (Shell) wrapping Kórókin (Seed) — Ikin Ifa cross-section"
+               style={{ filter:`drop-shadow(0 0 22px ${kernelColor}44)` }}>
+            <defs>
+              <radialGradient id="isk-shell-g" cx="36%" cy="28%">
+                <stop offset="0%"   stopColor="#7a4a1a"/>
+                <stop offset="55%"  stopColor="#3c1a06"/>
+                <stop offset="100%" stopColor="#100500"/>
+              </radialGradient>
+              <radialGradient id="isk-seed-g" cx="40%" cy="32%">
+                <stop offset="0%"   stopColor={kernelColor}/>
+                <stop offset="65%"  stopColor="#8a6000"/>
+                <stop offset="100%" stopColor="#3a2000"/>
+              </radialGradient>
+              <radialGradient id="isk-glow-g" cx="50%" cy="50%">
+                <stop offset="0%"   stopColor={kernelColor} stopOpacity="0.88"/>
+                <stop offset="100%" stopColor={kernelColor} stopOpacity="0"/>
+              </radialGradient>
+              <filter id="isk-blur4"><feGaussianBlur stdDeviation="4"/></filter>
+              <filter id="isk-blur2"><feGaussianBlur stdDeviation="1.8"/></filter>
+            </defs>
+
+            {/* Spinning outer orbit */}
+            <ellipse cx="80" cy="105" rx="76" ry="98"
+              fill="none" stroke={shellColor} strokeWidth="0.5"
+              strokeDasharray="5 5" opacity="0.18"
+              style={{ transformBox:'fill-box', transformOrigin:'center',
+                       animation:'isk-outer-spin 18s linear infinite' }}/>
+
+            {/* ── SHELL (Ìkara) ──────────────────────────────────────────────── */}
+            <ellipse cx="80" cy="105" rx="56" ry="78"
+              fill="url(#isk-shell-g)"
+              style={isShell ? { transformBox:'fill-box', transformOrigin:'center',
+                animation:'isk-shell-breathe 2.2s ease-in-out infinite' } : {}}/>
+            {/* Highlight */}
+            <ellipse cx="62" cy="74" rx="10" ry="20"
+              fill="rgba(180,110,50,0.16)" transform="rotate(-14 62 74)"/>
+            {/* Grain lines */}
+            <line x1="67" y1="32" x2="65" y2="174" stroke="rgba(0,0,0,0.24)" strokeWidth="0.7"/>
+            <line x1="80" y1="30" x2="80" y2="176" stroke="rgba(0,0,0,0.16)" strokeWidth="0.5"/>
+            <line x1="93" y1="32" x2="95" y2="174" stroke="rgba(0,0,0,0.24)" strokeWidth="0.7"/>
+
+            {/* Inner void */}
+            <ellipse cx="80" cy="105" rx="40" ry="56" fill="#080300" opacity="0.75"/>
+
+            {/* ── SEED / KÓRÓKIN ─────────────────────────────────────────────── */}
+            {/* Glow halo */}
+            <ellipse cx="80" cy="105" rx="28" ry="40"
+              fill="url(#isk-glow-g)" filter="url(#isk-blur4)" opacity="0.76"/>
+            {/* Seed body */}
+            <ellipse cx="80" cy="105" rx="22" ry="32"
+              fill="url(#isk-seed-g)"
+              style={isKernel ? { transformBox:'fill-box', transformOrigin:'center',
+                animation:'isk-shell-breathe 1.7s ease-in-out infinite' } : {}}/>
+            {/* Seed highlight */}
+            <ellipse cx="72" cy="90" rx="5" ry="9"
+              fill="rgba(255,220,80,0.22)" transform="rotate(-8 72 90)"/>
+
+            {/* Pulsing rings from core */}
+            {[0, 0.8, 1.6].map((delay, i) => (
+              <ellipse key={i} cx="80" cy="105" rx="18" ry="26"
+                fill="none" stroke={kernelColor}
+                strokeWidth={1.2 - i * 0.3} opacity="0.72"
+                style={{ transformBox:'fill-box', transformOrigin:'center',
+                         animation:`isk-ring-expand 2.5s ease-out ${delay}s infinite` }}/>
+            ))}
+
+            {/* Core pulse dot */}
+            <circle cx="80" cy="105" r="5.5"
+              fill={kernelColor} opacity="0.92" filter="url(#isk-blur2)"
+              style={{ transformBox:'fill-box', transformOrigin:'center',
+                       animation:'isk-core-pulse 2s ease-in-out infinite' }}/>
+            <circle cx="80" cy="105" r="2.4" fill="white" opacity="0.78"/>
+
+            {/* Ìkin eyes at tip */}
+            <circle cx="80" cy="170" r="4.2" fill="#060201" stroke="rgba(150,80,20,0.45)" strokeWidth="0.9"/>
+            <circle cx="70" cy="163" r="3.4" fill="#060201" stroke="rgba(150,80,20,0.40)" strokeWidth="0.7"/>
+            <circle cx="90" cy="163" r="3.4" fill="#060201" stroke="rgba(150,80,20,0.40)" strokeWidth="0.7"/>
+
+            {/* ── Labels ─────────────────────────────────────────────────────── */}
+            {/* Shell bracket — left */}
+            <line x1="21" y1="68"  x2="23" y2="68"  stroke={shellColor} strokeWidth="1"   opacity="0.6"/>
+            <line x1="23" y1="68"  x2="23" y2="112" stroke={shellColor} strokeWidth="0.7" opacity="0.38"/>
+            <line x1="21" y1="112" x2="23" y2="112" stroke={shellColor} strokeWidth="1"   opacity="0.6"/>
+            <text x="19" y="93" fontSize="7.5" fill={shellColor} opacity="0.88"
+              fontStyle="italic" textAnchor="end">
+              {isShell ? 'IfaShell' : 'Ìkara'}
+            </text>
+
+            {/* Kernel label — below seed */}
+            <line x1="80" y1="138" x2="80" y2="147" stroke={kernelColor} strokeWidth="0.8" opacity="0.55"/>
+            <text x="80" y="157" fontSize="7.5" fill={kernelColor} opacity="0.88"
+              fontStyle="italic" textAnchor="middle">
+              {isKernel ? 'IfaKernel' : 'Kórókin'}
+            </text>
+
+          </svg>
+
+          <div style={{ textAlign:'center' }}>
+            <div style={{ fontSize:'0.76rem', color:'#c4853a', letterSpacing:'0.05em', marginBottom:'3px' }}>
+              Ikin Ifá — Cross-Section
+            </div>
+            <div style={{ fontSize:'0.68rem', color:'#505869' }}>
+              Ìkara (Shell) · Kórókin (Seed)
+            </div>
+          </div>
+        </div>
+
+        {/* ── Right: Tabs + Content ─────────────────────────────────────────────── */}
+        <div style={{ flex:'1 1 320px', minWidth:'280px' }}>
+
+          {/* Tab buttons */}
+          <div style={{ display:'flex', gap:'8px', marginBottom:'26px', flexWrap:'wrap' }}>
+            {TABS.map(t => (
+              <button key={t.key}
+                onClick={() => setTab(t.key)}
+                style={{
+                  padding:'7px 16px', borderRadius:'22px', border:'1px solid',
+                  fontSize:'0.74rem', cursor:'pointer', letterSpacing:'0.03em',
+                  fontFamily:'inherit', transition:'all 0.22s',
+                  borderColor: tab === t.key ? t.color : 'rgba(255,255,255,0.1)',
+                  background:  tab === t.key ? `${t.color}1a` : 'transparent',
+                  color:       tab === t.key ? t.color : '#6e7e9a',
+                  fontWeight:  tab === t.key ? 600 : 400,
+                }}>
+                {t.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Tab content */}
+          <div key={tab} style={{ animation:'isk-float-in 0.28s ease both' }}>
+
+            {isNatural && (
+              <div>
+                <h3 style={{ color:'#c4853a', fontSize:'1.05rem', marginBottom:'14px',
+                             fontWeight:600, lineHeight:1.4 }}>
+                  Ìkara &amp; Kórókin — The Ifa Architecture
+                </h3>
+                <p style={{ color:'#8892aa', lineHeight:1.78, fontSize:'0.91rem', marginBottom:'13px' }}>
+                  In the Natural Computing of Odu Ifa, <strong style={{color:'#e0c080'}}>Ìkara</strong> —
+                  the Shell of Ikin Ifá, the Ifa Palm Nut — wraps around{' '}
+                  <strong style={{color:'#f5c518'}}>Kórókin</strong> (the Seed/Kernel). This ancient Ifa
+                  Architecture, an invention of Ọrúnmìlà, encodes the foundational computing Principle
+                  that the modern world rediscovered millennia later.
+                </p>
+                <p style={{ color:'#8892aa', lineHeight:1.78, fontSize:'0.91rem', marginBottom:'13px' }}>
+                  In modern computing, the core of the operating system is called the{' '}
+                  <strong style={{color:'#f0920c'}}>kernel</strong> because it acts as the "seed" —
+                  the essential innermost core from which the rest of the system grows. A computer{' '}
+                  <strong style={{color:'#14d4f4'}}>shell</strong> is so named because it wraps around
+                  the kernel — exactly as Ìkara wraps Kórókin.
+                </p>
+                <div style={{ padding:'14px 16px', background:'rgba(196,133,58,0.07)',
+                              borderLeft:'2px solid rgba(196,133,58,0.38)', borderRadius:'5px' }}>
+                  <div style={{ fontSize:'0.71rem', color:'#c4953a',
+                                letterSpacing:'0.07em', marginBottom:'10px' }}>
+                    CORE SUBJECTS IN IFA-BASED COMPUTING
+                  </div>
+                  <div style={{ display:'flex', flexWrap:'wrap', gap:'7px' }}>
+                    {[
+                      { label:'IfaShell Computing',    c:'#14d4f4' },
+                      { label:'OrisaShell Computing',  c:'#14d4f4' },
+                      { label:'IfaKernel Computing',   c:'#f0920c' },
+                      { label:'OrisaKernel Computing', c:'#f0920c' },
+                    ].map(s => (
+                      <span key={s.label} style={{
+                        padding:'4px 12px', borderRadius:'14px', fontSize:'0.72rem',
+                        background:`${s.c}12`, border:`1px solid ${s.c}28`, color:s.c,
+                      }}>{s.label}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {isShell && (
+              <div>
+                <h3 style={{ color:'#14d4f4', fontSize:'1.05rem', marginBottom:'14px',
+                             fontWeight:600, lineHeight:1.4 }}>
+                  IfaShell — Ìkara in Modern Computing
+                </h3>
+                <p style={{ color:'#8892aa', lineHeight:1.78, fontSize:'0.91rem', marginBottom:'13px' }}>
+                  A computer <strong style={{color:'#14d4f4'}}>shell</strong> is called a "shell" because
+                  it acts as an outer layer that wraps around the kernel — exactly as{' '}
+                  <strong style={{color:'#e0c080'}}>Ìkara</strong>, the Shell of Ikin Ifá, wraps{' '}
+                  <strong style={{color:'#f5c518'}}>Kórókin</strong> (the Seed). This is the Ifa
+                  Architecture of Ọrúnmìlà, rediscovered by modern computer science.
+                </p>
+                <p style={{ color:'#8892aa', lineHeight:1.78, fontSize:'0.91rem', marginBottom:'16px' }}>
+                  <strong style={{color:'#14d4f4'}}>IfaShell Computing</strong> and{' '}
+                  <strong style={{color:'#14d4f4'}}>OrisaShell Computing</strong> study this shell layer —
+                  the user-facing interface that wraps the IfaKernel — grounded in the Ìkara principle
+                  of Odu Ifa.
+                </p>
+                {[
+                  { ifa:'Ìkara — Shell of Ikin Ifá',   mod:'OS Shell / IfaShell'      },
+                  { ifa:'Outer protective layer',        mod:'User-facing interface'    },
+                  { ifa:'Wraps the Kórókin (Seed)',      mod:'Wraps the OS Kernel'      },
+                  { ifa:'Mediates Ìkin ↔ world',         mod:'Mediates user ↔ kernel'   },
+                ].map(row => (
+                  <div key={row.ifa} style={{
+                    display:'flex', gap:'10px', alignItems:'center',
+                    marginBottom:'7px', fontSize:'0.79rem',
+                    padding:'5px 0', borderBottom:'1px solid rgba(255,255,255,0.04)',
+                  }}>
+                    <span style={{ color:'#c4853a', flex:'1' }}>{row.ifa}</span>
+                    <span style={{ color:'rgba(20,212,244,0.38)', fontSize:'0.9em' }}>→</span>
+                    <span style={{ color:'#14d4f4', flex:'1' }}>{row.mod}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {isKernel && (
+              <div>
+                <h3 style={{ color:'#f0920c', fontSize:'1.05rem', marginBottom:'14px',
+                             fontWeight:600, lineHeight:1.4 }}>
+                  IfaKernel — Kórókin in Modern Computing
+                </h3>
+                <p style={{ color:'#8892aa', lineHeight:1.78, fontSize:'0.91rem', marginBottom:'13px' }}>
+                  In modern computing, the <strong style={{color:'#f0920c'}}>kernel</strong> is the
+                  innermost core of the operating system — named after the seed because it is the
+                  essential foundation from which all system processes grow. This directly mirrors{' '}
+                  <strong style={{color:'#f5c518'}}>Kórókin</strong>, the Seed of Ikin Ifá — the
+                  Ifa Architecture of Ọrúnmìlà.
+                </p>
+                <p style={{ color:'#8892aa', lineHeight:1.78, fontSize:'0.91rem', marginBottom:'16px' }}>
+                  <strong style={{color:'#f0920c'}}>IfaKernel Computing</strong> and{' '}
+                  <strong style={{color:'#f0920c'}}>OrisaKernel Computing</strong> study the kernel
+                  layer — the Kórókin — the computational core from which all Ifa-based systems grow
+                  and operate.
+                </p>
+                {[
+                  { ifa:"Kórókin — Seed of Ikin Ifá",  mod:'OS Kernel / IfaKernel'       },
+                  { ifa:'Innermost life-core',           mod:'Core of the OS'              },
+                  { ifa:"Source of Ìkin's growth",       mod:'Foundation of all processes' },
+                  { ifa:'Wrapped by Ìkara (Shell)',       mod:'Wrapped by the OS Shell'     },
+                ].map(row => (
+                  <div key={row.ifa} style={{
+                    display:'flex', gap:'10px', alignItems:'center',
+                    marginBottom:'7px', fontSize:'0.79rem',
+                    padding:'5px 0', borderBottom:'1px solid rgba(255,255,255,0.04)',
+                  }}>
+                    <span style={{ color:'#f5c518', flex:'1' }}>{row.ifa}</span>
+                    <span style={{ color:'rgba(240,146,12,0.38)', fontSize:'0.9em' }}>→</span>
+                    <span style={{ color:'#f0920c', flex:'1' }}>{row.mod}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -2417,6 +2748,8 @@ function Footer() {
         {['IfaNoteBook','Consciousness Notebook','ToE NoteBook','IFABOK Notebook',
           'The Notebook for Everything (NotoE)','Energy-Based Notebook','ToENote',
           'Orisa Note','OrisaNote','Orisa NoteBook','OrisaNoteBook',
+          'IfaPad','Ifa Pad','Orisa Pad','OrisaPad','ToE Pad','Ifa Tablet','IfaTab','Orisa Tablet','OrisaTab',
+          'Ifa Notepad','Orisa Notepad','IFABOK Journal','IFA Internet Journal',
         ].map(n => (
           <span className="footer__pill" key={n}>{n}</span>
         ))}
@@ -2567,6 +2900,7 @@ function App() {
         <Hero onWatchIntro={openIntro} />
         <PlatformPreview onWatchIntro={openIntro} sectionRef={previewRef} />
         <AboutSection />
+        <IfaShellKernelSection />
         <ComponentsSection />
         <IfaNotebookSection />
         <FeaturesSection />

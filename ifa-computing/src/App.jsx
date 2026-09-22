@@ -547,18 +547,21 @@ function KidsPromoSection() {
 // ── Header ─────────────────────────────────────────────────────
 function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', h);
     return () => window.removeEventListener('scroll', h);
   }, []);
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <header className={`header${scrolled ? ' header--scrolled' : ''}`}>
+    <header className={`header${scrolled ? ' header--scrolled' : ''}${menuOpen ? ' header--menu-open' : ''}`}>
       <div className="header__inner">
         <a href="https://ifainternet.org" className="header__back" target="_blank" rel="noopener noreferrer">
           <span className="header__back-arrow">←</span>
-          <span>The IFA Internet</span>
+          <span className="header__back-label">The IFA Internet</span>
         </a>
         <div className="header__brand">
           <span className="header__brand-icon">⬡</span>
@@ -580,7 +583,37 @@ function Header() {
             Ifa Computer →
           </a>
         </nav>
+        <button
+          className={`header__burger${menuOpen ? ' header__burger--open' : ''}`}
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </div>
+
+      {menuOpen && (
+        <nav className="header__mobile-nav" aria-label="Mobile navigation">
+          <a className="mobile-nav__link" href="#pillars" onClick={closeMenu}>Pillars</a>
+          <a className="mobile-nav__link" href="#ifabit" onClick={closeMenu}>IfaBit</a>
+          <a className="mobile-nav__link" href="#information" onClick={closeMenu}>Information</a>
+          <a className="mobile-nav__link" href="#algorithm" onClick={closeMenu}>Algorithm</a>
+          <a className="mobile-nav__link" href="#language" onClick={closeMenu}>Language</a>
+          <a className="mobile-nav__link" href="kids/" onClick={closeMenu}>Kids 🌟</a>
+          <a
+            className="mobile-nav__link mobile-nav__link--cta"
+            href="https://toe.cenproject.org/ifa-computer/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={closeMenu}
+          >
+            Ifa Computer →
+          </a>
+        </nav>
+      )}
     </header>
   );
 }

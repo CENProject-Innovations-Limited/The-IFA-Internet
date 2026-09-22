@@ -126,7 +126,7 @@ function SubscriptionGate({ onUnlock }) {
         <p className="sub-gate__join">
           Not yet a student?{' '}
           <a
-            href="https://toe.cenproject.org/ifa-academy-of-polymaths/"
+            href="https://ifainternet.org/ifa-lms/ifa-academy/#enroll"
             target="_blank"
             rel="noopener noreferrer"
             className="sub-gate__join-link"

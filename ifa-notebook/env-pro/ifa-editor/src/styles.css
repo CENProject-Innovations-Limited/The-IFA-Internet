@@ -1,0 +1,836 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   IfaEditor — ToE Editor · Energy-Based Editor
+   IfaNote Pro · The IFA Internet · CENProject
+   ifainternet.org/ifa-notebook/env-pro/ifa-editor/
+───────────────────────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'AebajiogbeOduduwa';
+  src: url('../../src/AebajiogbeOduduwa-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-size: 16px; }
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #03060d;
+  color: #f0f5ff;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; touch-action: manipulation; }
+[contenteditable] { outline: none; }
+
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
+:root {
+  --bg:          #03060d;
+  --bg-2:        #070e1c;
+  --bg-3:        #0a1628;
+  --bg-card:     rgba(7, 14, 28, 0.88);
+  --border:      rgba(240, 146, 12, 0.10);
+  --border-2:    rgba(240, 146, 12, 0.22);
+  --text-1:      #f0f5ff;
+  --text-2:      #6e90b8;
+  --text-3:      #2b4468;
+  --amber:       #f0920c;
+  --amber-lt:    #f5c518;
+  --amber-dk:    #c06800;
+  --violet:      #a78bfa;
+  --violet-dk:   #7c5fc4;
+  --jade:        #00c87c;
+  --electric:    #3b9eff;
+  /* pen mode tokens — overridden per mode */
+  --pen-color:   #f5c518;
+  --pen-glow:    rgba(245, 197, 24, 0.22);
+  --pen-border:  rgba(245, 197, 24, 0.28);
+}
+
+/* ── IfaPen cursor system ──────────────────────────────────────────────────── */
+
+/* OgbeTip — Energy · Ogbe (1111) · gold IfaPen (vertical: nib at top, gold tip at bottom) */
+.ifaed--ogbe,
+.ifaed--ogbe * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='48'%3E%3Cpath d='M10,0 L7,9 L13,9 Z' fill='%234a2c10'/%3E%3Cpath d='M10,0 L9,9 L11,9 Z' fill='%23c49a0a'/%3E%3Cellipse cx='10' cy='21' rx='5.5' ry='12' fill='%237a4a22'/%3E%3Cellipse cx='10' cy='21' rx='4.5' ry='10.5' fill='%238B5E3C'/%3E%3Ccircle cx='7.5' cy='19' r='1.8' fill='%231a0800'/%3E%3Ccircle cx='12.5' cy='19' r='1.8' fill='%231a0800'/%3E%3Ccircle cx='7.5' cy='19' r='0.8' fill='%23f5c518'/%3E%3Ccircle cx='12.5' cy='19' r='0.8' fill='%23f5c518'/%3E%3Cpath d='M9,22 L10,24 L11,22 Z' fill='%23c49a0a'/%3E%3Crect x='6.5' y='33' width='7' height='2' rx='0.5' fill='%231a5a9c'/%3E%3Crect x='6.5' y='35' width='7' height='2' rx='0.5' fill='%23f0920c'/%3E%3Crect x='6.5' y='37' width='7' height='2' rx='0.5' fill='%23f5c518'/%3E%3Crect x='6.5' y='39' width='7' height='2' rx='0.5' fill='%23dc2626'/%3E%3Crect x='7' y='41' width='6' height='5' rx='2' fill='%23f5c518'/%3E%3Cpath d='M8,46 L10,48 L12,46 Z' fill='%23c49a0a'/%3E%3C/svg%3E") 10 0, crosshair;
+}
+
+/* OyekuTip — Anergy · Oyeku (0000) · violet IfaPen (vertical: nib at top, violet tip at bottom) */
+.ifaed--oyeku,
+.ifaed--oyeku * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='48'%3E%3Cpath d='M10,0 L7,9 L13,9 Z' fill='%234a2c10'/%3E%3Cpath d='M10,0 L9,9 L11,9 Z' fill='%237c5fc4'/%3E%3Cellipse cx='10' cy='21' rx='5.5' ry='12' fill='%237a4a22'/%3E%3Cellipse cx='10' cy='21' rx='4.5' ry='10.5' fill='%238B5E3C'/%3E%3Ccircle cx='7.5' cy='19' r='1.8' fill='%231a0800'/%3E%3Ccircle cx='12.5' cy='19' r='1.8' fill='%231a0800'/%3E%3Ccircle cx='7.5' cy='19' r='0.8' fill='%23a78bfa'/%3E%3Ccircle cx='12.5' cy='19' r='0.8' fill='%23a78bfa'/%3E%3Cpath d='M9,22 L10,24 L11,22 Z' fill='%237c5fc4'/%3E%3Crect x='6.5' y='33' width='7' height='2' rx='0.5' fill='%231a5a9c'/%3E%3Crect x='6.5' y='35' width='7' height='2' rx='0.5' fill='%23f0920c'/%3E%3Crect x='6.5' y='37' width='7' height='2' rx='0.5' fill='%23f5c518'/%3E%3Crect x='6.5' y='39' width='7' height='2' rx='0.5' fill='%23dc2626'/%3E%3Crect x='7' y='41' width='6' height='5' rx='2' fill='%23a78bfa'/%3E%3Cpath d='M8,46 L10,48 L12,46 Z' fill='%237c5fc4'/%3E%3C/svg%3E") 10 0, crosshair;
+}
+
+/* interactive elements keep pointer in both modes */
+.ifaed--ogbe button,
+.ifaed--ogbe a,
+.ifaed--ogbe select,
+.ifaed--ogbe input,
+.ifaed--ogbe label,
+.ifaed--oyeku button,
+.ifaed--oyeku a,
+.ifaed--oyeku select,
+.ifaed--oyeku input,
+.ifaed--oyeku label {
+  cursor: pointer !important;
+}
+
+/* ── Mode accent: OgbeTip vs OyekuTip ─────────────────────────────────────── */
+.ifaed--ogbe  { --pen-color: #f5c518; --pen-glow: rgba(245,197,24,0.18); --pen-border: rgba(245,197,24,0.28); }
+.ifaed--oyeku { --pen-color: #a78bfa; --pen-glow: rgba(167,139,250,0.18); --pen-border: rgba(167,139,250,0.28); }
+
+/* ── Root layout ───────────────────────────────────────────────────────────── */
+.ifaed {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+/* ── Topbar ────────────────────────────────────────────────────────────────── */
+.ifaed-topbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  z-index: 10;
+  flex-wrap: wrap;
+  min-height: 48px;
+}
+
+.ifaed-topbar__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ifaed-back {
+  font-size: 0.71rem;
+  font-weight: 600;
+  color: var(--amber);
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(240,146,12,0.22);
+  background: rgba(240,146,12,0.06);
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+  text-decoration: none;
+}
+.ifaed-back:hover { background: rgba(240,146,12,0.14); color: #ffaa32; }
+
+.ifaed-topbar__sep {
+  color: var(--text-3);
+  user-select: none;
+}
+
+.ifaed-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text-1);
+  white-space: nowrap;
+}
+.ifaed-title span {
+  color: var(--pen-color);
+  transition: color 0.3s;
+}
+
+.ifaed-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── IfaPen wrap + function label ──────────────────────────────────────────── */
+.ifapen-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.ifapen-fn-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1;
+  user-select: none;
+}
+.ifapen-fn-label__action {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--pen-color);
+  letter-spacing: 0.05em;
+  text-transform: none;
+  transition: color 0.3s;
+}
+.ifapen-fn-label__slash { color: var(--text-3); margin: 0 1px; }
+.ifapen-fn-label__sep   { width: 1px; height: 10px; background: var(--text-3); opacity: 0.4; }
+.ifapen-fn-label__yor {
+  font-size: 0.58rem;
+  color: var(--text-3);
+  font-style: italic;
+}
+.ifapen-fn-label__yor em { font-style: normal; color: var(--text-2); }
+
+/* ── IfaPen toggle ─────────────────────────────────────────────────────────── */
+.ifapen-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-radius: 8px;
+  border: 1px solid var(--pen-border);
+  overflow: hidden;
+  background: rgba(0,0,0,0.28);
+  transition: border-color 0.3s;
+}
+
+.ifapen-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 12px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: var(--text-2);
+  background: transparent;
+  border: none;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+.ifapen-btn:hover { color: var(--text-1); background: rgba(255,255,255,0.05); }
+
+.ifapen-btn--ogbe.ifapen-btn--active {
+  background: rgba(245,197,24,0.14);
+  color: #f5c518;
+}
+.ifapen-btn--oyeku.ifapen-btn--active {
+  background: rgba(167,139,250,0.14);
+  color: #a78bfa;
+}
+
+.ifapen-btn__mark {
+  font-family: monospace;
+  font-size: 1rem;
+  line-height: 1;
+}
+.ifapen-btn--ogbe  .ifapen-btn__mark { color: #f5c518; }
+.ifapen-btn--oyeku .ifapen-btn__mark { color: #a78bfa; }
+
+.ifapen-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border-2, rgba(240,146,12,0.18));
+  flex-shrink: 0;
+}
+
+/* ── Odu tray preview (pending marks — builds RTL, top→bottom) ─────────────── */
+.odu-pen-preview {
+  display: inline-flex;
+  direction: rtl;           /* right col (marks 0-3) appears on RIGHT */
+  align-items: flex-start;
+  gap: 5px;
+  padding: 4px 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+.odu-pen-preview__col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.odu-pen-preview__slot {
+  font-family: monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.3;
+  min-width: 1.5em;
+  text-align: center;
+  color: var(--text-3);
+}
+.odu-pen-preview__slot.is-filled { color: var(--pen-color); }
+.odu-pen-preview__reset {
+  font-size: 0.65rem;
+  color: var(--text-3);
+  align-self: center;
+  padding: 1px 3px;
+  border-radius: 3px;
+  /* In RTL container this button appears on the left edge */
+  direction: ltr;
+}
+.odu-pen-preview__reset:hover { color: var(--text-1); background: rgba(255,255,255,0.06); }
+
+/* ── Export / action buttons ───────────────────────────────────────────────── */
+.ifaed-action {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  background: rgba(255,255,255,0.03);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.ifaed-action:hover { color: var(--text-1); border-color: var(--pen-border); background: var(--pen-glow); }
+
+/* ── Body ──────────────────────────────────────────────────────────────────── */
+.ifaed-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Sidebar ───────────────────────────────────────────────────────────────── */
+.ifaed-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-2);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  overflow-x: hidden;
+  order: 2;
+}
+.ifaed-sidebar::-webkit-scrollbar { width: 4px; }
+.ifaed-sidebar::-webkit-scrollbar-thumb { background: rgba(240,146,12,0.2); border-radius: 2px; }
+
+.sidebar-section {
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-2);
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.15s;
+}
+.sidebar-section__head:hover { color: var(--text-1); }
+.sidebar-section__arrow { font-size: 0.6rem; transition: transform 0.2s; }
+.sidebar-section--open .sidebar-section__arrow { transform: rotate(90deg); }
+
+.sidebar-section__body { padding: 6px 8px 10px; }
+
+/* IfaCharacter palette grid */
+.odu-palette {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+}
+
+.odu-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  gap: 6px;
+  min-width: 0;
+}
+.odu-chip:hover { background: var(--pen-glow); border-color: var(--pen-border); }
+
+.odu-chip__mark {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.1;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.odu-chip__name {
+  font-size: 0.48rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* IfaSign palette */
+.sign-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.sign-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 28px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  background: rgba(255,255,255,0.03);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text-1);
+}
+.sign-chip:hover { background: var(--pen-glow); border-color: var(--pen-border); }
+.sign-chip title { display: none; }
+
+/* ── IfaExpression — symbol + OgbeSymbol subscript ──────────────────────── */
+.ifa-expr { position: relative; display: inline-block; line-height: 1.2; }
+.ifa-expr__char { display: inline-block; line-height: 1.2; font-family: inherit; }
+.ifa-expr__sym { position: absolute; bottom: -0.05em; right: -0.42em; line-height: 1; display: inline-block; }
+
+/* Yoruba / special chars palette */
+.char-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.char-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 24px;
+  padding: 0 4px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: rgba(255,255,255,0.03);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  color: var(--text-1);
+  font-family: 'Noto Sans', 'Gentium Plus', serif;
+}
+.char-chip:hover { background: var(--pen-glow); border-color: var(--pen-border); }
+.aeb-chip { font-family: 'AebajiogbeOduduwa', serif; font-size: 1rem; }
+
+.ifaed-canvas .aeb-inline {
+  font-family: 'AebajiogbeOduduwa', serif;
+  font-size: 1.1em;
+  direction: rtl;
+  unicode-bidi: embed;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ── Main editor pane ──────────────────────────────────────────────────────── */
+.ifaed-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ── Formatting toolbar ────────────────────────────────────────────────────── */
+.ifaed-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 12px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.toolbar-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.tb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 26px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-2);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  flex-shrink: 0;
+}
+.tb-btn:hover { color: var(--text-1); background: rgba(255,255,255,0.06); }
+.tb-btn--active { color: var(--pen-color) !important; background: var(--pen-glow) !important; border-color: var(--pen-border) !important; }
+
+.tb-btn--wide { width: auto; padding: 0 8px; font-size: 0.71rem; letter-spacing: 0.02em; }
+
+.tb-select {
+  height: 26px;
+  padding: 0 6px;
+  font-size: 0.72rem;
+  font-family: inherit;
+  color: var(--text-2);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.tb-select:hover, .tb-select:focus { border-color: var(--pen-border); color: var(--text-1); }
+.tb-select option { background: #0a1628; }
+
+.tb-color-btn {
+  width: 28px;
+  height: 26px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex-direction: column;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+  transition: border-color 0.15s;
+}
+.tb-color-btn:hover { border-color: var(--pen-border); }
+.tb-color-btn span { font-size: 0.75rem; font-weight: 700; color: var(--text-2); line-height: 1; }
+.tb-color-btn__swatch { width: 20px; height: 3px; border-radius: 1px; }
+
+.tb-color-input {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* ── IfaTerminal label ─────────────────────────────────────────────────────── */
+.ifaterminal-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 14px 0 2px;
+  pointer-events: none;
+  user-select: none;
+}
+.ifaterminal-label__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ifaterminal-label__name {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--pen-color);
+  opacity: 0.3;
+}
+.ifaterminal-label__deco {
+  font-size: 0.55rem;
+  color: var(--pen-color);
+  opacity: 0.2;
+}
+.ifaterminal-label__obns {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--pen-color);
+  opacity: 0.22;
+  transition: color 0.3s;
+}
+
+/* ── Editor canvas ─────────────────────────────────────────────────────────── */
+.ifaed-canvas-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 0;
+  background: #050b18;
+}
+.ifaed-canvas-wrap::-webkit-scrollbar { width: 6px; }
+.ifaed-canvas-wrap::-webkit-scrollbar-thumb { background: rgba(240,146,12,0.15); border-radius: 3px; }
+
+.ifaed-canvas {
+  max-width: 800px;
+  min-height: calc(100vh - 200px);
+  margin: 0 auto;
+  padding: 48px 56px;
+  direction: rtl;
+  text-align: right;
+  background: #070f1e;
+  border-radius: 6px;
+  border: 1px solid var(--pen-border);
+  box-shadow: 0 0 40px var(--pen-glow);
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-1);
+  font-family: 'Gentium Plus', 'Noto Serif', Georgia, serif;
+  transition: border-color 0.35s, box-shadow 0.35s;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.ifaed-canvas:empty::before {
+  content: attr(data-placeholder);
+  color: var(--text-3);
+  pointer-events: none;
+}
+.ifaed-canvas h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5em; color: var(--pen-color); }
+.ifaed-canvas h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.4em; color: var(--pen-color); }
+.ifaed-canvas h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.3em; color: var(--pen-color); }
+.ifaed-canvas p  { margin-bottom: 0.6em; }
+.ifaed-canvas ul, .ifaed-canvas ol { padding-left: 1.6em; margin-bottom: 0.6em; }
+.ifaed-canvas blockquote {
+  border-left: 3px solid var(--pen-color);
+  padding: 4px 16px;
+  color: var(--text-2);
+  margin: 0.6em 0;
+  font-style: italic;
+}
+.ifaed-canvas a { color: var(--electric); text-decoration: underline; }
+.ifaed-canvas .odu-inline {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-weight: 700;
+  font-size: 1em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+/* ── Odu tray (inserted into canvas by IfaPen, RTL right→left columns) ─────── */
+.odu-tray {
+  display: inline-flex;
+  direction: rtl;           /* first child (right col) appears on RIGHT */
+  align-items: flex-start;
+  gap: 0.45em;
+  vertical-align: middle;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.odu-tray__col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.odu-tray__mark {
+  font-family: monospace;
+  font-size: 1em;
+  line-height: 1.35;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── Status bar ────────────────────────────────────────────────────────────── */
+.ifaed-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 16px;
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.statusbar__mode {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.statusbar__mode-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--pen-color);
+  box-shadow: 0 0 6px var(--pen-color);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+.statusbar__mode-label { color: var(--pen-color); text-transform: none; }
+
+.statusbar__counts {
+  display: flex;
+  gap: 14px;
+  font-size: 0.68rem;
+  color: var(--text-2);
+}
+.statusbar__counts span b { color: var(--text-1); }
+
+.statusbar__tip {
+  font-size: 0.65rem;
+  color: var(--text-3);
+}
+
+/* ── Scrollbar styling ─────────────────────────────────────────────────────── */
+* { scrollbar-width: thin; scrollbar-color: rgba(240,146,12,0.15) transparent; }
+
+/* ── Animations ────────────────────────────────────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ifaed-body { animation: fade-in 0.3s ease; }
+
+/* ── Mobile-only elements — hidden on desktop ──────────────────────────────── */
+.sidebar-overlay       { display: none; }
+.sidebar-mobile-header { display: none; }
+.tb-palette-btn        { display: none !important; }
+
+/* ── Responsive ────────────────────────────────────────────────────────────── */
+
+/* 900px — shrink sidebar */
+@media (max-width: 900px) {
+  .ifaed-sidebar { width: 180px; }
+  .ifaed-canvas  { padding: 32px 28px; }
+}
+
+/* 700px — tablet / landscape phone */
+@media (max-width: 700px) {
+  /* Dynamic viewport height handles iOS address-bar resize */
+  .ifaed { height: 100dvh; }
+
+  /* Topbar */
+  .ifaed-topbar       { padding: 6px 12px; gap: 6px; }
+  .ifaed-topbar__right { gap: 6px; }
+
+  /* Hide Yoruba subtitle — keep topbar compact */
+  .ifapen-fn-label__sep,
+  .ifapen-fn-label__yor { display: none; }
+
+  /* Toolbar: horizontal scroll, no wrap, touch-friendly */
+  .ifaed-toolbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 10px;
+    gap: 2px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .ifaed-toolbar::-webkit-scrollbar { display: none; }
+
+  /* Larger touch targets (min 36px) */
+  .tb-btn       { width: 36px; height: 36px; font-size: 0.88rem; }
+  .tb-btn--wide { width: auto; height: 36px; padding: 0 10px; }
+  .tb-select    { height: 36px; font-size: 0.76rem; }
+  .tb-color-btn { width: 36px; height: 36px; }
+
+  /* Canvas — edge-to-edge */
+  .ifaed-canvas {
+    padding: 20px 16px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    min-height: 40vh;
+  }
+
+  /* Palette toggle visible on mobile */
+  .tb-palette-btn { display: inline-flex !important; }
+
+  /* Sidebar — bottom-sheet drawer */
+  .ifaed-sidebar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 55vh;
+    border-radius: 14px 14px 0 0;
+    border-top: 2px solid var(--pen-border);
+    border-left: none;
+    z-index: 200;
+    order: unset;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: env(safe-area-inset-bottom, 8px);
+  }
+  .ifaed-sidebar--open { display: flex !important; flex-direction: column; }
+
+  /* Sticky header inside drawer */
+  .sidebar-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px 8px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-2);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    background: var(--bg-2);
+    z-index: 1;
+  }
+  .sidebar-mobile-close {
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--text-2);
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  .sidebar-mobile-close:hover { color: var(--text-1); background: rgba(255,255,255,0.06); }
+
+  /* Backdrop */
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 199;
+  }
+
+  /* Larger chip tap targets */
+  .odu-chip  { padding: 10px 4px; }
+  .sign-chip { width: 40px; height: 38px; font-size: 1.05rem; }
+  .char-chip { min-width: 32px; height: 32px; font-size: 0.9rem; }
+
+  /* Status bar */
+  .statusbar__tip { display: none; }
+  .ifapen-btn     { padding: 5px 10px; }
+}
+
+/* 480px — portrait phone */
+@media (max-width: 480px) {
+  .ifaed-topbar  { padding: 5px 10px; }
+  .ifaed-canvas  { padding: 14px 12px; font-size: 0.94rem; }
+  .ifaed-toolbar { padding: 3px 8px; }
+  .ifaed-back    { padding: 4px 8px; font-size: 0.68rem; }
+  .ifaed-action  { padding: 5px 8px; font-size: 0.68rem; }
+  .statusbar__counts { gap: 8px; font-size: 0.64rem; }
+}

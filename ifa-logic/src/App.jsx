@@ -1885,6 +1885,7 @@ function IfaLogicMatrixSection() {
     { label: 'Part 1', title: 'The 8 Logic Gates: Àwọn Ìlàrògún Mẹ́jọ',   color: '#8b5cf6' },
     { label: 'Part 2', title: 'The 8 Quantum Gates', color: '#14b8d4' },
     { label: 'Part 3', title: 'The 16 IfaGates',     color: '#8b5cf6' },
+    { label: 'Part 4', title: 'IfaPauli Matrices: Constructing Ifa-Based Pauli Gates', color: '#f5c518' },
   ];
 
   // Classical gate card — colours last col green/dim based on '1'/'0'
@@ -2111,6 +2112,73 @@ function IfaLogicMatrixSection() {
 
               </div>
             </>
+          )}
+
+          {activePart === 3 && (
+            <div>
+              <div className="il-part-header">
+                <div className="il-part-header__label" style={{ color: '#f5c518' }}>Part 4</div>
+                <h3 className="il-part-header__title">IfaPauli Matrices: Constructing Ifa-Based Pauli Gates</h3>
+                <p className="il-part-header__sub">
+                  A two-part video series demonstrating how the Pauli spin matrices — the
+                  foundational single-qubit quantum gates (X, Y, Z) — emerge naturally from
+                  the binary architecture of Odu Ifa, via IfaGebra and IfaQuantum formalism.
+                </p>
+                <hr className="il-part-header__rule" />
+                <p className="il-part-header__sub">
+                  Each Pauli gate is an <strong>IfaGate</strong>: constructed, expressed, and
+                  unified through the 16 Ifa Laws of Nature and the Amulu Matrix.
+                </p>
+              </div>
+
+              <div style={{ display:'flex', gap:'24px', flexWrap:'wrap', justifyContent:'center', marginTop:'8px' }}>
+                {[
+                  { part:'Part I',  vid:'Qfjl-IdSGsw',  label:'IfaPauli Matrices — Part I'  },
+                  { part:'Part II', vid:'FCujD38fUoA',   label:'IfaPauli Matrices — Part II' },
+                ].map(({ part, vid, label }) => (
+                  <div key={vid} style={{
+                    flex:'1 1 340px', maxWidth:'480px',
+                    background:'linear-gradient(160deg,#0f0b1e 0%,#0a0815 100%)',
+                    border:'1px solid rgba(245,197,24,0.16)', borderRadius:'14px',
+                    overflow:'hidden', boxShadow:'0 4px 32px rgba(0,0,0,0.5)'
+                  }}>
+                    <div style={{
+                      padding:'10px 16px 8px',
+                      display:'flex', alignItems:'center', gap:'10px',
+                      borderBottom:'1px solid rgba(245,197,24,0.10)'
+                    }}>
+                      <span style={{
+                        fontSize:'0.68rem', fontWeight:700, letterSpacing:'0.08em',
+                        padding:'2px 10px', borderRadius:'10px',
+                        background:'rgba(245,197,24,0.12)', color:'#f5c518',
+                        border:'1px solid rgba(245,197,24,0.28)', textTransform:'uppercase'
+                      }}>{part}</span>
+                      <span style={{ fontSize:'0.8rem', color:'#8892aa', fontStyle:'italic' }}>{label}</span>
+                    </div>
+                    <div style={{ position:'relative', paddingBottom:'56.25%', height:0 }}>
+                      <iframe
+                        src={`https://www.youtube.com/embed/${vid}`}
+                        title={label}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        style={{
+                          position:'absolute', top:0, left:0,
+                          width:'100%', height:'100%', border:'none'
+                        }}
+                      />
+                    </div>
+                    <div style={{
+                      padding:'10px 16px 12px',
+                      fontSize:'0.75rem', color:'#505869',
+                      display:'flex', alignItems:'center', gap:'6px'
+                    }}>
+                      <span style={{ color:'#f5c518', fontSize:'0.85rem' }}>𝒳</span>
+                      IfaPauli Matrices · Ifa-Based Pauli Gates · IfaLogic Matrix
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
 
         </div>

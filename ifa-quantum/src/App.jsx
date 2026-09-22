@@ -1075,6 +1075,78 @@ function IfaQuantumAtlas() {
             </div>
           ))}
         </div>
+
+        {/* ── IfaPauli Matrices video subsection ─────────────────────────────── */}
+        <div style={{ marginTop:'64px' }}>
+          <div className="iq-eyebrow" style={{ color:'#f5c518', borderColor:'rgba(245,197,24,0.22)' }}>
+            IfaQuantum Atlas · Video · Odu Ifa × Quantum Mechanics
+          </div>
+          <h3 style={{
+            fontSize:'1.35rem', fontWeight:700, color:'#f0f5ff',
+            margin:'10px 0 8px', letterSpacing:'0.01em'
+          }}>
+            IfaPauli Matrices: Constructing Pauli Matrices Using Odu Ifa
+          </h3>
+          <p style={{
+            color:'#7a8faa', fontSize:'0.92rem', lineHeight:1.7,
+            maxWidth:'660px', margin:'0 auto 32px'
+          }}>
+            A two-part series demonstrating how the Pauli spin matrices emerge naturally
+            from the binary structure of Odu Ifa — bridging Ifa Natural Computing
+            and quantum mechanics through IfaGebra.
+          </p>
+
+          <div style={{
+            display:'flex', gap:'24px', flexWrap:'wrap', justifyContent:'center'
+          }}>
+            {[
+              { part:'Part I',  vid:'Qfjl-IdSGsw',  label:'IfaPauli Matrices — Part I'  },
+              { part:'Part II', vid:'FCujD38fUoA',   label:'IfaPauli Matrices — Part II' },
+            ].map(({ part, vid, label }) => (
+              <div key={vid} style={{
+                flex:'1 1 340px', maxWidth:'480px',
+                background:'linear-gradient(160deg,#0c1624 0%,#080f1a 100%)',
+                border:'1px solid rgba(245,197,24,0.14)', borderRadius:'14px',
+                overflow:'hidden', boxShadow:'0 4px 32px rgba(0,0,0,0.45)'
+              }}>
+                <div style={{
+                  padding:'10px 16px 8px',
+                  display:'flex', alignItems:'center', gap:'10px',
+                  borderBottom:'1px solid rgba(245,197,24,0.10)'
+                }}>
+                  <span style={{
+                    fontSize:'0.68rem', fontWeight:700, letterSpacing:'0.08em',
+                    padding:'2px 10px', borderRadius:'10px',
+                    background:'rgba(245,197,24,0.12)', color:'#f5c518',
+                    border:'1px solid rgba(245,197,24,0.25)', textTransform:'uppercase'
+                  }}>{part}</span>
+                  <span style={{ fontSize:'0.8rem', color:'#8892aa', fontStyle:'italic' }}>{label}</span>
+                </div>
+                <div style={{ position:'relative', paddingBottom:'56.25%', height:0 }}>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${vid}`}
+                    title={label}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    style={{
+                      position:'absolute', top:0, left:0,
+                      width:'100%', height:'100%', border:'none'
+                    }}
+                  />
+                </div>
+                <div style={{
+                  padding:'10px 16px 12px',
+                  fontSize:'0.75rem', color:'#505869',
+                  display:'flex', alignItems:'center', gap:'6px'
+                }}>
+                  <span style={{ color:'#f5c518', fontSize:'0.85rem' }}>⬡</span>
+                  IfaPauli Matrices · Odu Ifa × Quantum Mechanics · IFA Internet
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
