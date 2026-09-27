@@ -3,7 +3,7 @@
    A subpage of IfaLMS · CENProject
 ───────────────────────────────────────────────────────────────────────────── */
 
-const { useState } = React;
+const { useState, useEffect } = React;
 
 /* ── DATA ──────────────────────────────────────────────────────────────────── */
 
@@ -235,6 +235,160 @@ const ALL_COURSES = [
   'The IFA Model of Education and Learning (Adults)',
 ];
 
+/* ── ÈTÒ ILÉ IFÁ-ÒRÌṢÀ DEMO ───────────────────────────────────────────────── */
+
+const ETO_NODES = [
+  { yoruba: 'Ẹ̀kọ́ Ifá/Òrìṣà', eng: 'Ifá-Òrìṣà Learning/Education', color: '#14b8d4', sym: '◎',
+    desc: 'The foundational learning and educational dimension — transmitting the knowledge of Ifá and Òrìṣà through structured study, oral tradition, apprenticeship, and Ifa digital pedagogy.' },
+  { yoruba: 'Ìwàpẹ̀lẹ́', eng: 'Ethics and Morality', color: '#00c87c', sym: '⬡',
+    desc: 'Ìwàpẹ̀lẹ́ — gentle, good character — is the supreme Ifa virtue. Every dimension of the ecosystem is rooted in character formation: the learner becomes both knowledgeable and good.' },
+  { yoruba: 'Iṣẹ́ Kíkọ́', eng: 'Skill Acquisition', color: '#f0920c', sym: '⊛',
+    desc: 'The practical and vocational dimension — acquiring real-world skills, crafts, technologies, and competencies grounded in Ifa principles. Knowledge without application is incomplete.' },
+  { yoruba: 'Ìwé Kíkà', eng: 'Western/Global Literacy', color: '#8b5cf6', sym: '◈',
+    desc: 'Global and Western literacy — integrating formal academic knowledge, international standards, and global languages into the Ifa-Orisa educational ecosystem for full-spectrum formation.' },
+];
+
+function EtoIleDemo() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(() => setActive(a => (a + 1) % ETO_NODES.length), 2600);
+    return () => clearInterval(t);
+  }, [paused]);
+
+  const R = 88;
+  const CX = 130, CY = 130;
+  const degToRad = d => d * Math.PI / 180;
+  const nodeAngles = [-90, 0, 90, 180];
+
+  return (
+    <div className="eto-demo">
+      <div className="eto-demo__label">
+        <span className="eto-demo__label-sym">⊕</span>
+        <span className="eto-demo__label-title">Ètò Ilé Ifá-Òrìṣà — The Ifa-Orisa Integrated Ecosystem</span>
+        <span className="eto-demo__label-sub">Interactive Ifa/Orisa Model</span>
+      </div>
+
+      <div className="eto-demo__body">
+        <div className="eto-demo__orbit-wrap">
+          <svg className="eto-demo__svg" viewBox="0 0 260 260" aria-hidden="true">
+            <circle cx={CX} cy={CY} r={R + 14} fill="none"
+              stroke="rgba(245,197,24,0.06)" strokeWidth="12"/>
+            <circle cx={CX} cy={CY} r={R} fill="none"
+              stroke="rgba(245,197,24,0.14)" strokeWidth="1" strokeDasharray="4 7"/>
+            {ETO_NODES.map((n, i) => {
+              const a = degToRad(nodeAngles[i]);
+              const nx = CX + R * Math.cos(a);
+              const ny = CY + R * Math.sin(a);
+              return (
+                <line key={i} x1={CX} y1={CY} x2={nx} y2={ny}
+                  stroke={active === i ? n.color : 'rgba(255,255,255,0.07)'}
+                  strokeWidth={active === i ? 1.5 : 0.8}
+                  strokeDasharray={active === i ? undefined : '3 6'}
+                  style={{ transition: 'stroke 0.4s, stroke-width 0.4s' }}/>
+              );
+            })}
+            <circle cx={CX} cy={CY} r="32"
+              fill="rgba(245,197,24,0.07)" stroke="#f5c518" strokeWidth="1.5"/>
+            <circle cx={CX} cy={CY} r="22"
+              fill="rgba(245,197,24,0.04)" stroke="rgba(245,197,24,0.3)" strokeWidth="0.8"/>
+            <text x={CX} y={CY - 7} textAnchor="middle"
+              fill="#f5c518" fontSize="7.5" fontWeight="800" letterSpacing="0.04em">Ètò Ilé</text>
+            <text x={CX} y={CY + 4} textAnchor="middle"
+              fill="#f5c518" fontSize="6.5" fontWeight="600">Ifá-Òrìṣà</text>
+            <text x={CX} y={CY + 14} textAnchor="middle"
+              fill="rgba(245,197,24,0.5)" fontSize="5.5">Ecosystem</text>
+            {ETO_NODES.map((n, i) => {
+              const a = degToRad(nodeAngles[i]);
+              const nx = CX + R * Math.cos(a);
+              const ny = CY + R * Math.sin(a);
+              const isAct = active === i;
+              return (
+                <g key={i} style={{ cursor: 'pointer' }}
+                   onClick={() => { setActive(i); setPaused(true); }}>
+                  {isAct && (
+                    <circle cx={nx} cy={ny} r="28"
+                      fill="none" stroke={n.color} strokeWidth="0.6"
+                      opacity="0.4" className="eto-pulse-ring"/>
+                  )}
+                  <circle cx={nx} cy={ny} r={isAct ? 21 : 17}
+                    fill={isAct ? `${n.color}20` : 'rgba(8,14,28,0.7)'}
+                    stroke={n.color}
+                    strokeWidth={isAct ? 2 : 1}
+                    style={{ transition: 'r 0.35s, fill 0.35s, stroke-width 0.35s' }}/>
+                  <text x={nx} y={ny - 3} textAnchor="middle"
+                    fill={n.color} fontSize="11" fontWeight="700">{n.sym}</text>
+                  <text x={nx} y={ny + 9} textAnchor="middle"
+                    fill={isAct ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.35)'}
+                    fontSize="5" style={{ transition: 'fill 0.35s' }}>
+                    {n.yoruba.split('/')[0].replace(/[()]/g, '').trim()}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+
+        <div className="eto-demo__info">
+          {ETO_NODES.map((n, i) => (
+            <div key={i}
+              className={`eto-demo__card${active === i ? ' eto-demo__card--active' : ''}`}
+              style={{ '--edc': n.color }}
+              onClick={() => { setActive(i); setPaused(true); }}>
+              <div className="eto-demo__card-top">
+                <span className="eto-demo__card-sym">{n.sym}</span>
+                <div>
+                  <div className="eto-demo__card-yo">{n.yoruba}</div>
+                  <div className="eto-demo__card-en">{n.eng}</div>
+                </div>
+              </div>
+              {active === i && (
+                <p className="eto-demo__card-desc">{n.desc}</p>
+              )}
+            </div>
+          ))}
+
+          <div className="eto-demo__controls">
+            <button className={`eto-demo__pause${paused ? ' eto-demo__pause--paused' : ''}`}
+              onClick={() => setPaused(p => !p)}>
+              {paused ? '▶ Resume' : '⏸ Pause'}
+            </button>
+            <div className="eto-demo__dots">
+              {ETO_NODES.map((n, i) => (
+                <button key={i}
+                  className={`eto-demo__dot${active === i ? ' eto-demo__dot--on' : ''}`}
+                  style={{ '--dc': n.color }}
+                  onClick={() => { setActive(i); setPaused(true); }}
+                  aria-label={n.yoruba}/>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Terminology Note */}
+      <div className="eto-demo__note">
+        <span className="eto-demo__note-icon">ⓘ</span>
+        <div>
+          <span className="eto-demo__note-head">Terminology Note</span>
+          <p className="eto-demo__note-body">
+            The term <em>&#8220;Ètò Ilé Ifá-Òrìṣà — The Ifa-Orisa Integrated Ecosystem&#8221;</em> refers
+            specifically to the Twin Internetworks, the <strong>IFA Internet</strong> and the{' '}
+            <strong>ORISA Internet</strong> (both as a Set of Digital Platforms and the Physical
+            Space/Institution for Ifa-Orisa Sciences, Technologies, Engineering, Arts and Designs,
+            and Mathematics, Ifa-OrisaSTEAM, and related activities), not to be confused
+            with <em>&#8220;Ilé Ifá&#8221;</em> and <em>&#8220;Ilé Òrìṣà&#8221;</em>, which are
+            Homes for Custodians of the Ifa and Orisa Traditional Knowledge, the
+            Babalawo/Iyanifa and Olorisa respectively.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── COMPONENTS ─────────────────────────────────────────────────────────────── */
 
 function SiteHeader() {
@@ -289,6 +443,9 @@ function HeroSection() {
         <div className="hero__ctas">
           <a href="#enroll" className="btn btn--primary btn--lg">Enroll Now</a>
           <a href="#courses" className="btn btn--ghost btn--lg">Explore Courses</a>
+          <a href="https://toe.cenproject.org/ifa-polymathy-toe-polymathy/"
+             target="_blank" rel="noopener noreferrer"
+             className="btn btn--ghost btn--lg">Ifa Polymathy on TOE</a>
         </div>
       </div>
     </section>
@@ -410,6 +567,16 @@ function PolymathSection() {
           <p className="ifalaws__caption">
             <strong>FIGURE</strong> — These Meta Laws Are the General Tools of Ifa for Modeling Concepts, Phenomena, Laws, Principles, Theories, and Models in All Fields.
           </p>
+        </div>
+
+        <EtoIleDemo />
+
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <a href="https://toe.cenproject.org/ifa-polymathy-toe-polymathy/"
+             target="_blank" rel="noopener noreferrer"
+             className="btn btn--ghost btn--lg">
+            Explore Ifa Polymathy on TOE →
+          </a>
         </div>
       </div>
     </section>
@@ -869,6 +1036,34 @@ function EnrollSection() {
   );
 }
 
+function DisclaimerBanner() {
+  return (
+    <div className="disclaimer">
+      <div className="disclaimer__inner">
+        <div className="disclaimer__head">
+          <span className="disclaimer__pill disclaimer__pill--ifa">IFABOK</span>
+          <span className="disclaimer__pill disclaimer__pill--orisa">ORISABOK</span>
+          <span className="disclaimer__title">IFA Knowledge Disclaimer</span>
+        </div>
+        <p className="disclaimer__text">
+          Our IFABOK and ORISABOK Courses are created strictly for{' '}
+          <em>educational, research, entertainment, and technology development purposes</em>.
+          They are not designed or intended as a substitute for authentic Ifa-Orisa Knowledge,
+          Practice, or Tradition. The Study and Practice of Ifa-Orisa as a Babalawo/Iyanifa
+          and Olorisa requires direct initiation, mentorship, and transmission within the
+          living Ifa-Orisa Tradition — something no digital platform, comic, or game can
+          provide or replace.
+        </p>
+        <div className="disclaimer__gloss">
+          <span><strong>IFABOK</strong> — The IFA Body of Knowledge</span>
+          <span className="disclaimer__dot">·</span>
+          <span><strong>ORISABOK</strong> — The ORISA Body of Knowledge</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SiteFooter() {
   return (
     <footer className="site-footer">
@@ -881,6 +1076,7 @@ function SiteFooter() {
           <a href="/the-ifa-learn/">IfaLearn</a>
           <a href="../">IfaLMS</a>
           <a href="../../">IFA Internet</a>
+          <a href="https://toe.cenproject.org/ifa-polymathy-toe-polymathy/" target="_blank" rel="noopener noreferrer">Ifa Polymathy on TOE</a>
           <a href="https://cenproject.org" target="_blank" rel="noopener noreferrer">CENProject</a>
         </nav>
         <div className="site-footer__contact">
@@ -916,6 +1112,7 @@ function App() {
         <FounderSection />
         <EnrollSection />
       </main>
+      <DisclaimerBanner />
       <SiteFooter />
     </div>
   );

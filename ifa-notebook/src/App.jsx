@@ -39,10 +39,10 @@ const COMPONENTS = [
   {
     key: 'book',
     nameEn: 'IfaBook',
-    nameYo: 'Ìwéfá',
+    nameYo: 'ÌwéÌfá',
     icon: '📖',
     variant: 'book',
-    body: 'IfaBook (Ìwéfá) is the notebook storage, organisation, and publishing layer — where your knowledge lives, grows, and is shared with the world. IfaBook manages notebooks as plain-text files, enables reactive cell graphs (so changing one value updates all dependent outputs instantly), and integrates with the broader IFA Internet knowledge network — the IFABOK and the Theory of Everything (TOE).',
+    body: 'IfaBook (ÌwéÌfá) is the notebook storage, organisation, and publishing layer — where your knowledge lives, grows, and is shared with the world. IfaBook manages notebooks as plain-text files, enables reactive cell graphs (so changing one value updates all dependent outputs instantly), and integrates with the broader IFA Internet knowledge network — the IFABOK and the Theory of Everything (TOE). Dual Systems: the ORISA Body of Knowledge (ORISABOK) and the OrisaBook (ÌwéÒṣà).',
     demoText: 'IfaBook · Ìwéfá',
   },
 ];

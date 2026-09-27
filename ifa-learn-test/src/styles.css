@@ -13,6 +13,8 @@ body {
   color: var(--text-1);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ── Design Tokens ─────────────────────────────────────────────────────────── */
@@ -785,6 +787,278 @@ strong { color: var(--text-1); font-weight: 600; }
   width: 130px; height: 130px;
   background: radial-gradient(circle, color-mix(in srgb, var(--pt-color) 14%, transparent) 0%, transparent 70%);
   pointer-events: none;
+}
+
+/* ── Ètò Ilé Ifá-Òrìṣà Demo ──────────────────────────────────────────────── */
+.eto-demo {
+  margin-top: 60px;
+  border: 1px solid rgba(245,197,24,0.18);
+  border-radius: 16px;
+  background: rgba(6,10,18,0.7);
+  overflow: hidden;
+}
+.eto-demo__label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  background: rgba(245,197,24,0.05);
+  border-bottom: 1px solid rgba(245,197,24,0.12);
+}
+.eto-demo__label-sym {
+  font-size: 1.1rem;
+  color: #f5c518;
+}
+.eto-demo__label-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245,197,24,0.75);
+}
+.eto-demo__label-sub {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(20,184,212,0.7);
+  border: 1px solid rgba(20,184,212,0.22);
+  border-radius: 20px;
+  padding: 3px 10px;
+  white-space: nowrap;
+  position: relative;
+}
+.eto-demo__label-sub::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #14b8d4;
+  margin-right: 6px;
+  vertical-align: middle;
+  animation: etoDotPulse 1.8s ease-in-out infinite;
+}
+@keyframes etoDotPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+.eto-demo__body {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 0;
+}
+@media (max-width: 680px) {
+  .eto-demo__body { grid-template-columns: 1fr; }
+  .eto-demo__orbit-wrap {
+    border-right: none;
+    border-bottom: 1px solid rgba(245,197,24,0.08);
+    padding: 32px 20px;
+  }
+  .eto-demo__svg { max-width: 280px; }
+  .eto-demo__label { flex-wrap: wrap; gap: 8px; padding: 14px 20px; }
+  .eto-demo__label-sub { margin-left: 0; }
+}
+.eto-demo__orbit-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px;
+  border-right: 1px solid rgba(245,197,24,0.08);
+  background: rgba(4,8,15,0.5);
+}
+.eto-demo__svg {
+  width: 100%;
+  max-width: 240px;
+}
+@keyframes etoPulse {
+  0%   { r: 24; opacity: 0.5; }
+  100% { r: 34; opacity: 0; }
+}
+.eto-pulse-ring {
+  animation: etoPulse 1.4s ease-out infinite;
+}
+.eto-demo__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 20px 24px;
+}
+.eto-demo__card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s;
+  margin-bottom: 6px;
+}
+.eto-demo__card:hover {
+  background: color-mix(in srgb, var(--edc) 6%, transparent);
+  border-color: color-mix(in srgb, var(--edc) 22%, transparent);
+}
+.eto-demo__card--active {
+  background: color-mix(in srgb, var(--edc) 9%, rgba(6,10,18,0.9));
+  border-color: color-mix(in srgb, var(--edc) 30%, transparent);
+}
+.eto-demo__card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.eto-demo__card-sym {
+  font-size: 1.3rem;
+  color: var(--edc);
+  min-width: 24px;
+  line-height: 1;
+}
+.eto-demo__card-yo {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--edc);
+  line-height: 1.3;
+}
+.eto-demo__card-en {
+  font-size: 0.75rem;
+  color: rgba(238,243,255,0.45);
+  margin-top: 2px;
+}
+.eto-demo__card-desc {
+  font-size: 0.8rem;
+  color: rgba(238,243,255,0.65);
+  line-height: 1.7;
+  margin-top: 10px;
+  padding-left: 36px;
+  animation: fadeSlideIn 0.3s ease;
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.eto-demo__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(245,197,24,0.08);
+}
+.eto-demo__pause {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(245,197,24,0.55);
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border: 1px solid rgba(245,197,24,0.18);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.eto-demo__pause:hover,
+.eto-demo__pause--paused {
+  color: #f5c518;
+  border-color: rgba(245,197,24,0.45);
+}
+.eto-demo__dots {
+  display: flex;
+  gap: 7px;
+}
+.eto-demo__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+.eto-demo__dot--on {
+  background: var(--dc);
+  transform: scale(1.35);
+}
+.eto-demo__download {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(245,197,24,0.08);
+}
+.eto-demo__dl-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  background: linear-gradient(135deg, rgba(245,197,24,0.12) 0%, rgba(240,146,12,0.08) 100%);
+  border: 1px solid rgba(245,197,24,0.32);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #f5c518;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.22s, border-color 0.22s, transform 0.18s;
+}
+.eto-demo__dl-link:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(245,197,24,0.22) 0%, rgba(240,146,12,0.16) 100%);
+  border-color: rgba(245,197,24,0.56);
+  transform: translateY(-1px);
+}
+.eto-demo__dl-link--busy {
+  color: rgba(245,197,24,0.45);
+  border-color: rgba(245,197,24,0.18);
+  cursor: wait;
+  animation: etoDlPulse 1.2s ease-in-out infinite;
+}
+@keyframes etoDlPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+.eto-demo__dl-note {
+  font-size: 0.72rem;
+  color: var(--text-3);
+}
+.eto-demo__note {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 24px 18px;
+  border-top: 1px solid rgba(245,197,24,0.08);
+  background: rgba(245,197,24,0.02);
+}
+.eto-demo__note-icon {
+  font-size: 0.95rem;
+  color: rgba(245,197,24,0.4);
+  flex-shrink: 0;
+  line-height: 1.8;
+}
+.eto-demo__note-head {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245,197,24,0.5);
+  margin-bottom: 5px;
+}
+.eto-demo__note-body {
+  font-size: 0.71rem;
+  line-height: 1.72;
+  color: var(--text-2);
+  margin: 0;
+}
+.eto-demo__note-body em {
+  font-style: normal;
+  color: var(--text-1);
+  opacity: 0.72;
+}
+.eto-demo__note-body strong {
+  color: var(--text-1);
+  font-weight: 700;
 }
 
 /* ── Features ─────────────────────────────────────────────────────────────── */
@@ -1827,6 +2101,138 @@ strong { color: var(--text-1); font-weight: 600; }
   line-height: 1.8;
 }
 
+/* ── Thinking Playground Spotlight ───────────────────────────────────────── */
+.thinking-spotlight {
+  padding: 72px 0;
+  background: var(--bg-3);
+  position: relative;
+  overflow: hidden;
+}
+.thinking-spotlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 8% 50%, rgba(245,197,24,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 92% 50%, rgba(20,184,212,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.thinking-spotlight__inner {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 48px;
+  align-items: center;
+}
+/* mini STEAMSEX ring */
+.thinking-spotlight__ring {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+.thinking-spotlight__ring svg { width: 100%; height: 100%; }
+@keyframes tsp-orbit {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes tsp-counter {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+.tsp-orbit-group {
+  animation: tsp-orbit 22s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.tsp-letter {
+  animation: tsp-counter 22s linear infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+/* text + cta */
+.thinking-spotlight__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(245,197,24,0.3);
+  background: rgba(245,197,24,0.07);
+  border-radius: 3px;
+  padding: 4px 12px;
+  margin-bottom: 14px;
+}
+.thinking-spotlight__tag::before {
+  content: '◉';
+  font-size: 0.6rem;
+  animation: etoDotPulse 2s ease-in-out infinite;
+}
+.thinking-spotlight__title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.thinking-spotlight__subtitle {
+  font-size: 0.9rem;
+  color: var(--teal-lt);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-bottom: 14px;
+}
+.thinking-spotlight__body {
+  font-size: 0.96rem;
+  color: var(--text-2);
+  line-height: 1.8;
+  max-width: 580px;
+  margin-bottom: 28px;
+}
+.thinking-spotlight__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.thinking-spotlight__chip {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 3px;
+  border: 1px solid;
+  opacity: 0.85;
+}
+.thinking-spotlight__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 28px;
+  background: linear-gradient(135deg, rgba(245,197,24,0.18), rgba(20,184,212,0.12));
+  border: 1px solid rgba(245,197,24,0.45);
+  border-radius: 6px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.03em;
+  transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.2s;
+}
+.thinking-spotlight__cta:hover {
+  background: linear-gradient(135deg, rgba(245,197,24,0.28), rgba(20,184,212,0.2));
+  border-color: rgba(245,197,24,0.7);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.thinking-spotlight__cta-arrow {
+  transition: transform 0.2s;
+}
+.thinking-spotlight__cta:hover .thinking-spotlight__cta-arrow {
+  transform: translateX(4px);
+}
+
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
   .hero__layout { grid-template-columns: 1fr; }
@@ -1912,6 +2318,24 @@ strong { color: var(--text-1); font-weight: 600; }
   .footer__link   { padding: 4px 0; font-size: 0.88rem; }
 
   main { padding-bottom: 68px; }
+
+  /* Footer — lift bottom content above fixed mobile bar */
+  .footer { padding-bottom: calc(68px + 20px); }
+
+  /* Touch targets — 44px minimum for all interactive items */
+  .mobile-bar__item { min-height: 44px; }
+  .footer__link     { min-height: 44px; display: flex; align-items: center; }
+  .footer__links    { gap: 2px; }
+
+  /* Model pillars section — inline margin-top override */
+  .model-pillars-wrap .section__header { margin-top: 52px !important; }
+
+  /* Thinking spotlight — collapse to single column */
+  .thinking-spotlight          { padding: 56px 0; }
+  .thinking-spotlight__inner   { grid-template-columns: 1fr; gap: 32px; }
+  .thinking-spotlight__ring    { width: 200px; height: 200px; margin: 0 auto; }
+  .thinking-spotlight__title   { font-size: 1.7rem; }
+  .thinking-spotlight__body    { font-size: 0.92rem; }
 }
 
 @media (max-width: 480px) {
@@ -1985,6 +2409,33 @@ strong { color: var(--text-1); font-weight: 600; }
   /* Footer */
   .footer         { padding: 44px 0 24px; }
   .footer__tagline { font-size: 0.8rem; }
+
+  /* EtoIleDemo */
+  .eto-demo__info { padding: 16px 16px; }
+  .eto-demo__card-desc { padding-left: 20px; }
+  /* Download row — stack button above note text */
+  .eto-demo__download { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .eto-demo__dl-link  { width: 100%; justify-content: center; }
+
+  /* ODDN section spacing */
+  .oddn-network { padding: 22px 18px; margin-bottom: 48px; }
+  .oddn-math    { margin-bottom: 48px; }
+
+  /* Model pillars section */
+  .model-pillars-wrap .section__header { margin-top: 40px !important; }
+
+  /* CTA groups — stack on small screens */
+  .path-cta          { flex-direction: column; align-items: stretch; gap: 12px; }
+  .path-cta .btn     { justify-content: center; width: 100%; }
+  .hero__ctas        { gap: 10px; }
+
+  /* Thinking spotlight */
+  .thinking-spotlight          { padding: 48px 0; }
+  .thinking-spotlight__title   { font-size: 1.5rem; }
+  .thinking-spotlight__ring    { width: 170px; height: 170px; }
+  .thinking-spotlight__chips   { gap: 6px; }
+  .thinking-spotlight__chip    { font-size: 0.65rem; padding: 2px 8px; }
+  .thinking-spotlight__cta     { width: 100%; justify-content: center; padding: 14px 20px; }
 }
 
 @media (max-width: 360px) {
@@ -2014,4 +2465,86 @@ strong { color: var(--text-1); font-weight: 600; }
   .dual-laws-figure           { margin-top: 28px; }
   .dual-laws-figure__caption  { font-size: 0.78rem; }
   .dual-laws-figure__corner   { width: 14px; height: 14px; }
+
+  /* EtoIleDemo */
+  .eto-demo__info { padding: 12px 12px; }
+  .eto-demo__card-desc { padding-left: 0; }
+  .eto-demo__label-title { font-size: 0.68rem; }
+  .eto-demo__dl-note { font-size: 0.62rem; color: var(--text-3); }
+
+  /* Thinking spotlight */
+  .thinking-spotlight        { padding: 40px 0; }
+  .thinking-spotlight__ring  { width: 150px; height: 150px; }
+  .thinking-spotlight__title { font-size: 1.3rem; }
+
 }
+
+/* ── Reduced Motion (accessibility + mobile performance) ─────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── DISCLAIMER BANNER ───────────────────────────────────────────────────── */
+.disclaimer {
+  border-top: 1px solid rgba(240,146,12,0.14);
+  background: linear-gradient(135deg, rgba(240,146,12,0.045) 0%, rgba(4,8,15,0) 65%);
+  padding: 40px 20px;
+}
+.disclaimer__inner {
+  max-width: 860px;
+  margin: 0 auto;
+  border-left: 3px solid var(--amber);
+  padding-left: 22px;
+}
+.disclaimer__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.disclaimer__pill {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid;
+}
+.disclaimer__pill--ifa   { color: var(--amber);  border-color: rgba(240,146,12,0.4);  background: rgba(240,146,12,0.09); }
+.disclaimer__pill--orisa { color: var(--jade);   border-color: rgba(0,200,124,0.35);  background: rgba(0,200,124,0.07); }
+.disclaimer__title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-2);
+}
+.disclaimer__text {
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: var(--text-2);
+  margin: 0 0 14px;
+}
+.disclaimer__text em {
+  color: var(--text-1);
+  font-style: normal;
+  font-weight: 500;
+}
+.disclaimer__gloss {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 0.73rem;
+  color: var(--text-3);
+}
+.disclaimer__gloss strong { color: var(--amber-lt); font-weight: 700; }
+.disclaimer__dot { color: var(--text-3); font-size: 1rem; }

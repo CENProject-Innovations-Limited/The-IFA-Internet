@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Ifa-Orisa Thinking Playground"
+AuthUserFile /home/cenpeokc/ifainternet.org/the-ifa-learn/thinking/.htpasswd
+Require valid-user

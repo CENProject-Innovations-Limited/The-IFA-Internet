@@ -4,7 +4,7 @@
    toe.cenproject.org/the-ifa-learn/
 ───────────────────────────────────────────────────────────────────────────── */
 
-const { useState } = React;
+const { useState, useEffect } = React;
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -102,7 +102,7 @@ const MODEL_NAMES = [
   { label: 'Ifa Bilingual Learning System',         color: '#f5c518', desc: 'Highlights the bilingual instruction dimension — Yoruba and global language integration in every learning context.' },
   { label: 'Indigenous-African Learning Ecosystem', color: '#ec4899', desc: 'Situates the model within African indigenous epistemology and knowledge sovereignty frameworks.' },
   { label: 'Ifa Digital Pedagogy',                  color: '#14b8d4', desc: 'The digital-first, technology-powered expression of the Ifa educational philosophy on the IFA Internet.' },
-  { label: 'OrisaLearn (the Dual)',                 color: '#7c3aed', desc: "Learning needs in alignment with one\u2019s Or\u00ed (personal divinity). The complementary system \u2014 IfaLearn and OrisaLearn together form the complete Ifa-Orisa Learning Ecosystem." },
+  { label: 'OrisaLearn (the Dual)',                 color: '#7c3aed', desc: "Learning needs in alignment with one\u2019s Or\u00ed (personal divinity). The complementary system \u2014 IfaLearn and OrisaLearn together form the complete Ifa-Orisa Learning Ecosystem. IfaLearn is to the IFA Body of Knowledge (IFABOK) what OrisaLearn is to the Orisa Body of Knowledge (ORISABOK)." },
 ];
 
 const PILLARS = [
@@ -148,8 +148,337 @@ const PILLARS = [
     color: '#ec4899',
     body: 'Learning in the Ifa tradition is communal. IfaLearn builds networked learning communities through IfaHubs — where learners, mentors, elders, and scholars engage in collaborative inquiry, shared practice, and knowledge exchange across the full IFA Internet ecosystem.',
   },
+  {
+    num: '07',
+    sym: '⊕',
+    title: 'Ètò Ilé Ifá-Òrìṣà',
+    color: '#f5c518',
+    body: 'The Ifa-Orisa Ecosystem — the complete pedagogical home built on four pillars: Ẹ̀kọ́ Ifá/Òrìṣà (Ifá-Òrìṣà Learning & Education), Ìwàpẹ̀lẹ́ (Ethics & Morality), Iṣẹ́ Kíkọ́ (Skill Acquisition), and Ìwé Kíkà (Western/Global Literacy). Together they form the full spectrum of Ifa-centered education.',
+  },
 ];
 
+
+// ─── ÈTÒ ILÉ IFÁ-ÒRÌṢÀ DEMO ─────────────────────────────────────────────────
+
+const ETO_NODES = [
+  { yoruba: 'Ẹ̀kọ́ Ifá/Òrìṣà', eng: 'Ifá-Òrìṣà Learning/Education', color: '#14b8d4', sym: '◎',
+    desc: 'The foundational learning and educational dimension — transmitting the knowledge of Ifá and Òrìṣà through structured study, oral tradition, apprenticeship, and Ifa digital pedagogy.' },
+  { yoruba: 'Ìwàpẹ̀lẹ́', eng: 'Ethics and Morality', color: '#00c87c', sym: '⬡',
+    desc: 'Ìwàpẹ̀lẹ́ — gentle, good character — is the supreme Ifa virtue. Every dimension of the ecosystem is rooted in character formation: the learner becomes both knowledgeable and good.' },
+  { yoruba: 'Iṣẹ́ Kíkọ́', eng: 'Skill Acquisition', color: '#f0920c', sym: '⊛',
+    desc: 'The practical and vocational dimension — acquiring real-world skills, crafts, technologies, and competencies grounded in Ifa principles. Knowledge without application is incomplete.' },
+  { yoruba: 'Ìwé Kíkà', eng: 'Western/Global Literacy', color: '#8b5cf6', sym: '◈',
+    desc: 'Global and Western literacy — integrating formal academic knowledge, international standards, and global languages into the Ifa-Orisa educational ecosystem for full-spectrum formation.' },
+];
+
+function EtoIleDemo() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [recording, setRecording] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(() => setActive(a => (a + 1) % ETO_NODES.length), 2600);
+    return () => clearInterval(t);
+  }, [paused]);
+
+  function downloadAsVideo() {
+    if (recording) return;
+    setRecording(true);
+    setPaused(true);
+
+    const W = 580, H = 400;
+    const canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    const mimeType = MediaRecorder.isTypeSupported('video/mp4') ? 'video/mp4'
+      : MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9'
+      : 'video/webm';
+    const ext = mimeType.startsWith('video/mp4') ? 'mp4' : 'webm';
+
+    const stream = canvas.captureStream(30);
+    const recorder = new MediaRecorder(stream, { mimeType });
+    const chunks = [];
+    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: mimeType });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'Eto-Ile-Ifa-Orisa-Ecosystem.' + ext;
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(a.href); }, 1000);
+      setRecording(false); setPaused(false);
+    };
+
+    let startTime = null;
+    const NODE_DUR = 2800;
+    const TOTAL = ETO_NODES.length * NODE_DUR + 800;
+    const angles = [-90, 0, 90, 180];
+    const CX = 135, CY = 44 + (H - 44) / 2, R = 88;
+
+    function draw(ts) {
+      if (!startTime) startTime = ts;
+      const elapsed = ts - startTime;
+      const ni = Math.min(Math.floor(elapsed / NODE_DUR), ETO_NODES.length - 1);
+
+      // Background
+      ctx.fillStyle = '#04080f'; ctx.fillRect(0, 0, W, H);
+
+      // Label bar
+      ctx.fillStyle = 'rgba(245,197,24,0.05)'; ctx.fillRect(0, 0, W, 44);
+      ctx.strokeStyle = 'rgba(245,197,24,0.12)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, 44); ctx.lineTo(W, 44); ctx.stroke();
+      ctx.font = 'bold 10px "Segoe UI",sans-serif';
+      ctx.fillStyle = 'rgba(245,197,24,0.75)';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText('\u2295  \u00c8T\u00d2 IL\u00c9 IF\u00c1-\u00d2R\u00cc\u1e62\u00c0 \u2014 IFA-ORISA ECOSYSTEM', 20, 22);
+
+      // Orbit panel bg
+      ctx.fillStyle = 'rgba(4,8,15,0.5)'; ctx.fillRect(0, 44, 270, H - 44);
+      ctx.strokeStyle = 'rgba(245,197,24,0.08)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(270, 44); ctx.lineTo(270, H); ctx.stroke();
+
+      // Outer glow ring
+      ctx.strokeStyle = 'rgba(245,197,24,0.06)'; ctx.lineWidth = 12;
+      ctx.beginPath(); ctx.arc(CX, CY, R + 14, 0, Math.PI * 2); ctx.stroke();
+
+      // Dashed orbit track
+      ctx.strokeStyle = 'rgba(245,197,24,0.14)'; ctx.lineWidth = 1;
+      ctx.setLineDash([4, 7]);
+      ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Nodes + spokes
+      ETO_NODES.forEach((n, i) => {
+        const rad = angles[i] * Math.PI / 180;
+        const nx = CX + R * Math.cos(rad), ny = CY + R * Math.sin(rad);
+        const isAct = i === ni;
+        ctx.strokeStyle = isAct ? n.color : 'rgba(255,255,255,0.07)';
+        ctx.lineWidth = isAct ? 1.5 : 0.8;
+        ctx.setLineDash(isAct ? [] : [3, 6]);
+        ctx.beginPath(); ctx.moveTo(CX, CY); ctx.lineTo(nx, ny); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.beginPath(); ctx.arc(nx, ny, isAct ? 21 : 17, 0, Math.PI * 2);
+        ctx.fillStyle = isAct ? n.color + '33' : 'rgba(8,14,28,0.7)'; ctx.fill();
+        ctx.strokeStyle = n.color; ctx.lineWidth = isAct ? 2 : 1; ctx.stroke();
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.font = 'bold ' + (isAct ? 13 : 11) + 'px "Segoe UI",sans-serif';
+        ctx.fillStyle = n.color; ctx.fillText(n.sym, nx, ny - 3);
+        ctx.font = '400 5px "Segoe UI",sans-serif';
+        ctx.fillStyle = isAct ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.35)';
+        ctx.fillText(n.yoruba.split('/')[0].replace(/[()]/g, '').trim(), nx, ny + 9);
+      });
+
+      // Center hub
+      ctx.beginPath(); ctx.arc(CX, CY, 32, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(245,197,24,0.07)'; ctx.fill();
+      ctx.strokeStyle = '#f5c518'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.beginPath(); ctx.arc(CX, CY, 22, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(245,197,24,0.3)'; ctx.lineWidth = 0.8; ctx.stroke();
+      ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      ctx.font = 'bold 7px "Segoe UI",sans-serif'; ctx.fillStyle = '#f5c518';
+      ctx.fillText('\u00c8t\u00f2 Il\u00e9', CX, CY - 6);
+      ctx.font = '600 6px "Segoe UI",sans-serif';
+      ctx.fillText('If\u00e1-\u00d2r\u00ec\u1e63\u00e0', CX, CY + 4);
+      ctx.font = '400 5px "Segoe UI",sans-serif'; ctx.fillStyle = 'rgba(245,197,24,0.5)';
+      ctx.fillText('Ecosystem', CX, CY + 13);
+
+      // Info panel
+      const IX = 286, IW = W - IX - 12;
+      let cy = 54;
+      ETO_NODES.forEach((n, i) => {
+        const isAct = i === ni;
+        const ch = isAct ? 108 : 40;
+        if (isAct) {
+          ctx.fillStyle = n.color + '18';
+          ctx.strokeStyle = n.color + '55'; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.rect(IX, cy, IW, ch); ctx.fill(); ctx.stroke();
+        }
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        ctx.font = 'bold 15px "Segoe UI",sans-serif';
+        ctx.fillStyle = n.color; ctx.fillText(n.sym, IX + 8, cy + 10);
+        ctx.font = 'bold ' + (isAct ? 11 : 10) + 'px "Segoe UI",sans-serif';
+        ctx.fillStyle = n.color; ctx.fillText(n.yoruba, IX + 30, cy + 8);
+        ctx.font = '400 9px "Segoe UI",sans-serif';
+        ctx.fillStyle = 'rgba(238,243,255,0.45)';
+        ctx.fillText(n.eng, IX + 30, cy + 22);
+        if (isAct) {
+          ctx.font = '400 9.5px "Segoe UI",sans-serif';
+          ctx.fillStyle = 'rgba(238,243,255,0.65)';
+          const words = n.desc.split(' ');
+          let line = '', ly = cy + 46;
+          for (const w of words) {
+            const test = line + w + ' ';
+            if (ctx.measureText(test).width > IW - 16 && line) {
+              ctx.fillText(line.trim(), IX + 8, ly);
+              line = w + ' '; ly += 13;
+            } else { line = test; }
+          }
+          if (line.trim()) ctx.fillText(line.trim(), IX + 8, ly);
+        }
+        cy += ch + 5;
+      });
+
+      if (elapsed < TOTAL) {
+        requestAnimationFrame(draw);
+      } else {
+        recorder.stop();
+      }
+    }
+
+    recorder.start(100);
+    requestAnimationFrame(draw);
+  }
+
+  const R = 88;
+  const CX = 130, CY = 130;
+  const degToRad = d => d * Math.PI / 180;
+  const nodeAngles = [-90, 0, 90, 180];
+
+  return (
+    <div className="eto-demo">
+      <div className="eto-demo__label">
+        <span className="eto-demo__label-sym">⊕</span>
+        <span className="eto-demo__label-title">Ètò Ilé Ifá-Òrìṣà — The Ifa-Orisa Integrated Ecosystem</span>
+        <span className="eto-demo__label-sub">Interactive Ifa/Orisa Model</span>
+      </div>
+
+      <div className="eto-demo__body">
+        {/* Orbital SVG */}
+        <div className="eto-demo__orbit-wrap">
+          <svg className="eto-demo__svg" viewBox="0 0 260 260" aria-hidden="true">
+            {/* outer glow ring */}
+            <circle cx={CX} cy={CY} r={R + 14} fill="none"
+              stroke="rgba(245,197,24,0.06)" strokeWidth="12"/>
+            {/* orbit track */}
+            <circle cx={CX} cy={CY} r={R} fill="none"
+              stroke="rgba(245,197,24,0.14)" strokeWidth="1" strokeDasharray="4 7"/>
+            {/* spokes */}
+            {ETO_NODES.map((n, i) => {
+              const a = degToRad(nodeAngles[i]);
+              const nx = CX + R * Math.cos(a);
+              const ny = CY + R * Math.sin(a);
+              return (
+                <line key={i} x1={CX} y1={CY} x2={nx} y2={ny}
+                  stroke={active === i ? n.color : 'rgba(255,255,255,0.07)'}
+                  strokeWidth={active === i ? 1.5 : 0.8}
+                  strokeDasharray={active === i ? undefined : '3 6'}
+                  style={{ transition: 'stroke 0.4s, stroke-width 0.4s' }}/>
+              );
+            })}
+            {/* center hub */}
+            <circle cx={CX} cy={CY} r="32"
+              fill="rgba(245,197,24,0.07)" stroke="#f5c518" strokeWidth="1.5"/>
+            <circle cx={CX} cy={CY} r="22"
+              fill="rgba(245,197,24,0.04)" stroke="rgba(245,197,24,0.3)" strokeWidth="0.8"/>
+            <text x={CX} y={CY - 7} textAnchor="middle"
+              fill="#f5c518" fontSize="7.5" fontWeight="800" letterSpacing="0.04em">Ètò Ilé</text>
+            <text x={CX} y={CY + 4} textAnchor="middle"
+              fill="#f5c518" fontSize="6.5" fontWeight="600">Ifá-Òrìṣà</text>
+            <text x={CX} y={CY + 14} textAnchor="middle"
+              fill="rgba(245,197,24,0.5)" fontSize="5.5">Ecosystem</text>
+            {/* orbit nodes */}
+            {ETO_NODES.map((n, i) => {
+              const a = degToRad(nodeAngles[i]);
+              const nx = CX + R * Math.cos(a);
+              const ny = CY + R * Math.sin(a);
+              const isAct = active === i;
+              return (
+                <g key={i} style={{ cursor: 'pointer' }}
+                   onClick={() => { setActive(i); setPaused(true); }}>
+                  {isAct && (
+                    <circle cx={nx} cy={ny} r="28"
+                      fill="none" stroke={n.color} strokeWidth="0.6"
+                      opacity="0.4" className="eto-pulse-ring"/>
+                  )}
+                  <circle cx={nx} cy={ny} r={isAct ? 21 : 17}
+                    fill={isAct ? `${n.color}20` : 'rgba(8,14,28,0.7)'}
+                    stroke={n.color}
+                    strokeWidth={isAct ? 2 : 1}
+                    style={{ transition: 'r 0.35s, fill 0.35s, stroke-width 0.35s' }}/>
+                  <text x={nx} y={ny - 3} textAnchor="middle"
+                    fill={n.color} fontSize="11" fontWeight="700">{n.sym}</text>
+                  <text x={nx} y={ny + 9} textAnchor="middle"
+                    fill={isAct ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.35)'}
+                    fontSize="5" style={{ transition: 'fill 0.35s' }}>
+                    {n.yoruba.split('/')[0].replace(/[()]/g, '').trim()}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+
+        {/* Info panel */}
+        <div className="eto-demo__info">
+          {ETO_NODES.map((n, i) => (
+            <div key={i}
+              className={`eto-demo__card${active === i ? ' eto-demo__card--active' : ''}`}
+              style={{ '--edc': n.color }}
+              onClick={() => { setActive(i); setPaused(true); }}>
+              <div className="eto-demo__card-top">
+                <span className="eto-demo__card-sym">{n.sym}</span>
+                <div>
+                  <div className="eto-demo__card-yo">{n.yoruba}</div>
+                  <div className="eto-demo__card-en">{n.eng}</div>
+                </div>
+              </div>
+              {active === i && (
+                <p className="eto-demo__card-desc">{n.desc}</p>
+              )}
+            </div>
+          ))}
+
+          <div className="eto-demo__controls">
+            <button className={`eto-demo__pause${paused ? ' eto-demo__pause--paused' : ''}`}
+              onClick={() => setPaused(p => !p)}>
+              {paused ? '▶ Resume' : '⏸ Pause'}
+            </button>
+            <div className="eto-demo__dots">
+              {ETO_NODES.map((n, i) => (
+                <button key={i}
+                  className={`eto-demo__dot${active === i ? ' eto-demo__dot--on' : ''}`}
+                  style={{ '--dc': n.color }}
+                  onClick={() => { setActive(i); setPaused(true); }}
+                  aria-label={n.yoruba}/>
+              ))}
+            </div>
+          </div>
+
+          <div className="eto-demo__download">
+            <button
+              className={'eto-demo__dl-link' + (recording ? ' eto-demo__dl-link--busy' : '')}
+              onClick={downloadAsVideo}
+              disabled={recording}
+            >
+              {recording ? '⏺ Recording…' : '⬇ Download Video'}
+            </button>
+            <span className="eto-demo__dl-note">Download and share worldwide.</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Terminology Note */}
+      <div className="eto-demo__note">
+        <span className="eto-demo__note-icon">ⓘ</span>
+        <div>
+          <span className="eto-demo__note-head">Terminology Note</span>
+          <p className="eto-demo__note-body">
+            The term <em>&#8220;Ètò Ilé Ifá-Òrìṣà — The Ifa-Orisa Integrated Ecosystem&#8221;</em> refers
+            specifically to the Twin Internetworks, the <strong>IFA Internet</strong> and the{' '}
+            <strong>ORISA Internet</strong> (both as a Set of Digital Platforms and the Physical
+            Space/Institution for Ifa-Orisa Sciences, Technologies, Engineering, Arts and Designs,
+            and Mathematics, Ifa-OrisaSTEAM, and related activities), not to be confused
+            with <em>&#8220;Ilé Ifá&#8221;</em> and <em>&#8220;Ilé Òrìṣà&#8221;</em>, which are
+            Homes for Custodians of the Ifa and Orisa Traditional Knowledge, the
+            Babalawo/Iyanifa and Olorisa respectively.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ─── LEARNING ORB VISUAL ──────────────────────────────────────────────────────
 
@@ -196,6 +525,10 @@ function Header() {
           <a className="nav-link" href="#features">Platforms</a>
           <a className="nav-link" href="#ifacodemy">Ifacodemy</a>
           <a className="nav-link" href="#isise">Ìṣísẹ̀ Ifá</a>
+          <a className="nav-link" href="#thinking">Thinking</a>
+          <a className="nav-link"
+             href="https://toe.cenproject.org/ifa-polymathy-toe-polymathy/"
+             target="_blank" rel="noopener noreferrer">Ifa Polymathy</a>
           <a className="nav-link nav-link--cta"
              href="https://toe.cenproject.org/the-ifa-learn/"
              target="_blank" rel="noopener noreferrer">IfaLearn on TOE</a>
@@ -216,6 +549,8 @@ function MobileBar() {
     { sym: '◈',  label: 'Platforms', href: '#features' },
     { sym: '⬡',  label: 'Ifacodemy', href: '#ifacodemy' },
     { sym: '∿',  label: 'Ìṣísẹ̀',   href: '#isise' },
+    { sym: '◉',  label: 'Thinking',  href: '#thinking' },
+    { sym: '⊛',  label: 'Polymathy', href: 'https://toe.cenproject.org/ifa-polymathy-toe-polymathy/' },
   ];
   return (
     <nav className="mobile-bar" aria-label="Mobile navigation">
@@ -426,6 +761,7 @@ function ModelNamesSection() {
               </div>
             ))}
           </div>
+          <EtoIleDemo />
         </div>
       </div>
     </section>
@@ -998,9 +1334,123 @@ function PathSection() {
              className="btn btn--primary">
             Explore IfaLearn on TOE
           </a>
+          <a href="https://toe.cenproject.org/ifa-polymathy-toe-polymathy/"
+             target="_blank" rel="noopener noreferrer"
+             className="btn btn--ghost">
+            Ifa Polymathy on TOE
+          </a>
           <a href="../" className="btn btn--ghost" target="_blank" rel="noopener noreferrer">
             Back to IFA Internet
           </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── THINKING PLAYGROUND SPOTLIGHT ───────────────────────────────────────────
+
+const TSP_NODES = [
+  { l: 'S', color: '#f0920c', a: -90  },
+  { l: 'T', color: '#14b8d4', a: -45  },
+  { l: 'E', color: '#00c87c', a:   0  },
+  { l: 'A', color: '#ec4899', a:  45  },
+  { l: 'M', color: '#f5c518', a:  90  },
+  { l: 'S', color: '#8b5cf6', a: 135  },
+  { l: 'E', color: '#3b9eff', a: 180  },
+  { l: 'X', color: '#6366f1', a: 225  },
+];
+
+function ThinkingSpotlight() {
+  const CX = 110, CY = 110, R = 80;
+  const toR = d => d * Math.PI / 180;
+  return (
+    <section className="thinking-spotlight" id="thinking">
+      <div className="container">
+        <div className="thinking-spotlight__inner">
+
+          {/* Animated STEAMSEX ring */}
+          <div className="thinking-spotlight__ring" aria-hidden="true">
+            <svg viewBox="0 0 220 220">
+              {/* outer glow */}
+              <circle cx={CX} cy={CY} r={R + 18} fill="none"
+                stroke="rgba(245,197,24,0.05)" strokeWidth="16" />
+              {/* orbit track */}
+              <circle cx={CX} cy={CY} r={R} fill="none"
+                stroke="rgba(245,197,24,0.12)" strokeWidth="1" strokeDasharray="4 6" />
+              {/* rotating group */}
+              <g className="tsp-orbit-group">
+                {TSP_NODES.map((n, i) => {
+                  const nx = CX + R * Math.cos(toR(n.a));
+                  const ny = CY + R * Math.sin(toR(n.a));
+                  return (
+                    <g key={i}>
+                      <line x1={CX} y1={CY} x2={nx} y2={ny}
+                        stroke={n.color} strokeWidth="0.6" opacity="0.35" />
+                      <circle cx={nx} cy={ny} r="15"
+                        fill={n.color + '1a'} stroke={n.color} strokeWidth="1.2" />
+                      <text x={nx} y={ny} textAnchor="middle" dominantBaseline="central"
+                        fill={n.color} fontSize="11" fontWeight="800"
+                        className="tsp-letter">{n.l}</text>
+                    </g>
+                  );
+                })}
+              </g>
+              {/* center hub */}
+              <circle cx={CX} cy={CY} r="28"
+                fill="rgba(245,197,24,0.06)" stroke="#f5c518" strokeWidth="1.4" />
+              <circle cx={CX} cy={CY} r="19"
+                fill="none" stroke="rgba(245,197,24,0.25)" strokeWidth="0.7" />
+              <text x={CX} y={CY - 5} textAnchor="middle"
+                fill="#f5c518" fontSize="7.5" fontWeight="800">IfaThinking</text>
+              <text x={CX} y={CY + 6} textAnchor="middle"
+                fill="rgba(20,184,212,0.9)" fontSize="6" fontWeight="600">⟷ OrisaThinking</text>
+            </svg>
+          </div>
+
+          {/* Text block */}
+          <div className="thinking-spotlight__text">
+            <div className="thinking-spotlight__tag">New — Ifa-Orisa Thinking Playground</div>
+
+            <h2 className="thinking-spotlight__title">
+              IfaThinking &amp; <span style={{ color: '#14b8d4' }}>OrisaThinking</span>
+            </h2>
+            <div className="thinking-spotlight__subtitle">
+              IfaSense · OrisaSense
+            </div>
+
+            <p className="thinking-spotlight__body">
+              Computational thinking done in <strong>Ifa Language</strong> and{' '}
+              <strong>Orisa Language</strong> — powered by the STEAMSEX Ifagram, the 16 Ifa/Orisa Laws
+              of Nature (SIDECHRX), and the Ifa-Wilson Scheme. The Playground is where the modern
+              Onisese builds polymathic skills: thinking like a Scientist, Engineer, Artist, and
+              Mathematician all at once, through the lens of the 256 Odu Ifa.
+            </p>
+
+            <div className="thinking-spotlight__chips">
+              {[
+                ['STEAMSEX Ifagram', '#f5c518'],
+                ['SIDECHRX — 16 Laws', '#14b8d4'],
+                ['Ifa-Wilson Scheme', '#00c87c'],
+                ['IfaMetaphors', '#ec4899'],
+                ['OrisaMetaphors', '#8b5cf6'],
+                ['IfaSkills · OrisaSkills', '#f0920c'],
+              ].map(([label, color], i) => (
+                <span key={i} className="thinking-spotlight__chip"
+                  style={{ color, borderColor: color + '55', background: color + '11' }}>
+                  {label}
+                </span>
+              ))}
+            </div>
+
+            <a href="https://ifainternet.org/the-ifa-learn/thinking/"
+               target="_blank" rel="noopener noreferrer"
+               className="thinking-spotlight__cta">
+              Enter the Playground
+              <span className="thinking-spotlight__cta-arrow">→</span>
+            </a>
+          </div>
+
         </div>
       </div>
     </section>
@@ -1034,6 +1484,14 @@ function Footer() {
             <a href="#ifacodemy" className="footer__link">Ifacodemy</a>
             <a href="#isise" className="footer__link">Ìṣísẹ̀ Ifá</a>
             <a href="#dual" className="footer__link">OrisaLearn</a>
+            <a href="https://ifainternet.org/the-ifa-learn/thinking/"
+               className="footer__link" target="_blank" rel="noopener noreferrer">
+              IfaThinking Playground
+            </a>
+            <a href="https://toe.cenproject.org/ifa-polymathy-toe-polymathy/"
+               className="footer__link" target="_blank" rel="noopener noreferrer">
+              Ifa Polymathy on TOE
+            </a>
             <a href="/ifa-lms/ifa-academy/" className="footer__link">Ifa Academy</a>
             <a href="../" className="footer__link" target="_blank" rel="noopener noreferrer">IFA Internet</a>
           </nav>
@@ -1048,6 +1506,36 @@ function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+// ─── DISCLAIMER ───────────────────────────────────────────────────────────────
+
+function DisclaimerBanner() {
+  return (
+    <div className="disclaimer">
+      <div className="disclaimer__inner">
+        <div className="disclaimer__head">
+          <span className="disclaimer__pill disclaimer__pill--ifa">IFABOK</span>
+          <span className="disclaimer__pill disclaimer__pill--orisa">ORISABOK</span>
+          <span className="disclaimer__title">IFA Knowledge Disclaimer</span>
+        </div>
+        <p className="disclaimer__text">
+          Our IFABOK and ORISABOK Courses are created strictly for{' '}
+          <em>educational, research, entertainment, and technology development purposes</em>.
+          They are not designed or intended as a substitute for authentic Ifa-Orisa Knowledge,
+          Practice, or Tradition. The Study and Practice of Ifa-Orisa as a Babalawo/Iyanifa
+          and Olorisa requires direct initiation, mentorship, and transmission within the
+          living Ifa-Orisa Tradition — something no digital platform, comic, or game can
+          provide or replace.
+        </p>
+        <div className="disclaimer__gloss">
+          <span><strong>IFABOK</strong> — The IFA Body of Knowledge</span>
+          <span className="disclaimer__dot">·</span>
+          <span><strong>ORISABOK</strong> — The ORISA Body of Knowledge</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -1066,8 +1554,10 @@ function App() {
         <IfacodemySection />
         <IsiseSection />
         <DualSection />
+        <ThinkingSpotlight />
         <PathSection />
       </main>
+      <DisclaimerBanner />
       <Footer />
       <MobileBar />
     </>

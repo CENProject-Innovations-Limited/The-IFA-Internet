@@ -45,7 +45,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   gap: 10px;
   flex: 1;
   min-width: 0;
+  order: 1;
 }
+
+.env-topbar__right { order: 2; }
 
 .env-back-btn {
   font-size: 0.72rem;
@@ -95,10 +98,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 .env-topbar__center {
+  order: 3;
+  width: 100%;
   display: flex;
   gap: 5px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
 }
+.env-topbar__center::-webkit-scrollbar { display: none; }
 
 .env-topbar__right {
   display: flex;
@@ -823,6 +833,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ═══════════════════════════════════════════════════════════════════════════
    Responsive / Mobile
 ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Medium screens (≤1024px) — force add-button strip to its own row ──── */
+/* Topbar: row 1 → [sidebar · PRO · title · save]  [right controls]         */
+/*         row 2 → horizontally scrollable add-button strip                  */
+@media (max-width: 1024px) {
+  .env-topbar__left  { order: 1; flex: 1; min-width: 0; }
+  .env-topbar__right { order: 2; }
+  .env-topbar__center {
+    order: 3; width: 100%;
+    overflow-x: auto; flex-wrap: nowrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .env-topbar__center::-webkit-scrollbar { display: none; }
+}
 
 /* ── Tablet (≤768px) ───────────────────────────────────────────────────── */
 @media (max-width: 768px) {
