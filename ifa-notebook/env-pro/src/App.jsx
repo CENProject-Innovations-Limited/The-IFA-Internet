@@ -901,7 +901,12 @@ function serializeNotebook(cells, title) {
     version: 1,
     title,
     saved: new Date().toISOString(),
-    cells: cells.map(({ id, output, running, ...rest }) => rest),
+    cells: cells.map(({ id, running, output, ...rest }) => {
+      // Preserve output only when the URL is a persistent data: or http(s): URL.
+      // blob: URLs are ephemeral (session-only) and must not be saved.
+      const keepOutput = output && output.url && !output.url.startsWith('blob:') ? output : undefined;
+      return keepOutput ? { ...rest, output: keepOutput } : rest;
+    }),
   }, null, 2);
 }
 
@@ -974,7 +979,15 @@ function buildExportBody(cells, format = 'pdf') {
       return `${hdr}<pre style="background:#0a0e1a;color:#c8d8ee">${esc(c.input || '')}</pre>${mathRendered || mathErr}`;
     }
     if (c.type === 'schematics') return `${hdr}<pre>${esc(c.input || '')}</pre>`;
-    if (c.type === 'others')     return `${hdr}<p>${esc(c.input || '').replace(/\n/g, '<br>')}</p>`;
+    if (c.type === 'others') {
+      if (c.kind === 'todo' && c.todos && c.todos.length) {
+        const items = c.todos.map(t =>
+          `<li style="${t.done ? 'text-decoration:line-through;color:#888' : ''}">${esc(t.text || '')}</li>`
+        ).join('');
+        return `${hdr}<ul style="padding-left:20px">${items}</ul>`;
+      }
+      return `${hdr}<p>${esc(c.input || '').replace(/\n/g, '<br>')}</p>`;
+    }
     return `${hdr}<p>${esc(c.input || '')}</p>`;
   }).join('\n');
 }
@@ -1460,6 +1473,141 @@ function IfagramCanvas({ cell, onChange }) {
   );
 }
 
+/* ── Mammoth (DOCX renderer) ──────────────────────────────────────────────── */
+let _mammoth = null, _mammothPromise = null;
+function loadMammothOnce() {
+  if (_mammoth) return Promise.resolve(_mammoth);
+  if (_mammothPromise) return _mammothPromise;
+  _mammothPromise = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js';
+    s.onload  = () => { _mammoth = window.mammoth; resolve(window.mammoth); };
+    s.onerror = () => reject(new Error('Failed to load mammoth.js'));
+    document.head.appendChild(s);
+  });
+  return _mammothPromise;
+}
+
+function dataUrlToArrayBuffer(dataUrl) {
+  const base64 = dataUrl.substring(dataUrl.indexOf(',') + 1);
+  const binary = atob(base64);
+  const buf = new ArrayBuffer(binary.length);
+  const view = new Uint8Array(buf);
+  for (let i = 0; i < binary.length; i++) view[i] = binary.charCodeAt(i);
+  return buf;
+}
+
+function DocxViewer({ url, compact }) {
+  const [html, setHtml]   = React.useState(null);
+  const [err,  setErr]    = React.useState(null);
+  useEffect(() => {
+    if (!url) return;
+    setHtml(null); setErr(null);
+    loadMammothOnce()
+      .then(() => {
+        const buf = dataUrlToArrayBuffer(url);
+        return window.mammoth.convertToHtml({ arrayBuffer: buf });
+      })
+      .then(res => setHtml(res.value))
+      .catch(e  => setErr('Could not render document: ' + e.message));
+  }, [url]);
+  if (err)   return <div className="nb-doc-err">{err}</div>;
+  if (!html) return <div className="nb-doc-loading">⟳ Loading document…</div>;
+  return <div className={'nb-docx-body' + (compact ? ' nb-docx-body--compact' : '')}
+    dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
+function DocCard({ fileName, url, mediaType, dark }) {
+  const isPptx = mediaType === 'pptx';
+  function download() {
+    const a = document.createElement('a');
+    a.href = url; a.download = fileName || ('document.' + mediaType); a.click();
+  }
+  return (
+    <div className={'nb-doc-card' + (dark ? ' nb-doc-card--dark' : '')}>
+      <span className="nb-doc-card__icon">{isPptx ? '📊' : '📄'}</span>
+      <div className="nb-doc-card__info">
+        <span className="nb-doc-card__name">{fileName || (isPptx ? 'Presentation' : 'Document')}</span>
+        <span className="nb-doc-card__type">{isPptx ? 'PowerPoint Presentation' : 'Word Document'}</span>
+        {isPptx && <span className="nb-doc-card__note">Open in PowerPoint or Google Slides to view slides</span>}
+      </div>
+      <button className="nb-doc-card__dl" onClick={e => { e.stopPropagation(); download(); }}>⬇ Download</button>
+    </div>
+  );
+}
+
+/* ── PdfViewer — converts data: URL to blob: URL so iframes can render it ── */
+function PdfViewer({ url, className, title }) {
+  const [displayUrl, setDisplayUrl] = React.useState(null);
+  useEffect(() => {
+    if (!url) { setDisplayUrl(null); return; }
+    if (!url.startsWith('data:')) { setDisplayUrl(url); return; }
+    try {
+      const base64 = url.substring(url.indexOf(',') + 1);
+      const binary = atob(base64);
+      const bytes  = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      const blob   = new Blob([bytes], { type: 'application/pdf' });
+      const objUrl = URL.createObjectURL(blob);
+      setDisplayUrl(objUrl);
+      return () => URL.revokeObjectURL(objUrl);
+    } catch(e) { setDisplayUrl(url); }
+  }, [url]);
+  if (!displayUrl) return <div className="nb-doc-loading">⟳ Loading PDF…</div>;
+  return <iframe src={displayUrl} className={className || 'nb-media__pdf'} title={title || 'PDF'} />;
+}
+
+/* ── LinkReader — inline article/PDF/any-URL readable viewer ─────────────── */
+function LinkReader({ url, initEmbed, onToggleEmbed }) {
+  const [embed, setEmbed] = React.useState(!!initEmbed);
+  let domain = url;
+  try { domain = new URL(url).hostname.replace(/^www\./, ''); } catch(e) {}
+  const favicon = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(domain) + '&sz=32';
+  const displayUrl = url.length > 72 ? url.slice(0, 69) + '\u2026' : url;
+  function toggle(e) {
+    e.stopPropagation();
+    const next = !embed;
+    setEmbed(next);
+    if (onToggleEmbed) onToggleEmbed(next);
+  }
+  return (
+    <div className="nb-link-reader">
+      <div className="nb-link-reader__card">
+        <img className="nb-link-reader__favicon" src={favicon} alt=""
+          onError={e => { e.target.style.display = 'none'; }} />
+        <div className="nb-link-reader__meta">
+          <span className="nb-link-reader__domain">{domain}</span>
+          <span className="nb-link-reader__url" title={url}>{displayUrl}</span>
+        </div>
+        <div className="nb-link-reader__actions">
+          <button
+            className={'nb-link-reader__btn' + (embed ? ' nb-link-reader__btn--close' : ' nb-link-reader__btn--embed')}
+            onClick={toggle}>
+            {embed ? '\u229f Close' : '\u229e Read Inline'}
+          </button>
+          <a className="nb-link-reader__btn nb-link-reader__btn--open"
+            href={url} target="_blank" rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}>Open \u2197</a>
+        </div>
+      </div>
+      {embed && (
+        <div className="nb-link-reader__frame-wrap">
+          <iframe
+            src={url}
+            className="nb-link-reader__iframe"
+            title="Inline Reader"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation-by-user-activation"
+          />
+          <p className="nb-link-reader__note">
+            If this page appears blank, the site blocks inline embedding \u2014{' '}
+            <a href={url} target="_blank" rel="noopener noreferrer">open in new tab \u2197</a>
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ── MultimediaCell ───────────────────────────────────────────────────────── */
 function detectMediaType(url) {
   const u = (url || '').trim().toLowerCase();
@@ -1582,8 +1730,9 @@ function MultimediaCell({ cell, onChange }) {
         clearInterval(timerRef.current);
         setRecording(false);
         const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        const url  = URL.createObjectURL(blob);
-        onChange({ output: { ok: true, mediaType: 'audio', url } });
+        const reader = new FileReader();
+        reader.onload = e => onChange({ output: { ok: true, mediaType: 'audio', url: e.target.result } });
+        reader.readAsDataURL(blob);
       };
       recorder.start();
       setRecording(true);
@@ -1600,7 +1749,13 @@ function MultimediaCell({ cell, onChange }) {
     else if (file.type.startsWith('video/'))        mediaType = 'video';
     else if (file.type.startsWith('audio/'))        mediaType = 'audio';
     else if (file.type === 'application/pdf')       mediaType = 'pdf';
-    onChange({ output: { ok: true, mediaType, url: URL.createObjectURL(file), fileName: file.name } });
+    else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+             file.type === 'application/msword')    mediaType = 'docx';
+    else if (file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+             file.type === 'application/vnd.ms-powerpoint') mediaType = 'pptx';
+    const reader = new FileReader();
+    reader.onload = e => onChange({ output: { ok: true, mediaType, url: e.target.result, fileName: file.name } });
+    reader.readAsDataURL(file);
   }
 
   function fmtTime(s) {
@@ -1650,9 +1805,9 @@ function MultimediaCell({ cell, onChange }) {
           onClick={e => { e.stopPropagation(); document.getElementById('nb-file-' + cell.id)?.click(); }}>
           <span className="nb-media__drop-icon">📁</span>
           <span className="nb-media__drop-text">Click or drag & drop a file</span>
-          <span className="nb-media__drop-sub">Image · Video · Audio · PDF</span>
+          <span className="nb-media__drop-sub">Image · Video · Audio · PDF · Word · PPT</span>
           <input id={'nb-file-' + cell.id} type="file"
-            accept="image/*,video/*,audio/*,application/pdf"
+            accept="image/*,video/*,audio/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint"
             style={{ display: 'none' }}
             onChange={e => { handleFile(e.target.files[0]); e.target.value = ''; }}
             onClick={e => e.stopPropagation()} />
@@ -1714,8 +1869,9 @@ function MultimediaCell({ cell, onChange }) {
           {mt === 'image'   && <img src={cell.output.url} alt={cell.output.fileName || 'media'} loading="lazy" />}
           {mt === 'video'   && <video src={cell.output.url} controls />}
           {mt === 'audio'   && <audio src={cell.output.url} controls style={{ width: '100%' }} />}
-          {mt === 'pdf'     && <iframe src={cell.output.url} title={cell.output.fileName || 'PDF'}
-                                 className="nb-media__pdf" />}
+          {mt === 'pdf'  && <PdfViewer url={cell.output.url} title={cell.output.fileName || 'PDF'} className="nb-media__pdf" />}
+          {mt === 'docx' && <DocxViewer url={cell.output.url} />}
+          {mt === 'pptx' && <DocCard fileName={cell.output.fileName} url={cell.output.url} mediaType="pptx" />}
           {mt === 'youtube' && (
             <iframe src={`https://www.youtube.com/embed/${youtubeId(cell.output.url)}`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -1731,12 +1887,11 @@ function MultimediaCell({ cell, onChange }) {
               loading="lazy" title="Spotify" className="nb-media__spotify" />
           )}
           {mt === 'link' && (
-            <div className="nb-media__link-card">
-              <span className="nb-media__link-icon">🔗</span>
-              <a className="nb-media__link-url" href={cell.output.url} target="_blank" rel="noopener noreferrer">
-                {cell.output.url}
-              </a>
-            </div>
+            <LinkReader
+              url={cell.output.url}
+              initEmbed={!!cell.linkEmbed}
+              onToggleEmbed={v => onChange({ linkEmbed: v })}
+            />
           )}
           {cell.output.fileName && (
             <p className="nb-media__file-name">{cell.output.fileName}</p>
@@ -1758,7 +1913,46 @@ function OthersCell({ cell, onChange }) {
         <option value="note">📝 Note</option>
         <option value="bookmark">🔖 Bookmark</option>
         <option value="quote">💬 Quote</option>
+        <option value="todo">☑ To-Do List</option>
       </select>
+
+      {kind === 'todo' && (
+        <div className="nb-others__todo">
+          {(cell.todos || []).map((item, i) => (
+            <div key={i} className="nb-others__todo-item">
+              <input type="checkbox" className="nb-others__todo-check"
+                checked={!!item.done}
+                onChange={e => {
+                  e.stopPropagation();
+                  const todos = [...(cell.todos || [])];
+                  todos[i] = { ...todos[i], done: e.target.checked };
+                  onChange({ todos });
+                }}
+                onClick={e => e.stopPropagation()} />
+              <input className={`nb-others__todo-text${item.done ? ' nb-others__todo-text--done' : ''}`}
+                value={item.text || ''}
+                onChange={e => {
+                  const todos = [...(cell.todos || [])];
+                  todos[i] = { ...todos[i], text: e.target.value };
+                  onChange({ todos });
+                }}
+                onClick={e => e.stopPropagation()}
+                placeholder="Task…" />
+              <button className="nb-others__todo-del"
+                onClick={e => {
+                  e.stopPropagation();
+                  onChange({ todos: (cell.todos || []).filter((_, j) => j !== i) });
+                }}
+                title="Remove task">×</button>
+            </div>
+          ))}
+          <button className="nb-others__todo-add"
+            onClick={e => {
+              e.stopPropagation();
+              onChange({ todos: [...(cell.todos || []), { text: '', done: false }] });
+            }}>＋ Add task</button>
+        </div>
+      )}
 
       {kind === 'note' && (
         <textarea className="nb-others__textarea"
@@ -2252,9 +2446,7 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
   const baseFont     = cell.type === 'text' ? (cell.font || DEFAULT_TEXT_FONT) : null;
   const textFont     = isOdu
     ? "'Aebajiogbe Oduduwa', 'Noto Sans', sans-serif"
-    : cell.type === 'text'
-      ? `'Aebajiogbe Oduduwa', ${baseFont}`
-      : baseFont;
+    : baseFont;
 
   function insertAtCursor(ch) {
     const el = textareaRef.current;
@@ -2334,6 +2526,7 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
               <option value="note">📝 Note</option>
               <option value="bookmark">🔖 Bookmark</option>
               <option value="quote">💬 Quote</option>
+              <option value="todo">☑ To-Do List</option>
             </select>
           )}
 
@@ -2812,57 +3005,192 @@ function NotebookSidebar({ notebooks, activeId, onSelect, onCreate, onRename, on
 }
 
 /* ── PresentationMode ─────────────────────────────────────────────────────── */
+const PRESENT_TYPE_LABEL = {
+  odu: 'Odu Ifa', text: 'Text', code: 'Code', math: 'Math',
+  schematics: 'Diagram', art: 'Ifagram', multimedia: 'Media',
+  ai: 'AI', others: 'Note',
+};
+
 function PresentationMode({ cells, title, onExit }) {
   const [idx, setIdx] = useState(0);
   const cell = cells[idx];
+  const progress = cells.length > 1 ? ((idx + 1) / cells.length) * 100 : 100;
 
   useEffect(() => {
     function onKey(e) {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') setIdx(i => Math.min(i + 1, cells.length - 1));
-      if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   setIdx(i => Math.max(i - 1, 0));
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+        e.preventDefault();
+        setIdx(i => Math.min(i + 1, cells.length - 1));
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        setIdx(i => Math.max(i - 1, 0));
+      }
       if (e.key === 'Escape') onExit();
     }
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [cells.length, onExit]);
 
+  function renderOduMarks(marks, color) {
+    return (
+      <div className="pro-present-odu__col">
+        {marks.map((m, i) => (
+          <div key={i}
+            className={'pro-present-odu__mark' + (m === 1 ? ' pro-present-odu__mark--single' : ' pro-present-odu__mark--double')}
+            style={{ color }}>
+            <span className="pro-present-odu__bar" />
+            {m === 0 && <span className="pro-present-odu__bar" />}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   function renderCellContent(c) {
     if (!c) return null;
+
     if (c.type === 'odu') {
       const r = codeToOdu(c.right), l = codeToOdu(c.left);
       return (
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '2rem', marginBottom: 12 }}>
-            {l ? l.name : '?'} · {r ? r.name : '?'}
+        <div className="pro-present-odu">
+          <div className="pro-present-odu__figures">
+            <div className="pro-present-odu__figure">
+              {renderOduMarks(c.left, l ? l.color : '#a78bfa')}
+              <div className="pro-present-odu__figname" style={{ color: l ? l.color : '#a78bfa' }}>
+                {l ? l.name : '?'}
+              </div>
+            </div>
+            <div className="pro-present-odu__sep">✦</div>
+            <div className="pro-present-odu__figure">
+              {renderOduMarks(c.right, r ? r.color : '#f0920c')}
+              <div className="pro-present-odu__figname" style={{ color: r ? r.color : '#f0920c' }}>
+                {r ? r.name : '?'}
+              </div>
+            </div>
           </div>
-          {c.oduName && <div style={{ color: '#f0920c', fontSize: '1.1rem' }}>{c.oduName}</div>}
-          {r && l && <div style={{ color: '#6e90b8', fontSize: '0.85rem', marginTop: 8 }}>
-            #{r.num}–{l.num}{r.num === l.num ? ' · Méjì ✦' : ''}
-            {c.oduTopic ? ' · ' + c.oduTopic : ''}
-          </div>}
+          {c.oduName && (
+            <div style={{ color: '#f0920c', fontSize: '1.15rem', fontWeight: 700, marginTop: 4 }}>{c.oduName}</div>
+          )}
+          {r && l && (
+            <div style={{ color: '#4a5570', fontSize: '0.82rem', marginTop: 6 }}>
+              #{r.num}–{l.num}{r.num === l.num ? ' · Méjì ✦' : ''}
+              {c.oduTopic ? ' · ' + c.oduTopic : ''}
+            </div>
+          )}
         </div>
       );
     }
+
     if (c.type === 'text') {
-      const html = renderTextMarkdown(c.input || '', c.scriptMode === 'aebajiogbe');
-      return <div className="pro-present-cell__text" dangerouslySetInnerHTML={{ __html: html }} />;
-    }
-    if (c.type === 'code') {
+      const isAebajiogbe = c.scriptMode === 'aebajiogbe';
+      const font = isAebajiogbe
+        ? "'Aebajiogbe Oduduwa', 'Noto Sans', sans-serif"
+        : (c.font || DEFAULT_TEXT_FONT);
+      const html = renderTextMarkdown(c.input || '', isAebajiogbe);
       return (
-        <>
-          <pre className="pro-present-cell__code">{c.input || ''}</pre>
-          {c.output && c.output.lines && c.output.lines.length > 0 && (
-            <div className="pro-present-cell__output">{c.output.lines.join('\n')}</div>
-          )}
-        </>
+        <div className="pro-present-cell__text" style={{ fontFamily: font }}
+          dangerouslySetInnerHTML={{ __html: html }} />
       );
     }
+
+    if (c.type === 'multimedia') {
+      const mt  = c.output ? c.output.mediaType : null;
+      const url = c.output ? c.output.url : null;
+      if (!url) return <div style={{ color: '#2a3a55', fontStyle: 'italic' }}>No media attached</div>;
+      if (mt === 'docx') return (
+        <div className="pro-present-media pro-present-media--doc">
+          <div className="pro-present-doc-label">📄 {c.output.fileName || 'Word Document'}</div>
+          <div className="pro-present-docx-wrap">
+            <DocxViewer url={url} compact={false} />
+          </div>
+        </div>
+      );
+      if (mt === 'pptx') return (
+        <div className="pro-present-media">
+          <DocCard fileName={c.output.fileName} url={url} mediaType="pptx" dark />
+        </div>
+      );
+      return (
+        <div className="pro-present-media">
+          {mt === 'image' && (
+            <img src={url} alt={c.output.fileName || 'media'} className="pro-present-media__img" />
+          )}
+          {mt === 'video' && (
+            <video src={url} controls className="pro-present-media__video" />
+          )}
+          {mt === 'audio' && (
+            <audio src={url} controls className="pro-present-media__audio" />
+          )}
+          {mt === 'youtube' && (
+            <iframe
+              src={`https://www.youtube.com/embed/${youtubeId(url)}?rel=0`}
+              className="pro-present-media__iframe"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen title="YouTube video" />
+          )}
+          {mt === 'vimeo' && (
+            <iframe
+              src={`https://player.vimeo.com/video/${vimeoId(url)}`}
+              className="pro-present-media__iframe"
+              allow="autoplay; fullscreen; picture-in-picture" allowFullScreen title="Vimeo video" />
+          )}
+          {mt === 'spotify' && (
+            <iframe src={spotifyEmbedUrl(url)}
+              className="pro-present-media__spotify"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              title="Spotify" />
+          )}
+          {mt === 'pdf' && (
+            <PdfViewer url={url} className="pro-present-media__iframe" title={c.output.fileName || 'PDF'} />
+          )}
+          {mt === 'link' && (
+            <LinkReader url={url} initEmbed={!!c.linkEmbed} />
+          )}
+          {c.output.fileName && (
+            <p className="pro-present-media__filename">{c.output.fileName}</p>
+          )}
+        </div>
+      );
+    }
+
+    if (c.type === 'code') {
+      const hasOutput = c.output && Array.isArray(c.output.lines);
+      const isErr = hasOutput && c.output.ok === false;
+      return (
+        <div className="pro-present-code-wrap">
+          <div className="pro-present-code-label">
+            <span className="pro-present-code-lang">{(c.lang || 'js').toUpperCase()}</span>
+            <span>Code</span>
+          </div>
+          <pre className="pro-present-cell__code">{c.input || ''}</pre>
+          {hasOutput && (
+            <>
+              <div className={'pro-present-output-label' + (isErr ? ' pro-present-output-label--err' : '')}>
+                {isErr ? '✕ Error' : '▶ Output'}
+              </div>
+              <div className={'pro-present-cell__output' + (isErr ? ' pro-present-cell__output--err' : '')}>
+                {c.output.lines.length === 0
+                  ? <span className="pro-present-out-empty">✓ Ran — no output</span>
+                  : c.output.lines.map((line, i) => (
+                      <div key={i}>{line || '\u00A0'}</div>
+                    ))
+                }
+              </div>
+            </>
+          )}
+        </div>
+      );
+    }
+
     if (c.type === 'math') {
       if (c.output && c.output.html) {
-        return <div style={{ fontSize: '1.4rem' }} dangerouslySetInnerHTML={{ __html: c.output.html }} />;
+        return <div style={{ fontSize: '1.6rem', textAlign: 'center' }}
+          dangerouslySetInnerHTML={{ __html: c.output.html }} />;
       }
       return <pre className="pro-present-cell__code">{c.input || ''}</pre>;
     }
+
     if (c.type === 'schematics') {
       if (c.output && c.output.svg) {
         return <div dangerouslySetInnerHTML={{ __html: c.output.svg }}
@@ -2870,43 +3198,88 @@ function PresentationMode({ cells, title, onExit }) {
       }
       return <pre className="pro-present-cell__code">{c.input || ''}</pre>;
     }
+
     if (c.type === 'art' && c.canvasData) {
-      return <img src={c.canvasData} alt="Ifagram" style={{ maxWidth: '100%', borderRadius: 8 }} />;
+      return <img src={c.canvasData} alt="Ifagram"
+        style={{ maxWidth: '100%', maxHeight: '60vh', borderRadius: 8, objectFit: 'contain' }} />;
     }
+
     if (c.type === 'ai') {
       return (
         <>
-          {c.aiPrompt && <div style={{ color:'#6e90b8', marginBottom:12, fontStyle:'italic' }}>"{c.aiPrompt}"</div>}
-          {c.output && c.output.text && <div className="pro-present-cell__text">{c.output.text}</div>}
+          {c.aiPrompt && (
+            <div style={{ color: '#6e90b8', marginBottom: 12, fontStyle: 'italic' }}>"{c.aiPrompt}"</div>
+          )}
+          {c.output && c.output.text && (
+            <div className="pro-present-cell__text">{c.output.text}</div>
+          )}
         </>
       );
     }
+
     if (c.input) return <div className="pro-present-cell__text">{c.input}</div>;
     return <div style={{ color: '#2a3a55', fontStyle: 'italic' }}>Empty cell</div>;
   }
 
   return (
     <div className="pro-present-overlay" role="dialog" aria-label="Presentation mode">
+      {/* Progress bar */}
+      <div className="pro-present-progress">
+        <div className="pro-present-progress__bar" style={{ width: progress + '%' }} />
+      </div>
+
+      {/* Top bar */}
       <div className="pro-present-topbar">
         <span className="pro-present-title">📽 {title}</span>
         <span className="pro-present-counter">{idx + 1} / {cells.length}</span>
-        <button className="pro-present-exit" onClick={onExit}>✕ Exit  <kbd style={{fontSize:'0.6rem',opacity:0.6}}>Esc</kbd></button>
+        <button className="pro-present-exit" onClick={onExit}>
+          ✕ Exit <kbd style={{ fontSize: '0.6rem', opacity: 0.6 }}>Esc</kbd>
+        </button>
       </div>
-      <div className="pro-present-body">
-        <div className="pro-present-cell">
-          <div className="pro-present-cell__type">{cell ? cell.type.toUpperCase() : ''} — Cell {idx + 1}</div>
+
+      {/* Body */}
+      <div className="pro-present-body"
+        onClick={e => {
+          const x = e.clientX / window.innerWidth;
+          if (x < 0.3) setIdx(i => Math.max(i - 1, 0));
+          else if (x > 0.7) setIdx(i => Math.min(i + 1, cells.length - 1));
+        }}>
+
+        {/* Side arrows */}
+        {idx > 0 && (
+          <button className="pro-present-arrow pro-present-arrow--left"
+            onClick={e => { e.stopPropagation(); setIdx(i => Math.max(i - 1, 0)); }}
+            aria-label="Previous">‹</button>
+        )}
+        {idx < cells.length - 1 && (
+          <button className="pro-present-arrow pro-present-arrow--right"
+            onClick={e => { e.stopPropagation(); setIdx(i => Math.min(i + 1, cells.length - 1)); }}
+            aria-label="Next">›</button>
+        )}
+
+        <div className="pro-present-cell" onClick={e => e.stopPropagation()}>
+          <div className="pro-present-cell__type">
+            {PRESENT_TYPE_LABEL[cell?.type] || (cell?.type?.toUpperCase() || '')}
+          </div>
           {renderCellContent(cell)}
         </div>
       </div>
+
+      {/* Bottom nav */}
       <div className="pro-present-nav">
-        <button className="pro-present-nav-btn" onClick={() => setIdx(i => Math.max(i-1,0))} disabled={idx===0}>← Prev</button>
+        <button className="pro-present-nav-btn"
+          onClick={() => setIdx(i => Math.max(i - 1, 0))}
+          disabled={idx === 0}>← Prev</button>
         <div className="pro-present-dots">
           {cells.map((_, i) => (
-            <button key={i} className={'pro-present-dot' + (i===idx?' pro-present-dot--active':'')}
-              onClick={() => setIdx(i)} aria-label={`Slide ${i+1}`} />
+            <button key={i}
+              className={'pro-present-dot' + (i === idx ? ' pro-present-dot--active' : '')}
+              onClick={() => setIdx(i)} aria-label={`Slide ${i + 1}`} />
           ))}
         </div>
-        <button className="pro-present-nav-btn" onClick={() => setIdx(i => Math.min(i+1,cells.length-1))} disabled={idx===cells.length-1}>Next →</button>
+        <button className="pro-present-nav-btn"
+          onClick={() => setIdx(i => Math.min(i + 1, cells.length - 1))}
+          disabled={idx === cells.length - 1}>Next →</button>
       </div>
     </div>
   );
@@ -3539,7 +3912,7 @@ function App() {
       // Art: bump clearKey so IfagramCanvas remounts with a blank canvas
       if (c.type === 'art') return { ...c, canvasData: null, output: null, clearKey: (c.clearKey || 0) + 1 };
       // Others: wipe all text fields
-      if (c.type === 'others') return { ...c, input: '', bookmarkTitle: '', bookmarkUrl: '', output: null };
+      if (c.type === 'others') return { ...c, input: '', bookmarkTitle: '', bookmarkUrl: '', todos: [], output: null };
       // AI: clear prompt and response
       if (c.type === 'ai') return { ...c, aiPrompt: '', output: null };
       // Everything else: clear input + output

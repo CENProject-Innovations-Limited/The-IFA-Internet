@@ -403,6 +403,102 @@ const STEAMSEX_MATRIX = [
   { letter:'X', domain:'Cross-Disciplinary', color:'#f43f5e', odu1:'Òsé',       odu2:'Òfún',     sub:'Innovation & Universal Meta-Sequences' },
 ];
 
+/* ── Unicode BiDi control characters ─────────────────────────────────────── */
+const BIDI_CHARS = [
+  { sym: '\u200E', code: 'LRM',  label: 'LRM',  title: 'Left-to-Right Mark — invisible LTR directional mark',      color: '#3b9eff' },
+  { sym: '\u200F', code: 'RLM',  label: 'RLM',  title: 'Right-to-Left Mark — invisible RTL directional mark',      color: '#a78bfa' },
+  { sym: '\u202A', code: 'LRE',  label: 'LRE',  title: 'LTR Embedding — begin left-to-right embedded text',        color: '#3b9eff' },
+  { sym: '\u202B', code: 'RLE',  label: 'RLE',  title: 'RTL Embedding — begin right-to-left embedded text',        color: '#a78bfa' },
+  { sym: '\u202C', code: 'PDF',  label: 'PDF',  title: 'Pop Directional Formatting — end embedding or override',   color: '#6e90b8' },
+  { sym: '\u202D', code: 'LRO',  label: 'LRO',  title: 'LTR Override — force every char to display left-to-right', color: '#00c87c' },
+  { sym: '\u202E', code: 'RLO',  label: 'RLO',  title: 'RTL Override — force every char to display right-to-left', color: '#f43f5e' },
+  { sym: '\u2066', code: 'LRI',  label: 'LRI',  title: 'LTR Isolate — isolates LTR content from surrounding text', color: '#3b9eff' },
+  { sym: '\u2067', code: 'RLI',  label: 'RLI',  title: 'RTL Isolate — isolates RTL content from surrounding text', color: '#a78bfa' },
+  { sym: '\u2068', code: 'FSI',  label: 'FSI',  title: 'First Strong Isolate — auto-detects direction from first strong character', color: '#f5c518' },
+  { sym: '\u2069', code: 'PDI',  label: 'PDI',  title: 'Pop Directional Isolate — closes LRI, RLI, or FSI',       color: '#6e90b8' },
+  { sym: '\u061C', code: 'ALM',  label: 'ALM',  title: 'Arabic Letter Mark — invisible mark for Arabic/RTL layout', color: '#f0920c' },
+];
+
+/* ── World Scripts — direction reference + insertion palette ──────────────── */
+const WORLD_SCRIPTS = [
+  { name:'Latin',       sample:'Abc',   dir:'ltr', color:'#3b9eff', desc:'Latin — English, French, Yoruba, Spanish…' },
+  { name:'Arabic',      sample:'عربي',  dir:'rtl', color:'#f0920c', desc:'Arabic script (RTL)' },
+  { name:'Hebrew',      sample:'עברית', dir:'rtl', color:'#a78bfa', desc:'Hebrew script (RTL)' },
+  { name:'Persian',     sample:'فارسی', dir:'rtl', color:'#fb7185', desc:'Persian/Farsi script (RTL)' },
+  { name:'Urdu',        sample:'اردو',  dir:'rtl', color:'#fbbf24', desc:'Urdu script (RTL)' },
+  { name:"N'Ko",        sample:'ߊߋ',   dir:'rtl', color:'#c084fc', desc:"N'Ko script (RTL) — West Africa" },
+  { name:'Thaana',      sample:'ތާނަ', dir:'rtl', color:'#38bdf8', desc:'Thaana script (RTL) — Maldivian Dhivehi' },
+  { name:'Devanagari',  sample:'अ आ',  dir:'ltr', color:'#00c87c', desc:'Devanagari (LTR) — Hindi, Sanskrit, Marathi' },
+  { name:'Chinese',     sample:'中文',  dir:'ltr', color:'#f5c518', desc:'Chinese script (LTR)' },
+  { name:'Japanese',    sample:'あア漢', dir:'ltr', color:'#14b8d4', desc:'Japanese (LTR)' },
+  { name:'Korean',      sample:'한글',  dir:'ltr', color:'#ec4899', desc:'Korean Hangul (LTR)' },
+  { name:'Greek',       sample:'αβγ',  dir:'ltr', color:'#84cc16', desc:'Greek script (LTR)' },
+  { name:'Cyrillic',    sample:'Аб',   dir:'ltr', color:'#f472b6', desc:'Cyrillic (LTR) — Russian, Ukrainian…' },
+  { name:'Georgian',    sample:'ქართ', dir:'ltr', color:'#fb923c', desc:'Georgian script (LTR)' },
+  { name:'Armenian',    sample:'Ա ա',  dir:'ltr', color:'#a3e635', desc:'Armenian script (LTR)' },
+  { name:'Ethiopian',   sample:'አ ሀ',  dir:'ltr', color:'#34d399', desc:'Ethiopic — Amharic, Tigrinya (LTR)' },
+  { name:'Thai',        sample:'ก ข',  dir:'ltr', color:'#fde68a', desc:'Thai script (LTR)' },
+  { name:'Aebajiogbe',  sample:'\u0634\u062b', dir:'rtl', color:'#f5c518', desc:'Aebajiogbe-Oduduwa Script (RTL)' },
+];
+
+/* ── Ifa-OrisaField — Knowledge fields palette ────────────────────────────── */
+const ORISA_KNOWLEDGE_FIELDS = [
+  { name:'Physics',           sym:'⚛', color:'#3b9eff', cat:'Sciences' },
+  { name:'Chemistry',         sym:'⚗', color:'#00c87c', cat:'Sciences' },
+  { name:'Biology',           sym:'⬡', color:'#84cc16', cat:'Sciences' },
+  { name:'Mathematics',       sym:'∑', color:'#f5c518', cat:'Sciences' },
+  { name:'Astronomy',         sym:'✦', color:'#a78bfa', cat:'Sciences' },
+  { name:'Computer Science',  sym:'⌥', color:'#14b8d4', cat:'Sciences' },
+  { name:'Earth Science',     sym:'◎', color:'#34d399', cat:'Sciences' },
+  { name:'Neuroscience',      sym:'⌾', color:'#fb7185', cat:'Sciences' },
+  { name:'Economics',         sym:'⊛', color:'#f0920c', cat:'Social Sciences' },
+  { name:'Sociology',         sym:'◈', color:'#ec4899', cat:'Social Sciences' },
+  { name:'Psychology',        sym:'Ψ', color:'#8b5cf6', cat:'Social Sciences' },
+  { name:'Anthropology',      sym:'⌬', color:'#fbbf24', cat:'Social Sciences' },
+  { name:'Political Science', sym:'⊕', color:'#38bdf8', cat:'Social Sciences' },
+  { name:'History',           sym:'↺', color:'#c084fc', cat:'Social Sciences' },
+  { name:'Philosophy',        sym:'∞', color:'#f5c518', cat:'Humanities' },
+  { name:'Literature',        sym:'✦', color:'#f472b6', cat:'Humanities' },
+  { name:'Linguistics',       sym:'λ', color:'#34d399', cat:'Humanities' },
+  { name:'Arts',              sym:'◑', color:'#fb923c', cat:'Humanities' },
+  { name:'Music',             sym:'♩', color:'#e879f9', cat:'Humanities' },
+  { name:'Theology',          sym:'☽', color:'#fde68a', cat:'Humanities' },
+  { name:'Ebology',           sym:'Ẹ', color:'#f0920c', cat:'Ifa Sciences' },
+  { name:'IfaLang',           sym:'λ', color:'#3b9eff', cat:'Ifa Sciences' },
+  { name:'IfaComputing',      sym:'⊕', color:'#14b8d4', cat:'Ifa Sciences' },
+  { name:'IfaGebra',          sym:'∿', color:'#a78bfa', cat:'Ifa Sciences' },
+  { name:'IfaAnalysis',       sym:'∂', color:'#00c87c', cat:'Ifa Sciences' },
+  { name:'IfaArchitecture',   sym:'⬡', color:'#f5c518', cat:'Ifa Sciences' },
+  { name:'IfaCalendar',       sym:'◎', color:'#f472b6', cat:'Ifa Sciences' },
+];
+
+/* ── Ifa-OrisaLang — Languages palette ────────────────────────────────────── */
+const ORISA_LANGUAGES = [
+  { name:'English',    code:'en',   dir:'ltr', color:'#3b9eff', cat:'Natural' },
+  { name:'French',     code:'fr',   dir:'ltr', color:'#14b8d4', cat:'Natural' },
+  { name:'Spanish',    code:'es',   dir:'ltr', color:'#00c87c', cat:'Natural' },
+  { name:'Yoruba',     code:'yo',   dir:'ltr', color:'#f0920c', cat:'Natural' },
+  { name:'Igbo',       code:'ig',   dir:'ltr', color:'#84cc16', cat:'Natural' },
+  { name:'Hausa',      code:'ha',   dir:'ltr', color:'#fbbf24', cat:'Natural' },
+  { name:'Swahili',    code:'sw',   dir:'ltr', color:'#34d399', cat:'Natural' },
+  { name:'Chinese',    code:'zh',   dir:'ltr', color:'#f5c518', cat:'Natural' },
+  { name:'Japanese',   code:'ja',   dir:'ltr', color:'#ec4899', cat:'Natural' },
+  { name:'Korean',     code:'ko',   dir:'ltr', color:'#fb7185', cat:'Natural' },
+  { name:'Hindi',      code:'hi',   dir:'ltr', color:'#c084fc', cat:'Natural' },
+  { name:'Arabic',     code:'ar',   dir:'rtl', color:'#f0920c', cat:'Natural' },
+  { name:'Hebrew',     code:'he',   dir:'rtl', color:'#a78bfa', cat:'Natural' },
+  { name:'Persian',    code:'fa',   dir:'rtl', color:'#fb7185', cat:'Natural' },
+  { name:'Urdu',       code:'ur',   dir:'rtl', color:'#fbbf24', cat:'Natural' },
+  { name:"N'Ko",       code:'nqo',  dir:'rtl', color:'#c084fc', cat:'Natural' },
+  { name:'Python',     code:'py',   dir:'ltr', color:'#3b9eff', cat:'Artificial' },
+  { name:'JavaScript', code:'js',   dir:'ltr', color:'#f5c518', cat:'Artificial' },
+  { name:'Rust',       code:'rs',   dir:'ltr', color:'#f0920c', cat:'Artificial' },
+  { name:'C++',        code:'cpp',  dir:'ltr', color:'#00c87c', cat:'Artificial' },
+  { name:'SQL',        code:'sql',  dir:'ltr', color:'#14b8d4', cat:'Artificial' },
+  { name:'Lisp',       code:'lisp', dir:'ltr', color:'#a78bfa', cat:'Artificial' },
+  { name:'Go',         code:'go',   dir:'ltr', color:'#38bdf8', cat:'Artificial' },
+];
+
 /* ── Circuit notation symbols ─────────────────────────────────────────────── */
 const CIRCUIT_SYMS = [
   { sym:'─',   title:'Wire (horizontal)' },
@@ -573,7 +669,8 @@ function countText(el) {
 /* ── Main IfaEditor component ─────────────────────────────────────────────── */
 function IfaEditor() {
   const [penMode, setPenMode]         = useState('ogbe');
-  const [sections, setSections]       = useState({ odu: true, signs: false, aeb: false, yoruba: false, principles: false, circuit: false, construction: false });
+  const [sections, setSections]       = useState({ odu: true, signs: false, aeb: false, yoruba: false, principles: false, circuit: false, construction: false, bidi: false, orisaField: false, orisaLang: false });
+  const [canvasDir, setCanvasDir]     = useState('rtl');
   const [circuitTab, setCircuitTab]   = useState('classical');
   const [principlesTab, setPrinciplesTab] = useState('sidechrx');
   const [textColor, setTextColor]     = useState('#f0f5ff');
@@ -738,6 +835,62 @@ function IfaEditor() {
     insertHTML(html);
     setCircuitName('');
   }, [circuitName, insertHTML]);
+
+  /* ── Wrap current selection (or insert cursor marker) in a directional span ─
+     dir: 'ltr' | 'rtl' | 'auto' | 'isolate' (bdi)                            */
+  const wrapDir = useCallback((dir) => {
+    canvasRef.current?.focus();
+    const sel = window.getSelection();
+    if (!sel || !sel.rangeCount) return;
+    const range = sel.getRangeAt(0);
+    if (range.collapsed) {
+      // Nothing selected — insert a zero-width space in a directional context
+      // so the next keystrokes adopt the chosen direction
+      const html = dir === 'isolate'
+        ? `<bdi>&#8203;</bdi>&#8203;`
+        : `<span dir="${dir}" style="unicode-bidi:isolate">&#8203;</span>&#8203;`;
+      document.execCommand('insertHTML', false, html);
+      return;
+    }
+    // Clone selected content as serialised HTML, then re-insert wrapped
+    const frag = range.cloneContents();
+    const tmp  = document.createElement('div');
+    tmp.appendChild(frag);
+    const inner = tmp.innerHTML;
+    const html = dir === 'isolate'
+      ? `<bdi>${inner}</bdi>&#8203;`
+      : `<span dir="${dir}" style="unicode-bidi:isolate">${inner}</span>&#8203;`;
+    document.execCommand('insertHTML', false, html);
+    handleInput();
+  }, [handleInput]);
+
+  /* ── Insert a Unicode BiDi control character ─────────────────────────────── */
+  const insertBiDiChar = useCallback((sym) => {
+    canvasRef.current?.focus();
+    document.execCommand('insertText', false, sym);
+  }, []);
+
+  /* ── Insert a world-script directional span at cursor ────────────────────── */
+  const insertScriptSpan = useCallback((script) => {
+    const dir  = script.dir;
+    const html = `<span dir="${dir}" style="unicode-bidi:isolate" title="IfaFlow — ${script.name} (${dir.toUpperCase()})">&#8203;</span>&#8203;`;
+    canvasRef.current?.focus();
+    document.execCommand('insertHTML', false, html);
+  }, []);
+
+  /* ── Insert a field-of-knowledge annotation label at cursor ─────────────── */
+  const insertFieldLabel = useCallback((field) => {
+    const html = `<span data-orisa-field="${field.name}" style="color:${field.color};font-weight:700;font-size:0.8em;border:1px solid ${field.color}55;border-radius:4px;padding:1px 5px;background:${field.color}12" title="Ifa-OrisaField — ${field.name}">${field.sym} ${field.name}</span>&#8203;`;
+    canvasRef.current?.focus();
+    document.execCommand('insertHTML', false, html);
+  }, []);
+
+  /* ── Insert a language-tagged span at cursor ──────────────────────────────── */
+  const insertLangSpan = useCallback((lang) => {
+    const html = `<span lang="${lang.code}" dir="${lang.dir}" style="unicode-bidi:isolate" title="Ifa-OrisaLang — ${lang.name} (${lang.code.toUpperCase()})">&#8203;</span>&#8203;`;
+    canvasRef.current?.focus();
+    document.execCommand('insertHTML', false, html);
+  }, []);
 
   /* ── Insert a gate box from the IfaCircuit Builder palette ──────────────── */
   const insertGateBox = useCallback((gate, tabType) => {
@@ -941,8 +1094,8 @@ function IfaEditor() {
             </div>
           </SidebarSection>
 
-          {/* IfaPrinciples */}
-          <SidebarSection title="IfaPrinciples" open={sections.principles} onToggle={() => toggleSection('principles')}>
+          {/* Ifa-Orisa Principles */}
+          <SidebarSection title="Ifa-Orisa Principles" open={sections.principles} onToggle={() => toggleSection('principles')}>
 
             {/* Tab switcher */}
             <div style={{ display:'flex', gap:'4px', marginBottom:'10px' }}>
@@ -1035,6 +1188,97 @@ function IfaEditor() {
                 ))}
               </div>
             )}
+
+
+          {/* ── Ifa-OrisaField subsection ──────────────────────────────────── */}
+          <SidebarSection title="Ifa-OrisaField — Language-Agnostic Field" open={sections.orisaField} onToggle={() => toggleSection('orisaField')}>
+
+            <div style={{ fontSize:'0.52rem', color:'#2e4460', letterSpacing:'0.07em', marginBottom:'12px', lineHeight:1.6 }}>
+              Study or express any field of knowledge — sciences and non-sciences — based on Odu Ifa-Orisa Principles. Click to insert a field annotation at cursor.
+            </div>
+
+            {[
+              { cat:'Sciences',       color:'#3b9eff' },
+              { cat:'Social Sciences',color:'#ec4899' },
+              { cat:'Humanities',     color:'#f5c518' },
+              { cat:'Ifa Sciences',   color:'#f0920c' },
+            ].map(({ cat, color }) => (
+              <div key={cat} style={{ marginBottom:'10px' }}>
+                <div style={{ fontSize:'0.55rem', fontWeight:700, letterSpacing:'0.08em', color, marginBottom:'5px', textTransform:'uppercase' }}>
+                  {cat}
+                </div>
+                <div style={{ display:'flex', flexWrap:'wrap', gap:'4px' }}>
+                  {ORISA_KNOWLEDGE_FIELDS.filter(f => f.cat === cat).map((f, i) => (
+                    <button key={i}
+                      title={`Ifa-OrisaField: ${f.name}\nClick to insert field annotation`}
+                      onMouseDown={e => { e.preventDefault(); insertFieldLabel(f); }}
+                      style={{
+                        display:'inline-flex', alignItems:'center', gap:'4px',
+                        padding:'3px 7px', borderRadius:'6px', fontSize:'0.58rem', fontWeight:600,
+                        border:`1px solid ${f.color}44`, background:`${f.color}0d`,
+                        color:f.color, cursor:'pointer', letterSpacing:'0.02em',
+                        transition:'background 0.12s',
+                      }}>
+                      <span style={{ fontSize:'0.7rem' }}>{f.sym}</span>
+                      {f.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+          </SidebarSection>
+
+          {/* ── Ifa-OrisaLang subsection ───────────────────────────────────── */}
+          <SidebarSection title="Ifa-OrisaLang — Knowledge-Agnostic Language" open={sections.orisaLang} onToggle={() => toggleSection('orisaLang')}>
+
+            <div style={{ fontSize:'0.52rem', color:'#2e4460', letterSpacing:'0.07em', marginBottom:'12px', lineHeight:1.6 }}>
+              Study or express any language — natural or artificial — based on Odu Ifa-Orisa Principles. Click to open a language-tagged span at cursor, then type in that language.
+            </div>
+
+            {[
+              { cat:'Natural',    color:'#00c87c' },
+              { cat:'Artificial', color:'#14b8d4' },
+            ].map(({ cat, color }) => (
+              <div key={cat} style={{ marginBottom:'10px' }}>
+                <div style={{ fontSize:'0.55rem', fontWeight:700, letterSpacing:'0.08em', color, marginBottom:'5px', textTransform:'uppercase' }}>
+                  {cat}
+                </div>
+                <div style={{ display:'flex', flexDirection:'column', gap:'3px' }}>
+                  {ORISA_LANGUAGES.filter(l => l.cat === cat).map((l, i) => (
+                    <button key={i}
+                      title={`Ifa-OrisaLang: ${l.name} (${l.code.toUpperCase()}) — ${l.dir.toUpperCase()}\nClick to insert language span`}
+                      onMouseDown={e => { e.preventDefault(); insertLangSpan(l); }}
+                      style={{
+                        display:'flex', alignItems:'center', gap:'7px',
+                        padding:'4px 8px', borderRadius:'7px', textAlign:'left',
+                        border:`1px solid ${l.color}22`, background:`${l.color}08`,
+                        cursor:'pointer', transition:'background 0.12s',
+                      }}>
+                      <span style={{
+                        fontSize:'0.48rem', fontWeight:700, letterSpacing:'0.05em',
+                        padding:'1px 4px', borderRadius:'4px', flexShrink:0,
+                        background: l.dir === 'rtl' ? 'rgba(167,139,250,0.16)' : 'rgba(59,158,255,0.16)',
+                        color:       l.dir === 'rtl' ? '#a78bfa' : '#3b9eff',
+                        fontFamily:'monospace',
+                      }}>{l.dir.toUpperCase()}</span>
+                      <span style={{
+                        fontSize:'0.5rem', fontWeight:700, letterSpacing:'0.06em',
+                        padding:'1px 5px', borderRadius:'4px',
+                        background:`${l.color}18`, color:l.color,
+                        flexShrink:0, fontFamily:'monospace',
+                      }}>{l.code.toUpperCase()}</span>
+                      <span style={{ color:'#4a6080', fontSize:'0.6rem', flex:1,
+                        overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+                        {l.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+          </SidebarSection>
 
           </SidebarSection>
 
@@ -1348,6 +1592,140 @@ function IfaEditor() {
 
           </SidebarSection>
 
+          {/* ── IfaBiDi — Bidirectional Script ───────────────────────────── */}
+          <SidebarSection title="IfaBiDi — Bidirectional Script" open={sections.bidi} onToggle={() => toggleSection('bidi')}>
+
+            {/* Eyebrow */}
+            <div style={{ fontSize:'0.52rem', color:'#2e4460', letterSpacing:'0.07em', marginBottom:'10px', lineHeight:1.55 }}>
+              Write any script in any direction. Canvas direction can be changed in the toolbar.
+            </div>
+
+            {/* ── Canvas direction quick-set ───────────────────────────────── */}
+            <div style={{ marginBottom:'13px' }}>
+              <div style={{ fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.08em', color:'#3b9eff', marginBottom:'7px' }}>
+                IfaFlow — Canvas Direction
+              </div>
+              <div style={{ display:'flex', gap:'4px' }}>
+                {[
+                  { dir:'ltr',  label:'← LTR',    color:'#3b9eff', tip:'Ogbe Direction — Left to Right' },
+                  { dir:'auto', label:'↕ Auto',    color:'#f5c518', tip:'Natural — browser detects from first character' },
+                  { dir:'rtl',  label:'RTL →',     color:'#a78bfa', tip:'Oyeku Direction — Right to Left' },
+                ].map(d => (
+                  <button key={d.dir}
+                    onMouseDown={e => { e.preventDefault(); setCanvasDir(d.dir); canvasRef.current?.focus(); }}
+                    title={d.tip}
+                    style={{
+                      flex:1, padding:'5px 0', fontSize:'0.6rem', fontWeight:700, borderRadius:'7px',
+                      border:`1px solid ${canvasDir === d.dir ? d.color + '66' : 'rgba(255,255,255,0.07)'}`,
+                      background: canvasDir === d.dir ? d.color + '1a' : 'transparent',
+                      color: canvasDir === d.dir ? d.color : '#3a5070',
+                      cursor:'pointer', transition:'all 0.15s', letterSpacing:'0.04em',
+                    }}>
+                    {d.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Inline direction wrap ────────────────────────────────────── */}
+            <div style={{ marginBottom:'13px' }}>
+              <div style={{ fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.08em', color:'#00c87c', marginBottom:'4px' }}>
+                Wrap Selection
+              </div>
+              <div style={{ fontSize:'0.52rem', color:'#2e4460', letterSpacing:'0.05em', marginBottom:'7px' }}>
+                Select text, then click to override its direction
+              </div>
+              <div style={{ display:'flex', gap:'4px' }}>
+                {[
+                  { dir:'ltr',     label:'⇐ LTR',  color:'#3b9eff', tip:'Force selection Left-to-Right (Ogbe Flow)' },
+                  { dir:'rtl',     label:'RTL ⇒',  color:'#a78bfa', tip:'Force selection Right-to-Left (Oyeku Flow)' },
+                  { dir:'isolate', label:'⟺ iso',  color:'#00c87c', tip:'BiDi Isolate — directional island, prevents bleed' },
+                ].map(d => (
+                  <button key={d.dir}
+                    onMouseDown={e => { e.preventDefault(); wrapDir(d.dir); }}
+                    title={d.tip}
+                    style={{
+                      flex:1, padding:'5px 0', fontSize:'0.6rem', fontWeight:700, borderRadius:'7px',
+                      border:`1px solid ${d.color}44`,
+                      background:`${d.color}0d`,
+                      color:d.color, cursor:'pointer', letterSpacing:'0.03em',
+                      transition:'background 0.12s',
+                    }}>
+                    {d.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Unicode BiDi control characters ─────────────────────────── */}
+            <div style={{ marginBottom:'13px' }}>
+              <div style={{ fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.08em', color:'#f5c518', marginBottom:'4px' }}>
+                Unicode BiDi Controls
+              </div>
+              <div style={{ fontSize:'0.52rem', color:'#2e4460', letterSpacing:'0.05em', marginBottom:'7px' }}>
+                Invisible control characters — click to insert at cursor
+              </div>
+              <div style={{ display:'flex', flexWrap:'wrap', gap:'4px' }}>
+                {BIDI_CHARS.map((b, i) => (
+                  <button key={i}
+                    title={b.title}
+                    onMouseDown={e => { e.preventDefault(); insertBiDiChar(b.sym); }}
+                    style={{
+                      padding:'4px 7px', borderRadius:'6px', fontSize:'0.6rem', fontWeight:700,
+                      border:`1px solid ${b.color}44`, background:`${b.color}0d`,
+                      color:b.color, cursor:'pointer', letterSpacing:'0.04em',
+                      fontFamily:'monospace', transition:'background 0.12s',
+                    }}>
+                    {b.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ── World scripts palette ────────────────────────────────────── */}
+            <div>
+              <div style={{ fontSize:'0.6rem', fontWeight:700, letterSpacing:'0.08em', color:'#ec4899', marginBottom:'4px' }}>
+                World Scripts
+              </div>
+              <div style={{ fontSize:'0.52rem', color:'#2e4460', letterSpacing:'0.05em', marginBottom:'8px' }}>
+                Click to open a directional span at cursor — then type in that script
+              </div>
+              <div style={{ display:'flex', flexDirection:'column', gap:'3px' }}>
+                {WORLD_SCRIPTS.map((s, i) => (
+                  <button key={i}
+                    title={`${s.desc}\nClick to insert a ${s.dir.toUpperCase()} span at cursor`}
+                    onMouseDown={e => { e.preventDefault(); insertScriptSpan(s); }}
+                    style={{
+                      display:'flex', alignItems:'center', gap:'8px',
+                      padding:'5px 8px', borderRadius:'7px', textAlign:'left',
+                      border:`1px solid ${s.color}22`, background:`${s.color}08`,
+                      cursor:'pointer', transition:'background 0.12s',
+                    }}>
+                    {/* Direction badge */}
+                    <span style={{
+                      fontSize:'0.5rem', fontWeight:700, letterSpacing:'0.06em',
+                      padding:'1px 5px', borderRadius:'4px',
+                      background: s.dir === 'rtl' ? 'rgba(167,139,250,0.16)' : 'rgba(59,158,255,0.16)',
+                      color:       s.dir === 'rtl' ? '#a78bfa' : '#3b9eff',
+                      flexShrink:0, fontFamily:'monospace',
+                    }}>{s.dir.toUpperCase()}</span>
+                    {/* Script sample */}
+                    <span style={{
+                      color:s.color, fontSize:'0.88rem', fontWeight:700,
+                      dir:s.dir, minWidth:'42px', textAlign: s.dir === 'rtl' ? 'right' : 'left',
+                    }}>{s.sample}</span>
+                    {/* Name */}
+                    <span style={{ color:'#4a6080', fontSize:'0.6rem', flex:1,
+                      overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+                      {s.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+          </SidebarSection>
+
         </aside>
 
         {/* ── Main editor ─────────────────────────────────────────────────── */}
@@ -1436,6 +1814,37 @@ function IfaEditor() {
 
             <span className="toolbar-sep" />
 
+            {/* ── IfaFlow — BiDi canvas direction ──────────────────────────── */}
+            <div className="tb-dir-group" title="IfaFlow — Canvas writing direction">
+              <button
+                className={`tb-dir-btn${canvasDir === 'ltr' ? ' tb-dir-btn--active tb-dir-btn--ltr' : ''}`}
+                title="IfaFlow LTR — Ogbe Direction: text flows left → right (Latin, Yoruba, Devanagari…)"
+                onMouseDown={e => { e.preventDefault(); setCanvasDir('ltr'); canvasRef.current?.focus(); }}
+              >← LTR</button>
+              <button
+                className={`tb-dir-btn${canvasDir === 'auto' ? ' tb-dir-btn--active tb-dir-btn--auto' : ''}`}
+                title="IfaFlow Auto — Natural direction: browser detects from first strong character"
+                onMouseDown={e => { e.preventDefault(); setCanvasDir('auto'); canvasRef.current?.focus(); }}
+              >↕ Auto</button>
+              <button
+                className={`tb-dir-btn${canvasDir === 'rtl' ? ' tb-dir-btn--active tb-dir-btn--rtl' : ''}`}
+                title="IfaFlow RTL — Oyeku Direction: text flows right → left (Arabic, Hebrew, Aebajiogbe…)"
+                onMouseDown={e => { e.preventDefault(); setCanvasDir('rtl'); canvasRef.current?.focus(); }}
+              >RTL →</button>
+            </div>
+
+            <span className="toolbar-sep" />
+
+            {/* ── Inline direction wrap — applies to selection ─────────────── */}
+            <TbBtn title="Wrap selection LTR — force selected text left-to-right (Ogbe Flow)"
+                   onClick={() => wrapDir('ltr')}>⇐ ltr</TbBtn>
+            <TbBtn title="Wrap selection RTL — force selected text right-to-left (Oyeku Flow)"
+                   onClick={() => wrapDir('rtl')}>rtl ⇒</TbBtn>
+            <TbBtn title="BiDi Isolate — wrap selection in a directional island (prevents direction bleed)"
+                   onClick={() => wrapDir('isolate')}>⟺ iso</TbBtn>
+
+            <span className="toolbar-sep" />
+
             {/* Odù Palette toggle — mobile only */}
             <TbBtn title="Odù Palette" wide
                    active={sidebarOpen}
@@ -1460,7 +1869,7 @@ function IfaEditor() {
               contentEditable
               suppressContentEditableWarning
               data-placeholder={mode.placeholder}
-              dir="rtl"
+              dir={canvasDir}
               spellCheck
               onInput={handleInput}
               aria-label="IfaEditor writing canvas"
@@ -1483,6 +1892,14 @@ function IfaEditor() {
             <div className="statusbar__counts">
               <span><b>{counts.words}</b> words</span>
               <span><b>{counts.chars}</b> chars</span>
+            </div>
+            <div className="statusbar__dir" title="IfaFlow — canvas writing direction (change in toolbar)">
+              <span className={`statusbar__dir-dot statusbar__dir-dot--${canvasDir}`} />
+              <span className="statusbar__dir-label">
+                {canvasDir === 'ltr'  && '← LTR · Ogbe Flow'}
+                {canvasDir === 'rtl'  && 'RTL → · Oyeku Flow'}
+                {canvasDir === 'auto' && '↕ Auto · Natural Flow'}
+              </span>
             </div>
             <div className="statusbar__tip">
               Click any IfaCharacter or IfaSign to insert at cursor

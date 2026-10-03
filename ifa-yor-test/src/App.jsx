@@ -631,6 +631,48 @@ function DefinitionSection() {
   );
 }
 
+// ─── IFA HISTORY BRIDGE ──────────────────────────────────────────────────────
+
+function IfaHistBridgeSection() {
+  return (
+    <section className="twin-bridge" aria-label="Linked Platform: Ifa History">
+      <div className="container">
+        <div className="twin-bridge__label">Linked Platform — Studying Together</div>
+        <div className="twin-bridge__row">
+
+          <div className="twin-bridge__self twin-bridge__self--yor">
+            <div className="twin-bridge__self-sym twin-bridge__self-sym--yor">Odù</div>
+            <div className="twin-bridge__self-name">IfaYoruba</div>
+            <div className="twin-bridge__self-sub twin-bridge__self-sub--yor">OrisaLang · Ìtàn ní Èdè Òrìṣà</div>
+          </div>
+
+          <div className="twin-bridge__mid">
+            <div className="twin-bridge__line" aria-hidden="true" />
+            <div className="twin-bridge__scope">
+              <div className="twin-bridge__scope-hd">Shared Study</div>
+              <div className="twin-bridge__scope-items">
+                <span>Ifa-Orisa Origin of Language</span>
+                <span>Ifa-Orisa History</span>
+                <span>Yoruba Towns &amp; Cities</span>
+                <span>Ìtàn Ilẹ̀ Ifẹ̀ &amp; Yorùbáland</span>
+              </div>
+            </div>
+            <div className="twin-bridge__line" aria-hidden="true" />
+          </div>
+
+          <a href="https://ifainternet.org/ifa-history/" className="twin-bridge__link twin-bridge__link--hist">
+            <div className="twin-bridge__link-sym twin-bridge__link-sym--hist">Ìtàn</div>
+            <div className="twin-bridge__link-name">Ifa History</div>
+            <div className="twin-bridge__link-sub twin-bridge__link-sub--hist">IfaLang · Ìtàn ní Èdè Ifá</div>
+            <div className="twin-bridge__link-arrow twin-bridge__link-arrow--hist">Explore Ifa History →</div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── LEARNING TRACKS SECTION ─────────────────────────────────────────────────
 
 function TracksSection() {
@@ -1071,6 +1113,7 @@ function App() {
       <main>
         <HeroSection />
         <DefinitionSection />
+        <IfaHistBridgeSection />
         <TracksSection />
         <CurriculumSection />
         <ProjectsSection />

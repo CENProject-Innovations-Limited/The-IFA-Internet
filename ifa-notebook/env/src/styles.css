@@ -1198,6 +1198,38 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nb-media__link-url { font-size: 0.82rem; color: #8b5cf6; word-break: break-all; line-height: 1.5; }
 .nb-media__link-url:hover { color: #a78bfa; text-decoration: underline; }
 
+/* LinkReader — inline article/PDF/any-URL readable viewer */
+.nb-link-reader { display: flex; flex-direction: column; }
+.nb-link-reader__card {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+  border-radius: 8px; background: rgba(59,158,255,0.05); border: 1px solid rgba(59,158,255,0.15);
+  transition: border-color 0.2s;
+}
+.nb-link-reader__card:hover { border-color: rgba(59,158,255,0.3); }
+.nb-link-reader__favicon { width: 18px; height: 18px; border-radius: 3px; flex-shrink: 0; }
+.nb-link-reader__meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.nb-link-reader__domain { font-size: 0.73rem; font-weight: 700; color: #3b9eff; letter-spacing: 0.02em; }
+.nb-link-reader__url { font-size: 0.75rem; color: #4a5570; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nb-link-reader__actions { display: flex; gap: 5px; flex-shrink: 0; align-items: center; }
+.nb-link-reader__btn {
+  font-size: 0.7rem; font-weight: 600; padding: 4px 9px; border-radius: 5px;
+  cursor: pointer; text-decoration: none; border: 1px solid transparent;
+  transition: background 0.15s, color 0.15s; white-space: nowrap; line-height: 1.4;
+}
+.nb-link-reader__btn--embed { background: rgba(59,158,255,0.1); border-color: rgba(59,158,255,0.3); color: #3b9eff; }
+.nb-link-reader__btn--embed:hover { background: rgba(59,158,255,0.2); }
+.nb-link-reader__btn--close { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.25); color: #f87171; }
+.nb-link-reader__btn--close:hover { background: rgba(239,68,68,0.16); }
+.nb-link-reader__btn--open {
+  background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.1); color: #5a7090;
+  display: inline-flex; align-items: center;
+}
+.nb-link-reader__btn--open:hover { color: #8892aa; border-color: rgba(255,255,255,0.2); }
+.nb-link-reader__frame-wrap { margin-top: 6px; border-radius: 8px; overflow: hidden; border: 1px solid rgba(59,158,255,0.15); }
+.nb-link-reader__iframe { width: 100%; height: 520px; border: none; display: block; background: #fff; }
+.nb-link-reader__note { font-size: 0.68rem; color: #3a4a60; margin: 0; padding: 5px 12px; background: rgba(0,0,0,0.2); text-align: center; }
+.nb-link-reader__note a { color: #3b9eff; }
+
 /* Tab bar */
 .nb-media__tabs { display: flex; gap: 4px; flex-wrap: wrap; }
 .nb-media__tab {
@@ -1278,6 +1310,41 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* PDF & Spotify */
 .nb-media__pdf     { width: 100%; height: 500px; border: none; display: block; border-radius: 6px; }
 .nb-media__spotify { width: 100%; height: 152px; border: none; display: block; border-radius: 12px; }
+
+/* DOCX viewer */
+.nb-docx-body {
+  width: 100%; max-height: 520px; overflow-y: auto;
+  background: #fff; color: #1a1a1a;
+  padding: 24px 28px; border-radius: 6px;
+  font-family: 'Georgia', serif; font-size: 0.93rem; line-height: 1.7;
+  box-sizing: border-box;
+}
+.nb-docx-body h1,.nb-docx-body h2,.nb-docx-body h3 { margin-top: 1em; color: #1a1a1a; }
+.nb-docx-body p  { margin: 0.5em 0; }
+.nb-docx-body table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+.nb-docx-body td,.nb-docx-body th { border: 1px solid #ccc; padding: 4px 8px; font-size: 0.88rem; }
+.nb-docx-body--compact { max-height: 280px; font-size: 0.82rem; padding: 14px 16px; }
+.nb-doc-loading { padding: 18px; color: #7090b0; font-size: 0.88rem; text-align: center; }
+.nb-doc-err     { padding: 10px 14px; color: #f87171; font-size: 0.82rem; background: rgba(248,113,113,0.08); border-radius: 5px; }
+
+/* DocCard (PPTX / DOC) */
+.nb-doc-card {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px; border-radius: 8px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
+}
+.nb-doc-card__icon  { font-size: 2.2rem; flex-shrink: 0; }
+.nb-doc-card__info  { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.nb-doc-card__name  { font-size: 0.93rem; font-weight: 600; color: #e0eaff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nb-doc-card__type  { font-size: 0.75rem; color: #6080a0; }
+.nb-doc-card__note  { font-size: 0.72rem; color: #4a6080; margin-top: 2px; }
+.nb-doc-card__dl {
+  flex-shrink: 0; padding: 6px 14px; border-radius: 5px;
+  background: rgba(167,139,250,0.12); color: #a78bfa;
+  border: 1px solid rgba(167,139,250,0.25); cursor: pointer; font-size: 0.8rem;
+  white-space: nowrap;
+}
+.nb-doc-card__dl:hover { background: rgba(167,139,250,0.22); }
 
 /* Misc */
 .nb-media__error { font-size: 0.78rem; color: #f87171; margin: 0; padding: 6px 10px;
@@ -1377,6 +1444,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-style: italic; color: #94a3b8; font-size: 0.88rem;
   line-height: 1.65; white-space: pre-wrap;
 }
+.nb-others__todo { display: flex; flex-direction: column; gap: 6px; }
+.nb-others__todo-item { display: flex; align-items: center; gap: 8px; }
+.nb-others__todo-check { flex-shrink: 0; width: 15px; height: 15px; cursor: pointer; accent-color: #94a3b8; }
+.nb-others__todo-text { flex: 1; background: transparent; border: none; border-bottom: 1px solid rgba(148,163,184,0.15); padding: 4px 2px; font-family: inherit; font-size: 0.86rem; color: #b8c6de; outline: none; transition: border-color 0.15s; }
+.nb-others__todo-text:focus { border-bottom-color: rgba(148,163,184,0.4); }
+.nb-others__todo-text::placeholder { color: #2a3a55; font-style: italic; }
+.nb-others__todo-text--done { text-decoration: line-through; color: #4a5a76; }
+.nb-others__todo-del { flex-shrink: 0; background: none; border: none; color: #3a4a65; font-size: 1rem; line-height: 1; cursor: pointer; padding: 0 2px; transition: color 0.15s; }
+.nb-others__todo-del:hover { color: #f87171; }
+.nb-others__todo-add { align-self: flex-start; margin-top: 4px; background: rgba(148,163,184,0.06); border: 1px dashed rgba(148,163,184,0.2); border-radius: 5px; padding: 4px 12px; font-family: inherit; font-size: 0.78rem; color: #64748b; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
+.nb-others__todo-add:hover { color: #94a3b8; border-color: rgba(148,163,184,0.4); }
 
 /* ── New toolbar & add-row buttons ───────────────────────────────────────── */
 .nb-add-btn--art        { color: #f43f5e; background: rgba(244,63,94,0.07); }

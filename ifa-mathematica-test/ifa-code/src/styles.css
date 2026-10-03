@@ -216,6 +216,86 @@
 }
 .ifc-cta-block__actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
+/* ── IfaLP dim-info links ─────────────────────────────────────────────────── */
+.stx-dim-info__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.stx-dim-info__link {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--c, #14b8d4);
+  text-decoration: none;
+  padding: 2px 8px;
+  border: 1px solid color-mix(in srgb, var(--c, #14b8d4) 30%, transparent);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--c, #14b8d4) 8%, transparent);
+  letter-spacing: 0.03em;
+  transition: background 0.15s, border-color 0.15s;
+}
+.stx-dim-info__link:hover {
+  background: color-mix(in srgb, var(--c, #14b8d4) 18%, transparent);
+  border-color: color-mix(in srgb, var(--c, #14b8d4) 55%, transparent);
+}
+
+/* ── IfaSlider — Model 1 tab switcher ────────────────────────────────────── */
+.ifa-slider {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 28px;
+  padding: 4px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: fit-content;
+}
+.ifa-slider__tab {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 18px;
+  border: 1px solid transparent; border-radius: 7px;
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--text-2);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.ifa-slider__tab:hover { background: rgba(255,255,255,0.05); color: var(--text-1); }
+.ifa-slider__tab--active {
+  background: rgba(139,92,246,0.12);
+  color: #8b5cf6;
+  border-color: rgba(139,92,246,0.32);
+}
+.ifa-slider__tab-sym {
+  font-family: monospace; font-weight: 800; font-size: 0.82rem;
+}
+
+/* ── IfaConstruction notice variant (violet) ──────────────────────────────── */
+.ifc-notice--violet {
+  background: rgba(139,92,246,0.07);
+  border-color: rgba(139,92,246,0.22);
+  margin-bottom: 32px;
+}
+
+/* ── Model-num violet variant ─────────────────────────────────────────────── */
+.ifc-model-num--violet {
+  color: #8b5cf6;
+  background: rgba(139,92,246,0.1);
+  border-color: rgba(139,92,246,0.28);
+}
+
+/* ── IfaLP notice variant (jade) ──────────────────────────────────────────── */
+.ifc-notice--jade {
+  background: rgba(0,200,124,0.06);
+  border-color: rgba(0,200,124,0.22);
+  margin-bottom: 32px;
+}
+.ifc-notice--jade .ifc-notice__icon { color: #00c87c; }
+
 /* ── Dark section override ────────────────────────────────────────────────── */
 .section--dark { background: var(--bg-3); }
 
@@ -235,7 +315,12 @@
   .ifc-diagram-wrap .stx-svg,
   .ifc-diagram-wrap--single .stx-svg { aspect-ratio: 620 / 500; }
 }
+@media (max-width: 680px) {
+  .ifa-slider { width: 100%; }
+  .ifa-slider__tab { flex: 1; justify-content: center; }
+}
 @media (max-width: 480px) {
+  .ifa-slider { flex-direction: column; }
   .hero--sub    { padding-top: 60px; }
   .ifc-alias    { font-size: 0.68rem; padding: 3px 9px; }
   .ifc-alias-row { gap: 6px; }

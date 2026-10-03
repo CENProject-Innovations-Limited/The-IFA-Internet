@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ifa-Orisa Teleportation Sciences, Technologies &amp; Arts</title>
+  <link rel="icon" type="image/png" href="../../src/assets/itoe_favicon.png" />
+  <style>
+/* ── Reset ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+
+/* ── Tokens ─────────────────────────────────────────────────────────────────── */
+:root {
+  --bg:        #02040a;
+  --bg-2:      #04080f;
+  --bg-3:      #060c18;
+  --bg-card:   rgba(4, 8, 16, 0.88);
+  --gold:      #ffd700;
+  --gold-lt:   #ffe566;
+  --gold-dk:   #b8890a;
+  --amber:     #f5a623;
+  --purple:    #9b59ff;
+  --purple-lt: #c49eff;
+  --purple-dk: #6930d4;
+  --electric:  #3b9eff;
+  --electric-lt:#80c4ff;
+  --jade:      #00e5a0;
+  --red:       #ff4a6e;
+  --text-1:    #eef3ff;
+  --text-2:    #7a99cc;
+  --text-3:    #2e4a6e;
+  --border:    rgba(255,215,0,0.12);
+  --border-2:  rgba(255,215,0,0.28);
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Background Canvas ─────────────────────────────────────────────────────── */
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Page Wrapper ─────────────────────────────────────────────────────────── */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 28px 100px;
+}
+
+/* ── Fixed Download Bar ───────────────────────────────────────────────────── */
+.dl-bar {
+  position: fixed;
+  top: 18px; right: 24px;
+  z-index: 200;
+  display: flex;
+  gap: 10px;
+}
+.dl-btn {
+  background: rgba(4,8,18,0.92);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s;
+}
+.dl-btn:hover { background: var(--gold); color: var(--bg); }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════════════════════════════════════ */
+.hero {
+  padding: 56px 0 32px;
+}
+
+/* Logos row */
+.logos-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 52px;
+}
+.logo-ifanote {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-ifanote__badge {
+  position: relative;
+  width: 50px; height: 50px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffd700 0%, #f5a623 60%, #c9700a 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(255,215,0,0.55), 0 0 40px rgba(255,165,0,0.25);
+}
+.logo-ifanote__badge::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 60%);
+}
+.logo-ifanote__mark {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #02040a;
+  letter-spacing: -2px;
+  position: relative;
+  z-index: 1;
+}
+.logo-ifanote__text {
+  line-height: 1.2;
+}
+.logo-ifanote__name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+}
+.logo-ifanote__name sup {
+  font-size: 0.6em;
+  color: var(--gold);
+  font-weight: 700;
+  vertical-align: super;
+  letter-spacing: 0.06em;
+}
+.logo-ifanote__sub {
+  font-size: 0.68rem;
+  color: var(--gold-dk);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.logo-cen {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-cen__img {
+  height: 42px;
+  width: auto;
+}
+.logo-cen__text {
+  text-align: right;
+  line-height: 1.3;
+}
+.logo-cen__name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-1);
+}
+.logo-cen__sub {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-2);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Hero bracket + title */
+.hero__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.hero__title-block { text-align: center; }
+
+.hero__eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.hero__h1 {
+  font-size: clamp(3rem, 5.5vw, 5.5rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #fff 15%, var(--gold-lt) 50%, var(--gold) 80%, var(--amber) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+}
+.hero__egbe {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--purple-lt);
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.hero__yoruba {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  font-style: italic;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+.hero__sci-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.hero__sci-pill {
+  background: rgba(255,215,0,0.08);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SQUAKET SVG (shared helper — drawn inline each time)
+══════════════════════════════════════════════════════════════════════════════ */
+/* The squaket path: modified-parenthesis with angular corners
+   Left squaket viewBox "0 0 55 150":
+   M45,8  — top-right start
+   Q30,8  — flat top (horizontal tangent)
+   12,22  — upper curve corner
+   L8,50  — left edge descending
+   Q8,75  — the leftmost curve apex
+   8,100  — left edge continuing
+   L12,128 — lower curve
+   Q30,142 45,142 — bottom curve back to right
+*/
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SECTION SHARED
+══════════════════════════════════════════════════════════════════════════════ */
+.section {
+  padding: 64px 0;
+  border-top: 1px solid var(--border);
+}
+.section__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.eyebrow--gold   { color: var(--gold); }
+.eyebrow--purple { color: var(--purple-lt); }
+.eyebrow--jade   { color: var(--jade); }
+.eyebrow--elec   { color: var(--electric-lt); }
+.section__h2 {
+  font-size: clamp(1.55rem, 2.8vw, 2.4rem);
+  font-weight: 800;
+  color: var(--text-1);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.section__sub {
+  font-size: 0.95rem;
+  color: var(--text-2);
+  max-width: 680px;
+  margin-bottom: 40px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   GOVERNING ODU
+══════════════════════════════════════════════════════════════════════════════ */
+.governing .section__h2 {
+  background: linear-gradient(90deg, var(--gold-lt), var(--amber));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.governing__divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--gold-dk);
+  text-transform: uppercase;
+}
+.governing__divider::before,
+.governing__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.3));
+}
+.governing__divider::after {
+  background: linear-gradient(90deg, rgba(255,215,0,0.3), transparent);
+}
+
+.odu-pair {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+.odu-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  min-width: 220px;
+}
+.odu-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+}
+.odu-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,215,0,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+.odu-card__title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+.odu-card__subtitle {
+  font-size: 0.7rem;
+  color: var(--text-3);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: -16px;
+}
+.odu-marks {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+.odu-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.odu-col__header {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.odu-col__marks {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.odu-col__name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.odu-col--gold   .odu-col__name { color: var(--gold); }
+.odu-col--purple .odu-col__name { color: var(--purple-lt); }
+
+.odu-sep {
+  align-self: center;
+  margin-top: 28px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--text-3);
+}
+
+/* Two-pair grouped layout */
+.odu-pairs-wrapper {
+  display: flex;
+  align-items: stretch;
+}
+.odu-pair-group {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.odu-pair-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-dk);
+  text-align: center;
+}
+
+/* Vertical divider between the two pairs */
+.odu-pair-divider {
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(to bottom, transparent, rgba(255,215,0,0.25), transparent);
+  margin: 0 8px;
+  flex-shrink: 0;
+}
+
+/* Ifa mark = one or two dashes */
+.mark {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.mark__dash {
+  width: 5px;
+  height: 30px;
+  border-radius: 3px;
+}
+.mark--gold   .mark__dash { background: var(--gold);       box-shadow: 0 0 10px rgba(255,215,0,0.75); }
+.mark--purple .mark__dash { background: var(--purple-lt);  box-shadow: 0 0 10px rgba(155,89,255,0.75); }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   TELEPORTATION PROCESS
+══════════════════════════════════════════════════════════════════════════════ */
+.tp-phase-labels {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+  max-width: 900px;
+  margin-left: auto; margin-right: auto;
+}
+.tp-phase-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 5px 0;
+  border-bottom: 2px solid;
+}
+.tp-phase-label--input  { color: var(--electric-lt); border-color: var(--electric); }
+.tp-phase-label--process{ color: var(--gold);        border-color: var(--gold); }
+.tp-phase-label--output { color: var(--electric-lt); border-color: var(--electric); }
+
+.tp-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  overflow-x: auto;
+  padding: 32px 16px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Individual nodes */
+.tp-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.tp-node__ring {
+  position: relative;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  transition: box-shadow 0.6s;
+}
+.tp-node__ring--user    { width:80px; height:80px; border-color: var(--electric); }
+.tp-node__ring--egbe    { width:106px; height:106px; border-color: var(--gold);    }
+.tp-node__ring--xform   { width:80px; height:80px; border-color: var(--purple);  border-style: dashed; }
+.tp-node__ring--eroegba { width:90px; height:90px; border-color: var(--jade);    }
+.tp-node__ring--output  { width:80px; height:80px; border-color: var(--electric); }
+
+.tp-node__label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.3;
+}
+.tp-node__sub {
+  font-size: 0.62rem;
+  color: var(--text-2);
+  text-align: center;
+  margin-top: -6px;
+}
+
+/* Arrows */
+.tp-arrow {
+  flex-shrink: 0;
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   KEY ELEMENTS
+══════════════════════════════════════════════════════════════════════════════ */
+.elements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+  gap: 18px;
+}
+.elem-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 22px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+  cursor: default;
+}
+.elem-card:hover {
+  border-color: rgba(255,215,0,0.35);
+  transform: translateY(-3px);
+}
+.elem-card__num {
+  font-size: 1.9rem;
+  font-weight: 900;
+  color: var(--gold);
+  opacity: 0.22;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 38px;
+}
+.elem-card__body { flex: 1; }
+.elem-card__icon {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+.elem-card__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-1);
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+.elem-card__desc {
+  font-size: 0.77rem;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+.elem-card__shimmer {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,215,0,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   EGBÉ FRAMEWORK
+══════════════════════════════════════════════════════════════════════════════ */
+.egbe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.egbe-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px 28px;
+  position: relative;
+  overflow: hidden;
+}
+.egbe-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(155,89,255,0.5), transparent);
+}
+.egbe-panel__title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--purple-lt);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(155,89,255,0.2);
+  letter-spacing: 0.03em;
+}
+.egbe-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.egbe-list li {
+  display: flex;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--text-2);
+  line-height: 1.55;
+}
+.egbe-list li .n {
+  color: var(--purple-lt);
+  font-weight: 700;
+  flex-shrink: 0;
+  width: 22px;
+}
+.egbe-foot {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(155,89,255,0.18);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--purple-lt);
+  letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   IFABRACKETS / SQUAKETS NOTATION
+══════════════════════════════════════════════════════════════════════════════ */
+.squaket-section .section__h2 {
+  background: linear-gradient(90deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.squakets-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 56px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.squaket-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.squaket-item__label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  text-align: center;
+}
+.squaket-item__sublabel {
+  font-size: 0.62rem;
+  color: var(--text-3);
+  text-align: center;
+  margin-top: -8px;
+}
+.squaket-usage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.squaket-usage__text {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  padding: 0 6px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════════════════════════ */
+.footer {
+  padding: 40px 0 24px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-3);
+  line-height: 1.8;
+}
+.footer strong { color: var(--text-2); }
+.footer__energy-line {
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%, var(--purple) 20%, var(--gold) 50%, var(--electric) 80%, transparent 100%);
+  margin-bottom: 28px;
+  animation: energy-line 4s linear infinite;
+  background-size: 200% 100%;
+}
+@keyframes energy-line {
+  0%   { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   KEYFRAME ANIMATIONS
+══════════════════════════════════════════════════════════════════════════════ */
+@keyframes pulse-gold {
+  0%,100% { opacity:1;   filter: drop-shadow(0 0 6px rgba(255,215,0,0.9)); }
+  50%      { opacity:0.7; filter: drop-shadow(0 0 14px rgba(255,215,0,0.4)); }
+}
+@keyframes pulse-purple {
+  0%,100% { opacity:1;   filter: drop-shadow(0 0 6px rgba(155,89,255,0.9)); }
+  50%      { opacity:0.7; filter: drop-shadow(0 0 14px rgba(155,89,255,0.4)); }
+}
+@keyframes squaket-breathe {
+  0%,100% { filter: drop-shadow(0 0 10px rgba(255,215,0,1)) drop-shadow(0 0 24px rgba(255,215,0,0.5)); }
+  50%      { filter: drop-shadow(0 0 16px rgba(255,215,0,0.7)) drop-shadow(0 0 40px rgba(255,215,0,0.25)); }
+}
+@keyframes squaket-breathe-jade {
+  0%,100% { filter: drop-shadow(0 0 10px rgba(0,229,160,1)) drop-shadow(0 0 24px rgba(0,229,160,0.5)); }
+  50%      { filter: drop-shadow(0 0 16px rgba(0,229,160,0.7)) drop-shadow(0 0 40px rgba(0,229,160,0.25)); }
+}
+@keyframes hero-squaket {
+  0%,100% { filter: drop-shadow(0 0 12px rgba(255,215,0,0.9)) drop-shadow(0 0 30px rgba(255,215,0,0.4)); }
+  50%      { filter: drop-shadow(0 0 20px rgba(255,215,0,0.6)) drop-shadow(0 0 50px rgba(255,215,0,0.2)); }
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes fade-in-up {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes tp-pulse-border {
+  0%,100% { box-shadow: none; }
+  50%      { box-shadow: 0 0 28px rgba(255,215,0,0.7); }
+}
+
+.anim-pulse-gold    { animation: pulse-gold    2.4s ease-in-out infinite; }
+.anim-pulse-purple  { animation: pulse-purple  2.4s ease-in-out infinite; }
+.anim-squaket-hero  { animation: hero-squaket  2s ease-in-out infinite; }
+.anim-squaket-sm    { animation: squaket-breathe 2.5s ease-in-out infinite; }
+.anim-squaket-sm-jade { animation: squaket-breathe-jade 2.5s ease-in-out infinite; }
+.anim-float         { animation: float 4s ease-in-out infinite; }
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   PRINT / PDF STYLES
+══════════════════════════════════════════════════════════════════════════════ */
+@media print {
+  #bg-canvas, .dl-bar { display: none !important; }
+  body { background: #fff !important; color: #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { max-width: 100%; padding: 16px; }
+  .hero__h1 { -webkit-text-fill-color: #111 !important; color: #111; }
+  .governing .section__h2, .squaket-section .section__h2 { -webkit-text-fill-color: #111 !important; }
+  .odu-card, .elem-card, .egbe-panel { border: 1px solid #ddd; background: #fafafa !important; }
+  .section { border-top: 1px solid #ddd; }
+  .mark--gold   .mark__dash { background: #b8890a !important; }
+  .mark--purple .mark__dash { background: #6930d4 !important; }
+  .reveal { opacity:1 !important; transform: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .egbe-grid { grid-template-columns: 1fr; }
+  .hero__center { gap: 14px; }
+}
+
+@media (max-width: 768px) {
+  .page    { padding: 0 20px 80px; }
+  .section { padding: 52px 0; }
+  .dl-bar  { top: 12px; right: 12px; gap: 8px; }
+  .dl-btn  { padding: 7px 12px; font-size: 0.73rem; }
+  .hero__h1 { font-size: clamp(2rem, 6.5vw, 4rem); }
+  .squakets-row { gap: 36px; }
+}
+
+@media (max-width: 640px) {
+  .logos-row { flex-direction: column; gap: 16px; align-items: flex-start; }
+  .tp-flow   { flex-direction: column; gap: 8px; align-items: center; }
+  .tp-arrow  { transform: rotate(90deg); }
+  .tp-phase-labels { grid-template-columns: 1fr; }
+  .elements-grid   { grid-template-columns: 1fr; }
+
+  /* Hero */
+  .hero { padding: 36px 0 20px; }
+  .hero__h1 { font-size: clamp(1.9rem, 8vw, 3.2rem); }
+
+  /* Odu pairs — stack vertically on mobile, Pair 1 first then Pair 2 */
+  .odu-pairs-wrapper { flex-direction: column; gap: 20px; }
+  .odu-pair-group:first-child  { order: 3; } /* Pair 2 → bottom */
+  .odu-pair-divider             { order: 2; }
+  .odu-pair-group:last-child   { order: 1; } /* Pair 1 → top */
+  .odu-pair-divider {
+    width: auto; height: 1px; margin: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.25), transparent);
+  }
+  .odu-pair { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 14px; justify-content: flex-start; }
+  .odu-card { scroll-snap-align: start; }
+
+  /* Section */
+  .section { padding: 44px 0; }
+  .section__sub { max-width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .page    { padding: 0 14px 64px; }
+  .section { padding: 36px 0; }
+  .hero    { padding: 28px 0 16px; }
+
+  /* Download bar — slim and unobtrusive */
+  .dl-bar  { top: 8px; right: 8px; gap: 6px; }
+  .dl-btn  { padding: 5px 10px; font-size: 0.68rem; border-radius: 6px; }
+
+  /* Hero: hide squakets to give full width to the title */
+  .hero__center .anim-squaket-hero { display: none; }
+  .hero__h1     { font-size: clamp(1.65rem, 8.5vw, 2.6rem); letter-spacing: -0.02em; }
+  .hero__egbe   { font-size: 1.05rem; }
+  .hero__yoruba { font-size: 0.78rem; }
+  .hero__sci-line { gap: 8px; }
+  .hero__sci-pill { font-size: 0.66rem; padding: 4px 10px; }
+  .logos-row { margin-bottom: 24px; }
+  .logo-ifanote__badge { width: 40px; height: 40px; border-radius: 10px; }
+  .logo-ifanote__name  { font-size: 0.92rem; }
+  .logo-cen__img       { height: 34px; }
+
+  /* Sections */
+  .section__h2 { font-size: clamp(1.25rem, 6vw, 1.9rem); }
+  .section__sub { font-size: 0.85rem; }
+
+  /* Odu cards — 80vw each so one card fills most of viewport, swipe for second */
+  .odu-card { min-width: 80vw; padding: 20px 14px 16px; }
+  .odu-card__title { font-size: 1rem; }
+  .odu-card__subtitle { letter-spacing: 0.08em; font-size: 0.62rem; }
+  .odu-col__header { font-size: 0.52rem; letter-spacing: 0.1em; }
+  .odu-col__name { font-size: 0.7rem; }
+  .odu-pair-label { font-size: 0.54rem; letter-spacing: 0.15em; }
+
+  /* Egbé framework */
+  .egbe-panel { padding: 20px 16px; }
+  .egbe-list li { font-size: 0.75rem; }
+
+  /* Squakets — scale down large display SVGs */
+  .squakets-row { gap: 20px; }
+  .squaket-item > svg[width="130"] { width: 88px !important; height: 107px !important; }
+  .squaket-usage__text { font-size: 1.2rem; }
+  .squaket-usage svg[width="44"]   { width: 32px !important; height: 84px !important; }
+  .squaket-item__label   { font-size: 0.6rem; }
+  .squaket-item__sublabel{ font-size: 0.56rem; }
+
+  /* Teleportation phase labels (already 1-col at 640px) */
+  .tp-phase-label { font-size: 0.6rem; }
+  .tp-node__sub { font-size: 0.56rem; }
+
+  /* Footer */
+  .footer { padding: 24px 0 16px; font-size: 0.72rem; }
+}
+  </style>
+</head>
+<body>
+
+<!-- ── Starfield background ───────────────────────────────────────────────── -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ── Download buttons ──────────────────────────────────────────────────── -->
+<div class="dl-bar" id="dl-bar">
+  <button class="dl-btn" onclick="dlPDF()">⬇ PDF</button>
+  <button class="dl-btn" onclick="dlPNG()">⬇ PNG</button>
+</div>
+
+<div id="page" class="page">
+
+<!-- ════════════════════════════════════════════════════════════════ HERO ════ -->
+<header class="hero">
+
+  <!-- Logos -->
+  <div class="logos-row">
+    <div class="logo-ifanote">
+      <div class="logo-ifanote__badge">
+        <span class="logo-ifanote__mark">IN</span>
+      </div>
+      <div class="logo-ifanote__text">
+        <div class="logo-ifanote__name">IfaNote <sup>PRO</sup></div>
+        <div class="logo-ifanote__sub">Ifa Notes &amp; Annotations</div>
+      </div>
+    </div>
+    <div class="logo-cen">
+      <div class="logo-cen__text">
+        <div class="logo-cen__name">CENProject</div>
+        <div class="logo-cen__sub">The IFA Internet</div>
+      </div>
+      <img src="../src/assets/itoe_logo.png" alt="IFA Internet" class="logo-cen__img"
+           onerror="this.style.display='none'">
+    </div>
+  </div>
+
+  <!-- Title block with hero squakets -->
+  <div class="hero__center">
+
+    <!-- Left Hero Squaket (Squa) -->
+    <svg class="anim-squaket-hero anim-float" viewBox="-12 0 106 280" width="40" height="106" aria-hidden="true" style="flex-shrink:0">
+      <defs>
+        <filter id="glow-hl" x="-150%" y="-50%" width="400%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path d="M 82,6 L 46,6 C 0,76 0,204 46,274 L 82,274"
+            fill="none" stroke="#ffd700" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#glow-hl)"/>
+    </svg>
+
+    <div class="hero__title-block">
+      <div class="hero__eyebrow">Ifa-Orisa Teleportation Sciences, Technologies &amp; Arts</div>
+      <h1 class="hero__h1">IFA-ORISA<br>TELEPORTATION STUDIES</h1>
+      <div class="hero__egbe">Egbé — Òrìṣà Egbé</div>
+      <div class="hero__yoruba">Àgbékalẹ̀ Gbogbóògbò fún Àwọn Ẹ̀kọ́jìnlẹ̀ Egbé</div>
+      <div class="hero__sci-line">
+        <span class="hero__sci-pill">Sciences</span>
+        <span class="hero__sci-pill">Technologies</span>
+        <span class="hero__sci-pill">Arts</span>
+      </div>
+    </div>
+
+    <!-- Right Hero Squaket (Ket) -->
+    <svg class="anim-squaket-hero anim-float" viewBox="-6 0 106 280" width="40" height="106" aria-hidden="true" style="flex-shrink:0;animation-delay:0.4s">
+      <defs>
+        <filter id="glow-hr" x="-150%" y="-50%" width="400%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path d="M 6,6 L 42,6 C 88,76 88,204 42,274 L 6,274"
+            fill="none" stroke="#ffd700" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#glow-hr)"/>
+    </svg>
+
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════ GOVERNING ODU ════ -->
+<section class="section governing reveal" id="governing">
+  <div class="section__eyebrow eyebrow--gold">Ifa-Orisa Laws of Nature</div>
+  <h2 class="section__h2">The Governing Ifa-Orisa Laws of Nature</h2>
+  <p class="section__sub">
+    The Odu Ifa below are some of the Governing Ifa-Orisa Laws of Nature (General Blueprints or Models of Ifa &amp; Orisa) that underpin all kinds of teleportation — Axiomatic Foundations from which all Ifa-Orisa Teleportation Principles, Sciences, Technologies, and Arts derive.
+  </p>
+  <div class="governing__divider">Governing Odu Ifa</div>
+
+  <!-- Paired Odu groups — stacks vertically on mobile, each with label + 2 scrollable cards -->
+  <div class="odu-pairs-wrapper">
+    <div class="odu-pair-group">
+      <div class="odu-pair-label">Pair 2</div>
+      <!-- Pair 2: Ọṣà Ọkànràn · Ọkànràn Ọṣà -->
+      <div class="odu-pair">
+
+    <!-- Ọṣà Ọkànràn (leftmost in layout = rightmost in Ifa reading) -->
+    <div class="odu-card">
+      <div class="odu-card__title">Ọṣà Ọkànràn</div>
+      <div class="odu-card__subtitle">Governing Odu of Teleportation</div>
+      <div class="odu-marks">
+        <!-- Ọsì (Left) = Ọkànràn: single(gold), double(purple), double(purple), double(purple) -->
+        <div class="odu-col odu-col--gold">
+          <div class="odu-col__header">Ọsì · Left</div>
+          <div class="odu-col__marks">
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:0s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.18s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.36s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.54s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+          </div>
+          <div class="odu-col__name">Ọkànràn</div>
+        </div>
+        <div class="odu-sep"></div>
+        <!-- Ọtún (Right) = Ọṣà: double(purple), single(gold), single(gold), single(gold) -->
+        <div class="odu-col odu-col--purple">
+          <div class="odu-col__header">Ọtún · Right</div>
+          <div class="odu-col__marks">
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.08s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.26s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.44s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.62s">
+              <div class="mark__dash"></div>
+            </div>
+          </div>
+          <div class="odu-col__name">Ọṣà</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ọkànràn Ọṣà -->
+    <div class="odu-card">
+      <div class="odu-card__title">Ọkànràn Ọṣà</div>
+      <div class="odu-card__subtitle">Governing Odu of Teleportation</div>
+      <div class="odu-marks">
+        <!-- Ọsì (Left) = Ọṣà: double(purple), single(gold), single(gold), single(gold) -->
+        <div class="odu-col odu-col--purple">
+          <div class="odu-col__header">Ọsì · Left</div>
+          <div class="odu-col__marks">
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:0s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.18s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.36s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.54s">
+              <div class="mark__dash"></div>
+            </div>
+          </div>
+          <div class="odu-col__name">Ọṣà</div>
+        </div>
+        <div class="odu-sep"></div>
+        <!-- Ọtún (Right) = Ọkànràn: single(gold), double(purple), double(purple), double(purple) -->
+        <div class="odu-col odu-col--gold">
+          <div class="odu-col__header">Ọtún · Right</div>
+          <div class="odu-col__marks">
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.08s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.26s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.44s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.62s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+          </div>
+          <div class="odu-col__name">Ọkànràn</div>
+        </div>
+      </div>
+    </div>
+
+      </div><!-- /.odu-pair Pair 2 -->
+    </div><!-- /.odu-pair-group Pair 2 -->
+
+    <div class="odu-pair-divider" aria-hidden="true"></div>
+
+    <div class="odu-pair-group">
+      <div class="odu-pair-label">Pair 1</div>
+      <!-- Pair 1: Ọ̀yẹ̀kú Méjì · Èjìogbè -->
+      <div class="odu-pair">
+
+    <!-- Ọ̀yẹ̀kú Méjì -->
+    <div class="odu-card">
+      <div class="odu-card__title">Ọ̀yẹ̀kú Méjì</div>
+      <div class="odu-card__subtitle">The Second Principal Odu</div>
+      <div class="odu-marks">
+        <!-- Ọsì (Left) = Ọ̀yẹ̀kú: 4 double marks -->
+        <div class="odu-col odu-col--purple">
+          <div class="odu-col__header">Ọsì · Left</div>
+          <div class="odu-col__marks">
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:0s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.18s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.36s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.54s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+          </div>
+          <div class="odu-col__name">Ọ̀yẹ̀kú</div>
+        </div>
+        <div class="odu-sep"></div>
+        <!-- Ọtún (Right) = Ọ̀yẹ̀kú: 4 double marks -->
+        <div class="odu-col odu-col--purple">
+          <div class="odu-col__header">Ọtún · Right</div>
+          <div class="odu-col__marks">
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.08s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.26s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.44s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--purple anim-pulse-purple" style="animation-delay:.62s">
+              <div class="mark__dash"></div><div class="mark__dash"></div>
+            </div>
+          </div>
+          <div class="odu-col__name">Ọ̀yẹ̀kú</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Èjìogbè (rightmost in layout = leftmost in Ifa reading) -->
+    <div class="odu-card">
+      <div class="odu-card__title">Èjìogbè</div>
+      <div class="odu-card__subtitle">The First and Principal Odu</div>
+      <div class="odu-marks">
+        <!-- Ọsì (Left) = Ogbè: 4 single marks -->
+        <div class="odu-col odu-col--gold">
+          <div class="odu-col__header">Ọsì · Left</div>
+          <div class="odu-col__marks">
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:0s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.18s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.36s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.54s">
+              <div class="mark__dash"></div>
+            </div>
+          </div>
+          <div class="odu-col__name">Ogbè</div>
+        </div>
+        <div class="odu-sep"></div>
+        <!-- Ọtún (Right) = Ogbè: 4 single marks -->
+        <div class="odu-col odu-col--gold">
+          <div class="odu-col__header">Ọtún · Right</div>
+          <div class="odu-col__marks">
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.08s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.26s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.44s">
+              <div class="mark__dash"></div>
+            </div>
+            <div class="mark mark--gold anim-pulse-gold" style="animation-delay:.62s">
+              <div class="mark__dash"></div>
+            </div>
+          </div>
+          <div class="odu-col__name">Ogbè</div>
+        </div>
+      </div>
+    </div>
+
+      </div><!-- /.odu-pair Pair 1 -->
+    </div><!-- /.odu-pair-group Pair 1 -->
+  </div><!-- /.odu-pairs-wrapper -->
+</section>
+
+<!-- ═══════════════════════════════════ TELEPORTATION MODEL ════ -->
+<section class="section reveal" id="model">
+  <div class="section__eyebrow eyebrow--gold">Universal Teleportation Model/Protocol</div>
+  <h2 class="section__h2">Ifa Teleportation: Teleportation in IfaLang</h2>
+  <p class="section__sub">A General and Universal Teleportation Model — governing all forms of teleportation across all dimensions of reality through the axioms of the 256 Odu Ifa.</p>
+
+  <div class="tp-phase-labels">
+    <div class="tp-phase-label tp-phase-label--input">Ifa Input</div>
+    <div class="tp-phase-label tp-phase-label--process">Ifa Process</div>
+    <div class="tp-phase-label tp-phase-label--output">Ifa Output</div>
+  </div>
+
+  <div class="tp-flow" id="tp-flow">
+
+    <!-- ① User (Àlejò) -->
+    <div class="tp-node">
+      <div class="tp-node__ring tp-node__ring--user" id="node-user">
+        <svg viewBox="0 0 44 64" width="40" height="56" fill="none">
+          <circle cx="22" cy="9" r="8" stroke="#3b9eff" stroke-width="2.5"/>
+          <line x1="22" y1="17" x2="22" y2="42" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="10" y2="35" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="34" y2="35" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="42" x2="13" y2="58" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="42" x2="31" y2="58" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="tp-node__label" style="color:var(--electric-lt)">User</div>
+      <div class="tp-node__sub">(Àlejò)</div>
+    </div>
+
+    <!-- Arrow → -->
+    <div class="tp-arrow">
+      <svg viewBox="0 0 72 20" width="72" height="20" fill="none">
+        <line x1="2" y1="10" x2="58" y2="10" stroke="#3b9eff" stroke-width="2" stroke-dasharray="5 3"/>
+        <polygon points="58,4 72,10 58,16" fill="#3b9eff"/>
+      </svg>
+    </div>
+
+    <!-- ② Egbé (Ako) — inside Squakets -->
+    <div class="tp-node">
+      <div class="tp-node__ring tp-node__ring--egbe" id="node-egbe" style="position:relative">
+        <!-- Left squaket inside node (Squa) -->
+        <svg viewBox="-12 0 106 280" width="14" height="37" style="position:absolute;left:2px" aria-hidden="true">
+          <path d="M 82,6 L 46,6 C 0,76 0,204 46,274 L 82,274"
+                fill="none" stroke="#ffd700" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"
+                style="filter:drop-shadow(0 0 8px rgba(255,215,0,0.9))"/>
+        </svg>
+        <!-- Figure in gold -->
+        <svg viewBox="0 0 44 64" width="36" height="50" fill="none">
+          <circle cx="22" cy="9" r="8" stroke="#ffd700" stroke-width="2.5"/>
+          <line x1="22" y1="17" x2="22" y2="42" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="10" y2="35" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="34" y2="35" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="42" x2="13" y2="58" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="42" x2="31" y2="58" stroke="#ffd700" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <!-- Right squaket inside node (Ket) -->
+        <svg viewBox="-6 0 106 280" width="14" height="37" style="position:absolute;right:2px" aria-hidden="true">
+          <path d="M 6,6 L 42,6 C 88,76 88,204 42,274 L 6,274"
+                fill="none" stroke="#ffd700" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"
+                style="filter:drop-shadow(0 0 8px rgba(255,215,0,0.9))"/>
+        </svg>
+      </div>
+      <div class="tp-node__label" style="color:var(--gold)">Ẹrọ Egbé</div>
+      <div class="tp-node__sub">(Ako — Ifa-Orisa Carrier/Transmitter)</div>
+    </div>
+
+    <!-- Arrow → -->
+    <div class="tp-arrow">
+      <svg viewBox="0 0 72 20" width="72" height="20" fill="none">
+        <line x1="2" y1="10" x2="58" y2="10" stroke="#9b59ff" stroke-width="2" stroke-dasharray="5 3"/>
+        <polygon points="58,4 72,10 58,16" fill="#9b59ff"/>
+      </svg>
+    </div>
+
+    <!-- ③ IfaTransforms (Disappears) -->
+    <div class="tp-node">
+      <div class="tp-node__ring tp-node__ring--xform" id="node-xform"
+           style="flex-direction:column;gap:4px">
+        <div id="xform-dots" style="display:flex;gap:6px;align-items:center">
+          <span style="width:7px;height:7px;border-radius:50%;background:var(--purple);display:block"></span>
+          <span style="width:5px;height:5px;border-radius:50%;background:var(--purple);opacity:0.5;display:block"></span>
+          <span style="width:3px;height:3px;border-radius:50%;background:var(--purple);opacity:0.25;display:block"></span>
+        </div>
+        <span style="font-size:0.6rem;color:var(--purple);font-weight:700;letter-spacing:0.1em;text-align:center">IfaTransforms</span>
+      </div>
+      <div class="tp-node__label" style="color:var(--purple-lt)">IfaTransforms</div>
+      <div class="tp-node__sub">(Disappears)</div>
+    </div>
+
+    <!-- Arrow → -->
+    <div class="tp-arrow">
+      <svg viewBox="0 0 72 20" width="72" height="20" fill="none">
+        <line x1="2" y1="10" x2="58" y2="10" stroke="#00e5a0" stroke-width="2" stroke-dasharray="5 3"/>
+        <polygon points="58,4 72,10 58,16" fill="#00e5a0"/>
+      </svg>
+    </div>
+
+    <!-- ④ Ẹrọ Ẹgbà (Abo) — Receiver brackets -->
+    <div class="tp-node">
+      <div class="tp-node__ring tp-node__ring--eroegba" id="node-eroegba" style="position:relative">
+        <!-- Left bracket = Ket (Dual IfaBracket — Ket on left) -->
+        <svg viewBox="-6 0 106 280" width="14" height="37" style="position:absolute;left:1px" aria-hidden="true">
+          <path d="M 6,6 L 42,6 C 88,76 88,204 42,274 L 6,274"
+                fill="none" stroke="#00e5a0" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"
+                style="filter:drop-shadow(0 0 8px rgba(0,229,160,0.9))"/>
+        </svg>
+        <!-- Emerging figure (jade, semi-transparent — materialising) -->
+        <svg id="eroegba-fig" viewBox="0 0 44 64" width="34" height="48" fill="none" style="opacity:0.2;transition:opacity 0.8s">
+          <circle cx="22" cy="9" r="8" stroke="#00e5a0" stroke-width="2.5"/>
+          <line x1="22" y1="17" x2="22" y2="42" stroke="#00e5a0" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="10" y2="35" stroke="#00e5a0" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="34" y2="35" stroke="#00e5a0" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="42" x2="13" y2="58" stroke="#00e5a0" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="42" x2="31" y2="58" stroke="#00e5a0" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <!-- Right bracket = Squa (Dual IfaBracket — Squa on right) -->
+        <svg viewBox="-12 0 106 280" width="14" height="37" style="position:absolute;right:1px" aria-hidden="true">
+          <path d="M 82,6 L 46,6 C 0,76 0,204 46,274 L 82,274"
+                fill="none" stroke="#00e5a0" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"
+                style="filter:drop-shadow(0 0 8px rgba(0,229,160,0.9))"/>
+        </svg>
+      </div>
+      <div class="tp-node__label" style="color:var(--jade)">Ẹrọ Ẹgbà</div>
+      <div class="tp-node__sub">(Abo — Ifa-Orisa Receiver)</div>
+    </div>
+
+    <!-- Arrow → -->
+    <div class="tp-arrow">
+      <svg viewBox="0 0 72 20" width="72" height="20" fill="none">
+        <line x1="2" y1="10" x2="58" y2="10" stroke="#3b9eff" stroke-width="2" stroke-dasharray="5 3"/>
+        <polygon points="58,4 72,10 58,16" fill="#3b9eff"/>
+      </svg>
+    </div>
+
+    <!-- ⑤ Output (Teleported) -->
+    <div class="tp-node">
+      <div class="tp-node__ring tp-node__ring--output" id="node-output" style="opacity:0.2;transition:opacity 0.8s">
+        <svg viewBox="0 0 44 64" width="40" height="56" fill="none">
+          <circle cx="22" cy="9" r="8" stroke="#3b9eff" stroke-width="2.5"/>
+          <line x1="22" y1="17" x2="22" y2="42" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="10" y2="35" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="26" x2="34" y2="35" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="42" x2="13" y2="58" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="22" y1="42" x2="31" y2="58" stroke="#3b9eff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="tp-node__label" style="color:var(--electric-lt)">User</div>
+      <div class="tp-node__sub">(Teleported)</div>
+    </div>
+
+  </div><!-- /tp-flow -->
+</section>
+
+<!-- ════════════════════════════════════════ KEY ELEMENTS ════ -->
+<section class="section reveal" id="elements">
+  <div class="section__eyebrow eyebrow--gold">Key Elements</div>
+  <h2 class="section__h2">Ifa Teleportation: Key Elements</h2>
+  <p class="section__sub">Eight foundational dimensions comprising the complete science, technology, and art of Ifa-Orisa Teleportation.</p>
+
+  <div class="elements-grid">
+
+    <div class="elem-card">
+      <div class="elem-card__num">01</div>
+      <div class="elem-card__body">
+        <div class="elem-card__icon">⊙</div>
+        <div class="elem-card__title">Odu Ifa Bases</div>
+        <div class="elem-card__desc">Èjìogbè, Ọ̀yẹ̀kú Meji, Okanran Osa, etc. — the Governing Ifa-Orisa Laws of Nature and axiomatic foundations of all teleportation theory and practice.</div>
+      </div>
+      <div class="elem-card__shimmer"></div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-card__num">02</div>
+      <div class="elem-card__body">
+        <div class="elem-card__icon">⟁</div>
+        <div class="elem-card__title">Quantum Teleportation Science</div>
+        <div class="elem-card__desc">Quantum Teleportation Science in Yoruba and Yoruba Science of Quantum Teleportation — bridging ancient Ifa wisdom with modern quantum physics.</div>
+      </div>
+      <div class="elem-card__shimmer"></div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-card__num">03</div>
+      <div class="elem-card__body">
+        <div class="elem-card__icon">⬡</div>
+        <div class="elem-card__title">Materials Science</div>
+        <div class="elem-card__desc">Meta-Materials for building the Transformator (Egbé/Ako) and the Receiver (Ẹrọ Ẹgbà/Abo) — the physical and metaphysical infrastructure of teleportation.</div>
+      </div>
+      <div class="elem-card__shimmer"></div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-card__num">04</div>
+      <div class="elem-card__body">
+        <div class="elem-card__icon">⌥</div>
+        <div class="elem-card__title">Coding / Computing</div>
+        <div class="elem-card__desc">Ifa-Orisa computational paradigms, IFA Computing, and IfaLang implementations applied to teleportation systems across all dimensions of reality.</div>
+      </div>
+      <div class="elem-card__shimmer"></div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-card__num">05</div>
+      <div class="elem-card__body">
+        <div class="elem-card__icon">⊛</div>
+        <div class="elem-card__title">Safety &amp; Security</div>
+        <div class="elem-card__desc">Ifa-Orisa Safety and Security: Cybersecurity, Cryptography, Hacking, etc. — protecting teleportation systems at all levels of existence and all fields of knowledge.</div>
+      </div>
+      <div class="elem-card__shimmer"></div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-card__num">06</div>
+      <div class="elem-card__body">
+        <div class="elem-card__icon">◈</div>
+        <div class="elem-card__title">African &amp; Western Metascience</div>
+        <div class="elem-card__desc">Ifa-Orisa Metascience, Others, Western Metascience — the Dynamics of Teleportation across African, global, and multidimensional scientific frameworks.</div>
+      </div>
+      <div class="elem-card__shimmer"></div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-card__num">07</div>
+      <div class="elem-card__body">
+        <div class="elem-card__icon">⊕</div>
+        <div class="elem-card__title">Ifa-Orisa Communications &amp; Networking</div>
+        <div class="elem-card__desc">Classical communication and networking; quantum communication and networking — the full Ifa-Orisa spectrum of transmission systems for teleportation.</div>
+      </div>
+      <div class="elem-card__shimmer"></div>
+    </div>
+
+    <div class="elem-card">
+      <div class="elem-card__num">08</div>
+      <div class="elem-card__body">
+        <div class="elem-card__icon">∞</div>
+        <div class="elem-card__title">Others</div>
+        <div class="elem-card__desc">Additional elements, emerging disciplines, and interdisciplinary contributions to the continuously evolving science, technology, and art of Ifa-Orisa Teleportation.</div>
+      </div>
+      <div class="elem-card__shimmer"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════ EGBÉ FRAMEWORK ════ -->
+<section class="section reveal" id="egbe">
+  <div class="section__eyebrow eyebrow--purple">Egbé Framework</div>
+  <h2 class="section__h2">Egbé: Òrìṣà Egbé</h2>
+  <p class="section__sub">Àgbékalẹ̀ Gbogbóògbò fún Àwọn Ẹ̀kọ́jìnlẹ̀ Egbé — The Complete Framework of Egbé, Òrìṣà of Teleportation, in English and Yoruba.</p>
+
+  <div class="egbe-grid">
+
+    <!-- English -->
+    <div class="egbe-panel">
+      <div class="egbe-panel__title">#Egbé — Key Elements (English)</div>
+      <ol class="egbe-list">
+        <li><span class="n">1.</span>Odu Ifa Bases (Èjìogbè, Ọ̀yẹ̀kú Meji, Okanran Osa, etc.)</li>
+        <li><span class="n">2.</span>Quantum Teleportation</li>
+        <li><span class="n">3.</span>Materials Science (Meta-Materials for Building the Transformator / Ako and Receiver / Abo)</li>
+        <li><span class="n">4.</span>Coding / Computing</li>
+        <li><span class="n">5.</span>Safety and Security (Ifa-Orisa Safety and Security): Cybersecurity, Cryptography, Hacking, etc.</li>
+        <li><span class="n">6.</span>Ifa-Orisa Invisibility Technology/Shield, CODAR Systems (CODAR: Consciousness Detecting and Ranging), IfaSensors, OrisaSensors, Ifa-Orisa Detecting and Ranging (IfaDAR) Systems, Ifa-Orisa Stealth &amp; Threat Evasion Systems</li>
+        <li><span class="n">7.</span>—</li>
+        <li><span class="n">8.</span>Others</li>
+      </ol>
+
+    </div>
+
+    <!-- Yoruba -->
+    <div class="egbe-panel">
+      <div class="egbe-panel__title">#Egbé — Àwọn Ẹ̀rọja (Yorùbá)</div>
+      <ol class="egbe-list">
+        <li><span class="n">1.</span>Àwọn Odù Ifá Ìpinlẹ̀ (Ẹjiogbẹ̀, Ọyẹ́kú Méjì, Ọkànràn Ọṣà, etc.)</li>
+        <li><span class="n">2.</span>Egbé Nípasẹ̀ Lílo Hóró Wéwẹ́</li>
+        <li><span class="n">3.</span>Ìmọ̀ Ìjìnlẹ̀ Àwọn Ẹ̀lò Àfojúrí (Àwọn Nkan Agbára fún Ìṣẹ́dá Ẹrọ Egbé (Ako) àti Ẹrọ Ẹgbà (Abo))</li>
+        <li><span class="n">4.</span>Ìtẹ̀dúsọpọ́n / Ìṣẹ́ Ayárabíàṣà</li>
+        <li><span class="n">5.</span>Ààbò àti Ìṣọ́ (Ààbò àti Ìṣọ́ ní Ìlànà Ifá àti Ọ̀rìṣà): (Dídarí) Ìṣọ́ Ètò Ayélujára àti Ìdábòbò Ètò Ayélujára, Ṣíṣí-Ẹ̀rọ-Ayélujára/Ìbánisọ̀rọ̀-Níkọ̀kọ̀ (Lílo-Àáké-Láti-Fiṣi-Ẹ̀rọ Ayélujára, abbl)</li>
+        <li><span class="n">6.</span>Àfẹ́ẹ́rì, Ìlàjú, Àjàbọ́, etc.</li>
+        <li><span class="n">7.</span>—</li>
+        <li><span class="n">8.</span>Àwọn Ìyókù</li>
+      </ol>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════ IFABRACKETS / SQUAKETS ════ -->
+<section class="section squaket-section reveal" id="squakets">
+  <div class="section__eyebrow eyebrow--gold">IfaNotations</div>
+  <h2 class="section__h2">IfaBrackets (Squakets)</h2>
+  <p class="section__sub">
+    The IfaBracket — also known as the Squaket — is the fundamental IfaNotation bracket used in IfaLang.
+    It denotes the Egbé teleportation space and all enclosed IfaLang expressions.
+    Formed by a Squa <em>(</em> left half <em>)</em> and a Ket <em>(</em> right half <em>)</em>.
+  </p>
+
+  <div class="squakets-row">
+
+    <!-- Empty notation (no argument) -->
+    <div class="squaket-item">
+      <svg class="anim-squaket-sm" viewBox="-16 0 230 280" width="130" height="158" fill="none">
+        <defs>
+          <filter id="sq-glow-empty" x="-60%" y="-20%" width="220%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Squa (left bracket) — occupies left ~half of viewBox -->
+        <path d="M 82,6 L 46,6 C 0,76 0,204 46,274 L 82,274"
+              stroke="#ffd700" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"
+              filter="url(#sq-glow-empty)"/>
+        <!-- Ket (right bracket) — shifted right by 118 units so it sits beside the Squa -->
+        <g transform="translate(118,0)">
+          <path d="M 6,6 L 42,6 C 88,76 88,204 42,274 L 6,274"
+                stroke="#ffd700" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"
+                filter="url(#sq-glow-empty)"/>
+        </g>
+      </svg>
+      <div class="squaket-item__label" style="color:var(--gold)">IfaBracket · Squaket</div>
+      <div class="squaket-item__sublabel">Empty Notation · No Argument</div>
+    </div>
+
+    <!-- Squaket enclosing Egbé -->
+    <div class="squaket-item" style="justify-content:flex-end">
+      <div class="squaket-usage">
+        <!-- Squa -->
+        <svg viewBox="-12 0 106 280" width="44" height="116" fill="none">
+          <defs>
+            <filter id="sq-glow-squa" x="-150%" y="-30%" width="400%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M 82,6 L 46,6 C 0,76 0,204 46,274 L 82,274"
+                fill="none" stroke="#ffd700" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"
+                filter="url(#sq-glow-squa)"/>
+        </svg>
+        <div class="squaket-usage__text">Egbé</div>
+        <!-- Ket -->
+        <svg viewBox="-6 0 106 280" width="44" height="116" fill="none">
+          <defs>
+            <filter id="sq-glow-ket" x="-150%" y="-30%" width="400%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M 6,6 L 42,6 C 88,76 88,204 42,274 L 6,274"
+                fill="none" stroke="#ffd700" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"
+                filter="url(#sq-glow-ket)"/>
+        </svg>
+      </div>
+      <div class="squaket-item__label" style="color:var(--gold);margin-top:12px">IfaLang Usage</div>
+      <div class="squaket-item__sublabel">Squaket enclosing Egbé expression</div>
+    </div>
+
+    <!-- Empty Dual IfaBracket (no argument) — Ket on left, Squa on right -->
+    <div class="squaket-item">
+      <svg class="anim-squaket-sm-jade" viewBox="-16 0 230 280" width="130" height="158" fill="none">
+        <defs>
+          <filter id="sq-glow-dual-empty" x="-60%" y="-20%" width="220%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Ket (left half) -->
+        <path d="M 6,6 L 42,6 C 88,76 88,204 42,274 L 6,274"
+              stroke="#00e5a0" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"
+              filter="url(#sq-glow-dual-empty)"/>
+        <!-- Squa (right half) — shifted right by 118 units -->
+        <g transform="translate(118,0)">
+          <path d="M 82,6 L 46,6 C 0,76 0,204 46,274 L 82,274"
+                stroke="#00e5a0" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"
+                filter="url(#sq-glow-dual-empty)"/>
+        </g>
+      </svg>
+      <div class="squaket-item__label" style="color:var(--jade)">Dual IfaBracket</div>
+      <div class="squaket-item__sublabel">Empty Notation · No Argument</div>
+    </div>
+
+    <!-- Dual IfaBracket enclosing Ẹgbà -->
+    <div class="squaket-item" style="justify-content:flex-end">
+      <div class="squaket-usage">
+        <!-- Ket (left) -->
+        <svg viewBox="-6 0 106 280" width="44" height="116" fill="none">
+          <defs>
+            <filter id="sq-glow-dual-ket" x="-150%" y="-30%" width="400%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M 6,6 L 42,6 C 88,76 88,204 42,274 L 6,274"
+                fill="none" stroke="#00e5a0" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"
+                filter="url(#sq-glow-dual-ket)"/>
+        </svg>
+        <div class="squaket-usage__text" style="color:var(--jade)">Ẹgbà</div>
+        <!-- Squa (right) -->
+        <svg viewBox="-12 0 106 280" width="44" height="116" fill="none">
+          <defs>
+            <filter id="sq-glow-dual-squa" x="-150%" y="-30%" width="400%" height="160%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M 82,6 L 46,6 C 0,76 0,204 46,274 L 82,274"
+                fill="none" stroke="#00e5a0" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"
+                filter="url(#sq-glow-dual-squa)"/>
+        </svg>
+      </div>
+      <div class="squaket-item__label" style="color:var(--jade);margin-top:12px">IfaLang Usage</div>
+      <div class="squaket-item__sublabel">Dual IfaBracket enclosing Ẹgbà</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════ FOOTER ════ -->
+<footer class="footer">
+  <div class="footer__energy-line"></div>
+  <p><strong>Ifa-Orisa Teleportation Sciences, Technologies, and Arts</strong></p>
+  <p style="margin-top:6px">IfaNote Pro &nbsp;·&nbsp; CENProject &nbsp;·&nbsp; The IFA Internet</p>
+  <p style="margin-top:4px">© 2026 CENProject Innovations Limited. All rights reserved.</p>
+</footer>
+
+</div><!-- /page -->
+
+<!-- ══════════════════════════════════════════════════ SCRIPTS ════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+/* ── 1. Starfield background ───────────────────────────────────────────────── */
+(function () {
+  const cvs = document.getElementById('bg-canvas');
+  const ctx = cvs.getContext('2d');
+  let stars = [], nebulas = [], W, H;
+
+  function resize() {
+    W = cvs.width  = window.innerWidth;
+    H = cvs.height = Math.max(document.body.scrollHeight, window.innerHeight);
+  }
+
+  function mkStars(n) {
+    stars = [];
+    for (let i = 0; i < n; i++) {
+      const isPurple = Math.random() > 0.82;
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.4 + 0.2,
+        a: Math.random(),
+        da: (Math.random() - 0.5) * 0.007,
+        h: isPurple ? '155,89,255' : '255,215,0'
+      });
+    }
+    nebulas = [
+      { x: W * 0.15, y: H * 0.12, r: 260, c: '100,50,200' },
+      { x: W * 0.85, y: H * 0.30, r: 200, c: '200,120,20' },
+      { x: W * 0.50, y: H * 0.65, r: 320, c: '30,80,200'  },
+      { x: W * 0.20, y: H * 0.80, r: 180, c: '100,50,200' },
+    ];
+  }
+
+  let nt = 0;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    // Nebula glows
+    nebulas.forEach(n => {
+      const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r);
+      g.addColorStop(0,   `rgba(${n.c},0.055)`);
+      g.addColorStop(0.5, `rgba(${n.c},0.022)`);
+      g.addColorStop(1,   'transparent');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+    });
+    // Stars
+    for (const s of stars) {
+      s.a += s.da;
+      if (s.a <= 0 || s.a >= 1) s.da *= -1;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${s.h},${Math.max(0.05, Math.min(0.9, s.a))})`;
+      ctx.fill();
+    }
+    nt++;
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); mkStars(240); });
+  resize();
+  mkStars(240);
+  draw();
+})();
+
+/* ── 2. Scroll reveal ──────────────────────────────────────────────────────── */
+const io = new IntersectionObserver(
+  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+  { threshold: 0.08 }
+);
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ── 3. Teleportation process animation ───────────────────────────────────── */
+(function () {
+  const nUser   = document.getElementById('node-user');
+  const nEgbe   = document.getElementById('node-egbe');
+  const nXform  = document.getElementById('node-xform');
+  const nEro    = document.getElementById('node-eroegba');
+  const nOut    = document.getElementById('node-output');
+  const eroFig  = document.getElementById('eroegba-fig');
+  const xDots   = document.getElementById('xform-dots');
+
+  function glow(el, color, intensity) {
+    el.style.boxShadow = intensity
+      ? `0 0 ${intensity}px rgba(${color},0.8), 0 0 ${intensity*2}px rgba(${color},0.3)`
+      : '';
+  }
+  function reset() {
+    [nUser,nEgbe,nXform,nEro,nOut].forEach(n => glow(n,'',0));
+    nUser.style.opacity = '1';
+    nEgbe.style.opacity = '1';
+    nXform.style.opacity = '1';
+    nEro.style.opacity = '1';
+    nOut.style.opacity = '0.2';
+    eroFig.style.opacity = '0.2';
+    xDots.innerHTML = `
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--purple);display:block"></span>
+      <span style="width:5px;height:5px;border-radius:50%;background:var(--purple);opacity:0.5;display:block"></span>
+      <span style="width:3px;height:3px;border-radius:50%;background:var(--purple);opacity:0.25;display:block"></span>
+    `;
+  }
+
+  let step = 0;
+  const DELAY = 1300;
+
+  function tick() {
+    switch(step % 6) {
+      case 0: // User activates
+        reset();
+        glow(nUser, '59,158,255', 22);
+        break;
+      case 1: // Enters Egbé
+        glow(nUser, '', 0);
+        nUser.style.opacity = '0.3';
+        glow(nEgbe, '255,215,0', 32);
+        break;
+      case 2: // IfaTransforms / disappears
+        nUser.style.opacity = '0.05';
+        glow(nEgbe, '', 0);
+        nEgbe.style.opacity = '0.4';
+        glow(nXform, '155,89,255', 24);
+        xDots.innerHTML = `<span style="font-size:1rem;color:var(--purple);animation:pulse-purple 0.35s infinite">✦</span>`;
+        break;
+      case 3: // Manifesting in Ero Egba
+        glow(nXform, '', 0);
+        nXform.style.opacity = '0.35';
+        glow(nEro, '0,229,160', 28);
+        eroFig.style.opacity = '0.65';
+        break;
+      case 4: // Output fully formed
+        glow(nEro, '', 0);
+        eroFig.style.opacity = '1';
+        nOut.style.opacity = '1';
+        glow(nOut, '59,158,255', 28);
+        break;
+      case 5: // Hold then reset
+        glow(nOut, '', 0);
+        break;
+    }
+    step++;
+    setTimeout(tick, DELAY);
+  }
+
+  setTimeout(tick, 1800);
+})();
+
+/* ── 4. Download PDF ───────────────────────────────────────────────────────── */
+function dlPDF() {
+  document.getElementById('dl-bar').style.display = 'none';
+  setTimeout(() => {
+    window.print();
+    setTimeout(() => {
+      document.getElementById('dl-bar').style.display = '';
+    }, 500);
+  }, 100);
+}
+
+/* ── 5. Download PNG ───────────────────────────────────────────────────────── */
+function dlPNG() {
+  if (typeof html2canvas === 'undefined') {
+    alert('PNG export library not loaded. Please use PDF instead (Ctrl+P → Save as PDF).');
+    return;
+  }
+  const bar = document.getElementById('dl-bar');
+  const bg  = document.getElementById('bg-canvas');
+  bar.style.display = 'none';
+  bg.style.display  = 'none';
+
+  html2canvas(document.getElementById('page'), {
+    backgroundColor: '#02040a',
+    scale: 2,
+    useCORS: true,
+    allowTaint: true,
+    logging: false,
+    windowWidth: 1200
+  }).then(canvas => {
+    const a = document.createElement('a');
+    a.download = 'ifa-orisa-teleportation-infographic.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  }).catch(err => {
+    console.error(err);
+    alert('PNG export failed. Use PDF instead (Ctrl+P → Save as PDF).');
+  }).finally(() => {
+    bar.style.display = '';
+    bg.style.display  = '';
+  });
+}
+</script>
+
+</body>
+</html>

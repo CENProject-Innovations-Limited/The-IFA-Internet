@@ -232,6 +232,9 @@ function Header() {
           <a className="nav-link" href="#quantum">Quantum</a>
           <a className="nav-link" href="#particle-field">Particles</a>
           <a className="nav-link" href="#ifatization">Ifatize</a>
+          <a className="nav-link" href="#studies">Studies</a>
+          <a className="nav-link nav-link--cta nav-link--teleport"
+             href="/ifa-physics/ifa-orisa-teleportation/">Teleportation ↗</a>
           <a className="nav-link nav-link--cta"
              href="https://toe.cenproject.org/ifa-mathematics-toe-mathematics/"
              target="_blank" rel="noopener noreferrer">IFA Mathematics</a>
@@ -920,6 +923,56 @@ function IfatizationSection() {
   );
 }
 
+// ─── IFA PHYSICS STUDIES SECTION ─────────────────────────────────────────────
+
+const PHYSICS_STUDIES = [
+  {
+    id: 'teleportation',
+    sym: '\u29b8',
+    title: 'Ifa-Orisa Teleportation Sciences, Technologies & Arts',
+    subtitle: 'Universal Teleportation Model / Protocol',
+    body: 'A General and Universal Teleportation Model — governing all forms of teleportation across all dimensions of reality through the axioms of the 256 Odu Ifa. Grounded in Egbé (Òrìṣà Egbé) as the Ifa-Orisa Carrier/Transmitter and Ẹrọ Ẹgbà as the Ifa-Orisa Receiver. Governing Odu: Èjìogbè, Ọ̀yẹ̀kú Méjì, Ọkànràn Ọṣà, Ọṣà Ọkànràn.',
+    href: '/ifa-physics/ifa-orisa-teleportation/',
+    color: '#ffd700',
+    tag1: 'Sciences',
+    tag2: 'Technologies',
+    tag3: 'Arts',
+  },
+];
+
+function IfaPhysicsStudiesSection() {
+  return (
+    <section className="section section--alt" id="studies">
+      <div className="container">
+        <div className="section__header">
+          <span className="section__eyebrow section__eyebrow--gold">Ifa Physics Studies</span>
+          <h2 className="section__title">Ifa Physics Sciences, Technologies &amp; Arts</h2>
+          <p className="section__subtitle">
+            Specialised studies within Ifa Physics &mdash; each grounded in the 256 Odu Ifa and the
+            16 Principal Ifa Codes as the axiomatic foundations.
+          </p>
+        </div>
+        <div className="studies-grid">
+          {PHYSICS_STUDIES.map(s => (
+            <a key={s.id} className="study-card" href={s.href}>
+              <div className="study-card__sym">{s.sym}</div>
+              <div className="study-card__title">{s.title}</div>
+              <div className="study-card__subtitle">{s.subtitle}</div>
+              <div className="study-card__body">{s.body}</div>
+              <div className="study-card__tags">
+                <span className="study-card__tag">{s.tag1}</span>
+                <span className="study-card__tag">{s.tag2}</span>
+                <span className="study-card__tag">{s.tag3}</span>
+              </div>
+              <div className="study-card__cta">Explore {s.tag1} &rarr;</div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── CTA SECTION ─────────────────────────────────────────────────────────────
 
 function CTASection() {
@@ -1004,6 +1057,7 @@ function App() {
         <IPFSection />
         <IfaParticlePhysicsSection />
         <IfatizationSection />
+        <IfaPhysicsStudiesSection />
         <CTASection />
       </main>
       <Footer />

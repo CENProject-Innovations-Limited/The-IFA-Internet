@@ -694,6 +694,55 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--text-3);
 }
 
+.statusbar__dir {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.65rem;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+.statusbar__dir-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.statusbar__dir-dot--ltr  { background: #3b9eff; box-shadow: 0 0 5px #3b9eff88; }
+.statusbar__dir-dot--rtl  { background: #a78bfa; box-shadow: 0 0 5px #a78bfa88; }
+.statusbar__dir-dot--auto { background: #f5c518; box-shadow: 0 0 5px #f5c51888; }
+.statusbar__dir-label { color: var(--text-2); }
+
+/* ── BiDi toolbar direction group ──────────────────────────────────────────── */
+.tb-dir-group {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 7px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.tb-dir-btn {
+  padding: 0 8px;
+  height: 28px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  color: #3a5070;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.tb-dir-btn:last-child { border-right: none; }
+.tb-dir-btn:hover { background: rgba(255,255,255,0.05); color: var(--text-1); }
+.tb-dir-btn--active.tb-dir-btn--ltr  { color: #3b9eff; background: rgba(59,158,255,0.12); }
+.tb-dir-btn--active.tb-dir-btn--rtl  { color: #a78bfa; background: rgba(167,139,250,0.12); }
+.tb-dir-btn--active.tb-dir-btn--auto { color: #f5c518; background: rgba(245,197,24,0.12); }
+
 /* ── Scrollbar styling ─────────────────────────────────────────────────────── */
 * { scrollbar-width: thin; scrollbar-color: rgba(240,146,12,0.15) transparent; }
 

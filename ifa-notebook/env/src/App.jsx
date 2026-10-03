@@ -892,7 +892,12 @@ function serializeNotebook(cells, title) {
     version: 1,
     title,
     saved: new Date().toISOString(),
-    cells: cells.map(({ id, output, running, ...rest }) => rest),
+    cells: cells.map(({ id, running, output, ...rest }) => {
+      // Preserve output only when the URL is a persistent data: or http(s): URL.
+      // blob: URLs are ephemeral (session-only) and must not be saved.
+      const keepOutput = output && output.url && !output.url.startsWith('blob:') ? output : undefined;
+      return keepOutput ? { ...rest, output: keepOutput } : rest;
+    }),
   }, null, 2);
 }
 
@@ -965,7 +970,15 @@ function buildExportBody(cells, format = 'pdf') {
       return `${hdr}<pre style="background:#0a0e1a;color:#c8d8ee">${esc(c.input || '')}</pre>${mathRendered || mathErr}`;
     }
     if (c.type === 'schematics') return `${hdr}<pre>${esc(c.input || '')}</pre>`;
-    if (c.type === 'others')     return `${hdr}<p>${esc(c.input || '').replace(/\n/g, '<br>')}</p>`;
+    if (c.type === 'others') {
+      if (c.kind === 'todo' && c.todos && c.todos.length) {
+        const items = c.todos.map(t =>
+          `<li style="${t.done ? 'text-decoration:line-through;color:#888' : ''}">${esc(t.text || '')}</li>`
+        ).join('');
+        return `${hdr}<ul style="padding-left:20px">${items}</ul>`;
+      }
+      return `${hdr}<p>${esc(c.input || '').replace(/\n/g, '<br>')}</p>`;
+    }
     return `${hdr}<p>${esc(c.input || '')}</p>`;
   }).join('\n');
 }
@@ -1451,6 +1464,140 @@ function IfagramCanvas({ cell, onChange }) {
   );
 }
 
+/* ── Mammoth (DOCX renderer) ──────────────────────────────────────────────── */
+let _mammoth = null, _mammothPromise = null;
+function loadMammothOnce() {
+  if (_mammoth) return Promise.resolve(_mammoth);
+  if (_mammothPromise) return _mammothPromise;
+  _mammothPromise = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js';
+    s.onload  = () => { _mammoth = window.mammoth; resolve(window.mammoth); };
+    s.onerror = () => reject(new Error('Failed to load mammoth.js'));
+    document.head.appendChild(s);
+  });
+  return _mammothPromise;
+}
+
+function dataUrlToArrayBuffer(dataUrl) {
+  const base64 = dataUrl.substring(dataUrl.indexOf(',') + 1);
+  const binary = atob(base64);
+  const buf = new ArrayBuffer(binary.length);
+  const view = new Uint8Array(buf);
+  for (let i = 0; i < binary.length; i++) view[i] = binary.charCodeAt(i);
+  return buf;
+}
+
+function DocxViewer({ url, compact }) {
+  const [html, setHtml]   = React.useState(null);
+  const [err,  setErr]    = React.useState(null);
+  useEffect(() => {
+    if (!url) return;
+    setHtml(null); setErr(null);
+    loadMammothOnce()
+      .then(() => {
+        const buf = dataUrlToArrayBuffer(url);
+        return window.mammoth.convertToHtml({ arrayBuffer: buf });
+      })
+      .then(res => setHtml(res.value))
+      .catch(e  => setErr('Could not render document: ' + e.message));
+  }, [url]);
+  if (err)   return <div className="nb-doc-err">{err}</div>;
+  if (!html) return <div className="nb-doc-loading">⟳ Loading document…</div>;
+  return <div className={'nb-docx-body' + (compact ? ' nb-docx-body--compact' : '')}
+    dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
+function PdfViewer({ url, className, title }) {
+  const [displayUrl, setDisplayUrl] = React.useState(null);
+  useEffect(() => {
+    if (!url) { setDisplayUrl(null); return; }
+    if (!url.startsWith('data:')) { setDisplayUrl(url); return; }
+    try {
+      const base64 = url.substring(url.indexOf(',') + 1);
+      const binary = atob(base64);
+      const bytes  = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      const blob   = new Blob([bytes], { type: 'application/pdf' });
+      const objUrl = URL.createObjectURL(blob);
+      setDisplayUrl(objUrl);
+      return () => URL.revokeObjectURL(objUrl);
+    } catch(e) { setDisplayUrl(url); }
+  }, [url]);
+  if (!displayUrl) return <div className="nb-doc-loading">⟳ Loading PDF…</div>;
+  return <iframe src={displayUrl} className={className || 'nb-media__pdf'} title={title || 'PDF'} />;
+}
+
+function DocCard({ fileName, url, mediaType }) {
+  const isPptx = mediaType === 'pptx';
+  function download() {
+    const a = document.createElement('a');
+    a.href = url; a.download = fileName || ('document.' + mediaType); a.click();
+  }
+  return (
+    <div className="nb-doc-card">
+      <span className="nb-doc-card__icon">{isPptx ? '📊' : '📄'}</span>
+      <div className="nb-doc-card__info">
+        <span className="nb-doc-card__name">{fileName || (isPptx ? 'Presentation' : 'Document')}</span>
+        <span className="nb-doc-card__type">{isPptx ? 'PowerPoint Presentation' : 'Word Document'}</span>
+        {isPptx && <span className="nb-doc-card__note">Open in PowerPoint or Google Slides to view slides</span>}
+      </div>
+      <button className="nb-doc-card__dl" onClick={e => { e.stopPropagation(); download(); }}>⬇ Download</button>
+    </div>
+  );
+}
+
+/* ── LinkReader — inline article/PDF/any-URL readable viewer ─────────────── */
+function LinkReader({ url, initEmbed, onToggleEmbed }) {
+  const [embed, setEmbed] = React.useState(!!initEmbed);
+  let domain = url;
+  try { domain = new URL(url).hostname.replace(/^www\./, ''); } catch(e) {}
+  const favicon = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(domain) + '&sz=32';
+  const displayUrl = url.length > 72 ? url.slice(0, 69) + '\u2026' : url;
+  function toggle(e) {
+    e.stopPropagation();
+    const next = !embed;
+    setEmbed(next);
+    if (onToggleEmbed) onToggleEmbed(next);
+  }
+  return (
+    <div className="nb-link-reader">
+      <div className="nb-link-reader__card">
+        <img className="nb-link-reader__favicon" src={favicon} alt=""
+          onError={e => { e.target.style.display = 'none'; }} />
+        <div className="nb-link-reader__meta">
+          <span className="nb-link-reader__domain">{domain}</span>
+          <span className="nb-link-reader__url" title={url}>{displayUrl}</span>
+        </div>
+        <div className="nb-link-reader__actions">
+          <button
+            className={'nb-link-reader__btn' + (embed ? ' nb-link-reader__btn--close' : ' nb-link-reader__btn--embed')}
+            onClick={toggle}>
+            {embed ? '\u229f Close' : '\u229e Read Inline'}
+          </button>
+          <a className="nb-link-reader__btn nb-link-reader__btn--open"
+            href={url} target="_blank" rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}>Open \u2197</a>
+        </div>
+      </div>
+      {embed && (
+        <div className="nb-link-reader__frame-wrap">
+          <iframe
+            src={url}
+            className="nb-link-reader__iframe"
+            title="Inline Reader"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation-by-user-activation"
+          />
+          <p className="nb-link-reader__note">
+            If this page appears blank, the site blocks inline embedding \u2014{' '}
+            <a href={url} target="_blank" rel="noopener noreferrer">open in new tab \u2197</a>
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ── MultimediaCell ───────────────────────────────────────────────────────── */
 function detectMediaType(url) {
   const u = (url || '').trim().toLowerCase();
@@ -1573,8 +1720,9 @@ function MultimediaCell({ cell, onChange }) {
         clearInterval(timerRef.current);
         setRecording(false);
         const blob = new Blob(chunksRef.current, { type: 'audio/webm' });
-        const url  = URL.createObjectURL(blob);
-        onChange({ output: { ok: true, mediaType: 'audio', url } });
+        const reader = new FileReader();
+        reader.onload = e => onChange({ output: { ok: true, mediaType: 'audio', url: e.target.result } });
+        reader.readAsDataURL(blob);
       };
       recorder.start();
       setRecording(true);
@@ -1591,7 +1739,13 @@ function MultimediaCell({ cell, onChange }) {
     else if (file.type.startsWith('video/'))        mediaType = 'video';
     else if (file.type.startsWith('audio/'))        mediaType = 'audio';
     else if (file.type === 'application/pdf')       mediaType = 'pdf';
-    onChange({ output: { ok: true, mediaType, url: URL.createObjectURL(file), fileName: file.name } });
+    else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+             file.type === 'application/msword')    mediaType = 'docx';
+    else if (file.type === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' ||
+             file.type === 'application/vnd.ms-powerpoint') mediaType = 'pptx';
+    const reader = new FileReader();
+    reader.onload = e => onChange({ output: { ok: true, mediaType, url: e.target.result, fileName: file.name } });
+    reader.readAsDataURL(file);
   }
 
   function fmtTime(s) {
@@ -1641,9 +1795,9 @@ function MultimediaCell({ cell, onChange }) {
           onClick={e => { e.stopPropagation(); document.getElementById('nb-file-' + cell.id)?.click(); }}>
           <span className="nb-media__drop-icon">📁</span>
           <span className="nb-media__drop-text">Click or drag & drop a file</span>
-          <span className="nb-media__drop-sub">Image · Video · Audio · PDF</span>
+          <span className="nb-media__drop-sub">Image · Video · Audio · PDF · Word · PPT</span>
           <input id={'nb-file-' + cell.id} type="file"
-            accept="image/*,video/*,audio/*,application/pdf"
+            accept="image/*,video/*,audio/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint"
             style={{ display: 'none' }}
             onChange={e => { handleFile(e.target.files[0]); e.target.value = ''; }}
             onClick={e => e.stopPropagation()} />
@@ -1705,8 +1859,9 @@ function MultimediaCell({ cell, onChange }) {
           {mt === 'image'   && <img src={cell.output.url} alt={cell.output.fileName || 'media'} loading="lazy" />}
           {mt === 'video'   && <video src={cell.output.url} controls />}
           {mt === 'audio'   && <audio src={cell.output.url} controls style={{ width: '100%' }} />}
-          {mt === 'pdf'     && <iframe src={cell.output.url} title={cell.output.fileName || 'PDF'}
-                                 className="nb-media__pdf" />}
+          {mt === 'pdf'  && <PdfViewer url={cell.output.url} title={cell.output.fileName || 'PDF'} className="nb-media__pdf" />}
+          {mt === 'docx' && <DocxViewer url={cell.output.url} />}
+          {mt === 'pptx' && <DocCard fileName={cell.output.fileName} url={cell.output.url} mediaType="pptx" />}
           {mt === 'youtube' && (
             <iframe src={`https://www.youtube.com/embed/${youtubeId(cell.output.url)}`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -1722,12 +1877,11 @@ function MultimediaCell({ cell, onChange }) {
               loading="lazy" title="Spotify" className="nb-media__spotify" />
           )}
           {mt === 'link' && (
-            <div className="nb-media__link-card">
-              <span className="nb-media__link-icon">🔗</span>
-              <a className="nb-media__link-url" href={cell.output.url} target="_blank" rel="noopener noreferrer">
-                {cell.output.url}
-              </a>
-            </div>
+            <LinkReader
+              url={cell.output.url}
+              initEmbed={!!cell.linkEmbed}
+              onToggleEmbed={v => onChange({ linkEmbed: v })}
+            />
           )}
           {cell.output.fileName && (
             <p className="nb-media__file-name">{cell.output.fileName}</p>
@@ -1749,7 +1903,46 @@ function OthersCell({ cell, onChange }) {
         <option value="note">📝 Note</option>
         <option value="bookmark">🔖 Bookmark</option>
         <option value="quote">💬 Quote</option>
+        <option value="todo">☑ To-Do List</option>
       </select>
+
+      {kind === 'todo' && (
+        <div className="nb-others__todo">
+          {(cell.todos || []).map((item, i) => (
+            <div key={i} className="nb-others__todo-item">
+              <input type="checkbox" className="nb-others__todo-check"
+                checked={!!item.done}
+                onChange={e => {
+                  e.stopPropagation();
+                  const todos = [...(cell.todos || [])];
+                  todos[i] = { ...todos[i], done: e.target.checked };
+                  onChange({ todos });
+                }}
+                onClick={e => e.stopPropagation()} />
+              <input className={`nb-others__todo-text${item.done ? ' nb-others__todo-text--done' : ''}`}
+                value={item.text || ''}
+                onChange={e => {
+                  const todos = [...(cell.todos || [])];
+                  todos[i] = { ...todos[i], text: e.target.value };
+                  onChange({ todos });
+                }}
+                onClick={e => e.stopPropagation()}
+                placeholder="Task…" />
+              <button className="nb-others__todo-del"
+                onClick={e => {
+                  e.stopPropagation();
+                  onChange({ todos: (cell.todos || []).filter((_, j) => j !== i) });
+                }}
+                title="Remove task">×</button>
+            </div>
+          ))}
+          <button className="nb-others__todo-add"
+            onClick={e => {
+              e.stopPropagation();
+              onChange({ todos: [...(cell.todos || []), { text: '', done: false }] });
+            }}>＋ Add task</button>
+        </div>
+      )}
 
       {kind === 'note' && (
         <textarea className="nb-others__textarea"
@@ -2324,6 +2517,7 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
               <option value="note">📝 Note</option>
               <option value="bookmark">🔖 Bookmark</option>
               <option value="quote">💬 Quote</option>
+              <option value="todo">☑ To-Do List</option>
             </select>
           )}
 

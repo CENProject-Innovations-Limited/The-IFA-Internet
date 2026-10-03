@@ -151,6 +151,12 @@ button { font-family: inherit; }
   margin-left: 8px;
 }
 .nav-link--cta:hover { background: var(--blue-lt); color: #fff; }
+.nav-link--teleport {
+  background: rgba(245, 197, 24, 0.12);
+  border: 1px solid rgba(245, 197, 24, 0.35);
+  color: var(--gold);
+}
+.nav-link--teleport:hover { background: var(--gold); color: #050b18; }
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
 .hero {
@@ -1589,6 +1595,94 @@ button { font-family: inherit; }
   /* Meta-laws grid — 2 columns on smallest screens for readability */
   .meta-laws-grid    { grid-template-columns: repeat(2, 1fr); gap: 5px; }
   .meta-law-cell__type { font-size: 0.52rem; }
+}
+
+/* ── Ifa Physics Studies ──────────────────────────────────────────────────── */
+.studies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+.study-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--card-bg);
+  border: 1px solid rgba(245, 197, 24, 0.22);
+  border-radius: 16px;
+  padding: 36px 32px 30px;
+  color: var(--text-1);
+  text-decoration: none;
+  transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.study-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245,197,24,0.6), transparent);
+}
+.study-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(245,197,24,0.05) 0%, transparent 65%);
+  pointer-events: none;
+}
+.study-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(245, 197, 24, 0.55);
+  box-shadow: 0 12px 40px rgba(245, 197, 24, 0.10);
+}
+.study-card__sym {
+  font-size: 2.2rem;
+  color: var(--gold);
+  line-height: 1;
+}
+.study-card__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-1);
+  line-height: 1.35;
+}
+.study-card__subtitle {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.study-card__body {
+  font-size: 0.85rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  flex: 1;
+}
+.study-card__tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.study-card__tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(245, 197, 24, 0.08);
+  border: 1px solid rgba(245, 197, 24, 0.25);
+  border-radius: 4px;
+  padding: 3px 10px;
+}
+.study-card__cta {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  margin-top: 4px;
 }
 
 /* Touch device refinements */
