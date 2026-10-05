@@ -36,15 +36,15 @@ const STEAMSEX = [
   {
     letter: 'S', field: 'Science', title: 'Scientific Thinking',
     color: '#f0920c', odu: 'Ogbé — Symmetry (S)', angle: -90,
-    aw: 'Think Like a Scientist', aw_yo: 'Ronu bí Onímọ̀ Ẹ̀dá',
+    aw: 'Think Like a Scientist', aw_yo: 'Ronu bí Onímọ̀jìnlẹ̀',
     body: 'Apply the Symmetry Principle (Ogbé) to investigate the laws and forces of existence with curiosity, empirical rigor, and systematic inquiry. IfaThinking as a Scientist means asking "Why?" and "How?" in the 256 Odu language — tracing every phenomenon to its axiomatic Odu signature through Ifa Field Theory.',
     skills: ['Symmetry analysis', 'Pattern recognition', 'Empirical inquiry', 'Ifa Field Theory'],
-    metaphor: '"Mo ń ṣe Physics ní ọ̀nà Ifá" — I\'m doing Physics in Ifa language',
+    metaphor: '"Mo ń ṣe Ìmọ̀ Àrígbéwọ̀n ní ọ̀nà Ifá" — I\'m doing Physics in the Ifa Way',
   },
   {
     letter: 'T', field: 'Technology', title: 'Technological Thinking',
     color: '#14b8d4', odu: 'Òyèkú — Invariance (I)', angle: -45,
-    aw: 'Think Like a Technologist', aw_yo: 'Ronu bí Onítẹ̀knọ́lọ́jì',
+    aw: 'Think Like a Technologist', aw_yo: 'Ronu bí Onímọ̀ Ẹ̀rọ',
     body: 'Apply the Invariance Principle (Òyèkú) to design tools, systems, and platforms that endure across all transformations. IfaThinking as a Technologist means building with digital sovereignty — seeing every technology as an expression of Odu energy and the Ifa Computing paradigm.',
     skills: ['Invariant systems', 'Digital sovereignty', 'Tool design', 'Ifa Computing'],
     metaphor: '"Ẹ̀rọ mi ń ṣiṣẹ́ bí Ifá ní" — My system runs like Ifa (consistent, invariant)',
@@ -63,7 +63,7 @@ const STEAMSEX = [
     aw: 'Think Like an Artist', aw_yo: 'Ronu bí Onísọ̀nà',
     body: 'Channel the Emergence Principle (Òdí) to create beauty from unseen depths. IfaThinking as an Artist means expressing Odu energy through form, colour, sound, and motion — every creative act a ritual of reality-making, rooted in Ifa aesthetics, Oríkì oral poetry, and Orisa artistry.',
     skills: ['Creative emergence', 'Ifa aesthetics', 'Oríkì & oral poetry', 'Orisa artistry'],
-    metaphor: '"Mo ń ṣe iṣẹ́ ọnà ní ọ̀nà Mathimatiki" — I\'m doing Art in Mathematics language',
+    metaphor: '"Mo ń ṣe iṣẹ́ ọnà ní ọ̀nà Ìṣirò" — I\'m doing Art in Mathematics language',
   },
   {
     letter: 'M', field: 'Mathematics', title: 'Mathematical Thinking',
@@ -76,10 +76,10 @@ const STEAMSEX = [
   {
     letter: 'S', field: 'Social Science', title: 'Social Thinking',
     color: '#8b5cf6', odu: 'Òwónrín — Holism (H)', angle: 135,
-    aw: 'Think Like a Social Scientist', aw_yo: 'Ronu bí Onísọ̀ Àwùjọ',
+    aw: 'Think Like a Social Scientist', aw_yo: 'Ronu bí Onímọ̀jìnlẹ̀ Àwùjọ',
     body: 'Embrace the Holism Principle (Òwónrín) to understand human society, culture, and community as an irreducible living whole. IfaThinking as a Social Scientist means applying the 256 Odu as a social science framework — seeing every community as an Ifa Knowledge Network.',
     skills: ['Holistic analysis', 'Community networks', 'Ifa Social Learning', 'Cultural wisdom'],
-    metaphor: '"Mo ń ṣe àwùjọ ní ọ̀nà Ifá" — I\'m doing Social Science in Ifa language',
+    metaphor: '"Mo ń ṣe Ìmọ̀jìnlẹ̀ Àwùjọ ní ọ̀nà Ifá" — I\'m doing Social Science in Ifa language',
   },
   {
     letter: 'E', field: 'Education', title: 'Educational Thinking',
@@ -87,7 +87,7 @@ const STEAMSEX = [
     aw: 'Think Like an Educator', aw_yo: 'Ronu bí Olùkọ́',
     body: 'Use the Reductionism Principle (Òbàrà) to trace all knowledge to first principles — then build outward from Odu axioms. IfaThinking as an Educator means forming the whole person (Ọmọlúwàbí) through holistic, bilingual, and gamified learning on Orunmila Deep Learning Networks (ODDNs).',
     skills: ['Axiomatic teaching', 'Ọmọlúwàbí formation', 'Bilingual pedagogy', 'ODDNs'],
-    metaphor: '"Mo ń kọ́ ní ọ̀nà Ifá" — I\'m learning/teaching in Ifa language',
+    metaphor: '"Mo ń ẹ̀kọ́ ní ọ̀nà Ifá" — I\'m learning/teaching in Ifa language',
   },
   {
     letter: 'X', field: 'Unknowns', title: 'Exploratory Thinking',
@@ -103,8 +103,8 @@ const METAPHORS = [
   {
     yo: 'Ọsán já; ọrún dọ̀pá',
     odu: 'Ìwòrì Méjì', color: '#f5c518',
-    literal: '"The day broke; the heavens leaned down."',
-    thinking: 'The breakthrough moment. When understanding suddenly bursts forth — in a lab, a proof, a design session, or life — that is Ìwòrì Méjì firing: the day of the mind breaks, and the heavens of knowledge descend to meet you. Every "eureka" is an ọ̀sán já moment.',
+    literal: '"The bowstring snaps, and the bow becomes an ordinary stick."',
+    thinking: 'Uttered upon hearing of the death of an important figure. The proverb captures how the mighty have fallen — when a great force is gone, what remains is ordinary.',
   },
   {
     yo: 'Ìṣẹ́ kan kìí dédé ṣẹ́',

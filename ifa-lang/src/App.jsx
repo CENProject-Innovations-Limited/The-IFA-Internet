@@ -792,9 +792,280 @@ function OrisaCard({ item }) {
 }
 
 // ════════════════════════════════════════════════════════════
+// ORISA CODEX  (OrisaLang → Codex sub-section)
+// ════════════════════════════════════════════════════════════
+function OrisaCodexIntro() {
+  return (
+    <div className="oc-intro">
+      <div className="oc-intro__badges">
+        <span className="oc-intro__badge">OrisaMatrix</span>
+        <span className="oc-intro__badge">Dual of IfaMatrix</span>
+        <span className="oc-intro__badge">Ẹ́rìndínlógún Pattern</span>
+        <span className="oc-intro__badge">OrisaLogic</span>
+      </div>
+      <h2 className="oc-intro__title">OrisaCodex</h2>
+      <p className="oc-intro__desc">
+        The Matrix of Symbols of all past beings, higher beings, early beings, and first beings —
+        Òrìṣà, Irúnmọlẹ̀, Ẹbọra — in Ìṣẹ̀ṣe. The Dual of IfaMatrix, used for
+        Ifa-Orisa Communications, Ifa-Orisa Networking, Ifa-Orisa Internetworking, Ifa-Orisa Systems, and Ifa-Orisa Technologies.
+      </p>
+      <p className="oc-intro__sub">
+        Each <strong>OrisaScript</strong> encodes 8 sacred symbols — animals, plants, and elements of
+        nature — arranged in the pattern of Odu Ifa: two columns of four, following the 16 Orisa
+        Principles known as <em>Ẹ́rìndínlógún</em>. Click any script to reveal its symbols.
+      </p>
+      <div className="oc-intro__uses">
+        <span className="oc-intro__use">Ifa Icons</span>
+        <span className="oc-intro__use">Orisa Icons</span>
+        <span className="oc-intro__use">Ifa Emojis</span>
+        <span className="oc-intro__use">Orisa Emojis</span>
+        <span className="oc-intro__use">Ifa Emoticons</span>
+        <span className="oc-intro__use">Orisa Emoticons</span>
+        <span className="oc-intro__use">Ifa-Orisa Systems</span>
+        <span className="oc-intro__use">Ifa-Orisa Technologies</span>
+        <span className="oc-intro__use">Orisa Codex</span>
+        <span className="oc-intro__use">Orisa-Codex</span>
+        <span className="oc-intro__use">Orisa Script</span>
+        <span className="oc-intro__use">Orisa-Script</span>
+        <span className="oc-intro__use">IfaScript</span>
+        <span className="oc-intro__use">Ifa-Script</span>
+        <span className="oc-intro__use">Ifa Script</span>
+        <span className="oc-intro__use">ToE Script</span>
+      </div>
+    </div>
+  );
+}
+
+// ── Irun Ọlọ́ṣun Icon — black locs + silver comb ──────────────
+function IrunOlosunIcon() {
+  const braidXs = [5, 11, 17, 23, 29, 35];
+  const toothXs = [9, 15, 21, 27, 33];
+  return (
+    <svg viewBox="0 0 42 48" width="34" height="38" aria-hidden="true" style={{display:'block'}}>
+      {/* black locs */}
+      {braidXs.map((x, k) => (
+        <g key={k}>
+          <path
+            d={`M${x} 0 Q${x+1} 10 ${x} 20 Q${x-1} 30 ${x} 40 Q${x+1} 44 ${x} 48`}
+            stroke="#1a0f08" strokeWidth="4" fill="none" strokeLinecap="round"
+          />
+          <path
+            d={`M${x} 0 Q${x+1} 10 ${x} 20 Q${x-1} 30 ${x} 40 Q${x+1} 44 ${x} 48`}
+            stroke="rgba(90,55,20,0.32)" strokeWidth="1.4" fill="none" strokeLinecap="round"
+          />
+        </g>
+      ))}
+      {/* silver comb bar */}
+      <path d="M2 22 Q21 17 40 22" stroke="#9ab0bc" strokeWidth="3" fill="none" strokeLinecap="round"/>
+      <path d="M2 22 Q21 17 40 22" stroke="rgba(230,245,255,0.45)" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
+      {/* comb teeth pointing up */}
+      {toothXs.map((x, k) => {
+        const base = 22 - (21 - x) * (21 - x) * 0.007;
+        return <line key={k} x1={x} y1={base} x2={x} y2={base - 8} stroke="#b8ccd8" strokeWidth="1.8" strokeLinecap="round"/>;
+      })}
+      {/* comb top ornament */}
+      <path d="M18 12 Q21 7 24 12" stroke="#b8ccd8" strokeWidth="1.6" fill="none" strokeLinecap="round"/>
+      <circle cx="21" cy="9" r="2" fill="#ccdde8" stroke="#9ab0bc" strokeWidth="0.8"/>
+      {/* gold bead left */}
+      <circle cx="6" cy="8" r="2.4" fill="#f0a800" stroke="#c8860a" strokeWidth="0.7"/>
+      <circle cx="6" cy="7" r="1" fill="rgba(255,230,120,0.55)"/>
+      {/* orange/coral bead right */}
+      <circle cx="36" cy="9" r="2" fill="#e05c3c" stroke="#b84020" strokeWidth="0.7"/>
+    </svg>
+  );
+}
+
+// ── Yoruba Portrait SVG (for OrisaScript people slider) ──────
+function YorubaPortrait({ gender, color, role }) {
+  const skin = '#8C5E3C';
+  const isRoyal = /wife|queen|king|royal|priestess/i.test(role || '');
+  const ac   = color || '#c0392b';
+  const gold = '#f5c518';
+  const bead = '#d63031';
+
+  const face = (
+    <>
+      <rect x="33" y="39" width="14" height="11" rx="3" fill={skin}/>
+      <path d="M27 47 Q40 53 53 47" stroke={bead} strokeWidth="3.5" fill="none" strokeLinecap="round" strokeDasharray="4,2.5"/>
+      <ellipse cx="40" cy="27" rx="17" ry="19" fill={skin}/>
+      <line x1="26" y1="26" x2="21" y2="31" stroke="#5C3010" strokeWidth="1.1" opacity="0.55"/>
+      <line x1="27" y1="30" x2="22" y2="35" stroke="#5C3010" strokeWidth="1.1" opacity="0.55"/>
+      <line x1="54" y1="26" x2="59" y2="31" stroke="#5C3010" strokeWidth="1.1" opacity="0.55"/>
+      <line x1="53" y1="30" x2="58" y2="35" stroke="#5C3010" strokeWidth="1.1" opacity="0.55"/>
+      <ellipse cx="33" cy="24" rx="3.2" ry="2.6" fill="#1A0800"/>
+      <ellipse cx="47" cy="24" rx="3.2" ry="2.6" fill="#1A0800"/>
+      <ellipse cx="32.2" cy="23.2" rx="1.1" ry="0.9" fill="white" opacity="0.45"/>
+      <ellipse cx="46.2" cy="23.2" rx="1.1" ry="0.9" fill="white" opacity="0.45"/>
+      <ellipse cx="40" cy="31" rx="3.2" ry="2.2" fill="#7A4F28" opacity="0.65"/>
+      <path d="M34 36 Q40 40 46 36" stroke="#5C2D10" strokeWidth="2.2" fill="#B06040" strokeLinecap="round"/>
+    </>
+  );
+
+  if (gender === 'female') {
+    return (
+      <svg viewBox="0 0 80 112" width="72" height="101" aria-hidden="true" style={{display:'block',flexShrink:0}}>
+        <rect x="14" y="64" width="52" height="44" rx="4" fill={ac}/>
+        <line x1="14" y1="72" x2="66" y2="72" stroke={gold} strokeWidth="1.2" opacity="0.35"/>
+        <line x1="14" y1="80" x2="66" y2="80" stroke={gold} strokeWidth="1.2" opacity="0.35"/>
+        <line x1="14" y1="88" x2="66" y2="88" stroke={gold} strokeWidth="1.2" opacity="0.35"/>
+        <rect x="13" y="44" width="54" height="24" rx="6" fill={ac} opacity="0.88"/>
+        <line x1="13" y1="52" x2="67" y2="52" stroke={gold} strokeWidth="1.2" opacity="0.3"/>
+        <line x1="13" y1="60" x2="67" y2="60" stroke={gold} strokeWidth="1.2" opacity="0.3"/>
+        {face}
+        <ellipse cx="40" cy="10" rx="22" ry="12" fill={gold}/>
+        <path d="M18 10 Q40 -1 62 10 L63 17 Q40 7 17 17 Z" fill={isRoyal ? gold : '#e0a800'} opacity="0.85"/>
+        <line x1="23" y1="7" x2="25" y2="18" stroke="rgba(0,0,0,0.18)" strokeWidth="1"/>
+        <line x1="32" y1="4" x2="33" y2="17" stroke="rgba(0,0,0,0.18)" strokeWidth="1"/>
+        <line x1="40" y1="3" x2="40" y2="17" stroke="rgba(0,0,0,0.18)" strokeWidth="1"/>
+        <line x1="48" y1="4" x2="47" y2="17" stroke="rgba(0,0,0,0.18)" strokeWidth="1"/>
+        <line x1="57" y1="7" x2="55" y2="18" stroke="rgba(0,0,0,0.18)" strokeWidth="1"/>
+        {isRoyal && <ellipse cx="40" cy="9" rx="6" ry="3" fill={ac} opacity="0.7"/>}
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 80 112" width="72" height="101" aria-hidden="true" style={{display:'block',flexShrink:0}}>
+      <path d="M6 50 Q40 66 74 50 L70 108 L10 108 Z" fill={ac} opacity="0.5"/>
+      <rect x="15" y="44" width="50" height="42" rx="5" fill={ac}/>
+      <line x1="10" y1="70" x2="70" y2="70" stroke={gold} strokeWidth="1.3" opacity="0.35"/>
+      <line x1="10" y1="82" x2="70" y2="82" stroke={gold} strokeWidth="1.3" opacity="0.35"/>
+      <rect x="20" y="90" width="40" height="16" rx="3" fill={ac} opacity="0.6"/>
+      {face}
+      <ellipse cx="40" cy="11" rx="19" ry="10" fill={isRoyal ? gold : '#1a1a2e'}/>
+      <path d="M21 11 Q40 4 59 11" fill={isRoyal ? '#e0a800' : '#0f0f20'}/>
+      {isRoyal && (
+        <>
+          <ellipse cx="40" cy="10" rx="7" ry="4" fill={ac} opacity="0.85"/>
+          <line x1="33" y1="7" x2="31" y2="2" stroke={gold} strokeWidth="1.5"/>
+          <line x1="40" y1="6" x2="40" y2="1" stroke={gold} strokeWidth="1.5"/>
+          <line x1="47" y1="7" x2="49" y2="2" stroke={gold} strokeWidth="1.5"/>
+          <circle cx="31" cy="2" r="1.5" fill={gold}/>
+          <circle cx="40" cy="1" r="1.5" fill={gold}/>
+          <circle cx="49" cy="2" r="1.5" fill={gold}/>
+        </>
+      )}
+    </svg>
+  );
+}
+
+function OrisaScriptCard({ item, expanded, onToggle }) {
+  const [openPersons, setOpenPersons] = useState({});
+  const togglePerson = useCallback((i, e) => {
+    e.stopPropagation();
+    setOpenPersons(s => ({ ...s, [i]: !s[i] }));
+  }, []);
+
+  const col1 = item.symbols ? item.symbols.slice(0, 4) : [];
+  const col2 = item.symbols ? item.symbols.slice(4, 8) : [];
+  return (
+    <div
+      className={'oc-card' + (expanded ? ' oc-card--open' : '')}
+      style={{ '--oc-color': item.color }}
+      onClick={onToggle}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onToggle()}
+      aria-expanded={expanded}
+    >
+      <div className="oc-card__head">
+        <span className="oc-card__script">{item.script || (item.lang.replace('Lang','Script'))}</span>
+        <span className="oc-card__orisa">{item.orisa}</span>
+      </div>
+
+      <div className="oc-matrix">
+        <div className="oc-matrix__col">
+          {col1.map((sym, i) => (
+            <div key={i} className="oc-cell" title={sym.name}>
+              <span className="oc-cell__glyph" role="img" aria-label={sym.name}>{sym.glyph}</span>
+            </div>
+          ))}
+        </div>
+        <div className="oc-matrix__col">
+          {col2.map((sym, i) => (
+            <div key={i} className="oc-cell" title={sym.name}>
+              <span className="oc-cell__glyph" role="img" aria-label={sym.name}>{sym.glyph}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p className="oc-card__domain">{item.domain.split(',')[0]}</p>
+
+      {expanded && item.symbols && (
+        <div className="oc-detail" onClick={e => e.stopPropagation()}>
+          <div className="oc-detail__label">OrisaScript · 8 Sacred Symbols</div>
+          <div className="oc-detail__list">
+            {item.symbols.map((sym, i) => (
+              <Fragment key={i}>
+                <div className="oc-detail__row">
+                  <span className="oc-detail__glyph" role="img" aria-label={sym.name}>
+                    {sym.svgGlyph === 'irunOlosun' ? <IrunOlosunIcon /> : sym.glyph}
+                  </span>
+                  <div className="oc-detail__text">
+                    <span className="oc-detail__name">{sym.name}</span>
+                    <span className="oc-detail__meaning">{sym.meaning}</span>
+                  </div>
+                  {sym.person && (
+                    <button
+                      className={'person-toggle' + (openPersons[i] ? ' person-toggle--on' : '')}
+                      onClick={e => togglePerson(i, e)}
+                      title={openPersons[i] ? 'Hide person' : 'Show past Yoruba person'}
+                      aria-label={openPersons[i] ? 'Hide person behind this name' : 'Show past Yoruba person behind this name'}
+                    >
+                      <span className="person-toggle__track">
+                        <span className="person-toggle__thumb" />
+                      </span>
+                      <span className="person-toggle__label">Person</span>
+                    </button>
+                  )}
+                </div>
+                {sym.person && openPersons[i] && (
+                  <div className="person-card" onClick={e => e.stopPropagation()}>
+                    <div className="person-card__portrait">
+                      <YorubaPortrait gender={sym.person.gender} color={item.color} role={sym.person.role} />
+                    </div>
+                    <div className="person-card__info">
+                      <div className="person-card__badge">Past Yoruba Person</div>
+                      <div className="person-card__name">{sym.person.name}</div>
+                      <div className="person-card__role">{sym.person.role}</div>
+                      <p className="person-card__desc">{sym.person.desc}</p>
+                    </div>
+                  </div>
+                )}
+              </Fragment>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function OrisaCodex({ orisa }) {
+  const [active, setActive] = useState(null);
+  return (
+    <div className="oc-wrap">
+      <OrisaCodexIntro />
+      <div className="oc-grid">
+        {orisa.map(item => (
+          <OrisaScriptCard
+            key={item.id}
+            item={item}
+            expanded={active === item.id}
+            onToggle={() => setActive(active === item.id ? null : item.id)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
 // ORISA OVERVIEW  (OrisaLang section)
 // ════════════════════════════════════════════════════════════
 function OrisaOverview({ data }) {
+  const [view,   setView]   = useState('codex');
   const [search, setSearch] = useState('');
   const filtered = useMemo(() => {
     if (!search.trim()) return data.orisa;
@@ -819,22 +1090,38 @@ function OrisaOverview({ data }) {
           OrisaLang maps and reveals these Energies as the Bases of all fields of knowledge in IfaLogic.
         </p>
       </div>
-      <div className="ol-overview">
-        <div className="ol-search-row">
-          <input
-            className="ol-search" type="search"
-            placeholder="Search Orisa, domains, technologies…"
-            value={search} onChange={e => setSearch(e.target.value)}
-          />
-          <span className="ol-count">{filtered.length} / {data.orisa.length}</span>
-        </div>
-        {filtered.length === 0
-          ? <div className="ol-empty">No Orisa Language matches your search.</div>
-          : <div className="ol-grid">
-              {filtered.map(item => <OrisaCard key={item.id} item={item} />)}
-            </div>
-        }
+
+      <div className="ol-subnav">
+        <button
+          className={'ol-subnav__btn' + (view === 'codex' ? ' ol-subnav__btn--active' : '')}
+          onClick={() => setView('codex')}
+        >◉ OrisaCodex</button>
+        <button
+          className={'ol-subnav__btn' + (view === 'langs' ? ' ol-subnav__btn--active' : '')}
+          onClick={() => setView('langs')}
+        >⊛ OrisaLang</button>
       </div>
+
+      {view === 'codex' && <OrisaCodex orisa={data.orisa} />}
+
+      {view === 'langs' && (
+        <div className="ol-overview">
+          <div className="ol-search-row">
+            <input
+              className="ol-search" type="search"
+              placeholder="Search Orisa, domains, technologies…"
+              value={search} onChange={e => setSearch(e.target.value)}
+            />
+            <span className="ol-count">{filtered.length} / {data.orisa.length}</span>
+          </div>
+          {filtered.length === 0
+            ? <div className="ol-empty">No Orisa Language matches your search.</div>
+            : <div className="ol-grid">
+                {filtered.map(item => <OrisaCard key={item.id} item={item} />)}
+              </div>
+          }
+        </div>
+      )}
     </div>
   );
 }

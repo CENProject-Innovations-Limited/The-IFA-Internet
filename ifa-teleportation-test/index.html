@@ -776,6 +776,83 @@ body {
 .anim-squaket-sm-jade { animation: squaket-breathe-jade 2.5s ease-in-out infinite; }
 .anim-float         { animation: float 4s ease-in-out infinite; }
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   LECTURES
+══════════════════════════════════════════════════════════════════════════════ */
+.lecture-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 8px;
+}
+.lecture-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.35s, transform 0.35s, box-shadow 0.35s;
+}
+.lecture-card:hover {
+  border-color: var(--border-2);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45), 0 0 30px rgba(255,215,0,0.06);
+}
+.lecture-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--purple-lt), var(--gold), transparent);
+  opacity: 0.55;
+  z-index: 1;
+}
+.lecture-card__header {
+  padding: 18px 20px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.lecture-card__part-badge {
+  font-size: 0.58rem;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #02040a;
+  background: var(--gold);
+  padding: 3px 10px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.lecture-card__title {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text-1);
+  line-height: 1.35;
+}
+.lecture-embed {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  height: 0;
+  background: #000;
+}
+.lecture-embed iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+  display: block;
+}
+.lecture-card__glow {
+  position: absolute;
+  bottom: -24px; right: -24px;
+  width: 130px; height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(155,89,255,0.09) 0%, transparent 70%);
+  pointer-events: none;
+}
+
 /* Scroll reveal */
 .reveal {
   opacity: 0;
@@ -823,6 +900,7 @@ body {
   .tp-arrow  { transform: rotate(90deg); }
   .tp-phase-labels { grid-template-columns: 1fr; }
   .elements-grid   { grid-template-columns: 1fr; }
+  .lecture-grid    { grid-template-columns: 1fr; }
 
   /* Hero */
   .hero { padding: 36px 0 20px; }
@@ -1611,6 +1689,47 @@ body {
       </div>
       <div class="squaket-item__label" style="color:var(--jade);margin-top:12px">IfaLang Usage</div>
       <div class="squaket-item__sublabel">Dual IfaBracket enclosing Ẹgbà</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════ LECTURES ════ -->
+<section class="section reveal" id="lectures">
+  <div class="section__eyebrow eyebrow--gold">IFA Internet · Lectures</div>
+  <h2 class="section__h2">Ifa-Orisa Teleportation Systems: Lectures</h2>
+  <p class="section__sub">Video lectures on the science, technology, and art of Ifa-Orisa Teleportation — from the governing laws of nature through the full engineering model, in two parts.</p>
+
+  <div class="lecture-grid">
+
+    <div class="lecture-card">
+      <div class="lecture-card__header">
+        <span class="lecture-card__part-badge">Part I</span>
+        <div class="lecture-card__title">Ifa-Orisa Teleportation Systems</div>
+      </div>
+      <div class="lecture-embed">
+        <iframe
+          src="https://www.youtube.com/embed/Dtd78_yokIc"
+          title="Ifa-Orisa Teleportation Systems — Part 1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="lecture-card__glow"></div>
+    </div>
+
+    <div class="lecture-card">
+      <div class="lecture-card__header">
+        <span class="lecture-card__part-badge">Part II</span>
+        <div class="lecture-card__title">Ifa-Orisa Teleportation Systems</div>
+      </div>
+      <div class="lecture-embed">
+        <iframe
+          src="https://www.youtube.com/embed/bmiKr8KDgfY"
+          title="Ifa-Orisa Teleportation Systems — Part 2"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="lecture-card__glow"></div>
     </div>
 
   </div>

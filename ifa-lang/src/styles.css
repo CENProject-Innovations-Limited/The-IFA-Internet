@@ -1466,6 +1466,397 @@ body {
 }
 
 /* ════════════════════════════════════════════════════════════
+   OrisaCodex / OrisaMatrix  (oc- prefix)
+════════════════════════════════════════════════════════════ */
+
+/* Sub-nav (Codex / OrisaLang toggle) */
+.ol-subnav {
+  display: flex;
+  gap: 6px;
+  padding: 0 28px;
+  margin-bottom: 28px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ol-subnav__btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text-3);
+  font-size: 0.8rem;
+  padding: 7px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.ol-subnav__btn:hover { color: var(--text-2); border-color: var(--border-2); }
+.ol-subnav__btn--active {
+  background: var(--surface-3);
+  color: var(--text);
+  border-color: var(--border-2);
+}
+
+/* Codex wrapper */
+.oc-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 28px 56px;
+}
+
+/* Intro header */
+.oc-intro {
+  text-align: center;
+  padding: 32px 20px 36px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.oc-intro__badges {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.oc-intro__badge {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+.oc-intro__title {
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  background: linear-gradient(135deg, #9b59b6 0%, #e05c3c 45%, #f5c518 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 14px;
+}
+.oc-intro__desc {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.75;
+  max-width: 640px;
+  margin: 0 auto 10px;
+}
+.oc-intro__sub {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  line-height: 1.65;
+  max-width: 580px;
+  margin: 0 auto 20px;
+}
+.oc-intro__sub strong { color: var(--text-2); font-weight: 600; }
+.oc-intro__sub em    { color: var(--gold); font-style: italic; }
+.oc-intro__uses {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.oc-intro__use {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 4px 10px;
+}
+
+/* Script card grid */
+.oc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+/* Script card */
+.oc-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px 14px 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.12s, box-shadow 0.15s;
+  position: relative;
+  outline: none;
+}
+.oc-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--oc-color, var(--gold));
+  opacity: 0.045;
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+.oc-card:hover,
+.oc-card:focus-visible {
+  border-color: var(--oc-color, var(--gold));
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+}
+.oc-card:hover::before,
+.oc-card:focus-visible::before { opacity: 0.09; }
+.oc-card--open { border-color: var(--oc-color, var(--gold)); }
+.oc-card--open::before { opacity: 0.09; }
+
+/* Card header */
+.oc-card__head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 11px;
+}
+.oc-card__script {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--oc-color, var(--gold));
+  line-height: 1.2;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.oc-card__orisa {
+  font-size: 0.6rem;
+  color: var(--text-3);
+  flex-shrink: 0;
+  font-style: italic;
+}
+
+/* 2×4 Symbol Matrix */
+.oc-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+.oc-matrix__col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.oc-cell {
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.055);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 2px;
+  transition: background 0.12s, border-color 0.12s;
+  aspect-ratio: 2 / 1;
+}
+.oc-card:hover .oc-cell,
+.oc-card--open .oc-cell {
+  background: rgba(255,255,255,0.05);
+  border-color: color-mix(in srgb, var(--oc-color, var(--gold)) 22%, transparent);
+}
+.oc-cell__glyph {
+  font-size: 1.2rem;
+  line-height: 1;
+  display: block;
+}
+
+/* Domain tag */
+.oc-card__domain {
+  font-size: 0.62rem;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* Expanded detail panel */
+.oc-detail {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.oc-detail__label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--oc-color, var(--gold));
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+.oc-detail__list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.oc-detail__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.oc-detail__glyph {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 26px;
+  text-align: center;
+  line-height: 1.3;
+}
+.oc-detail__text {
+  flex: 1;
+  min-width: 0;
+}
+.oc-detail__name {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1px;
+}
+.oc-detail__meaning {
+  font-size: 0.67rem;
+  color: var(--text-3);
+  line-height: 1.45;
+}
+
+/* ── Person toggle slider ─────────────────────────────────── */
+.person-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 0;
+}
+.person-toggle__track {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  transition: background 0.22s, border-color 0.22s;
+}
+.person-toggle__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-3, #6e90b8);
+  transition: transform 0.22s, background 0.22s;
+}
+.person-toggle--on .person-toggle__track {
+  background: color-mix(in srgb, var(--oc-color) 30%, transparent);
+  border-color: var(--oc-color);
+}
+.person-toggle--on .person-toggle__thumb {
+  transform: translateX(14px);
+  background: var(--oc-color);
+}
+.person-toggle__label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-3, #6e90b8);
+  transition: color 0.22s;
+}
+.person-toggle--on .person-toggle__label {
+  color: var(--oc-color);
+}
+
+/* ── Person card (Yoruba person reveal) ──────────────────── */
+.person-card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin: 6px 0 4px 28px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid color-mix(in srgb, var(--oc-color) 28%, transparent);
+  border-radius: 10px;
+  animation: person-card-in 0.22s ease;
+}
+@keyframes person-card-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.person-card__portrait {
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--oc-color) 12%, #0d1525);
+  line-height: 0;
+}
+.person-card__info {
+  flex: 1;
+  min-width: 0;
+}
+.person-card__badge {
+  display: inline-block;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--oc-color);
+  background: color-mix(in srgb, var(--oc-color) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--oc-color) 35%, transparent);
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-bottom: 6px;
+}
+.person-card__name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text, #eef3ff);
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+.person-card__role {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--oc-color);
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+.person-card__desc {
+  font-size: 0.67rem;
+  color: var(--text-3, #6e90b8);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .ol-subnav { padding: 0 16px; }
+  .oc-wrap    { padding: 0 16px 40px; }
+  .oc-grid    { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+}
+@media (max-width: 600px) {
+  .oc-grid         { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .oc-cell__glyph  { font-size: 1.05rem; }
+  .oc-card__script { font-size: 0.62rem; }
+  .oc-intro__title { font-size: clamp(1.5rem, 7vw, 2rem); }
+}
+@media (max-width: 420px) {
+  .oc-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ════════════════════════════════════════════════════════════
    PT SECTION — NEW SECTIONS (ported from Ifa Periodic Table)
 ════════════════════════════════════════════════════════════ */
 

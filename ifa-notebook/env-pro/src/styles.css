@@ -878,6 +878,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .nb-add-btn     { padding: 6px 10px; font-size: 0.72rem; white-space: nowrap; min-height: 36px; }
   .nb-run-all-btn { padding: 5px 12px; font-size: 0.7rem;  min-height: 36px; }
   .nb-file-btn    { padding: 5px 10px; font-size: 0.7rem;  min-height: 36px; }
+  .nb-save-btn    { padding: 5px 10px; font-size: 0.7rem;  min-height: 36px; }
   .nb-ctrl-btn    { padding: 5px 10px; font-size: 0.72rem; min-height: 34px; }
   .nb-mark-btn    { height: 40px; width: 50px; }
   .env-title-btn, .env-title-input { max-width: 150px; font-size: 0.75rem; }
@@ -1068,7 +1069,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .nb-cell__num    { display: none; }          /* gutter shows only the ▶ button */
   .env-title-btn   { max-width: 80px; }
   .nb-add-btn      { padding: 5px 7px; font-size: 0.66rem; }
-  .nb-run-all-btn, .nb-file-btn { padding: 5px 7px; }
+  .nb-run-all-btn, .nb-file-btn, .nb-save-btn { padding: 5px 7px; }
 
   /* Terminal — very compact on tiny phones */
   .nb-terminal__body { max-height: 140px; }
@@ -1520,6 +1521,28 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nb-add-inline--others     { color: rgba(148,163,184,0.55); border: 1px dashed rgba(148,163,184,0.25); }
 
 /* ── File menu (Open / Save / Save As / Duplicate / Delete) ─────────────── */
+.nb-save-btn {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 4px;
+  background: rgba(0,200,124,0.1);
+  border: 1px solid rgba(0,200,124,0.28);
+  color: #00c87c;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.nb-save-btn:hover {
+  background: rgba(0,200,124,0.18);
+  border-color: rgba(0,200,124,0.5);
+  color: #2eeb97;
+}
+.nb-save-btn:active {
+  background: rgba(0,200,124,0.26);
+}
+
 .nb-file-menu { position: relative; }
 
 .nb-file-btn {

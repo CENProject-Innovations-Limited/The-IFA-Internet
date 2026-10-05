@@ -870,6 +870,19 @@ function newNbCell(type, extra) {
   );
 }
 
+/* ── Download trigger helper ─────────────────────────────────────────────── */
+// Appends the anchor to the DOM before clicking so all browsers register the
+// download, then removes it and revokes the blob URL after a short delay.
+function triggerDownload(url, filename) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 150);
+}
+
 /* ── Export helpers ───────────────────────────────────────────────────────── */
 function exportIfa(cells, title) {
   const header = `IfaNote Notebook\nTitle: ${title}\nExported: ${new Date().toISOString()}\n${'─'.repeat(56)}\n\n`;
@@ -889,10 +902,7 @@ function exportIfa(cells, title) {
     return `${hdr}\n${c.input}\n`;
   });
   const blob = new Blob([header + body.join('\n')], { type: 'text/plain' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href = url; a.download = (title||'notebook').replace(/\s+/g,'-').toLowerCase()+'.ifa'; a.click();
-  URL.revokeObjectURL(url);
+  triggerDownload(URL.createObjectURL(blob), (title||'notebook').replace(/\s+/g,'-').toLowerCase()+'.ifa');
 }
 
 /* ── Native serialization (round-trip JSON) ───────────────────────────────── */
@@ -1276,7 +1286,10 @@ function IfagramCanvas({ cell, onChange }) {
   function download() {
     const a = document.createElement('a');
     a.href = canvasRef.current.toDataURL('image/png');
-    a.download = 'ifagram.png'; a.click();
+    a.download = 'ifagram.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   }
 
   // Draw an image (src = data URL or object URL) onto the canvas, scaled to fill
@@ -3544,6 +3557,17 @@ function App() {
     return () => document.removeEventListener('mousedown', onOutsideClick);
   }, []);
 
+  useEffect(() => {
+    function onKeyDown(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        saveNotebook();
+      }
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [cells, nbTitle]); // eslint-disable-line
+
   /* ── Pro: notebook management ────────────────────────────────────────────── */
   function proSelectNotebook(id) {
     // Save current first
@@ -3637,12 +3661,7 @@ function App() {
   function saveNotebook() {
     const json = serializeNotebook(cells, nbTitle);
     const blob = new Blob([json], { type: 'application/json' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url;
-    a.download = (nbTitle || 'notebook').replace(/\s+/g, '-').toLowerCase() + '.ifanb';
-    a.click();
-    URL.revokeObjectURL(url);
+    triggerDownload(URL.createObjectURL(blob), (nbTitle || 'notebook').replace(/\s+/g, '-').toLowerCase() + '.ifanb');
     setFileMenuOpen(false);
   }
 
@@ -3660,12 +3679,7 @@ function App() {
     } catch(_) { /* proceed without embedded font */ }
     const html = generateWordHTML(cells, nbTitle, fontFaceCSS);
     const blob = new Blob([html], { type: 'application/msword' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url;
-    a.download = (nbTitle || 'notebook').replace(/\s+/g, '-').toLowerCase() + '.doc';
-    a.click();
-    URL.revokeObjectURL(url);
+    triggerDownload(URL.createObjectURL(blob), (nbTitle || 'notebook').replace(/\s+/g, '-').toLowerCase() + '.doc');
     setFileMenuOpen(false);
   }
 
@@ -4050,6 +4064,11 @@ function App() {
           </button>
 
           <button className="nb-run-all-btn" onClick={runAll} title="Run all cells">▶▶ Run All</button>
+
+          {/* ── Save button ───────────────────────────────────────────── */}
+          <button className="nb-save-btn" onClick={saveNotebook} title="Save notebook to computer (.ifanb) — Ctrl+S">
+            💾 Save
+          </button>
 
           {/* ── File menu ─────────────────────────────────────────────── */}
           <div className="nb-file-menu" ref={fileMenuRef}>

@@ -818,14 +818,42 @@ function IfaEditor() {
   const insertIfaVariable = useCallback(() => {
     if (!varName.trim()) return;
     const n = varName.trim();
-    const v = varValue.trim();
-    const html = v
-      ? `<span style="display:inline-flex;align-items:baseline;gap:3px;padding:1px 9px;border:1px solid rgba(245,197,24,0.32);border-radius:6px;background:rgba(245,197,24,0.06);white-space:nowrap;margin:0 2px;vertical-align:middle" title="IfaVariable: ${n} ← ${v}"><span style="color:#f5c518;font-weight:700;font-family:Georgia,serif">${n}</span><span style="color:#4a6080;font-size:0.82em;padding:0 2px">←</span><span style="color:#aab8d4;font-family:Georgia,serif">${v}</span></span>&#8203;`
-      : `<span style="display:inline-flex;align-items:baseline;padding:1px 9px;border:1px solid rgba(245,197,24,0.32);border-radius:6px;background:rgba(245,197,24,0.06);white-space:nowrap;margin:0 2px;color:#f5c518;font-weight:700;font-family:Georgia,serif;vertical-align:middle" title="IfaVariable: ${n}">${n}</span>&#8203;`;
+    const html = `<span style="display:inline-flex;align-items:baseline;padding:1px 9px;border:1px solid rgba(245,197,24,0.32);border-radius:6px;background:rgba(245,197,24,0.06);white-space:nowrap;margin:0 2px;color:#f5c518;font-weight:700;font-family:Georgia,serif;vertical-align:middle" title="IfaVariable: ${n}">${n}</span>&#8203;`;
     insertHTML(html);
     setVarName('');
-    setVarValue('');
-  }, [varName, varValue, insertHTML]);
+  }, [varName, insertHTML]);
+
+  /* ── Insert variable + OgbeSymbol subscript → Ifa Expression ─────────────── */
+  const insertOgbeExpr = useCallback(() => {
+    const n = varName.trim();
+    const html = n
+      ? `<span class="ifa-expr" style="margin:0 0.45em 0 0" title="IfaExpression: ${n} (Ogbe Energy)"><span class="ifa-expr__char">${n}</span><span class="ifa-expr__sym" style="width:11px;height:11px">${buildOgbeSVGStr(11)}</span></span>&#8203;`
+      : `<span class="ifa-expr" style="margin:0 0.45em 0 0" title="IfaExpression: Ogbe Energy"><span class="ifa-expr__sym" style="width:11px;height:11px">${buildOgbeSVGStr(11)}</span></span>&#8203;`;
+    insertHTML(html);
+    setVarName('');
+  }, [varName, insertHTML]);
+
+  /* ── Insert variable + OyekuSymbol subscript → Ifa Expression ───────────── */
+  const insertOyekuExpr = useCallback(() => {
+    const n = varName.trim();
+    const html = n
+      ? `<span class="ifa-expr" style="margin:0 0.45em 0 0" title="IfaExpression: ${n} (Oyeku Anergy)"><span class="ifa-expr__char">${n}</span><span class="ifa-expr__sym" style="width:11px;height:11px">${buildOyekuSVGStr(11)}</span></span>&#8203;`
+      : `<span class="ifa-expr" style="margin:0 0.45em 0 0" title="IfaExpression: Oyeku Anergy"><span class="ifa-expr__sym" style="width:11px;height:11px">${buildOyekuSVGStr(11)}</span></span>&#8203;`;
+    insertHTML(html);
+    setVarName('');
+  }, [varName, insertHTML]);
+
+  /* ── Insert OgbeSymbol as standalone Ifa Variable (normal form) ──────────── */
+  const insertStandaloneOgbe = useCallback(() => {
+    const html = `<span style="display:inline-flex;align-items:center;padding:2px 7px;border:1px solid rgba(245,197,24,0.32);border-radius:6px;background:rgba(245,197,24,0.06);white-space:nowrap;margin:0 2px;vertical-align:middle" title="Ifa Variable: Ogbe Energy">${buildOgbeSVGStr(16)}</span>&#8203;`;
+    insertHTML(html);
+  }, [insertHTML]);
+
+  /* ── Insert OyekuSymbol as standalone Ifa Variable (normal form) ─────────── */
+  const insertStandaloneOyeku = useCallback(() => {
+    const html = `<span style="display:inline-flex;align-items:center;padding:2px 7px;border:1px solid rgba(245,197,24,0.32);border-radius:6px;background:rgba(245,197,24,0.06);white-space:nowrap;margin:0 2px;vertical-align:middle" title="Ifa Variable: Oyeku Anergy">${buildOyekuSVGStr(16)}</span>&#8203;`;
+    insertHTML(html);
+  }, [insertHTML]);
 
   /* ── Insert a manually-constructed IfaCircuit block into the terminal ────── */
   const insertIfaCircuit = useCallback(() => {
@@ -1194,7 +1222,7 @@ function IfaEditor() {
           <SidebarSection title="Ifa-OrisaField — Language-Agnostic Field" open={sections.orisaField} onToggle={() => toggleSection('orisaField')}>
 
             <div style={{ fontSize:'0.52rem', color:'#2e4460', letterSpacing:'0.07em', marginBottom:'12px', lineHeight:1.6 }}>
-              Study or express any field of knowledge — sciences and non-sciences — based on Odu Ifa-Orisa Principles. Click to insert a field annotation at cursor.
+              Language-Independent Field (LIF): Study or express any field of knowledge — sciences and non-sciences — based on Odu Ifa-Orisa Principles. Click to insert a field annotation at cursor.
             </div>
 
             {[
@@ -1230,10 +1258,10 @@ function IfaEditor() {
           </SidebarSection>
 
           {/* ── Ifa-OrisaLang subsection ───────────────────────────────────── */}
-          <SidebarSection title="Ifa-OrisaLang — Knowledge-Agnostic Language" open={sections.orisaLang} onToggle={() => toggleSection('orisaLang')}>
+          <SidebarSection title="Ifa-OrisaLang — Field-Agnostic Language" open={sections.orisaLang} onToggle={() => toggleSection('orisaLang')}>
 
             <div style={{ fontSize:'0.52rem', color:'#2e4460', letterSpacing:'0.07em', marginBottom:'12px', lineHeight:1.6 }}>
-              Study or express any language — natural or artificial — based on Odu Ifa-Orisa Principles. Click to open a language-tagged span at cursor, then type in that language.
+              Field-Independent Language (FIL): Study or express any language — natural or artificial — based on Odu Ifa-Orisa Principles. Click to open a language-tagged span at cursor, then type in that language.
             </div>
 
             {[
@@ -1513,7 +1541,7 @@ function IfaEditor() {
                 </div>
               </div>
 
-              <div style={{ display:'flex', flexDirection:'column', gap:'5px' }}>
+              <div style={{ display:'flex', flexDirection:'column', gap:'6px' }}>
                 <input
                   type="text"
                   placeholder="Variable name — x, energy, ψ …"
@@ -1527,26 +1555,81 @@ function IfaEditor() {
                     fontFamily:'inherit', boxSizing:'border-box',
                   }}
                 />
-                <input
-                  type="text"
-                  placeholder="Value / IfaSign — ⊕, Ogbe, 1111 …"
-                  value={varValue}
-                  onChange={e => setVarValue(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && insertIfaVariable()}
-                  style={{
-                    width:'100%', padding:'5px 8px', fontSize:'0.62rem',
-                    background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.1)',
-                    borderRadius:'6px', color:'#aab8d4', outline:'none',
-                    fontFamily:'inherit', boxSizing:'border-box',
-                  }}
-                />
+
+                {/* ── Subscript — attach symbol to variable as Ifa Expression ─── */}
+                <div style={{ fontSize:'0.49rem', color:'#2e4460', letterSpacing:'0.07em', marginTop:'2px' }}>
+                  Attach as subscript → Ifa Expression
+                </div>
+                <div style={{ display:'flex', gap:'6px' }}>
+                  <button
+                    onMouseDown={e => { e.preventDefault(); insertOyekuExpr(); }}
+                    title="Attach Oyeku Anergy symbol as subscript to variable → Ifa Expression"
+                    style={{
+                      flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'5px',
+                      padding:'5px 6px', fontSize:'0.58rem', fontWeight:700,
+                      borderRadius:'6px', border:'1px solid rgba(167,139,250,0.3)',
+                      background:'rgba(167,139,250,0.07)', color:'#a78bfa',
+                      cursor:'pointer', letterSpacing:'0.03em', transition:'background 0.12s',
+                    }}>
+                    <OyekuSymbol size={13} />
+                    <span>Oyeku Anergy</span>
+                  </button>
+                  <button
+                    onMouseDown={e => { e.preventDefault(); insertOgbeExpr(); }}
+                    title="Attach Ogbe Energy symbol as subscript to variable → Ifa Expression"
+                    style={{
+                      flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'5px',
+                      padding:'5px 6px', fontSize:'0.58rem', fontWeight:700,
+                      borderRadius:'6px', border:'1px solid rgba(245,197,24,0.3)',
+                      background:'rgba(245,197,24,0.07)', color:'#f5c518',
+                      cursor:'pointer', letterSpacing:'0.03em', transition:'background 0.12s',
+                    }}>
+                    <OgbeSymbol size={13} />
+                    <span>Ogbe Energy</span>
+                  </button>
+                </div>
+
+                {/* ── Normal form — insert symbol standalone as Ifa Variable ──── */}
+                <div style={{ fontSize:'0.49rem', color:'#2e4460', letterSpacing:'0.07em', marginTop:'2px' }}>
+                  As Ifa Variable (normal form)
+                </div>
+                <div style={{ display:'flex', gap:'6px' }}>
+                  <button
+                    onMouseDown={e => { e.preventDefault(); insertStandaloneOyeku(); }}
+                    title="Insert Oyeku Anergy symbol as standalone Ifa Variable"
+                    style={{
+                      flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'5px',
+                      padding:'5px 6px', fontSize:'0.58rem', fontWeight:700,
+                      borderRadius:'6px', border:'1px solid rgba(167,139,250,0.22)',
+                      background:'rgba(167,139,250,0.04)', color:'#7a6aaa',
+                      cursor:'pointer', letterSpacing:'0.03em', transition:'background 0.12s',
+                    }}>
+                    <OyekuSymbol size={13} />
+                    <span>Oyeku Anergy</span>
+                  </button>
+                  <button
+                    onMouseDown={e => { e.preventDefault(); insertStandaloneOgbe(); }}
+                    title="Insert Ogbe Energy symbol as standalone Ifa Variable"
+                    style={{
+                      flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'5px',
+                      padding:'5px 6px', fontSize:'0.58rem', fontWeight:700,
+                      borderRadius:'6px', border:'1px solid rgba(245,197,24,0.22)',
+                      background:'rgba(245,197,24,0.04)', color:'#a08a30',
+                      cursor:'pointer', letterSpacing:'0.03em', transition:'background 0.12s',
+                    }}>
+                    <OgbeSymbol size={13} />
+                    <span>Ogbe Energy</span>
+                  </button>
+                </div>
+
+                {/* ── Create plain IfaVariable from name ───────────────────────── */}
                 <button
                   onMouseDown={e => { e.preventDefault(); insertIfaVariable(); }}
                   style={{
                     padding:'5px 0', fontSize:'0.6rem', fontWeight:700,
                     borderRadius:'6px', border:'1px solid rgba(245,197,24,0.3)',
                     background:'rgba(245,197,24,0.08)', color:'#f5c518',
-                    cursor:'pointer', letterSpacing:'0.04em',
+                    cursor:'pointer', letterSpacing:'0.04em', marginTop:'2px',
                     transition:'background 0.12s',
                   }}>
                   + Create IfaVariable

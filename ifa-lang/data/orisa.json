@@ -9,260 +9,448 @@
       "id": "orunmila",
       "lang": "OrunmilaLang",
       "orisa": "Orunmila",
+      "script": "OrunmilaScript",
       "domain": "Wisdom, divination, knowledge, enlightenment",
       "energy": "Meta-knowledge, prediction, symbolic computation",
       "color": "#f5c518",
-      "sectors": [
-        "Prediction Analytics",
-        "Symbolic AI",
-        "Knowledge Systems"
+      "sectors": ["Prediction Analytics", "Symbolic AI", "Knowledge Systems"],
+      "symbols": [
+        { "glyph": "🦎", "name": "Ògìrìgò", "meaning": "Chameleon — wisdom, adaptation, sacred messenger of Orunmila" },
+        { "glyph": "🕊️", "name": "Ẹyẹlé", "meaning": "Dove — peace, divination, sacred bird of counsel" },
+        { "glyph": "🐢", "name": "Ahun", "meaning": "Tortoise — longevity, patience, ancient accumulated wisdom" },
+        { "glyph": "🌴", "name": "Ọpẹ̀", "meaning": "Palm tree — source of ikin (sacred divination nuts of Ifa)" },
+        { "glyph": "🌿", "name": "Ewé", "meaning": "Healing leaves — medicinal and sacred plants of divination" },
+        { "glyph": "🌙", "name": "Òṣùpá", "meaning": "Moon — cosmic cycles, celestial time, knowledge of seasons" },
+        { "glyph": "⭐", "name": "Ìràwọ̀", "meaning": "Star — celestial knowledge, destiny written in the skies" },
+        { "glyph": "🦋", "name": "Labalaba", "meaning": "Butterfly — transformation through wisdom, spiritual emergence" }
       ]
     },
     {
       "id": "esu",
       "lang": "EsuLang",
       "orisa": "Esu",
+      "script": "EsuScript",
       "domain": "Communication, choice, pathways",
       "energy": "Logic, routing, duality, information flow",
       "color": "#e05c3c",
-      "sectors": [
-        "Computer Networks",
-        "Logic Systems",
-        "Data Routing"
+      "sectors": ["Computer Networks", "Logic Systems", "Data Routing"],
+      "symbols": [
+        { "glyph": "🐕", "name": "Ajá", "meaning": "Dog — first sacred animal of Esu, guardian of roads and crossroads" },
+        { "glyph": "🐸", "name": "Ọpọlọ", "meaning": "Toad — liminal creature of crossroads, duality of land and water" },
+        { "glyph": "🐦", "name": "Àkékè", "meaning": "Parrot — speech, communication, divine messenger bird" },
+        { "glyph": "🌶️", "name": "Atare", "meaning": "Alligator pepper — heat, activation, sacred spice that opens paths" },
+        { "glyph": "🌴", "name": "Ọpẹ̀", "meaning": "Palm — palm kernel at crossroads, gateway to all Orisa realms" },
+        { "glyph": "🌰", "name": "Orí Ọpẹ̀", "meaning": "Palm nut — seed of choice, potentiality at every crossroad" },
+        { "glyph": "🐚", "name": "Owó Ẹlẹgbà", "meaning": "Cowrie — currency of communication, sacred offering to Esu" },
+        { "glyph": "🌪️", "name": "Ẹ̀fúùfù", "meaning": "Whirlwind — sudden change, the trick of Esu in motion" }
       ]
     },
     {
       "id": "ogun",
       "lang": "OgunLang",
       "orisa": "Ogun",
+      "script": "OgunScript",
       "domain": "Iron, war, tools",
       "energy": "Material transformation, creative force, engineering",
       "color": "#5a9c7a",
-      "sectors": [
-        "Engineering",
-        "Manufacturing",
-        "Materials Science"
+      "sectors": ["Engineering", "Manufacturing", "Materials Science"],
+      "symbols": [
+        { "glyph": "🐕", "name": "Ajá Ògún", "meaning": "Dog — most sacred animal of Ogun, sacrificial offering and hunter companion" },
+        { "glyph": "🦅", "name": "Àwọ̀", "meaning": "Eagle — power, precision, the raptor of the forest" },
+        { "glyph": "🐍", "name": "Ejò", "meaning": "Snake — serpent of the deep forest, Ogun's silent path-guardian" },
+        { "glyph": "🌳", "name": "Àràbà", "meaning": "Silk cotton tree — sacred iroko of Ogun's forest realm" },
+        { "glyph": "🦁", "name": "Àkìnkanjú", "meaning": "Lion — warrior force, raw power of Ogun manifest in the wild" },
+        { "glyph": "🐆", "name": "Ẹkùn", "meaning": "Leopard — swift predator of the deep forest, Ogun's speed" },
+        { "glyph": "🌿", "name": "Ewé Ògún", "meaning": "Forest fern — medicinal herbs of the blacksmith, healing through nature" },
+        { "glyph": "🌴", "name": "Ọpẹ̀ Ògún", "meaning": "Palm — palm wine offered to Ogun, sustenance of the warrior" }
       ]
     },
     {
       "id": "osun",
       "lang": "OsunLang",
       "orisa": "Osun",
+      "script": "OsunScript",
       "domain": "Water, beauty, fertility, love",
       "energy": "Flow, attraction, value exchange, computing",
       "color": "#f0a800",
-      "sectors": [
-        "Finance",
-        "Fluid Dynamics",
-        "Computing Systems"
+      "sectors": ["Finance", "Fluid Dynamics", "Computing Systems"],
+      "symbols": [
+        {
+          "glyph": "🔶", "name": "Idẹ", "meaning": "Brass — the sacred metal of Osun; Idẹ bracelets and rings are Osun's most important adornment, worn by devotees as a mark of her blessing and covenant with the river goddess",
+          "person": { "name": "Ìdẹ", "gender": "female", "role": "First High Priestess & Keeper of Osun's Sacred Brass", "desc": "Ìdẹ was the first high priestess of Osun who wore brass bracelets as a sacred covenant with the river goddess. Her unbreakable devotion and radiant beauty made her Osun's living embodiment on earth. Brass received her name and became Osun's eternal adornment forever." }
+        },
+        {
+          "glyph": "🪮", "name": "Òòyà", "meaning": "Native comb — one of Osun's sacred inventions; the ivory or wooden comb that Osun created, symbolising the art of grooming, beauty, and the care of hair as a divine and sacred act",
+          "person": { "name": "Òòyà", "gender": "female", "role": "Osun's Master Hairdresser & Inventor of the Sacred Comb", "desc": "Òòyà was Osun's most gifted attendant — a woman of extraordinary artistry who first crafted the native comb from ivory at the river's edge. Her skill at adorning hair was unmatched across all of Yorubaland. Osun gifted the comb her name, and the sacred art of hair dressing carries Òòyà's genius to this day." }
+        },
+        {
+          "glyph": "🪸", "name": "Iyùn", "meaning": "Coral beads — the sacred red coral beads of Osun; Iyùn represents beauty, royalty, and fertility. Worn by queens, priestesses, and devotees of Osun as the most precious adornment of the river",
+          "person": { "name": "Iyùn", "gender": "female", "role": "Royal Bead-Maker & Chief Devotee of Osun", "desc": "Iyùn was the foremost bead-maker and jeweller of Osun's sacred court — a woman whose hands shaped coral and gold into adornments of extraordinary beauty. Her work adorned queens and priestesses across the Yoruba world. Coral beads carry her name and artistry into eternity." }
+        },
+        {
+          "glyph": "👶", "name": "Ọmọ", "meaning": "Child — the greatest gift of Osun; fertility, motherhood, and the blessing of children are among Osun's supreme powers. Women journey to Osun's river to pray for the sacred gift of Ọmọ",
+          "person": { "name": "Àṣàbí", "gender": "female", "role": "Renowned Devotee Who Received Osun's Gift of Children", "desc": "Àṣàbí was a revered woman who prayed faithfully at Osun's sacred river for many years before receiving the divine blessing of children. Her devotion became legendary across Yorubaland and she raised eight children who became leaders in their kingdoms. Her story is still told to all who seek Osun's gift of fertility." }
+        },
+        {
+          "glyph": "🌀", "svgGlyph": "irunOlosun", "name": "Irun Ọlọ́ṣun", "meaning": "Osun's sacred hair art — the intricate coiled and spiral braid patterns adorned with cowrie shells, sacred leaves, and coral; irun didi (threaded/braided hair) styled in the Ọlọ́ṣun tradition expresses divine feminine beauty, identity, and spiritual devotion to Osun",
+          "person": { "name": "Ọlọ́ṣun Àṣà", "gender": "female", "role": "Keeper of Osun's Sacred Hair Traditions", "desc": "Ọlọ́ṣun Àṣà was the foremost guardian of Osun's sacred hair traditions — a priestess whose intricate hairstyles mirrored the flowing patterns of Osun's river in coral, gold, and thread. Women came from across Yorubaland to receive her blessing and her art. Her hairstyling traditions are still honoured at the sacred Osun-Osogbo festival." }
+        },
+        {
+          "glyph": "🐚", "name": "Owó Ẹyọ", "meaning": "Single cowrie — the Ẹyọ cowrie; a sacred and individually blessed native shell currency used in Osun's divination, sacred offerings, and consecrated trade at the river shrine",
+          "person": { "name": "Ẹyọ", "gender": "female", "role": "Osun's Market Queen & Sacred Cowrie Keeper", "desc": "Ẹyọ was the great market queen who oversaw all sacred trade at Osun's river market. She kept the consecrated cowrie shells that Osun blessed for commerce, ensuring each one entered circulation with divine sanction. The single sacred cowrie shell still bears her name across the Yoruba world." }
+        },
+        {
+          "glyph": "🪙", "name": "Owó Ẹ̀rọ̀", "meaning": "Money cowrie — the Ẹ̀rọ̀ cowrie; the small native cowrie used in everyday Yoruba commerce and as offerings to Osun. Thousands of Ẹ̀rọ̀ cowries were counted and exchanged in the ancient Yoruba economy under Osun's blessing",
+          "person": { "name": "Ẹ̀rọ̀", "gender": "female", "role": "Chief of Osun's Sacred Treasury & Ancient Market", "desc": "Ẹ̀rọ̀ was the legendary chief of Osun's river treasury — the woman who first organised the counting and blessing of cowrie shells in the ancient Yoruba market economy. Her extraordinary mathematical mind and fair dealings made Osun's market the most prosperous in all of Yorubaland." }
+        },
+        {
+          "glyph": "🤍", "name": "Aṣọ Funfun", "meaning": "White cloth — the sacred white garment of Osun devotees; white cloth worn in ceremony represents purity, Osun's divine light, and her covenant with the clean flowing waters of the sacred river",
+          "person": { "name": "Funmilẹ́yọ", "gender": "female", "role": "Weaver of Osun's Sacred White Cloth", "desc": "Funmilẹ́yọ was Osun's master weaver — a woman whose hands wove the finest white cloth from the purest threads, consecrated at the riverbank before each sacred festival. Her cloth adorned the Osun-Osogbo priestesses and was worn in the holiest ceremonies of the river goddess. The tradition of white cloth in Osun worship honours her craft and devotion." }
+        }
       ]
     },
     {
       "id": "sango",
       "lang": "SangoLang",
       "orisa": "Sango",
+      "script": "SangoScript",
       "domain": "Thunder, fire, power",
       "energy": "Energy discharge, amplification",
       "color": "#c0392b",
-      "sectors": [
-        "Electrical Systems",
-        "Thermodynamics",
-        "Power Engineering"
+      "sectors": ["Electrical Systems", "Thermodynamics", "Power Engineering"],
+      "symbols": [
+        {
+          "glyph": "🌰", "name": "Orógbó", "meaning": "Bitter kola — the sacred offering of Sango; bitter in taste, potent in power; the first food of fire and ritual",
+          "person": { "name": "Orógbó", "gender": "male", "role": "Elder Herbalist of Sango's Royal Court", "desc": "Before Orógbó became the name of bitter kola, Orógbó was a revered herbalist and elder in Sango's royal court. His mastery of sacred plants and fierce loyalty to the thunder king made him legendary. The bitter kola carries his enduring spirit." }
+        },
+        {
+          "glyph": "🐏", "name": "Àgbò", "meaning": "Ram — sacred animal of Sango; symbol of virility, royal power, and fierce determination in battle",
+          "person": { "name": "Àgbò", "gender": "male", "role": "Royal Warrior Chief of Ṣango", "desc": "Àgbò was one of Sango's mightiest warrior chiefs — fierce, relentless, and adorned in red. His unyielding strength in battle mirrored the ram's charge. The ram is offered to Sango in his eternal honour." }
+        },
+        {
+          "glyph": "🪇", "name": "Ṣẹ́ẹ́rẹ́ Sango", "meaning": "Sango's sacred gourd rattle adorned with cowrie shells — the voice and call of Sango's presence in ritual",
+          "person": { "name": "Ṣẹ́ẹ́rẹ́", "gender": "female", "role": "Wife of Ṣango, Keeper of His Sacred Voice", "desc": "Ṣẹ́ẹ́rẹ́ was the beloved wife of Sango — a woman of extraordinary grace and spiritual power. She held the sacred rattle that summoned Sango's presence in ritual. The rattle is named after her, forever carrying her devotion to the thunder king." }
+        },
+        {
+          "glyph": "🪨", "name": "Ọta Sango", "meaning": "Sango's hard stone — the neolithic thunderstone left where lightning struck the earth; Sango's bullet",
+          "person": { "name": "Ọta", "gender": "male", "role": "Stone Keeper & Guardian of Ṣango", "desc": "Ọta was Sango's foremost guardian and stone-keeper — entrusted with collecting and safeguarding the sacred stones left where lightning had struck. His unbreakable loyalty and endurance gave the thunderstone its name." }
+        },
+        {
+          "glyph": "🪓", "name": "Oṣé Sango", "meaning": "The double-headed battle axe of Ṣango — the royal weapon and supreme symbol of divine thunder power",
+          "person": { "name": "Oṣé", "gender": "male", "role": "Royal Armourer & Battle Master of Ṣango", "desc": "Oṣé was the master armourer and battle commander of Sango's royal army. He forged the legendary double-headed axe that became Sango's most sacred emblem. His extraordinary craftsmanship immortalised him in Sango's iconography forever." }
+        },
+        {
+          "glyph": "⚡", "name": "Mọ̀nàmọ́ná", "meaning": "Lightning — the sacred weapon Sango hurls from the sky; swift, blinding, and all-powerful",
+          "person": { "name": "Mọ̀nàmọ́ná", "gender": "female", "role": "Swift Messenger & Lightning Being of Ṣango", "desc": "Mọ̀nàmọ́ná was a being of extraordinary speed and brilliance — Sango's swiftest messenger, capable of traversing the heavens in an instant. Her passage across the sky became what mortals now call lightning." }
+        },
+        {
+          "glyph": "🌩️", "name": "Àrá", "meaning": "Thunder — the great voice of Sango rolling across the heavens, announcing his power to all creation",
+          "person": { "name": "Àrá", "gender": "male", "role": "Herald & Great Voice of Ṣango", "desc": "Àrá was Sango's most powerful herald — his voice carried across vast distances, shaking the earth as it rolled. When Àrá spoke, all peoples knew Sango was near. Thunder forever carries his eternal announcement." }
+        },
+        {
+          "glyph": "🔥", "name": "Iná", "meaning": "Fire — the divine element of Sango; purifying, transforming, and illuminating all it touches",
+          "person": { "name": "Iná", "gender": "female", "role": "Chief Priestess of Sango's Sacred Fire", "desc": "Iná was Sango's chief fire priestess — a woman of fierce beauty and burning devotion who kept the eternal flame of Sango's shrine. Her transformative spiritual power and radiant presence gave fire its Yoruba name." }
+        }
       ]
     },
     {
       "id": "oya",
       "lang": "OyaLang",
       "orisa": "Oya",
+      "script": "OyaScript",
       "domain": "Wind, storms, change, cycle",
       "energy": "Chaos, transitions, transformation",
       "color": "#9b59b6",
-      "sectors": [
-        "Atmospheric Physics",
-        "Chaos Theory",
-        "Systems Change"
+      "sectors": ["Atmospheric Physics", "Chaos Theory", "Systems Change"],
+      "symbols": [
+        { "glyph": "🐃", "name": "Ẹfọn", "meaning": "Buffalo — Oya's primal animal form, mother buffalo of the storm" },
+        { "glyph": "🐓", "name": "Adìẹ Dúdú", "meaning": "Black hen — dark bird sacred to Oya, keeper of the gate of death" },
+        { "glyph": "🌻", "name": "Ewé Oya", "meaning": "Marigold — sacred flower of Oya, worn during masquerade" },
+        { "glyph": "🌾", "name": "Ìgbàlẹ̀", "meaning": "Broom grass — dry grass of the wind, Oya sweeps away the old" },
+        { "glyph": "⚡", "name": "Mànàmàná", "meaning": "Lightning — Oya commands the lightning that precedes Sango's thunder" },
+        { "glyph": "🌪️", "name": "Ẹ̀fúùfù Oya", "meaning": "Whirlwind — the living body of Oya, wind of transformation" },
+        { "glyph": "⛈️", "name": "Ìjì", "meaning": "Storm — Oya as the full storm, change that reshapes everything" },
+        { "glyph": "🍂", "name": "Ewé Pápá", "meaning": "Fallen leaf — change, seasonal death, and renewal in Oya's cycle" }
       ]
     },
     {
       "id": "obatala",
       "lang": "ObatalaLang",
       "orisa": "Obatala",
+      "script": "ObatalaScript",
       "domain": "Creation, purity, form",
       "energy": "Structure, design, consciousness",
       "color": "#b8c5d4",
-      "sectors": [
-        "Architecture",
-        "Design Systems",
-        "Consciousness Studies"
+      "sectors": ["Architecture", "Design Systems", "Consciousness Studies"],
+      "symbols": [
+        { "glyph": "🐌", "name": "Ìgbín", "meaning": "White snail — most sacred animal of Obatala, patience and purity" },
+        { "glyph": "🕊️", "name": "Ẹyẹlé Funfun", "meaning": "White dove — purity, peace, the holy bird of the sky deity" },
+        { "glyph": "🐘", "name": "Erin", "meaning": "Elephant — great patience, wisdom, and memory of Obatala" },
+        { "glyph": "🌾", "name": "Owu Funfun", "meaning": "White cotton — sacred cloth material, purity of Obatala's robes" },
+        { "glyph": "🌿", "name": "Ewé Funfun", "meaning": "White-leafed plants — nature's white, sacred herbs of the sky" },
+        { "glyph": "❄️", "name": "Efun", "meaning": "Kaolin clay — sacred white chalk used in all Obatala worship" },
+        { "glyph": "🥥", "name": "Agbon", "meaning": "Coconut — white-fleshed fruit, sacred to Obatala, pure offering" },
+        { "glyph": "🌸", "name": "Ododo Funfun", "meaning": "White flower — bloom of purity, creation in its first flowering" }
       ]
     },
     {
       "id": "ori",
       "lang": "OriLang",
       "orisa": "Ori",
+      "script": "OriScript",
       "domain": "Destiny, inner self, essence, head",
       "energy": "Identity, consciousness, internal state",
       "color": "#00b4d8",
-      "sectors": [
-        "Neuroscience",
-        "Identity Systems",
-        "Cognitive Computing"
+      "sectors": ["Neuroscience", "Identity Systems", "Cognitive Computing"],
+      "symbols": [
+        { "glyph": "🥥", "name": "Agbon Orí", "meaning": "Coconut — sacred to Ori; the coconut's inner white mirrors the human head" },
+        { "glyph": "🕊️", "name": "Ẹyẹlé Orí", "meaning": "Dove — clarity of mind, peace of Ori, inner stillness" },
+        { "glyph": "🦅", "name": "Àwọ̀ Orí", "meaning": "Eagle — soaring destiny, the path of Ori toward its highest calling" },
+        { "glyph": "🌴", "name": "Ọpẹ̀ Orí", "meaning": "Palm tree — Ori connects human to divine, as palm connects earth and sky" },
+        { "glyph": "⭐", "name": "Ìràwọ̀ Orí", "meaning": "Star — each person's destiny is a unique star written before birth" },
+        { "glyph": "🌙", "name": "Òṣùpá Orí", "meaning": "Moon — inner illumination, the light of Ori shining inward" },
+        { "glyph": "🐚", "name": "Ikarahun Orí", "meaning": "Shell — the sacred Ori altar is covered with shells of protection" },
+        { "glyph": "🌟", "name": "Ìràwọ̀ Àárọ̀", "meaning": "Morning star — Ori at dawn, the destiny that leads through darkness" }
       ]
     },
     {
       "id": "yemoja",
       "lang": "YemojaLang",
       "orisa": "Yemoja",
+      "script": "YemojaScript",
       "domain": "Motherhood, oceans",
       "energy": "Nurturing systems, healing, large-scale flow",
       "color": "#2980b9",
-      "sectors": [
-        "Oceanography",
-        "Healing Systems",
-        "Large-Scale Flow"
+      "sectors": ["Oceanography", "Healing Systems", "Large-Scale Flow"],
+      "symbols": [
+        { "glyph": "🐟", "name": "Ẹja Yemọja", "meaning": "Fish — children of Yemoja, all sea creatures under her motherhood" },
+        { "glyph": "🦆", "name": "Àpàrò Omi", "meaning": "Duck — bird of the waters, messenger between ocean and land" },
+        { "glyph": "🌊", "name": "Omi Ọkun", "meaning": "Ocean wave — Yemoja as the living sea, primal mother of waters" },
+        { "glyph": "🐚", "name": "Ikarahun Ọkun", "meaning": "Cowrie — currency of the sea, womb-shaped shell sacred to Yemoja" },
+        { "glyph": "🌿", "name": "Ewé Omi", "meaning": "Sea grass — the gardens beneath the ocean, Yemoja's sacred plants" },
+        { "glyph": "🪸", "name": "Ẹ̀gún Omi", "meaning": "Coral — coral reef sacred to Yemoja, bones of the ocean mother" },
+        { "glyph": "🌙", "name": "Òṣùpá Omi", "meaning": "Moon — Yemoja rules the tides with the moon's pull" },
+        { "glyph": "🐋", "name": "Ẹja Àgbàdo", "meaning": "Whale — the great whale, elder of the ocean, child of Yemoja" }
       ]
     },
     {
       "id": "olokun",
       "lang": "OlokunLang",
       "orisa": "Olokun",
+      "script": "OlokunScript",
       "domain": "Deep ocean, wealth",
       "energy": "Depth, hidden systems, abundance",
       "color": "#1a6e9a",
-      "sectors": [
-        "Deep Systems",
-        "Hidden Structures",
-        "Wealth Theory"
+      "sectors": ["Deep Systems", "Hidden Structures", "Wealth Theory"],
+      "symbols": [
+        { "glyph": "🐊", "name": "Ọ̀kà Omi", "meaning": "Crocodile — ancient guardian of the deep, Olokun's primal sentinel" },
+        { "glyph": "🐟", "name": "Ẹja Ìsàlẹ̀", "meaning": "Deep-sea fish — creatures of the abyss, servants of Olokun" },
+        { "glyph": "🐢", "name": "Ahun Ọkun", "meaning": "Sea turtle — longevity, navigation of the deep, ancient wisdom" },
+        { "glyph": "🪸", "name": "Ìmàlẹ̀ Omi", "meaning": "Coral — undersea structures, hidden wealth formations of Olokun" },
+        { "glyph": "🌿", "name": "Ewé Ìsàlẹ̀", "meaning": "Deep sea plants — hidden gardens of the ocean floor" },
+        { "glyph": "🐚", "name": "Ikarahun Ìsàlẹ̀", "meaning": "Abalone shell — iridescent deep-sea shell, wealth of the ocean" },
+        { "glyph": "🌊", "name": "Omi Jínjìn", "meaning": "Deep ocean — the fathomless depths, the mystery of Olokun" },
+        { "glyph": "🌑", "name": "Òkunkun Omi", "meaning": "Darkness of the deep — the hidden realm, unknown abundance below" }
       ]
     },
     {
       "id": "oba",
       "lang": "ObaLang",
       "orisa": "Obaluaye",
+      "script": "ObaluayeScript",
       "domain": "Disease, healing",
       "energy": "Breakdown and repair systems",
       "color": "#8b6914",
-      "sectors": [
-        "Epidemiology",
-        "Medical Systems",
-        "Repair Engineering"
+      "sectors": ["Epidemiology", "Medical Systems", "Repair Engineering"],
+      "symbols": [
+        { "glyph": "🐕", "name": "Ajá Ṣọpọ̀ná", "meaning": "Dog — sacred to Obaluaye as to Ogun, healer of the earth's afflictions" },
+        { "glyph": "🦎", "name": "Alángbá", "meaning": "Lizard — earth-crawler, Obaluaye's creature of the ground and soil" },
+        { "glyph": "🦅", "name": "Igún Àrùn", "meaning": "Vulture — sacred bird of Obaluaye, cleans the earth of disease" },
+        { "glyph": "🌿", "name": "Ewé Eléèsìn", "meaning": "Sesame plant — sacred medicinal herb of Obaluaye's earth healing" },
+        { "glyph": "🌾", "name": "Ìgbàlẹ̀ Gbígbẹ", "meaning": "Dry straw — the parched grass of illness and drought Obaluaye rules" },
+        { "glyph": "🌍", "name": "Ilẹ̀", "meaning": "Earth — Obaluaye rules the surface of the earth itself" },
+        { "glyph": "🐚", "name": "Owó Ṣọpọ̀ná", "meaning": "Cowrie — covering of the body, spotted shells mirror his pox marks" },
+        { "glyph": "🐀", "name": "Eku Ilẹ̀", "meaning": "Rat — earth dweller, creature of plague, servant of Obaluaye" }
       ]
     },
     {
       "id": "osanyin",
       "lang": "OsanyinLang",
       "orisa": "Osanyin",
+      "script": "OsanyinScript",
       "domain": "Herbs, nature healing",
       "energy": "Biological intelligence",
       "color": "#27ae60",
-      "sectors": [
-        "Biological Intelligence",
-        "Pharmacology",
-        "Natural Systems"
+      "sectors": ["Biological Intelligence", "Pharmacology", "Natural Systems"],
+      "symbols": [
+        { "glyph": "🐦", "name": "Ẹyẹ Osanyin", "meaning": "Iron bird — the one-legged iron bird atop Osanyin's staff of power" },
+        { "glyph": "🕊️", "name": "Àkùkọ̀ Funfun", "meaning": "White dove — purity of Osanyin's healing knowledge" },
+        { "glyph": "🌿", "name": "Ewé Osanyin", "meaning": "Sacred herb — every leaf holds medicine known to Osanyin alone" },
+        { "glyph": "🍃", "name": "Ewé Gbígbẹ", "meaning": "Dried leaf — preserved medicines, Osanyin's dried herb collection" },
+        { "glyph": "🌳", "name": "Igbo Osanyin", "meaning": "Sacred forest — the forest realm where all medicinal plants grow" },
+        { "glyph": "🐍", "name": "Ejò Osanyin", "meaning": "Forest snake — Osanyin's guardian, both venom and antidote in one" },
+        { "glyph": "🐸", "name": "Ọpọlọ Ewé", "meaning": "Forest frog — indicator of healthy forest ecology, medicinal frog" },
+        { "glyph": "🌺", "name": "Ododo Iwòsàn", "meaning": "Healing flower — flowering plants that carry medicine in their bloom" }
       ]
     },
     {
       "id": "osho",
       "lang": "OshoLang",
       "orisa": "Orisa Oko",
+      "script": "OshoScript",
       "domain": "Farming, land fertility",
       "energy": "Growth systems",
       "color": "#8d9440",
-      "sectors": [
-        "Agriculture",
-        "Earth Sciences",
-        "Growth Systems"
+      "sectors": ["Agriculture", "Earth Sciences", "Growth Systems"],
+      "symbols": [
+        { "glyph": "🐂", "name": "Màlúù Oko", "meaning": "Ox — farm animal, sacred companion of Orisa Oko on the land" },
+        { "glyph": "🪲", "name": "Kòkòrò Ilẹ̀", "meaning": "Dung beetle — earth worker, turns waste to fertility in Oko's soil" },
+        { "glyph": "🕊️", "name": "Ẹyẹlé Àgbẹ̀", "meaning": "Dove — peace on the farm, bird that brings good planting rains" },
+        { "glyph": "🌾", "name": "Àgbàdo", "meaning": "Yam — the king of Yoruba crops, sacred to Orisa Oko's earth" },
+        { "glyph": "🌽", "name": "Ìgbàdo", "meaning": "Corn — harvest grain, abundance from Orisa Oko's fertile fields" },
+        { "glyph": "🌍", "name": "Ilẹ̀ Oko", "meaning": "Fertile soil — the living earth that Orisa Oko governs and blesses" },
+        { "glyph": "🌱", "name": "Ìrí Oko", "meaning": "Seedling — new growth, the first sprouting overseen by Orisa Oko" },
+        { "glyph": "🐝", "name": "Oyin Oko", "meaning": "Bee — pollinator of crops, agent of fertility in Orisa Oko's domain" }
       ]
     },
     {
       "id": "osoosi",
       "lang": "OsoosiLang",
       "orisa": "Osoosi",
+      "script": "OsoosiScript",
       "domain": "Hunting, tracking",
       "energy": "Search, targeting, precision",
       "color": "#3a7a55",
-      "sectors": [
-        "Search Algorithms",
-        "Targeting Systems",
-        "Precision Engineering"
+      "sectors": ["Search Algorithms", "Targeting Systems", "Precision Engineering"],
+      "symbols": [
+        { "glyph": "🦌", "name": "Àgbọ̀nrín", "meaning": "Deer — the most prized quarry of Osoosi, swift forest creature" },
+        { "glyph": "🦅", "name": "Aho Osoosi", "meaning": "Hawk — the falcon of the hunt, Osoosi's eyes above the forest" },
+        { "glyph": "🐗", "name": "Ẹlẹdẹ Igbó", "meaning": "Wild boar — fierce quarry of the deep forest, test of the hunter" },
+        { "glyph": "🌿", "name": "Ewé Igbó", "meaning": "Forest vine — the hunter's path through the bush, living trail" },
+        { "glyph": "🍃", "name": "Ewé Ọdẹ", "meaning": "Hunter's leaf — camouflage of the forest floor, tracking knowledge" },
+        { "glyph": "🌳", "name": "Igbo Jínjìn", "meaning": "Deep forest — Osoosi's sacred realm, where all hunted creatures live" },
+        { "glyph": "🐟", "name": "Ẹja Ọdẹ", "meaning": "Fish — Osoosi hunts water too; the spear-fisher of river and sea" },
+        { "glyph": "🦊", "name": "Ojú Ọdẹ", "meaning": "Fox — cunning tracker, the forest wit that mirrors Osoosi's precision" }
       ]
     },
     {
       "id": "egun",
       "lang": "EgunLang",
       "orisa": "Egungun",
+      "script": "EgungunScript",
       "domain": "Ancestors, lineage",
       "energy": "Historical memory, recursion",
       "color": "#7f8c8d",
-      "sectors": [
-        "Genealogy",
-        "Historical Systems",
-        "Recursive Algorithms"
+      "sectors": ["Genealogy", "Historical Systems", "Recursive Algorithms"],
+      "symbols": [
+        { "glyph": "🦉", "name": "Owiwi", "meaning": "Owl — night bird of the ancestors, Egungun's messenger from the dead" },
+        { "glyph": "🦅", "name": "Igún Egun", "meaning": "Vulture — sacred to the ancestors, feeds on death, returns energy to life" },
+        { "glyph": "🦋", "name": "Labalaba Egun", "meaning": "Butterfly — ancestral soul returning, transformation across death's veil" },
+        { "glyph": "🌳", "name": "Iroko Egun", "meaning": "Iroko tree — ancestor tree, where the spirits of the dead are honored" },
+        { "glyph": "🦇", "name": "Àdán", "meaning": "Bat — creature of night and death, familiar of ancestral spirits" },
+        { "glyph": "🕷️", "name": "Alàntakùn", "meaning": "Spider — weaver of ancestral threads, spinner of lineage connections" },
+        { "glyph": "🌿", "name": "Ewé Ilẹ̀ Àìkú", "meaning": "Cemetery plant — plants growing at burial grounds, sacred to Egungun" },
+        { "glyph": "🐢", "name": "Ahun Egun", "meaning": "Tortoise — longevity of lineage, the ancient ones who live forever in memory" }
       ]
     },
     {
       "id": "ibeji",
       "lang": "IbejiLang",
       "orisa": "Ibeji",
+      "script": "IbejiScript",
       "domain": "Twins, duality",
       "energy": "Symmetry, duplication",
       "color": "#e91e8c",
-      "sectors": [
-        "Quantum Systems",
-        "Symmetry Theory",
-        "Parallel Computing"
+      "sectors": ["Quantum Systems", "Symmetry Theory", "Parallel Computing"],
+      "symbols": [
+        { "glyph": "🐒", "name": "Ọ̀bọ Ìbejì", "meaning": "Monkey — playful twin creature, sacred mischievous animal of Ibeji" },
+        { "glyph": "🐿️", "name": "Ọ̀kẹrẹ́", "meaning": "Squirrel — paired creatures of the forest, twins that mirror each other" },
+        { "glyph": "🐝", "name": "Oyin Ìbejì", "meaning": "Bee — twin workers in perfect symmetry, sacred pair of the hive" },
+        { "glyph": "🦋", "name": "Labalaba Ìbejì", "meaning": "Butterfly — paired wings of perfect symmetry, Ibeji's emblem of duality" },
+        { "glyph": "🌸", "name": "Ododo Ìbejì", "meaning": "Twin blossom — flowers that bloom in perfect pairs, Ibeji's nature sign" },
+        { "glyph": "🐚", "name": "Ikarahun Ìbejì", "meaning": "Paired cowrie shells — twin currency, doubles of the sacred sea" },
+        { "glyph": "🍯", "name": "Oyin Adùn", "meaning": "Honey — sweetness that Ibeji demands; twins are fed honey and sweets" },
+        { "glyph": "🐦", "name": "Ẹyẹ Ìbejì", "meaning": "Twin birds — two birds always together, symbol of paired destinies" }
       ]
     },
     {
       "id": "aje",
       "lang": "AjeLang",
       "orisa": "Aje",
+      "script": "AjeScript",
       "domain": "Wealth, markets",
       "energy": "Value creation, exchange systems",
       "color": "#d4ac0d",
-      "sectors": [
-        "Economics",
-        "Market Systems",
-        "Value Creation"
+      "sectors": ["Economics", "Market Systems", "Value Creation"],
+      "symbols": [
+        { "glyph": "🐍", "name": "Ejò Ọrọ̀", "meaning": "Python — sacred snake of Aje, bringer of wealth and prosperity" },
+        { "glyph": "🦚", "name": "Ìyẹyẹ Ọrọ̀", "meaning": "Peacock — display of wealth, the radiant bird of prosperity" },
+        { "glyph": "🐝", "name": "Oyin Owó", "meaning": "Bee — tireless industry, Aje rewards those who work like the bee" },
+        { "glyph": "🐂", "name": "Màlúù Ọrọ̀", "meaning": "Bull — livestock wealth, prosperity measured in cattle" },
+        { "glyph": "🌸", "name": "Ododo Owó", "meaning": "Blossom — flowering abundance, Aje's blessing takes root and blooms" },
+        { "glyph": "🐚", "name": "Owó Aje", "meaning": "Cowrie — ancient currency of Yoruba markets, sacred wealth token of Aje" },
+        { "glyph": "🌻", "name": "Ododo Ọrọ̀", "meaning": "Sunflower — turning toward the sun of prosperity, Aje's golden flower" },
+        { "glyph": "🌿", "name": "Ewé Owó", "meaning": "Prosperity herb — the green of wealth, plants that signal abundance" }
       ]
     },
     {
       "id": "odua",
       "lang": "OduaLang",
       "orisa": "Oduduwa",
+      "script": "AtewonroScript (OoduaScript)",
       "domain": "Creation of kingdoms",
       "energy": "Civilization structuring",
       "color": "#2e4a9b",
-      "sectors": [
-        "Governance",
-        "Civilization Design",
-        "Social Architecture"
+      "sectors": ["Governance", "Civilization Design", "Social Architecture"],
+      "symbols": [
+        { "glyph": "🦎", "name": "Ògìrìgò Ilẹ̀", "meaning": "Chameleon — first animal to walk the new earth created by Oduduwa" },
+        { "glyph": "🐍", "name": "Ejò Ìpilẹ̀", "meaning": "Python — primordial serpent, foundation coil beneath the earth" },
+        { "glyph": "🦅", "name": "Àwọ̀ Ìjọba", "meaning": "Eagle — royal bird of Oduduwa, emblem of kingship and civilization" },
+        { "glyph": "🌍", "name": "Ilẹ̀ Àkọ́kọ́", "meaning": "First earth — the original earth created by Oduduwa at Ile-Ife" },
+        { "glyph": "🌳", "name": "Iroko Ìjọba", "meaning": "Iroko tree — the ancient tree of Yoruba civilization, meeting place of kings" },
+        { "glyph": "🐢", "name": "Ahun Ìpilẹ̀", "meaning": "Tortoise — the patience of civilization building across generations" },
+        { "glyph": "🐚", "name": "Ikarahun Ìjọba", "meaning": "Sacred calabash shell — the container that held earth lowered from heaven" },
+        { "glyph": "🌴", "name": "Ọpẹ̀ Ìpilẹ̀", "meaning": "Palm — the tree of Yoruba life, at the center of Oduduwa's kingdom" }
       ]
     },
     {
       "id": "egbe",
       "lang": "EgbeLang",
       "orisa": "Egbe",
+      "script": "EgbeScript",
       "domain": "Spiritual companions",
       "energy": "Networked identity",
       "color": "#7d3c98",
-      "sectors": [
-        "Networked Identity",
-        "Community Systems",
-        "Social Computing"
+      "sectors": ["Networked Identity", "Community Systems", "Social Computing"],
+      "symbols": [
+        { "glyph": "🕊️", "name": "Ẹyẹlé Ẹgbẹ́", "meaning": "Dove — peace of the spirit community, gathering of white-winged companions" },
+        { "glyph": "🦋", "name": "Labalaba Ẹgbẹ́", "meaning": "Butterfly — spirit-world companions, souls that flock together" },
+        { "glyph": "🌸", "name": "Ododo Ẹgbẹ́", "meaning": "Blossom — the flowering of community, gifts Egbe companions bring" },
+        { "glyph": "⭐", "name": "Ìràwọ̀ Ẹgbẹ́", "meaning": "Star — each Egbe companion is a star in the spiritual sky" },
+        { "glyph": "🌙", "name": "Òṣùpá Ẹgbẹ́", "meaning": "Moon — the night realm where Egbe companions gather and commune" },
+        { "glyph": "🌊", "name": "Omi Ẹgbẹ́", "meaning": "Water mirror — the still water where Egbe reflects the spirit world" },
+        { "glyph": "🌺", "name": "Ododo Ìpàdé", "meaning": "Sacred flower — offered at Egbe gatherings, blooms of the spirit realm" },
+        { "glyph": "🐦", "name": "Ẹyẹ Ẹgbẹ́", "meaning": "White bird — Egbe companions often appear as white birds in dreams" }
       ]
     },
     {
       "id": "aye",
       "lang": "AyeLang",
       "orisa": "Yeye Aye",
+      "script": "AyeScript",
       "domain": "Primordial earth, time",
       "energy": "Origin states, memory of matter",
       "color": "#b7472a",
-      "sectors": [
-        "Earth Sciences",
-        "Origin States",
-        "Memory Systems"
+      "sectors": ["Earth Sciences", "Origin States", "Memory Systems"],
+      "symbols": [
+        { "glyph": "🐊", "name": "Ọ̀kà Ìpilẹ̀", "meaning": "Crocodile — ancient earth reptile, Yeye Aye's primordial guardian" },
+        { "glyph": "🐟", "name": "Ẹja Ìpilẹ̀", "meaning": "Primordial fish — the first life in Yeye Aye's original waters" },
+        { "glyph": "🐢", "name": "Ahun Àkọ́kọ́", "meaning": "Ancient tortoise — the oldest creature, memory of first time" },
+        { "glyph": "🌸", "name": "Ododo Ìpilẹ̀", "meaning": "First blossom — the very first flower to open on the primordial earth" },
+        { "glyph": "🌿", "name": "Ewé Ìpilẹ̀", "meaning": "First plants — the original vegetation, Yeye Aye's living memory" },
+        { "glyph": "🐍", "name": "Ejò Ìpilẹ̀", "meaning": "Primordial serpent — the ancient python coiled at earth's origin" },
+        { "glyph": "🌾", "name": "Irèké Ìpilẹ̀", "meaning": "Ancient reed — oldest plant at the edge of primordial water and land" },
+        { "glyph": "🌊", "name": "Omi Ìpilẹ̀", "meaning": "Primordial water — Yeye Aye as the original waters before all creation" }
       ]
     }
   ]
