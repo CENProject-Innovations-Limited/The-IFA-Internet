@@ -96,7 +96,7 @@ const ITAN = [
     sym: '⌾', color: '#3b9eff',
     title: 'Ìtàn Ilẹ̀ Ifẹ̀',
     short: 'Yorùbáland',
-    body: 'Ilẹ̀ Ifẹ̀ (Alẹ̀ Ufẹ̀) is now referred to as Yorubaland in modern times, encompassing Ilé-Ifẹ̀, Osun, Ekiti, Ondo, Ijebu, Remo, Sagamu, Eko, Oyo, Egba, Okun, areas of Benin, Togo, Ghana, and others. History of Ilẹ̀ Ifẹ̀ — the spiritual and cultural origin of Yorùbáland and its people (tribes). The axiomatic historical record of the birthplace of Ifa and Orisa Knowledge.',
+    body: 'Ilẹ̀ Ifẹ̀ (Alẹ̀ Ufẹ̀) is now referred to as Yorubaland in modern times, encompassing Ilé-Ifẹ̀, Osun, Ekiti, Ondo, Ijebu, Remo, Sagamu, Eko, Lagos, Oyo, Ogun, Egba, Okun, areas of Benin, Togo, Ghana, and others. History of Ilẹ̀ Ifẹ̀ — the spiritual and cultural origin of Yorùbáland and its people (tribes). The axiomatic historical record of the birthplace of Ifa and Orisa Knowledge.',
   },
 ];
 
@@ -144,7 +144,7 @@ const STEAMSEX_HIST = [
 
 const SIDECHRX_HIST = [
   { letter:'S', name:'Symmetry Laws of History',     color:'#f0920c', symbol:'⊛',
-    desc:'History preserves deep structural patterns across all periods — civilisations rise and fall in symmetric cycles governed by the Ogbé Base-Field of Ifa.' },
+    desc:"History preserves deep structural patterns across all periods — the cycles of civilisations' rise and fall and their symmetric properties governed by the Ogbé Base-Field of Ifa." },
   { letter:'I', name:'Invariance Laws of History',   color:'#6366f1', symbol:'⟲',
     desc:'What persists through all historical change — the invariant laws, cultural constants, and axiomatic truths that remain unchanged across all eras and civilisations.' },
   { letter:'D', name:'Duality Laws of History',      color:'#14b8d4', symbol:'⇔',
@@ -730,7 +730,7 @@ function SteamsexHistSection() {
             <IfaRadialDiagram
               nodes={STEAMSEX_HIST}
               centerLabel="Energy"
-              centerSub="of History · Ìtàn"
+              centerSub="of the Form, History · Ìtàn"
               accentColor="#00c87c"
               ringLabel="S · T · E · A · M · S · E · X · STEAMSEX MATRIX · ENERGY ARCHITECTURE · "
             />

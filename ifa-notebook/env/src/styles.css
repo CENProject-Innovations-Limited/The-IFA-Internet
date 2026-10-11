@@ -1282,6 +1282,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: rgba(244,63,94,0.1); border-color: rgba(244,63,94,0.3); color: #fb7185;
 }
 .nb-media__action-btn--red:hover { background: rgba(244,63,94,0.2); border-color: rgba(244,63,94,0.55); }
+.nb-media__action-btn--flip {
+  background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.3); color: #a78bfa;
+}
+.nb-media__action-btn--flip:hover { background: rgba(139,92,246,0.2); border-color: rgba(139,92,246,0.55); }
 
 /* Recorder */
 .nb-media__rec-display {

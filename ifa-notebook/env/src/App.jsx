@@ -970,6 +970,30 @@ function buildExportBody(cells, format = 'pdf') {
       return `${hdr}<pre style="background:#0a0e1a;color:#c8d8ee">${esc(c.input || '')}</pre>${mathRendered || mathErr}`;
     }
     if (c.type === 'schematics') return `${hdr}<pre>${esc(c.input || '')}</pre>`;
+    if (c.type === 'multimedia') {
+      if (!c.output || !c.output.ok) return `${hdr}<p style="color:#888;font-size:9pt">No media attached.</p>`;
+      const mt  = c.output.mediaType;
+      const url = c.output.url || '';
+      const fn  = esc(c.output.fileName || url);
+      if (mt === 'image') {
+        return `${hdr}<img src="${url}" alt="${fn}" style="max-width:100%;height:auto;border-radius:4px;margin:6pt 0" />`;
+      }
+      if (mt === 'audio') {
+        return `${hdr}<p style="margin:4pt 0"><strong>Audio:</strong> ${url.startsWith('data:') ? `<em>${fn || 'Recorded audio'}</em>` : `<a href="${esc(url)}">${fn}</a>`}</p>`;
+      }
+      if (mt === 'pdf') {
+        return `${hdr}<p style="margin:4pt 0"><strong>PDF:</strong> ${url.startsWith('data:') ? `<em>${fn || 'Attached PDF'}</em>` : `<a href="${esc(url)}">${fn}</a>`}</p>`;
+      }
+      if (mt === 'docx' || mt === 'pptx') {
+        const label = mt === 'pptx' ? 'Presentation' : 'Word Document';
+        return `${hdr}<p style="margin:4pt 0"><strong>${label}:</strong> <em>${fn || 'Attached file'}</em></p>`;
+      }
+      if (mt === 'link' || mt === 'youtube' || mt === 'vimeo' || mt === 'spotify' || mt === 'video') {
+        const label = mt === 'youtube' ? 'YouTube' : mt === 'vimeo' ? 'Vimeo' : mt === 'spotify' ? 'Spotify' : mt === 'video' ? 'Video' : 'Link';
+        return `${hdr}<p style="margin:4pt 0"><strong>${label}:</strong> <a href="${esc(url)}">${esc(url)}</a></p>`;
+      }
+      return `${hdr}<p><a href="${esc(url)}">${fn || esc(url)}</a></p>`;
+    }
     if (c.type === 'others') {
       if (c.kind === 'todo' && c.todos && c.todos.length) {
         const items = c.todos.map(t =>
@@ -1643,6 +1667,7 @@ function MultimediaCell({ cell, onChange }) {
   const snapCanvasRef = useRef(null);
   const [camActive, setCamActive]   = useState(false);
   const [camError,  setCamError]    = useState(null);
+  const [facingMode, setFacingMode] = useState('environment');
 
   /* ── Recorder state ─────────────────────────── */
   const recorderRef  = useRef(null);
@@ -1682,15 +1707,26 @@ function MultimediaCell({ cell, onChange }) {
     setRecError(null);
   }
 
-  async function startCamera() {
+  async function startCamera(facing) {
+    const mode = facing || facingMode;
     setCamError(null);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: mode } });
       camStreamRef.current = stream;
       if (videoRef.current) { videoRef.current.srcObject = stream; }
       setCamActive(true);
     } catch(_) {
       setCamError('Camera access denied or not available in this browser.');
+    }
+  }
+
+  async function flipCamera() {
+    const next = facingMode === 'environment' ? 'user' : 'environment';
+    setFacingMode(next);
+    if (camActive) {
+      if (camStreamRef.current) camStreamRef.current.getTracks().forEach(t => t.stop());
+      camStreamRef.current = null;
+      await startCamera(next);
     }
   }
 
@@ -1825,6 +1861,9 @@ function MultimediaCell({ cell, onChange }) {
               : <>
                   <button className="nb-media__action-btn nb-media__action-btn--green"
                     onClick={e => { e.stopPropagation(); capturePhoto(); }}>📸 Capture</button>
+                  <button className="nb-media__action-btn nb-media__action-btn--flip"
+                    title={facingMode === 'environment' ? 'Switch to front camera' : 'Switch to back camera'}
+                    onClick={e => { e.stopPropagation(); flipCamera(); }}>🔄 Flip</button>
                   <button className="nb-media__action-btn nb-media__action-btn--red"
                     onClick={e => { e.stopPropagation(); _stopCamera(); }}>Stop</button>
                 </>

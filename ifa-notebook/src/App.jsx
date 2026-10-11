@@ -411,6 +411,8 @@ function Hero({ onWatchIntro }) {
             'Orisa Note','OrisaNote','Orisa NoteBook','OrisaNoteBook',
             'IfaPad','Ifa Pad','Orisa Pad','OrisaPad','ToE Pad','Ifa Tablet','IfaTab','Orisa Tablet','OrisaTab',
             'Ifa Notepad','Orisa Notepad','IFABOK Journal','IFA Internet Journal',
+            'Ẹ̀rọfá','Ẹ̀rọ Ifá','Ifa Machine','IfaMachine','Ifa-Machine',
+            'Ẹ̀rọṣà','Ẹ̀rọ Òòṣà','Orisa Machine','OrisaMachine','Orisa-Machine',
           ].map(n => (
             <span className="hero__name-pill" key={n}>{n}</span>
           ))}

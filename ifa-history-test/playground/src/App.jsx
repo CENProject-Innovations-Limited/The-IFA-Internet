@@ -24,46 +24,56 @@ const DAFA_SETS = [
     desc:  'Inner Yorubaland arc — heartland kingdoms stretching from Remo through Ekiti',
     color: '#8b5cf6',
   },
+  {
+    set:   3,
+    sym:   '⊙',
+    name:  'Káà Kẹ́ta',
+    part:  'Third IfaPartition',
+    sub:   'Lagos Mainland',
+    desc:  'Lagos Mainland settlements',
+    color: '#00c87c',
+  },
 ];
 
 const TOWNS = [
   // ── Káà Kinní — Set 1 ───────────────────────────────────────────────────
   {
     id: 1, set: 1, ilu: 'Ojọ́ta', short: 'Ojọ́ta',
-    etymology: 'Ojú Ọta — Ojúbọ Òrìṣà Ọta: the face/shrine of the Stone Deity (Ọta)',
+    etymology: 'Ojú Ọta — Ojúbọ Òrìṣà Ọta: shrine of the Stone Deity (Ọta)',
     ipinle: 'Lagos', region: 'SW',
     odufa: '—',
     orisa: 'Òrìṣà Ọta (sacred stone deity)',
-    oye_oba: 'Baálẹ̀ of Ojọ́ta',
-    oruko_oba: '—',
-    odun: 'Ọta Festival',
-    omiran: 'Located in Ojo LGA, Lagos State. Ancient Yoruba settlement consecrated to the sacred stone (Ọta) deity.',
+    oye_oba: 'Ọba of Ojọ́ta (Ọlọ́jọ́ta of Ojọ́ta)',
+    oruko_oba: 'Alayeluwa Oba Jimoh Adewale Olawale-Cole (deceased, 2025)',
+    odun: '—',
+    omiran: 'Located in Kosofe Local Government Area. Lagos State. Yoruba settlement consecrated to the sacred stone (Ọta) deity.',
     website: 'https://ojolga.lg.gov.ng/',
     color: '#d4a017',
   },
   {
     id: 2, set: 1, ilu: 'Ìkòròdú', short: 'Ìkòròdú',
-    etymology: 'Oko Òdú — Farm/Land of the Odu (the primordial spiritual force)',
+    etymology: 'Oko Òdú — Farm/Land of the Òdú (a kind/specie of vegetable)',
     ipinle: 'Lagos', region: 'SW',
     odufa: 'Ogbèfún (Ogbè-Òfún)',
-    orisa: 'Òrìṣà Oko, Oṣó, Ọ̀sàrà (Ọ̀sà), Ẹ̀lúkú',
-    oye_oba: 'Ayangburen of Ikorodu',
+    orisa: 'Òrìṣà Oko (Oṣó), Ọ̀gá, Ọ̀sàrà (Ọ̀sà), Ẹ̀lúkú',
+    oye_oba: 'Ọba of Ìkòròdú (Àyángbùrẹ̀n of Ìkòròdú)',
     oruko_oba: 'Oba Kabiru Adewale Shotobi (Ayangburen IV)',
-    odun: 'Oṣo Festival, Ẹ̀lúkú Festival, Ọ̀sàrà Festival',
-    omiran: 'Major commercial hub, Ikorodu LGA, Lagos. Ancient trade & fishing community on Lagos Lagoon. One of Lagos\'s oldest towns.',
+    odun: 'Ẹ̀lúkú Festival, Ọ̀gá Festival, Ìgúnnóko Festival',
+    omiran: 'Ìkòròdú is Ìkòròdú Ọ̀gá Àkárìgbò in full. Major commercial hub, Ikorodu LGA, Lagos. Ancient trade & fishing community on Lagos Lagoon. One of Lagos\'s oldest towns.',
     website: 'https://ikorodulga.lg.gov.ng/',
     color: '#14b8d4',
   },
   {
     id: 3, set: 1, ilu: 'Ojúẹlẹ́gba', short: 'Ojúẹlẹ́gba',
-    etymology: 'Ojúbọ Ẹlẹ́gbára — the face/shrine of Esu Elegbara (Alágbára, the Powerful One)',
+    etymology: 'Ojúbọ Ẹlẹ́gbára — the shrine of Esu Elegbara (Alágbára, the Powerful One)',
     ipinle: 'Lagos', region: 'SW',
     odufa: '—',
-    orisa: 'Ẹlẹ́gbára / Èṣù Alágbára',
-    oye_oba: 'Baálẹ̀ of Ojuelegba',
-    oruko_oba: '—',
+    orisa: 'Ẹlẹ́gbá/Ẹlẹ́gbára/Èṣù Alágbára',
+    oye_oba: 'Baálẹ̀ of Ojuelegba (The Olojuelegba of Ojuelegba)',
+    oruko_oba: 'Hrm Kehinde Michael Abayomi',
     odun: 'Ẹlẹ́gbára Festival',
     omiran: 'Landmark area in Surulere/Lagos. Major transit crossroads. Named for the Esu shrine standing at the crossroads — Esu\'s sacred domain.',
+    note_links: [{ href: 'https://esukiisesatani.com/', text: 'Esu is not Satan (Devil)' }],
     website: 'https://surulere-lg.com.ng/',
     color: '#ef4444',
   },
@@ -81,28 +91,40 @@ const TOWNS = [
     color: '#f0920c',
   },
   {
-    id: 5, set: 1, ilu: 'Imuṣin / Muṣin', short: 'Imuṣin',
-    etymology: 'Ìmu Iṣin — Place where good Iṣin trees (Ricinodendron heudelotii) grow abundantly',
+    id: 5, set: 1, ilu: 'Imuṣin', short: 'Imuṣin',
+    etymology: 'Ìmu Iṣin — Place where good Iṣin trees (ackee: blighia sapida) grow abundantly',
+    ipinle: 'Ogun', region: 'SW',
+    odufa: '—',
+    orisa: 'Iṣin, Ògún Obélú, Yemọja, Èṣù',
+    oye_oba: 'Ọba of Imushin (Olókò of Imuṣin)',
+    oruko_oba: 'Alayeluwa Oba Stephen Adedeji Onafowokan (Ojafadego II)',
+    odun: 'Iṣin Festival, Ogun Festival',
+    omiran: 'Imuṣin is in Ijebu East LGA, Ogun. Muṣin (Lagos Mainland) is a separate but etymologically linked settlement — both named for the sacred Iṣin tree.',
+    website: 'https://ijebuimusin.com/',
+    color: '#00c87c',
+  },
+  {
+    id: 17, set: 3, ilu: 'Muṣin', short: 'Muṣin',
+    etymology: 'Mu Iṣin — ibi tí a ti n mú Iṣin (where we pick Iṣin)',
     ipinle: 'Lagos', region: 'SW',
     odufa: '—',
-    orisa: 'Iṣin tree deity, Ogun',
-    oye_oba: 'Baálẹ̀ of Imushin',
-    oruko_oba: '—',
-    odun: 'Iṣin Festival, Ogun Festival',
-    omiran: 'Imushin in Ikorodu LGA. Muṣin (Lagos Mainland) is a separate but etymologically linked settlement — both named for the sacred Iṣin tree.',
-    website: 'https://ijebuimusin.com/',
-    website2: 'https://mushin.lg.gov.ng/blog/page/98/',
+    orisa: '—',
+    oye_oba: 'Ọba of Muṣin (Olu of Muṣin)',
+    oruko_oba: 'His Royal Majesty, Oba Fatai Ayinla Aileru, the Olu of Mushinland',
+    odun: '—',
+    omiran: 'Muṣin (Mushin) is a Local Government Area on Lagos Mainland. Etymologically linked to Imuṣin (Ijebu East LGA) — both settlements named for the sacred Iṣin tree.',
+    website: 'https://mushin.lg.gov.ng/',
     color: '#00c87c',
   },
   {
     id: 6, set: 1, ilu: 'Ìjẹ̀bú', short: 'Ìjẹ̀bú',
-    etymology: 'Ìjẹ ibú — Food of the deep sea/abyss. Also Àjẹ̀bú. Ancient Ijebu kingdom',
+    etymology: 'Ìjẹ ibú — Food of the deep sea/abyss. Roots: Àjẹ̀bú (Àjẹ̀bú and Olóde, the two prominent leaders and original founders of Ìjẹ̀bú)',
     ipinle: 'Ogun', region: 'SW',
     odufa: 'Ọ̀ṣẹ́turá (Ọ̀ṣẹ́ + Òtúrá)',
-    orisa: 'Agemo (masquerade deity), Ọ̀ṣun',
-    oye_oba: 'Awujale of Ijebuland',
-    oruko_oba: 'Oba Sikiru Kayode Adetona (since 1960)',
-    odun: 'Agemo Festival (16 days, annual), Ojude Oba',
+    orisa: 'Agẹmọ, Alárẹ̀, Àjẹ̀bú, Olóde, Ọbánta',
+    oye_oba: 'Ọba of Ìjẹ̀bú (Awùjalẹ̀ of Ìjẹ̀búland)',
+    oruko_oba: 'Oba Sikiru Kayode Adetona (deceased, 2025)',
+    odun: 'Agẹmọ Festival (seven days, annual), Ojúde Ọba',
     omiran: 'Ancient Ijebu kingdom, capital at Ijebu Ode. Famous Agemo masquerade tradition. Powerful pre-colonial merchant state.',
     website: 'https://ojudeoba.com/',
     color: '#8b5cf6',
@@ -112,10 +134,10 @@ const TOWNS = [
     etymology: 'Founded by Àjẹ̀bú and Olóde from Ilé-Ifẹ̀ — their names fused into the town\'s name',
     ipinle: 'Ogun', region: 'SW',
     odufa: 'Ọ̀ṣẹ́turá',
-    orisa: 'Agemo, Ọ̀ṣun',
-    oye_oba: 'Awujale of Ijebuland',
-    oruko_oba: 'Oba Sikiru Kayode Adetona',
-    odun: 'Ojude Oba, Agemo Festival',
+    orisa: 'Agẹmọ, Alárẹ̀, Àjẹ̀bú, Olóde, Ọbánta',
+    oye_oba: 'Ọba of Ìjẹ̀bú (Awùjalẹ̀ of Ìjẹ̀búland)',
+    oruko_oba: 'Oba Sikiru Kayode Adetona (deceased, 2025)',
+    odun: 'Agẹmọ Festival (seven days, annual), Ojúde Ọba',
     omiran: 'Capital of Ijebu kingdom. Major Yoruba trade city in Ogun State. Founded by emigrants from Ilé-Ifẹ̀.',
     website: 'https://ogunstate.gov.ng/',
     color: '#14b8d4',
@@ -125,10 +147,10 @@ const TOWNS = [
     etymology: 'Òrìṣàgamu Ẹwà — Òrìṣà gún àmù ẹwà: the Orisa shattered the beautiful, mysterious clay pot',
     ipinle: 'Ogun', region: 'SW',
     odufa: '—',
-    orisa: 'Ogun, Obanta, Yewa',
-    oye_oba: 'Akarigbo of Remoland',
-    oruko_oba: 'Oba Babatunde Ajayi (Akarigbo)',
-    odun: 'Ojude Oba Sagamu, Obanta Festival, Ogun Festival',
+    orisa: 'Yewa (Iyewa, Iyawa), Agẹmọ',
+    oye_oba: 'Ọba of Remoland (Àkárìgbò of Remoland)',
+    oruko_oba: 'Oba Babatunde Ajayi (Àkárìgbò)',
+    odun: 'Ṣagámù Day, Agẹmọ Festival, Bàtọ̀rọ̀ Orò Festival, Líderò Festival',
     omiran: 'Seat of Remo traditional government in Ogun State. Major commercial and educational city on Lagos–Ibadan axis.',
     website: 'https://ogunstate.gov.ng/',
     color: '#d4a017',
@@ -137,26 +159,26 @@ const TOWNS = [
   // ── Káà Kejì — Set 2 ────────────────────────────────────────────────────
   {
     id: 9, set: 2, ilu: 'Ìrẹ́mọ (Rẹ́mọ)', short: 'Ìrẹ́mọ',
-    etymology: 'Ìrẹ́ ọmọ — Grace/Beauty of Children; linked to Àká & Ọ̀rànmíyàn of Ilé-Ifẹ̀',
+    etymology: 'Ìrẹ́mọ (Ìrẹ́ ọmọ) Quarters of Ilé-Ifẹ̀ — Rẹ́mọ Métààlélógbòn (33 Rẹ́mọ Towns)',
     ipinle: 'Ogun', region: 'SW',
     odufa: '—',
-    orisa: 'Àká, Ọ̀rànmíyàn',
-    oye_oba: 'Oba of Iremo-Remo',
-    oruko_oba: '—',
-    odun: 'Àká Festival, Ọ̀rànmíyàn Day',
-    omiran: 'Agboolé Àká; Ìrẹ́mọ Quarters in Ilé-Ifẹ̀. Part of the Remo sub-group of Yoruba (Ogun State).',
+    orisa: 'Agẹmọ, Ẹ̀lúkú',
+    oye_oba: 'Ọba of Remoland (Àkárìgbò of Remoland)',
+    oruko_oba: 'Oba Babatunde Ajayi (Àkárìgbò)',
+    odun: 'Egúngún Ẹ̀lúkú Festival, Agẹmọ Festival, Bàtọ̀rọ̀ Orò Festival, Líderò Festival',
+    omiran: 'Rẹ́mọ\'s origin is Ìrẹ́mọ Quarters in Ilé-Ifẹ̀. The Remo sub-group of Yoruba (Ogun/Lagos State).',
     color: '#8b5cf6',
   },
   {
     id: 10, set: 2, ilu: 'Ìṣarà (Rẹ́mọ)', short: 'Ìṣarà',
-    etymology: 'Ìṣe Àrà — The deed/work of the Àrà people; the miracle-workers',
+    etymology: 'Ìṣe Àrà — Ọmọọba Adéyẹmọ (Ọdẹmọ/Ọdẹ Ọmọ/Adé Ọmọ) founded Ìṣarà, along with his hunter companions, Iṣẹ́ Ọ̀rúnmìlà and Àrà; the 3 travelled together as ọdẹ (hunters) from Ilé-Ifẹ̀ to present-day Iṣẹ́-Àrà (Ìṣarà). Iṣẹ́ was the Babalawo.',
     ipinle: 'Ogun', region: 'SW',
     odufa: '—',
-    orisa: 'Ogun, Agemo',
-    oye_oba: 'Odèmọ of Isara',
-    oruko_oba: '—',
-    odun: 'Agemo Festival, Ogun Festival',
-    omiran: 'Birthplace of Chief Obafemi Awolowo. In Remo, Ogun State. Known as Isara-Remo.',
+    orisa: 'Ajé, Orò, Agẹmọ, Ọdẹmọ, Iṣẹ́ Ọ̀rúnmìlà, Àrà',
+    oye_oba: 'Ọdẹmọ of Isara',
+    oruko_oba: 'HRM Oba Peter Olúwọlé Ògúnbáyọ̀ (Ọ̀tẹ̀tẹ́ III)',
+    odun: 'Agẹmọ Festival, Rẹ́mọ Day Festival',
+    omiran: 'Ìṣarà-Rẹ́mọ. Birthplace of Chief Obafemi Awolowo. In Remo, Ogun State.',
     website: 'https://isara-remo.webflow.io/',
     color: '#00c87c',
   },
@@ -167,7 +189,7 @@ const TOWNS = [
     odufa: '—',
     orisa: 'Ògún Obélú, Yemọja, Èṣù',
     oye_oba: 'Obélú of Èṣúré',
-    oruko_oba: '—',
+    oruko_oba: 'Alayeluwa Oba AbdSamad Olalekan Kasali',
     odun: 'Ọdún Ògún Obélú (every November), Ọdún Yemọja',
     omiran: 'Èṣúré, Ìjẹ̀bú Imuṣin, is in Ìjẹ̀bú East LGA.',
     website: 'https://esurecommunity.org.ng/',
@@ -178,7 +200,7 @@ const TOWNS = [
     etymology: 'Oṣó Inú Igbó — the powerful/mysterious one dwelling within the forest',
     ipinle: 'Osun', region: 'SW',
     odufa: 'Ìdin Amìlẹ̀kẹ̀ / Ìdin Òṣogbo (Òdí Ìrẹté)',
-    orisa: 'Ọṣun (river goddess), Larooye, Ataoja lineage',
+    orisa: 'Ọṣun',
     oye_oba: 'Ataoja of Osogbo',
     oruko_oba: 'Oba Jimoh Oyetunji Larooye II',
     odun: 'Osun-Osogbo Festival (UNESCO Intangible Heritage)',
@@ -189,26 +211,26 @@ const TOWNS = [
   {
     id: 13, set: 2, ilu: 'Ìbàdàn', short: 'Ìbàdàn',
     etymology: 'Ẹ̀bá Ọ̀dàn — By the edge of the wide-open savannah/grassland (Ọ̀dàn)',
-    ipinle: 'Oyo', region: 'SW',
+    ipinle: 'Ọ̀yọ́', region: 'SW',
     odufa: 'Ọ̀ṣẹ́ Méjì (Ọ̀ṣẹ́ Olúbàdàn)',
-    orisa: 'Oya, Sango, Ogun, Ọ̀ṣun',
+    orisa: 'Yemọja, Olóòlù, Ọya, Ṣàńgó',
     oye_oba: 'Olúbàdàn of Ibadanland',
-    oruko_oba: 'Oba Lekan Balogun (Olubadan I)',
-    odun: 'Olubadan Festival, Oya Festival, Ogun Festival',
+    oruko_oba: 'Oba Rashidi Adewolu Akanmu Ladoja',
+    odun: 'Olóòlù Festival, Òkè\'bàdàn Festival, Egúngún Festival',
     omiran: 'Largest city in West Africa by land area. Home of University of Ibadan (est. 1948). Capital of Oyo State.',
     website: 'https://oyostate.gov.ng/',
     color: '#6366f1',
   },
   {
     id: 14, set: 2, ilu: 'Ìlọrin', short: 'Ìlọrin',
-    etymology: 'Ìlọ irin — The flowing/forging of iron; land of ironworkers and metal smiths',
+    etymology: 'Ìlọ irin — The forging of iron; land of ironworkers and metal smiths',
     ipinle: 'Kwara', region: 'N-Central',
     odufa: 'Ọ̀kànràn Ìwòrì',
-    orisa: 'Bàtà (Sango\'s drum deity), Esinkin, Ogun',
+    orisa: 'Ògún',
     oye_oba: 'Emir of Ilorin',
-    oruko_oba: 'Alhaji Ibrahim Sulu-Gambari (CFR)',
-    odun: 'Bàtà Festival, Emir\'s Sallah Durbar',
-    omiran: 'Capital of Kwara State. Originally Yoruba Oluyole kingdom; came under Fulani emirate in 19th c. Major cultural crossroads.',
+    oruko_oba: 'Alhaji Ibrahim Sulu-Gambari',
+    odun: 'Emir\'s Sallah Durbar',
+    omiran: 'Capital of Kwara State. Originally a frontier settlement and military outpost of the ancient Oyo Empire; came under Fulani emirate in 19th c. Major cultural crossroads.',
     website: 'https://kwarastate.gov.ng/',
     color: '#3b9eff',
   },
@@ -217,24 +239,24 @@ const TOWNS = [
     etymology: 'Òde Ìdó — Outer frontier/exit of Ido; founded by Princess Pupupu of Ilé-Ifẹ̀',
     ipinle: 'Ondo', region: 'SW',
     odufa: 'Ọ̀bárà Méjì',
-    orisa: 'Orisagbemi, Ogun, Ọ̀ṣun',
+    orisa: 'Ògún, Ọrẹ̀',
     oye_oba: 'Osemawe of Ondo',
     oruko_oba: 'Oba Dr. Victor Kiladejo',
-    odun: 'Ogun Festival, Igogo Festival',
-    omiran: 'Founded by Princess Pupupu, daughter of the Ooni of Ile-Ife. Capital of former Ondo Province. In Ondo State.',
+    odun: 'Ògún Festival, Igogo Festival',
+    omiran: 'Founded by Princess Pupupu, daughter of the Ooni of Ile-Ife. In Ondo State.',
     website: 'https://ondostate.gov.ng/',
     color: '#ec4899',
   },
   {
     id: 16, set: 2, ilu: 'Ìláròó', short: 'Ìláròó',
-    etymology: 'Ìlú Àró — Town of the Àró people: the indigo/blue-dye craftspeople',
-    ipinle: 'Ekiti', region: 'SW',
+    etymology: 'Ìlú Àró — Town of Àró, a Yoruba chieftancy title',
+    ipinle: 'Ogun', region: 'SW',
     odufa: '—',
-    orisa: 'Àró deity, Ogun',
-    oye_oba: 'Alara of Ilara-Mokin',
-    oruko_oba: '—',
-    odun: 'Àró Festival, Ogun Festival',
-    omiran: 'One of the ancient Ekiti kingdoms. Alara is among the Farabale kings of Ekiti. Known for indigo-weaving heritage.',
+    orisa: 'Yewa (Iyewa, Iyawa)',
+    oye_oba: 'Olu of Ilaro and Paramount Ruler of Yewaland',
+    oruko_oba: 'Oba Kehinde Gbadewole Olugbenle',
+    odun: 'Oronna Ilaro Festival',
+    omiran: 'Ìláròó (Ilaro) is the headquarters of Yewaland, the Yewa South Local government.',
     website: 'https://www.ilaramokin.org/',
     color: '#f5c518',
   },
@@ -242,7 +264,7 @@ const TOWNS = [
 
 // 8 compass positions for the radial overlay (matching 8 Odu columns)
 const COMPASS = [
-  { key: 'etymology', label: 'Etymology · Ìtumọ̀', icon: '◌', area: 'nw', sym: 'NW' },
+  { key: 'etymology', label: 'Etymology · Ìpìnlẹ̀ ọ̀rọ̀', icon: '◌', area: 'nw', sym: 'NW' },
   { key: 'ipinle',    label: 'Ìpínlẹ̀ (State)',    icon: '◈', area: 'n',  sym: 'N'  },
   { key: 'odufa',     label: 'Odùfá Ìtẹ̀lúdó',    icon: '⊛', area: 'ne', sym: 'NE' },
   { key: 'omiran',    label: 'Àwọn Òmìrán',        icon: '◇', area: 'w',  sym: 'W'  },
@@ -559,6 +581,9 @@ function IfaTable() {
                   <td className="ift-td">{t.odun}</td>
                   <td className="ift-td ift-td--omiran">
                     {t.omiran}
+                    {t.note_links && t.note_links.map((nl, i) => (
+                      <span key={i}> <a className="ift-site-link" href={nl.href} target="_blank" rel="noopener noreferrer">{nl.text}</a></span>
+                    ))}
                     {t.website && (
                       <span className="ift-site-links">
                         <a className="ift-site-link" href={t.website} target="_blank" rel="noopener noreferrer">↗ Official Site</a>
@@ -715,6 +740,335 @@ function PgTableLabel() {
   );
 }
 
+// ─── ODU MARK ────────────────────────────────────────────────────────────────
+// '1' → single vertical line (Ogbe/Energy)  |  '0' → double vertical lines (Oyeku/Anergy)
+
+function OduMark({ code }) {
+  return (
+    <div className="odu-m">
+      {code.split('').map((b, i) => (
+        <div key={i} className="odu-m__row">
+          {b === '0'
+            ? <><span className="odu-m__bar" /><span className="odu-m__bar" /></>
+            : <span className="odu-m__bar odu-m__bar--s" />
+          }
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// For Méjì: both columns carry the same code; rotating 180° physically reverses the rows
+// → the partner Méjì's marks appear. For composite Odu: leftCode ≠ rightCode; marks swap
+// at the midpoint so the partner composite is shown when fully rotated.
+// Drag vertically or click to rotate; snaps to 0° / 180° on release.
+function OduFlipPair({ odu1, odu2, pairLabel }) {
+  const [displayDeg, setDisplayDeg] = React.useState(0);
+  const [nameIdx, setNameIdx]       = React.useState(0);
+  const [animated, setAnimated]     = React.useState(true);
+  const currentDeg = React.useRef(0);
+  const drag       = React.useRef({ on: false, y0: 0, startDeg: 0, moved: false });
+
+  function applyDeg(d, anim) {
+    currentDeg.current = d;
+    setAnimated(anim);
+    setDisplayDeg(d);
+  }
+  function syncName(d) {
+    const norm = ((Math.round(d) % 360) + 360) % 360;
+    setNameIdx(norm >= 90 && norm < 270 ? 1 : 0);
+  }
+  function clickRotate() {
+    const base = Math.round(currentDeg.current / 180) * 180;
+    const next = base + 180;
+    applyDeg(next, true);
+    setTimeout(() => syncName(next), 375);
+  }
+  function onPD(e) {
+    drag.current = { on: true, y0: e.clientY, startDeg: currentDeg.current, moved: false };
+    setAnimated(false);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
+  function onPM(e) {
+    if (!drag.current.on) return;
+    const dy = e.clientY - drag.current.y0;
+    if (Math.abs(dy) > 4) drag.current.moved = true;
+    const newDeg = drag.current.startDeg + dy * 1.8;
+    currentDeg.current = newDeg;
+    setDisplayDeg(newDeg);
+    syncName(newDeg);
+  }
+  function onPU() {
+    if (!drag.current.on) return;
+    drag.current.on = false;
+    if (!drag.current.moved) {
+      clickRotate();
+    } else {
+      const snapped = Math.round(currentDeg.current / 180) * 180;
+      applyDeg(snapped, true);
+      syncName(snapped);
+    }
+  }
+
+  const shown   = nameIdx === 0 ? odu1 : odu2;
+  const partner = nameIdx === 0 ? odu2 : odu1;
+  // Always render odu1's codes — the CSS transform achieves the visual partner transition.
+  // Méjì (has .code): rotate(180°) reverses row order → e.g. '0011' visually becomes '1100'.
+  // Composite (has .leftCode): rotateY(180°) swaps left↔right columns without inverting rows
+  //   → partner is exactly odu1's columns in swapped positions. No code swap needed in either case.
+  const isMeji    = !odu1.leftCode;
+  const leftCode  = odu1.leftCode ?? odu1.code;
+  const rightCode = odu1.rightCode ?? odu1.code;
+
+  return (
+    <div className="odu-fpair">
+      {pairLabel && <div className="odu-fpair__pair-label">{pairLabel}</div>}
+      <div className="odu-fpair__stage"
+           onPointerDown={onPD} onPointerMove={onPM} onPointerUp={onPU}
+           role="button" tabIndex={0}
+           onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') clickRotate(); }}>
+        <div className="odu-fpair__marks"
+             style={{
+               transform: isMeji ? `rotate(${displayDeg}deg)` : `rotateY(${displayDeg}deg)`,
+               transition: animated ? 'transform 0.75s cubic-bezier(0.4,0,0.2,1)' : 'none',
+             }}>
+          <OduMark code={leftCode} />
+          <OduMark code={rightCode} />
+        </div>
+        <div className="odu-fpair__nameplate">
+          <span className="odu-fpair__name">{shown.name}</span>
+          <span className="odu-fpair__meji">{shown.meji}</span>
+        </div>
+        <div className="odu-fpair__hint" aria-hidden="true">↻ drag or click → {partner.name}</div>
+      </div>
+    </div>
+  );
+}
+
+// ─── SCARIFICATION SECTION ───────────────────────────────────────────────────
+
+const ILA_MARKS = [
+  { name: 'Pélé',          pattern: '3 vertical lines on cheeks',          origin: 'Ilé-Ifẹ̀'       },
+  { name: 'Àbàjà',        pattern: '3–4 horizontal stripes per cheek (sometimes twelve horizontal lines, six lines per cheek)',    origin: 'Oyo (Aláàfin)' },
+  { name: 'Gọ̀mbọ́/Kẹ́kẹ́', pattern: 'Multiple curved lines near mouth', origin: 'Ogbomosho'      },
+  { name: 'Òwu',          pattern: '6 incisions per cheek',               origin: 'Abeokuta / Owu' },
+  { name: 'Soju',        pattern: 'Single vertical line per cheek',      origin: 'Ondo'           },
+  { name: 'Yagba',       pattern: '3 converging lines at mouth corners', origin: 'North Yoruba'   },
+];
+
+function ScarificationSection() {
+  return (
+    <section className="scar-section">
+      <div className="scar-inner">
+
+        <div className="scar-heading-row">
+          <span className="scar-sigil" aria-hidden="true">◈</span>
+          <div>
+            <h2 className="scar-title">Ifa-Orisa Scarification Arts, Sciences, and Technology</h2>
+          </div>
+        </div>
+
+        {/* 1 — Tattoo */}
+        <div className="scar-block">
+          <h3 className="scar-sub-title">Ifa &amp; Orisa Tattoo</h3>
+          <p className="scar-sub-tag">Tattoo and Tribal Marks as Ifa-Orisa Visual Language</p>
+          <p className="scar-body">
+            In Ifa-Orisa Tradition, body inscription encodes identity, lineage, and Orisa devotion.
+            Each mark is a living visual language — a declaration of Ìlú (town), Ẹbí (family), and Òrìṣà
+            covenant. Drawing blood through the act of marking is itself a sacred agreement with
+            ancestral and spiritual forces.
+          </p>
+          <div className="scar-vocab">
+            <span className="scar-vocab__item"><em>Tattoo</em> — fín-fín ara, òòlà</span>
+            <span className="scar-vocab__item"><em>Tattooing</em> — Ara fínfín</span>
+            <span className="scar-vocab__item"><em>Tattoo artist</em> — Olóòlà</span>
+          </div>
+        </div>
+
+        {/* Abẹ́gán — the sacred workspace */}
+        <div className="scar-abegan">
+          <span className="scar-abegan__label">Abẹ́gán</span>
+          <span className="scar-abegan__def">
+            The workspace of the
+            {' '}<em>Tattoo Artist · Tribal Mark Artist · Native Medical Scientist · Ancient Surgeon</em>
+            {' '}— <em>Olóòlà · Ọ̀kọlà · Oníṣègùn · Oníṣẹ́ ábẹ</em>
+          </span>
+        </div>
+
+        {/* 2 — Tribal Marks */}
+        <div className="scar-block">
+          <h3 className="scar-sub-title">Ifa-Orisa Tribal Marks</h3>
+          <p className="scar-sub-tag">Ilà — Scarification as Town, Clan &amp; Òrìṣà Identity</p>
+          <p className="scar-body">
+            Ilà (tribal marks) are facial and body scarifications that identify a person's town, clan,
+            and Òrìṣà lineage.
+          </p>
+          <p className="scar-body">
+            Cuts are made by the Ọ̀kọlà (tribal mark artist) using iron blades —
+            within Ògún's domain — and carry protective, spiritual, and royal covenant weight.
+          </p>
+          <p className="scar-body">
+            In Yorubaland, Ilà also served as a form of beautification — marks of aesthetic distinction
+            that enhanced personal attractiveness and adorned the face and body with cultural elegance.
+          </p>
+          <div className="scar-marks-grid">
+            {ILA_MARKS.map(m => (
+              <div key={m.name} className="scar-mark-card">
+                <div className="scar-mark-card__name">{m.name}</div>
+                <div className="scar-mark-card__origin">{m.origin}</div>
+                <div className="scar-mark-card__pattern">{m.pattern}</div>
+              </div>
+            ))}
+          </div>
+          <div className="scar-vocab">
+            <span className="scar-vocab__item"><em>Line</em> — Ìlà</span>
+            <span className="scar-vocab__item"><em>Tribal mark</em> — Ilà</span>
+            <span className="scar-vocab__item"><em>Tribal mark artist</em> — Ọ̀kọlà/Olóòlà</span>
+          </div>
+        </div>
+
+        {/* 2b — Ikoólo & Gbẹ́rẹ́ sísín */}
+        <div className="scar-block scar-block--ikoolo-special">
+          <h3 className="scar-sub-title">Ikoólo — Tribal Mark &amp; Medical Treatment</h3>
+          <p className="scar-sub-tag">Both an Ifa-Orisa Tribal Mark and a Medical Procedure · Therapeutic Scarification in Ancient Ilẹ̀-Ifẹ̀</p>
+          <div className="scar-ikoolo">
+            <div>
+              <span className="scar-ikoolo__term">Ikoólo</span>
+              <span className="scar-dim"> — also: ìkoólo wẹ́wẹ́ · koólò wẹ́wẹ́</span>
+            </div>
+            <p className="scar-ikoolo__def">
+              Sixty (60) careful marks made all over the body of a sick child — one of the oldest forms
+              of therapeutic scarification in ancient Ilẹ̀-Ifẹ̀ documented in Odu Ifa, used to treat specific
+              diseases and medical conditions. Unique among Ifa-Orisa body inscriptions: Ikoólo
+              functions simultaneously as a tribal mark and a medical treatment — a living inscription
+              of both identity and healing.
+            </p>
+          </div>
+          <div className="scar-ikoolo">
+            <div>
+              <span className="scar-ikoolo__term">Gbẹ́rẹ́ sísín</span>
+            </div>
+            <p className="scar-ikoolo__def">
+              A unique form of therapy practised in ancient Ilẹ̀-Ifẹ̀ — a precursor of what is now
+              known as Intravenous (IV) Therapy (intravenous injections and infusions). Gbẹ́rẹ́ sísín
+              is Ifa-Orisa IV Medical Sciences and a <em>metascience</em> (metamedicine): it operates
+              at the intersection of Ifa-Orisa Knowledge Systems, body science, and spiritual covenant.
+            </p>
+          </div>
+          <div className="scar-compare">
+            <div className="scar-compare__heading">Global Comparison — IV &amp; Needle-Based Medical Sciences</div>
+            <div className="scar-compare__grid">
+              <div className="scar-compare__col">
+                <div className="scar-compare__col-label">Western IV Science</div>
+                <div className="scar-compare__col-body">
+                  Intravenous injections and infusions via needle into the bloodstream. Modern clinical
+                  standard for drug delivery, hydration, and nutrition.
+                </div>
+              </div>
+              <div className="scar-compare__col scar-compare__col--ifa">
+                <div className="scar-compare__col-label">Gbẹ́rẹ́ sísín</div>
+                <div className="scar-compare__col-sub">Ifa-Orisa IV Medical Sciences · African IV Medical Sciences · Metascience (Metamedicine)</div>
+                <div className="scar-compare__col-body">
+                  Ancient Ilẹ̀-Ifẹ̀ precursor to modern IV therapy — therapeutic body inscriptions and
+                  treatment delivered through the body's surface, rooted in Ifa-Orisa Knowledge.
+                  A metascience (metamedicine) combining physical treatment with spiritual covenant.
+                </div>
+              </div>
+              <div className="scar-compare__col">
+                <div className="scar-compare__col-label">Acupuncture</div>
+                <div className="scar-compare__col-sub">Chinese Medical Science · Asian Medical Sciences</div>
+                <div className="scar-compare__col-body">
+                  Ancient Chinese therapy using fine needles inserted at specific body points to
+                  regulate energy flow (Qi). One of the oldest documented needle-based medical systems.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 3 — IfaID */}
+        <div className="scar-block scar-block--id">
+          <h3 className="scar-sub-title">Ifa-Orisa Identification</h3>
+          <p className="scar-sub-tag">IfaID · OrisaID — Ifa Identification · Orisa Identification</p>
+          <p className="scar-body">
+            Marks, tattoos, and devotional insignia form a living identification system.
+          </p>
+        </div>
+
+        {/* 4 — Àṣà Ilà Kíkọ àti Ìwòsàn */}
+        <div className="scar-block">
+          <h3 className="scar-sub-title">Àṣà Ilà Kíkọ àti Ìwòsàn</h3>
+          <p className="scar-sub-tag">The Tradition of Scarification and Medical Science in Ifa and Orisa Practices, Ìṣẹ̀ṣe</p>
+          <p className="scar-body">
+            In ancient Ilẹ̀-Ifẹ̀, the Abẹ́gán was a centre of knowledge and healing. Children who
+            fell frequently ill were brought here for combined treatment:
+            {' '}<em>íṣẹ́ ìkọlà</em> (scarification) · <em>íṣẹ́ ábẹ</em> (surgery) ·
+            <em> íṣègùn</em> (medicine) · <em>ẹbọ</em> (offering) · <em>ètùtù</em> (propitiation).
+          </p>
+          <div className="scar-ikoolo">
+            <div>
+              <span className="scar-ikoolo__term">Ikoólo</span>
+              <span className="scar-dim"> — also: ìkoólo wẹ́wẹ́ · koólò wẹ́wẹ́</span>
+            </div>
+            <p className="scar-ikoolo__def">
+              Careful marks made all over the body of a sick child — one of the oldest forms of
+              therapeutic scarification in ancient Ilẹ̀-Ifẹ̀ documented in Odu Ifa, used to treat specific
+              diseases and medical conditions.
+            </p>
+          </div>
+          <div className="scar-ifaref">
+            <span className="scar-ifaref__label">IfaRef</span>
+            <span className="scar-ifaref__pairs">
+              IfaReferences (Ifa References): Ọ̀wọ́nrín Méjì &amp; Ìrosún Méjì · Ògúndá Méjì &amp; Ọ̀sá Méjì ·
+              Ọ̀ṣẹ́-Òturá &amp; Òturá-Ọ̀ṣẹ́ · Ìwòrì-Ògúndá &amp; Ògúndá-Ìwòrì
+            </span>
+          </div>
+          <p className="scar-ifaref-note">
+            These are some of the Ifa-Orisa Laws of Nature governing Scarification and Medical Studies
+            in the <em>IFA-ORISA Body of Knowledge (IFA-ORISABOK)</em>.
+          </p>
+          <div className="scar-odu-pairs">
+            <OduFlipPair
+              pairLabel="1st pair"
+              odu1={{ name: 'Ọ̀wọ́nrín', meji: 'Ọ̀wọ́nrín Méjì', code: '0011' }}
+              odu2={{ name: 'Ìrosún',   meji: 'Ìrosún Méjì',   code: '1100' }}
+            />
+            <OduFlipPair
+              pairLabel="2nd pair"
+              odu1={{ name: 'Ògúndá', meji: 'Ògúndá Méjì', code: '1110' }}
+              odu2={{ name: 'Ọ̀sá',   meji: 'Ọ̀sá Méjì',   code: '0111' }}
+            />
+            <OduFlipPair
+              pairLabel="3rd pair"
+              odu1={{ name: 'Ìwòrì-Ògúndá', meji: 'Ìwòrì-Ògúndá', leftCode: '1110', rightCode: '0110' }}
+              odu2={{ name: 'Ògúndá-Ìwòrì', meji: 'Ògúndá-Ìwòrì', leftCode: '0110', rightCode: '1110' }}
+            />
+            <OduFlipPair
+              pairLabel="4th pair"
+              odu1={{ name: 'Ọ̀ṣẹ́-Òturá',  meji: 'Ọ̀ṣẹ́-Òturá',  leftCode: '1011', rightCode: '1010' }}
+              odu2={{ name: 'Òturá-Ọ̀ṣẹ́',  meji: 'Òturá-Ọ̀ṣẹ́',  leftCode: '1010', rightCode: '1011' }}
+            />
+          </div>
+        </div>
+
+        {/* Disclaimer */}
+        <div className="scar-disclaimer">
+          <p className="scar-disclaimer__text">
+            Today, it is important for Yoruba/African parents to engage in necessary rites to provide
+            spiritual support and protection for their children; but these rites should be done in line with
+            the right Ifa and Orisa Traditions, Nigerian laws, and state laws. Also, it is a criminal
+            offense to give a child tribal marks in Nigeria, meaning you cannot legally perform this
+            practice on your child. While an adult can legally choose body modification for themselves,
+            Section 24 of the Child Rights Act 2003 strictly prohibits anyone from making a skin mark
+            or tattoo on any person under the age of 18.
+          </p>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
 // ─── FOOTER ──────────────────────────────────────────────────────────────────
 
 function PgFooter() {
@@ -745,6 +1099,7 @@ function App() {
         <PgTableLabel />
         <IfaTable />
       </main>
+      <ScarificationSection />
       <PgFooter />
     </div>
   );

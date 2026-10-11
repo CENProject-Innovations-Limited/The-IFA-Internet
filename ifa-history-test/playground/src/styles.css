@@ -879,6 +879,367 @@ body {
 }
 .ift-center__site:hover { opacity: 1; text-decoration: underline; }
 
+/* ─── Scarification Section ─── */
+.scar-section {
+  border-top: 1px solid var(--border);
+  padding: 48px 24px 40px;
+  background: var(--bg-2);
+}
+.scar-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+.scar-heading-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.scar-sigil {
+  font-size: 1.6rem;
+  color: var(--gold);
+  line-height: 1;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.scar-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--gold-lt);
+  letter-spacing: 0.01em;
+}
+.scar-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 22px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.scar-block--id {
+  border-color: rgba(212,160,23,0.2);
+}
+.scar-sub-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.scar-sub-tag {
+  font-size: 0.78rem;
+  color: var(--gold);
+  font-style: italic;
+  margin-top: -4px;
+}
+.scar-body {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+.scar-vocab {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 4px;
+}
+.scar-vocab__item {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 10px;
+}
+.scar-vocab__item em {
+  font-style: normal;
+  color: var(--text);
+  font-weight: 600;
+}
+.scar-marks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 4px;
+}
+.scar-mark-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.scar-mark-card__name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.scar-mark-card__origin {
+  font-size: 0.72rem;
+  color: var(--gold);
+}
+.scar-mark-card__pattern {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+/* ─── Abẹ́gán bridge ─── */
+.scar-abegan {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  background: rgba(212,160,23,0.07);
+  border: 1px solid rgba(212,160,23,0.22);
+  border-radius: 8px;
+  padding: 10px 16px;
+}
+.scar-abegan__label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.scar-abegan__def {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+}
+.scar-abegan__def em {
+  font-style: normal;
+  color: var(--text);
+}
+
+/* ─── Ikoólo block ─── */
+.scar-ikoolo {
+  background: rgba(255,255,255,0.03);
+  border-left: 3px solid rgba(212,160,23,0.5);
+  border-radius: 0 6px 6px 0;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.scar-ikoolo__term {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.scar-dim {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+.scar-ikoolo__def {
+  font-size: 0.84rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ─── Ikoólo special block ─── */
+.scar-block--ikoolo-special {
+  border-color: rgba(212,160,23,0.25);
+  background: rgba(212,160,23,0.03);
+}
+
+/* ─── Comparison grid (Gbẹ́rẹ́ sísín / IV / Acupuncture) ─── */
+.scar-compare {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+.scar-compare__heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.scar-compare__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.scar-compare__col {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.scar-compare__col--ifa {
+  border-color: rgba(212,160,23,0.4);
+  background: rgba(212,160,23,0.05);
+}
+.scar-compare__col-label {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.scar-compare__col--ifa .scar-compare__col-label {
+  color: var(--gold);
+}
+.scar-compare__col-sub {
+  font-size: 0.71rem;
+  color: var(--gold);
+  font-style: italic;
+  opacity: 0.8;
+  line-height: 1.4;
+}
+.scar-compare__col-body {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ─── IfaRef label row ─── */
+.scar-ifaref {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.scar-ifaref__label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(212,160,23,0.12);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.scar-ifaref__pairs {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+/* ─── Odu flip pairs ─── */
+.scar-odu-pairs {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  direction: rtl;
+}
+.odu-fpair {
+  flex: 1 1 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  direction: ltr; /* prevent RTL container from leaking into content */
+}
+.odu-fpair__pair-label {
+  font-size: 0.67rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--text-dim);
+}
+.scar-ifaref-note {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-style: italic;
+  line-height: 1.6;
+  margin: 0;
+}
+.scar-ifaref-note em {
+  font-style: normal;
+  color: var(--text);
+  font-weight: 600;
+}
+.scar-disclaimer {
+  margin-top: 28px;
+  padding: 16px 20px;
+  border: 1px solid rgba(220,80,80,0.25);
+  border-radius: 8px;
+  background: rgba(220,80,80,0.04);
+}
+.scar-disclaimer__text {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin: 0;
+}
+.odu-fpair__stage {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px 14px;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  user-select: none;
+  touch-action: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.odu-fpair__stage:hover {
+  border-color: rgba(212,160,23,0.4);
+  background: rgba(212,160,23,0.04);
+}
+.odu-fpair__stage:active { cursor: grabbing; }
+.odu-fpair__marks {
+  display: flex;
+  gap: 18px;
+  pointer-events: none;
+}
+/* Odu mark: each of 4 rows shows | (single) or || (double) vertical lines */
+.odu-m {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.odu-m__row {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  align-items: flex-end;
+  min-width: 18px;
+}
+.odu-m__bar {
+  display: block;
+  width: 3px;
+  height: 28px;
+  border-radius: 2px;
+  background: var(--gold);
+}
+.odu-m__bar--s {
+  /* single vertical line — same dimensions as double bar, just one of them */
+}
+.odu-fpair__nameplate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+}
+.odu-fpair__name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.odu-fpair__meji {
+  font-size: 0.72rem;
+  color: var(--gold);
+}
+.odu-fpair__hint {
+  font-size: 0.69rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
 /* ─── Footer ─── */
 .pg-footer {
   border-top: 1px solid var(--border);
@@ -1021,6 +1382,16 @@ body {
   .ift-cell--s  { grid-area: s; }
   .ift-cell { padding: 10px 11px; }
   .ift-td--ilu { cursor: pointer; }
+
+  /* Scarification section */
+  .scar-section { padding: 36px 16px 32px; }
+  .scar-inner { gap: 24px; }
+  .scar-block { padding: 16px 14px; }
+  .scar-marks-grid { grid-template-columns: repeat(2, 1fr); }
+  .scar-compare__grid { grid-template-columns: 1fr; }
+
+  /* Table label cards */
+  .pg-tl__card { padding: 20px 16px 16px; }
 }
 
 /* Mobile: all columns, compact widths, horizontal scroll */
@@ -1219,6 +1590,19 @@ body {
   .ift-opon__node-val  { font-size: 0.56rem; }
   .ift-opon__center { width: 72px; height: 72px; }
   .ift-opon__c-name  { font-size: 0.76rem; }
+
+  /* Scarification section */
+  .scar-section { padding: 24px 12px 28px; }
+  .scar-inner { gap: 18px; }
+  .scar-block { padding: 14px 12px; }
+  .scar-title { font-size: 1rem; }
+  .scar-abegan { padding: 10px 12px; }
+
+  /* Odu pairs: 2-per-row on narrow phones */
+  .scar-odu-pairs { gap: 10px; }
+  .odu-fpair { flex: 1 1 calc(50% - 5px); max-width: calc(50% - 5px); }
+  .odu-fpair__stage { padding: 14px 12px 10px; gap: 10px; }
+  .odu-fpair__name  { font-size: 0.88rem; }
 }
 
 /* ─── Under Development Banner ─── */
@@ -1383,4 +1767,14 @@ body {
   .pg-footer__inner { flex-direction: column; align-items: flex-start; gap: 8px; }
   .pg-footer__copy  { font-size: 0.68rem; }
   .pg-footer__note  { font-size: 0.6rem; }
+
+  /* Scarification */
+  .scar-marks-grid { grid-template-columns: 1fr 1fr; }
+  .scar-vocab      { flex-direction: column; gap: 6px; }
+  .scar-section    { padding: 20px 10px 24px; }
+  .scar-block      { padding: 12px 10px; }
+  .odu-fpair__stage { padding: 12px 10px 8px; gap: 8px; }
+  .odu-fpair__name  { font-size: 0.82rem; }
+  .odu-fpair__meji  { font-size: 0.65rem; }
+  .odu-fpair__hint  { font-size: 0.6rem; }
 }
