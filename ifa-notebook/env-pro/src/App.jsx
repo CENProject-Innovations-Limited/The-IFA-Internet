@@ -8,6 +8,144 @@
 
 const { useState, useEffect, useRef } = React;
 
+// ── Auth — reads live IfaLMS user data from shared localStorage ─────────────
+// IfaLMS stores its state in 'ifaLMS_v2' on the same origin (ifainternet.org),
+// so IfaNote Pro can validate against exactly the same accounts and passwords.
+const LMS_STORAGE_KEY   = 'ifaLMS_v2';
+const NOTE_SESSION_KEY  = 'ifanote_pro_user';
+
+const SEED_STUDENTS = [
+  { username: 'admin',    password: 'OrisaIfa22233.', name: 'IFA Academy Admin',  role: 'admin',   status: 'approved' },
+  { username: 'adewale',  password: 'student123',     name: 'Adewale Okafor',     role: 'student', status: 'approved' },
+  { username: 'chiamaka', password: 'student123',     name: 'Chiamaka Nwosu',     role: 'student', status: 'pending'  },
+  { username: 'tayo',     password: 'student123',     name: 'Tayo Adeleke',       role: 'student', status: 'approved' },
+  { username: 'emeka',    password: 'student123',     name: 'Emeka Obi',          role: 'student', status: 'pending'  },
+  { username: 'ngozi',    password: 'student123',     name: 'Ngozi Adeyemi',      role: 'student', status: 'approved' },
+];
+
+function getLmsUsers() {
+  try {
+    const raw = localStorage.getItem(LMS_STORAGE_KEY);
+    if (raw) {
+      const state = JSON.parse(raw);
+      if (Array.isArray(state.users)) return state.users;
+    }
+  } catch (e) {}
+  return SEED_STUDENTS;
+}
+
+function getNoteSession() {
+  try {
+    const raw = localStorage.getItem(NOTE_SESSION_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  return null;
+}
+
+function SubscriptionGate({ onUnlock }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError]       = useState(false);
+  const [shake, setShake]       = useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const users = getLmsUsers();
+    const user  = users.find(
+      u => u.username === username.trim() && u.password === password
+    );
+    if (user) {
+      localStorage.setItem(NOTE_SESSION_KEY, JSON.stringify({ username: user.username, name: user.name }));
+      onUnlock(user.name);
+    } else {
+      setError(true);
+      setShake(true);
+      setTimeout(() => setShake(false), 600);
+    }
+  }
+
+  return (
+    <div className="sub-gate">
+      <div className="sub-gate__bg" aria-hidden="true">
+        <div className="sub-gate__grid" />
+        <div className="sub-gate__orb sub-gate__orb--a" />
+        <div className="sub-gate__orb sub-gate__orb--b" />
+        <div className="sub-gate__orb sub-gate__orb--c" />
+      </div>
+
+      <div className={`sub-gate__card${shake ? ' sub-gate__card--shake' : ''}`}>
+        <div className="sub-gate__logo" aria-label="IfaNote Pro">
+          <span className="sub-gate__logo-ifa">Ifa</span>
+          <span className="sub-gate__logo-rest">Note</span>
+          <span className="sub-gate__logo-dot">·</span>
+          <span className="sub-gate__logo-tag">PRO</span>
+        </div>
+
+        <div className="sub-gate__icon" aria-hidden="true">◉</div>
+
+        <h1 className="sub-gate__title">Student Login</h1>
+        <p className="sub-gate__desc">
+          IFA Note Premium is available exclusively to students of the{' '}
+          <strong>IFA Academy of Polymaths</strong> and premium members.
+          Sign in with your{' '}
+          <a href="https://ifainternet.org/ifa-lms/ifa-academy/#" target="_blank" rel="noopener noreferrer" className="sub-gate__join-link">IFA Academy</a>{' '}
+          login details.
+        </p>
+
+        <form onSubmit={handleSubmit} className="sub-gate__form">
+          <input
+            type="text"
+            className={`sub-gate__input${error ? ' sub-gate__input--error' : ''}`}
+            placeholder="Username"
+            value={username}
+            onChange={e => { setUsername(e.target.value); setError(false); }}
+            autoComplete="username"
+            spellCheck={false}
+            aria-label="Username"
+          />
+          <input
+            type="password"
+            className={`sub-gate__input${error ? ' sub-gate__input--error' : ''}`}
+            placeholder="Password"
+            value={password}
+            onChange={e => { setPassword(e.target.value); setError(false); }}
+            autoComplete="current-password"
+            aria-label="Password"
+          />
+          <button type="submit" className="sub-gate__btn">
+            Sign in to IfaNote Pro <span className="sub-gate__btn-arrow">→</span>
+          </button>
+        </form>
+
+        {error && (
+          <p className="sub-gate__error" role="alert">
+            ⊗ Invalid username or password — use your IFA Academy login details.
+          </p>
+        )}
+
+        <div className="sub-gate__divider" />
+
+        <p className="sub-gate__join">
+          Not yet a student?{' '}
+          <a
+            href="https://ifainternet.org/ifa-lms/ifa-academy/#enroll"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sub-gate__join-link"
+          >
+            Join the IFA Academy of Polymaths →
+          </a>
+        </p>
+
+        <div className="sub-gate__footer">
+          <a href="/" className="sub-gate__home">← IFA Internet</a>
+          <span className="sub-gate__tag">The IFA Internet · CENProject</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Odu Ifa data (16 principal Odu with IFABit codes) ────────────────────── */
 const INAIFA_ODU = [
   { name:'Ogbè',       latin:'Ogbe',      num:1,  color:'#f5c518', domain:'Light · Creation',     field:'Mathematics',  code:'1111' },
@@ -3490,7 +3628,7 @@ function ShareDialog({ url, onClose }) {
 }
 
 /* ── Main App (Pro) ───────────────────────────────────────────────────────── */
-function App() {
+function App({ onLogout, noteUser }) {
   /* ── Pro: init state from localStorage ─────────────────────────────────── */
   const [notebooks,    setNotebooks]    = useState(() => {
     let nbs = proLoadAll();
@@ -4156,6 +4294,14 @@ function App() {
 
           <input ref={fileInputRef} type="file" accept=".ifanb,.json"
             style={{ display: 'none' }} onChange={handleOpen} />
+
+          {/* ── User / logout ─────────────────────────────────────────── */}
+          {noteUser && (
+            <div className="pro-user-badge" title={`Signed in as ${noteUser.name}`}>
+              <span className="pro-user-badge__name">{noteUser.name.split(' ')[0]}</span>
+              <button className="pro-user-badge__logout" onClick={onLogout} title="Sign out">⏻</button>
+            </div>
+          )}
         </div>
       </header>
 
@@ -4212,5 +4358,29 @@ function App() {
   );
 }
 
+// ── Auth wrapper — keeps all App hooks unconditional ────────────────────────
+function AppRoot() {
+  const [unlocked, setUnlocked] = useState(() => getNoteSession() !== null);
+  const [noteUser, setNoteUser] = useState(() => getNoteSession());
+
+  function handleUnlock() {
+    const session = getNoteSession();
+    setNoteUser(session);
+    setUnlocked(true);
+  }
+
+  function handleLogout() {
+    localStorage.removeItem(NOTE_SESSION_KEY);
+    setNoteUser(null);
+    setUnlocked(false);
+  }
+
+  if (!unlocked) {
+    return <SubscriptionGate onUnlock={handleUnlock} />;
+  }
+
+  return <App onLogout={handleLogout} noteUser={noteUser} />;
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+root.render(<AppRoot />);

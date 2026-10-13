@@ -1616,7 +1616,7 @@ function MobileStudentNav({ activeView, setStudentView, onLogout, user }) {
           <span>IfaLens</span>
           <span className="mobile-nav__plat-ext">↗</span>
         </a>
-        <a className="mobile-nav__plat-link mobile-nav__plat-link--note" href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+        <a className="mobile-nav__plat-link mobile-nav__plat-link--note" href="https://ifainternet.org/ifa-notebook/env-pro/" target="_blank" rel="noopener noreferrer">
           <span className="mobile-nav__plat-sym">📝</span>
           <span>IfaNote</span>
           <span className="mobile-nav__plat-ext">↗</span>
@@ -1667,7 +1667,7 @@ function MobileAdminNav({ activeView, setAdminView, onLogout, pendingCount }) {
           <span>IfaLens</span>
           <span className="mobile-nav__plat-ext">↗</span>
         </a>
-        <a className="mobile-nav__plat-link mobile-nav__plat-link--note" href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+        <a className="mobile-nav__plat-link mobile-nav__plat-link--note" href="https://ifainternet.org/ifa-notebook/env-pro/" target="_blank" rel="noopener noreferrer">
           <span className="mobile-nav__plat-sym">📝</span>
           <span>IfaNote</span>
           <span className="mobile-nav__plat-ext">↗</span>
@@ -1745,7 +1745,7 @@ function StudentSidebar({ activeView, setStudentView, user, onLogout }) {
           <span className="sidebar__platform-ext">↗</span>
         </a>
         <a className="sidebar__platform-link sidebar__platform-link--note"
-           href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+           href="https://ifainternet.org/ifa-notebook/env-pro/" target="_blank" rel="noopener noreferrer">
           <span className="sidebar__platform-sym">📝</span>
           <span>IfaNote</span>
           <span className="sidebar__platform-ext">↗</span>
@@ -1801,7 +1801,7 @@ function IfaNotePrompt({ user, courses }) {
       </div>
       <p className="ifanote-prompt__tip">{SCHOLAR_TIPS[tipIdx]}</p>
       <div className="ifanote-prompt__actions">
-        <a className="ifanote-prompt__cta" href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+        <a className="ifanote-prompt__cta" href="https://ifainternet.org/ifa-notebook/env-pro/" target="_blank" rel="noopener noreferrer">
           Open IfaNote ↗
         </a>
         <a className="ifanote-prompt__lens" href="https://ifainternet.org/ifa-lens/playground/" target="_blank" rel="noopener noreferrer">
@@ -2270,7 +2270,7 @@ function AdminSidebar({ activeView, setAdminView, onLogout, pendingCount }) {
           <span className="sidebar__platform-ext">↗</span>
         </a>
         <a className="sidebar__platform-link sidebar__platform-link--note"
-           href="https://ifainternet.org/ifa-notebook/env/" target="_blank" rel="noopener noreferrer">
+           href="https://ifainternet.org/ifa-notebook/env-pro/" target="_blank" rel="noopener noreferrer">
           <span className="sidebar__platform-sym">📝</span>
           <span>IfaNote</span>
           <span className="sidebar__platform-ext">↗</span>

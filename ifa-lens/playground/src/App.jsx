@@ -8,6 +8,134 @@
 
 const { useState, useEffect, useCallback, useRef } = React;
 
+// ── Auth — shared with IfaLens; reads live IfaLMS user data ────
+const LMS_STORAGE_KEY  = 'ifaLMS_v2';
+const LENS_SESSION_KEY = 'ifalens_user'; // same key as IfaLens platform
+
+const SEED_STUDENTS = [
+  { username: 'admin',    password: 'OrisaIfa22233.', name: 'IFA Academy Admin',  role: 'admin',   status: 'approved' },
+  { username: 'adewale',  password: 'student123',     name: 'Adewale Okafor',     role: 'student', status: 'approved' },
+  { username: 'chiamaka', password: 'student123',     name: 'Chiamaka Nwosu',     role: 'student', status: 'pending'  },
+  { username: 'tayo',     password: 'student123',     name: 'Tayo Adeleke',       role: 'student', status: 'approved' },
+  { username: 'emeka',    password: 'student123',     name: 'Emeka Obi',          role: 'student', status: 'pending'  },
+  { username: 'ngozi',    password: 'student123',     name: 'Ngozi Adeyemi',      role: 'student', status: 'approved' },
+];
+
+function getLmsUsers() {
+  try {
+    const raw = localStorage.getItem(LMS_STORAGE_KEY);
+    if (raw) { const state = JSON.parse(raw); if (Array.isArray(state.users)) return state.users; }
+  } catch (e) {}
+  return SEED_STUDENTS;
+}
+
+function getLensSession() {
+  try { const raw = localStorage.getItem(LENS_SESSION_KEY); if (raw) return JSON.parse(raw); } catch (e) {}
+  return null;
+}
+
+function SubscriptionGate({ onUnlock }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError]       = useState(false);
+  const [shake, setShake]       = useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const users = getLmsUsers();
+    const user  = users.find(u => u.username === username.trim() && u.password === password);
+    if (user) {
+      localStorage.setItem(LENS_SESSION_KEY, JSON.stringify({ username: user.username, name: user.name }));
+      onUnlock();
+    } else {
+      setError(true);
+      setShake(true);
+      setTimeout(() => setShake(false), 600);
+    }
+  }
+
+  return (
+    <div className="sub-gate">
+      <div className="sub-gate__bg" aria-hidden="true">
+        <div className="sub-gate__grid" />
+        <div className="sub-gate__orb sub-gate__orb--a" />
+        <div className="sub-gate__orb sub-gate__orb--b" />
+        <div className="sub-gate__orb sub-gate__orb--c" />
+      </div>
+
+      <div className={`sub-gate__card${shake ? ' sub-gate__card--shake' : ''}`}>
+        <div className="sub-gate__logo" aria-label="IfaLens Playground">
+          <span className="sub-gate__logo-ifa">Ifa</span>
+          <span className="sub-gate__logo-rest">Lens</span>
+          <span className="sub-gate__logo-dot">·</span>
+          <span className="sub-gate__logo-tag">Playground</span>
+        </div>
+
+        <div className="sub-gate__icon" aria-hidden="true">◎</div>
+
+        <h1 className="sub-gate__title">Student Login</h1>
+        <p className="sub-gate__desc">
+          IfaLens Playground is available exclusively to students of the{' '}
+          <strong>IFA Academy of Polymaths</strong>.
+          Sign in with your{' '}
+          <a href="https://ifainternet.org/ifa-lms/" target="_blank" rel="noopener noreferrer" className="sub-gate__join-link">IfaLMS</a>{' '}
+          username and password.
+        </p>
+
+        <form onSubmit={handleSubmit} className="sub-gate__form">
+          <input
+            type="text"
+            className={`sub-gate__input${error ? ' sub-gate__input--error' : ''}`}
+            placeholder="Username"
+            value={username}
+            onChange={e => { setUsername(e.target.value); setError(false); }}
+            autoComplete="username"
+            spellCheck={false}
+            aria-label="Username"
+          />
+          <input
+            type="password"
+            className={`sub-gate__input${error ? ' sub-gate__input--error' : ''}`}
+            placeholder="Password"
+            value={password}
+            onChange={e => { setPassword(e.target.value); setError(false); }}
+            autoComplete="current-password"
+            aria-label="Password"
+          />
+          <button type="submit" className="sub-gate__btn">
+            Sign in to Playground <span className="sub-gate__btn-arrow">→</span>
+          </button>
+        </form>
+
+        {error && (
+          <p className="sub-gate__error" role="alert">
+            ⊗ Invalid username or password — use your IfaLMS login details.
+          </p>
+        )}
+
+        <div className="sub-gate__divider" />
+
+        <p className="sub-gate__join">
+          Not yet a student?{' '}
+          <a
+            href="https://ifainternet.org/ifa-lms/ifa-academy/#enroll"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sub-gate__join-link"
+          >
+            Join the IFA Academy of Polymaths →
+          </a>
+        </p>
+
+        <div className="sub-gate__footer">
+          <a href="/" className="sub-gate__home">← IFA Internet</a>
+          <span className="sub-gate__tag">The IFA Internet · CENProject</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── STEAMSEX — 8 Field Category Axes (Grid Columns + Rows) ── */
 const STEAMSEX = [
   { id: 'S1', code: 'S', name: 'Natural Science',  color: '#4aa3ff', icon: '⚗',  full: 'Natural Science (S)' },
@@ -770,7 +898,7 @@ function IfaCircleMatrix({ onCellClick }) {
 }
 
 /* ── Playground Header ────────────────────────────────────────── */
-function PlaygroundHeader() {
+function PlaygroundHeader({ lensUser, onLogout }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
@@ -795,6 +923,12 @@ function PlaygroundHeader() {
           <a href="/" className="pg-header__link">IFA Internet</a>
           <a href="../playground-kids/" className="pg-header__link">Kids &amp; Teens ✦</a>
           <a href="/ifa-lens/" className="pg-header__cta">IfaLens →</a>
+          {lensUser && (
+            <div className="pg-user-badge" title={`Signed in as ${lensUser.name}`}>
+              <span className="pg-user-badge__name">{lensUser.name.split(' ')[0]}</span>
+              <button className="pg-user-badge__logout" onClick={onLogout} title="Sign out">⏻</button>
+            </div>
+          )}
         </nav>
       </div>
     </header>
@@ -2528,11 +2662,11 @@ function IfaNoteTab() {
 }
 
 /* ── App ──────────────────────────────────────────────────────── */
-function App() {
+function App({ lensUser, onLogout }) {
   const [tab, setTab] = useState('ifaview');
   return (
     <>
-      <PlaygroundHeader />
+      <PlaygroundHeader lensUser={lensUser} onLogout={onLogout} />
       <TabBar activeTab={tab} onTab={setTab} />
       <main className="pg-main">
         {tab === 'ifaview'    && <IfaViewTab />}
@@ -2561,4 +2695,24 @@ function App() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+function AppRoot() {
+  const [unlocked, setUnlocked] = useState(() => getLensSession() !== null);
+  const [lensUser, setLensUser] = useState(() => getLensSession());
+
+  function handleUnlock() {
+    const session = getLensSession();
+    setLensUser(session);
+    setUnlocked(true);
+  }
+
+  function handleLogout() {
+    localStorage.removeItem(LENS_SESSION_KEY);
+    setLensUser(null);
+    setUnlocked(false);
+  }
+
+  if (!unlocked) return <SubscriptionGate onUnlock={handleUnlock} />;
+  return <App lensUser={lensUser} onLogout={handleLogout} />;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<AppRoot />);

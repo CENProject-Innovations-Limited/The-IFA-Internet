@@ -571,12 +571,12 @@ function gateIconSVGHtml(name, color) {
   switch (name) {
     case 'Buffer': return `<svg ${a}><line x1="0" y1="18" x2="8" y2="18"/><polygon points="8,5 8,31 46,18" fill="none"/><line x1="46" y1="18" x2="56" y2="18"/></svg>`;
     case 'AND':    return `<svg ${a}><line x1="0" y1="12" x2="8" y2="12"/><line x1="0" y1="24" x2="8" y2="24"/><path d="M 8,5 L 8,31 L 26,31 Q 46,31 46,18 Q 46,5 26,5 Z"/><line x1="46" y1="18" x2="56" y2="18"/></svg>`;
-    case 'OR':     return `<svg ${a}><line x1="0" y1="12" x2="10" y2="12"/><line x1="0" y1="24" x2="10" y2="24"/><path d="M 10,5 Q 2,18 10,31 Q 24,28 40,31 Q 50,18 40,5 Q 24,8 10,5 Z"/><line x1="45" y1="18" x2="56" y2="18"/></svg>`;
+    case 'OR':     return `<svg ${a}><line x1="0" y1="12" x2="10" y2="12"/><line x1="0" y1="24" x2="10" y2="24"/><path d="M 10,5 Q 2,18 10,31 Q 27,28 44,18 Q 27,8 10,5 Z"/><line x1="44" y1="18" x2="56" y2="18"/></svg>`;
     case 'NOT':    return `<svg ${a}><line x1="0" y1="18" x2="6" y2="18"/><polygon points="6,5 6,31 42,18" fill="none"/><circle cx="45" cy="18" r="3" fill="none"/><line x1="48" y1="18" x2="56" y2="18"/></svg>`;
     case 'NAND':   return `<svg ${a}><line x1="0" y1="12" x2="6" y2="12"/><line x1="0" y1="24" x2="6" y2="24"/><path d="M 6,5 L 6,31 L 22,31 Q 40,31 40,18 Q 40,5 22,5 Z"/><circle cx="43" cy="18" r="3" fill="none"/><line x1="46" y1="18" x2="56" y2="18"/></svg>`;
-    case 'NOR':    return `<svg ${a}><line x1="0" y1="12" x2="10" y2="12"/><line x1="0" y1="24" x2="10" y2="24"/><path d="M 10,5 Q 2,18 10,31 Q 22,28 36,31 Q 46,18 36,5 Q 22,8 10,5 Z"/><circle cx="44" cy="18" r="3" fill="none"/><line x1="47" y1="18" x2="56" y2="18"/></svg>`;
-    case 'XOR':    return `<svg ${a}><line x1="0" y1="12" x2="12" y2="12"/><line x1="0" y1="24" x2="12" y2="24"/><path d="M 12,5 Q 4,18 12,31 Q 26,28 42,31 Q 52,18 42,5 Q 26,8 12,5 Z"/><path d="M 7,5 Q 0,18 7,31"/><line x1="47" y1="18" x2="56" y2="18"/></svg>`;
-    case 'XNOR':   return `<svg ${a}><line x1="0" y1="12" x2="12" y2="12"/><line x1="0" y1="24" x2="12" y2="24"/><path d="M 12,5 Q 4,18 12,31 Q 24,28 36,31 Q 46,18 36,5 Q 24,8 12,5 Z"/><path d="M 7,5 Q 0,18 7,31"/><circle cx="44" cy="18" r="3" fill="none"/><line x1="47" y1="18" x2="56" y2="18"/></svg>`;
+    case 'NOR':    return `<svg ${a}><line x1="0" y1="12" x2="10" y2="12"/><line x1="0" y1="24" x2="10" y2="24"/><path d="M 10,5 Q 2,18 10,31 Q 26,28 41,18 Q 26,8 10,5 Z"/><circle cx="44" cy="18" r="3" fill="none"/><line x1="47" y1="18" x2="56" y2="18"/></svg>`;
+    case 'XOR':    return `<svg ${a}><line x1="0" y1="12" x2="12" y2="12"/><line x1="0" y1="24" x2="12" y2="24"/><path d="M 12,5 Q 4,18 12,31 Q 29,28 46,18 Q 29,8 12,5 Z"/><path d="M 7,5 Q 0,18 7,31"/><line x1="46" y1="18" x2="56" y2="18"/></svg>`;
+    case 'XNOR':   return `<svg ${a}><line x1="0" y1="12" x2="12" y2="12"/><line x1="0" y1="24" x2="12" y2="24"/><path d="M 12,5 Q 4,18 12,31 Q 26,28 40,18 Q 26,8 12,5 Z"/><path d="M 7,5 Q 0,18 7,31"/><circle cx="43" cy="18" r="3" fill="none"/><line x1="46" y1="18" x2="56" y2="18"/></svg>`;
     default:       return null;
   }
 }

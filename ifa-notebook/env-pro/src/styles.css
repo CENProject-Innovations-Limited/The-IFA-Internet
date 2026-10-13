@@ -3,6 +3,202 @@
    The IFA Internet · CENProject · ifainternet.org/ifa-notebook/env-pro/
 ───────────────────────────────────────────────────────────────────────────── */
 
+/* ── Subscription Gate ─────────────────────────────────────────────────────── */
+.sub-gate {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #03060d;
+  z-index: 9999;
+  padding: 20px;
+}
+.sub-gate__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.sub-gate__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(240,146,12,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240,146,12,.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.sub-gate__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+.sub-gate__orb--a {
+  width: 500px; height: 500px;
+  top: -140px; left: -100px;
+  background: radial-gradient(circle, rgba(240,146,12,.15) 0%, transparent 70%);
+}
+.sub-gate__orb--b {
+  width: 400px; height: 400px;
+  bottom: -100px; right: -80px;
+  background: radial-gradient(circle, rgba(240,100,12,.12) 0%, transparent 70%);
+}
+.sub-gate__orb--c {
+  width: 300px; height: 300px;
+  top: 50%; right: 15%;
+  transform: translateY(-50%);
+  background: radial-gradient(circle, rgba(0,200,124,.07) 0%, transparent 70%);
+}
+.sub-gate__card {
+  position: relative;
+  z-index: 1;
+  background: rgba(6, 10, 20, 0.9);
+  border: 1px solid rgba(240,146,12,.28);
+  border-radius: 20px;
+  padding: 48px 44px 36px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow:
+    0 0 0 1px rgba(240,146,12,.08),
+    0 24px 80px rgba(0,0,0,.65),
+    0 0 60px rgba(240,146,12,.1);
+  backdrop-filter: blur(14px);
+}
+@keyframes sub-gate-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX( 8px); }
+  60%       { transform: translateX(-5px); }
+  80%       { transform: translateX( 5px); }
+}
+.sub-gate__card--shake { animation: sub-gate-shake 0.55s ease; }
+.sub-gate__logo {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 3px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 24px;
+}
+.sub-gate__logo-ifa  { color: #f0920c; }
+.sub-gate__logo-rest { color: #eef3ff; }
+.sub-gate__logo-dot  { color: rgba(240,146,12,.45); font-weight: 400; margin: 0 2px; }
+.sub-gate__logo-tag  { color: rgba(240,146,12,.7); font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; }
+.sub-gate__icon {
+  font-size: 3rem;
+  color: #f0920c;
+  opacity: 0.75;
+  line-height: 1;
+  margin-bottom: 18px;
+  filter: drop-shadow(0 0 18px rgba(240,146,12,.4));
+}
+.sub-gate__title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #eef3ff;
+  margin-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+.sub-gate__desc {
+  font-size: 0.9rem;
+  color: #7090b0;
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+.sub-gate__desc strong { color: #f0b86c; font-weight: 600; }
+.sub-gate__form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.sub-gate__input {
+  background: rgba(240,146,12,.07);
+  border: 1.5px solid rgba(240,146,12,.22);
+  border-radius: 10px;
+  padding: 13px 16px;
+  color: #eef3ff;
+  font-size: 0.95rem;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  letter-spacing: 0.5px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  text-align: center;
+}
+.sub-gate__input::placeholder { color: rgba(112,144,176,.55); letter-spacing: 0; }
+.sub-gate__input:focus {
+  border-color: #f0920c;
+  box-shadow: 0 0 0 3px rgba(240,146,12,.15);
+}
+.sub-gate__input--error {
+  border-color: #e63946;
+  box-shadow: 0 0 0 3px rgba(230,57,70,.15);
+}
+.sub-gate__btn {
+  background: #f0920c;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.sub-gate__btn:hover {
+  background: #d97f0a;
+  box-shadow: 0 4px 20px rgba(240,146,12,.35);
+  transform: translateY(-1px);
+}
+.sub-gate__btn-arrow { transition: transform 0.2s; }
+.sub-gate__btn:hover .sub-gate__btn-arrow { transform: translateX(3px); }
+.sub-gate__error {
+  font-size: 0.8rem;
+  color: #e63946;
+  margin-top: 2px;
+}
+.sub-gate__divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(240,146,12,.22), transparent);
+  margin: 24px 0;
+}
+.sub-gate__join { font-size: 0.82rem; color: #5a7898; }
+.sub-gate__join-link {
+  color: #f0920c;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.sub-gate__join-link:hover { color: #fbb04c; }
+.sub-gate__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(240,146,12,.1);
+}
+.sub-gate__home {
+  font-size: 0.78rem;
+  color: #4a6880;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.sub-gate__home:hover { color: #f0920c; }
+.sub-gate__tag { font-size: 0.75rem; color: #384858; }
+@media (max-width: 520px) {
+  .sub-gate__card  { padding: 36px 24px 28px; }
+  .sub-gate__title { font-size: 1.35rem; }
+}
+
 /* ── Reset & Root ──────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; font-size: 16px; }
@@ -839,7 +1035,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /*         row 2 → horizontally scrollable add-button strip                  */
 @media (max-width: 1024px) {
   .env-topbar__left  { order: 1; flex: 1; min-width: 0; }
-  .env-topbar__right { order: 2; }
+  .env-topbar__right {
+    order: 2;
+    overflow-x: auto; flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .env-topbar__right::-webkit-scrollbar { display: none; }
   .env-topbar__center {
     order: 3; width: 100%;
     overflow-x: auto; flex-wrap: nowrap;
@@ -857,6 +1059,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .nb-cell__body { padding: 12px 14px 12px 0; }
   .nb-cell__run-gutter { padding: 4px 6px; font-size: 0.72rem; }
   .nb-mark-btn { height: 36px; }
+  /* Cap iframe to viewport so it never exceeds the screen height */
+  .nb-link-reader__iframe { height: min(380px, calc(100svh - 180px)); }
+  /* Tighten share dialog padding on mobile */
+  .pro-share-dialog { max-width: 100%; padding: 18px 16px 14px; }
 }
 
 /* ── Small tablet / phone landscape (≤600px) ───────────────────────────── */
@@ -876,12 +1082,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .env-topbar__center::-webkit-scrollbar { display: none; }
 
   .nb-add-btn     { padding: 6px 10px; font-size: 0.72rem; white-space: nowrap; min-height: 36px; }
-  .nb-run-all-btn { padding: 5px 12px; font-size: 0.7rem;  min-height: 36px; }
-  .nb-file-btn    { padding: 5px 10px; font-size: 0.7rem;  min-height: 36px; }
-  .nb-save-btn    { padding: 5px 10px; font-size: 0.7rem;  min-height: 36px; }
-  .nb-ctrl-btn    { padding: 5px 10px; font-size: 0.72rem; min-height: 34px; }
+  .nb-run-all-btn { padding: 5px 12px; font-size: 0.7rem;  min-height: 40px; }
+  .nb-file-btn    { padding: 5px 10px; font-size: 0.7rem;  min-height: 40px; }
+  .nb-save-btn    { padding: 5px 10px; font-size: 0.7rem;  min-height: 40px; }
+  .nb-ctrl-btn    { padding: 5px 10px; font-size: 0.72rem; min-height: 36px; }
   .nb-mark-btn    { height: 40px; width: 50px; }
-  .env-title-btn, .env-title-input { max-width: 150px; font-size: 0.75rem; }
+  .env-title-btn, .env-title-input { max-width: 150px; font-size: 0.75rem; min-height: 38px; }
+  .pro-topbar-btn  { min-height: 38px; padding: 5px 10px; }
+  .pro-sidebar-btn { min-height: 38px; padding: 5px 10px; }
+  .pro-theme-select { min-height: 38px; font-size: 0.72rem; padding: 4px 8px; }
+  .pro-user-badge  { min-height: 38px; }
+  .pro-user-badge__logout { padding: 4px 8px; min-height: 38px; font-size: 1rem; }
 
   /* Text format toolbar — scroll horizontally so buttons never wrap to a second line */
   .nb-text-toolbar {
@@ -911,7 +1122,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
   /* Gutter: slim but run button stays tappable */
   .nb-cell__gutter { width: 38px; padding: 12px 2px 10px; }
-  .nb-cell__num    { font-size: 0.52rem; }
+  .nb-cell__num    { font-size: 0.62rem; }
+  .nb-cell__type-badge { font-size: 0.66rem; }
+  .nb-footer-note  { font-size: 0.7rem; }
   .nb-cell__run-gutter { padding: 6px 4px; font-size: 0.72rem; min-height: 36px; }
 
   .nb-cell__body { padding: 10px 10px 10px 0; }
@@ -2564,7 +2777,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .pro-sidebar {
   position: fixed;
   left: 0; top: 0; bottom: 0;
-  width: 280px;
+  width: min(280px, 88vw);
   z-index: 201;
   background: #070e1c;
   border-right: 1px solid rgba(240,146,12,0.18);
@@ -2736,6 +2949,33 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .pro-topbar-btn--present:hover { background: rgba(139,92,246,0.15); color: #a78bfa; border-color: rgba(139,92,246,0.4); }
 .pro-topbar-btn--ai { color: #14b8d4; border-color: rgba(20,184,212,0.25); background: rgba(20,184,212,0.07); }
 .pro-topbar-btn--ai:hover { background: rgba(20,184,212,0.15); color: #67e8f9; border-color: rgba(20,184,212,0.4); }
+
+/* ── User badge (topbar) ─────────────────────────────────────────────────── */
+.pro-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 4px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(240,146,12,.22);
+  background: rgba(240,146,12,.07);
+}
+.pro-user-badge__name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #f0920c;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pro-user-badge__logout {
+  font-size: 0.8rem;
+  color: #5a7898;
+  padding: 0 2px;
+  transition: color 0.2s;
+}
+.pro-user-badge__logout:hover { color: #e63946; }
 
 /* ── Share dialog ────────────────────────────────────────────────────────── */
 .pro-share-overlay {
