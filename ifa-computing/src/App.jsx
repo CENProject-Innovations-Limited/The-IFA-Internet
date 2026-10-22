@@ -416,6 +416,20 @@ const IFA_COMPUTERS = [
     cta: 'Play Ayò Ọlọ́pọ́nfá →',
     externalNote: 'playifagames.org',
   },
+  {
+    id: 'ifa-determinant',
+    name: 'Ifa Determinant Computer',
+    subtitle: 'The Ifa Determinant Machine',
+    tag: 'Matrix · Determinant · Ifa Linear Algebra',
+    icon: '⊞',
+    accent: '#8b5cf6',
+    href: 'https://ifainternet.org/ifa-matrix/ifa-determinant/',
+    stream: ['O|O||', '|OO|O', 'O||OO', '||O|O'],
+    desc: 'The Ifa Matrix computer that computes determinants through the Ifa lens — applying the 256 Odu Ifa as the axiomatic framework for matrix computation. The Ifa Determinant Computer extends classical linear algebra into the full IFA Matrix system, computing across all dimensions of the Ifa field.',
+    chips: ['Ifa Matrix', 'Determinant Computation', 'Ifa Linear Algebra', 'IFA Internet'],
+    cta: 'Open Ifa Determinant →',
+    externalNote: 'ifa-matrix/ifa-determinant',
+  },
 ];
 
 function IfaComputersSection() {
@@ -427,13 +441,13 @@ function IfaComputersSection() {
             Live Ifa Computing Platforms
           </span>
           <h2 className="section__title">
-            The Two Major{' '}
+            The Three Major{' '}
             <span style={{ color: '#f5c518' }}>Ifa Computers</span>
           </h2>
           <p className="section__desc">
-            Ifa Computing is not theoretical — it runs live. IfaNote and Ayò Ọlọ́pọ́nfá are two
-            distinct Ifa Computer implementations: one a knowledge computation environment,
-            the other a sacred strategy machine. Both compute through the 256 Odu Ifa.
+            Ifa Computing is not theoretical — it runs live. IfaNote, Ayò Ọlọ́pọ́nfá, and the Ifa Determinant Computer are three
+            distinct Ifa Computer implementations: a knowledge computation environment,
+            a sacred strategy machine, and a matrix determinant computer. All compute through the 256 Odu Ifa.
           </p>
         </div>
 

@@ -18,7 +18,7 @@
         { "glyph": "🦎", "name": "Ògìrìgò", "meaning": "Chameleon — wisdom, adaptation, sacred messenger of Orunmila" },
         { "glyph": "🕊️", "name": "Ẹyẹlé", "meaning": "Dove — peace, divination, sacred bird of counsel" },
         { "glyph": "🐢", "name": "Ahun", "meaning": "Tortoise — longevity, patience, ancient accumulated wisdom" },
-        { "glyph": "🌴", "name": "Ọpẹ̀", "meaning": "Palm tree — source of ikin (sacred divination nuts of Ifa)" },
+        { "glyph": "🌴", "name": "Ọ̀pẹ̀", "meaning": "Palm tree — source of ikin (sacred divination nuts of Ifa)" },
         { "glyph": "🌿", "name": "Ewé", "meaning": "Healing leaves — medicinal and sacred plants of divination" },
         { "glyph": "🌙", "name": "Òṣùpá", "meaning": "Moon — cosmic cycles, celestial time, knowledge of seasons" },
         { "glyph": "⭐", "name": "Ìràwọ̀", "meaning": "Star — celestial knowledge, destiny written in the skies" },
@@ -39,8 +39,8 @@
         { "glyph": "🐸", "name": "Ọpọlọ", "meaning": "Toad — liminal creature of crossroads, duality of land and water" },
         { "glyph": "🐦", "name": "Àkékè", "meaning": "Parrot — speech, communication, divine messenger bird" },
         { "glyph": "🌶️", "name": "Atare", "meaning": "Alligator pepper — heat, activation, sacred spice that opens paths" },
-        { "glyph": "🌴", "name": "Ọpẹ̀", "meaning": "Palm — palm kernel at crossroads, gateway to all Orisa realms" },
-        { "glyph": "🌰", "name": "Orí Ọpẹ̀", "meaning": "Palm nut — seed of choice, potentiality at every crossroad" },
+        { "glyph": "🌴", "name": "Ọ̀pẹ̀", "meaning": "Palm — palm kernel at crossroads, gateway to all Orisa realms" },
+        { "glyph": "🌰", "name": "Orí Ọ̀pẹ̀", "meaning": "Palm nut — seed of choice, potentiality at every crossroad" },
         { "glyph": "🐚", "name": "Owó Ẹlẹgbà", "meaning": "Cowrie — currency of communication, sacred offering to Esu" },
         { "glyph": "🌪️", "name": "Ẹ̀fúùfù", "meaning": "Whirlwind — sudden change, the trick of Esu in motion" }
       ]
@@ -62,7 +62,7 @@
         { "glyph": "🦁", "name": "Àkìnkanjú", "meaning": "Lion — warrior force, raw power of Ogun manifest in the wild" },
         { "glyph": "🐆", "name": "Ẹkùn", "meaning": "Leopard — swift predator of the deep forest, Ogun's speed" },
         { "glyph": "🌿", "name": "Ewé Ògún", "meaning": "Forest fern — medicinal herbs of the blacksmith, healing through nature" },
-        { "glyph": "🌴", "name": "Ọpẹ̀ Ògún", "meaning": "Palm — palm wine offered to Ogun, sustenance of the warrior" }
+        { "glyph": "🌴", "name": "Ọ̀pẹ̀ Ògún", "meaning": "Palm — palm wine offered to Ogun, sustenance of the warrior" }
       ]
     },
     {
@@ -206,7 +206,7 @@
         { "glyph": "🥥", "name": "Agbon Orí", "meaning": "Coconut — sacred to Ori; the coconut's inner white mirrors the human head" },
         { "glyph": "🕊️", "name": "Ẹyẹlé Orí", "meaning": "Dove — clarity of mind, peace of Ori, inner stillness" },
         { "glyph": "🦅", "name": "Àwọ̀ Orí", "meaning": "Eagle — soaring destiny, the path of Ori toward its highest calling" },
-        { "glyph": "🌴", "name": "Ọpẹ̀ Orí", "meaning": "Palm tree — Ori connects human to divine, as palm connects earth and sky" },
+        { "glyph": "🌴", "name": "Ọ̀pẹ̀ Orí", "meaning": "Palm tree — Ori connects human to divine, as palm connects earth and sky" },
         { "glyph": "⭐", "name": "Ìràwọ̀ Orí", "meaning": "Star — each person's destiny is a unique star written before birth" },
         { "glyph": "🌙", "name": "Òṣùpá Orí", "meaning": "Moon — inner illumination, the light of Ori shining inward" },
         { "glyph": "🐚", "name": "Ikarahun Orí", "meaning": "Shell — the sacred Ori altar is covered with shells of protection" },
@@ -410,7 +410,7 @@
         { "glyph": "🌳", "name": "Iroko Ìjọba", "meaning": "Iroko tree — the ancient tree of Yoruba civilization, meeting place of kings" },
         { "glyph": "🐢", "name": "Ahun Ìpilẹ̀", "meaning": "Tortoise — the patience of civilization building across generations" },
         { "glyph": "🐚", "name": "Ikarahun Ìjọba", "meaning": "Sacred calabash shell — the container that held earth lowered from heaven" },
-        { "glyph": "🌴", "name": "Ọpẹ̀ Ìpilẹ̀", "meaning": "Palm — the tree of Yoruba life, at the center of Oduduwa's kingdom" }
+        { "glyph": "🌴", "name": "Ọ̀pẹ̀ Ìpilẹ̀", "meaning": "Palm — the tree of Yoruba life, at the center of Oduduwa's kingdom" }
       ]
     },
     {

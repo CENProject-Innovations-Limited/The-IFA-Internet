@@ -1339,6 +1339,42 @@ body {
 }
 
 /* ─────────────────────────────────────────────────────────────
+   Under Development badge + banner
+───────────────────────────────────────────────────────────── */
+.dev-badge {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f0920c;
+  background: rgba(240,146,12,0.12);
+  border: 1px solid rgba(240,146,12,0.3);
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-left: 6px;
+  vertical-align: middle;
+  line-height: 1.6;
+}
+.ol-dev-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 860px;
+  margin: 0 auto 28px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: rgba(240,146,12,0.07);
+  border: 1px solid rgba(240,146,12,0.22);
+}
+.ol-dev-banner__icon { font-size: 1.1rem; flex-shrink: 0; }
+.ol-dev-banner__text {
+  font-size: 0.82rem;
+  color: #c8893a;
+  line-height: 1.5;
+}
+
+/* ─────────────────────────────────────────────────────────────
    OrisaLang Section  (ol- prefix)
 ───────────────────────────────────────────────────────────── */
 .ol-overview {

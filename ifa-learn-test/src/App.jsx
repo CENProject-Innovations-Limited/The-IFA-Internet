@@ -529,6 +529,9 @@ function Header() {
           <a className="nav-link"
              href="https://toe.cenproject.org/ifa-polymathy-toe-polymathy/"
              target="_blank" rel="noopener noreferrer">Ifa Polymathy</a>
+          <a className="nav-link nav-link--econ"
+             href="https://ifainternet.org/ifa-economics/advanced/"
+             target="_blank" rel="noopener noreferrer">Ifa Economics ↗</a>
           <a className="nav-link nav-link--cta"
              href="https://toe.cenproject.org/the-ifa-learn/"
              target="_blank" rel="noopener noreferrer">IfaLearn on TOE</a>
@@ -551,6 +554,7 @@ function MobileBar() {
     { sym: '∿',  label: 'Ìṣísẹ̀',   href: '#isise' },
     { sym: '◉',  label: 'Thinking',  href: '#thinking' },
     { sym: '⊛',  label: 'Polymathy', href: 'https://toe.cenproject.org/ifa-polymathy-toe-polymathy/' },
+    { sym: '🌾', label: 'Ifa Econ',  href: 'https://ifainternet.org/ifa-economics/advanced/' },
   ];
   return (
     <nav className="mobile-bar" aria-label="Mobile navigation">
@@ -1065,6 +1069,39 @@ function FeaturesSection() {
   );
 }
 
+// ─── IFA ECONOMICS BRIDGE ─────────────────────────────────────────────────────
+
+function IFAEconBridge() {
+  return (
+    <div className="econ-bridge">
+      <div className="container">
+        <div className="econ-bridge__inner">
+          <div className="econ-bridge__icon" aria-hidden="true">🌾</div>
+          <div className="econ-bridge__text">
+            <div className="econ-bridge__tag">IFABOK Program · Advanced Ifa Economics</div>
+            <div className="econ-bridge__title">
+              The <span style={{ color: '#ffaa32' }}>Okomọ̀ &amp; Okoẹ̀kọ́</span> Behind IfaLearn
+            </div>
+            <p className="econ-bridge__body">
+              The <strong>Knowledge Farm (okomọ̀)</strong> and <strong>Education Farm (okoẹ̀kọ́)</strong> are
+              the Ifa-Orisa structural foundations of IfaLearn's digital platforms. Explore the full{' '}
+              <strong>-oE Structures</strong>, IfaConvertible Farm, and Ifa-Orisa Tree Model that ground
+              the IFA Internet's learning ecosystem in Advanced Ifa Economics.
+            </p>
+          </div>
+          <a
+            href="https://ifainternet.org/ifa-economics/advanced/"
+            target="_blank" rel="noopener noreferrer"
+            className="econ-bridge__cta"
+          >
+            Advanced Ifa Economics →
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── COMPARE SECTION ─────────────────────────────────────────────────────────
 
 // ─── IFACODEMY SECTION ────────────────────────────────────────────────────────
@@ -1493,6 +1530,10 @@ function Footer() {
               Ifa Polymathy on TOE
             </a>
             <a href="/ifa-lms/ifa-academy/" className="footer__link">Ifa Academy</a>
+            <a href="https://ifainternet.org/ifa-economics/advanced/"
+               className="footer__link" target="_blank" rel="noopener noreferrer">
+              Advanced Ifa Economics
+            </a>
             <a href="../" className="footer__link" target="_blank" rel="noopener noreferrer">IFA Internet</a>
           </nav>
         </div>
@@ -1551,6 +1592,7 @@ function App() {
         <ModelNamesSection />
         <OddnSection />
         <FeaturesSection />
+        <IFAEconBridge />
         <IfacodemySection />
         <IsiseSection />
         <DualSection />

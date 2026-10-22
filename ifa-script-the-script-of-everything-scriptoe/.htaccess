@@ -1,0 +1,11 @@
+# Disable LiteSpeed cache for this directory
+<IfModule LiteSpeed>
+CacheLookup off
+</IfModule>
+
+# Prevent browser and proxy caching of HTML/JS/CSS
+<FilesMatch "\.(html|htm|jsx|js|css)$">
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</FilesMatch>

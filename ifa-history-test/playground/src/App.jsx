@@ -989,9 +989,15 @@ function ScarificationSection() {
         {/* 3 — IfaID */}
         <div className="scar-block scar-block--id">
           <h3 className="scar-sub-title">Ifa-Orisa Identification</h3>
-          <p className="scar-sub-tag">IfaID · OrisaID — Ifa Identification · Orisa Identification</p>
+          <p className="scar-sub-tag">IfaID · OrisaID — Ifa Identification · Orisa Identification · Ifa-Orisa ID · Ifa-Orisa Addressing System · Ifa-Orisa IP System · Ifaddressing · Ifa-Addressing · Ifa Addressing · Orisaddress · Orisa-Addressing · Orisa Addressing · Energy-Based Addressing · Ifa-Orisa Communications · Ifa-Orisa Geomapping · Ifa-Orisa Geography</p>
           <p className="scar-body">
-            Marks, tattoos, and devotional insignia form a living identification system.
+            Some of the key elements of the Ifa Identification (IfaID) and Orisa Identification (OrisaID) Systems as living Identification Systems: Oríkì (oral praise poetry, panegyric), Orúkọ (name), Òrìṣà ìdílé (lineage/family Òrìṣà), Òrìṣà ìlú (town Òrìṣà), Ifá ìtẹ̀lúdó (town-founding Ifa), Ilà (Marks), Òòlà (Tattoos), and Àmì Òrìṣà Bíbọ/Sísìn (Òrìṣà reverence/devotional insignia).
+          </p>
+          <p className="scar-body">
+            Collectively, these elements form the Ifa-Orisa Addressing System — an Energy-Based Addressing Framework that functions as an Ifa-Orisa IP System, routing identity through Ifaddressing (Ifa-Addressing) and Orisaddress (Orisa-Addressing / Orisa Addressing) across the Ifa-Orisa Communications Network, the IFA-Orisa Internet.
+          </p>
+          <p className="scar-body">
+            This living System grounds Ifa-Orisa Geomapping and Ifa-Orisa Geography, anchoring each person, lineage, and community within both the physical and cosmological landscape.
           </p>
         </div>
 
@@ -1025,7 +1031,7 @@ function ScarificationSection() {
           </div>
           <p className="scar-ifaref-note">
             These are some of the Ifa-Orisa Laws of Nature governing Scarification and Medical Studies
-            in the <em>IFA-ORISA Body of Knowledge (IFA-ORISABOK)</em>.
+            in the <em>IFA-ORISA Body of Knowledge (IFA-ORISABOK)</em>, i.e., the IFA-Orisa Internet.
           </p>
           <div className="scar-odu-pairs">
             <OduFlipPair

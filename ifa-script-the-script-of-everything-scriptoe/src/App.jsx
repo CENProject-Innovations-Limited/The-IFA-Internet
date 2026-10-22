@@ -544,6 +544,24 @@ function HeroSection() {
           <span className="hero__title-sep"> · </span>
           <span className="hero__title-sub">ScriptoE</span>
         </h1>
+
+        {/* ── The IFA Internet Script ribbon ── */}
+        <div className="hero__inet-script" aria-label="The IFA Internet Script">
+          <div className="hero__inet-script__marquee" aria-hidden="true">
+            <span className="hero__inet-script__track">
+              ا ب ت • α β γ • अ आ इ • 你好世界 • ア イ ウ • א ב ג • Ψ Ω Σ • O | O O | | • ب پ ت • λ μ ν • ह ज ञ • 日月星 • カキク • ד ה ו • Δ Θ Λ • | O | | O O •
+            </span>
+            <span className="hero__inet-script__track" aria-hidden="true">
+              ا ب ت • α β γ • अ आ इ • 你好世界 • ア イ ウ • א ב ג • Ψ Ω Σ • O | O O | | • ب پ ت • λ μ ν • ह ज ञ • 日月星 • カキク • ד ה ו • Δ Θ Λ • | O | | O O •
+            </span>
+          </div>
+          <div className="hero__inet-script__label">
+            <span className="hero__inet-script__bracket" aria-hidden="true">⌜</span>
+            <span className="hero__inet-script__text">The IFA Internet Script</span>
+            <span className="hero__inet-script__bracket" aria-hidden="true">⌟</span>
+          </div>
+        </div>
+
         <p className="hero__tagline">The Script for Everything</p>
         <p className="hero__desc">
           What the World Scripts Explorer is to the classical Internet (the modern Internet),{' '}
@@ -1326,6 +1344,187 @@ function ScriptExplorerSection() {
   );
 }
 
+// ── Ifaglottism Section ───────────────────────────────────────
+// Codes sourced from ifa-analysis/data/odu.json
+// bit=1 → single bar (Ogbe/Energy)  |  bit=0 → double bar (Oyeku/Anergy)
+const OMNI_ODUS = [
+  {
+    id: 'oshe',
+    nameA: 'Òfún Méjì',   codeA: '0101', // ||  |  ||  |
+    nameB: 'Ọ̀ṣẹ́ Méjì',  codeB: '1010', //  |  ||  |  ||
+    color: '#00d4ff',
+    glow: 'rgba(0,212,255,0.18)',
+    note: 'This Odu pair governs abundance, origin, and the totality of knowledge-expression — the full opening of voice and understanding across all languages and peoples.',
+  },
+  {
+    id: 'ika',
+    nameA: 'Òtúrúpọ̀n Méjì', codeA: '0010', // ||  ||  |  ||
+    nameB: 'Ìkà Méjì',    codeB: '0100',  // ||  |  ||  ||
+    color: '#f5c518',
+    glow: 'rgba(245,197,24,0.18)',
+    note: 'This Odu pair governs the mastery of language, secret codes, and the deep intelligence of transmission — the capacity to speak across tongues and decode hidden meanings in nature and culture.',
+  },
+];
+
+// Renders one Odu Méjì as two identical columns of 4 mark-rows each
+function OduMarksDisplay({ code, color }) {
+  const bits = code.split('').map(Number);
+  function MarkRow({ bit }) {
+    return (
+      <div className="omni-mark-row">
+        {bit === 0
+          ? <><span className="omni-bar" style={{ background: color }} /><span className="omni-bar" style={{ background: color }} /></>
+          : <span className="omni-bar omni-bar--single" style={{ background: color }} />
+        }
+      </div>
+    );
+  }
+  return (
+    <div className="omni-meji">
+      <div className="omni-meji__col">{bits.map((b,i) => <MarkRow key={i} bit={b} />)}</div>
+      <div className="omni-meji__col">{bits.map((b,i) => <MarkRow key={i} bit={b} />)}</div>
+    </div>
+  );
+}
+
+function OduPairDemo({ odu, active, onClick }) {
+  return (
+    <div
+      className={'omni-odu' + (active ? ' omni-odu--active' : '')}
+      style={{ '--oc': odu.color, '--og': odu.glow }}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onClick()}
+      aria-pressed={active}
+    >
+      <div className="omni-odu__pair-row">
+        <div className="omni-odu__meji-block">
+          <div className="omni-odu__meji-name" style={{ color: odu.color }}>{odu.nameA}</div>
+          <OduMarksDisplay code={odu.codeA} color={odu.color} />
+        </div>
+        <span className="omni-odu__sep">⇌</span>
+        <div className="omni-odu__meji-block">
+          <div className="omni-odu__meji-name" style={{ color: odu.color }}>{odu.nameB}</div>
+          <OduMarksDisplay code={odu.codeB} color={odu.color} />
+        </div>
+      </div>
+      {active && (
+        <div className="omni-odu__note">{odu.note}</div>
+      )}
+    </div>
+  );
+}
+
+function IfaglottismSection() {
+  const [activeOdu, setActiveOdu] = React.useState(null);
+  const toggle = id => setActiveOdu(prev => prev === id ? null : id);
+
+  return (
+    <section className="section section--alt" id="ifaglottism">
+      <div className="container">
+
+        <div className="section__head">
+          <p className="section__eyebrow">// Ìfèdèfẹ́yọ̀ — Omniglottism in Ifa Language</p>
+          <h2 className="section__title">Ifa Omniglottism (Ifaglottism)</h2>
+          <p className="section__subtitle">Omniglottism: The Ability to Understand Every Language</p>
+          <p className="section__desc">
+            And its Dual: <strong>Orisa Omniglottism (Orisaglottism)</strong> — Omniglottism in OrisaLang
+          </p>
+        </div>
+
+        {/* ── Concept ── */}
+        <div className="omni-grid">
+
+          <div className="omni-card">
+            <div className="omni-card__icon" style={{ color: 'var(--gold)' }}>◎</div>
+            <h3 className="omni-card__title">Omniglottism</h3>
+            <p className="omni-card__body">
+              In linguistics and global language studies, <em>omniglottism</em> refers to mastery of
+              an exceptionally broad range of languages — beyond polyglottism — spanning multiple
+              language families, scripts, and regions of the world.{' '}
+              <a className="omni-link" href="https://www.omniglot.com/" target="_blank" rel="noopener">Omniglot</a>{' '}
+              is both the term for such a person and the name of a leading online encyclopedia of
+              languages and writing systems.
+            </p>
+          </div>
+
+          <div className="omni-card">
+            <div className="omni-card__icon" style={{ color: 'var(--cyan)' }}>⊛</div>
+            <h3 className="omni-card__title">Ifaglottism &amp; Ìfèdèfẹ́yọ̀</h3>
+            <p className="omni-card__body">
+              In Ifa Language (IfaLang), omniglottism is <strong>Ìfèdèfẹ́yọ̀ (Ìgbọ́gbogbo Èdè)</strong> — a term from
+              the ancient <em>Èdè Ọ̀pẹ̀</em>, the ancestor-language from which Yoruba originated.
+              <br /><br />
+              <strong>Ifaglottism</strong> captures both polyglottism and omniglottism within IfaLang,
+              structured through the 16 Odu Ifa Principles (<em>Ojú Odùfa Mẹ́rìndínlógún</em>).
+              Its dual, <strong>Orisaglottism</strong>, applies the same framework to OrisaLang,
+              via the 16 Odu Orisa Principles (<em>Ojú Odùṣà Mẹ́rìndínlógún</em>).
+            </p>
+          </div>
+
+          <div className="omni-card">
+            <div className="omni-card__icon" style={{ color: 'var(--green)' }}>⌖</div>
+            <h3 className="omni-card__title">New Terms</h3>
+            <p className="omni-card__body">
+              <strong>An Ifaglot</strong> — a master of multiple languages (4+, drawn from different
+              parts of the world) using the 16 Odu Ifa Principles, <em>Ojú Odùfa Mẹ́rìndínlógún</em>.
+              <br /><br />
+              <strong>An Orisaglot</strong> (dual) — a master of multiple languages (4+, from different
+              parts of the world) using the 16 Odu Orisa Principles, <em>Ojú Odùṣà Mẹ́rìndínlógún</em>.
+            </p>
+          </div>
+
+          <div className="omni-card">
+            <div className="omni-card__icon" style={{ color: 'var(--purple)' }}>🌐</div>
+            <h3 className="omni-card__title">World Scripts Explorer &amp; Ifa Script</h3>
+            <p className="omni-card__body">
+              The{' '}
+              <a className="omni-link" href="https://worldscriptsexplorer.page/" target="_blank" rel="noopener">World Scripts Explorer</a>{' '}
+              catalogues the scripts of the classical Internet. IfaScript, by contrast, is the
+              script of the IFA Internet — encoding not only human languages but all knowledge
+              structures, including scientific, cosmological, and Odu-based encodings, within
+              a single unified system (SODU / ScriptoE).
+            </p>
+          </div>
+
+        </div>
+
+        {/* ── IfaRefs ── */}
+        <div className="omni-ifaref">
+          <p className="omni-ifaref__label">
+            <span className="section__eyebrow" style={{ display: 'inline' }}>// IfaRef</span>
+            {' '}— Ifa References on Omniglottism (Ìfèdèfẹ́yọ̀)
+          </p>
+          <div className="omni-ifaref__verse">
+            <span className="omni-ifaref__yoruba">Ọ̀rúnmìlà Afèdèfẹ́yọ̀</span>
+            <span className="omni-ifaref__gloss">— 'Ọ̀rúnmìlà, the speaker of all languages'</span>
+          </div>
+          <p className="omni-ifaref__note">
+            This praise-name (oríkì) of Ọ̀rúnmìlà — the Orisa of Ifa wisdom — encodes omniglottism
+            as a divine attribute: the capacity to hear, speak, and understand every tongue.
+            The Odu Ifa pairs below govern this principle. Click each to reveal its teaching.
+          </p>
+        </div>
+
+        {/* ── Interactive Odu Demo ── */}
+        <div className="omni-odu-demo">
+          {OMNI_ODUS.map(odu => (
+            <OduPairDemo
+              key={odu.id}
+              odu={odu}
+              active={activeOdu === odu.id}
+              onClick={() => toggle(odu.id)}
+            />
+          ))}
+        </div>
+        <p className="omni-odu-hint">↑ Click an Odu pair to reveal its teaching on Omniglottism (Ìfèdèfẹ́yọ̀)</p>
+
+      </div>
+    </section>
+  );
+}
+
 // ── IFA Scripting in Practice ─────────────────────────────────
 function PracticeSection() {
   return (
@@ -1446,6 +1645,22 @@ function CtaSection() {
   );
 }
 
+// ── Platform Switcher ─────────────────────────────────────────
+function PlatformSwitcher() {
+  return (
+    <div className="platform-switcher" aria-label="Switch scripting platform">
+      <div className="platform-switcher__pill platform-switcher__pill--active" aria-current="page">
+        <span className="platform-switcher__icon">⌨</span>
+        <span className="platform-switcher__label">IfaScript</span>
+      </div>
+      <a href="./orisa-script/" className="platform-switcher__pill platform-switcher__pill--orisa">
+        <span className="platform-switcher__icon">◈</span>
+        <span className="platform-switcher__label">OrisaScript</span>
+      </a>
+    </div>
+  );
+}
+
 // ── Header ────────────────────────────────────────────────────
 function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -1472,6 +1687,7 @@ function Header() {
           <span className="header__brand-name">IfaScript</span>
           <span className="header__brand-tag">ScriptoE</span>
         </div>
+        <PlatformSwitcher />
         <nav className="header__nav">
           <a className="nav-link" href="#identity">Identity</a>
           <a className="nav-link" href="#ifabit-foundation">IFABit</a>
@@ -1528,6 +1744,7 @@ function App() {
         <SymboESection />
         <ScriptExplorerSection />
         <PracticeSection />
+        <IfaglottismSection />
         <CtaSection />
       </main>
       <Footer />

@@ -439,7 +439,7 @@ function Header({ section, onSection, laws, activeId, onSelect, ifaplUrl }) {
           <button
             className={'header__sec-btn' + (section === 'orisa' ? ' header__sec-btn--active' : '')}
             onClick={() => onSection('orisa')}
-          >OrisaLang</button>
+          >OrisaLang <span className="dev-badge">Under Development</span></button>
           <button
             className={'header__sec-btn' + (section === 'pt' ? ' header__sec-btn--active' : '')}
             onClick={() => onSection('pt')}
@@ -1081,13 +1081,17 @@ function OrisaOverview({ data }) {
 
   return (
     <div>
+      <div className="ol-dev-banner" aria-label="Under Development">
+        <span className="ol-dev-banner__icon">⚗️</span>
+        <span className="ol-dev-banner__text">Under Development — OrisaLang is actively being built. Content and structure will evolve.</span>
+      </div>
       <div className="hero">
         <p className="hero__itoe-tag">Orisa Language · Energy Language · Consciousness Language</p>
         <h1 className="hero__title">OrisaLang</h1>
         <p className="hero__sub">{data.meta.description}</p>
         <p className="hero__context">
           <em>Every element of nature, including Nature herself, is an Orisa</em> — Energy or Consciousness.
-          OrisaLang maps and reveals these Energies as the Bases of all fields of knowledge in IfaLogic.
+          OrisaLang maps and reveals these Energies as the Bases of all fields of knowledge in OrisaLogic, the Dual of IfaLogic.
         </p>
       </div>
 

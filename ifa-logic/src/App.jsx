@@ -709,7 +709,7 @@ function OrisaLogicSection() {
               TOE Logic · CENLogic · Consciousness Logic<br />Energy Logic · Logic-oE
             </div>
             <p className="il-dual-card__body">
-              IfaLogic is the primary logic of the IFA Internet — grounded in Ogbe (II),
+              IfaLogic is the primary logic of the IFA Internet — grounded in Ogbe (|),
               the active energy state. It covers all logical operations, truth tables, and
               reasoning frameworks that proceed from the principle of Consciousness Energy
               (CEN) as the base field of everything.
@@ -726,7 +726,7 @@ function OrisaLogicSection() {
               Dual of IfaLogic · Orisa-Based Logic
             </div>
             <p className="il-dual-card__body">
-              OrisaLogic (Orisa Logic) is the Dual of IfaLogic — grounded in Oyeku (I),
+              OrisaLogic (Orisa Logic) is the Dual of IfaLogic — grounded in Oyeku (||),
               the Void Anergy State known as Anergy. Where IfaLogic asserts universal truths (∀, For All),
               OrisaLogic asserts existential truths (<IfaThereExists size={14} />, There Exists). Together, IfaLogic
               and OrisaLogic span the Complete Logical Duality of the 256 Odu Ifa.
@@ -2009,6 +2009,12 @@ function IfaLogicMatrixSection() {
                 <div className="il-part-header__label">Part 1</div>
                 <h3 className="il-part-header__title">The 8 Logic Gates: Àwọn Ìlàrògún Mẹ́jọ</h3>
                 <p className="il-part-header__sub">
+                  Ìlà àrògún can also be called ọ̀nà àrògún (ọ̀nàrògún) since logic gates are
+                  referred to as 'gates' simply because they act as switches, gates, or paths that
+                  control the flow of electrical signals, letting them pass through or blocking them
+                  based on logical rules.
+                </p>
+                <p className="il-part-header__sub">
                   The 8 classical logic gates are the foundational building blocks of digital
                   logic and computing. Each gate processes one or more binary inputs to produce
                   a single binary output based on its Boolean function — forming the basis
@@ -2181,6 +2187,27 @@ function IfaLogicMatrixSection() {
             </div>
           )}
 
+        </div>
+
+        {/* ── Section Keywords ── */}
+        <div style={{ marginTop: '2.5rem', paddingTop: '1.25rem', borderTop: '1px solid rgba(139,92,246,0.12)' }}>
+          <p style={{ fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-3, #505869)', marginBottom: '0.6rem' }}>Keywords</p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            {[
+              'Boolean decisions', 'Boolean operations', 'Boolean functions', 'Boolean data',
+              'Ifa Decisions (Ìpinu Ifá)', 'Orisa Decisions (Ìpinu Òòṣà)',
+              'Ifa Operations (iṣẹ́ Ifá, ìbò gbígbà)', 'Orisa Operations (iṣẹ́ Òòṣà)',
+              'Ifa Functions (ìṣe Ifá)', 'Orisa Functions (ìṣe Òòṣà)',
+              'Ifa Data (Dafa)', 'Orisa Data (Daṣa/Dasa)',
+            ].map(kw => (
+              <span key={kw} style={{
+                display: 'inline-block', padding: '3px 10px',
+                background: 'rgba(139,92,246,0.08)', border: '1px solid rgba(139,92,246,0.2)',
+                borderRadius: '999px', fontSize: '0.72rem', color: 'var(--text-2, #8892aa)',
+                lineHeight: 1.5,
+              }}>{kw}</span>
+            ))}
+          </div>
         </div>
 
       </div>

@@ -2213,6 +2213,34 @@ function ChallengeSection() {
           <p className="challenge-art-tagline">
             Sixteen flames · Sixteen Odu<br />Sixteen hours · Sixteen days
           </p>
+
+          {/* ── Osun Osogbo sacred context ── */}
+          <div className="atupa-osun-card">
+            <div className="atupa-osun-header">
+              <span className="atupa-osun-flame" aria-hidden="true">🕯️</span>
+              <div>
+                <span className="atupa-osun-festival">Osun Osogbo Festival</span>
+                <span className="atupa-osun-deity">Yéyè Ọṣùn · Mother of Waters</span>
+              </div>
+            </div>
+            <p className="atupa-osun-text">
+              The sacred Àtùpà Olójú Mẹ́rìndínlógún burns at the living heart of the annual
+              Osun Osogbo Festival — where Yéyè Ọṣùn, the Divine Mother of Waters, blesses
+              her children through 16 living flames carried in sacred procession to the ancient
+              grove. This is the real Àtùpà: fire, river, and spirit as one.
+            </p>
+            <a
+              href="https://www.osunosogbo.ng/"
+              className="atupa-osun-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit the Osun Osogbo Festival website"
+            >
+              <span className="atupa-osun-link-star" aria-hidden="true">✦</span>
+              Experience the Real Àtùpà · Osun Osogbo Festival
+              <span className="atupa-osun-link-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
         </div>
 
         {/* Right — Odu circles + Opon Ifa boards */}
