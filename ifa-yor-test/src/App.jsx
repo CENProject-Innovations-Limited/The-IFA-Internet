@@ -631,6 +631,49 @@ function DefinitionSection() {
   );
 }
 
+// ─── ILẸ́FẸ̀LANGS BRIDGE ──────────────────────────────────────────────────────
+
+function IlefeLangsBridgeSection() {
+  return (
+    <section className="twin-bridge twin-bridge--lang" aria-label="Linked Platform: Ilẹ́fẹ̀Langs">
+      <div className="container">
+        <div className="twin-bridge__label">Linked Platform — Language Family</div>
+        <div className="twin-bridge__row">
+
+          <div className="twin-bridge__self twin-bridge__self--yor">
+            <div className="twin-bridge__self-sym twin-bridge__self-sym--yor">Odù</div>
+            <div className="twin-bridge__self-name">IfaYoruba</div>
+            <div className="twin-bridge__self-sub twin-bridge__self-sub--yor">IfaYor · Yoruba through the Odu Ifa</div>
+          </div>
+
+          <div className="twin-bridge__mid">
+            <div className="twin-bridge__line twin-bridge__line--lang" aria-hidden="true" />
+            <div className="twin-bridge__scope">
+              <div className="twin-bridge__scope-hd">Ilẹ̀ Ifẹ̀ Language Family</div>
+              <div className="twin-bridge__scope-items">
+                <span>44 Ilẹ́fẹ̀ Languages</span>
+                <span>Odu Ifa Language Origins</span>
+                <span>Yorùbá Dialects &amp; Variants</span>
+                <span>Language-First STEAM</span>
+              </div>
+            </div>
+            <div className="twin-bridge__line twin-bridge__line--lang" aria-hidden="true" />
+          </div>
+
+          <a href="https://ifainternet.org/ifa-language/" target="_blank" rel="noopener noreferrer"
+             className="twin-bridge__link twin-bridge__link--lang">
+            <div className="twin-bridge__link-sym twin-bridge__link-sym--lang">Èdè</div>
+            <div className="twin-bridge__link-name">Ilẹ́fẹ̀Langs</div>
+            <div className="twin-bridge__link-sub twin-bridge__link-sub--lang">Ilẹ́fẹ̀/Yorùbá Family of Languages · 44 Languages</div>
+            <div className="twin-bridge__link-arrow twin-bridge__link-arrow--lang">Explore Ilẹ́fẹ̀Langs →</div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── IFA HISTORY BRIDGE ──────────────────────────────────────────────────────
 
 function IfaHistBridgeSection() {
@@ -1113,6 +1156,7 @@ function App() {
       <main>
         <HeroSection />
         <DefinitionSection />
+        <IlefeLangsBridgeSection />
         <IfaHistBridgeSection />
         <TracksSection />
         <CurriculumSection />

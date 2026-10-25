@@ -8,23 +8,23 @@ const { useState, useCallback, useEffect, useRef } = React;
 // ── 16 Odu Data ──────────────────────────────────────────────
 const ODU = [
   // P1 side (pits 0-7, left→right)
-  { id:'ogbe',     num:1,  name:'Ogbe',     meji:'Eji Ogbe',      color:'#f0c840', field:'Physics & Energy',         steam:'Natural Science',  sidechrx:'Symmetry',     tagline:'The Primal Light — origin of all energy',        meta:'Energy field models, wave functions, quantum states'        },
-  { id:'oyeku',    num:2,  name:'Oyeku',    meji:'Oyeku Meji',     color:'#8892a4', field:'Mathematics & Zero',       steam:'Mathematics',      sidechrx:'Invariance',   tagline:'The Void — infinite potential of zero',           meta:'Set theory, null space, probability distributions'         },
-  { id:'iwori',    num:3,  name:'Iwori',    meji:'Iwori Meji',     color:'#a855f7', field:'Neuroscience & Mind',      steam:'Natural Science',  sidechrx:'Emergence',    tagline:'The Inner Eye — consciousness and intelligence',   meta:'Neural network models, cognitive architectures'            },
-  { id:'odi',      num:4,  name:'Odi',      meji:'Odi Meji',       color:'#00c87c', field:'Biology & Medicine',       steam:'Natural Science',  sidechrx:'Composition',  tagline:'The Hidden Deep — life and organic systems',       meta:'Biological system models, epidemiological simulations'     },
-  { id:'irosun',   num:5,  name:'Irosun',   meji:'Irosun Meji',    color:'#e9498a', field:'Chemistry & Matter',       steam:'Natural Science',  sidechrx:'Duality',      tagline:'The Red Energy — transformation and exchange',     meta:'Reaction kinetics, material property models'               },
-  { id:'owonrin',  num:6,  name:'Owonrin',  meji:'Owonrin Meji',   color:'#00d9b8', field:'Engineering & Structure',  steam:'Engineering',      sidechrx:'Reductionism', tagline:'The Dynamic Force — disruption and innovation',    meta:'Structural analysis, chaos and complexity models'          },
-  { id:'obara',    num:7,  name:'Obara',    meji:'Obara Meji',     color:'#f5c518', field:'Arts & Aesthetics',        steam:'Arts',             sidechrx:'Holism',       tagline:'The Golden King — mastery and creative power',     meta:'Aesthetic models, creative pattern simulations'           },
-  { id:'okanran',  num:8,  name:'Okanran',  meji:'Okanran Meji',   color:'#4aa3ff', field:'Technology & Innovation',  steam:'Technology',       sidechrx:'Others',       tagline:'The Spark — sudden insight and breakthrough',      meta:'Innovation diffusion, technology adoption models'          },
+  { id:'ogbe',     num:1,  name:'Ògbè',     meji:'Èjì Ògbè',      color:'#f0c840', field:'Physics & Energy',         steam:'Natural Science',  sidechrx:'Symmetry',     tagline:'The Primal Light — origin of all energy',        meta:'Energy field models, wave functions, quantum states'        },
+  { id:'oyeku',    num:2,  name:'Òyèkú',    meji:'Òyèkú Méjì',     color:'#8892a4', field:'Mathematics & Zero',       steam:'Mathematics',      sidechrx:'Invariance',   tagline:'The Void — infinite potential of zero',           meta:'Set theory, null space, probability distributions'         },
+  { id:'iwori',    num:3,  name:'Ìwòrì',    meji:'Ìwòrì Méjì',     color:'#a855f7', field:'Neuroscience & Mind',      steam:'Natural Science',  sidechrx:'Emergence',    tagline:'The Inner Eye — consciousness and intelligence',   meta:'Neural network models, cognitive architectures'            },
+  { id:'odi',      num:4,  name:'Òdí',      meji:'Òdí Méjì',       color:'#00c87c', field:'Biology & Medicine',       steam:'Natural Science',  sidechrx:'Composition',  tagline:'The Hidden Deep — life and organic systems',       meta:'Biological system models, epidemiological simulations'     },
+  { id:'irosun',   num:5,  name:'Ìròsùn',   meji:'Ìròsùn Méjì',    color:'#e9498a', field:'Chemistry & Matter',       steam:'Natural Science',  sidechrx:'Duality',      tagline:'The Red Energy — transformation and exchange',     meta:'Reaction kinetics, material property models'               },
+  { id:'owonrin',  num:6,  name:'Òwọ́nrín',  meji:'Òwọ́nrín Méjì',   color:'#00d9b8', field:'Engineering & Structure',  steam:'Engineering',      sidechrx:'Reductionism', tagline:'The Dynamic Force — disruption and innovation',    meta:'Structural analysis, chaos and complexity models'          },
+  { id:'obara',    num:7,  name:'Òbàrà',    meji:'Òbàrà Méjì',     color:'#f5c518', field:'Arts & Aesthetics',        steam:'Arts',             sidechrx:'Holism',       tagline:'The Golden King — mastery and creative power',     meta:'Aesthetic models, creative pattern simulations'           },
+  { id:'okanran',  num:8,  name:'Òkànràn',  meji:'Òkànràn Méjì',   color:'#4aa3ff', field:'Technology & Innovation',  steam:'Technology',       sidechrx:'Others',       tagline:'The Spark — sudden insight and breakthrough',      meta:'Innovation diffusion, technology adoption models'          },
   // P2 side (pits 8-15)
-  { id:'ogunda',   num:9,  name:'Ogunda',   meji:'Ogunda Meji',    color:'#e8772a', field:'Law & Social Justice',     steam:'Social Science',   sidechrx:'Symmetry',     tagline:'The Pathclearer — justice, law, and progression',  meta:'Legal system models, social justice simulations'           },
-  { id:'osa',      num:10, name:'Osa',      meji:'Osa Meji',       color:'#ff4d6d', field:'Education & Wisdom',       steam:'Education',        sidechrx:'Emergence',    tagline:'The Wind of Change — rapid learning and growth',   meta:'Learning curve models, educational simulations'           },
-  { id:'ika',      num:11, name:'Ika',      meji:'Ika Meji',       color:'#00b4a6', field:'Economics & Exchange',     steam:'Social Science',   sidechrx:'Composition',  tagline:'The Value Web — economic flow and resource',       meta:'Economic network models, market simulations'              },
-  { id:'oturupon', num:12, name:'Oturupon', meji:'Oturupon Meji',  color:'#6b7280', field:'Earth & Environment',      steam:'Natural Science',  sidechrx:'Holism',       tagline:'The Deep Earth — ecology and earth systems',       meta:'Climate models, ecological system simulations'            },
-  { id:'otura',    num:13, name:'Otura',    meji:'Otura Meji',     color:'#c084fc', field:'Philosophy & Metaphysics', steam:'Arts',             sidechrx:'Invariance',   tagline:'The Elder Wisdom — universal law and philosophy',  meta:'Philosophical framework models, ontological maps'         },
-  { id:'irete',    num:14, name:'Irete',    meji:'Irete Meji',     color:'#34d399', field:'Medicine & Healing',       steam:'Natural Science',  sidechrx:'Reductionism', tagline:'The Healer — medicine, restoration, wholeness',    meta:'Healthcare models, healing protocol simulations'          },
-  { id:'ose',      num:15, name:'Ose',      meji:'Ose Meji',       color:'#fb923c', field:'Language & Communication', steam:'Social Science',   sidechrx:'Duality',      tagline:'The Eloquent Flow — language and connection',      meta:'Communication network models, language spread simulations' },
-  { id:'ofun',     num:16, name:'Ofun',     meji:'Ofun Meji',      color:'#818cf8', field:'Cosmos & Space',           steam:'Mathematics',      sidechrx:'Symmetry',     tagline:'The Cosmic Totality — the universe and existence', meta:'Cosmological models, space-time simulations'              },
+  { id:'ogunda',   num:9,  name:'Ògúndá',   meji:'Ògúndá Méjì',    color:'#e8772a', field:'Law & Social Justice',     steam:'Social Science',   sidechrx:'Symmetry',     tagline:'The Pathclearer — justice, law, and progression',  meta:'Legal system models, social justice simulations'           },
+  { id:'osa',      num:10, name:'Òṣá',      meji:'Òṣá Méjì',       color:'#ff4d6d', field:'Education & Wisdom',       steam:'Education',        sidechrx:'Emergence',    tagline:'The Wind of Change — rapid learning and growth',   meta:'Learning curve models, educational simulations'           },
+  { id:'ika',      num:11, name:'Ìká',      meji:'Ìká Méjì',       color:'#00b4a6', field:'Economics & Exchange',     steam:'Social Science',   sidechrx:'Composition',  tagline:'The Value Web — economic flow and resource',       meta:'Economic network models, market simulations'              },
+  { id:'oturupon', num:12, name:'Òtúrúpọ̀n', meji:'Òtúrúpọ̀n Méjì',  color:'#6b7280', field:'Earth & Environment',      steam:'Natural Science',  sidechrx:'Holism',       tagline:'The Deep Earth — ecology and earth systems',       meta:'Climate models, ecological system simulations'            },
+  { id:'otura',    num:13, name:'Òtúrá',    meji:'Òtúrá Méjì',     color:'#c084fc', field:'Philosophy & Metaphysics', steam:'Arts',             sidechrx:'Invariance',   tagline:'The Elder Wisdom — universal law and philosophy',  meta:'Philosophical framework models, ontological maps'         },
+  { id:'irete',    num:14, name:'Ìrẹ̀tẹ̀',    meji:'Ìrẹ̀tẹ̀ Méjì',     color:'#34d399', field:'Medicine & Healing',       steam:'Natural Science',  sidechrx:'Reductionism', tagline:'The Healer — medicine, restoration, wholeness',    meta:'Healthcare models, healing protocol simulations'          },
+  { id:'ose',      num:15, name:'Òṣẹ̀',      meji:'Òṣẹ̀ Méjì',       color:'#fb923c', field:'Language & Communication', steam:'Social Science',   sidechrx:'Duality',      tagline:'The Eloquent Flow — language and connection',      meta:'Communication network models, language spread simulations' },
+  { id:'ofun',     num:16, name:'Òfún',     meji:'Òfún Méjì',      color:'#818cf8', field:'Cosmos & Space',           steam:'Mathematics',      sidechrx:'Symmetry',     tagline:'The Cosmic Totality — the universe and existence', meta:'Cosmological models, space-time simulations'              },
 ];
 
 // ── IFA Matrix Node Data ──────────────────────────────────────
@@ -702,7 +702,7 @@ function IfaZero({ size = 90, className = '', showText = true }) {
   const arrowLen = r * 0.22;
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}
-      className={`ifazero--pulse ${className}`} aria-label="IfaZero — Ogbe Energy">
+      className={`ifazero--pulse ${className}`} aria-label="IfaZero — Ògbè Energy">
       <circle cx={cx} cy={cy} r={cr + r * 0.08} fill="none"
         stroke="rgba(201,162,39,0.12)" strokeWidth={1.5} />
       <defs>
@@ -723,7 +723,7 @@ function IfaZero({ size = 90, className = '', showText = true }) {
       {showText && size >= 72 && (
         <>
           <text x={cx} y={cy - 8}  textAnchor="middle" fill="#c9a227"
-            fontFamily="'Cinzel Decorative', serif" fontSize={size * 0.115} fontWeight="700">Ogbe</text>
+            fontFamily="'Cinzel Decorative', serif" fontSize={size * 0.115} fontWeight="700">Ògbè</text>
           <text x={cx} y={cy + 7}  textAnchor="middle" fill="rgba(201,162,39,0.7)"
             fontFamily="'Space Grotesk', monospace" fontSize={size * 0.085}>Energy</text>
           <text x={cx} y={cy + 20} textAnchor="middle" fill="rgba(201,162,39,0.45)"
@@ -885,7 +885,7 @@ function PitCell({ odu, count, onClick, disabled, isLastMoved, currentPlayer, ow
 // ── Ifa Computer Section ──────────────────────────────────────
 const COMPUTER_CARDS = [
   { icon:'⚡', title:'The Computer of Everything',  sub:'ComputoE',           desc:'A universal Computational Matrix encoding all knowledge domains through the 256 Odufa Patterns, which are the Patterns for Everything (PatternoE).',        accent:'#f0c840' },
-  { icon:'○',  title:'The Computer of Energy',      sub:'ComputoE · IfaZero', desc:'Ogbe Energy as the Base Unit of Computation — the Building Block of Everything (BBoE) and Primal Bit.', accent:'#c9a227' },
+  { icon:'○',  title:'The Computer of Energy',      sub:'ComputoE · IfaZero', desc:'Ògbè Energy as the Base Unit of Computation — the Building Block of Everything (BBoE) and Primal Bit.', accent:'#c9a227' },
   { icon:'◈',  title:'Knowledge Computer',          sub:'Meta-Model Engine',  desc:'Each of the 16 Odu maps to a field of knowledge or a set of fields. Their 240 Combinations generate all meta-models and knowledge fields.',     accent:'#00b4a6' },
   { icon:'∞',  title:'Computing All Fields',        sub:'Pan-Domain Intelligence', desc:'From physics to philosophy, biology to economics — the Ifa Computer encodes all human knowledge.',   accent:'#7c4dff' },
 ];
@@ -921,22 +921,22 @@ function IfaComputerSection() {
 // ═══════════════════════════════════════════════════════════════
 
 const IFA_ODU_WHEEL = [
-  { name:'Ogbe',     num:1,  emoji:'⚡',  col:'#7dffaa', title:'LIGHT POWER ACTIVATED!',    msg:"Ogbe carries the light of creation! Everything you touch turns to gold today. You are completely UNSTOPPABLE — nothing in the universe can hold you back! 🌟" },
-  { name:'Oyeku',    num:2,  emoji:'🌑',  col:'#ffbb88', title:'MYSTERY MASTER UNLOCKED!',  msg:"Oyeku reveals the hidden world! Secret knowledge that others cannot see is opening up for you right now. The invisible realm is speaking — trust what you feel deep inside! 🔮" },
-  { name:'Iwori',    num:3,  emoji:'🧠',  col:'#7dffaa', title:'GENIUS MODE: ACTIVATED!',   msg:"Iwori is the Odu of inner wisdom and intelligence! Your brain is absolutely ON FIRE today. Trust your instincts — the brilliant answer is already inside you! 💡" },
-  { name:'Odi',      num:4,  emoji:'🔐',  col:'#ffbb88', title:'SECRET SUPERPOWER FOUND!',  msg:"Odi holds the deepest secrets of Ifa! You have a hidden ability that's been waiting to EXPLODE into the world. Look within — your superpower has been there all along! 🚀" },
-  { name:'Irosun',   num:5,  emoji:'🏆',  col:'#7dffaa', title:'VICTORY DANCE TIME!',       msg:"Irosun says YOU WIN! The entire universe has declared you a champion today. Strike your most epic victory pose RIGHT NOW — you have absolutely earned it! 🎉" },
-  { name:'Owonrin',  num:6,  emoji:'🌪️', col:'#ffbb88', title:'WILD CARD ENERGY!',         msg:"Owonrin is the most electrifying and unpredictable Odu! Something WILD and absolutely jaw-dropping is about to happen to you. Stay alert — anything can happen! 🎲" },
-  { name:'Obara',    num:7,  emoji:'👑',  col:'#7dffaa', title:'ROYALTY MODE ACTIVATED!',   msg:"Obara says you are ROYALTY! Walk tall, speak with total confidence, and own every single room you enter today. Your crown is glowing brighter than ever! ✨" },
-  { name:'Okanran',  num:8,  emoji:'⚔️', col:'#ffbb88', title:'WARRIOR SPIRIT UNLEASHED!', msg:"Okanran gives you the spirit of a warrior! Face your biggest challenge head-on today — you will CRUSH IT. No obstacle is too tough, no mountain is too high! 💪" },
-  { name:'Ogunda',   num:9,  emoji:'🛤️', col:'#7dffaa', title:'ALL ROADS ARE OPEN!',       msg:"Ogunda is the road-opener! Every door is swinging wide open just for you today. New adventures, new opportunities, new friendships — go out and explore the world! 🗺️" },
-  { name:'Osa',      num:10, emoji:'🦋',  col:'#ffbb88', title:'TRANSFORMATION UNLOCKED!',  msg:"Osa is the Odu of incredible change! You are evolving into your BEST SELF this very moment. Your wings are growing — watch the beautiful butterfly emerge! 🌈" },
-  { name:'Ika',      num:11, emoji:'🔨',  col:'#7dffaa', title:'CRAFT MASTER POWERS!',      msg:"Ika blesses your hands with CREATIVE MAGIC! Build it, draw it, code it, invent it — your greatest creation is waiting for you to bring it to life today! 🎨" },
-  { name:'Oturupọn', num:12, emoji:'💚',  col:'#ffbb88', title:'HEALING POWER ACTIVATED!',  msg:"Oturupọn blesses you with incredible healing energy! You have the gift to make people feel better just by being near them. Spread kindness and watch miracles happen! 🌿" },
-  { name:'Otura',    num:13, emoji:'✨',  col:'#7dffaa', title:'BLESSING STORM INCOMING!',  msg:"Otura rains blessings from the heavens! An incredible lucky streak is starting RIGHT NOW. Open your arms wide — the universe is about to deliver something amazing! 🌟" },
-  { name:'Irete',    num:14, emoji:'🌟',  col:'#ffbb88', title:'SUCCESS MAGNET MODE!',      msg:"Irete makes you a total SUCCESS MAGNET! Every single effort you put in today multiplies into BIG spectacular results. Dream the BIGGEST dream you can imagine! 🚀" },
-  { name:'Ose',      num:15, emoji:'💰',  col:'#7dffaa', title:'ABUNDANCE FULLY UNLOCKED!', msg:"Ose is the Odu of wealth, prosperity, and unlimited abundance! Talent, energy, and incredible gifts are flowing straight to you. YOU ARE RICH — believe it! 💎" },
-  { name:'Ofun',     num:16, emoji:'🌌',  col:'#ffbb88', title:'ANCIENT COSMIC WISDOM!',    msg:"Ofun carries the oldest, deepest wisdom in the entire universe! You are a LEGEND in the making — your story will be told and inspire generations to come! 🌠" },
+  { name:'Ògbè',     num:1,  emoji:'⚡',  col:'#7dffaa', title:'LIGHT POWER ACTIVATED!',    msg:"Ògbè carries the light of creation! Everything you touch turns to gold today. You are completely UNSTOPPABLE — nothing in the universe can hold you back! 🌟" },
+  { name:'Òyèkú',    num:2,  emoji:'🌑',  col:'#ffbb88', title:'MYSTERY MASTER UNLOCKED!',  msg:"Òyèkú reveals the hidden world! Secret knowledge that others cannot see is opening up for you right now. The invisible realm is speaking — trust what you feel deep inside! 🔮" },
+  { name:'Ìwòrì',    num:3,  emoji:'🧠',  col:'#7dffaa', title:'GENIUS MODE: ACTIVATED!',   msg:"Ìwòrì is the Odu of inner wisdom and intelligence! Your brain is absolutely ON FIRE today. Trust your instincts — the brilliant answer is already inside you! 💡" },
+  { name:'Òdí',      num:4,  emoji:'🔐',  col:'#ffbb88', title:'SECRET SUPERPOWER FOUND!',  msg:"Òdí holds the deepest secrets of Ifa! You have a hidden ability that's been waiting to EXPLODE into the world. Look within — your superpower has been there all along! 🚀" },
+  { name:'Ìròsùn',   num:5,  emoji:'🏆',  col:'#7dffaa', title:'VICTORY DANCE TIME!',       msg:"Ìròsùn says YOU WIN! The entire universe has declared you a champion today. Strike your most epic victory pose RIGHT NOW — you have absolutely earned it! 🎉" },
+  { name:'Òwọ́nrín',  num:6,  emoji:'🌪️', col:'#ffbb88', title:'WILD CARD ENERGY!',         msg:"Òwọ́nrín is the most electrifying and unpredictable Odu! Something WILD and absolutely jaw-dropping is about to happen to you. Stay alert — anything can happen! 🎲" },
+  { name:'Òbàrà',    num:7,  emoji:'👑',  col:'#7dffaa', title:'ROYALTY MODE ACTIVATED!',   msg:"Òbàrà says you are ROYALTY! Walk tall, speak with total confidence, and own every single room you enter today. Your crown is glowing brighter than ever! ✨" },
+  { name:'Òkànràn',  num:8,  emoji:'⚔️', col:'#ffbb88', title:'WARRIOR SPIRIT UNLEASHED!', msg:"Òkànràn gives you the spirit of a warrior! Face your biggest challenge head-on today — you will CRUSH IT. No obstacle is too tough, no mountain is too high! 💪" },
+  { name:'Ògúndá',   num:9,  emoji:'🛤️', col:'#7dffaa', title:'ALL ROADS ARE OPEN!',       msg:"Ògúndá is the road-opener! Every door is swinging wide open just for you today. New adventures, new opportunities, new friendships — go out and explore the world! 🗺️" },
+  { name:'Òṣá',      num:10, emoji:'🦋',  col:'#ffbb88', title:'TRANSFORMATION UNLOCKED!',  msg:"Òṣá is the Odu of incredible change! You are evolving into your BEST SELF this very moment. Your wings are growing — watch the beautiful butterfly emerge! 🌈" },
+  { name:'Ìká',      num:11, emoji:'🔨',  col:'#7dffaa', title:'CRAFT MASTER POWERS!',      msg:"Ìká blesses your hands with CREATIVE MAGIC! Build it, draw it, code it, invent it — your greatest creation is waiting for you to bring it to life today! 🎨" },
+  { name:'Òtúrúpọ̀n', num:12, emoji:'💚',  col:'#ffbb88', title:'HEALING POWER ACTIVATED!',  msg:"Òtúrúpọ̀n blesses you with incredible healing energy! You have the gift to make people feel better just by being near them. Spread kindness and watch miracles happen! 🌿" },
+  { name:'Òtúrá',    num:13, emoji:'✨',  col:'#7dffaa', title:'BLESSING STORM INCOMING!',  msg:"Òtúrá rains blessings from the heavens! An incredible lucky streak is starting RIGHT NOW. Open your arms wide — the universe is about to deliver something amazing! 🌟" },
+  { name:'Ìrẹ̀tẹ̀',    num:14, emoji:'🌟',  col:'#ffbb88', title:'SUCCESS MAGNET MODE!',      msg:"Ìrẹ̀tẹ̀ makes you a total SUCCESS MAGNET! Every single effort you put in today multiplies into BIG spectacular results. Dream the BIGGEST dream you can imagine! 🚀" },
+  { name:'Òṣẹ̀',      num:15, emoji:'💰',  col:'#7dffaa', title:'ABUNDANCE FULLY UNLOCKED!', msg:"Òṣẹ̀ is the Odu of wealth, prosperity, and unlimited abundance! Talent, energy, and incredible gifts are flowing straight to you. YOU ARE RICH — believe it! 💎" },
+  { name:'Òfún',     num:16, emoji:'🌌',  col:'#ffbb88', title:'ANCIENT COSMIC WISDOM!',    msg:"Òfún carries the oldest, deepest wisdom in the entire universe! You are a LEGEND in the making — your story will be told and inspire generations to come! 🌠" },
 ];
 
 function IrokeSVG() {
@@ -1162,22 +1162,22 @@ function IfaWheelPanel() {
               <text x="168.8" y="43.1"  fill="#f5e8c0" transform="rotate(78.75,168.8,43.1)">1</text>
             </g>
             <g fontSize="7.5" fontFamily="Georgia,'Times New Roman',serif" textAnchor="middle" dominantBaseline="middle" letterSpacing="0.4">
-              <text x="221.5" y="92.1"  fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,221.5,92.1)">Ofun</text>
-              <text x="261.1" y="108.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,261.1,108.5)">Ose</text>
-              <text x="291.5" y="138.9" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,291.5,138.9)">Irete</text>
-              <text x="307.9" y="178.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,307.9,178.5)">Otura</text>
-              <text x="307.9" y="221.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,307.9,221.5)">Oturupọn</text>
-              <text x="291.5" y="261.1" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,291.5,261.1)">Ika</text>
-              <text x="261.1" y="291.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,261.1,291.5)">Osa</text>
-              <text x="221.5" y="307.9" fill="rgba(255,235,175,0.92)" transform="rotate(78.75,221.5,307.9)">Ogunda</text>
-              <text x="178.5" y="307.9" fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,178.5,307.9)">Okanran</text>
-              <text x="138.9" y="291.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,138.9,291.5)">Obara</text>
-              <text x="108.5" y="261.1" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,108.5,261.1)">Owonrin</text>
-              <text x="92.1"  y="221.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,92.1,221.5)">Irosun</text>
-              <text x="92.1"  y="178.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,92.1,178.5)">Odi</text>
-              <text x="108.5" y="138.9" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,108.5,138.9)">Iwori</text>
-              <text x="138.9" y="108.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,138.9,108.5)">Oyeku</text>
-              <text x="178.5" y="92.1"  fill="rgba(255,235,175,0.92)" transform="rotate(78.75,178.5,92.1)">Ogbe</text>
+              <text x="221.5" y="92.1"  fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,221.5,92.1)">Òfún</text>
+              <text x="261.1" y="108.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,261.1,108.5)">Òṣẹ̀</text>
+              <text x="291.5" y="138.9" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,291.5,138.9)">Ìrẹ̀tẹ̀</text>
+              <text x="307.9" y="178.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,307.9,178.5)">Òtúrá</text>
+              <text x="307.9" y="221.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,307.9,221.5)">Òtúrúpọ̀n</text>
+              <text x="291.5" y="261.1" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,291.5,261.1)">Ìká</text>
+              <text x="261.1" y="291.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,261.1,291.5)">Òṣá</text>
+              <text x="221.5" y="307.9" fill="rgba(255,235,175,0.92)" transform="rotate(78.75,221.5,307.9)">Ògúndá</text>
+              <text x="178.5" y="307.9" fill="rgba(210,255,210,0.92)" transform="rotate(-78.75,178.5,307.9)">Òkànràn</text>
+              <text x="138.9" y="291.5" fill="rgba(255,235,175,0.92)" transform="rotate(-56.25,138.9,291.5)">Òbàrà</text>
+              <text x="108.5" y="261.1" fill="rgba(210,255,210,0.92)" transform="rotate(-33.75,108.5,261.1)">Òwọ́nrín</text>
+              <text x="92.1"  y="221.5" fill="rgba(255,235,175,0.92)" transform="rotate(-11.25,92.1,221.5)">Ìròsùn</text>
+              <text x="92.1"  y="178.5" fill="rgba(210,255,210,0.92)" transform="rotate(11.25,92.1,178.5)">Òdí</text>
+              <text x="108.5" y="138.9" fill="rgba(255,235,175,0.92)" transform="rotate(33.75,108.5,138.9)">Ìwòrì</text>
+              <text x="138.9" y="108.5" fill="rgba(210,255,210,0.92)" transform="rotate(56.25,138.9,108.5)">Òyèkú</text>
+              <text x="178.5" y="92.1"  fill="rgba(255,235,175,0.92)" transform="rotate(78.75,178.5,92.1)">Ògbè</text>
             </g>
             <circle cx="200" cy="200" r="56" fill="url(#chlWhlCG)" stroke="#d4a427" strokeWidth="2.5"/>
             <circle cx="200" cy="200" r="48" fill="none" stroke="rgba(255,240,160,0.4)" strokeWidth="1"/>
@@ -1909,7 +1909,7 @@ function OduMiniCircle({ odu, isFlipped, isFlipping, isPulsing, onFlip }) {
           ))}
         </div>
       </div>
-      <span className="odu-mini-label">{dispOdu.name} Meji</span>
+      <span className="odu-mini-label">{dispOdu.name} Méjì</span>
     </div>
   );
 }
@@ -2089,10 +2089,10 @@ function OponIfaMiniCircle({ odu, dualOdu, onClick }) {
       role="button"
       tabIndex={0}
       onKeyDown={e => e.key === 'Enter' && handleClick()}
-      aria-label={`${shown.name} Meji — click to reveal dual Odu`}
+      aria-label={`${shown.name} Méjì — click to reveal dual Odu`}
     >
       <OponIfaBoardSVG code={code} color={shown.color} num={shown.num} />
-      <span className="opon-mini-label" style={{ color: shown.color }}>{shown.name} Meji</span>
+      <span className="opon-mini-label" style={{ color: shown.color }}>{shown.name} Méjì</span>
     </div>
   );
 }
@@ -3067,7 +3067,7 @@ function LearningMode() {
           {isOyeku ? <OyekuPitArrow /> : <PitArrow />}
           <OduStrokePattern code={ODU_CODES[oduIdx]} color={odu.color} />
         </div>
-        <span className="odu-hole-name">{odu.name} Meji</span>
+        <span className="odu-hole-name">{odu.name} Méjì</span>
       </div>
     );
   };
@@ -3480,7 +3480,7 @@ function App() {
             <div className="ifazero-hero-wrap">
               <div className="ifazero-container">
                 <IfaZero size={110} showText={true} />
-                <span className="ifazero-label">IfaZero · Ogbe Energy</span>
+                <span className="ifazero-label">IfaZero · Ògbè Energy</span>
               </div>
             </div>
             <p className="hero-eyebrow">Play IFA Games · CENProject</p>

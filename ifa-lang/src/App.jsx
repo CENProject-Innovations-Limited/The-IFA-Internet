@@ -444,6 +444,10 @@ function Header({ section, onSection, laws, activeId, onSelect, ifaplUrl }) {
             className={'header__sec-btn' + (section === 'pt' ? ' header__sec-btn--active' : '')}
             onClick={() => onSection('pt')}
           >Ifa Periodic Table</button>
+          <button
+            className={'header__sec-btn' + (section === 'ilelang' ? ' header__sec-btn--active' : '')}
+            onClick={() => onSection('ilelang')}
+          >Ilẹ́fẹ̀Langs</button>
         </div>
         <a href={ifaplUrl} className="header__ext" target="_blank" rel="noopener">IfaPL →</a>
       </div>
@@ -1982,6 +1986,304 @@ function AppFooter() {
 }
 
 // ════════════════════════════════════════════════════════════
+// ILẸ́FẸ̀LANGS — Ilẹ́fẹ̀/Yorùbá Family of Languages Project
+// ════════════════════════════════════════════════════════════
+
+const ILELANG_GROUPS = [
+  {
+    group: 'North-West Yoruba (NWY)',
+    color: '#f5c518',
+    langs: [
+      { ede: 'Èdè Ẹ̀gbá',          names: 'ẸgbaLanguage · ẸgbaLang',                              region: 'Abeokuta, Ogun State',          note: 'Cited in Odù Ifá: Èdè Ẹ̀gbá ò jọ tọ̀yọ́' },
+      { ede: 'Èdè Ọ̀yọ́',           names: 'OyoLanguage · OyoLang',                                region: 'Ọyọ Empire heartland, Oyo State', note: 'Cited in Odù Ifá: Èdè Ọ̀yọ́ ò jọ tẹ̀gbà' },
+      { ede: 'Èdè Ìbàdàn',          names: 'ÌbadanLanguage · ÌbadanLang',                          region: 'Ibadan, Oyo State',              note: 'Together with Ọ̀yọ́, forms the basis of regular Yoruba' },
+      { ede: 'Èdè Èkó',             names: 'EkoLanguage · EkoLang',                                region: 'Lagos Island (Èkó)',             note: 'Historical language of Èkó — ancestral Lagos' },
+      { ede: 'Èdè Ìbàrápà',         names: 'ÌbarapaLanguage · ÌbarapaLang',                        region: 'Ibarapa, Oyo State',             note: '' },
+      { ede: 'Èdè Ìwó',             names: 'IwoLanguage · IwoLang',                                region: 'Iwo, Osun State',                note: '' },
+      { ede: 'Èdè Ọ̀nkọ̀',          names: 'OnkoLanguage · OnkoLang',                               region: 'Okeho, Oyo State',               note: '' },
+      { ede: 'Èdè Ṣàkí',            names: 'ShakiLanguage · ShakiLang',                            region: 'Ṣàkí, Oyo State',               note: '' },
+    ],
+  },
+  {
+    group: 'Central Yoruba (CY)',
+    color: '#00c87c',
+    langs: [
+      { ede: 'Èdè Ìfẹ̀',            names: 'ÌfeLanguage · ÌfeLang',                                region: 'Ilé-Ifẹ̀, Osun State',           note: 'Sacred language of Ilé Ifẹ̀ — the ancestral capital of Ilẹ̀ Ifẹ̀ (Alẹ̀ Ufẹ̀)' },
+      { ede: 'Èdè Ìjẹ̀ṣà',          names: 'ÌjesaLanguage · ÌjesaLang',                            region: 'Ilesa, Osun State',              note: '' },
+      { ede: 'Èdè Ìgbómìnà',        names: 'ÌgominaLanguage · ÌgominaLang',                        region: 'Kwara State',                    note: '' },
+      { ede: 'Èdè Èkìtì',           names: 'ÈkìtìLanguage · ÈkìtìLang',                           region: 'Ekiti State',                    note: 'One of the primary focus languages of Ilẹ́fẹ̀Langs' },
+      { ede: 'Èdè Ẹ̀fọ̀n',           names: 'EfonLanguage · EfonLang',                              region: 'Efon-Alaye, Ekiti State',        note: '' },
+      { ede: 'Èdè Àkókó (Ìwọ̀rọ̀dù)', names: 'AkokoLanguage · AkokoLang',                          region: 'Akoko, Ondo / Oke-Agbe, Ondo',   note: '' },
+    ],
+  },
+  {
+    group: 'South-East Yoruba (SEY)',
+    color: '#3b9eff',
+    langs: [
+      { ede: 'Èdè Ìjẹ̀bú / Ùjẹ̀bú', names: 'ÌjẹbuLanguage · ÙjẹbuLanguage · ÌjẹbuLang · ÙjẹbuLang', region: 'Ijebu-Ode, Ogun State',       note: 'Primary focus language of Ilẹ́fẹ̀Langs' },
+      { ede: 'Èdè Rẹ̀mọ̀',           names: 'RemoLanguage · RemoLang',                              region: 'Sagamu, Ogun State',             note: '' },
+      { ede: 'Èdè Ọ̀ndọ̀',           names: 'OndoLanguage · OndoLang',                              region: 'Ondo City, Ondo State',          note: '' },
+      { ede: 'Èdè Ọ̀wọ̀',            names: 'OwoLanguage · OwoLang',                                region: 'Owo, Ondo State',                note: '' },
+      { ede: 'Èdè Ìkálẹ̀',           names: 'ÌkaleLanguage · ÌkaleLang',                           region: 'Okitipupa, Ondo State',          note: '' },
+      { ede: 'Èdè Ìlàjẹ',           names: 'ÌlajeLanguage · ÌlajeLang',                           region: 'Ilaje, Ondo State',              note: '' },
+      { ede: 'Èdè Ìdànrè',          names: 'ÌdanreLanguage · ÌdanreLang',                         region: 'Idanre, Ondo State',             note: '' },
+      { ede: 'Èdè Ùsẹ̀n',           names: 'UsenLanguage · UsenLang',                              region: 'Usen, Edo State',                note: '' },
+    ],
+  },
+  {
+    group: 'North-East Yoruba (NEY)',
+    color: '#8b5cf6',
+    langs: [
+      { ede: 'Èdè Yàgbà',           names: 'YagbaLanguage · YagbaLang',                            region: 'Yagba West, Kogi State',         note: '' },
+      { ede: 'Èdè Ọ̀wé',            names: 'OweLanguage · OweLang',                                region: 'Kabba, Kogi State',              note: '' },
+      { ede: 'Èdè Ìjùmú',           names: 'ÌjumuLanguage · ÌjumuLang',                           region: 'Ijumu, Kogi State',              note: '' },
+      { ede: 'Èdè Ọ̀wọ̀rọ̀',         names: 'OworoLanguage · OworoLang',                            region: 'Oworo, Kogi State',              note: '' },
+      { ede: 'Èdè Gbẹ̀dẹ',          names: 'GbedeLanguage · GbedeLang',                           region: 'Gbede, Kogi State',              note: '' },
+      { ede: 'Èdè Àbùnú',           names: 'AbunuLanguage · AbunuLang',                           region: 'Kabba/Bunu, Kogi State',         note: '' },
+      { ede: 'Èdè Ọkùn',            names: 'OkunLanguage · OkunLang',                              region: 'Kogi State',                     note: '' },
+      { ede: 'Èdè Ìkìrì',           names: 'IkiriLanguage · IkiriLang',                           region: 'Ikiri, Kogi State',              note: '' },
+    ],
+  },
+  {
+    group: 'South-West Yoruba — Benin Republic & Togo (SWY)',
+    color: '#e9498a',
+    langs: [
+      { ede: 'Èdè Kẹ́tù',           names: 'KetuLanguage · KetuLang',                              region: 'Kétou, Benin Republic',          note: '' },
+      { ede: 'Èdè Àwọ̀rì',          names: 'AworiLanguage · AworiLang',                            region: 'Lagos/Ogun border',              note: '' },
+      { ede: 'Èdè Nàgó',            names: 'NagoLanguage · NagoLang',                              region: 'Ipokia, Ogun / Benin Republic',  note: '' },
+      { ede: 'Èdè Ìfẹ̀ (Togo)',      names: 'IfeTogoLanguage · IfeTogoLang',                        region: 'Togo',                           note: '' },
+      { ede: 'Èdè Ìdáàṣà',          names: 'IdaasaLanguage · IdaasaLang',                         region: 'Dassa-Zoumé, Benin Republic',    note: '' },
+      { ede: 'Èdè Sàkété',          names: 'SaketeLanguage · SaketeLang',                         region: 'Sakété, Benin Republic',         note: '' },
+    ],
+  },
+  {
+    group: 'Diaspora Yoruba',
+    color: '#f0920c',
+    langs: [
+      { ede: 'Èdè Lùkùmí',         names: 'LukumiLanguage · LukumiLang',                          region: 'Cuba & the Americas',            note: 'Liturgical Yoruba of Santería / Candomblé — the living voice of Òrìṣà in the diaspora' },
+    ],
+  },
+];
+
+const ILELANG_AIMS = [
+  {
+    sym: '📚',
+    title: 'Preservation',
+    body: 'Preserve Èdè Ìjẹ̀bú, Èdè Èkìtì, and all Ilẹ́fẹ̀ languages through digital documentation, open vocabulary databases, grammar standards, and open-source language resources freely available to all.',
+  },
+  {
+    sym: '🔗',
+    title: 'Unity of Ilẹ̀ Ifẹ̀',
+    body: 'Promote the unity of the areas traditionally called Ilẹ̀ Ifẹ̀ (Alẹ̀ Ufẹ̀) — now known as Yorùbáland — by celebrating the richness of its many languages while honouring their shared Ifa-Orisa roots. Headquarters: Ilé Ifẹ̀, Ọ̀ṣun State.',
+  },
+  {
+    sym: '⚙️',
+    title: 'Language STEAM',
+    body: 'Develop Science, Technology, Engineering, Arts & Design, and Mathematics (STEAM) programmes in each Ilẹ́fẹ̀ language — using IfaNote, IFA Internet tools, and other relevant IFA Academy resources.',
+  },
+  {
+    sym: '🎮',
+    title: 'Games & Environments',
+    body: 'Build language games and immersive gaming environments that make each language active, joyful, and part of daily life — creating a new generation of native-language users across Ilẹ̀ Ifẹ̀.',
+  },
+];
+
+const ILELANG_STEAM = [
+  { letter: 'S', word: 'Science',        desc: 'Natural and consciousness sciences taught in and through each Ilẹ́fẹ̀ language' },
+  { letter: 'T', word: 'Technology',     desc: 'IfaNote, IFA Internet platforms, and digital tools built in each language' },
+  { letter: 'E', word: 'Engineering',    desc: 'Language engineering: grammars, parsers, NLP models, and language technology' },
+  { letter: 'A', word: 'Arts & Design',  desc: 'Typography, visual design, oral literature, music, and cultural arts preservation' },
+  { letter: 'M', word: 'Mathematics',    desc: 'IFA Mathematics expressed, encoded, and taught in each native language' },
+  { letter: '🎮', word: 'Games',         desc: 'Immersive language games and gaming environments using IfaNote and IFA Internet' },
+];
+
+const ILELANG_COMMUNITY = [
+  {
+    title: 'IFA Academy of Polymaths',
+    desc:  'Students of the IFA Academy use Ilẹ́fẹ̀Langs as living language laboratories — integrating their native languages into STEAM studies and the full IFA Internet curriculum.',
+  },
+  {
+    title: 'Native Speakers',
+    desc:  'Speakers of Ìjẹ̀bú, Èkìtì, Ẹ̀gbá, Ọ̀yọ́, and all Ilẹ́fẹ̀ languages are encouraged to use their language daily — in everyday conversations, professional work, and creative projects.',
+  },
+  {
+    title: 'Partners & Sponsors',
+    desc:  'Organisations, institutions, and businesses that support language preservation, Yorùbá cultural heritage, and the development of African language STEAM ecosystems.',
+  },
+  {
+    title: 'Contributors',
+    desc:  'Linguists, educators, developers, artists, storytellers, and community members who build vocabulary databases, grammar resources, learning tools, and cultural content for each language.',
+  },
+];
+
+function IlefeLangsSection() {
+  const [activeGroup, setActiveGroup] = useState(0);
+  const group = ILELANG_GROUPS[activeGroup];
+
+  return (
+    <div className="ilelang">
+
+      {/* ── Hero ── */}
+      <section className="ilelang-hero">
+        <div className="ilelang-hero__inner">
+          <p className="ilelang-hero__eyebrow">IFA Internet · IfaLang · Open-Source Language Projects</p>
+          <h1 className="ilelang-hero__title">Ilẹ́fẹ̀ Languages Project</h1>
+          <p className="ilelang-hero__sub">
+            Ilẹ́fẹ̀/Yorùbá Family of Languages &mdash;{' '}
+            <span className="ilelang-hero__accent">Ilẹ́fẹ̀Langs</span>
+          </p>
+          <p className="ilelang-hero__desc">
+            An open-source family of language projects dedicated to preserving the indigenous languages
+            of the region Ifa calls <strong>Ilẹ̀ Ifẹ̀ (Alẹ̀ Ufẹ̀)</strong> — known today as
+            Yorùbáland — and developing language-first STEAM programmes, games, and technologies
+            for each language.
+          </p>
+
+          <div className="ilelang-hero__quote">
+            <div className="ilelang-hero__quote-bar" />
+            <blockquote className="ilelang-hero__quote-text">
+              Èdè Ẹ̀gbá ò jọ tọ̀yọ́; èdè Ọ̀yọ́ ò jọ tẹ̀gbá
+            </blockquote>
+            <p className="ilelang-hero__quote-src">— Odù Ifá</p>
+            <p className="ilelang-hero__quote-trans">
+              The Ẹ̀gbá language is not the same as Ọ̀yọ́ language;
+              the Ọ̀yọ́ language is not the same as Ẹ̀gbá language.
+            </p>
+          </div>
+
+          <div className="ilelang-hero__hq">
+            <span className="ilelang-hero__hq-label">Headquarters:</span>
+            &nbsp;Ilé Ifẹ̀, Ọ̀ṣun State &mdash; the ancestral capital of Ilẹ̀ Ifẹ̀
+          </div>
+        </div>
+      </section>
+
+      {/* ── Mission / Aims ── */}
+      <section className="ilelang-section ilelang-aims">
+        <div className="ilelang-section__inner">
+          <h2 className="ilelang-section__title">Mission &amp; Aims</h2>
+          <div className="ilelang-aims__grid">
+            {ILELANG_AIMS.map((aim, i) => (
+              <div key={i} className="ilelang-aim-card">
+                <div className="ilelang-aim-card__sym">{aim.sym}</div>
+                <h3 className="ilelang-aim-card__title">{aim.title}</h3>
+                <p className="ilelang-aim-card__body">{aim.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="ilelang-ajumolo">
+            <h3 className="ilelang-ajumolo__title">
+              Èdè Àjùmọ̀lò Yorùbà &amp; the Risk of Extinction
+            </h3>
+            <p className="ilelang-ajumolo__body">
+              <strong>Èdè Àjùmọ̀lò Yorùbà</strong> (regular Yoruba) is spoken across
+              all of Yorùbáland today — a positive force for unity. Yet this has placed many
+              indigenous languages at risk of extinction. Even though these languages are today
+              called "dialects" of Yoruba for political and administrative reasons, they are
+              distinct languages in the traditional Ifa-Orisa context — as Odù Ifá itself says:
+              <em> Èdè Ẹ̀gbá ò jọ tọ̀yọ́; èdè Ọ̀yọ́ ò jọ tẹ̀gbá.</em>
+            </p>
+            <p className="ilelang-ajumolo__body">
+              Natives should speak and write in <em>both</em> their native language (Ilẹ́fẹ̀ language)
+              and regular Yoruba. Ilẹ́fẹ̀Langs encourages the active, daily use of each native
+              language — in everyday life, professions, and STEAM programmes — while honouring
+              the unity that regular Yoruba provides for Ilẹ̀ Ifẹ̀.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Language Projects ── */}
+      <section className="ilelang-section ilelang-section--alt ilelang-langs">
+        <div className="ilelang-section__inner">
+          <h2 className="ilelang-section__title">The Ilẹ́fẹ̀ Language Projects</h2>
+          <p className="ilelang-langs__intro">
+            Each language below is an individual open-source project within the Ilẹ́fẹ̀Langs family,
+            following the naming convention: <strong>Èdè [Name]</strong> ({' '}
+            <span className="ilelang-mono">[Name]Language</span>,{' '}
+            <span className="ilelang-mono">[Name]Lang</span> ).
+          </p>
+
+          <div className="ilelang-group-tabs" role="tablist">
+            {ILELANG_GROUPS.map((g, i) => (
+              <button
+                key={i}
+                role="tab"
+                aria-selected={activeGroup === i}
+                className={'ilelang-group-tab' + (activeGroup === i ? ' ilelang-group-tab--active' : '')}
+                style={{ '--ig-color': g.color }}
+                onClick={() => setActiveGroup(i)}
+              >
+                {g.group}
+              </button>
+            ))}
+          </div>
+
+          <div className="ilelang-lang-grid" role="tabpanel">
+            {group.langs.map((lang, i) => (
+              <div
+                key={i}
+                className={'ilelang-lang-card' + (lang.note ? ' ilelang-lang-card--featured' : '')}
+                style={{ '--ig-color': group.color }}
+              >
+                <div className="ilelang-lang-card__ede">{lang.ede}</div>
+                <div className="ilelang-lang-card__names">{lang.names}</div>
+                <div className="ilelang-lang-card__region">📍 {lang.region}</div>
+                {lang.note && (
+                  <p className="ilelang-lang-card__note">{lang.note}</p>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <p className="ilelang-langs__count">
+            {ILELANG_GROUPS.reduce((n, g) => n + g.langs.length, 0)} languages across{' '}
+            {ILELANG_GROUPS.length} dialect groups &mdash; each an independent open-source project
+          </p>
+        </div>
+      </section>
+
+      {/* ── STEAM ── */}
+      <section className="ilelang-section ilelang-steam">
+        <div className="ilelang-section__inner">
+          <h2 className="ilelang-section__title">Language STEAM Projects</h2>
+          <p className="ilelang-steam__intro">
+            Each Ilẹ́fẹ̀ language project is a full STEAM programme — not just a dictionary or
+            grammar reference, but a living language ecosystem built with and for its native community.
+          </p>
+          <div className="ilelang-steam__grid">
+            {ILELANG_STEAM.map((s, i) => (
+              <div key={i} className="ilelang-steam-card">
+                <div className="ilelang-steam-card__letter">{s.letter}</div>
+                <div className="ilelang-steam-card__word">{s.word}</div>
+                <p className="ilelang-steam-card__desc">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Community ── */}
+      <section className="ilelang-section ilelang-section--alt ilelang-community">
+        <div className="ilelang-section__inner">
+          <h2 className="ilelang-section__title">Who Are These Projects For?</h2>
+          <div className="ilelang-community__grid">
+            {ILELANG_COMMUNITY.map((c, i) => (
+              <div key={i} className="ilelang-community-card">
+                <h3 className="ilelang-community-card__title">{c.title}</h3>
+                <p className="ilelang-community-card__desc">{c.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
 // APP ROOT
 // ════════════════════════════════════════════════════════════
 function App() {
@@ -2071,7 +2373,9 @@ function App() {
           : <OrisaOverview data={orisaData} />
       )}
 
-      {(section === 'ifalang' || section === 'orisa') && <AppFooter />}
+      {section === 'ilelang' && <IlefeLangsSection />}
+
+      {(section === 'ifalang' || section === 'orisa' || section === 'ilelang') && <AppFooter />}
 
       {section === 'pt' && (
         !oduData

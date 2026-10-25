@@ -1931,6 +1931,26 @@ body { overflow-x: hidden;
 .twin-bridge__link-sub--hist { color: var(--gold); }
 .twin-bridge__link-arrow { margin-top: 10px; font-size: 0.78rem; font-weight: 700; color: var(--violet-lt); letter-spacing: 0.02em; }
 .twin-bridge__link-arrow--hist { color: var(--gold-lt); }
+/* Ilẹ́fẹ̀Langs bridge — jade theme */
+.twin-bridge--lang {
+  background: linear-gradient(135deg, rgba(0,200,124,0.05) 0%, rgba(124,58,237,0.04) 100%);
+  border-top-color: rgba(0,200,124,0.16);
+  border-bottom-color: rgba(0,200,124,0.10);
+}
+.twin-bridge__line--lang {
+  background: linear-gradient(to bottom, rgba(0,200,124,0.5), rgba(124,58,237,0.4));
+}
+.twin-bridge__link--lang {
+  background: rgba(0,200,124,0.06);
+  border-color: rgba(0,200,124,0.22);
+}
+.twin-bridge__link--lang:hover {
+  border-color: rgba(0,200,124,0.45);
+  background: rgba(0,200,124,0.12);
+}
+.twin-bridge__link-sym--lang { color: #00c87c; }
+.twin-bridge__link-sub--lang { color: #00c87c; }
+.twin-bridge__link-arrow--lang { color: #00c87c; }
 @media (max-width: 700px) {
   .twin-bridge__row { grid-template-columns: 1fr; }
   .twin-bridge__mid { flex-direction: row; flex-wrap: wrap; justify-content: center; }

@@ -194,7 +194,7 @@ const CELL_CLR = {
   odu: '#10b981', text: '#3b9eff',
   art: '#f43f5e', multimedia: '#8b5cf6',
   math: '#06b6d4', schematics: '#84cc16', others: '#94a3b8',
-  ai: '#a855f7',
+  ai: '#a855f7', lang: '#f5c518',
 };
 
 /* ── Cell badge labels ────────────────────────────────────────────────────── */
@@ -202,7 +202,7 @@ const CELL_BADGE = {
   odu: 'ODU', text: 'TEXT',
   art: '🎨 ART', multimedia: '▶ MEDIA',
   math: '∑ MATH', schematics: '⊞ SCHEM', others: '… OTHERS',
-  ai: '✦ AI',
+  ai: '✦ AI', lang: '🗣 LANG · Experimental',
 };
 
 /* ── Language config for code cells ──────────────────────────────────────── */
@@ -2612,6 +2612,399 @@ function TerminalPanel({ lang }) {
   );
 }
 
+/* ── IfaNote Keyboard — Yorùbá Tone Learning System ─────────────────────── */
+
+const IFAKB_VOWELS = [
+  { name:'A', low:'à', mid:'a', high:'á', lowU:'À', midU:'A', highU:'Á' },
+  { name:'E', low:'è', mid:'e', high:'é', lowU:'È', midU:'E', highU:'É' },
+  { name:'Ẹ', low:'ẹ\u0300', mid:'ẹ', high:'ẹ\u0301', lowU:'Ẹ\u0300', midU:'Ẹ', highU:'Ẹ\u0301', special:true },
+  { name:'I', low:'ì', mid:'i', high:'í', lowU:'Ì', midU:'I', highU:'Í' },
+  { name:'O', low:'ò', mid:'o', high:'ó', lowU:'Ò', midU:'O', highU:'Ó' },
+  { name:'Ọ', low:'ọ\u0300', mid:'ọ', high:'ọ\u0301', lowU:'Ọ\u0300', midU:'Ọ', highU:'Ọ\u0301', special:true },
+  { name:'U', low:'ù', mid:'u', high:'ú', lowU:'Ù', midU:'U', highU:'Ú' },
+];
+
+const IFAKB_CONSONANTS = [
+  ['b','d','f','g','gb','h','j','k','kp'],
+  ['l','m','n','p','r','s','ṣ','t','w','y'],
+  ['B','D','F','G','GB','H','J','K','KP'],
+  ['L','M','N','P','R','S','Ṣ','T','W','Y'],
+];
+
+// Recognize exercises — given a character, identify its tone
+const IFAKB_RECOGNIZE = [
+  { q:'á', answer:'high', tts:'á' }, { q:'à', answer:'low',  tts:'à' },
+  { q:'a', answer:'mid',  tts:'a'  }, { q:'é', answer:'high', tts:'é' },
+  { q:'è', answer:'low',  tts:'è'  }, { q:'ẹ\u0301', answer:'high', tts:'ẹ\u0301' },
+  { q:'ẹ\u0300', answer:'low', tts:'ẹ\u0300' }, { q:'ẹ', answer:'mid', tts:'ẹ' },
+  { q:'ó', answer:'high', tts:'ó'  }, { q:'ò', answer:'low',  tts:'ò' },
+  { q:'ọ\u0301', answer:'high', tts:'ọ\u0301' }, { q:'ọ\u0300', answer:'low', tts:'ọ\u0300' },
+  { q:'í', answer:'high', tts:'í'  }, { q:'ì', answer:'low',  tts:'ì' },
+  { q:'ú', answer:'high', tts:'ú'  }, { q:'ù', answer:'low',  tts:'ù' },
+  { q:'i', answer:'mid',  tts:'i'  }, { q:'o', answer:'mid',  tts:'o' },
+];
+
+// Mark exercises — given vowel name + target tone, choose the correct variant
+const IFAKB_MARK = [
+  {vowel:'A',tone:'high'},{vowel:'A',tone:'low'},{vowel:'A',tone:'mid'},
+  {vowel:'E',tone:'high'},{vowel:'E',tone:'low'},{vowel:'E',tone:'mid'},
+  {vowel:'Ẹ',tone:'high'},{vowel:'Ẹ',tone:'low'},{vowel:'Ẹ',tone:'mid'},
+  {vowel:'I',tone:'high'},{vowel:'I',tone:'low'},
+  {vowel:'O',tone:'high'},{vowel:'O',tone:'low'},{vowel:'O',tone:'mid'},
+  {vowel:'Ọ',tone:'high'},{vowel:'Ọ',tone:'low'},
+  {vowel:'U',tone:'high'},{vowel:'U',tone:'low'},
+];
+
+// Word list — common Yorùbá vocabulary for syllable-tone study
+// syllables array used to split the word into tone-analysable parts
+const IFAKB_WORDS = [
+  { text:'ọmọ',    meaning:'child',        syllables:['ọ','mọ']        },
+  { text:'ilé',    meaning:'house',        syllables:['i','lé']        },
+  { text:'omi',    meaning:'water',        syllables:['o','mi']        },
+  { text:'orí',    meaning:'head',         syllables:['o','rí']        },
+  { text:'àṣà',    meaning:'custom',       syllables:['à','ṣà']        },
+  { text:'ẹ̀kọ́',   meaning:'lesson',       syllables:['ẹ\u0300','kọ\u0301'] },
+  { text:'àwọn',   meaning:'they / them',  syllables:['à','wọn']       },
+  { text:'ìwé',    meaning:'book',         syllables:['ì','wé']        },
+  { text:'ojú',    meaning:'eye / face',   syllables:['o','jú']        },
+  { text:'ẹ̀rọ',   meaning:'machine',      syllables:['ẹ\u0300','rọ']  },
+  { text:'Yorùbá', meaning:'Yorùbá',       syllables:['Yo','rù','bá']  },
+  { text:'odò',    meaning:'river',        syllables:['o','dò']        },
+  { text:'àgbàdo', meaning:'maize / corn', syllables:['à','gbà','do']  },
+];
+
+const TONE_META = {
+  high: { label:'High', arrow:'↗', color:'#f0920c', hint:'Rising — acute accent ´' },
+  mid:  { label:'Mid',  arrow:'→', color:'#6e90b8', hint:'Level — no mark' },
+  low:  { label:'Low',  arrow:'↘', color:'#3b9eff', hint:'Falling — grave accent `' },
+};
+
+function detectTone(syl) {
+  const n = syl.normalize('NFD');
+  if (n.includes('\u0301')) return 'high';
+  if (n.includes('\u0300')) return 'low';
+  return 'mid';
+}
+
+/* ── Yorùbá TTS via Hugging Face MMS (facebook/mms-tts-yor) ──────────────── *
+ * The Web Speech API has no real Yoruba voice in any browser; lang='yo'      *
+ * silently falls back to English, producing wrong tones and vowel quality.   *
+ * facebook/mms-tts-yor is a VITS model trained on native Yorùbá speech —    *
+ * it handles ẹ/ọ open vowels and all three lexical tones correctly.          *
+ * Falls back to lang='yo-NG' browser TTS if the HF API is unreachable.      *
+ * ─────────────────────────────────────────────────────────────────────────── */
+let _yorTTSAudio   = null;   // current Audio instance
+let _yorTTSOnDone  = null;   // pending done-callback
+
+async function speakYoruba(text, onBusy, onDone) {
+  // Cancel any in-progress audio
+  if (_yorTTSAudio)  { try { _yorTTSAudio.pause(); } catch(e) {} _yorTTSAudio = null; }
+  if (_yorTTSOnDone) { try { _yorTTSOnDone();       } catch(e) {} _yorTTSOnDone = null; }
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+  if (onBusy) onBusy();
+
+  // Normalize to NFD so combining marks (ọ+acute etc.) stay attached
+  const input = text.normalize('NFD');
+
+  try {
+    const ctrl = new AbortController();
+    const tid  = setTimeout(() => ctrl.abort(), 14000);
+    const res  = await fetch(
+      'https://api-inference.huggingface.co/models/facebook/mms-tts-yor',
+      {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ inputs: input }),
+        signal:  ctrl.signal,
+      }
+    );
+    clearTimeout(tid);
+    if (!res.ok) throw new Error(`HF ${res.status}`);
+    const blob  = await res.blob();
+    const url   = URL.createObjectURL(blob);
+    _yorTTSAudio = new Audio(url);
+    _yorTTSOnDone = null;
+    _yorTTSAudio.onended = () => { URL.revokeObjectURL(url); _yorTTSAudio = null; if (onDone) onDone(); };
+    _yorTTSAudio.onerror = () => { URL.revokeObjectURL(url); _yorTTSAudio = null; if (onDone) onDone(); };
+    _yorTTSAudio.play().catch(() => { if (onDone) onDone(); });
+  } catch(e) {
+    console.warn('[IfaNote TTS] HF unavailable —', e.message, '— falling back to browser TTS');
+    _yorTTSOnDone = null;
+    if (window.speechSynthesis) {
+      const u  = new SpeechSynthesisUtterance(text);
+      u.lang   = 'yo-NG';
+      u.rate   = 0.75;
+      u.onend  = () => { if (onDone) onDone(); };
+      u.onerror = () => { if (onDone) onDone(); };
+      window.speechSynthesis.speak(u);
+    } else {
+      if (onDone) onDone();
+    }
+  }
+}
+
+function IfaNoteKeyboard({ onInsert }) {
+  const [mode,       setMode]       = useState('write');
+  const [showUpper,  setShowUpper]  = useState(false);
+  const [learnTab,   setLearnTab]   = useState('recognize');
+  const [exIdx,      setExIdx]      = useState(0);
+  const [exResult,   setExResult]   = useState(null);   // null | 'correct' | 'wrong'
+  const [score,      setScore]      = useState({ correct:0, total:0 });
+  const [markIdx,    setMarkIdx]    = useState(0);
+  const [markResult, setMarkResult] = useState(null);
+  const [wordIdx,    setWordIdx]    = useState(0);
+  const [isSpeaking, setIsSpeaking] = useState(false);  // true while HF audio is loading/playing
+
+  // Local wrapper — passes loading callbacks to the async speakYoruba function
+  function speakText(text) {
+    speakYoruba(text, () => setIsSpeaking(true), () => setIsSpeaking(false));
+  }
+
+  function nextRecognize() {
+    setExResult(null);
+    setExIdx(i => (i + 1) % IFAKB_RECOGNIZE.length);
+  }
+
+  function answerRecognize(tone) {
+    if (exResult) return;
+    const ok = tone === IFAKB_RECOGNIZE[exIdx].answer;
+    setExResult(ok ? 'correct' : 'wrong');
+    setScore(s => ({ correct: s.correct + (ok ? 1 : 0), total: s.total + 1 }));
+  }
+
+  function answerMark(tone) {
+    if (markResult) return;
+    const ok = tone === IFAKB_MARK[markIdx].tone;
+    setMarkResult(ok ? 'correct' : 'wrong');
+    if (ok) setTimeout(() => { setMarkResult(null); setMarkIdx(i => (i + 1) % IFAKB_MARK.length); }, 950);
+  }
+
+  const ex       = IFAKB_RECOGNIZE[exIdx];
+  const markData = IFAKB_MARK[markIdx];
+  const markV    = IFAKB_VOWELS.find(v => v.name === markData.vowel);
+  const word     = IFAKB_WORDS[wordIdx % IFAKB_WORDS.length];
+
+  return (
+    <div className="ifakb" onClick={e => e.stopPropagation()}>
+
+      {/* ── Mode tabs ──────────────────────────────────────────────── */}
+      <div className="ifakb__tabs">
+        <button className={'ifakb__tab' + (mode === 'write' ? ' ifakb__tab--on' : '')} onClick={() => setMode('write')}>✍ Write</button>
+        <button className={'ifakb__tab' + (mode === 'learn' ? ' ifakb__tab--on' : '')} onClick={() => setMode('learn')}>🎓 Learn</button>
+        <span className="ifakb__brand">IfaNote · IfaYor · Yorùbá</span>
+        {isSpeaking && <span className="ifakb__speaking-pill">▶ Speaking…</span>}
+        {score.total > 0 && <span className="ifakb__score-badge">{score.correct}/{score.total}</span>}
+      </div>
+
+      {/* ── WRITE MODE ─────────────────────────────────────────────── */}
+      {mode === 'write' && (
+        <div className="ifakb__write">
+          <div className="ifakb__legend">
+            <span className="ifakb__legend-item ifakb__legend--low">↘ Low (à)</span>
+            <span className="ifakb__legend-item ifakb__legend--mid">→ Mid (a)</span>
+            <span className="ifakb__legend-item ifakb__legend--high">↗ High (á)</span>
+            <button className="ifakb__case-btn" onClick={() => setShowUpper(u => !u)}>
+              {showUpper ? '⇑ CAPS ON' : '⇩ lower'}
+            </button>
+          </div>
+
+          {/* Vowel grid: Letter | Low | Mid | High */}
+          <div className="ifakb__vowel-grid">
+            <div className="ifakb__vowel-hdr">
+              <span>Letter</span>
+              <span className="ifakb__hdr--low">↘ Low</span>
+              <span className="ifakb__hdr--mid">→ Mid</span>
+              <span className="ifakb__hdr--high">↗ High</span>
+            </div>
+            {IFAKB_VOWELS.map(v => (
+              <div key={v.name} className={'ifakb__vowel-row' + (v.special ? ' ifakb__vowel-row--sp' : '')}>
+                <span className="ifakb__vowel-lbl">{v.name}</span>
+                <button className="ifakb__vbtn ifakb__vbtn--low"  onClick={() => onInsert(showUpper ? v.lowU  : v.low)}>{showUpper ? v.lowU  : v.low}</button>
+                <button className="ifakb__vbtn ifakb__vbtn--mid"  onClick={() => onInsert(showUpper ? v.midU  : v.mid)}>{showUpper ? v.midU  : v.mid}</button>
+                <button className="ifakb__vbtn ifakb__vbtn--high" onClick={() => onInsert(showUpper ? v.highU : v.high)}>{showUpper ? v.highU : v.high}</button>
+              </div>
+            ))}
+          </div>
+
+          {/* Consonants */}
+          <div className="ifakb__cons-area">
+            {IFAKB_CONSONANTS.map((row, ri) => (
+              <div key={ri} className="ifakb__cons-row">
+                {row.map((ch, ci) => (
+                  <button key={ci}
+                    className={'ifakb__cbtn' + (ch === 'ṣ' || ch === 'Ṣ' ? ' ifakb__cbtn--sp' : '')}
+                    onClick={() => onInsert(ch)} title={ch === 'ṣ' || ch === 'Ṣ' ? 'Yorùbá SH sound' : ch}>
+                    {ch}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+
+          {/* Utility row */}
+          <div className="ifakb__util-row">
+            <button className="ifakb__ubtn ifakb__ubtn--wide" onClick={() => onInsert(' ')}>Space</button>
+            <button className="ifakb__ubtn" onClick={() => onInsert('\n')}>↵</button>
+            <button className="ifakb__ubtn" onClick={() => onInsert('.')}>.</button>
+            <button className="ifakb__ubtn" onClick={() => onInsert(',')}>，</button>
+            <button className="ifakb__ubtn" onClick={() => onInsert('!')}>!</button>
+            <button className="ifakb__ubtn" onClick={() => onInsert('?')}>?</button>
+          </div>
+        </div>
+      )}
+
+      {/* ── LEARN MODE ─────────────────────────────────────────────── */}
+      {mode === 'learn' && (
+        <div className="ifakb__learn">
+
+          {/* Tone reference cards */}
+          <div className="ifakb__tref">
+            {Object.entries(TONE_META).map(([tone, m]) => (
+              <div key={tone} className="ifakb__tref-card" style={{'--tk': m.color}}>
+                <div className="ifakb__tref-arrow">{m.arrow}</div>
+                <div className="ifakb__tref-name">{m.label}</div>
+                <div className="ifakb__tref-hint">{m.hint}</div>
+                <div className="ifakb__tref-chars">
+                  {IFAKB_VOWELS.map(v => (
+                    <button key={v.name} className="ifakb__tref-char"
+                      onClick={() => speakText(v[tone])} title={'Hear: ' + v[tone]}>
+                      {v[tone]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Exercise tabs */}
+          <div className="ifakb__ex-tabs">
+            {[
+              { id:'recognize', label:'① Recognize' },
+              { id:'mark',      label:'② Mark'      },
+              { id:'words',     label:'③ Words'     },
+            ].map(t => (
+              <button key={t.id}
+                className={'ifakb__ex-tab' + (learnTab === t.id ? ' ifakb__ex-tab--on' : '')}
+                onClick={() => setLearnTab(t.id)}>
+                {t.label}
+              </button>
+            ))}
+            {score.total > 0 && (
+              <span className="ifakb__ex-score">
+                Score: {score.correct}/{score.total}
+                {score.total >= 5 && ' · ' + Math.round(score.correct / score.total * 100) + '%'}
+              </span>
+            )}
+          </div>
+
+          {/* ── Exercise 1: Recognize ─────────────────────────────── */}
+          {learnTab === 'recognize' && (
+            <div className="ifakb__exercise">
+              <p className="ifakb__ex-q">What tone does this character use?</p>
+              <div className="ifakb__ex-display">
+                <span className="ifakb__ex-char">{ex.q}</span>
+                <button className="ifakb__ex-hear" onClick={() => speakText(ex.tts)}>♪ Hear</button>
+              </div>
+              {!exResult && (
+                <div className="ifakb__ex-opts">
+                  {Object.entries(TONE_META).map(([tone, m]) => (
+                    <button key={tone} className="ifakb__ex-opt" style={{'--tk': m.color}}
+                      onClick={() => answerRecognize(tone)}>
+                      <span className="ifakb__ex-opt-arr">{m.arrow}</span>
+                      <span className="ifakb__ex-opt-lbl">{m.label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+              {exResult && (
+                <div className={'ifakb__ex-fb ifakb__ex-fb--' + exResult}>
+                  {exResult === 'correct'
+                    ? `✓ Correct! "${ex.q}" is ${TONE_META[ex.answer].arrow} ${ex.answer} tone.`
+                    : `✗ "${ex.q}" is ${TONE_META[ex.answer].arrow} ${ex.answer} tone — try to remember!`}
+                  <button className="ifakb__ex-next" onClick={nextRecognize}>Next →</button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── Exercise 2: Mark ─────────────────────────────────── */}
+          {learnTab === 'mark' && (
+            <div className="ifakb__exercise">
+              <p className="ifakb__ex-q">
+                Add the{' '}
+                <strong style={{color: TONE_META[markData.tone].color}}>
+                  {TONE_META[markData.tone].arrow} {markData.tone}
+                </strong>{' '}
+                tone to: <strong className="ifakb__ex-base">{markV.mid}</strong>
+              </p>
+              <div className="ifakb__ex-display">
+                <span className="ifakb__ex-char">{markV.mid}</span>
+                <span className="ifakb__ex-arrow">→</span>
+                <span className="ifakb__ex-char ifakb__ex-char--q">?</span>
+                <button className="ifakb__ex-hear" onClick={() => speakText(markV[markData.tone])}>♪ Hear</button>
+              </div>
+              <div className="ifakb__ex-opts">
+                {['low', 'mid', 'high'].map(tone => (
+                  <button key={tone}
+                    className={'ifakb__ex-opt' +
+                      (markResult && tone === markData.tone ? ' ifakb__ex-opt--ok'  : '') +
+                      (markResult === 'wrong' && tone !== markData.tone ? ' ifakb__ex-opt--dim' : '')}
+                    style={{'--tk': TONE_META[tone].color}}
+                    onClick={() => answerMark(tone)}
+                    disabled={!!markResult}>
+                    <span className="ifakb__ex-opt-arr">{TONE_META[tone].arrow}</span>
+                    <span className="ifakb__ex-opt-char">{markV[tone]}</span>
+                  </button>
+                ))}
+              </div>
+              {markResult && (
+                <div className={'ifakb__ex-fb ifakb__ex-fb--' + markResult}>
+                  {markResult === 'correct'
+                    ? `✓ ${markV.mid} + ${TONE_META[markData.tone].label} = ${markV[markData.tone]}`
+                    : `✗ Answer: ${markV[markData.tone]} (${markV.mid} + ${TONE_META[markData.tone].label} tone)`}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── Exercise 3: Words ─────────────────────────────────── */}
+          {learnTab === 'words' && (
+            <div className="ifakb__exercise">
+              <p className="ifakb__ex-q">Study the tones in this Yorùbá word — click each syllable to hear it:</p>
+              <div className="ifakb__word-main">
+                <span className="ifakb__word-text">{word.text}</span>
+                <span className="ifakb__word-gloss">— {word.meaning}</span>
+                <button className="ifakb__ex-hear" onClick={() => speakText(word.text)}>♪ Hear</button>
+              </div>
+              <div className="ifakb__word-syls">
+                {word.syllables.map((syl, si) => {
+                  const tone = detectTone(syl);
+                  const m    = TONE_META[tone];
+                  return (
+                    <div key={si} className="ifakb__syl" style={{'--tk': m.color}}>
+                      <button className="ifakb__syl-btn" onClick={() => speakText(syl)}>{syl}</button>
+                      <div className="ifakb__syl-info">{m.arrow} {m.label}</div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="ifakb__word-nav">
+                <button className="ifakb__wnav-btn"
+                  onClick={() => setWordIdx(i => (i - 1 + IFAKB_WORDS.length) % IFAKB_WORDS.length)}>← Prev</button>
+                <span className="ifakb__wnav-cnt">{(wordIdx % IFAKB_WORDS.length) + 1} / {IFAKB_WORDS.length}</span>
+                <button className="ifakb__wnav-btn"
+                  onClick={() => setWordIdx(i => (i + 1) % IFAKB_WORDS.length)}>Next →</button>
+              </div>
+            </div>
+          )}
+
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ── NbCell ───────────────────────────────────────────────────────────────── */
 function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp, onMoveDown, onChange, isFirst, isLast, apiKey, onNeedKey }) {
   const textareaRef  = useRef(null);  // for Aebajiogbe cursor-position insertion
@@ -2630,6 +3023,7 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
   const isSchematics = cell.type === 'schematics';
   const isOthers     = cell.type === 'others';
   const isAi         = cell.type === 'ai';
+  const isLang       = cell.type === 'lang';
   const isOdu        = cell.type === 'text' && cell.scriptMode === 'aebajiogbe';
   const isAbd        = cell.type === 'text' && cell.scriptMode === 'abd';
   const isSpecial    = cell.type === 'text' && cell.scriptMode === 'special';
@@ -2662,9 +3056,9 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
     });
   }
 
-  // Art, Multimedia, Others, AI, and calculator-mode Math have no terminal run button
+  // Art, Multimedia, Others, AI, Lang, and calculator-mode Math have no terminal run button
   // Schematics: only Mermaid and Graphviz need Run; SVG and ASCII auto-render on change
-  const isRunnable = !isAi && (['code', 'text'].includes(cell.type) ||
+  const isRunnable = !isAi && !isLang && (['code', 'text'].includes(cell.type) ||
     (cell.type === 'schematics' && (!cell.schemTool || cell.schemTool === 'mermaid' || cell.schemTool === 'graphviz')) ||
     (cell.type === 'math' && (!cell.mathTool || cell.mathTool === 'latex')));
 
@@ -3015,6 +3409,23 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
 
         {/* AI — Claude-powered assistant cell */}
         {isAi && <AiCell cell={cell} onChange={onChange} apiKey={apiKey} onNeedKey={onNeedKey} />}
+
+        {/* Lang — IfaNote Keyboard · Yorùbá tone writing & learning */}
+        {isLang && (
+          <>
+            <textarea
+              className="nb-text-input"
+              ref={textareaRef}
+              value={cell.input || ''}
+              onChange={e => onChange({ input: e.target.value })}
+              onFocus={onFocus}
+              placeholder="Type Yorùbá here — use the IfaNote Keyboard below to insert tone-marked characters…"
+              rows={Math.max(2, ((cell.input || '').match(/\n/g) || []).length + 2)}
+              style={{ fontFamily: "'Gentium Plus', 'Noto Serif', serif" }}
+            />
+            <IfaNoteKeyboard onInsert={insertAtCursor} />
+          </>
+        )}
 
         {/* Running dots */}
         {cell.running && (
@@ -4201,6 +4612,7 @@ function App({ onLogout, noteUser }) {
           <button className="nb-add-btn nb-add-btn--schematics" onClick={() => addCell('schematics')}>＋ Schem</button>
           <button className="nb-add-btn nb-add-btn--others"     onClick={() => addCell('others')}>＋ Others</button>
           <button className="nb-add-btn" style={{'--nb-add-clr':'#14b8d4'}} onClick={() => addCell('ai')}>＋ AI</button>
+          <button className="nb-add-btn nb-add-btn--lang" onClick={() => addCell('lang')}>＋ Lang</button>
         </div>
 
         <div className="env-topbar__right">
@@ -4340,6 +4752,7 @@ function App({ onLogout, noteUser }) {
           <button className="nb-add-inline nb-add-inline--schematics" onClick={() => addCell('schematics')}>+ Schematics</button>
           <button className="nb-add-inline nb-add-inline--others"     onClick={() => addCell('others')}>+ Others</button>
           <button className="nb-add-inline" style={{'--nb-add-clr':'#14b8d4'}} onClick={() => addCell('ai')}>+ AI</button>
+          <button className="nb-add-inline nb-add-inline--lang" onClick={() => addCell('lang')}>+ Lang</button>
         </div>
 
         <div className="nb-footer-note">

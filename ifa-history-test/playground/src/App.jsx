@@ -1075,6 +1075,46 @@ function ScarificationSection() {
   );
 }
 
+// ─── LANGUAGE BRIDGE ─────────────────────────────────────────────────────────
+
+function LangBridge() {
+  return (
+    <div className="lang-bridge" role="complementary" aria-label="Explore Ilẹ́fẹ̀ Languages">
+      <div className="lang-bridge__inner">
+        <div className="lang-bridge__left">
+          <div className="lang-bridge__sigil" aria-hidden="true">
+            <span className="lang-bridge__sigil-top">Èdè</span>
+            <span className="lang-bridge__sigil-bot">ẹ̀dè</span>
+          </div>
+          <div className="lang-bridge__text">
+            <span className="lang-bridge__title">
+              Each town speaks its own language
+            </span>
+            <span className="lang-bridge__sub">
+              The etymologies above are encoded in Ìjẹ̀bú, Ọ̀yọ́, Ẹ̀gbá, Rẹ́mọ, and
+              other Ilẹ́fẹ̀ languages — each distinct, each alive. Explore all 44
+              Yorùbá-family language projects on the IFA Internet.
+            </span>
+          </div>
+        </div>
+        <a
+          className="lang-bridge__cta"
+          href="https://ifainternet.org/ifa-language/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open Ilẹ́fẹ̀Langs tab on IfaLang"
+        >
+          <span className="lang-bridge__cta-icon" aria-hidden="true">◌</span>
+          <span className="lang-bridge__cta-body">
+            <span className="lang-bridge__cta-label">Ilẹ́fẹ̀Langs</span>
+            <span className="lang-bridge__cta-sub">Ilẹ́fẹ̀/Yorùbá Languages Project ↗</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
 // ─── FOOTER ──────────────────────────────────────────────────────────────────
 
 function PgFooter() {
@@ -1105,6 +1145,7 @@ function App() {
         <PgTableLabel />
         <IfaTable />
       </main>
+      <LangBridge />
       <ScarificationSection />
       <PgFooter />
     </div>

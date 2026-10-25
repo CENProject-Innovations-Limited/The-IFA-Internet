@@ -2721,3 +2721,509 @@ body {
   .ifa-binary        { padding: 36px 16px 40px; }
   .ifa-binary__title { font-size: 1.45rem; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   ILẸ́FẸ̀LANGS — Ilẹ́fẹ̀/Yorùbá Family of Languages Project
+════════════════════════════════════════════════════════════ */
+
+.ilelang {
+  background: var(--bg);
+  color: var(--text);
+  min-height: calc(100vh - var(--header-h));
+}
+
+/* ── Shared section wrapper ── */
+.ilelang-section {
+  padding: 64px 24px;
+}
+.ilelang-section--alt {
+  background: var(--surface);
+}
+.ilelang-section__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.ilelang-section__title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.ilelang-section__title::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: var(--gold);
+  border-radius: 2px;
+  margin-top: 10px;
+  margin-bottom: 28px;
+}
+
+/* ── Hero ── */
+.ilelang-hero {
+  background: linear-gradient(160deg, #080d18 0%, #0b1220 60%, #0d1520 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 72px 24px 64px;
+  position: relative;
+  overflow: hidden;
+}
+.ilelang-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(245,197,24,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(0,200,124,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ilelang-hero__inner {
+  max-width: 860px;
+  margin: 0 auto;
+  position: relative;
+}
+.ilelang-hero__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+  opacity: 0.85;
+}
+.ilelang-hero__title {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+.ilelang-hero__sub {
+  font-size: 1.05rem;
+  color: var(--text-2);
+  margin-bottom: 22px;
+}
+.ilelang-hero__accent {
+  color: var(--gold);
+  font-weight: 700;
+}
+.ilelang-hero__desc {
+  font-size: 1rem;
+  color: var(--text-2);
+  line-height: 1.75;
+  max-width: 720px;
+  margin-bottom: 36px;
+}
+
+/* quote */
+.ilelang-hero__quote {
+  background: rgba(245,197,24,0.05);
+  border-radius: var(--r);
+  padding: 24px 28px;
+  margin-bottom: 28px;
+  border: 1px solid rgba(245,197,24,0.15);
+  position: relative;
+}
+.ilelang-hero__quote-bar {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--gold);
+  border-radius: 4px 0 0 4px;
+}
+.ilelang-hero__quote-text {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+.ilelang-hero__quote-src {
+  font-size: 0.78rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.ilelang-hero__quote-trans {
+  font-size: 0.85rem;
+  color: var(--text-2);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* HQ badge */
+.ilelang-hero__hq {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0,200,124,0.08);
+  border: 1px solid rgba(0,200,124,0.2);
+  border-radius: 30px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  color: #38e8a0;
+}
+.ilelang-hero__hq-label {
+  font-weight: 700;
+  color: #00c87c;
+}
+
+/* ── Aims grid ── */
+.ilelang-aims__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 18px;
+  margin-bottom: 40px;
+}
+.ilelang-aim-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px 20px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.ilelang-aim-card:hover {
+  border-color: var(--border-2);
+  transform: translateY(-2px);
+}
+.ilelang-aim-card__sym {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+.ilelang-aim-card__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.ilelang-aim-card__body {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+/* Àjùmọ̀lò note */
+.ilelang-ajumolo {
+  background: rgba(59,158,255,0.06);
+  border: 1px solid rgba(59,158,255,0.15);
+  border-radius: var(--r);
+  padding: 26px 28px;
+}
+.ilelang-ajumolo__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #7dc3ff;
+  margin-bottom: 12px;
+}
+.ilelang-ajumolo__body {
+  font-size: 0.85rem;
+  color: var(--text-2);
+  line-height: 1.75;
+  margin-bottom: 10px;
+}
+.ilelang-ajumolo__body:last-child { margin-bottom: 0; }
+
+/* ── Language group tabs ── */
+.ilelang-langs__intro {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 820px;
+}
+.ilelang-mono {
+  font-family: 'Courier New', monospace;
+  background: rgba(245,197,24,0.1);
+  color: var(--gold);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.83em;
+}
+
+.ilelang-group-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.ilelang-group-tab {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  border-radius: 30px;
+  padding: 7px 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+  font-family: inherit;
+}
+.ilelang-group-tab:hover {
+  border-color: var(--ig-color, var(--gold));
+  color: var(--text);
+}
+.ilelang-group-tab--active {
+  background: rgba(245,197,24,0.1);
+  border-color: var(--ig-color, var(--gold));
+  color: var(--ig-color, var(--gold));
+}
+
+/* ── Language cards grid ── */
+.ilelang-lang-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.ilelang-lang-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px 18px 16px;
+  transition: border-color 0.18s, transform 0.18s;
+}
+.ilelang-lang-card:hover {
+  border-color: rgba(245,197,24,0.25);
+  transform: translateY(-1px);
+}
+.ilelang-lang-card--featured {
+  border-color: color-mix(in srgb, var(--ig-color, var(--gold)) 35%, transparent);
+  background: color-mix(in srgb, var(--ig-color, var(--gold)) 5%, var(--surface-2));
+}
+.ilelang-lang-card__ede {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 5px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  letter-spacing: 0.01em;
+}
+.ilelang-lang-card__names {
+  font-size: 0.72rem;
+  color: var(--ig-color, var(--gold));
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.01em;
+  line-height: 1.55;
+}
+.ilelang-lang-card__region {
+  font-size: 0.75rem;
+  color: var(--text-2);
+  margin-bottom: 0;
+}
+.ilelang-lang-card__note {
+  font-size: 0.74rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-style: italic;
+}
+
+.ilelang-langs__count {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  text-align: right;
+}
+
+/* ── STEAM grid ── */
+.ilelang-steam__intro {
+  font-size: 0.88rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 780px;
+}
+.ilelang-steam__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+.ilelang-steam-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 20px 16px;
+  text-align: center;
+  transition: border-color 0.18s, transform 0.18s;
+}
+.ilelang-steam-card:hover {
+  border-color: rgba(245,197,24,0.3);
+  transform: translateY(-2px);
+}
+.ilelang-steam-card__letter {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.ilelang-steam-card__word {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.ilelang-steam-card__desc {
+  font-size: 0.74rem;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* ── Community grid ── */
+.ilelang-community__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.ilelang-community-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 22px 20px;
+  transition: border-color 0.18s;
+}
+.ilelang-community-card:hover {
+  border-color: rgba(0,200,124,0.3);
+}
+.ilelang-community-card__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #00c87c;
+  margin-bottom: 10px;
+}
+.ilelang-community-card__desc {
+  font-size: 0.82rem;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+/* ── Responsive ── */
+@media (max-width: 680px) {
+  .ilelang-hero        { padding: 48px 16px 44px; }
+  .ilelang-section     { padding: 44px 16px; }
+  .ilelang-aims__grid  { grid-template-columns: 1fr; }
+  .ilelang-steam__grid { grid-template-columns: repeat(2, 1fr); }
+  .ilelang-group-tab   { font-size: 0.72rem; padding: 6px 12px; }
+  .ilelang-hero__quote-text { font-size: 1.1rem; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   COMPREHENSIVE MOBILE OPTIMIZATION
+════════════════════════════════════════════════════════════ */
+
+/* ── Header: section tabs scroll horizontally on mobile ── */
+@media (max-width: 768px) {
+  :root { --header-h: 120px; }
+
+  .header__top {
+    height: auto;
+    min-height: 52px;
+    padding: 8px 16px;
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
+  .header__brand { flex: 1; }
+  .header__sections {
+    order: 10;
+    width: 100%;
+    flex: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    justify-content: flex-start;
+    gap: 4px;
+    padding: 4px 0 8px;
+  }
+  .header__sections::-webkit-scrollbar { display: none; }
+  .header__sec-btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 0.72rem;
+    padding: 5px 10px;
+  }
+  .header__ext { font-size: 0.72rem; padding: 4px 10px; flex-shrink: 0; }
+  .dev-badge { display: none; }
+}
+
+/* ── Periodic Table: horizontal scroll on mobile ── */
+@media (max-width: 900px) {
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pt-grid { min-width: 560px; }
+  .table-scroll-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 12px 4px;
+    font-size: 0.72rem;
+    color: var(--text-3);
+    letter-spacing: 0.04em;
+  }
+}
+
+/* ── PT Controls: better layout on mobile ── */
+@media (max-width: 768px) {
+  .controls { padding: 8px 16px; }
+  .controls__heading { display: none; }
+  .controls__inner { gap: 8px; }
+  .search { flex: 1; min-width: 100px; }
+  .search__input { width: 100%; }
+  .chips { flex: 1; gap: 4px; }
+  .chip { padding: 4px 9px; font-size: 10px; }
+}
+@media (max-width: 480px) {
+  .controls__inner { flex-wrap: wrap; }
+  .search { width: 100%; flex: none; }
+  .chips { width: 100%; flex: none; }
+  .view-toggle { margin-left: auto; }
+}
+
+/* ── IfaPT Intro stats: tighten on small phones ── */
+@media (max-width: 600px) {
+  .ifapt-intro { padding: 36px 16px 40px; }
+  .ifapt-intro__stat { padding: 12px 20px; }
+  .ifapt-intro__stat-num { font-size: 1.6rem; }
+  .ifapt-intro__expanded { padding: 14px 16px; font-size: 0.88rem; }
+}
+
+/* ── Law detail name on small screens ── */
+@media (max-width: 600px) {
+  .law-detail__name { font-size: 1.9rem; }
+  .law-detail__header { gap: 16px; }
+}
+
+/* ── IfaBinary glyphs on very small phones ── */
+@media (max-width: 420px) {
+  .ifa-binary__glyph--ogbe  { font-size: 2.8rem; }
+  .ifa-binary__glyph--oyeku { font-size: 3.2rem; }
+  .ifa-binary { padding: 28px 14px 32px; }
+}
+
+/* ── PT Gallery: tighten on very small phones ── */
+@media (max-width: 480px) {
+  .ifapt-gallery { padding: 32px 14px 40px; }
+  .ifapt-gallery__inner { gap: 24px; }
+}
+
+/* ── IlẹfeLangs: single-column steam grid on very small phones ── */
+@media (max-width: 420px) {
+  .ilelang-steam__grid { grid-template-columns: 1fr; }
+  .ilelang-lang-grid { grid-template-columns: 1fr; }
+  .ilelang-community__grid { grid-template-columns: 1fr; }
+}
+
+/* ── App footer: padding on mobile ── */
+@media (max-width: 480px) {
+  .app-footer__inner { padding: 0 16px; }
+}

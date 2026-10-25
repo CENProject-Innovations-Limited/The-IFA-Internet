@@ -130,6 +130,7 @@ const ALL_PROJECTS = [
   { name:'IEMbok',              sub:'IFA Energy Management BOK',           color:'#00d4ff', cat:'Knowledge',   href:'../iembok/' },
   { name:'Ifa Labs',            sub:'IFA Research & Experiments',          color:'#f0920c', cat:'Technology',  href:'../ifa-labs/' },
   { name:'Ifa Language',        sub:'IfaLang · Language of Everything',    color:'#f5c518', cat:'Arts',        href:'../ifa-lang/' },
+  { name:'Ilẹ́fẹ̀Langs',        sub:'Ilẹ́fẹ̀/Yorùbá Family of Languages · 44 Languages', color:'#00c87c', cat:'Arts', href:'../ifa-lang/' },
   { name:'Ifa Keyboard',        sub:'IfaKeyboard · Keyboarding in IfaLang · IfaLang Keyboard', color:'#00d9b8', cat:'Technology', href:'../ifa-keyboard/' },
   { name:'Ifa Mouse',           sub:'IfaMouse · Ifa Input Device · IfaPeripheral',             color:'#e9498a', cat:'Technology', href:'../ifa-mouse/' },
   { name:'Ifa Printer',         sub:'IfaPrinter · Ifa Print Technology · IfaOutput',           color:'#8b5cf6', cat:'Technology', href:'../ifa-printer/' },
@@ -640,6 +641,85 @@ function AllProjectsSection() {
   );
 }
 
+// ─── ILẸ́FẸ̀LANGS SPOTLIGHT ──────────────────────────────────────────────────
+
+const ILELANG_GROUPS = [
+  { label:'NW Yorùbá',      count:'8 languages', color:'#f5c518' },
+  { label:'Central Yorùbá', count:'6 languages', color:'#00d4ff' },
+  { label:'SE Yorùbá',      count:'8 languages', color:'#00c87c' },
+  { label:'NE Yorùbá',      count:'8 languages', color:'#f0920c' },
+  { label:'SW Yorùbá',      count:'6 languages', color:'#8b5cf6' },
+  { label:'Diaspora',       count:'1 language',  color:'#e9498a' },
+];
+
+function IlefeLangsSpotlight() {
+  return (
+    <section className="ip-ilelang" aria-labelledby="ilelang-title">
+      <div className="ip-ilelang__glow" aria-hidden="true" />
+      <div className="ip-container">
+        <div className="ip-ilelang__inner">
+
+          {/* ── Left: text ── */}
+          <div className="ip-ilelang__text">
+            <div className="ip-eyebrow">New on the IFA Internet</div>
+            <h2 id="ilelang-title" className="ip-ilelang__title">
+              Ilẹ́fẹ̀ Languages Project
+            </h2>
+            <p className="ip-ilelang__sub">
+              Ilẹ́fẹ̀Langs · Ilẹ́fẹ̀/Yorùbá Family of Languages
+            </p>
+            <p className="ip-ilelang__body">
+              An open-source family of language projects dedicated to preserving the indigenous
+              languages of the region Ifa calls <strong>Ilẹ̀ Ifẹ̀ (Alẹ̀ Ufẹ̀)</strong> — known
+              today as Yorùbáland — and developing language-first STEAM programmes, games, and
+              technologies for each language. <strong>44 individual language projects</strong>{' '}
+              across 6 dialect groups, hosted on the IFA Internet.
+            </p>
+            <blockquote className="ip-ilelang__quote">
+              <span className="ip-ilelang__quote-bar" aria-hidden="true" />
+              <span>
+                <em>Èdè Ẹ̀gbá ò jọ tọ̀yọ́; èdè Ọ̀yọ́ ò jọ tẹ̀gbà</em>
+                <cite className="ip-ilelang__cite"> — Odù Ifá</cite>
+              </span>
+            </blockquote>
+            <a
+              href="https://ifainternet.org/ifa-language/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ip-btn ip-btn--primary ip-ilelang__cta"
+            >
+              Explore Ilẹ́fẹ̀Langs ↗
+            </a>
+          </div>
+
+          {/* ── Right: dialect group chips ── */}
+          <div className="ip-ilelang__aside">
+            <div className="ip-ilelang__aside-label">6 Dialect Groups · 44 Languages</div>
+            <div className="ip-ilelang__chips">
+              {ILELANG_GROUPS.map((g, i) => (
+                <div key={i} className="ip-ilelang__chip" style={{ '--gc': g.color }}>
+                  <span className="ip-ilelang__chip-dot" aria-hidden="true" />
+                  <span className="ip-ilelang__chip-label">{g.label}</span>
+                  <span className="ip-ilelang__chip-count">{g.count}</span>
+                </div>
+              ))}
+            </div>
+            <a
+              href="https://ifainternet.org/ifa-language/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ip-ilelang__aside-link"
+            >
+              IfaLang · Ilẹ́fẹ̀Langs tab ↗
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 
 function Footer() {
@@ -689,6 +769,7 @@ function App() {
         <FeaturedSection />
         <GamesSection />
         <AcademySection />
+        <IlefeLangsSpotlight />
         <AllProjectsSection />
       </main>
       <Footer />

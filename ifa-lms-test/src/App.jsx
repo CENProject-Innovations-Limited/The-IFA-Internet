@@ -27,11 +27,11 @@ function saveState(data) {
 
 const SEED_USERS = [
   { id: 'u0', username: 'admin',    password: 'OrisaIfa22233.',    name: 'IFA Academy Admin',    role: 'admin',   status: 'approved', program: null,     joinDate: '2026-01-01' },
-  { id: 'u1', username: 'adewale',  password: 'student123', name: 'Adewale Okafor',       role: 'student', status: 'approved', program: 'adults', joinDate: '2026-04-10', enrolled: ['c1', 'c3', 'c7', 'c8'] },
+  { id: 'u1', username: 'adewale',  password: 'student123', name: 'Adewale Okafor',       role: 'student', status: 'approved', program: 'adults', joinDate: '2026-04-10', enrolled: ['c1', 'c3', 'c7', 'c8', 'c14'] },
   { id: 'u2', username: 'chiamaka', password: 'student123', name: 'Chiamaka Nwosu',       role: 'student', status: 'pending',  program: 'adults', joinDate: '2026-05-10', enrolled: [] },
-  { id: 'u3', username: 'tayo',     password: 'student123', name: 'Tayo Adeleke',         role: 'student', status: 'approved', program: 'kids',   joinDate: '2026-03-15', enrolled: ['c2', 'c4', 'c5'] },
+  { id: 'u3', username: 'tayo',     password: 'student123', name: 'Tayo Adeleke',         role: 'student', status: 'approved', program: 'kids',   joinDate: '2026-03-15', enrolled: ['c2', 'c4', 'c5', 'c14'] },
   { id: 'u4', username: 'emeka',    password: 'student123', name: 'Emeka Obi',            role: 'student', status: 'pending',  program: 'kids',   joinDate: '2026-05-14', enrolled: [] },
-  { id: 'u5', username: 'ngozi',    password: 'student123', name: 'Ngozi Adeyemi',        role: 'student', status: 'approved', program: 'adults', joinDate: '2026-02-20', enrolled: ['c1', 'c9'] },
+  { id: 'u5', username: 'ngozi',    password: 'student123', name: 'Ngozi Adeyemi',        role: 'student', status: 'approved', program: 'adults', joinDate: '2026-02-20', enrolled: ['c1', 'c9', 'c14'] },
 ];
 
 const SEED_COURSES = [
@@ -1073,6 +1073,201 @@ const SEED_COURSES = [
       },
     ]
   },
+
+  // ── IFAYOR COURSES (Ifá Yorùbá Language Platform) ────────────────────────
+
+  {
+    id: 'c14', title: 'Introduction to Ifá Yorùbá (IfaYor)', subtitle: 'Ìmọ̀ Ìjìnlẹ̀ Èdè Yorùbá Inú Odù Ifá Àkọ́bẹ̀rẹ̀',
+    program: 'general', color: '#4ade80', sym: 'Ẹ',
+    level: 'Beginner', duration: '3 months',
+    description: 'An introduction to Ifá Yorùbá (IfaYor) — the deep study of Yorùbá language rooted in the Odù Ifá. Covers Yorùbá writing systems, tonal marks (Àmì Ohùn), the seven oral vowels, and the foundations of Yorùbá language technology.',
+    weeks: [
+      {
+        id: 'yor_w1', order: 0, title: 'Chapter 0: Introduction to IfaYor & Yorùbá Writing Systems',
+        description: 'Overview of IfaYor and the two Yorùbá writing systems — the native Aebajiogbe script and the Latin-based ABD system.',
+        materials: [
+          {
+            id: 'yor1', type: 'text', title: 'Yorùbá Writing Systems — Overview', duration: '10 min read',
+            content: [
+              { type: 'header', text: 'Yorùbá Writing Systems' },
+              { type: 'paragraph', text: 'Yorùbá has two major writing systems — a native script rooted in Ifa tradition, and a widely used Latin-based system. Understanding both is foundational to the study of IfaYor.' },
+              { type: 'header', text: 'Yorùbá Native Writing System' },
+              { type: 'paragraph', text: 'The Aebajiogbe (The Oduduwa Script, Òhun Odùduwà) and The Odù Ifá. The native writing tradition of the Yorùbá people is inseparable from the Odù Ifá — the sacred corpus of Ifa knowledge. The Aebajiogbe is the Oduduwa Script: the original writing system associated with the civilisation of Odùduwà, rooted in the symbols, patterns, and structure of the 256 Odù Ifá.' },
+              { type: 'highlight', text: 'The Odù Ifá is not only an oral tradition — it is a written, encoded, and mathematical knowledge system. Learning to read the Odù Ifá is a core skill in IfaYor.' },
+              { type: 'header', text: 'Latin-Based Yorùbá Writing System' },
+              { type: 'paragraph', text: 'The ABD System (Yorùbá alphabets, ABD) is the Latin-based writing system used for modern Yorùbá. It employs the standard Latin alphabet with additional letters (ẹ, ọ, ṣ, gb) and tonal marks (Àmì Ohùn) to represent the full sound system of Yorùbá.' },
+              { type: 'list', items: [
+                'The ABD system is the standard for modern Yorùbá education, publishing, and technology',
+                'It uses special letters: ẹ (open e), ọ (open o), ṣ (sh sound), gb (labial-velar stop)',
+                'Tonal marks (Àmì Ohùn) are essential — without them, many Yorùbá words are ambiguous',
+                'IfaYor teaches both the structure of the ABD system and the deeper Ifa writing tradition',
+              ]},
+              { type: 'quote', text: 'To write Yorùbá correctly is to honour the intelligence embedded in the language — every tone mark carries information that cannot be lost.', attribution: 'IfaYor' },
+            ]
+          },
+        ]
+      },
+      {
+        id: 'yor_w2', order: 1, title: 'Chapter 1: ÀMÌ OHÙN — Yorùbá Tonal Marks',
+        description: 'A complete introduction to Yorùbá tonal marks (Àmì Ohùn) — the three basic tones, the seven oral vowels, and how tones change meaning.',
+        materials: [
+          {
+            id: 'yor2', type: 'text', title: 'What are Àmì Ohùn? — The Three Basic Tones', duration: '15 min read',
+            content: [
+              { type: 'header', text: 'What are Àmì Ohùn?' },
+              { type: 'paragraph', text: 'Àmì ohùn means tone marks — tonal marks. In Yorùbá, the tone of a vowel can change the meaning of a word. Yorùbá is a tonal language with three basic tones.' },
+              { type: 'list', items: [
+                'Ohùn Òkè — High tone → ´ (acute accent)',
+                'Ohùn Àárín — Mid tone → usually unmarked',
+                'Ohùn Ìsàlẹ̀ — Low tone → ` (grave accent)',
+              ]},
+              { type: 'highlight', text: 'Remember: in Yorùbá, the tone mark goes on the vowel. High: á é ẹ́ í ó ọ́ ú | Mid: a e ẹ i o ọ u | Low: à è ẹ̀ ì ò ọ̀ ù' },
+              { type: 'header', text: 'Ohùn Òkè — High Tone' },
+              { type: 'paragraph', text: 'The high tone is written with an acute accent (´). Listen for a relatively higher pitch when pronouncing the vowel. High-tone vowels: á é ẹ́ í ó ọ́ ú.' },
+              { type: 'list', items: [
+                'àgùntàn — sheep (notice: multiple tones in one word)',
+                'àkàrà — bean cake',
+                'ọba — king',
+                'ilé — house',
+                'ọ́jà — market',
+                'ìwé — book',
+              ]},
+              { type: 'header', text: 'Ohùn Àárín — Mid Tone' },
+              { type: 'paragraph', text: 'The mid tone normally has no tone mark. Examples: baba, ile, owo. For beginners, remember: No mark = Mid tone.' },
+              { type: 'highlight', text: 'Important: do not assume that an unmarked vowel is always pronounced exactly the same way in every context. Yorùbá orthography and tone marking interact with grammatical and phonological rules.' },
+              { type: 'header', text: 'Ohùn Ìsàlẹ̀ — Low Tone' },
+              { type: 'paragraph', text: 'The low tone is written with a grave accent (`). The voice and pitch are relatively lower. Low-tone vowels: à è ẹ̀ ì ò ọ̀ ù.' },
+              { type: 'highlight', text: 'Think of tones like musical notes: HIGH → rising, MID → level, LOW → falling. The same basic vowel a can appear with three different tones: á (high) — a (mid) — à (low).' },
+              { type: 'quote', text: 'Tone is an important part of Yorùbá pronunciation and meaning. Do not learn Yorùbá words without learning their tones.', attribution: 'IfaYor' },
+            ]
+          },
+          {
+            id: 'yor3', type: 'text', title: 'The 7 Yorùbá Oral Vowels — E vs Ẹ and O vs Ọ', duration: '12 min read',
+            content: [
+              { type: 'header', text: 'The 7 Yorùbá Oral Vowels' },
+              { type: 'paragraph', text: 'Yorùbá has seven oral vowels: a, e, ẹ, i, o, ọ, u. Each can carry the three basic tones.' },
+              { type: 'list', items: [
+                'High: á é ẹ́ í ó ọ́ ú',
+                'Mid:  a  e  ẹ  i  o  ọ  u',
+                'Low:  à  è  ẹ̀  ì  ò  ọ̀  ù',
+              ]},
+              { type: 'header', text: 'Important: E vs Ẹ and O vs Ọ' },
+              { type: 'paragraph', text: 'Yorùbá has some letters that English does not have. e and ẹ are different vowels. o and ọ are different vowels. Therefore e, ẹ, o, and ọ are four different vowel symbols — and each carries its own tone marks.' },
+              { type: 'highlight', text: 'e ≠ ẹ and o ≠ ọ. These are distinct sounds in Yorùbá. Tone marks on each: é / è (e), ẹ́ / ẹ̀ (ẹ), ó / ò (o), ọ́ / ọ̀ (ọ).' },
+              { type: 'header', text: 'Tone-Mark Illustration' },
+              { type: 'paragraph', text: 'Think of the three tones as three levels: HIGH (á ↑ raised pitch), MID (a → level pitch), LOW (à ↓ lowered pitch). The marks help us represent these tones in writing.' },
+              { type: 'header', text: 'Say It Aloud — Practice All 7 Vowels' },
+              { type: 'paragraph', text: 'Practice each vowel in all three tones. Try to make the pitch distinction clear:' },
+              { type: 'list', items: [
+                'á — a — à',
+                'é — e — è',
+                'ẹ́ — ẹ — ẹ̀',
+                'í — i — ì',
+                'ó — o — ò',
+                'ọ́ — ọ — ọ̀',
+                'ú — u — ù',
+              ]},
+            ]
+          },
+          {
+            id: 'yor4', type: 'text', title: 'Tones in Yorùbá Words — Why Tones Matter', duration: '10 min read',
+            content: [
+              { type: 'header', text: 'Yorùbá Words: Look at the Tones!' },
+              { type: 'paragraph', text: 'In Yorùbá, the tone pattern of a word is as important as its letters. Different tone patterns on the same letters produce different words with different meanings.' },
+              { type: 'list', items: [
+                'ọba — king | ọbà — a different tonal sequence',
+                'owó — money | òwò — trade / business',
+                'ọ̀rọ̀ — matter / issue / speech | òrò — a different tonal form',
+              ]},
+              { type: 'highlight', text: 'The lesson is simple: do not learn Yorùbá words without learning their tones. The vowels may look similar, but the tone patterns distinguish the words.' },
+              { type: 'header', text: 'Why are Tones Important?' },
+              { type: 'paragraph', text: 'Tones help us pronounce Yorùbá correctly, distinguish words that look the same but mean different things, read and write Yorùbá accurately, and understand spoken Yorùbá.' },
+              { type: 'list', items: [
+                'Pronounce Yorùbá correctly',
+                'Distinguish words that share the same letters but carry different meanings',
+                'Read Yorùbá accurately',
+                'Understand spoken Yorùbá',
+                'Write Yorùbá properly',
+                'Preserve meanings when documenting Yorùbá knowledge',
+                'Develop Yorùbá language technologies — dictionaries, speech recognition, and text-to-speech systems',
+              ]},
+              { type: 'quote', text: 'This is especially important for IfaYor: our goal is not only to speak Yorùbá, but also to understand, document, teach, and build technologies for the language.', attribution: 'IfaYor' },
+            ]
+          },
+          {
+            id: 'yor5', type: 'text', title: 'ÀMÌ OHÙN — Practice Exercises', duration: '20 min activity',
+            content: [
+              { type: 'header', text: 'Practice 1 — Identify the Tone' },
+              { type: 'paragraph', text: 'Identify each vowel as HIGH, MID, or LOW:' },
+              { type: 'list', items: [
+                'á = __________',
+                'a = __________',
+                'à = __________',
+                'ó = __________',
+                'o = __________',
+                'ò = __________',
+                'í = __________',
+                'i = __________',
+                'ì = __________',
+              ]},
+              { type: 'header', text: 'Practice 2 — Add the High Tone Mark' },
+              { type: 'paragraph', text: 'Add the appropriate high tone mark (´) to each vowel:' },
+              { type: 'list', items: ['a → ______', 'e → ______', 'ẹ → ______', 'i → ______', 'o → ______', 'ọ → ______', 'u → ______'] },
+              { type: 'header', text: 'Practice 3 — Add the Low Tone Mark' },
+              { type: 'paragraph', text: 'Add the appropriate low tone mark (`) to each vowel:' },
+              { type: 'list', items: ['a → ______', 'e → ______', 'ẹ → ______', 'i → ______', 'o → ______', 'ọ → ______', 'u → ______'] },
+              { type: 'header', text: 'Practice 4 — Match the Tone to Its Mark' },
+              { type: 'paragraph', text: 'Match each tone with its mark (A. High, B. Mid, C. Low):' },
+              { type: 'list', items: ['´ → ___', 'No mark → ___', '` → ___'] },
+              { type: 'header', text: 'Practice 5 — Sort the Vowels' },
+              { type: 'paragraph', text: 'Put these vowels into three groups — HIGH, MID, LOW:' },
+              { type: 'highlight', text: 'Vowels to sort: á, ẹ̀, o, ì, ú, a, ọ́, è, e, ò, i, à' },
+              { type: 'header', text: 'Practice 6 — Read Aloud' },
+              { type: 'paragraph', text: 'Read these slowly and clearly. Try to hear and produce the difference between High → Mid → Low:' },
+              { type: 'list', items: [
+                'á — a — à',
+                'é — e — è',
+                'ẹ́ — ẹ — ẹ̀',
+                'í — i — ì',
+                'ó — o — ò',
+                'ọ́ — ọ — ọ̀',
+                'ú — u — ù',
+              ]},
+            ]
+          },
+          {
+            id: 'yor6', type: 'text', title: 'IfaYor Creator Challenge & Key Takeaways', duration: '25 min activity',
+            content: [
+              { type: 'header', text: 'Home Challenge' },
+              { type: 'paragraph', text: 'Find 10 Yorùbá words around you — from names, objects, foods, places, animals, family terms, and greetings. Write each word with its correct Yorùbá spelling and tone marks, then identify the tone on each vowel.' },
+              { type: 'highlight', text: 'Example: ilé — house. Identify the tone on each vowel: i (mid), l (consonant), é (high).' },
+              { type: 'header', text: 'IfaYor Creator Challenge' },
+              { type: 'paragraph', text: 'Now go beyond memorisation. Create one of the following:' },
+              { type: 'list', items: [
+                'A Yorùbá tone-mark game',
+                'A Yorùbá tone-mark poster',
+                'A Yorùbá tone-mark flashcard app',
+                'A Python program that identifies Yorùbá tone marks',
+                'A song teaching High–Mid–Low tones',
+                'A short animation explaining Yorùbá tones',
+                'A bilingual Yorùbá-English story containing correctly marked Yorùbá words',
+              ]},
+              { type: 'highlight', text: 'Yorùbá + Technology + Creativity = IfaYor!' },
+              { type: 'header', text: 'Key Takeaway' },
+              { type: 'paragraph', text: 'Remember the three basic Yorùbá tones:' },
+              { type: 'list', items: [
+                'OHÙN ÒKÈ → ´ → HIGH',
+                'OHÙN ÀÁRÍN → no mark → MID',
+                'OHÙN ÌSÀLẸ̀ → ` → LOW',
+              ]},
+              { type: 'highlight', text: 'á — a — à | High — Mid — Low. Àmì ohùn is not decoration. It carries information.' },
+              { type: 'quote', text: 'Ẹ kọ́ Yorùbá. Ẹ ka Yorùbá. Ẹ sọ Yorùbá. Ẹ ṣẹ̀dá pẹ̀lú Yorùbá. — Learn Yorùbá. Read Yorùbá. Speak Yorùbá. Create with Yorùbá.', attribution: 'IfaYor' },
+            ]
+          },
+        ]
+      },
+    ]
+  },
 ];
 
 const SEED_PROGRESS = {
@@ -1632,7 +1827,7 @@ function MobileStudentNav({ activeView, setStudentView, onLogout, user }) {
           </button>
         ))}
         <button className="mobile-nav__item" onClick={onLogout}>
-          <span className="mobile-nav__sym">⏻</span>
+          <span className="mobile-nav__sym"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M10 3v7"/><path d="M6.4 5.4A7 7 0 1 0 13.6 5.4"/></svg></span>
           <span className="mobile-nav__label">Sign out</span>
         </button>
       </div>
@@ -1686,7 +1881,7 @@ function MobileAdminNav({ activeView, setAdminView, onLogout, pendingCount }) {
           </button>
         ))}
         <button className="mobile-nav__item" onClick={onLogout}>
-          <span className="mobile-nav__sym">⏻</span>
+          <span className="mobile-nav__sym"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M10 3v7"/><path d="M6.4 5.4A7 7 0 1 0 13.6 5.4"/></svg></span>
           <span className="mobile-nav__label">Sign out</span>
         </button>
       </div>
@@ -1758,7 +1953,7 @@ function StudentSidebar({ activeView, setStudentView, user, onLogout }) {
           <div className="sidebar__name">{user.name}</div>
           <div className="sidebar__prog">{user.program === 'kids' ? 'Kids Programme' : user.program === 'professionals' ? 'Professionals Programme' : 'Adults Programme'}</div>
         </div>
-        <button className="sidebar__logout" onClick={onLogout} title="Sign out">⏻</button>
+        <button className="sidebar__logout" onClick={onLogout} title="Sign out"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M10 3v7"/><path d="M6.4 5.4A7 7 0 1 0 13.6 5.4"/></svg></button>
       </div>
     </aside>
   );
@@ -1860,8 +2055,8 @@ function StudentHome({ user, courses, completedMats, igaScores, setStudentView, 
                 <div className="course-card__top">
                   <span className="course-card__sym">{c.sym}</span>
                   <div className="course-card__badges">
-                    <span className={`badge ${c.program === 'kids' ? 'badge--kids' : c.program === 'professionals' ? 'badge--professionals' : 'badge--adults'}`}>
-                      {c.program === 'kids' ? 'Kids' : c.program === 'professionals' ? 'Professionals' : 'Adults'}
+                    <span className={`badge ${c.program === 'kids' ? 'badge--kids' : c.program === 'professionals' ? 'badge--professionals' : c.program === 'general' ? 'badge--general' : 'badge--adults'}`}>
+                      {c.program === 'kids' ? 'Kids' : c.program === 'professionals' ? 'Professionals' : c.program === 'general' ? 'All Programs' : 'Adults'}
                     </span>
                     {c.level && <span className="badge badge--level">{c.level}</span>}
                   </div>
@@ -1916,7 +2111,7 @@ function StudentHome({ user, courses, completedMats, igaScores, setStudentView, 
 function StudentCourseList({ user, courses, completedMats, setStudentView, setSelectedCourse }) {
   const [filter, setFilter] = useState('all');
   const enrolled = courses.filter(c => (user.enrolled || []).includes(c.id));
-  const filtered = filter === 'all' ? enrolled : enrolled.filter(c => c.program === filter);
+  const filtered = filter === 'all' ? enrolled : enrolled.filter(c => c.program === filter || c.program === 'general');
 
   return (
     <div className="s-courses">
@@ -2283,7 +2478,7 @@ function AdminSidebar({ activeView, setAdminView, onLogout, pendingCount }) {
           <div className="sidebar__name">Admin</div>
           <div className="sidebar__prog">IFA Academy</div>
         </div>
-        <button className="sidebar__logout" onClick={onLogout} title="Sign out">⏻</button>
+        <button className="sidebar__logout" onClick={onLogout} title="Sign out"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M10 3v7"/><path d="M6.4 5.4A7 7 0 1 0 13.6 5.4"/></svg></button>
       </div>
     </aside>
   );
