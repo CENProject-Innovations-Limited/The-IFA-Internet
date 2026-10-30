@@ -194,7 +194,7 @@ const CELL_CLR = {
   odu: '#10b981', text: '#3b9eff',
   art: '#f43f5e', multimedia: '#8b5cf6',
   math: '#06b6d4', schematics: '#84cc16', others: '#94a3b8',
-  ai: '#a855f7', lang: '#f5c518',
+  ai: '#a855f7', lang: '#f5c518', ifaprog: '#00c896',
 };
 
 /* ── Cell badge labels ────────────────────────────────────────────────────── */
@@ -202,7 +202,7 @@ const CELL_BADGE = {
   odu: 'ODU', text: 'TEXT',
   art: '🎨 ART', multimedia: '▶ MEDIA',
   math: '∑ MATH', schematics: '⊞ SCHEM', others: '… OTHERS',
-  ai: '✦ AI', lang: '🗣 LANG · Experimental',
+  ai: '✦ AI', lang: '🗣 LANG · Experimental', ifaprog: '◈ IFAPROG',
 };
 
 /* ── Language config for code cells ──────────────────────────────────────── */
@@ -1037,6 +1037,18 @@ function exportIfa(cells, title) {
       const response = c.output?.text ? `Response: ${c.output.text}` : '(no response)';
       return `${hdr}\n${prompt}\n${response}\n`;
     }
+    if (c.type === 'ifaprog') {
+      const parts = [
+        c.oduRef   ? `Odu: ${c.oduRef}`             : '',
+        c.domain   ? `Domain: ${c.domain}`           : '',
+        c.progType ? `Type: ${c.progType}`           : '',
+        c.theme    ? `\n① Theme:\n${c.theme}`        : '',
+        c.ifaInput ? `\n② Ifa Knowledge:\n${c.ifaInput}` : '',
+        c.transform? `\n③ Transformation:\n${c.transform}` : '',
+        c.output   ? `\n④ Output:\n${c.output}`      : '',
+      ].filter(Boolean).join('\n');
+      return `${hdr}\n${parts || '(empty)'}\n`;
+    }
     return `${hdr}\n${c.input}\n`;
   });
   const blob = new Blob([header + body.join('\n')], { type: 'text/plain' });
@@ -1159,6 +1171,17 @@ function buildExportBody(cells, format = 'pdf') {
         return `${hdr}<ul style="padding-left:20px">${items}</ul>`;
       }
       return `${hdr}<p>${esc(c.input || '').replace(/\n/g, '<br>')}</p>`;
+    }
+    if (c.type === 'ifaprog') {
+      const meta = [
+        c.oduRef   ? `<strong>Odu:</strong> ${esc(c.oduRef)}`     : '',
+        c.domain   ? `<strong>Domain:</strong> ${esc(c.domain)}`   : '',
+        c.progType ? `<strong>Type:</strong> ${esc(c.progType)}`   : '',
+      ].filter(Boolean).join(' &nbsp;·&nbsp; ');
+      const sec = (label, val) => val
+        ? `<p style="margin:6pt 0 2pt;font-size:9pt;font-weight:bold;color:#006655;text-transform:uppercase">${label}</p><p style="margin:0 0 8pt">${esc(val).replace(/\n/g,'<br>')}</p>`
+        : '';
+      return `${hdr}${meta ? `<p style="margin:4pt 0 8pt;font-size:10pt">${meta}</p>` : ''}${sec('① Theme / Problem', c.theme)}${sec('② Ifa Knowledge Input', c.ifaInput)}${sec('③ Transformation', c.transform)}${sec('④ Output / Result', c.output)}`;
     }
     return `${hdr}<p>${esc(c.input || '')}</p>`;
   }).join('\n');
@@ -3024,6 +3047,7 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
   const isOthers     = cell.type === 'others';
   const isAi         = cell.type === 'ai';
   const isLang       = cell.type === 'lang';
+  const isIfaProg    = cell.type === 'ifaprog';
   const isOdu        = cell.type === 'text' && cell.scriptMode === 'aebajiogbe';
   const isAbd        = cell.type === 'text' && cell.scriptMode === 'abd';
   const isSpecial    = cell.type === 'text' && cell.scriptMode === 'special';
@@ -3056,9 +3080,9 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
     });
   }
 
-  // Art, Multimedia, Others, AI, Lang, and calculator-mode Math have no terminal run button
+  // Art, Multimedia, Others, AI, Lang, IfaProg, and calculator-mode Math have no terminal run button
   // Schematics: only Mermaid and Graphviz need Run; SVG and ASCII auto-render on change
-  const isRunnable = !isAi && !isLang && (['code', 'text'].includes(cell.type) ||
+  const isRunnable = !isAi && !isLang && !isIfaProg && (['code', 'text'].includes(cell.type) ||
     (cell.type === 'schematics' && (!cell.schemTool || cell.schemTool === 'mermaid' || cell.schemTool === 'graphviz')) ||
     (cell.type === 'math' && (!cell.mathTool || cell.mathTool === 'latex')));
 
@@ -3427,6 +3451,9 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
           </>
         )}
 
+        {/* IfaProgram — structured Ifa Program writing cell */}
+        {isIfaProg && <IfaProgCell cell={cell} onChange={onChange} />}
+
         {/* Running dots */}
         {cell.running && (
           <div className="nb-cell__running-bar">
@@ -3609,7 +3636,7 @@ function NotebookSidebar({ notebooks, activeId, onSelect, onCreate, onRename, on
 const PRESENT_TYPE_LABEL = {
   odu: 'Odu Ifa', text: 'Text', code: 'Code', math: 'Math',
   schematics: 'Diagram', art: 'Ifagram', multimedia: 'Media',
-  ai: 'AI', others: 'Note',
+  ai: 'AI', others: 'Note', ifaprog: 'Ifa Program',
 };
 
 function PresentationMode({ cells, title, onExit }) {
@@ -4038,6 +4065,432 @@ function ShareDialog({ url, onClose }) {
   );
 }
 
+/* ── IfaProgram Cell ──────────────────────────────────────────────────────── */
+const IFAPROG_TYPES = [
+  { value: 'general',     label: 'General' },
+  { value: 'computer',    label: 'Computer Program' },
+  { value: 'genetic',     label: 'Genetic Program' },
+  { value: 'bio',         label: 'Bio-Program (Ọ̀rọ̀ lílò)' },
+  { value: 'mathmodel',   label: 'Mathematical Model' },
+  { value: 'social',      label: 'Social Program' },
+  { value: 'economic',    label: 'Economic Model' },
+  { value: 'linguistic',  label: 'Linguistic Program' },
+  { value: 'engineering', label: 'Engineering Program' },
+  { value: 'spiritual',   label: 'Spiritual / Metaphysical' },
+];
+
+const IFAPROG_SECTIONS = [
+  { key: 'theme',     label: '① Theme / Problem',      placeholder: 'State the theme, problem, or challenge this Ifa Program addresses…' },
+  { key: 'ifaInput',  label: '② Ifa Knowledge Input',  placeholder: 'Enter the Odu wisdom, principle, or teaching being applied — verse, edict, or narrative…' },
+  { key: 'transform', label: '③ Transformation',        placeholder: 'Describe how the Ifa wisdom maps into the target domain — the translation logic…' },
+  { key: 'output',    label: '④ Output / Result',       placeholder: 'State the result, model, application, or system produced by this Ifa Program…' },
+];
+
+function IfaProgCell({ cell, onChange }) {
+  const [recording,  setRecording]  = useState(false);
+  const [recTime,    setRecTime]    = useState(0);
+  const [liveText,   setLiveText]   = useState('');
+  const [fileKey,    setFileKey]    = useState(0);
+  const [recError,   setRecError]   = useState('');
+  const mediaRecRef  = useRef(null);
+  const chunksRef    = useRef([]);
+  const timerRef     = useRef(null);
+  const recognRef    = useRef(null);
+  const fileInputRef = useRef(null);
+
+  useEffect(() => () => {
+    clearInterval(timerRef.current);
+    try { if (mediaRecRef.current?.state !== 'inactive') mediaRecRef.current.stop(); } catch(e) {}
+    try { recognRef.current?.stop(); } catch(e) {}
+  }, []);
+
+  function startRec() {
+    setRecError('');
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setRecError('Microphone not available in this browser.'); return;
+    }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+      chunksRef.current = [];
+      const mime = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4';
+      const rec = new MediaRecorder(stream, { mimeType: mime });
+      mediaRecRef.current = rec;
+      rec.ondataavailable = e => e.data.size > 0 && chunksRef.current.push(e.data);
+      rec.onstop = () => {
+        stream.getTracks().forEach(t => t.stop());
+        const blob = new Blob(chunksRef.current, { type: mime });
+        const fr = new FileReader();
+        fr.onload = () => onChange({ ifaSound: fr.result, ifaSoundName: `ifa-sound-${Date.now()}.${mime.includes('mp4') ? 'm4a' : 'webm'}` });
+        fr.readAsDataURL(blob);
+        clearInterval(timerRef.current);
+        setRecording(false);
+        setLiveText('');
+      };
+      rec.start(200);
+      setRecording(true);
+      setRecTime(0);
+      timerRef.current = setInterval(() => setRecTime(t => t + 1), 1000);
+      /* live speech-to-text */
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SR) {
+        const r = new SR();
+        r.continuous = true; r.interimResults = true;
+        let final = cell.ifaSoundTranscript || '';
+        r.onresult = ev => {
+          let interim = '';
+          for (let i = ev.resultIndex; i < ev.results.length; i++) {
+            if (ev.results[i].isFinal) { final += ev.results[i][0].transcript + ' '; onChange({ ifaSoundTranscript: final }); }
+            else interim += ev.results[i][0].transcript;
+          }
+          setLiveText(interim);
+        };
+        r.onerror = () => {};
+        r.start();
+        recognRef.current = r;
+      }
+    }).catch(err => {
+      setRecError('Microphone access denied: ' + err.message);
+    });
+  }
+
+  function stopRec() {
+    try { if (mediaRecRef.current?.state !== 'inactive') mediaRecRef.current.stop(); } catch(e) {}
+    try { recognRef.current?.stop(); } catch(e) {}
+    recognRef.current = null;
+  }
+
+  function handleFile(e) {
+    const f = e.target.files[0]; if (!f) return;
+    const fr = new FileReader();
+    fr.onload = () => onChange({ ifaSound: fr.result, ifaSoundName: f.name });
+    fr.readAsDataURL(f);
+    setFileKey(k => k + 1);
+  }
+
+  function removeSound() {
+    onChange({ ifaSound: null, ifaSoundName: '', ifaSoundTranscript: '' });
+    setLiveText('');
+  }
+
+  function extractToField(fieldKey) {
+    const t = ((cell.ifaSoundTranscript || '') + (liveText ? ' ' + liveText : '')).trim();
+    if (!t) return;
+    const existing = cell[fieldKey] || '';
+    onChange({ [fieldKey]: existing ? existing + '\n\n' + t : t });
+  }
+
+  const fmtTime = s => `${String(Math.floor(s / 60)).padStart(2,'0')}:${String(s % 60).padStart(2,'0')}`;
+  const displayTranscript = (cell.ifaSoundTranscript || '') + (liveText ? liveText : '');
+
+  return (
+    <div className="nb-ifaprog">
+
+      {/* ── Meta row ── */}
+      <div className="nb-ifaprog__meta">
+        <div className="nb-ifaprog__meta-field">
+          <label className="nb-ifaprog__label">Odu Reference</label>
+          <input
+            className="nb-ifaprog__input"
+            type="text"
+            placeholder="e.g. Ogbe Meji · #1–1"
+            value={cell.oduRef || ''}
+            onChange={e => onChange({ oduRef: e.target.value })}
+          />
+        </div>
+        <div className="nb-ifaprog__meta-field">
+          <label className="nb-ifaprog__label">Domain / Field</label>
+          <input
+            className="nb-ifaprog__input"
+            type="text"
+            placeholder="e.g. AI / Computing, Medicine, Engineering…"
+            value={cell.domain || ''}
+            onChange={e => onChange({ domain: e.target.value })}
+          />
+        </div>
+        <div className="nb-ifaprog__meta-field nb-ifaprog__meta-field--sm">
+          <label className="nb-ifaprog__label">Program Type</label>
+          <select
+            className="nb-ifaprog__select"
+            value={cell.progType || 'general'}
+            onChange={e => onChange({ progType: e.target.value })}
+          >
+            {IFAPROG_TYPES.map(t => (
+              <option key={t.value} value={t.value}>{t.label}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* ── Four structured sections ── */}
+      {IFAPROG_SECTIONS.map(s => (
+        <div key={s.key} className="nb-ifaprog__section">
+          <div className="nb-ifaprog__section-label">{s.label}</div>
+          <textarea
+            className="nb-ifaprog__textarea"
+            value={cell[s.key] || ''}
+            onChange={e => onChange({ [s.key]: e.target.value })}
+            placeholder={s.placeholder}
+            rows={Math.max(3, ((cell[s.key] || '').match(/\n/g) || []).length + 2)}
+          />
+        </div>
+      ))}
+
+      {/* ── IfaSound ── */}
+      <div className="nb-ifaprog__sound-wrap">
+        <div className="nb-ifaprog__sound-header">
+          <span className="nb-ifaprog__section-label">&#9676; IfaSound</span>
+          <div className="nb-ifaprog__sound-btns">
+            {!recording ? (
+              <button className="nb-ifaprog__sbtn nb-ifaprog__sbtn--rec" onClick={startRec} title="Record voice">
+                &#127897; Record
+              </button>
+            ) : (
+              <button className="nb-ifaprog__sbtn nb-ifaprog__sbtn--stop" onClick={stopRec} title="Stop recording">
+                &#9209; Stop&nbsp;<span className="nb-ifaprog__rec-time">{fmtTime(recTime)}</span>
+              </button>
+            )}
+            <button className="nb-ifaprog__sbtn" onClick={() => fileInputRef.current?.click()} title="Attach audio file">
+              &#128206; Attach
+            </button>
+            <input key={fileKey} ref={fileInputRef} type="file" accept="audio/*" style={{ display:'none' }} onChange={handleFile} />
+          </div>
+        </div>
+
+        {recording && (
+          <div className="nb-ifaprog__rec-bar">
+            <span className="nb-ifaprog__rec-dot" />
+            <span>Recording&nbsp;&nbsp;{fmtTime(recTime)}</span>
+          </div>
+        )}
+        {recError && <p className="nb-ifaprog__rec-error">{recError}</p>}
+
+        {cell.ifaSound && (
+          <div className="nb-ifaprog__player">
+            <audio controls src={cell.ifaSound} style={{ width:'100%', height:'34px' }} />
+            <div className="nb-ifaprog__player-meta">
+              <span className="nb-ifaprog__player-name">{cell.ifaSoundName || 'audio'}</span>
+              <button className="nb-ifaprog__player-remove" onClick={removeSound} title="Remove audio">&#10005; Remove</button>
+            </div>
+          </div>
+        )}
+
+        {/* Transcript + Extract Knowledge */}
+        <div className="nb-ifaprog__transcript">
+          <div className="nb-ifaprog__transcript-hdr">
+            <span className="nb-ifaprog__sublabel">Transcript / Extracted Knowledge</span>
+            {displayTranscript.trim() && (
+              <div className="nb-ifaprog__extract-row">
+                <span className="nb-ifaprog__extract-label">Insert into &rarr;</span>
+                {IFAPROG_SECTIONS.map(s => (
+                  <button key={s.key} className="nb-ifaprog__extract-btn" onClick={() => extractToField(s.key)} title={`Insert into ${s.label}`}>
+                    {s.label.charAt(0)}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          <textarea
+            className="nb-ifaprog__textarea nb-ifaprog__textarea--transcript"
+            value={displayTranscript}
+            onChange={e => { onChange({ ifaSoundTranscript: e.target.value }); setLiveText(''); }}
+            placeholder="Speech transcript appears here during recording. You can also type or paste extracted knowledge manually, then insert it into any section above."
+            rows={Math.max(2, (displayTranscript.match(/\n/g) || []).length + 2)}
+          />
+          {!recording && !cell.ifaSound && (
+            <p className="nb-ifaprog__sound-hint">
+              Record your voice or attach an audio file — speech is transcribed live and can be inserted into any section with one click.
+            </p>
+          )}
+        </div>
+      </div>
+
+      <p className="nb-ifaprog__hint">
+        An <strong>Ifa Program</strong> transforms Odu Ifa wisdom for application in any modern field.
+        Fill in all four sections to complete the program.
+      </p>
+    </div>
+  );
+}
+
+/* ── HelpModal ────────────────────────────────────────────────────────────── */
+function HelpModal({ onClose }) {
+  const [tab, setTab] = useState(0);
+  const TABS = ['Overview', 'Cell Types', 'Features', 'Shortcuts'];
+
+  const CELL_TYPES = [
+    { badge: 'ODU',       color: '#10b981', name: 'Odu Cell',
+      desc: 'The core IfaNote cell — an interactive Odu Ifa selector. Choose left and right Odu marks using the IFABit matrix (4 marks each) to generate one of the 256 Odu Ifa. Explore the Odu name, STEAMSEX fields, SIDECHRX principles, domain, and IFABit code.' },
+    { badge: 'TEXT',      color: '#3b9eff', name: 'Text Cell',
+      desc: 'Rich text notes with Markdown support. Use # / ## / ### / #### for headings, **bold**, *italic*. Toggle RTL mode for Ifa language text. Access the Yorùbá ABD keyboard, Aebajiogbe Oduduwa script keyboard, and Special Characters panel from the cell toolbar.' },
+    { badge: '∑ MATH',   color: '#06b6d4', name: 'Math Cell',
+      desc: 'LaTeX math rendering powered by KaTeX. Use $…$ for inline math and $$…$$ for display math, or write a plain LaTeX expression (no $ needed). Access Greek letters, operators, logic/set symbols, and LaTeX templates from the math keyboard in the toolbar.' },
+    { badge: 'CODE',      color: '#f0920c', name: 'Code Cell',
+      desc: 'Live coding cell supporting JavaScript (browser sandbox), Python 3 via Pyodide WebAssembly (numpy, math, json, stdlib), C (Phase II), and Scratch. Select language from the dropdown, write code, then press ▶ Run or Ctrl+Enter to execute and see output inline.' },
+    { badge: '⊞ SCHEM',  color: '#84cc16', name: 'Schematics Cell',
+      desc: 'Diagram and flowchart cell. Write Mermaid syntax (flowchart, sequenceDiagram, classDiagram, gantt, mindmap, timeline…) or Graphviz DOT language. The renderer auto-detects which engine to use based on the syntax.' },
+    { badge: '🎨 ART',   color: '#f43f5e', name: 'Art Cell',
+      desc: 'Creative canvas for drawing, sketching, and annotating diagrams and Odu patterns with free-form drawing tools.' },
+    { badge: '▶ MEDIA',  color: '#8b5cf6', name: 'Multimedia Cell',
+      desc: 'Embed audio, video, or other media content via URL or file embeds for rich multimedia notebook presentations.' },
+    { badge: '✦ AI',     color: '#a855f7', name: 'AI Cell (Claude)',
+      desc: 'Query Claude AI directly inside your notebook. Requires an Anthropic API key (set via ✦ AI Key in the top bar — stored only in your browser). Each AI cell has its own conversation context for questions, code help, and Ifa knowledge exploration.' },
+    { badge: '🗣 LANG',  color: '#f5c518', name: 'Lang Cell',
+      desc: 'Experimental IfaLang cell for composing and studying Ifa language scripts. Combines the Aebajiogbe Oduduwa script keyboard with language tools for writing Odu Ifa texts in the native script.' },
+    { badge: '… OTHERS', color: '#94a3b8', name: 'Others Cell',
+      desc: 'General-purpose cell for custom content and notes that do not fit a specific category. Use for miscellaneous annotations, references, or placeholder sections.' },
+    { badge: '◈ IFAPROG', color: '#00c896', name: 'Ifa Program Cell',
+      desc: 'Structured cell for writing Ifa Programs — transforming Odu Ifa wisdom into applications for any modern field. Set the Odu reference, target domain, and program type, then fill in four structured sections: ① Theme / Problem, ② Ifa Knowledge Input, ③ Transformation, and ④ Output / Result.' },
+  ];
+
+  const FEATURES = [
+    { icon: '☰', name: 'Multi-Notebook Manager',
+      desc: 'Create and manage multiple named notebooks from the sidebar (☰ button, top left). Create, rename, switch between, or delete notebooks. Each notebook is auto-saved independently to your browser\'s localStorage.' },
+    { icon: '💾', name: 'Auto-Save',
+      desc: 'Changes are automatically saved to localStorage within 1.5 seconds of any edit. The "✓ saved" indicator in the top bar confirms each save. Use 💾 Save or Ctrl+S to also download a .ifanb backup file to your computer.' },
+    { icon: '🎨', name: '4 Themes',
+      desc: 'Switch between Dark (default), Light, Gold, and Ocean themes with the theme picker in the top bar. Your choice is remembered across sessions.' },
+    { icon: '◌', name: 'Focus Mode',
+      desc: 'Dims all cells except the one you\'re currently editing. Click ◌ Focus in the top bar to toggle. Ideal for deep study, writing, and Ifa meditation sessions.' },
+    { icon: '📽', name: 'Presentation Mode',
+      desc: 'Displays your notebook one cell at a time, full-screen. Navigate with arrow keys or on-screen controls. Great for lectures, Ifa readings, and teaching sessions.' },
+    { icon: '🔗', name: 'Share via URL',
+      desc: 'Click 🔗 Share to encode your entire notebook into a shareable URL. Anyone with the link can open an exact copy. Useful for sharing study notes, Odu analyses, and Ifa readings.' },
+    { icon: '✦', name: 'AI Cells (Claude)',
+      desc: 'Add AI cells to query Claude. Click ✦ AI Key in the top bar to enter your Anthropic API key (stored locally). Use AI cells to ask questions, explain Odu meanings, generate code, or explore any field of knowledge.' },
+    { icon: '📂', name: 'File Operations',
+      desc: 'File menu (top bar): Open a .ifanb notebook, Download as .ifanb, Export as plain text (.ifa), Word (.doc), or PDF (browser print dialog). Duplicate duplicates the current notebook. All file operations are local — no data leaves your browser.' },
+    { icon: '⌨', name: 'Special Keyboards',
+      desc: 'Text cells include four built-in keyboards accessible from the cell toolbar: Yorùbá ABD (full vowels, consonants, and tone marks), Aebajiogbe Oduduwa script, Math Symbols (Greek, operators, LaTeX templates), and Special Characters (arrows, currency, misc).' },
+    { icon: '▶▶', name: 'Run All',
+      desc: 'The ▶▶ Run All button in the top bar executes every cell in the notebook top to bottom — like running a full Jupyter notebook. Useful for regenerating all outputs after editing.' },
+  ];
+
+  const SHORTCUTS = [
+    { keys: 'Ctrl + Enter', desc: 'Run the active cell' },
+    { keys: 'Ctrl + S',     desc: 'Save / download notebook (.ifanb)' },
+    { keys: 'Ctrl + Z',     desc: 'Undo within a cell editor' },
+    { keys: 'Enter',        desc: 'Confirm notebook title rename' },
+    { keys: 'Escape',       desc: 'Cancel rename / close dialogs' },
+    { keys: '▲ / ▼ buttons', desc: 'Move a cell up or down in the notebook' },
+    { keys: '▶▶ Run All',   desc: 'Execute every cell top to bottom' },
+    { keys: 'Arrow keys',   desc: 'Navigate slides in Presentation Mode' },
+    { keys: '# text',       desc: 'H1 heading in a Text cell (## H2, ### H3, #### H4)' },
+    { keys: '**text**',     desc: 'Bold text in a Text cell' },
+    { keys: '*text*',       desc: 'Italic text in a Text cell' },
+    { keys: '$…$',          desc: 'Inline LaTeX math in a Math cell' },
+    { keys: '$$…$$',        desc: 'Display (block) LaTeX math in a Math cell' },
+  ];
+
+  return (
+    <div className="pro-help-overlay" onClick={onClose}>
+      <div className="pro-help-dialog" onClick={e => e.stopPropagation()}>
+
+        <div className="pro-help-head">
+          <span className="pro-help-title">❓ IfaNote Pro — Help &amp; Guide</span>
+          <button className="pro-help-x" onClick={onClose} aria-label="Close help">✕</button>
+        </div>
+
+        <div className="pro-help-tabs">
+          {TABS.map((t, i) => (
+            <button key={i}
+              className={'pro-help-tab' + (tab === i ? ' pro-help-tab--on' : '')}
+              onClick={() => setTab(i)}>
+              {t}
+            </button>
+          ))}
+        </div>
+
+        <div className="pro-help-body">
+
+          {/* ── Overview ── */}
+          {tab === 0 && (
+            <div>
+              <p className="pro-help-p pro-help-intro">
+                <strong>IfaNote Pro</strong> is the premium notebook environment of the IFA Internet — built for polymaths, IFA Academy students, and Ifa practitioners. It combines a Jupyter-style multi-cell notebook with Ifa-native cell types (Odu, Lang), live code execution (JS + Python), AI integration (Claude), and Yorùbá/Ifa script keyboards.
+              </p>
+              <h3 className="pro-help-h3">Quick Start</h3>
+              <ol className="pro-help-ol">
+                <li>Click <strong>＋ Odu</strong> to add an Odu cell — select left and right Odu marks on the IFABit grid to generate an Odu Ifa.</li>
+                <li>Click <strong>＋ Text</strong> for a text note — use <code className="pro-help-code">#</code> for headings, <code className="pro-help-code">**bold**</code>, <code className="pro-help-code">*italic*</code>.</li>
+                <li>Click <strong>＋ Code</strong> to write and run JavaScript or Python — press <strong>▶ Run</strong> or Ctrl+Enter.</li>
+                <li>Click <strong>＋ Math</strong> to write LaTeX — use <code className="pro-help-code">$…$</code> for inline and <code className="pro-help-code">$$…$$</code> for display math.</li>
+                <li>Click <strong>＋ Schem</strong> to create diagrams using Mermaid or Graphviz DOT syntax.</li>
+                <li>Click <strong>＋ AI</strong> for an AI cell — set your Claude API key first with the <strong>✦ AI Key</strong> button.</li>
+                <li>Use <strong>☰</strong> (top left) to manage multiple notebooks.</li>
+                <li>Press <strong>💾 Save</strong> or Ctrl+S to download your notebook as a <code className="pro-help-code">.ifanb</code> file.</li>
+              </ol>
+              <h3 className="pro-help-h3">The IfaNote System</h3>
+              <p className="pro-help-p">The <strong>IfaNote System</strong> is a structured approach to recording knowledge across all dimensions of reality, following the STEAMSEX framework (Science, Technology, Engineering, Arts, Mathematics, Social Science, Education, Unknowns). Each Odu cell maps to one of the 256 Odu Ifa, providing a metaphysical coordinate System for organising knowledge.</p>
+              <h3 className="pro-help-h3">IfaNote File Format</h3>
+              <p className="pro-help-p">Notebooks are saved in the <code className="pro-help-code">.ifanb</code> format (JSON). Export as <code className="pro-help-code">.ifa</code> plain text, <code className="pro-help-code">.doc</code> Word, or PDF via the File menu. Notebooks can also be shared as a URL (🔗 Share) — the full notebook state is encoded in the URL hash.</p>
+            </div>
+          )}
+
+          {/* ── Cell Types ── */}
+          {tab === 1 && (
+            <div>
+              <p className="pro-help-p" style={{marginBottom:'10px'}}>IfaNote Pro has <strong>11 cell types</strong>. Add any cell from the <strong>＋ buttons</strong> in the top bar or the add row at the bottom of the notebook.</p>
+              {CELL_TYPES.map((c, i) => (
+                <div key={i} className="pro-help-cell-row">
+                  <span className="pro-help-cell-badge" style={{background:`${c.color}1a`,color:c.color,borderColor:`${c.color}44`}}>{c.badge}</span>
+                  <div className="pro-help-cell-info">
+                    <span className="pro-help-cell-name">{c.name}</span>
+                    <span className="pro-help-cell-desc">{c.desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* ── Features ── */}
+          {tab === 2 && (
+            <div>
+              {FEATURES.map((f, i) => (
+                <div key={i} className="pro-help-feat-row">
+                  <span className="pro-help-feat-icon">{f.icon}</span>
+                  <div className="pro-help-feat-info">
+                    <span className="pro-help-feat-name">{f.name}</span>
+                    <span className="pro-help-feat-desc">{f.desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* ── Shortcuts ── */}
+          {tab === 3 && (
+            <div>
+              <p className="pro-help-p" style={{marginBottom:'12px'}}>Keyboard shortcuts and key syntax in IfaNote Pro.</p>
+              <table className="pro-help-table">
+                <thead>
+                  <tr>
+                    <th className="pro-help-th">Shortcut / Syntax</th>
+                    <th className="pro-help-th">What it does</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {SHORTCUTS.map((s, i) => (
+                    <tr key={i} className="pro-help-tr">
+                      <td className="pro-help-td pro-help-td--key"><code className="pro-help-code">{s.keys}</code></td>
+                      <td className="pro-help-td">{s.desc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+        </div>
+
+        <div className="pro-help-foot">
+          <span className="pro-help-foot-note">IfaNote Pro · The IFA Internet · CENProject</span>
+          <button className="pro-help-close-btn" onClick={onClose}>Close</button>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 /* ── Main App (Pro) ───────────────────────────────────────────────────────── */
 function App({ onLogout, noteUser }) {
   /* ── Pro: init state from localStorage ─────────────────────────────────── */
@@ -4082,6 +4535,7 @@ function App({ onLogout, noteUser }) {
   const [apiKey,       setApiKey]       = useState(() => localStorage.getItem(PRO_AI_KEY_KEY) || '');
   const [saveStatus,   setSaveStatus]   = useState('');   // '' | 'saving' | 'saved'
   const [focusMode,    setFocusMode]    = useState(false);
+  const [showHelp,     setShowHelp]     = useState(false);
 
   const titleRef    = useRef(null);
   const fileMenuRef = useRef(null);
@@ -4517,6 +4971,8 @@ function App({ onLogout, noteUser }) {
       if (c.type === 'others') return { ...c, input: '', bookmarkTitle: '', bookmarkUrl: '', todos: [], output: null };
       // AI: clear prompt and response
       if (c.type === 'ai') return { ...c, aiPrompt: '', output: null };
+      // IfaProgram: clear all four sections and meta fields
+      if (c.type === 'ifaprog') return { ...c, oduRef: '', domain: '', progType: 'general', theme: '', ifaInput: '', transform: '', output: null, ifaSound: null, ifaSoundName: '', ifaSoundTranscript: '' };
       // Everything else: clear input + output
       return { ...c, input: '', output: null };
     }));
@@ -4563,6 +5019,9 @@ function App({ onLogout, noteUser }) {
       {showApiKey && (
         <ApiKeyDialog current={apiKey} onSave={saveApiKey} onClose={() => setShowApiKey(false)} />
       )}
+
+      {/* ── Help modal ─────────────────────────────────────────────────────── */}
+      {showHelp && <HelpModal onClose={() => setShowHelp(false)} />}
 
       {/* ── Top bar ──────────────────────────────────────────────────────── */}
       <header className="env-topbar">
@@ -4613,6 +5072,7 @@ function App({ onLogout, noteUser }) {
           <button className="nb-add-btn nb-add-btn--others"     onClick={() => addCell('others')}>＋ Others</button>
           <button className="nb-add-btn" style={{'--nb-add-clr':'#14b8d4'}} onClick={() => addCell('ai')}>＋ AI</button>
           <button className="nb-add-btn nb-add-btn--lang" onClick={() => addCell('lang')}>＋ Lang</button>
+          <button className="nb-add-btn nb-add-btn--ifaprog" onClick={() => addCell('ifaprog')}>＋ IfaProg</button>
         </div>
 
         <div className="env-topbar__right">
@@ -4707,6 +5167,13 @@ function App({ onLogout, noteUser }) {
           <input ref={fileInputRef} type="file" accept=".ifanb,.json"
             style={{ display: 'none' }} onChange={handleOpen} />
 
+          {/* ── Help ──────────────────────────────────────────────────── */}
+          <button className="pro-topbar-btn pro-topbar-btn--help"
+            onClick={() => setShowHelp(true)}
+            title="Help — features, cell types & shortcuts">
+            ❓ Help
+          </button>
+
           {/* ── User / logout ─────────────────────────────────────────── */}
           {noteUser && (
             <div className="pro-user-badge" title={`Signed in as ${noteUser.name}`}>
@@ -4753,6 +5220,7 @@ function App({ onLogout, noteUser }) {
           <button className="nb-add-inline nb-add-inline--others"     onClick={() => addCell('others')}>+ Others</button>
           <button className="nb-add-inline" style={{'--nb-add-clr':'#14b8d4'}} onClick={() => addCell('ai')}>+ AI</button>
           <button className="nb-add-inline nb-add-inline--lang" onClick={() => addCell('lang')}>+ Lang</button>
+          <button className="nb-add-inline nb-add-inline--ifaprog" onClick={() => addCell('ifaprog')}>+ IfaProg</button>
         </div>
 
         <div className="nb-footer-note">

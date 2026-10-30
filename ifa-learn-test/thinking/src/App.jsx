@@ -369,6 +369,7 @@ function MobileBar() {
     { sym: '⟷',  label: 'Wilson',    href: '#wilson' },
     { sym: '⊛',  label: 'Metaphors', href: '#metaphors' },
     { sym: '∞',  label: 'Isese',     href: '#isese' },
+    { sym: '⬡',  label: 'IfaSchema', href: '#ifa-schema' },
   ];
   return (
     <nav className="mobile-bar" aria-label="Mobile navigation">
@@ -405,6 +406,7 @@ function Header() {
           <a className="nav-link" href="#wilson">Wilson Scheme</a>
           <a className="nav-link" href="#metaphors">IfaMetaphors</a>
           <a className="nav-link" href="#isese">Isese Practice</a>
+          <a className="nav-link" href="#ifa-schema">IfaSchema</a>
           <a className="nav-link nav-link--back" href="../">← IfaLearn</a>
         </nav>
       </div>
@@ -660,6 +662,66 @@ function IsesePracticeSection() {
   );
 }
 
+// ─── IFA SCHEMA SECTION ──────────────────────────────────────────────────────
+
+function IfaSchemaSection() {
+  return (
+    <section className="section section--dark" id="ifa-schema">
+      <div className="container">
+        <div className="section__header section__header--center">
+          <span className="section__eyebrow section__eyebrow--teal">IFA Internet · IfaSchema</span>
+          <h2 className="section__title">IfaSchema — ToE Schema</h2>
+          <p className="section__subtitle">
+            The universal meta-schema of the IFA Internet — a more general and universal form of Schema.org,
+            covering schemas in mathematics, AI, databases, philosophy, algebraic geometry, and the Totality of Existence.
+            IfaSchema provides the structural framework for all Ifa-based knowledge systems.
+          </p>
+        </div>
+
+        <div className="ifa-schema-links">
+          <a
+            href="https://ifainternet.org/ifa-schema/"
+            className="ifa-schema-card"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="ifa-schema-card__sym" aria-hidden="true">⬡</div>
+            <div className="ifa-schema-card__content">
+              <div className="ifa-schema-card__title">IfaSchema</div>
+              <div className="ifa-schema-card__sub">ToE Schema · Universal Meta-Schema</div>
+              <p className="ifa-schema-card__body">
+                The universal meta-schema of the IFA Internet. Harmonises diverse schematic
+                models — from AI and databases to consciousness and energy — into a unified
+                Ifa-based schema framework.
+              </p>
+              <span className="ifa-schema-card__link">ifainternet.org/ifa-schema/ →</span>
+            </div>
+          </a>
+
+          <a
+            href="https://ifainternet.org/ifa-schema/lab/"
+            className="ifa-schema-card ifa-schema-card--lab"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div className="ifa-schema-card__sym" aria-hidden="true">⚗</div>
+            <div className="ifa-schema-card__content">
+              <div className="ifa-schema-card__title">IfaSchema Lab</div>
+              <div className="ifa-schema-card__sub">Interactive Schema Environment</div>
+              <p className="ifa-schema-card__body">
+                The interactive schema experiment environment. Build custom schemas, load
+                Ifa-native templates, explore field types, and visualise schema structures
+                within the universal meta-schema framework.
+              </p>
+              <span className="ifa-schema-card__link">ifainternet.org/ifa-schema/lab/ →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── DISCLAIMER ───────────────────────────────────────────────────────────────
 
 function DisclaimerBanner() {
@@ -710,6 +772,9 @@ function Footer() {
           <a href="#wilson" className="footer__link">Wilson Scheme</a>
           <a href="#metaphors" className="footer__link">IfaMetaphors</a>
           <a href="#isese" className="footer__link">Isese Practice</a>
+          <a href="#ifa-schema" className="footer__link">IfaSchema</a>
+          <a href="https://ifainternet.org/ifa-schema/" className="footer__link" target="_blank" rel="noopener noreferrer">IfaSchema ↗</a>
+          <a href="https://ifainternet.org/ifa-schema/lab/" className="footer__link" target="_blank" rel="noopener noreferrer">IfaSchema Lab ↗</a>
           <a href="../" className="footer__link">← IfaLearn</a>
           <a href="../../" className="footer__link" target="_blank" rel="noopener noreferrer">IFA Internet</a>
         </nav>
@@ -735,6 +800,7 @@ function App() {
         <WilsonSection />
         <MetaphorsSection />
         <IsesePracticeSection />
+        <IfaSchemaSection />
       </main>
       <DisclaimerBanner />
       <Footer />

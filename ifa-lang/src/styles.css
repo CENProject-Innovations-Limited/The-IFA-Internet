@@ -1610,7 +1610,7 @@ body {
 /* Script card grid */
 .oc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
   align-items: start;
 }
@@ -1880,10 +1880,10 @@ body {
 @media (max-width: 900px) {
   .ol-subnav { padding: 0 16px; }
   .oc-wrap    { padding: 0 16px 40px; }
-  .oc-grid    { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .oc-grid    { grid-template-columns: repeat(4, 1fr); gap: 10px; }
 }
 @media (max-width: 600px) {
-  .oc-grid         { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .oc-grid         { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .oc-cell__glyph  { font-size: 1.05rem; }
   .oc-card__script { font-size: 0.62rem; }
   .oc-intro__title { font-size: clamp(1.5rem, 7vw, 2rem); }

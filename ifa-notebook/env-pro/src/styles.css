@@ -2719,6 +2719,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 [data-theme="light"] .nb-calc-btn:hover  { background: rgba(0,0,0,0.12); }
 [data-theme="light"] .env-title-btn      { color: #6a7890; }
 [data-theme="light"] .env-title-input    { color: #1a1a2a; background: rgba(0,0,0,0.05); }
+[data-theme="light"] .nb-cell__output    { background: rgba(0,0,0,0.05); color: #2a3a55; }
+[data-theme="light"] .nb-out-line        { color: #2a3a55; }
+[data-theme="light"] .nb-text-preview    { color: #2a3a55; }
+[data-theme="light"] .nb-text-preview h1 { color: #0f1a2e; }
+[data-theme="light"] .nb-text-preview h2 { color: #1a2e4a; }
+[data-theme="light"] .nb-text-preview h3 { color: #2a3e5a; }
+[data-theme="light"] .nb-text-preview h4 { color: #3a4e6a; }
 
 /* ── Gold / Ọṣun theme ───────────────────────────────────────────────────── */
 [data-theme="gold"] body { background: #0d0800; color: #fff8e8; }
@@ -2949,6 +2956,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .pro-topbar-btn--present:hover { background: rgba(139,92,246,0.15); color: #a78bfa; border-color: rgba(139,92,246,0.4); }
 .pro-topbar-btn--ai { color: #14b8d4; border-color: rgba(20,184,212,0.25); background: rgba(20,184,212,0.07); }
 .pro-topbar-btn--ai:hover { background: rgba(20,184,212,0.15); color: #67e8f9; border-color: rgba(20,184,212,0.4); }
+.pro-topbar-btn--help { color: #f5c518; border-color: rgba(245,197,24,0.25); background: rgba(245,197,24,0.07); }
+.pro-topbar-btn--help:hover { background: rgba(245,197,24,0.15); color: #fde047; border-color: rgba(245,197,24,0.4); }
 
 /* ── User badge (topbar) ─────────────────────────────────────────────────── */
 .pro-user-badge {
@@ -3578,6 +3587,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nb-add-btn--lang    { --nb-add-clr: #f5c518; }
 .nb-add-inline--lang { --nb-add-clr: #f5c518; }
 
+.nb-cell--ifaprog { --nb-clr: #00c896; }
+.nb-add-btn--ifaprog    { --nb-add-clr: #00c896; }
+.nb-add-inline--ifaprog { --nb-add-clr: #00c896; }
+
 /* Keyboard root */
 .ifakb {
   padding: 10px 12px 14px;
@@ -3983,4 +3996,468 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .ifakb__ex-opts { flex-direction: column; }
   .ifakb__ex-opt  { flex-direction: row; min-width: unset; }
   .ifakb__vowel-grid { grid-template-columns: 24px 1fr 1fr 1fr; }
+}
+
+/* ── Help Modal ──────────────────────────────────────────────────────────── */
+.pro-help-overlay {
+  position: fixed; inset: 0; z-index: 3100;
+  background: rgba(2, 6, 14, 0.80);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.pro-help-dialog {
+  background: #0b1523;
+  border: 1px solid rgba(245,197,24,0.18);
+  border-radius: 14px;
+  box-shadow: 0 0 60px rgba(245,197,24,0.08), 0 24px 64px rgba(0,0,0,0.6);
+  width: 100%; max-width: 680px;
+  max-height: 88vh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.pro-help-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.pro-help-title {
+  font-size: 1rem; font-weight: 700; color: #f5c518;
+  letter-spacing: 0.01em;
+}
+.pro-help-x {
+  background: none; border: none; cursor: pointer;
+  color: #4a6280; font-size: 1rem; line-height: 1;
+  padding: 4px 6px; border-radius: 5px;
+  transition: color 0.15s, background 0.15s;
+}
+.pro-help-x:hover { color: #f5c518; background: rgba(245,197,24,0.1); }
+
+/* Tabs */
+.pro-help-tabs {
+  display: flex; gap: 4px;
+  padding: 10px 16px 0;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.pro-help-tab {
+  background: none; border: none; cursor: pointer;
+  font-size: 0.8rem; font-weight: 600;
+  color: #4a6280;
+  padding: 6px 14px 8px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.pro-help-tab:hover { color: #c0cce0; }
+.pro-help-tab--on { color: #f5c518; border-bottom-color: #f5c518; }
+
+/* Scrollable body */
+.pro-help-body {
+  flex: 1; overflow-y: auto; padding: 18px 20px;
+  scrollbar-width: thin; scrollbar-color: rgba(245,197,24,0.2) transparent;
+}
+.pro-help-body::-webkit-scrollbar { width: 5px; }
+.pro-help-body::-webkit-scrollbar-thumb { background: rgba(245,197,24,0.2); border-radius: 3px; }
+
+/* Typography */
+.pro-help-p { font-size: 0.84rem; color: #8aa4c0; line-height: 1.6; margin: 0 0 10px; }
+.pro-help-intro { color: #b0c4dc; font-size: 0.875rem; }
+.pro-help-h3 { font-size: 0.82rem; font-weight: 700; color: #f5c518; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+.pro-help-ol { font-size: 0.84rem; color: #8aa4c0; line-height: 1.65; padding-left: 18px; margin: 0 0 10px; }
+.pro-help-ol li { margin-bottom: 5px; }
+.pro-help-code { font-family: 'Consolas', 'Fira Code', monospace; font-size: 0.8em; background: rgba(245,197,24,0.08); color: #fde047; padding: 1px 5px; border-radius: 4px; border: 1px solid rgba(245,197,24,0.15); }
+
+/* Cell type rows */
+.pro-help-cell-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.pro-help-cell-row:last-child { border-bottom: none; }
+.pro-help-cell-badge {
+  font-size: 0.67rem; font-weight: 700; font-family: monospace;
+  padding: 3px 7px; border-radius: 4px; border: 1px solid;
+  white-space: nowrap; flex-shrink: 0; margin-top: 1px;
+  min-width: 68px; text-align: center;
+}
+.pro-help-cell-info { display: flex; flex-direction: column; gap: 3px; }
+.pro-help-cell-name { font-size: 0.82rem; font-weight: 700; color: #d0dcea; }
+.pro-help-cell-desc { font-size: 0.78rem; color: #6a88a4; line-height: 1.55; }
+
+/* Feature rows */
+.pro-help-feat-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.pro-help-feat-row:last-child { border-bottom: none; }
+.pro-help-feat-icon {
+  font-size: 1.1rem; width: 28px; text-align: center;
+  flex-shrink: 0; margin-top: 1px; color: #f5c518;
+}
+.pro-help-feat-info { display: flex; flex-direction: column; gap: 3px; }
+.pro-help-feat-name { font-size: 0.83rem; font-weight: 700; color: #d0dcea; }
+.pro-help-feat-desc { font-size: 0.78rem; color: #6a88a4; line-height: 1.55; }
+
+/* Shortcuts table */
+.pro-help-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.pro-help-th {
+  text-align: left; padding: 7px 10px;
+  background: rgba(255,255,255,0.04);
+  color: #6a88a4; font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.pro-help-tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+.pro-help-td { padding: 8px 10px; color: #8aa4c0; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+.pro-help-td--key { width: 44%; color: #d0dcea; }
+
+/* Footer */
+.pro-help-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.pro-help-foot-note { font-size: 0.72rem; color: #2e4460; }
+.pro-help-close-btn {
+  padding: 6px 18px; border-radius: 7px; cursor: pointer; font-size: 0.8rem;
+  font-weight: 700; border: 1px solid rgba(245,197,24,0.3);
+  background: rgba(245,197,24,0.08); color: #f5c518;
+  transition: background 0.15s, color 0.15s;
+}
+.pro-help-close-btn:hover { background: rgba(245,197,24,0.18); color: #fde047; }
+
+@media (max-width: 500px) {
+  .pro-help-dialog { max-height: 95vh; border-radius: 10px; }
+  .pro-help-tabs { overflow-x: auto; padding-bottom: 0; }
+  .pro-help-tab { padding: 6px 10px 8px; font-size: 0.75rem; }
+}
+
+/* ── IfaProgram Cell ──────────────────────────────────────────────────────── */
+.nb-ifaprog {
+  display: flex; flex-direction: column; gap: 14px; padding: 2px 0 6px;
+}
+
+/* Meta row: Odu ref + Domain + Type */
+.nb-ifaprog__meta {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.nb-ifaprog__meta-field {
+  display: flex; flex-direction: column; gap: 4px;
+  flex: 1; min-width: 150px;
+}
+.nb-ifaprog__meta-field--sm { flex: 0 0 180px; min-width: 140px; }
+
+.nb-ifaprog__label {
+  font-size: 0.67rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  color: #00c896; opacity: 0.85;
+}
+
+.nb-ifaprog__input,
+.nb-ifaprog__select {
+  background: rgba(0,200,150,0.06);
+  border: 1px solid rgba(0,200,150,0.22);
+  border-radius: 5px;
+  color: #c8e8e0;
+  padding: 5px 10px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.nb-ifaprog__input:focus,
+.nb-ifaprog__select:focus {
+  border-color: rgba(0,200,150,0.5);
+  background: rgba(0,200,150,0.10);
+}
+.nb-ifaprog__input::placeholder { color: #3d7a6a; }
+.nb-ifaprog__select option { background: #0d1f1a; color: #c8e8e0; }
+
+/* Section blocks */
+.nb-ifaprog__section { display: flex; flex-direction: column; gap: 5px; }
+
+.nb-ifaprog__section-label {
+  font-size: 0.71rem; font-weight: 700;
+  color: #00c896; text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+.nb-ifaprog__textarea {
+  background: rgba(0,200,150,0.04);
+  border: 1px solid rgba(0,200,150,0.14);
+  border-left: 3px solid rgba(0,200,150,0.38);
+  border-radius: 4px;
+  color: #c0dcd6;
+  padding: 8px 10px;
+  font-size: 0.88rem;
+  font-family: inherit;
+  line-height: 1.55;
+  resize: vertical;
+  width: 100%; box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.nb-ifaprog__textarea:focus {
+  border-color: rgba(0,200,150,0.42);
+  background: rgba(0,200,150,0.08);
+}
+.nb-ifaprog__textarea::placeholder { color: #2e5e52; }
+
+/* Footer hint */
+.nb-ifaprog__hint {
+  font-size: 0.75rem; color: #3d7060;
+  margin: 0; padding: 6px 10px;
+  border-left: 2px solid rgba(0,200,150,0.2);
+  line-height: 1.4;
+}
+.nb-ifaprog__hint strong { color: #00c896; font-weight: 600; }
+
+/* Light theme overrides */
+.theme-light .nb-ifaprog__input,
+.theme-light .nb-ifaprog__select {
+  background: rgba(0,160,120,0.06); border-color: rgba(0,160,120,0.25);
+  color: #0a3028;
+}
+.theme-light .nb-ifaprog__textarea {
+  background: rgba(0,160,120,0.04); border-left-color: rgba(0,160,120,0.4);
+  color: #0d3830;
+}
+.theme-light .nb-ifaprog__label,
+.theme-light .nb-ifaprog__section-label { color: #007a5a; opacity: 1; }
+.theme-light .nb-ifaprog__hint { color: #2a7a60; border-left-color: rgba(0,160,120,0.3); }
+.theme-light .nb-ifaprog__hint strong { color: #007a5a; }
+
+/* ── IfaSound (inside IfaProgCell) ─────────────────────────────────────────── */
+.nb-ifaprog__sound-wrap {
+  display: flex; flex-direction: column; gap: 8px;
+  border: 1px solid rgba(0,200,150,0.14);
+  border-left: 3px solid rgba(0,200,150,0.45);
+  border-radius: 5px;
+  padding: 10px 12px;
+  background: rgba(0,200,150,0.03);
+}
+.nb-ifaprog__sound-header {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+}
+.nb-ifaprog__sound-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.nb-ifaprog__sbtn {
+  font-size: 0.78rem; font-family: inherit; font-weight: 600;
+  padding: 4px 10px; border-radius: 4px; cursor: pointer;
+  border: 1px solid rgba(0,200,150,0.30);
+  background: rgba(0,200,150,0.07); color: #00c896;
+  transition: background 0.15s, border-color 0.15s;
+}
+.nb-ifaprog__sbtn:hover { background: rgba(0,200,150,0.14); border-color: rgba(0,200,150,0.5); }
+.nb-ifaprog__sbtn--rec { border-color: rgba(0,200,150,0.45); background: rgba(0,200,150,0.10); }
+.nb-ifaprog__sbtn--stop { border-color: rgba(220,60,60,0.5); background: rgba(220,60,60,0.08); color: #e05555; }
+.nb-ifaprog__sbtn--stop:hover { background: rgba(220,60,60,0.14); }
+
+/* Recording indicator bar */
+.nb-ifaprog__rec-bar {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.75rem; color: #e05555;
+}
+.nb-ifaprog__rec-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  background: #e05555;
+  animation: ifaprog-pulse 1s ease-in-out infinite;
+}
+@keyframes ifaprog-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+.nb-ifaprog__rec-time { font-variant-numeric: tabular-nums; }
+.nb-ifaprog__rec-error { font-size: 0.75rem; color: #e07070; margin: 0; }
+
+/* Audio player */
+.nb-ifaprog__player { display: flex; flex-direction: column; gap: 4px; }
+.nb-ifaprog__player-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.72rem; color: #4a9080;
+}
+.nb-ifaprog__player-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%; }
+.nb-ifaprog__player-remove {
+  font-size: 0.7rem; color: #7a4a4a; background: none; border: none;
+  cursor: pointer; padding: 2px 6px; border-radius: 3px;
+  transition: color 0.15s, background 0.15s;
+}
+.nb-ifaprog__player-remove:hover { color: #e05555; background: rgba(220,60,60,0.08); }
+
+/* Transcript area */
+.nb-ifaprog__transcript { display: flex; flex-direction: column; gap: 5px; }
+.nb-ifaprog__transcript-hdr {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+}
+.nb-ifaprog__sublabel {
+  font-size: 0.64rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: #00a87a; opacity: 0.8;
+}
+.nb-ifaprog__extract-row { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.nb-ifaprog__extract-label { font-size: 0.66rem; color: #3d7a6a; }
+.nb-ifaprog__extract-btn {
+  font-size: 0.72rem; font-weight: 700; font-family: inherit;
+  padding: 2px 7px; border-radius: 3px; cursor: pointer;
+  border: 1px solid rgba(0,200,150,0.30);
+  background: rgba(0,200,150,0.08); color: #00c896;
+  transition: background 0.12s;
+}
+.nb-ifaprog__extract-btn:hover { background: rgba(0,200,150,0.18); }
+.nb-ifaprog__textarea--transcript {
+  border-left-color: rgba(0,200,150,0.2);
+  font-size: 0.83rem; color: #8ab8ae;
+}
+.nb-ifaprog__sound-hint {
+  font-size: 0.72rem; color: #2e5e52; margin: 0; line-height: 1.4;
+}
+
+/* Light theme */
+.theme-light .nb-ifaprog__sound-wrap { background: rgba(0,160,120,0.03); border-color: rgba(0,160,120,0.18); border-left-color: rgba(0,160,120,0.45); }
+.theme-light .nb-ifaprog__sbtn { color: #007a5a; background: rgba(0,160,120,0.07); border-color: rgba(0,160,120,0.30); }
+.theme-light .nb-ifaprog__sbtn:hover { background: rgba(0,160,120,0.14); }
+.theme-light .nb-ifaprog__sbtn--stop { color: #b03030; background: rgba(180,40,40,0.06); border-color: rgba(180,40,40,0.35); }
+.theme-light .nb-ifaprog__sublabel { color: #006644; }
+.theme-light .nb-ifaprog__extract-btn { color: #007a5a; background: rgba(0,160,120,0.08); border-color: rgba(0,160,120,0.30); }
+.theme-light .nb-ifaprog__extract-btn:hover { background: rgba(0,160,120,0.18); }
+.theme-light .nb-ifaprog__textarea--transcript { color: #2a5a4a; }
+.theme-light .nb-ifaprog__sound-hint { color: #3a7060; }
+.theme-light .nb-ifaprog__player-meta { color: #2a6050; }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   MOBILE OPTIMISATION — PASS 2
+   Fills gaps in earlier rules:
+     • IfaProgCell + IfaSound responsive layout
+     • iOS Safari auto-zoom fix for new inputs
+     • Presentation mode on narrow screens
+     • HelpModal tabs scrollable on phones
+     • Share dialog stacked phone layout
+     • Sidebar item actions always-visible on touch
+═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── IfaProgCell: iOS auto-zoom + stacking (≤480px) ────────────────────────── */
+@media (max-width: 480px) {
+  /* iOS Safari auto-zoom: focusable inputs must be ≥ 16px */
+  .nb-ifaprog__input,
+  .nb-ifaprog__select,
+  .nb-ifaprog__textarea,
+  .nb-ai-prompt,
+  .nb-ai-key-input { font-size: 16px !important; }
+
+  /* Stack the three meta fields into a single column */
+  .nb-ifaprog__meta { flex-direction: column; }
+  .nb-ifaprog__meta-field,
+  .nb-ifaprog__meta-field--sm { flex: 1 1 auto; min-width: 0; }
+
+  /* IfaSound header: stack label + buttons vertically */
+  .nb-ifaprog__sound-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .nb-ifaprog__sound-btns   { width: 100%; display: flex; gap: 6px; }
+  .nb-ifaprog__sbtn         { flex: 1; min-height: 40px; text-align: center; }
+
+  /* Extract-to buttons: comfortable touch targets */
+  .nb-ifaprog__extract-btn { min-height: 32px; padding: 3px 10px; }
+
+  /* Transcript textarea: not less than 3 rows on phone */
+  .nb-ifaprog__textarea--transcript { min-height: 72px; }
+}
+
+/* ── Sidebar items: always-visible actions on touch ─────────────────────────── */
+/* hover: none targets real touchscreens; ≤768px is a width safety-net          */
+@media (hover: none), (max-width: 768px) {
+  .pro-nb-item__actions { opacity: 1; }
+  .pro-nb-item__act-btn { padding: 5px 9px; min-height: 32px; }
+  /* Show meta (date) without hover */
+  .pro-nb-item__meta { color: #3a5070; }
+}
+
+/* ── Presentation mode — phone (≤600px) ────────────────────────────────────── */
+@media (max-width: 600px) {
+  .pro-present-topbar { padding: 8px 12px; gap: 8px; }
+  .pro-present-title  {
+    font-size: 0.74rem; max-width: 140px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .pro-present-exit   { padding: 4px 10px; font-size: 0.7rem; min-height: 36px; }
+
+  /* Reduce body padding so cell card doesn't clip */
+  .pro-present-body   { padding: 14px 10px; }
+  .pro-present-cell   { padding: 20px 16px; min-height: 120px; border-radius: 8px; }
+
+  /* Shrink side-arrow chevrons — 3.5rem overlaps content on 360 px phones */
+  .pro-present-arrow        { font-size: 1.8rem; padding: 10px 8px; }
+  .pro-present-arrow--left  { left: 0; }
+  .pro-present-arrow--right { right: 0; }
+
+  /* Bottom nav bar: tighter */
+  .pro-present-nav     { padding: 10px 12px; gap: 8px; }
+  .pro-present-nav-btn { padding: 6px 12px; min-height: 40px; font-size: 0.72rem; min-width: 66px; }
+}
+
+@media (max-width: 480px) {
+  /* Presentation text & code: slightly smaller so it fits without side-scroll */
+  .pro-present-cell__code { font-size: 0.8rem; padding: 10px 12px; }
+  .pro-present-cell__text { font-size: 0.92rem; }
+  /* Progress dots: scroll instead of wrapping when there are many slides */
+  .pro-present-dots {
+    max-width: calc(100vw - 180px);
+    overflow-x: auto; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .pro-present-dots::-webkit-scrollbar { display: none; }
+  /* Odu figures in presentation: tighten gap */
+  .pro-present-odu__figures { gap: 24px; }
+  .pro-present-odu__mark { font-size: 1.2rem; }
+}
+
+/* ── HelpModal: compact + scrollable tabs (≤480px) ─────────────────────────── */
+@media (max-width: 480px) {
+  .pro-help-overlay { padding: 8px; }
+  .pro-help-dialog  { border-radius: 10px; max-height: 94vh; }
+  .pro-help-head    { padding: 12px 14px 10px; }
+  .pro-help-title   { font-size: 0.88rem; }
+
+  /* Tabs: horizontal scroll strip — never overflow or wrap */
+  .pro-help-tabs {
+    overflow-x: auto; flex-wrap: nowrap;
+    padding: 8px 12px 0; gap: 0;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .pro-help-tabs::-webkit-scrollbar { display: none; }
+  .pro-help-tab  { padding: 6px 10px 8px; font-size: 0.74rem; flex-shrink: 0; }
+
+  /* Body: tighter side padding */
+  .pro-help-body { padding: 12px 14px; }
+
+  /* Shortcuts table: narrower key column to leave room for description */
+  .pro-help-td--key  { width: 36%; }
+  .pro-help-table    { font-size: 0.74rem; }
+  .pro-help-td       { padding: 6px 8px; }
+  .pro-help-th       { padding: 6px 8px; font-size: 0.7rem; }
+
+  /* Cell-type badge + info: allow badge to shrink */
+  .pro-help-cell-badge { flex-shrink: 0; }
+  .pro-help-cell-row   { gap: 8px; }
+}
+
+/* ── Share dialog: phone layout (≤480px) ────────────────────────────────────── */
+@media (max-width: 480px) {
+  .pro-share-overlay  { padding: 8px; }
+  .pro-share-dialog   { padding: 16px 14px 14px; border-radius: 10px; }
+  .pro-share-title    { font-size: 0.9rem; }
+  /* Stack URL textarea + copy button */
+  .pro-share-url-row  { flex-direction: column; }
+  .pro-share-copy-btn { width: 100%; text-align: center; min-height: 40px; padding: 8px; }
+  /* Actions row: close button fills row */
+  .pro-share-actions  { flex-direction: column; gap: 6px; }
+  .pro-share-close    { text-align: center; min-height: 40px; padding: 8px 16px; }
+}
+
+/* ── Very small phones (≤360px) — IfaProg + presentation patch ─────────────── */
+@media (max-width: 360px) {
+  .nb-ifaprog__sound-wrap { padding: 8px 10px; }
+  .nb-ifaprog__sbtn       { font-size: 0.72rem; padding: 3px 8px; }
+  .pro-present-body       { padding: 10px 6px; }
+  .pro-present-cell       { padding: 14px 12px; }
+  .pro-present-nav-btn    { padding: 5px 8px; min-width: 54px; }
 }

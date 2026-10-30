@@ -118,6 +118,7 @@ const ALL_PROJECTS = [
   { name:'IfaDigital Logic Panel', sub:'Digital Logic Gates · IfaGates · IfaLogic', color:'#8b5cf6', cat:'Technology', href:'../ifa-logic/' },
   { name:'Ifa Electronic Board',   sub:'Electronic Design · IfaBoard · Circuit Panel', color:'#f5c518', cat:'Technology', href:'../ifa-electronic-board/' },
   { name:'IfaCircuit',             sub:'Ifa Circuit Design · Electronics · IfaEng',   color:'#00d4ff', cat:'Technology', href:'../ifa-circuit/' },
+  { name:'OrisaCircuit',           sub:'Orisa Circuit Design · Orisa-Circuit · OrisaEng', color:'#e9498a', cat:'Technology', href:'../orisa-circuit/' },
   { name:'Ifa Devices',           sub:'IfaDevices · Ifa-Based Devices · IfaGates',   color:'#8b5cf6', cat:'Technology', href:'../ifa-devices/' },
   { name:'Orisa Devices',         sub:'OrisaDevices · Orisa-Based Devices · OrisaTech', color:'#e9498a', cat:'Technology', href:'../orisa-devices/' },
   { name:'IfaCars',                sub:'Ifa Cars · Automotive · IfaAutomotive',         color:'#f0920c', cat:'Technology', href:'../ifa-cars/' },
