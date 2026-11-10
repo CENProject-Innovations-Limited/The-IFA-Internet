@@ -376,6 +376,7 @@ function Header() {
           <a className="nav-link" href="#ifart-matrix">Matrix</a>
           <a className="nav-link" href="#challenge">Challenge</a>
           <a className="nav-link" href="#path">Learn</a>
+          <a className="nav-link" href="https://ifainternet.org/ifagram" target="_blank" rel="noopener noreferrer">Ifagram</a>
           <a className="nav-link nav-link--cta"
              href="https://ifainternet.org"
              target="_blank" rel="noopener noreferrer">IFA Internet</a>
@@ -1973,6 +1974,7 @@ function Footer() {
         <div className="footer__links">
           <a className="footer__link" href="../">IFA Internet</a>
           <a className="footer__link" href="../ebology-test/">Ebology</a>
+          <a className="footer__link" href="https://ifainternet.org/ifagram" target="_blank" rel="noopener noreferrer">Ifagram</a>
           <a className="footer__link" href="https://toe.cenproject.org" target="_blank" rel="noopener noreferrer">ToE</a>
           <a className="footer__link" href="https://ifainternet.org" target="_blank" rel="noopener noreferrer">ifainternet.org</a>
         </div>

@@ -1124,6 +1124,50 @@ body {
   .d8-odu-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
+/* ─── Ifa-Orisa Model Section ────────────────────────────────────────────────── */
+.iom-body { display: flex; flex-direction: column; gap: 36px; max-width: 860px; margin: 0 auto; }
+
+.iom-block__title {
+  font-size: 1rem; font-weight: 800; color: var(--amber);
+  margin-bottom: 10px; letter-spacing: 0.01em;
+}
+.iom-block__text {
+  font-size: 0.92rem; color: var(--text-2); line-height: 1.75;
+}
+.iom-block__text strong { color: var(--text-1); font-weight: 700; }
+.iom-block__text em { color: var(--text-2); font-style: normal; font-weight: 600; }
+
+.iom-os-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+.iom-os-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 22px 24px;
+}
+.iom-os-card__label {
+  font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--amber); margin-bottom: 10px;
+}
+.iom-os-card__body {
+  font-size: 0.88rem; color: var(--text-2); line-height: 1.7;
+}
+.iom-os-card__body strong { color: var(--text-1); font-weight: 700; }
+
+.iom-keywords {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.iom-keyword {
+  font-size: 0.75rem; font-weight: 600;
+  color: var(--amber); background: rgba(240,146,12,0.10);
+  border: 1px solid rgba(240,146,12,0.20);
+  border-radius: 20px; padding: 4px 12px;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 600px) {
+  .iom-os-grid { grid-template-columns: 1fr; }
+}
+
 /* ─── Ifa Expression (IfaExpr) — Ifa Variable symbol ────────────────────────── */
 .ifa-expr { position: relative; display: inline-block; line-height: 1.2; }
 .ifa-expr__char { display: inline-block; line-height: 1.2; font-family: inherit; }

@@ -716,6 +716,26 @@ a { color: inherit; text-decoration: none; }
   line-height: 1.75;
   max-width: 660px;
 }
+.mission-ioe__link {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(245,197,24,0.4);
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+.mission-ioe__link:hover {
+  color: var(--text);
+  text-decoration-color: var(--gold);
+}
+.mission-ioe__tagline {
+  margin-top: 14px;
+  font-size: 0.95rem;
+  color: var(--text-2);
+  line-height: 1.7;
+  max-width: 660px;
+  font-style: italic;
+  opacity: 0.82;
+}
 
 /* ──────────────────────────────────────────────
    PLATFORMS TAGLINE

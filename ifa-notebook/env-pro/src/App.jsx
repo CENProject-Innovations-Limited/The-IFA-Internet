@@ -3312,6 +3312,9 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
           </>
         )}
 
+        {/* IfaSound — first subsection in Odu cell */}
+        {cell.type === 'odu' && <IfaSoundSection cell={cell} onChange={onChange} oduMode={true} />}
+
         {/* Odu marks */}
         {cell.type === 'odu' && (
           <OduMarkInput right={cell.right} left={cell.left}
@@ -3334,6 +3337,9 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
           if (v === 'steamsex-odu') return <OduSteamsexOduMatrix topic={topic} rightOdu={ro} leftOdu={lo} />;
           return null;
         })()}
+
+        {/* IfaProg subsections (④–⑧) embedded inside Odu cell */}
+        {cell.type === 'odu' && <IfaProgCell cell={cell} onChange={onChange} hideSound oduMode={true} />}
 
         {/* Art & Design — Ifagram canvas */}
         {isArt && <IfagramCanvas key={cell.clearKey || 0} cell={cell} onChange={onChange} />}
@@ -4086,7 +4092,17 @@ const IFAPROG_SECTIONS = [
   { key: 'output',    label: '④ Output / Result',       placeholder: 'State the result, model, application, or system produced by this Ifa Program…' },
 ];
 
-function IfaProgCell({ cell, onChange }) {
+/* Odu-cell variant — subsections ④–⑧ (after ① IfaSound, ② Transcript, ③ Odu Reference) */
+const ODU_SECTIONS = [
+  { key: 'theme',      label: '④ Theme / Problem',      placeholder: 'State the theme, problem, or challenge this Odu entry addresses…' },
+  { key: 'ifaInput',   label: '⑤ Ifa Knowledge Input',  placeholder: 'Enter the Odu wisdom, principle, or teaching — verse, edict, or narrative…' },
+  { key: 'transform',  label: '⑥ Transformation',        placeholder: 'Describe how the Ifa wisdom maps into the target domain — the translation logic…' },
+  { key: 'output',     label: '⑦ Output / Result',       placeholder: 'State the result, model, application, or system produced by this Odu entry…' },
+  { key: 'oduOthers',  label: '⑧ Others',                placeholder: 'Additional notes, references, supplementary content, or miscellaneous entries for this Odu…' },
+];
+
+/* ── IfaSoundSection ──────────────────────────────────────────────────────── */
+function IfaSoundSection({ cell, onChange, oduMode = false }) {
   const [recording,  setRecording]  = useState(false);
   const [recTime,    setRecTime]    = useState(0);
   const [liveText,   setLiveText]   = useState('');
@@ -4182,12 +4198,109 @@ function IfaProgCell({ cell, onChange }) {
   const displayTranscript = (cell.ifaSoundTranscript || '') + (liveText ? liveText : '');
 
   return (
+    <div className="nb-ifaprog__sound-wrap">
+      <div className="nb-ifaprog__sound-header">
+        <span className="nb-ifaprog__section-label">&#9312; IfaSound</span>
+        <div className="nb-ifaprog__sound-btns">
+          {!recording ? (
+            <button className="nb-ifaprog__sbtn nb-ifaprog__sbtn--rec" onClick={startRec} title="Record voice">
+              &#127897; Record
+            </button>
+          ) : (
+            <button className="nb-ifaprog__sbtn nb-ifaprog__sbtn--stop" onClick={stopRec} title="Stop recording">
+              &#9209; Stop&nbsp;<span className="nb-ifaprog__rec-time">{fmtTime(recTime)}</span>
+            </button>
+          )}
+          <button className="nb-ifaprog__sbtn" onClick={() => fileInputRef.current?.click()} title="Attach audio file">
+            &#128206; Attach
+          </button>
+          <input key={fileKey} ref={fileInputRef} type="file" accept="audio/*" style={{ display:'none' }} onChange={handleFile} />
+        </div>
+      </div>
+
+      {/* IfaSound Credit + Date Posted */}
+      <div className="nb-ifaprog__sound-meta-row">
+        <div className="nb-ifaprog__sound-meta-field">
+          <label className="nb-ifaprog__sublabel">IfaSound Credit</label>
+          <input
+            className="nb-ifaprog__input nb-ifaprog__input--sm"
+            type="text"
+            placeholder="Credit / source of this sound…"
+            value={cell.ifaSoundCredit || ''}
+            onChange={e => onChange({ ifaSoundCredit: e.target.value })}
+          />
+        </div>
+        <div className="nb-ifaprog__sound-meta-field">
+          <label className="nb-ifaprog__sublabel">Date Posted</label>
+          <input
+            className="nb-ifaprog__input nb-ifaprog__input--sm"
+            type="text"
+            placeholder="e.g. 2026-11-07"
+            value={cell.ifaSoundDate || ''}
+            onChange={e => onChange({ ifaSoundDate: e.target.value })}
+          />
+        </div>
+      </div>
+
+      {recording && (
+        <div className="nb-ifaprog__rec-bar">
+          <span className="nb-ifaprog__rec-dot" />
+          <span>Recording&nbsp;&nbsp;{fmtTime(recTime)}</span>
+        </div>
+      )}
+      {recError && <p className="nb-ifaprog__rec-error">{recError}</p>}
+
+      {cell.ifaSound && (
+        <div className="nb-ifaprog__player">
+          <audio controls src={cell.ifaSound} style={{ width:'100%', height:'34px' }} />
+          <div className="nb-ifaprog__player-meta">
+            <span className="nb-ifaprog__player-name">{cell.ifaSoundName || 'audio'}</span>
+            <button className="nb-ifaprog__player-remove" onClick={removeSound} title="Remove audio">&#10005; Remove</button>
+          </div>
+        </div>
+      )}
+
+      {/* Transcript + Extract Knowledge */}
+      <div className="nb-ifaprog__transcript">
+        <div className="nb-ifaprog__transcript-hdr">
+          <span className="nb-ifaprog__sublabel">{oduMode ? '② Transcript / Extracted Knowledge' : 'Transcript / Extracted Knowledge'}</span>
+          {displayTranscript.trim() && (
+            <div className="nb-ifaprog__extract-row">
+              <span className="nb-ifaprog__extract-label">Insert into &rarr;</span>
+              {(oduMode ? ODU_SECTIONS.filter(s => s.key !== 'oduOthers') : IFAPROG_SECTIONS).map(s => (
+                <button key={s.key} className="nb-ifaprog__extract-btn" onClick={() => extractToField(s.key)} title={`Insert into ${s.label}`}>
+                  {s.label.charAt(0)}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <textarea
+          className="nb-ifaprog__textarea nb-ifaprog__textarea--transcript"
+          value={displayTranscript}
+          onChange={e => { onChange({ ifaSoundTranscript: e.target.value }); setLiveText(''); }}
+          placeholder="Speech transcript appears here during recording. You can also type or paste extracted knowledge manually, then insert it into any section above."
+          rows={Math.max(2, (displayTranscript.match(/\n/g) || []).length + 2)}
+        />
+        {!recording && !cell.ifaSound && (
+          <p className="nb-ifaprog__sound-hint">
+            Record your voice or attach an audio file — speech is transcribed live and can be inserted into any section with one click.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function IfaProgCell({ cell, onChange, hideSound = false, oduMode = false }) {
+  const sections = oduMode ? ODU_SECTIONS : IFAPROG_SECTIONS;
+  return (
     <div className="nb-ifaprog">
 
       {/* ── Meta row ── */}
       <div className="nb-ifaprog__meta">
         <div className="nb-ifaprog__meta-field">
-          <label className="nb-ifaprog__label">Odu Reference</label>
+          <label className="nb-ifaprog__label">{oduMode ? '③ Odu Reference' : 'Odu Reference'}</label>
           <input
             className="nb-ifaprog__input"
             type="text"
@@ -4220,8 +4333,8 @@ function IfaProgCell({ cell, onChange }) {
         </div>
       </div>
 
-      {/* ── Four structured sections ── */}
-      {IFAPROG_SECTIONS.map(s => (
+      {/* ── Structured sections ── */}
+      {sections.map(s => (
         <div key={s.key} className="nb-ifaprog__section">
           <div className="nb-ifaprog__section-label">{s.label}</div>
           <textarea
@@ -4234,78 +4347,11 @@ function IfaProgCell({ cell, onChange }) {
         </div>
       ))}
 
-      {/* ── IfaSound ── */}
-      <div className="nb-ifaprog__sound-wrap">
-        <div className="nb-ifaprog__sound-header">
-          <span className="nb-ifaprog__section-label">&#9676; IfaSound</span>
-          <div className="nb-ifaprog__sound-btns">
-            {!recording ? (
-              <button className="nb-ifaprog__sbtn nb-ifaprog__sbtn--rec" onClick={startRec} title="Record voice">
-                &#127897; Record
-              </button>
-            ) : (
-              <button className="nb-ifaprog__sbtn nb-ifaprog__sbtn--stop" onClick={stopRec} title="Stop recording">
-                &#9209; Stop&nbsp;<span className="nb-ifaprog__rec-time">{fmtTime(recTime)}</span>
-              </button>
-            )}
-            <button className="nb-ifaprog__sbtn" onClick={() => fileInputRef.current?.click()} title="Attach audio file">
-              &#128206; Attach
-            </button>
-            <input key={fileKey} ref={fileInputRef} type="file" accept="audio/*" style={{ display:'none' }} onChange={handleFile} />
-          </div>
-        </div>
-
-        {recording && (
-          <div className="nb-ifaprog__rec-bar">
-            <span className="nb-ifaprog__rec-dot" />
-            <span>Recording&nbsp;&nbsp;{fmtTime(recTime)}</span>
-          </div>
-        )}
-        {recError && <p className="nb-ifaprog__rec-error">{recError}</p>}
-
-        {cell.ifaSound && (
-          <div className="nb-ifaprog__player">
-            <audio controls src={cell.ifaSound} style={{ width:'100%', height:'34px' }} />
-            <div className="nb-ifaprog__player-meta">
-              <span className="nb-ifaprog__player-name">{cell.ifaSoundName || 'audio'}</span>
-              <button className="nb-ifaprog__player-remove" onClick={removeSound} title="Remove audio">&#10005; Remove</button>
-            </div>
-          </div>
-        )}
-
-        {/* Transcript + Extract Knowledge */}
-        <div className="nb-ifaprog__transcript">
-          <div className="nb-ifaprog__transcript-hdr">
-            <span className="nb-ifaprog__sublabel">Transcript / Extracted Knowledge</span>
-            {displayTranscript.trim() && (
-              <div className="nb-ifaprog__extract-row">
-                <span className="nb-ifaprog__extract-label">Insert into &rarr;</span>
-                {IFAPROG_SECTIONS.map(s => (
-                  <button key={s.key} className="nb-ifaprog__extract-btn" onClick={() => extractToField(s.key)} title={`Insert into ${s.label}`}>
-                    {s.label.charAt(0)}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          <textarea
-            className="nb-ifaprog__textarea nb-ifaprog__textarea--transcript"
-            value={displayTranscript}
-            onChange={e => { onChange({ ifaSoundTranscript: e.target.value }); setLiveText(''); }}
-            placeholder="Speech transcript appears here during recording. You can also type or paste extracted knowledge manually, then insert it into any section above."
-            rows={Math.max(2, (displayTranscript.match(/\n/g) || []).length + 2)}
-          />
-          {!recording && !cell.ifaSound && (
-            <p className="nb-ifaprog__sound-hint">
-              Record your voice or attach an audio file — speech is transcribed live and can be inserted into any section with one click.
-            </p>
-          )}
-        </div>
-      </div>
+      {/* ── IfaSound (standalone ifaprog cell only) ── */}
+      {!hideSound && <IfaSoundSection cell={cell} onChange={onChange} />}
 
       <p className="nb-ifaprog__hint">
-        An <strong>Ifa Program</strong> transforms Odu Ifa wisdom for application in any modern field.
-        Fill in all four sections to complete the program.
+        An <strong>Ifa Program</strong> transforms Odu Energy (Ọ̀rọ̀) and Ifa Wisdom into Everything — fields of knowledge, technologies, systems, inventions, innovations, and others. IfaPrograms always contain Eight Sections.
       </p>
     </div>
   );
@@ -4964,7 +5010,7 @@ function App({ onLogout, noteUser }) {
     setCells(cs => cs.map(c => {
       if (c.id !== id) return c;
       // Odu: reset both sides to Ogbe (1111) and clear name/topic
-      if (c.type === 'odu') return { ...c, right: [1,1,1,1], left: [1,1,1,1], oduName: '', oduTopic: '' };
+      if (c.type === 'odu') return { ...c, right: [1,1,1,1], left: [1,1,1,1], oduName: '', oduTopic: '', oduRef: '', domain: '', progType: 'general', theme: '', ifaInput: '', transform: '', output: null, oduOthers: '', ifaSound: null, ifaSoundName: '', ifaSoundTranscript: '' };
       // Art: bump clearKey so IfagramCanvas remounts with a blank canvas
       if (c.type === 'art') return { ...c, canvasData: null, output: null, clearKey: (c.clearKey || 0) + 1 };
       // Others: wipe all text fields
@@ -5072,7 +5118,6 @@ function App({ onLogout, noteUser }) {
           <button className="nb-add-btn nb-add-btn--others"     onClick={() => addCell('others')}>＋ Others</button>
           <button className="nb-add-btn" style={{'--nb-add-clr':'#14b8d4'}} onClick={() => addCell('ai')}>＋ AI</button>
           <button className="nb-add-btn nb-add-btn--lang" onClick={() => addCell('lang')}>＋ Lang</button>
-          <button className="nb-add-btn nb-add-btn--ifaprog" onClick={() => addCell('ifaprog')}>＋ IfaProg</button>
         </div>
 
         <div className="env-topbar__right">
@@ -5220,7 +5265,6 @@ function App({ onLogout, noteUser }) {
           <button className="nb-add-inline nb-add-inline--others"     onClick={() => addCell('others')}>+ Others</button>
           <button className="nb-add-inline" style={{'--nb-add-clr':'#14b8d4'}} onClick={() => addCell('ai')}>+ AI</button>
           <button className="nb-add-inline nb-add-inline--lang" onClick={() => addCell('lang')}>+ Lang</button>
-          <button className="nb-add-inline nb-add-inline--ifaprog" onClick={() => addCell('ifaprog')}>+ IfaProg</button>
         </div>
 
         <div className="nb-footer-note">

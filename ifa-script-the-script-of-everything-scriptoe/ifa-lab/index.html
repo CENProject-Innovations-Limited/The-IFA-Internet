@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IfaLab · OrisaLab — Dual Symbol Generator | IfaScript · The IFA Internet</title>
+  <meta name="description" content="IfaLab (IfaScript Lab) and OrisaLab (OrisaScript Lab) — the dual symbol generation laboratory of IfaScript. Applying ifalgo and orisalgo to generate dual symbols for logic, mathematics, and the Aebajiogbe-Oduduwa Script." />
+  <meta name="keywords" content="IfaLab, IfaScript Lab, OrisaLab, OrisaScript Lab, ifalgo, orisalgo, dual symbols, logic symbols, Aebajiogbe, Oduduwa Script, IfaScript, IFA Internet, CENProject" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://ifainternet.org/ifa-script-the-script-of-everything-scriptoe/ifa-lab/" />
+  <meta name="theme-color" content="#030508" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content="https://ifainternet.org/ifa-script-the-script-of-everything-scriptoe/ifa-lab/" />
+  <meta property="og:title"       content="IfaLab · OrisaLab — Dual Symbol Generator | IfaScript" />
+  <meta property="og:description" content="IfaLab and OrisaLab — generating dual symbols for logic, math, and the Aebajiogbe-Oduduwa Script using ifalgo and orisalgo. Part of IfaScript on the IFA Internet." />
+  <meta property="og:site_name"   content="The IFA Internet" />
+
+  <link rel="icon" type="image/png" href="../../src/assets/itoe_favicon.png" />
+  <link rel="stylesheet" href="./src/styles.css" />
+</head>
+<body>
+  <div id="root">
+    <div style="font-family:sans-serif;max-width:860px;margin:0 auto;padding:24px 20px;color:#eee;background:#030508;min-height:100vh">
+      <h1 style="font-size:1.6rem;color:#0ea5e9;margin-bottom:8px">IfaLab · OrisaLab — Dual Symbol Generator</h1>
+      <p style="color:#8892aa">Subpage of IfaScript · The IFA Internet. Loading…</p>
+    </div>
+  </div>
+  <script src="../../lib/react.min.js"></script>
+  <script src="../../lib/react-dom.min.js"></script>
+  <script src="../../lib/babel.min.js"></script>
+  <script type="text/babel" data-presets="react">
+/* ─────────────────────────────────────────────────────────────
+   IfaLab · OrisaLab
+   Dual Symbol Generation Laboratory — IfaScript · IFA Internet
+   Subpage of IfaScript (ScriptoE)
+───────────────────────────────────────────────────────────── */
+
+const { useState, useEffect } = React;
+
+/* ── Login credentials (site-level gate) ─────────────────────
+   Username: IfaLab   Password: orisalgo2026
+─────────────────────────────────────────────────────────────── */
+const CREDENTIALS = { user: 'IfaLab', pass: 'orisalgo2026' };
+const SESSION_KEY = 'ifalab_auth_v1';
+
+/* ── SVG helpers ─────────────────────────────────────────────── */
+const DS = ({ w = 44, h = 44, children, color = 'currentColor' }) => (
+  <svg viewBox="0 0 44 44" width={w} height={h} fill="none"
+    stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"
+    style={{ display:'block' }} aria-hidden="true">
+    {children}
+  </svg>
+);
+
+/* ── LOGIC SYMBOL DATA ───────────────────────────────────────── */
+/* Each entry: { id, name, unicode, meaning, cat, orig (render), dual (SVG children), rule } */
+
+/* Propositional Logic */
+const PROP_LOGIC = [
+  {
+    id:'not', name:'Negation', unicode:'¬  U+00AC', meaning:'NOT p — flips truth value of p',
+    orig:'¬',
+    dual: <DS><line x1="8" y1="16" x2="36" y2="16"/><line x1="8" y1="21" x2="36" y2="21"/><line x1="36" y1="16" x2="36" y2="26"/><line x1="32" y1="16" x2="32" y2="26"/></DS>,
+    rule:'ifalgo: horizontal bar doubled, vertical drop doubled → dual ¬',
+  },
+  {
+    id:'and', name:'Conjunction (AND)', unicode:'∧  U+2227', meaning:'p AND q — true only if both p and q are true',
+    orig:'∧',
+    dual: <DS><line x1="22" y1="6" x2="5" y2="36"/><line x1="22" y1="11" x2="7" y2="38"/><line x1="22" y1="6" x2="39" y2="36"/><line x1="22" y1="11" x2="37" y2="38"/></DS>,
+    rule:'ifalgo: two wedge diagonals each doubled → dual ∧ (4 lines)',
+  },
+  {
+    id:'or', name:'Disjunction (OR)', unicode:'∨  U+2228', meaning:'p OR q — true if at least one is true',
+    orig:'∨',
+    dual: <DS><line x1="22" y1="38" x2="5" y2="8"/><line x1="22" y1="33" x2="7" y2="6"/><line x1="22" y1="38" x2="39" y2="8"/><line x1="22" y1="33" x2="37" y2="6"/></DS>,
+    rule:'ifalgo: two vee diagonals each doubled → dual ∨ (4 lines)',
+  },
+  {
+    id:'impl', name:'Implication', unicode:'→  U+2192', meaning:'IF p THEN q — material conditional',
+    orig:'→',
+    dual: <DS><line x1="6" y1="18" x2="30" y2="18"/><line x1="6" y1="24" x2="30" y2="24"/><line x1="30" y1="14" x2="38" y2="21"/><line x1="38" y1="21" x2="30" y2="28"/><line x1="28" y1="14" x2="36" y2="21"/><line x1="36" y1="21" x2="28" y2="28"/></DS>,
+    rule:'ifalgo: shaft doubled, arrowhead doubled → dual →',
+  },
+  {
+    id:'bicond', name:'Biconditional', unicode:'↔  U+2194', meaning:'p IF AND ONLY IF q — logical equivalence',
+    orig:'↔',
+    dual: <DS><line x1="8" y1="18" x2="36" y2="18"/><line x1="8" y1="24" x2="36" y2="24"/><line x1="8" y1="14" x2="16" y2="21"/><line x1="16" y1="21" x2="8" y2="28"/><line x1="6" y1="14" x2="14" y2="21"/><line x1="14" y1="21" x2="6" y2="28"/><line x1="36" y1="14" x2="28" y2="21"/><line x1="28" y1="21" x2="36" y2="28"/><line x1="38" y1="14" x2="30" y2="21"/><line x1="30" y1="21" x2="38" y2="28"/></DS>,
+    rule:'ifalgo: shaft doubled, both arrowheads doubled → dual ↔',
+  },
+  {
+    id:'xor', name:'Exclusive OR (XOR)', unicode:'⊕  U+2295', meaning:'p XOR q — true if exactly one is true',
+    orig:'⊕',
+    dual: <DS><circle cx="22" cy="22" r="15"/><circle cx="22" cy="22" r="9"/><line x1="22" y1="6" x2="22" y2="38"/><line x1="19" y1="6" x2="19" y2="38"/><line x1="6" y1="22" x2="38" y2="22"/><line x1="6" y1="19" x2="38" y2="19"/></DS>,
+    rule:'orisalgo+ifalgo: circle doubled, cross lines each doubled → dual ⊕',
+  },
+  {
+    id:'equiv', name:'Logical Equivalence', unicode:'≡  U+2261', meaning:'p ≡ q — identical truth values in all cases',
+    orig:'≡',
+    dual: <DS><line x1="8" y1="12" x2="36" y2="12"/><line x1="8" y1="16" x2="36" y2="16"/><line x1="8" y1="22" x2="36" y2="22"/><line x1="8" y1="26" x2="36" y2="26"/><line x1="8" y1="32" x2="36" y2="32"/><line x1="8" y1="36" x2="36" y2="36"/></DS>,
+    rule:'ifalgo: three horizontal bars each doubled → dual ≡ (6 bars)',
+  },
+];
+
+/* Predicate / First-Order Logic */
+const PRED_LOGIC = [
+  {
+    id:'forall', name:'Universal Quantifier', unicode:'∀  U+2200', meaning:'"For all x" — applies to every element',
+    orig:'∀',
+    dual: <DS><line x1="22" y1="6" x2="5" y2="36"/><line x1="22" y1="11" x2="7" y2="38"/><line x1="22" y1="6" x2="39" y2="36"/><line x1="22" y1="11" x2="37" y2="38"/><line x1="10" y1="26" x2="34" y2="26"/><line x1="10" y1="30" x2="34" y2="30"/></DS>,
+    rule:'ifalgo: two diagonals + crossbar each doubled → dual ∀ (6 lines)',
+  },
+  {
+    id:'exists', name:'Existential Quantifier', unicode:'∃  U+2203', meaning:'"There exists at least one x" — asserts existence',
+    orig:'∃',
+    dual: <DS><line x1="10" y1="8" x2="34" y2="8"/><line x1="10" y1="12" x2="34" y2="12"/><line x1="10" y1="20" x2="28" y2="20"/><line x1="10" y1="24" x2="28" y2="24"/><line x1="10" y1="32" x2="34" y2="32"/><line x1="10" y1="36" x2="34" y2="36"/><line x1="10" y1="8" x2="10" y2="36"/><line x1="14" y1="8" x2="14" y2="36"/></DS>,
+    rule:'ifalgo: three horizontals + vertical each doubled → dual ∃',
+  },
+  {
+    id:'nexists', name:'Non-Existence', unicode:'∄  U+2204', meaning:'"There does not exist" — denial of existence',
+    orig:'∄',
+    dual: <DS><line x1="10" y1="8" x2="34" y2="8"/><line x1="10" y1="12" x2="34" y2="12"/><line x1="10" y1="20" x2="28" y2="20"/><line x1="10" y1="24" x2="28" y2="24"/><line x1="10" y1="32" x2="34" y2="32"/><line x1="10" y1="36" x2="34" y2="36"/><line x1="10" y1="8" x2="10" y2="36"/><line x1="14" y1="8" x2="14" y2="36"/><line x1="6" y1="4" x2="38" y2="40"/><line x1="3" y1="7" x2="35" y2="43"/></DS>,
+    rule:'ifalgo: dual ∃ + negation slash doubled → dual ∄',
+  },
+];
+
+/* Metalogic */
+const META_LOGIC = [
+  {
+    id:'vdash', name:'Syntactic Turnstile', unicode:'⊢  U+22A2', meaning:'"Proves" — syntactic consequence; A ⊢ B means A proves B',
+    orig:'⊢',
+    dual: <DS><line x1="8" y1="8" x2="8" y2="36"/><line x1="12" y1="8" x2="12" y2="36"/><line x1="12" y1="20" x2="36" y2="20"/><line x1="12" y1="24" x2="36" y2="24"/></DS>,
+    rule:'ifalgo: vertical stem doubled, horizontal bar doubled → dual ⊢',
+  },
+  {
+    id:'models', name:'Semantic Entailment', unicode:'⊨  U+22A8', meaning:'"Models" — semantic consequence; A ⊨ B means A logically entails B',
+    orig:'⊨',
+    dual: <DS><line x1="8" y1="8" x2="8" y2="36"/><line x1="12" y1="8" x2="12" y2="36"/><line x1="6" y1="14" x2="14" y2="14"/><line x1="6" y1="18" x2="14" y2="18"/><line x1="12" y1="20" x2="36" y2="20"/><line x1="12" y1="24" x2="36" y2="24"/></DS>,
+    rule:'ifalgo: double-bar stem doubled, horizontal doubled → dual ⊨',
+  },
+  {
+    id:'top', name:'Tautology (Top)', unicode:'⊤  U+22A4', meaning:'Logical truth / tautology — always true in all interpretations',
+    orig:'⊤',
+    dual: <DS><line x1="6" y1="8" x2="38" y2="8"/><line x1="6" y1="13" x2="38" y2="13"/><line x1="22" y1="8" x2="22" y2="36"/><line x1="17" y1="8" x2="17" y2="36"/></DS>,
+    rule:'ifalgo: top bar doubled, vertical stem doubled → dual ⊤',
+  },
+  {
+    id:'bot', name:'Contradiction (Bottom)', unicode:'⊥  U+22A5', meaning:'Logical falsity / contradiction — always false; also "perpendicular"',
+    orig:'⊥',
+    dual: <DS><line x1="6" y1="36" x2="38" y2="36"/><line x1="6" y1="31" x2="38" y2="31"/><line x1="22" y1="36" x2="22" y2="8"/><line x1="17" y1="36" x2="17" y2="8"/></DS>,
+    rule:'ifalgo: bottom bar doubled, vertical stem doubled → dual ⊥',
+  },
+  {
+    id:'therefore', name:'Therefore', unicode:'∴  U+2234', meaning:'Therefore — marks the conclusion of a logical argument',
+    orig:'∴',
+    dual: <DS>
+      <circle cx="22" cy="10" r="3.5"/><circle cx="22" cy="10" r="1.6"/>
+      <circle cx="12" cy="30" r="3.5"/><circle cx="12" cy="30" r="1.6"/>
+      <circle cx="32" cy="30" r="3.5"/><circle cx="32" cy="30" r="1.6"/>
+    </DS>,
+    rule:'orisalgo: each dot (small circle) doubled → dual ∴ (3 double-dots)',
+  },
+  {
+    id:'because', name:'Because', unicode:'∵  U+2235', meaning:'Because — marks the premise/reason of an argument',
+    orig:'∵',
+    dual: <DS>
+      <circle cx="22" cy="34" r="3.5"/><circle cx="22" cy="34" r="1.6"/>
+      <circle cx="12" cy="14" r="3.5"/><circle cx="12" cy="14" r="1.6"/>
+      <circle cx="32" cy="14" r="3.5"/><circle cx="32" cy="14" r="1.6"/>
+    </DS>,
+    rule:'orisalgo: each dot doubled → dual ∵ (inverted dual ∴)',
+  },
+];
+
+/* Modal Logic */
+const MODAL_LOGIC = [
+  {
+    id:'box', name:'Necessity (Box)', unicode:'□  U+25A1', meaning:'"Necessarily true" — true in all possible worlds',
+    orig:'□',
+    dual: <DS>
+      <rect x="6" y="6" width="32" height="32" rx="1"/><rect x="11" y="11" width="22" height="22" rx="1"/>
+    </DS>,
+    rule:'orisalgo: square doubled (nested squares) → dual □',
+  },
+  {
+    id:'diamond', name:'Possibility (Diamond)', unicode:'◇  U+25C7', meaning:'"Possibly true" — true in at least one possible world',
+    orig:'◇',
+    dual: <DS>
+      <path d="M22 4 L38 22 L22 40 L6 22 Z"/>
+      <path d="M22 11 L33 22 L22 33 L11 22 Z"/>
+    </DS>,
+    rule:'orisalgo: diamond doubled (nested diamonds) → dual ◇',
+  },
+];
+
+/* Set Theory (logical use) */
+const SET_THEORY = [
+  {
+    id:'in', name:'Element Of', unicode:'∈  U+2208', meaning:'x ∈ S — x belongs to set S',
+    orig:'∈',
+    dual: <DS><path d="M32 10 C14 10 10 16 10 22 C10 28 14 34 32 34"/><path d="M28 16 C16 16 14 20 14 22 C14 24 16 28 28 28"/><line x1="10" y1="22" x2="32" y2="22"/><line x1="10" y1="26" x2="32" y2="26"/></DS>,
+    rule:'orisalgo+ifalgo: epsilon arcs doubled, middle bar doubled → dual ∈',
+  },
+  {
+    id:'subset', name:'Proper Subset', unicode:'⊂  U+2282', meaning:'A ⊂ B — A is strictly contained within B',
+    orig:'⊂',
+    dual: <DS><path d="M34 8 C10 8 10 36 34 36"/><path d="M30 14 C16 14 16 30 30 30"/></DS>,
+    rule:'orisalgo: arc doubled (two concentric open arcs) → dual ⊂',
+  },
+  {
+    id:'supset', name:'Proper Superset', unicode:'⊃  U+2283', meaning:'A ⊃ B — A strictly contains B (also: material implication in some notations)',
+    orig:'⊃',
+    dual: <DS><path d="M10 8 C34 8 34 36 10 36"/><path d="M14 14 C28 14 28 30 14 30"/></DS>,
+    rule:'orisalgo: arc doubled → dual ⊃',
+  },
+  {
+    id:'cap', name:'Intersection', unicode:'∩  U+2229', meaning:'A ∩ B — elements belonging to both A and B',
+    orig:'∩',
+    dual: <DS><path d="M6 36 L6 18 C6 6 38 6 38 18 L38 36"/><path d="M11 36 L11 20 C11 11 33 11 33 20 L33 36"/></DS>,
+    rule:'orisalgo: cap arc doubled (two nested caps) → dual ∩',
+  },
+  {
+    id:'cup', name:'Union', unicode:'∪  U+222A', meaning:'A ∪ B — elements belonging to A or B or both',
+    orig:'∪',
+    dual: <DS><path d="M6 8 L6 26 C6 38 38 38 38 26 L38 8"/><path d="M11 8 L11 24 C11 33 33 33 33 24 L33 8"/></DS>,
+    rule:'orisalgo: cup arc doubled → dual ∪',
+  },
+  {
+    id:'empty', name:'Empty Set', unicode:'∅  U+2205', meaning:'∅ — the set containing no elements',
+    orig:'∅',
+    dual: <DS><circle cx="22" cy="22" r="15"/><circle cx="22" cy="22" r="9"/><line x1="8" y1="8" x2="36" y2="36"/><line x1="5" y1="11" x2="33" y2="39"/></DS>,
+    rule:'orisalgo+ifalgo: circle doubled, diagonal slash doubled → dual ∅',
+  },
+];
+
+/* ── Aebajiogbe-Oduduwa Script: 25 letters as SVG dual pairs ── */
+/* Since the original glyphs are in a custom font (not Unicode),
+   we represent each letter by its phoneme, annotate its stroke
+   type, and show the dual (ifalgo or orisalgo applied). */
+const AEB_LETTERS = [
+  {
+    id:'a', name:'a', phoneme:'/a/', strokeType:'line',
+    orig:'a',
+    dual: <DS><line x1="22" y1="6" x2="5" y2="36"/><line x1="22" y1="11" x2="7" y2="38"/><line x1="22" y1="6" x2="39" y2="36"/><line x1="22" y1="11" x2="37" y2="38"/><line x1="10" y1="26" x2="34" y2="26"/><line x1="10" y1="30" x2="34" y2="30"/></DS>,
+    rule:'ifalgo: A-form diagonals + crossbar each doubled',
+  },
+  {
+    id:'e', name:'e', phoneme:'/e/', strokeType:'circle',
+    orig:'e',
+    dual: <DS><circle cx="22" cy="20" r="13"/><circle cx="22" cy="20" r="7"/><line x1="8" y1="20" x2="36" y2="20"/><line x1="8" y1="24" x2="36" y2="24"/></DS>,
+    rule:'orisalgo+ifalgo: circular body doubled, horizontal bar doubled',
+  },
+  {
+    id:'b', name:'b', phoneme:'/b/', strokeType:'mixed',
+    orig:'b',
+    dual: <DS><line x1="8" y1="6" x2="8" y2="36"/><line x1="12" y1="6" x2="12" y2="36"/><path d="M12 6 C32 6 32 21 12 21"/><path d="M12 9 C26 9 26 18 12 18"/></DS>,
+    rule:'ifalgo+orisalgo: stem doubled, bump arc doubled',
+  },
+  {
+    id:'j', name:'j', phoneme:'/dʒ/', strokeType:'line',
+    orig:'j',
+    dual: <DS><line x1="22" y1="6" x2="22" y2="32"/><line x1="17" y1="6" x2="17" y2="32"/><path d="M22 32 C22 42 8 42 8 34"/><path d="M17 30 C17 38 10 38 10 34"/><line x1="12" y1="6" x2="30" y2="6"/><line x1="12" y1="10" x2="30" y2="10"/></DS>,
+    rule:'ifalgo+orisalgo: stem doubled, hook arc doubled, top bar doubled',
+  },
+  {
+    id:'o', name:'o', phoneme:'/o/', strokeType:'circle',
+    orig:'o',
+    dual: <DS><circle cx="22" cy="22" r="15"/><circle cx="22" cy="22" r="9"/></DS>,
+    rule:'orisalgo: open circle doubled → nested circles',
+  },
+  {
+    id:'gb', name:'gb', phoneme:'/gb/', strokeType:'mixed',
+    orig:'gb',
+    dual: <DS><line x1="8" y1="8" x2="8" y2="36"/><line x1="12" y1="8" x2="12" y2="36"/><path d="M12 8 C30 8 30 22 12 22"/><path d="M12 12 C24 12 24 18 12 18"/><circle cx="30" cy="30" r="8"/><circle cx="30" cy="30" r="4.5"/></DS>,
+    rule:'ifalgo+orisalgo: b-stem doubled, g-circle doubled → dual gb',
+  },
+  {
+    id:'d', name:'d', phoneme:'/d/', strokeType:'mixed',
+    orig:'d',
+    dual: <DS><line x1="8" y1="6" x2="8" y2="36"/><line x1="12" y1="6" x2="12" y2="36"/><path d="M12 6 C36 6 36 36 12 36"/><path d="M12 11 C28 11 28 31 12 31"/></DS>,
+    rule:'ifalgo+orisalgo: stem doubled, right arc doubled → dual d',
+  },
+  {
+    id:'f', name:'f', phoneme:'/f/', strokeType:'line',
+    orig:'f',
+    dual: <DS><line x1="22" y1="6" x2="22" y2="38"/><line x1="17" y1="6" x2="17" y2="38"/><line x1="10" y1="16" x2="32" y2="16"/><line x1="10" y1="20" x2="32" y2="20"/><path d="M17 6 C17 2 26 2 28 6"/><path d="M20 6 C20 4 26 4 27 6"/></DS>,
+    rule:'ifalgo: stem doubled, crossbar doubled, top arc doubled',
+  },
+  {
+    id:'t', name:'t', phoneme:'/t/', strokeType:'line',
+    orig:'t',
+    dual: <DS><line x1="22" y1="8" x2="22" y2="38"/><line x1="17" y1="8" x2="17" y2="38"/><line x1="8" y1="16" x2="36" y2="16"/><line x1="8" y1="20" x2="36" y2="20"/></DS>,
+    rule:'ifalgo: vertical stem doubled, horizontal bar doubled → dual t',
+  },
+  {
+    id:'ẹ', name:'ẹ', phoneme:'/ɛ/', strokeType:'circle',
+    orig:'ẹ',
+    dual: <DS><circle cx="22" cy="20" r="13"/><circle cx="22" cy="20" r="7"/><line x1="8" y1="20" x2="28" y2="20"/><line x1="8" y1="24" x2="28" y2="24"/><circle cx="22" cy="38" r="2"/><circle cx="22" cy="38" r="0.8" fill="currentColor"/></DS>,
+    rule:'orisalgo+ifalgo: circle doubled, bar doubled, dot-mark doubled',
+  },
+  {
+    id:'ọ', name:'ọ', phoneme:'/ɔ/', strokeType:'circle',
+    orig:'ọ',
+    dual: <DS><circle cx="22" cy="20" r="13"/><circle cx="22" cy="20" r="7"/><circle cx="22" cy="38" r="2"/><circle cx="22" cy="38" r="0.8" fill="currentColor"/></DS>,
+    rule:'orisalgo: circle doubled, sub-dot doubled → dual ọ',
+  },
+  {
+    id:'l', name:'l', phoneme:'/l/', strokeType:'line',
+    orig:'l',
+    dual: <DS><line x1="17" y1="6" x2="17" y2="38"/><line x1="22" y1="6" x2="22" y2="38"/></DS>,
+    rule:'ifalgo: single vertical line doubled → dual l (two verticals)',
+  },
+  {
+    id:'w', name:'w', phoneme:'/w/', strokeType:'line',
+    orig:'w',
+    dual: <DS><line x1="8" y1="6" x2="14" y2="32"/><line x1="4" y1="8" x2="10" y2="34"/><line x1="14" y1="32" x2="22" y2="14"/><line x1="10" y1="30" x2="18" y2="12"/><line x1="22" y1="14" x2="30" y2="32"/><line x1="18" y1="12" x2="26" y2="30"/><line x1="30" y1="32" x2="36" y2="6"/><line x1="26" y1="34" x2="40" y2="8"/></DS>,
+    rule:'ifalgo: four W-diagonals each doubled → dual w (8 lines)',
+  },
+  {
+    id:'u', name:'u', phoneme:'/u/', strokeType:'mixed',
+    orig:'u',
+    dual: <DS><line x1="8" y1="8" x2="8" y2="28"/><line x1="12" y1="8" x2="12" y2="28"/><line x1="32" y1="8" x2="32" y2="28"/><line x1="36" y1="8" x2="36" y2="28"/><path d="M8 28 C8 40 36 40 36 28"/><path d="M12 28 C12 36 32 36 32 28"/></DS>,
+    rule:'ifalgo+orisalgo: two stems doubled, bottom arc doubled → dual u',
+  },
+  {
+    id:'m', name:'m', phoneme:'/m/', strokeType:'line',
+    orig:'m',
+    dual: <DS><line x1="6" y1="6" x2="6" y2="36"/><line x1="10" y1="6" x2="10" y2="36"/><line x1="28" y1="6" x2="28" y2="36"/><line x1="32" y1="6" x2="32" y2="36"/><line x1="10" y1="4" x2="19" y2="21"/><line x1="6" y1="8" x2="15" y2="23"/><line x1="28" y1="4" x2="19" y2="21"/><line x1="32" y1="8" x2="23" y2="23"/></DS>,
+    rule:'ifalgo: M verticals + inner diagonals each doubled → dual m (8 lines)',
+  },
+  {
+    id:'n', name:'n', phoneme:'/n/', strokeType:'line',
+    orig:'n',
+    dual: <DS><line x1="8" y1="6" x2="8" y2="36"/><line x1="12" y1="6" x2="12" y2="36"/><line x1="30" y1="6" x2="30" y2="36"/><line x1="34" y1="6" x2="34" y2="36"/><line x1="12" y1="4" x2="34" y2="32"/><line x1="8" y1="8" x2="30" y2="36"/></DS>,
+    rule:'ifalgo: two verticals + diagonal each doubled → dual n (6 lines)',
+  },
+  {
+    id:'i', name:'i', phoneme:'/i/', strokeType:'mixed',
+    orig:'i',
+    dual: <DS><line x1="17" y1="14" x2="17" y2="36"/><line x1="22" y1="14" x2="22" y2="36"/><circle cx="20" cy="7" r="3.5"/><circle cx="20" cy="7" r="1.6"/></DS>,
+    rule:'ifalgo+orisalgo: stem doubled, dot-circle doubled → dual i',
+  },
+  {
+    id:'h', name:'h', phoneme:'/h/', strokeType:'line',
+    orig:'h',
+    dual: <DS><line x1="8" y1="6" x2="8" y2="36"/><line x1="12" y1="6" x2="12" y2="36"/><line x1="28" y1="14" x2="28" y2="36"/><line x1="32" y1="14" x2="32" y2="36"/><line x1="12" y1="20" x2="28" y2="20"/><line x1="12" y1="24" x2="28" y2="24"/></DS>,
+    rule:'ifalgo: both verticals + crossbar each doubled → dual h (6 lines)',
+  },
+  {
+    id:'r', name:'r', phoneme:'/r/', strokeType:'mixed',
+    orig:'r',
+    dual: <DS><line x1="8" y1="6" x2="8" y2="36"/><line x1="12" y1="6" x2="12" y2="36"/><path d="M12 6 C30 6 30 21 12 21"/><path d="M12 10 C24 10 24 17 12 17"/><line x1="22" y1="19" x2="34" y2="36"/><line x1="26" y1="18" x2="38" y2="35"/></DS>,
+    rule:'ifalgo+orisalgo: stem doubled, arc doubled, leg doubled → dual r',
+  },
+  {
+    id:'s', name:'s', phoneme:'/s/', strokeType:'circle',
+    orig:'s',
+    dual: <DS><path d="M32 10 C20 5 8 12 10 20 C12 28 34 18 34 28 C34 36 22 41 12 36"/><path d="M30 13 C20 9 12 15 13 21 C15 27 34 20 35 28 C35 34 24 38 15 34"/></DS>,
+    rule:'orisalgo: S-curve doubled (two interlocking S-arcs) → dual s',
+  },
+  {
+    id:'ṣ', name:'ṣ', phoneme:'/ʃ/', strokeType:'circle',
+    orig:'ṣ',
+    dual: <DS><path d="M32 10 C20 5 8 12 10 20 C12 28 34 18 34 28 C34 36 22 41 12 36"/><path d="M30 13 C20 9 12 15 13 21 C15 27 34 20 35 28 C35 34 24 38 15 34"/><circle cx="22" cy="40" r="1.8" fill="currentColor"/><circle cx="22" cy="40" r="0.7" fill="var(--bg)"/></DS>,
+    rule:'orisalgo: dual s + dot-mark doubled → dual ṣ',
+  },
+  {
+    id:'k', name:'k', phoneme:'/k/', strokeType:'line',
+    orig:'k',
+    dual: <DS><line x1="8" y1="6" x2="8" y2="36"/><line x1="12" y1="6" x2="12" y2="36"/><line x1="12" y1="20" x2="34" y2="6"/><line x1="12" y1="24" x2="38" y2="8"/><line x1="12" y1="22" x2="34" y2="38"/><line x1="12" y1="26" x2="38" y2="42"/></DS>,
+    rule:'ifalgo: stem doubled, both diagonal legs doubled → dual k (6 lines)',
+  },
+  {
+    id:'g', name:'g', phoneme:'/g/', strokeType:'mixed',
+    orig:'g',
+    dual: <DS><circle cx="22" cy="18" r="13"/><circle cx="22" cy="18" r="7"/><line x1="34" y1="18" x2="34" y2="38"/><line x1="38" y1="18" x2="38" y2="38"/><line x1="26" y1="36" x2="38" y2="36"/><line x1="26" y1="32" x2="38" y2="32"/></DS>,
+    rule:'orisalgo+ifalgo: circle doubled, descender + shelf each doubled → dual g',
+  },
+  {
+    id:'y', name:'y', phoneme:'/j/', strokeType:'line',
+    orig:'y',
+    dual: <DS><line x1="22" y1="22" x2="6" y2="6"/><line x1="22" y1="18" x2="8" y2="4"/><line x1="22" y1="22" x2="38" y2="6"/><line x1="22" y1="18" x2="36" y2="4"/><line x1="18" y1="20" x2="10" y2="38"/><line x1="22" y1="22" x2="14" y2="40"/></DS>,
+    rule:'ifalgo: y-diagonals + descender each doubled → dual y (6 lines)',
+  },
+  {
+    id:'p', name:'p', phoneme:'/p/', strokeType:'mixed',
+    orig:'p',
+    dual: <DS><line x1="8" y1="8" x2="8" y2="36"/><line x1="12" y1="8" x2="12" y2="36"/><circle cx="24" cy="18" r="10"/><circle cx="24" cy="18" r="5.5"/></DS>,
+    rule:'ifalgo+orisalgo: stem doubled, circle bump doubled → dual p',
+  },
+];
+
+/* ── Login Gate Component ─────────────────────────────────────── */
+function LoginGate({ onAuth }) {
+  const [user, setUser] = useState('');
+  const [pass, setPass] = useState('');
+  const [err, setErr] = useState('');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (user.trim() === CREDENTIALS.user && pass === CREDENTIALS.pass) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      onAuth();
+    } else {
+      setErr('Incorrect username or password. Please try again.');
+    }
+  }
+
+  return (
+    <div className="login-gate">
+      <div className="login-card">
+        <span className="login-card__icon">⊙</span>
+        <div className="login-card__title">IfaLab · OrisaLab</div>
+        <div className="login-card__sub">
+          IfaScript Lab &amp; OrisaScript Lab · Dual Symbol Laboratory<br/>
+          Sign in to access the lab
+        </div>
+        <form onSubmit={handleSubmit}>
+          <label className="login-card__label">Username</label>
+          <input
+            className="login-card__input"
+            type="text"
+            value={user}
+            onChange={e => { setUser(e.target.value); setErr(''); }}
+            placeholder="IfaLab"
+            autoComplete="username"
+            autoFocus
+          />
+          <label className="login-card__label">Password</label>
+          <input
+            className="login-card__input"
+            type="password"
+            value={pass}
+            onChange={e => { setPass(e.target.value); setErr(''); }}
+            placeholder="••••••••••••"
+            autoComplete="current-password"
+          />
+          <button className="login-card__btn" type="submit">Enter IfaLab →</button>
+          <div className="login-card__error">{err}</div>
+        </form>
+        <div className="login-card__hint">
+          <strong>Access:</strong> This is a restricted lab environment.<br/>
+          Contact the IfaScript team for credentials.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', h);
+    return () => window.removeEventListener('scroll', h);
+  }, []);
+  return (
+    <header className={`header${scrolled ? ' header--scrolled' : ''}`}>
+      <div className="header__inner">
+        <a href="../" className="header__back">
+          <span className="header__back-arrow">←</span>
+          <span>IfaScript · ScriptoE</span>
+        </a>
+        <div className="header__brand">
+          <span className="header__brand-icon">⊙</span>
+          <span className="header__brand-name">IfaLab · OrisaLab</span>
+          <span className="header__brand-tag">ifalgo · orisalgo</span>
+        </div>
+        <nav className="header__nav">
+          <a className="nav-link" href="#ifalab">IfaLab</a>
+          <a className="nav-link" href="#orisalab">OrisaLab</a>
+          <a className="nav-link" href="#aebajiogbe">Aebajiogbe Script</a>
+          <a className="nav-link" href="#principle">Principle</a>
+          <a className="nav-link nav-link--cta" href="../orisa-script/">OrisaScript →</a>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+/* ── Hero ────────────────────────────────────────────────────── */
+function HeroSection() {
+  return (
+    <section className="hero">
+      <div className="hero__inner">
+        <div className="hero__labs">
+          <span className="hero__lab-pill hero__lab-pill--ifa">⊙ IfaLab · IfaScript Lab</span>
+          <span className="hero__lab-pill hero__lab-pill--ori">◈ OrisaLab · OrisaScript Lab</span>
+        </div>
+        <h1 className="hero__title">
+          <span className="hero__title-ifa">IfaLab</span>
+          <span className="hero__title-sep"> · </span>
+          <span className="hero__title-ori">OrisaLab</span>
+        </h1>
+        <p className="hero__desc">
+          The Dual Symbol Generation Laboratory of{' '}
+          <strong>IfaScript (ScriptoE)</strong>. Applying{' '}
+          <strong>ifalgo</strong> (double-line rule) and{' '}
+          <strong>orisalgo</strong> (double-circle rule) to generate new dual
+          symbols for every symbol across logic, mathematics, and the{' '}
+          <strong>Aebajiogbe-Oduduwa Script</strong> — opening every field of
+          knowledge to the Ifa-Orisa symbolic universe.
+        </p>
+        <div className="hero__btns">
+          <a className="btn btn--ifa" href="#ifalab">Enter IfaLab →</a>
+          <a className="btn btn--ori" href="#orisalab">Enter OrisaLab →</a>
+          <a className="btn btn--ghost" href="#aebajiogbe">Aebajiogbe Script</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Lab Overview Section ────────────────────────────────────── */
+function LabOverviewSection() {
+  return (
+    <section className="section" id="overview">
+      <div className="container">
+        <div className="section__header">
+          <div className="section__eyebrow">// IfaScript Laboratory · Dual Symbol Generation</div>
+          <h2 className="section__title">Two Labs. One Duality Principle.</h2>
+          <p className="section__subtitle">
+            IfaLab and OrisaLab are the two complementary laboratory environments
+            of IfaScript — one for each side of the Ifa-Orisa Duality. Together
+            they form a complete dual-symbol generation system for every field.
+          </p>
+        </div>
+        <div className="labs-overview">
+          <div className="lab-overview-card lab-overview-card--ifa">
+            <div className="lab-overview-card__icon">⊙</div>
+            <div className="lab-overview-card__title">IfaLab</div>
+            <div className="lab-overview-card__alias">also known as: IfaScript Lab</div>
+            <p className="lab-overview-card__body">
+              The <strong>ifalgo</strong> laboratory — left-brain, logical,
+              methodical. Applies the <strong>double-line rule</strong>: every
+              line-based symbol gets its dual by doubling each stroke. Line-like
+              symbols from logic, math, and any script are processed here through
+              ifalgo to reveal their Ifa dual form.
+            </p>
+          </div>
+          <div className="lab-overview-card lab-overview-card--ori">
+            <div className="lab-overview-card__icon">◈</div>
+            <div className="lab-overview-card__title">OrisaLab</div>
+            <div className="lab-overview-card__alias">also known as: OrisaScript Lab</div>
+            <p className="lab-overview-card__body">
+              The <strong>orisalgo</strong> laboratory — right-brain, intuitive,
+              artistic. Applies the <strong>double-circle rule</strong>: every
+              circle-or-curve-based symbol gets its dual by doubling each arc or
+              loop. Mixed symbols receive combined ifalgo + orisalgo treatment.
+              The Orisa dual form is revealed here.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Symbol Card Component ───────────────────────────────────── */
+function SymCard({ sym, variant = 'ifa' }) {
+  return (
+    <div className={`sym-card sym-card--${variant}`}>
+      <div className="sym-pair">
+        <div className="sym-pair__orig">{sym.orig}</div>
+        <div className="sym-pair__arrow">→</div>
+        <div className={`sym-pair__dual sym-pair__dual--${variant}`}>{sym.dual}</div>
+      </div>
+      <div className="sym-card__meta">
+        <div className="sym-card__name">{sym.name}</div>
+        <div className="sym-card__unicode">{sym.unicode}</div>
+        <div className="sym-card__meaning">{sym.meaning}</div>
+      </div>
+      <div className="sym-card__rule">{sym.rule}</div>
+    </div>
+  );
+}
+
+/* ── IfaLab Section ──────────────────────────────────────────── */
+function IfaLabSection() {
+  return (
+    <section className="section" id="ifalab">
+      <div className="container">
+        <div className="section__header">
+          <div className="section__eyebrow">// ifalgo · Line-Based Dual Generation</div>
+          <h2 className="section__title">IfaLab — IfaScript Lab</h2>
+          <p className="section__subtitle">
+            Dual symbols generated by <strong>ifalgo</strong>: the double-line
+            rule applied to logic &amp; math symbols. Every line-based symbol
+            reveals its Ifa dual — a new symbol composed of doubled strokes.
+          </p>
+        </div>
+
+        <div className="algo-callout">
+          <div className="algo-callout__label">// ifalgo · The Rule</div>
+          <div className="algo-callout__title">Method 1 · ifalgo — Double-Line Rule</div>
+          <p className="algo-callout__body">
+            For every <strong>line-like symbol</strong>: double each stroke. A
+            single line becomes two parallel lines. A single diagonal becomes a
+            pair of parallel diagonals. Every crossbar, stem, and serif is
+            duplicated — generating the dual symbol. For mixed symbols
+            (line + curve), apply ifalgo to the line components and orisalgo to
+            the curve components.
+          </p>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Propositional Logic</div>
+          <div className="sym-grid">
+            {PROP_LOGIC.map(s => <SymCard key={s.id} sym={s} variant="ifa" />)}
+          </div>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Predicate / First-Order Logic</div>
+          <div className="sym-grid">
+            {PRED_LOGIC.map(s => <SymCard key={s.id} sym={s} variant="ifa" />)}
+          </div>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Metalogic &amp; Proof Theory</div>
+          <div className="sym-grid">
+            {META_LOGIC.map(s => <SymCard key={s.id} sym={s} variant="ifa" />)}
+          </div>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Modal Logic</div>
+          <div className="sym-grid">
+            {MODAL_LOGIC.map(s => <SymCard key={s.id} sym={s} variant="ifa" />)}
+          </div>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Set Theory (Logical Use)</div>
+          <div className="sym-grid">
+            {SET_THEORY.map(s => <SymCard key={s.id} sym={s} variant="ifa" />)}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── OrisaLab Section ────────────────────────────────────────── */
+function OrisaLabSection() {
+  return (
+    <section className="section" id="orisalab">
+      <div className="container">
+        <div className="section__header">
+          <div className="section__eyebrow section__eyebrow--ori">// orisalgo · Circle-Based Dual Generation</div>
+          <h2 className="section__title">OrisaLab — OrisaScript Lab</h2>
+          <p className="section__subtitle">
+            Dual symbols generated by <strong>orisalgo</strong>: the
+            double-circle rule applied to the same symbol set. Every arc, loop,
+            and curve-based symbol reveals its Orisa dual — the intuitive,
+            artistic counterpart to the ifalgo dual.
+          </p>
+        </div>
+
+        <div className="algo-callout algo-callout--ori">
+          <div className="algo-callout__label">// orisalgo · The Rule</div>
+          <div className="algo-callout__title">Method 2 · orisalgo — Double-Circle Rule</div>
+          <p className="algo-callout__body">
+            For every <strong>circle-like or curve-based symbol</strong>: double
+            each arc or circle. A single circle becomes two concentric circles. A
+            single open arc becomes two nested arcs. A dot becomes a
+            circle-within-circle. For mixed symbols the orisalgo acts on the
+            circular parts while ifalgo acts on the linear parts — both rules
+            applied together produce the complete dual.
+          </p>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Propositional Logic — Orisa Duals</div>
+          <div className="sym-grid">
+            {PROP_LOGIC.map(s => <SymCard key={s.id} sym={s} variant="ori" />)}
+          </div>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Predicate Logic — Orisa Duals</div>
+          <div className="sym-grid">
+            {PRED_LOGIC.map(s => <SymCard key={s.id} sym={s} variant="ori" />)}
+          </div>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Metalogic — Orisa Duals</div>
+          <div className="sym-grid">
+            {META_LOGIC.map(s => <SymCard key={s.id} sym={s} variant="ori" />)}
+          </div>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Modal Logic — Orisa Duals</div>
+          <div className="sym-grid">
+            {MODAL_LOGIC.map(s => <SymCard key={s.id} sym={s} variant="ori" />)}
+          </div>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">Set Theory — Orisa Duals</div>
+          <div className="sym-grid">
+            {SET_THEORY.map(s => <SymCard key={s.id} sym={s} variant="ori" />)}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Aebajiogbe-Oduduwa Section ──────────────────────────────── */
+function AebajiogbeSection() {
+  return (
+    <section className="section" id="aebajiogbe">
+      <div className="container">
+        <div className="section__header">
+          <div className="section__eyebrow section__eyebrow--aeb">// Àébájìogbè Odùduwà Script · ifalgo + orisalgo</div>
+          <h2 className="section__title">Aebajiogbe-Oduduwa Script — Dual Alphabet</h2>
+          <p className="section__subtitle">
+            The <strong>Àébájìogbè Odùduwà Script</strong> — a 25-letter right-to-left
+            Yoruba alphabet created by Tolúlàṣẹ R. Ògúntósìn — is extended here
+            through ifalgo and orisalgo to generate a complete{' '}
+            <strong>Dual Aebajiogbe Alphabet</strong>. Each letter's stroke
+            structure determines which rule applies.
+          </p>
+        </div>
+
+        <div className="aeb-intro">
+          <div className="aeb-intro-card">
+            <div className="aeb-intro-card__title">About the Script</div>
+            <p className="aeb-intro-card__body">
+              The Àébájìogbè Odùduwà Script (also written as Aebajiogbe or
+              Ohùn Odùduwà — "Talking Alphabet") is a geometric, angular
+              right-to-left script for the Yoruba language. Its 25 letters name
+              themselves in order — spelling a philosophical Yoruba phrase about
+              life, progress, and divine guidance. Not yet in Unicode (Unicode
+              proposal L2/26-026 submitted 2026).
+            </p>
+          </div>
+          <div className="aeb-intro-card">
+            <div className="aeb-intro-card__title">Dual Generation Method</div>
+            <p className="aeb-intro-card__body">
+              Each letter is classified by its dominant stroke type: line-based
+              letters receive the <strong>ifalgo</strong> treatment (strokes
+              doubled); circle/curve-based letters receive{' '}
+              <strong>orisalgo</strong> (arcs doubled); mixed letters receive
+              both. The resulting 25 dual letters form the{' '}
+              <strong>Dual Àébájìogbè Alphabet</strong> — a new layer of the
+              Ifa-Orisa symbolic universe.
+            </p>
+          </div>
+        </div>
+
+        <div className="sym-category">
+          <div className="sym-category__title">The 25 Letters — Original → Dual (ifalgo / orisalgo)</div>
+          <div className="sym-grid">
+            {AEB_LETTERS.map(s => <SymCard key={s.id} sym={s} variant="aeb" />)}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Principle Banner ────────────────────────────────────────── */
+function PrincipleBanner() {
+  return (
+    <section className="section" id="principle">
+      <div className="container">
+        <div className="principle-banner">
+          <div className="principle-banner__label">// orisalgo · ifalgo · General Principle</div>
+          <h2 className="principle-banner__title">Every Symbol Has a Dual</h2>
+          <p className="principle-banner__body">
+            The <strong>Duality Principle (Ojú/Òdì)</strong> of the IFA Internet
+            states: every symbol, character, and notation in every field of
+            knowledge has a dual counterpart. IfaLab and OrisaLab exist to
+            generate, document, and systematise these duals — beginning with
+            logic and the Aebajiogbe script, extending to every field. This is
+            the mission of <strong>IfaScript (ScriptoE)</strong>: the Script of
+            Everything — a script for all fields of knowledge in all dimensions
+            of reality.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+function Footer() {
+  return (
+    <footer className="footer">
+      <p>
+        <strong>IfaLab · OrisaLab</strong> — IfaScript Lab &amp; OrisaScript Lab ·
+        A subpage of <a href="../">IfaScript (ScriptoE)</a> ·{' '}
+        <a href="https://ifainternet.org">The IFA Internet</a> ·{' '}
+        CENProject
+      </p>
+      <p style={{ marginTop: '8px', color: 'var(--text-3)' }}>
+        ifalgo · orisalgo · Duality Principle · Àébájìogbè Odùduwà Script ·
+        Logic Symbols · Mathematics
+      </p>
+    </footer>
+  );
+}
+
+/* ── Mobile Bar ──────────────────────────────────────────────── */
+function MobileBar() {
+  return (
+    <nav className="mobile-bar" aria-label="Mobile navigation">
+      <div className="mobile-bar__row">
+        <a href="../" className="mobile-bar__item">
+          <span className="mobile-bar__sym">←</span>
+          Script
+        </a>
+        <a href="#ifalab" className="mobile-bar__item">
+          <span className="mobile-bar__sym">⊙</span>
+          IfaLab
+        </a>
+        <a href="#orisalab" className="mobile-bar__item">
+          <span className="mobile-bar__sym">◈</span>
+          OrisaLab
+        </a>
+        <a href="#aebajiogbe" className="mobile-bar__item">
+          <span className="mobile-bar__sym">Àé</span>
+          Script
+        </a>
+        <a href="#principle" className="mobile-bar__item">
+          <span className="mobile-bar__sym">∴</span>
+          Principle
+        </a>
+        <a href="../orisa-script/" className="mobile-bar__item">
+          <span className="mobile-bar__sym">◈</span>
+          Orisa
+        </a>
+      </div>
+    </nav>
+  );
+}
+
+/* ── App Root ────────────────────────────────────────────────── */
+function App() {
+  const [authed, setAuthed] = useState(
+    () => sessionStorage.getItem(SESSION_KEY) === '1'
+  );
+
+  if (!authed) {
+    return <LoginGate onAuth={() => setAuthed(true)} />;
+  }
+
+  return (
+    <>
+      <Header />
+      <main>
+        <HeroSection />
+        <LabOverviewSection />
+        <IfaLabSection />
+        <OrisaLabSection />
+        <AebajiogbeSection />
+        <PrincipleBanner />
+      </main>
+      <Footer />
+      <MobileBar />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

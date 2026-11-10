@@ -163,6 +163,10 @@ const ALL_PROJECTS = [
   { name:'OrisaBanks',          sub:'Orisa Banks · OrisaBanking · Ifa Banks',     color:'#f0920c', cat:'Technology',  href:'../orisa-banks/' },
   { name:'IfaMarkets',          sub:'Ifa Markets · Market of Everything · IfaMarket', color:'#00d4ff', cat:'Technology', href:'../ifa-markets/' },
   { name:'OrisaMarkets',        sub:'Orisa Markets · OrisaMarket · Ifa Markets',  color:'#00d9b8', cat:'Technology',  href:'../orisa-markets/' },
+  { name:'Ifathon',              sub:'Ifa-athon · ToE-athon · World IfaGame Competitions · Global IfaGame Competitions', color:'#f5c518', cat:'Games', href:'../ifathon/' },
+  { name:'Orisathon',           sub:'Orisa-athon · World Ayo Olopon Championship · World Ayo Oloponfa Championship',  color:'#e9498a', cat:'Games', href:'../orisathon/' },
+  { name:'Ifa Stadium',         sub:'IfaStadium · Ifa-Stadium · Ifa Competitions · Ifa Tournaments · IfaSports',      color:'#f0920c', cat:'Games', href:'../ifa-stadium/' },
+  { name:'Orisa Stadium',       sub:'OrisaStadium · Orisa-Stadium · Orisa Competitions · Orisa Tournaments · OrisaSports', color:'#8b5cf6', cat:'Games', href:'../orisa-stadium/' },
   { name:'PlayIfa Games',       sub:'Games · Comics · Animations',         color:'#f0920c', cat:'Games',       href:'https://www.playifagames.org/' },
   { name:'Ifa Internet',        sub:'The IFA Internet Portal',             color:'#f5c518', cat:'Knowledge',   href:'../' },
 ];

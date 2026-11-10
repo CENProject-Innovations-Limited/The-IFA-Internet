@@ -663,13 +663,13 @@
     },
     {
       "id": "ifa-art",
-      "name": "IFA Art & Orisa Art",
-      "subtitle": "Ifart & Orisart — The Dual Artistic Traditions",
-      "description": "The living artistic traditions of the IFA Internet — encoding the wisdom of the 256 Odu Ifa through sacred chant, praise poetry, hunters' art, masquerade song, and divination recitation. Ifa Art (Ifart) and Orisa Art (Orisart) are dual expressions of one unified artistic intelligence across all fields of Yoruba civilization.",
+      "name": "Ifa Art",
+      "subtitle": "Ifart & Orisart — The Visual Art Platform",
+      "description": "Ifa Art — the visual art platform of the IFA Internet. Ifarts, OrisaArts, and IfaDesigns grounded in the Ifa Graphical Language System and the 256 Odu Ifa. Includes the Ifa Art Playground — an interactive creative space for exploring Ifa-Orisa visual art and the full DiagroE graphical language system.",
       "category": "arts",
-      "alsoIn": ["non-science", "education", "philosophy"],
+      "alsoIn": ["non-science", "education", "philosophy", "tools"],
       "url": "/ifa-art/",
-      "featured": false,
+      "featured": true,
       "local": true
     },
     {

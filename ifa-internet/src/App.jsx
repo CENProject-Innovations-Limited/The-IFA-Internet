@@ -416,6 +416,9 @@ function MissionSection({ mission }) {
             <p className="mission-ioe__body">
               Using Ifa and Orisa Traditions (IoT) to build the Internet of Everything (IoE) and connect all fields together as One.
             </p>
+            <p className="mission-ioe__tagline">
+              Africa's knowledge-and-culture <a href="https://cenproject.org/" target="_blank" rel="noopener noreferrer" className="mission-ioe__link">Internet company</a>: the trusted home for learning, playing with and building on Ifá-Orisa Knowledge, Yoruba Knowledge, and African Indigenous Knowledge Systems (AIKS) generally, available in any language and on any device.
+            </p>
           </div>
         </div>
 

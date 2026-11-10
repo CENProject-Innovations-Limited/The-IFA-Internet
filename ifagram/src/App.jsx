@@ -4,7 +4,7 @@
    ifainternet.org/ifagram-ifa-diagram-diagroe/
 ───────────────────────────────────────────────────────────────────────────── */
 
-const { useRef, useEffect } = React;
+const { useRef, useEffect, useState } = React;
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // A. LEMNISCATE MATH UTILITIES
@@ -120,6 +120,150 @@ function centreNode(ctx, cx, cy, r, gold = true) {
 }
 
 /**
+ * Return the available width inside the canvas element's parent,
+ * capped at `defaultSz`. Used to make canvases container-aware on mobile.
+ */
+function availWidth(ref, defaultSz) {
+  if (!ref.current) return defaultSz;
+  const p = ref.current.parentElement;
+  const w = p ? p.clientWidth : 0;
+  return w > 0 ? Math.min(defaultSz, Math.floor(w)) : defaultSz;
+}
+
+/**
+ * Draw an Ọpọ́n Ifá (Ifa divination board) disc on the canvas.
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number} cx  — disc centre x
+ * @param {number} cy  — disc centre y
+ * @param {number} R   — disc radius
+ * @param {number} rot — rotation offset for the carved-figure ring
+ */
+function drawOponIfa(ctx, cx, cy, R, rot) {
+  const TAU = 2 * PI;
+
+  // 1) Outer wood body — warm carved-wood radial gradient
+  const grad = ctx.createRadialGradient(cx - R * 0.22, cy - R * 0.28, R * 0.08, cx, cy, R);
+  grad.addColorStop(0,    '#c98440');
+  grad.addColorStop(0.60, '#8b5520');
+  grad.addColorStop(0.88, '#5a3010');
+  grad.addColorStop(1,    '#3a1c06');
+  ctx.save();
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, R, 0, TAU);
+  ctx.fill();
+  ctx.restore();
+
+  // 2) Outer rim highlight
+  ctx.save();
+  ctx.strokeStyle = 'rgba(210,160,80,0.45)';
+  ctx.lineWidth   = R * 0.030;
+  ctx.beginPath();
+  ctx.arc(cx, cy, R - R * 0.018, 0, TAU);
+  ctx.stroke();
+  ctx.restore();
+
+  // 3) Inner carving surface (the divination area)
+  const INNER = R * 0.58;
+  const iGrad = ctx.createRadialGradient(cx - R*0.10, cy - R*0.12, 0, cx, cy, INNER);
+  iGrad.addColorStop(0,    '#d8aa60');
+  iGrad.addColorStop(0.50, '#b87c32');
+  iGrad.addColorStop(0.85, '#8a5018');
+  iGrad.addColorStop(1,    '#5c300a');
+  ctx.save();
+  ctx.fillStyle = iGrad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, INNER, 0, TAU);
+  ctx.fill();
+  ctx.restore();
+
+  // 4) Divination sand/powder glow at centre
+  const sandGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, INNER * 0.50);
+  sandGrad.addColorStop(0,   'rgba(240,215,150,0.30)');
+  sandGrad.addColorStop(0.7, 'rgba(195,145,60,0.08)');
+  sandGrad.addColorStop(1,   'rgba(155,100,30,0.00)');
+  ctx.save();
+  ctx.fillStyle = sandGrad;
+  ctx.beginPath();
+  ctx.arc(cx, cy, INNER * 0.50, 0, TAU);
+  ctx.fill();
+  ctx.restore();
+
+  // 5) Groove separating rim band from inner surface
+  ctx.save();
+  ctx.strokeStyle = 'rgba(35,15,3,0.75)';
+  ctx.lineWidth   = R * 0.022;
+  ctx.beginPath();
+  ctx.arc(cx, cy, INNER + (R - INNER) * 0.06, 0, TAU);
+  ctx.stroke();
+  ctx.restore();
+
+  // 6) Carved figures in the rim band — 8 Yoruba ancestral/Orisa silhouettes
+  const N   = 8;
+  const RMD = (R * 0.86 + INNER) / 2;   // midline of rim band
+  const FH  = (R - INNER) * 0.74;        // figure height
+  const FW  = FH * 0.58;                 // figure width
+
+  for (let i = 0; i < N; i++) {
+    const ang = rot + (TAU * i / N);
+    const fx  = cx + RMD * Math.cos(ang);
+    const fy  = cy + RMD * Math.sin(ang);
+
+    ctx.save();
+    ctx.translate(fx, fy);
+    ctx.rotate(ang + PI / 2);   // figures face outward (away from disc centre)
+
+    ctx.fillStyle = 'rgba(28,12,2,0.88)';
+
+    // Head — large oval (Yoruba sculptural proportion)
+    ctx.beginPath();
+    ctx.ellipse(0, -FH * 0.40, FW * 0.31, FH * 0.32, 0, 0, TAU);
+    ctx.fill();
+
+    // Neck
+    ctx.fillRect(-FW * 0.09, -FH * 0.10, FW * 0.18, FH * 0.09);
+
+    // Torso — trapezoidal body
+    ctx.beginPath();
+    ctx.moveTo(-FW * 0.27, -FH * 0.01);
+    ctx.lineTo( FW * 0.27, -FH * 0.01);
+    ctx.lineTo( FW * 0.20,  FH * 0.27);
+    ctx.lineTo(-FW * 0.20,  FH * 0.27);
+    ctx.closePath();
+    ctx.fill();
+
+    // Left arm
+    ctx.save();
+    ctx.translate(-FW * 0.27, FH * 0.03);
+    ctx.rotate(-0.38);
+    ctx.fillRect(-FH * 0.16, -FW * 0.07, FH * 0.16, FW * 0.12);
+    ctx.restore();
+
+    // Right arm
+    ctx.save();
+    ctx.translate(FW * 0.27, FH * 0.03);
+    ctx.rotate(0.38);
+    ctx.fillRect(0, -FW * 0.07, FH * 0.16, FW * 0.12);
+    ctx.restore();
+
+    ctx.restore();
+  }
+
+  // 7) Centre motif — small circle + crosshairs (Ifa mark)
+  ctx.save();
+  ctx.strokeStyle = 'rgba(70,35,8,0.52)';
+  ctx.lineWidth   = R * 0.015;
+  ctx.lineCap     = 'round';
+  ctx.beginPath();
+  ctx.arc(cx, cy, R * 0.20, 0, TAU);
+  ctx.stroke();
+  ctx.lineWidth = R * 0.011;
+  ctx.beginPath(); ctx.moveTo(cx - R*0.12, cy);        ctx.lineTo(cx + R*0.12, cy);        ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,          cy - R*0.12); ctx.lineTo(cx,          cy + R*0.12); ctx.stroke();
+  ctx.restore();
+}
+
+/**
  * Set up a DPR-aware canvas and return the 2D context.
  */
 function setupCanvas(ref, sz, bg = '#020408') {
@@ -144,17 +288,14 @@ function setupCanvas(ref, sz, bg = '#020408') {
 function LemniscateCanvas({ sz = 280, diagonal = false }) {
   const ref = useRef(null);
   useEffect(() => {
-    const ctx = setupCanvas(ref, sz);
+    const d  = availWidth(ref, sz);
+    const ctx = setupCanvas(ref, d);
     if (!ctx) return;
-    const cx = sz / 2, cy = sz / 2, a = sz * 0.357, s = a / 200;
+    const cx = d / 2, cy = d / 2, a = d * 0.357, s = a / 200;
     for (const lobe of allLobes(a, cx, cy)) gLobe(ctx, lobe, s);
     if (diagonal) {
       const ext = a * 0.85;
-      const pts = [
-        [cx + ext, cy - ext],
-        [cx - ext, cy + ext],
-      ];
-      gLobe(ctx, pts, s);
+      gLobe(ctx, [[cx + ext, cy - ext], [cx - ext, cy + ext]], s);
     }
     centreNode(ctx, cx, cy, 3.5 * s);
   }, [sz, diagonal]);
@@ -164,10 +305,11 @@ function LemniscateCanvas({ sz = 280, diagonal = false }) {
 function FractalCanvas({ sz = 280 }) {
   const ref = useRef(null);
   useEffect(() => {
-    const ctx = setupCanvas(ref, sz, '#01050f');
+    const d   = availWidth(ref, sz);
+    const ctx = setupCanvas(ref, d, '#01050f');
     if (!ctx) return;
-    const cx = sz / 2, cy = sz / 2;
-    const A_MAX = sz * 0.382, A_MIN = sz * 0.005, NC = 16;
+    const cx = d / 2, cy = d / 2;
+    const A_MAX = d * 0.382, A_MIN = d * 0.005, NC = 16;
 
     for (let i = 0; i < NC; i++) {
       const a = A_MIN + (A_MAX - A_MIN) * i / (NC - 1);
@@ -185,7 +327,7 @@ function FractalCanvas({ sz = 280 }) {
       sPts(ctx, lobe,  0.7, 'rgba(255,120,140,0.95)', 1.5);
     }
 
-    centreNode(ctx, cx, cy, sz * 0.006, false);
+    centreNode(ctx, cx, cy, d * 0.006, false);
   }, [sz]);
   return <canvas ref={ref} className="ifagram-canvas" />;
 }
@@ -193,12 +335,13 @@ function FractalCanvas({ sz = 280 }) {
 function MetaCanvas({ sz = 220, gold = true }) {
   const ref = useRef(null);
   useEffect(() => {
-    const ctx = setupCanvas(ref, sz);
+    const d   = availWidth(ref, sz);
+    const ctx = setupCanvas(ref, d);
     if (!ctx) return;
-    const cx   = sz / 2;
-    const cy   = sz / 2;
-    const MRAD = sz * 0.361;
-    const MARR = sz * 0.061;
+    const cx   = d / 2;
+    const cy   = d / 2;
+    const MRAD = d * 0.361;
+    const MARR = d * 0.061;
 
     // Draw circle with multi-pass glow
     if (gold) {
@@ -272,19 +415,23 @@ function MetaCanvas({ sz = 220, gold = true }) {
       ctx.restore();
     }
 
-    centreNode(ctx, cx, cy, sz * 0.016, gold);
+    centreNode(ctx, cx, cy, d * 0.016, gold);
   }, [sz, gold]);
   return <canvas ref={ref} className="ifagram-canvas" />;
 }
 
 function HeroLemniscate() {
-  const ref = useRef(null);
+  const canvasRef = useRef(null);
+  const wrapRef   = useRef(null);
   useEffect(() => {
-    const SZ  = 440;
-    const ctx = setupCanvas(ref, SZ, '#04070f');
+    const SZ  = wrapRef.current
+      ? Math.min(440, Math.floor(wrapRef.current.clientWidth))
+      : 440;
+    const ctx = setupCanvas(canvasRef, SZ, '#04070f');
     if (!ctx) return;
-    const cx = SZ / 2, cy = SZ / 2, a = 155, s = a / 200;
-
+    const cx = SZ / 2, cy = SZ / 2;
+    const a  = Math.round(SZ * (155 / 440));
+    const s  = a / 200;
     // extra outer glow pass before main lobes
     for (const lobe of allLobes(a, cx, cy)) {
       sPts(ctx, lobe, 60 * s, 'rgba(245,197,24,0.012)', 80 * s);
@@ -292,19 +439,93 @@ function HeroLemniscate() {
     for (const lobe of allLobes(a, cx, cy)) gLobe(ctx, lobe, s);
     centreNode(ctx, cx, cy, 4 * s);
   }, []);
-  return <canvas ref={ref} className="hero-lemniscate" aria-hidden="true" />;
+  return (
+    <div ref={wrapRef} style={{ width: '100%', maxWidth: '440px' }}>
+      <canvas ref={canvasRef} className="hero-lemniscate" aria-hidden="true" />
+    </div>
+  );
 }
 
 function SquaketLemniscate() {
   const ref = useRef(null);
   useEffect(() => {
-    const ctx = setupCanvas(ref, 180);
+    const SZ  = 180;
+    const d   = availWidth(ref, SZ);
+    const ctx = setupCanvas(ref, d);
     if (!ctx) return;
-    const cx = 90, cy = 90, a = 64, s = a / 200;
+    const cx = d / 2, cy = d / 2, a = d * (64 / 180), s = a / 200;
     for (const lobe of allLobes(a, cx, cy)) gLobe(ctx, lobe, s);
     centreNode(ctx, cx, cy, 2.2 * s);
   }, []);
   return <canvas ref={ref} className="ifagram-canvas" style={{ alignSelf: 'center' }} />;
+}
+
+function OrisaLemniscateCanvas({ sz = 280 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const d   = availWidth(ref, sz);
+    const ctx = setupCanvas(ref, d, '#04070f');
+    if (!ctx) return;
+    const cx = d / 2, cy = d / 2, a = d * 0.357, s = a / 200;
+    for (const lobe of allLobes(a, cx, cy)) rLobe(ctx, lobe, s);
+    // Diagonal axis — the defining mark of the Ninifinity (Non-Infinity)
+    const ext = a * 0.85;
+    rLobe(ctx, [[cx + ext, cy - ext], [cx - ext, cy + ext]], s);
+    centreNode(ctx, cx, cy, 3.5 * s, false);
+  }, [sz]);
+  return <canvas ref={ref} className="ifagram-canvas" />;
+}
+
+function OponIfaInfinityCanvas({ sz = 280 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const d   = availWidth(ref, sz);
+    const ctx = setupCanvas(ref, d, '#020408');
+    if (!ctx) return;
+    const cx = d / 2, cy = d / 2;
+    const a  = d * 0.357;
+    const s  = a / 200;
+
+    // Build the four lemniscate lobe outlines (same as the standard lemniscate)
+    const lobes = allLobes(a, cx, cy);
+
+    // Each Ọpọ́n Ifá disc must fill its lobe from the centre point to the outer tip.
+    // R > DC so the disc extends past (cx,cy), covering the full lobe with no gap.
+    const R  = a * 0.56;   // disc radius — overshoots both ends; clipping shapes it
+    const DC = a * 0.50;   // disc centre offset — closer to centre so inner gap closes
+
+    // Auto-detect each lobe's direction from its outermost point (pts mid-index).
+    // This avoids any confusion between canvas y-axis and polar angle conventions.
+    const rotBase = [PI * 0.08, PI * 0.58, PI * 1.08, PI * 1.58];
+    const lobeData = lobes.map((pts, i) => {
+      const mid = pts[Math.floor(pts.length / 2)];
+      if (!mid) return { pts, ox: 0, oy: 0, rot: rotBase[i] };
+      const dx = mid[0] - cx, dy = mid[1] - cy;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      return { pts, ox: (dx / len) * DC, oy: (dy / len) * DC, rot: rotBase[i] };
+    });
+
+    // 1. Clip each lobe region, fill with Ọpọ́n Ifá board appearance
+    for (const { pts, ox, oy, rot } of lobeData) {
+      if (!pts.length) continue;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      ctx.closePath();
+      ctx.clip();
+      // Opon Ifa board fills this lobe — wood grain, rim, carved figures, centre motif
+      drawOponIfa(ctx, cx + ox, cy + oy, R, rot);
+      ctx.restore();
+    }
+
+    // 2. Golden lemniscate curves on top — the glowing rim edge of each Ọpọ́n Ifá lobe
+    for (const lobe of lobes) gLobe(ctx, lobe, s);
+
+    // 3. Centre node — crosspoint where all four Ọpọ́n Ifá lobes converge
+    centreNode(ctx, cx, cy, 4 * s);
+  }, [sz]);
+  return <canvas ref={ref} className="ifagram-canvas" />;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -315,8 +536,6 @@ function IfaSigmaSVG() {
   return (
     <svg
       viewBox="0 0 320 340"
-      width="220"
-      height="234"
       className="ifagram-svg"
       style={{ overflow: 'visible', background: 'transparent' }}
       aria-label="Ifa Sigma — Temic Sigma"
@@ -470,7 +689,7 @@ const IFAGRAMS = [
     formula: 'Amulu(∫, Σ)',
     sub: 'Ifa Script Summation Operator',
     color: '#f5c518',
-    desc: 'The Ifa Sigma (Temic Sigma) is the Amulu (Composition) of the integral ∫ and the summation Σ — the unified summation-integration operator of Ifa Calculus and the IFA Internet.',
+    desc: 'The IfaSigma is the Amulu (Composition) of the integral ∫ and the summation Σ — the unified summation-integration operator of Ifa Calculus and the IFA Internet.',
   },
   {
     id: 'squa',
@@ -527,6 +746,27 @@ const APPLICATIONS = [
     href: '../',
     body: 'As the Diagram for Everything, IfaDiagram is a core instrument across the full IFA Body of Knowledge (IFABOK) — the IFA Internet. Every platform uses DiagroEs.',
   },
+  {
+    sym: '🎨',
+    title: 'Ifa Art',
+    color: '#f0920c',
+    href: 'https://ifainternet.org/ifa-art/',
+    body: 'Ifa Art — the visual art platform of the IFA Internet. Ifarts, OrisaArts, and IfaDesigns grounded in the Ifa Graphical Language System and the 256 Odu Ifa.',
+  },
+  {
+    sym: '⊙',
+    title: 'Ifa Art Playground',
+    color: '#a855f7',
+    href: 'https://ifainternet.org/ifa-art/playground/',
+    body: 'The Ifa Art Playground — an interactive creative space for exploring Ifa-Orisa visual art, IfaDesigns, and the full DiagroE graphical language system.',
+  },
+  {
+    sym: '🌟',
+    title: 'Ifagrams for Kids & Teens',
+    color: '#f0920c',
+    href: './kids/',
+    body: 'IfaLab For Children — Yoruba cultural designs, Orisa characters, Ifa STEAM education, sounds, and animations (Ifanimations, Orisanimations) for kids and teens aged 4+.',
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -571,6 +811,16 @@ function Header() {
           <a href="#ifagrams"      className="nav-link">Key Ifagrams</a>
           <a href="#system"        className="nav-link">Language System</a>
           <a href="#applications"  className="nav-link">Applications</a>
+          <a href="#oponifa"      className="nav-link">Ọpọ́nfá</a>
+          <a href="#orisagram"     className="nav-link">Orisagram</a>
+          <a
+            href="../ifa-script-the-script-of-everything-scriptoe/ifa-lab/"
+            className="nav-link"
+          >
+            IfaLab
+          </a>
+          <a href="https://ifainternet.org/ifa-art/" className="nav-link">Ifa Art</a>
+          <a href="./kids/" className="nav-link">Kids &amp; Teens</a>
           <a
             href="https://toe.cenproject.org/ifa-calculus-toe-calculus/"
             className="nav-link nav-link--cta"
@@ -596,7 +846,7 @@ function MobileBar() {
         </a>
         <a href="#definition"   className="mobile-bar__item">
           <span className="mobile-bar__sym">∞</span>
-          IfaDiagram
+          Diagram
         </a>
         <a href="#ifagrams"     className="mobile-bar__item">
           <span className="mobile-bar__sym">◉</span>
@@ -606,9 +856,21 @@ function MobileBar() {
           <span className="mobile-bar__sym">Σ</span>
           System
         </a>
-        <a href="#applications" className="mobile-bar__item">
-          <span className="mobile-bar__sym">⊕</span>
-          Apply
+        <a href="#oponifa"      className="mobile-bar__item">
+          <span className="mobile-bar__sym">⊙</span>
+          Ọpọ́nfá
+        </a>
+        <a href="#orisagram"    className="mobile-bar__item">
+          <span className="mobile-bar__sym">◈</span>
+          Orisa
+        </a>
+        <a href="../ifa-script-the-script-of-everything-scriptoe/ifa-lab/" className="mobile-bar__item">
+          <span className="mobile-bar__sym">⚗</span>
+          IfaLab
+        </a>
+        <a href="./kids/" className="mobile-bar__item">
+          <span className="mobile-bar__sym">🌟</span>
+          Kids
         </a>
       </div>
     </nav>
@@ -640,6 +902,13 @@ function HeroSection() {
           </h1>
 
           <p className="hero__tagline">DiagroE — Ifa Graphical &amp; Visual Language System</p>
+
+          <p className="hero__subtitle">
+            <span className="hero__subtitle-yor">Gbàgede Iṣẹ́ Ọnà</span>
+            <span className="hero__subtitle-play">Ifa-Orisa Playground</span>
+            <span className="hero__subtitle-sep"> — </span>
+            <span className="hero__subtitle-arts">Ifarts &amp; Orisarts and IfaDesigns &amp; OrisaDesigns</span>
+          </p>
 
           <p className="hero__desc">
             <strong>IfaDiagram</strong> (Ifagram) is the <strong>DiagroE</strong> — the
@@ -865,6 +1134,373 @@ function ApplicationsSection() {
   );
 }
 
+// ── Ọ̀ṣẹ́ Odu Display ─────────────────────────────────────────────────────────
+function OsheOduDisplay() {
+  const rows = [
+    { count: 1, color: 'gold'   },
+    { count: 2, color: 'violet' },
+    { count: 1, color: 'gold'   },
+    { count: 2, color: 'violet' },
+  ];
+  return (
+    <div className="oshe-display">
+      <div className="oshe-odu" aria-label="Odu Ifa Ọ̀ṣẹ́">
+        {rows.map((row, i) => (
+          <div
+            key={i}
+            className={`oshe-row oshe-row--${row.color}`}
+            style={{ animationDelay: `${i * 0.14}s` }}
+          >
+            {Array.from({ length: row.count }).map((_, j) => (
+              <span key={j} className="oshe-mark" />
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="oshe-label-wrap">
+        <div className="oshe-name">Ọ̀ṣẹ́</div>
+        <div className="oshe-desc">
+          Ọnà Ọ̀ṣẹ́: Energy Patterns (IfaLaw of Nature) Governing the Field and Practice of Iṣẹ́ Ọnà
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Ọpọ́nfá Infinity Gallery ──────────────────────────────────────────────────
+function OponIfaGallery() {
+  const [osheMode, setOsheMode] = useState(false);
+  return (
+    <div className="oponifa-gallery">
+      <div className="oponifa-gallery__eyebrow">IfaGeometry · Sacred Design</div>
+      <div className="oponifa-gallery__heading">
+        Ọpọ́nfá Infinity — <span>IfaBoard Design Reference</span>
+      </div>
+      <div className="oponifa-gallery__toggle-wrap">
+        <button
+          className={'oponifa-gallery__toggle' + (osheMode ? ' oponifa-gallery__toggle--active' : '')}
+          onClick={() => setOsheMode(function(m) { return !m; })}
+        >
+          {osheMode ? 'Back to Gallery' : 'Transform \u2192 Ọ\u0300ṣẹ\u0301'}
+        </button>
+        <div className="oponifa-gallery__toggle-subtitle">
+          <span className="oponifa-gallery__toggle-subtitle-main">Ìṣiròjìnlẹ̀ Iṣẹ́ Ọnà</span>
+          <span className="oponifa-gallery__toggle-subtitle-sep">:</span>
+          <span className="oponifa-gallery__toggle-subtitle-sec">Iṣẹ́ Ọnà Mechanics</span>
+        </div>
+      </div>
+      {osheMode ? (
+        <OsheOduDisplay />
+      ) : (
+        <div>
+          <div className="oponifa-gallery__row">
+            <figure className="oponifa-gallery__fig oponifa-gallery__fig--solid">
+              <img
+                src="./src/Opon_Ifa_Infinity.png"
+                alt="Ọpọ́nfá Infinity — Ifa Divination Board Infinity design"
+                className="oponifa-gallery__img"
+              />
+            </figure>
+            <figure className="oponifa-gallery__fig oponifa-gallery__fig--solid">
+              <img
+                src="./src/Oponfa_Ninfinity_Oyekunergy_Non-Glow.png"
+                alt="Ọpọ́nfá Ninfinity — Oyekunergy Non-Glow design"
+                className="oponifa-gallery__img"
+              />
+              <div className="oponifa-gallery__cap-wrap">
+                <div className="oponifa-gallery__cap">Àtẹ Òrìṣà (OrisaBoard). Four-Lobe Formation Crossed by a Carved Log</div>
+              </div>
+            </figure>
+          </div>
+          <div className="oponifa-gallery__row">
+            <figure className="oponifa-gallery__fig oponifa-gallery__fig--glow">
+              <img
+                src="./src/Opon_Ifa_Infinity_transparent.png"
+                alt="Ọpọ́nfá Infinity — transparent field design"
+                className="oponifa-gallery__img"
+              />
+              <div className="oponifa-gallery__cap-wrap">
+                <div className="oponifa-gallery__cap-sub">Ọpọ́nfá Infinity: Ogbenergy. Glow · IfaGeometry</div>
+              </div>
+            </figure>
+            <figure className="oponifa-gallery__fig oponifa-gallery__fig--glow">
+              <img
+                src="./src/Oponfa_Ninfinity_Oyekunergy_Non-Glow_transparent.png"
+                alt="Ọpọ́nfá Ninfinity — Oyekunergy design on transparent field"
+                className="oponifa-gallery__img"
+              />
+              <div className="oponifa-gallery__cap-wrap">
+                <div className="oponifa-gallery__cap">Ọpọ́nfá Ninfinity: Oyekunergy · Non-Glow · OrisaGeometry</div>
+              </div>
+            </figure>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Ọpọ́nfá Infinity Section ──────────────────────────────────────────────────
+function OponIfaSection() {
+  return (
+    <section className="section" id="oponifa">
+      <div className="container">
+        <div className="def-grid">
+          <div className="def-text">
+            <div className="section__header">
+              <span className="section__eyebrow section__eyebrow--gold">Ifa Divination Board Infinity</span>
+              <h2 className="section__title">
+                The Ifa Infinity{' '}
+                <span className="accent--gold">(Ọpọ́n Ifá Infinity)</span>
+              </h2>
+              <p className="section__subtitle">
+                Also known as <strong>Ọpọ́nfá Infinity</strong> — the Ifa Infinity expressed
+                through the Sacred Geometry of the Ọpọ́n Ifá (Ifa Divination Board), i.e., IfaGeometry. Each
+                of the four lobes of the Ifa Infinity is a sacred Ọpọ́n Ifá — four divination
+                boards arranged in the cardinal directions of the Axiomatic Odù Structure,
+                unified by the Ogbenergy.
+              </p>
+            </div>
+
+            <div className="def-blocks">
+              <div className="def-block">
+                <div className="def-block__icon" aria-hidden="true">◉</div>
+                <div className="def-block__content">
+                  <div className="def-block__label">Ọpọ́n Ifá — The Sacred Divination Board</div>
+                  <div className="def-block__body">
+                    The Ọpọ́n Ifá is the sacred circular tray of Ifá divination — the instrument
+                    through which Ọrúnmìlà's wisdom is consulted. Carved with ancestral and Orisa
+                    figures around its rim, with a flat centre surface for Iyẹrẹ Ifá (divination
+                    powder), it is the original DiagroE — the Diagram for Everything in Ifa Tradition.
+                  </div>
+                </div>
+              </div>
+
+              <div className="def-block">
+                <div className="def-block__icon" aria-hidden="true">∞</div>
+                <div className="def-block__content">
+                  <div className="def-block__label">Ọpọ́nfá Infinity — Four Boards, One Infinity</div>
+                  <div className="def-block__body">
+                    In the Ọpọ́nfá Infinity, the four lobes of the Ifa Infinity — East,
+                    West, North, South — each become an Ọpọ́n Ifá. The Ogbenergy, also known as Ogbergy (in short), connects them as the eternal flow of Àṣẹ across all 256 Odu Ifa
+                    and all realms of existence. The IfaBoards face outward — their carved
+                    ancestral Figures witnessing the Infinite Field of Potentiality (IfaPotentiality).
+                  </div>
+                </div>
+              </div>
+
+              <div className="def-block">
+                <div className="def-block__icon" aria-hidden="true">⊕</div>
+                <div className="def-block__content">
+                  <div className="def-block__label">The Original Diagram for Everything</div>
+                  <div className="def-block__body">
+                    The Ọpọ́nfá Infinity reveals that the Ọpọ́n Ifá is itself a DiagroE.
+                    Its circular form, carved ancestral figures, and divination centre
+                    encode the full structure of Ifa knowledge — the 256 Odu Ifa, the Orisa
+                    Field, and the Totality of Existence (TOE) — unified in the Geometry
+                    of the Ifa Infinity.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── IfaConstruction subsection ── */}
+            <div className="subsection" id="ifaconstruction">
+              <h3 className="subsection__title">IfaConstruction</h3>
+              <p className="subsection__body">
+                The 256 Ọpọ́nfá Infinities — one for each Odù Ifá — are built through
+                the <strong>Àmúlù Operation</strong>, also called <strong>IfaComposition</strong>.
+              </p>
+              <p className="subsection__body">
+                The process begins with the <strong>Ọpọ́n Ifá</strong> itself, or equivalently
+                the <strong>IfaZero (IfaCircle)</strong>, which represents{' '}
+                <strong>Ogbe Energy (Ogbenergy)</strong> — the Primal, Undivided Circle of Àṣẹ.
+              </p>
+              <p className="subsection__body">
+                Four such Ọpọ́n Ifá structures are composed together through the Àmúlù
+                Operation, producing the <strong>Òbìrìkìtí</strong> (Dual:{' '}
+                <strong>Òkìtìbìrí</strong>) — the Ifa Infinity, meaning Immense Energy.
+              </p>
+              <p className="subsection__body">
+                In modern mathematics, a related form appears as the{' '}
+                <a
+                  href="https://en.wikipedia.org/wiki/Lemniscate"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-link"
+                >
+                  Lemniscate of Bernoulli
+                </a>{' '}
+                — constructed by taking the inverse (geometric inversion) of a hyperbola, or
+                equivalently as the locus of points whose product of distances from two fixed
+                foci equals the square of half the distance between them. Its equation is
+                given in Cartesian form as{' '}
+                <span className="ifa-equation">(x² + y²)² = 2a²(x² − y²)</span>, or in polar
+                form as{' '}
+                <span className="ifa-equation">r² = 2a² cos(2θ)</span>.
+              </p>
+              <p className="subsection__body">
+                However, the Òbìrìkìtí and its Dual Òkìtìbìrí are far older and carry a
+                deeper ontology: they are not merely geometric curves but Expressions of the
+                Composition of Ogbe Energy and Oyeku Anergy (Oyekunergy/Oyekergy) across the
+                Four Cardinal Axes of Odù Ifá System.
+              </p>
+            </div>
+          </div>
+
+          <div className="def-visual">
+            <OponIfaInfinityCanvas sz={280} />
+            <div className="def-visual__label">Ọpọ́nfá Infinity</div>
+            <div className="def-visual__sub">
+              Ọpọ́n Ifá · Four-Lobe Infinity Formation · The Ifa Divination Board Infinity
+            </div>
+          </div>
+        </div>
+
+        {/* ── Ọpọ́nfá Infinity Design Gallery ── */}
+        <OponIfaGallery />
+      </div>
+    </section>
+  );
+}
+
+// ── Òrìṣà Ọnà Banner ─────────────────────────────────────────────────────────
+function OrisaOnaBanner() {
+  return (
+    <div className="ona-banner" aria-label="Òrìṣà Ọnà — See, Hear, and Feel the Energy">
+      <div className="ona-banner__rays" aria-hidden="true">
+        <div className="ona-banner__ray ona-banner__ray--1" />
+        <div className="ona-banner__ray ona-banner__ray--2" />
+        <div className="ona-banner__ray ona-banner__ray--3" />
+        <div className="ona-banner__ray ona-banner__ray--4" />
+      </div>
+      <div className="ona-banner__content">
+        <div className="ona-banner__title">Òrìṣà Ọnà</div>
+        <div className="ona-banner__paren">Ọnà as Spirit (Energy) of Patterns, Arts, and Designs</div>
+        <div className="ona-banner__divider" aria-hidden="true" />
+        <p className="ona-banner__phrase">
+          <span className="ona-banner__see">See,</span>{' '}
+          <span className="ona-banner__hear">Hear,</span>{' '}
+          <span className="ona-banner__and">and</span>{' '}
+          <span className="ona-banner__feel">Feel</span>{' '}
+          the Energy Patterns within Every Language, Every Knowledge
+        </p>
+        <div className="ona-banner__portal-wrap">
+          <a
+            href="https://ifainternet.org/ifa-script-the-script-of-everything-scriptoe/ifa-lab/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ona-banner__portal"
+            aria-label="Enter IfaLab — See, Hear, and Feel the Energy"
+          >
+            <span className="ona-banner__portal-orbs" aria-hidden="true">
+              <span className="ona-banner__portal-orb ona-banner__portal-orb--see" />
+              <span className="ona-banner__portal-orb ona-banner__portal-orb--hear" />
+              <span className="ona-banner__portal-orb ona-banner__portal-orb--feel" />
+            </span>
+            <span className="ona-banner__portal-label">Enter IfaLab</span>
+            <span className="ona-banner__portal-sub">
+              <span className="ona-banner__see">See</span>
+              {' · '}
+              <span className="ona-banner__hear">Hear</span>
+              {' · '}
+              <span className="ona-banner__feel">Feel</span>
+              {' the Energy'}
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Orisagram Section ─────────────────────────────────────────────────────────
+function OrisagramSection() {
+  return (
+    <section className="section section--dark" id="orisagram">
+      <div className="container">
+        <div className="def-grid">
+          <div className="def-text">
+            <div className="section__header">
+              <span className="section__eyebrow section__eyebrow--red">The Dual of Ifagram</span>
+              <h2 className="section__title">
+                Orisagram —{' '}
+                <span className="accent--red">Orisa Diagram</span>
+              </h2>
+              <p className="section__subtitle">
+                Also written as <strong>OrisaDiagram</strong> (Orisa Diagram). Orisagram is
+                the Dual of Ifagram — the diagrammatic System grounded in Orisa Principles,
+                mirror to IfaDiagram's Ifa-grounded Foundation. Together they form the
+                complete DiagroE System.
+              </p>
+            </div>
+
+            <div className="def-blocks">
+              <div className="def-block">
+                <div className="def-block__icon" style={{ color: 'var(--red)' }} aria-hidden="true">◈</div>
+                <div className="def-block__content">
+                  <div className="def-block__label">Diagrammatic Reasoning with Orisa</div>
+                  <div className="def-block__body">
+                    <em>Orisagram: Diagrammatic Reasoning with Orisa</em> is the Dual of{' '}
+                    <em>Ifagram: Diagrammatic Reasoning with Ifa</em>. Where Ifagram encodes
+                    knowledge through the Ifa Infinity, the Àpólà Odù Ifa, and the 256 Odu
+                    Ifa, Orisagram encodes its Dual — the Orisa Field Structure — through
+                    the Orisa Infinity and the Àpólà Odù Orisa.
+                  </div>
+                </div>
+              </div>
+
+              <div className="def-block">
+                <div className="def-block__icon" style={{ color: 'var(--red)' }} aria-hidden="true">∞</div>
+                <div className="def-block__content">
+                  <div className="def-block__label">IfaCategory &amp; OrisaCategory</div>
+                  <div className="def-block__body">
+                    Ifagram and Orisagram define the Dual Categorical Structures —{' '}
+                    <strong>IfaCategory</strong> and <strong>OrisaCategory</strong> —
+                    grounded in Category Theory, Ifa-Orisa Category Theory (Category Theory
+                    in Ifa-Orisa Language), Higher Category Theory, Infinity Category Theory.
+                    Their unified Framework is{' '}
+                    <strong>Ifa Infinity Category Theory (Duoinfinity Category Theory)</strong>:
+                    the Category Theory of Ifa and Orisa in Duality.
+                  </div>
+                </div>
+              </div>
+
+              <div className="def-block">
+                <div className="def-block__icon" style={{ color: 'var(--red)', fontSize: '1.0rem', marginTop: '4px' }} aria-hidden="true">Àpólà</div>
+                <div className="def-block__content">
+                  <div className="def-block__label">Àpólà Odù: Category Theory in Ifa-OrisaLang</div>
+                  <div className="def-block__body">
+                    The <strong>Àpólà Odù</strong> are the 256 Odu Ifa and the 16 Odu
+                    Orisa, General Category Theory for every field of knowledge. Orisagram
+                    provides the diagrammatic Language for Àpólà Odù, encoding Orisa Field
+                    relationships and Dual operations within the full IFA Internet Knowledge
+                    System.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="orisagram-tags" aria-label="Keywords">
+              {[
+                'The Ifa Infinity (Ọpọ́n Ifá Infinity)',
+                'Ọpọ́nfá Infinity',
+              ].map((tag) => (
+                <span key={tag} className="orisagram-tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="def-visual">
+            <OrisaLemniscateCanvas sz={220} />
+            <div className="def-visual__label" style={{ color: 'var(--red)' }}>The Orisa Infinity (Ifa Ninifinity)</div>
+            <div className="def-visual__sub">Non-Infinity · Dual of the Ifa Infinity · OrisaDiagram Foundation</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── Footer ─────────────────────────────────────────────────────────────────────
 function Footer() {
   return (
@@ -901,6 +1537,12 @@ function Footer() {
             <a href="#ifagrams"      className="footer__link">Key Ifagrams</a>
             <a href="#system"        className="footer__link">Language System</a>
             <a href="#applications"  className="footer__link">Applications</a>
+            <a href="#oponifa"       className="footer__link">Ọpọ́nfá Infinity</a>
+            <a href="#orisagram"     className="footer__link">Orisagram · Orisa Diagram</a>
+            <a href="../ifa-script-the-script-of-everything-scriptoe/ifa-lab/" className="footer__link">IfaLab · OrisaLab</a>
+            <a href="https://ifainternet.org/ifa-art/" className="footer__link">Ifa Art</a>
+            <a href="https://ifainternet.org/ifa-art/playground/" className="footer__link">Ifa Art Playground</a>
+            <a href="./kids/"        className="footer__link">Ifagrams for Kids &amp; Teens</a>
             <a href="../"            className="footer__link">IFA Internet</a>
           </div>
         </div>
@@ -933,6 +1575,9 @@ function App() {
         <KeyIfagramsSection />
         <SystemSection />
         <ApplicationsSection />
+        <OponIfaSection />
+        <OrisaOnaBanner />
+        <OrisagramSection />
       </main>
       <Footer />
       <MobileBar />

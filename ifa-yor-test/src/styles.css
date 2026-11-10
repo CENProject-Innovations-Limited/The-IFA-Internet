@@ -1956,3 +1956,87 @@ body { overflow-x: hidden;
   .twin-bridge__mid { flex-direction: row; flex-wrap: wrap; justify-content: center; }
   .twin-bridge__line { width: 20px; height: 2px; }
 }
+
+/* ── YorIfa Section ──────────────────────────────────────────────────────── */
+.yorifor__phrase {
+  font-style: italic;
+  color: var(--violet-lt);
+  font-weight: 600;
+}
+.yorifor__icon--dual,
+.yorifor__icon--ede,
+.yorifor__icon--amulu {
+  color: var(--violet-lt);
+  text-shadow: 0 0 12px rgba(139,92,246,0.5);
+}
+.yorifor-vis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 36px 28px;
+  background: rgba(139,92,246,0.07);
+  border: 1px solid rgba(139,92,246,0.22);
+  border-radius: 20px;
+  backdrop-filter: blur(6px);
+}
+.yorifor-vis__row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+.yorifor-vis__node {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 14px;
+  border-radius: 14px;
+  text-align: center;
+}
+.yorifor-vis__node--ifa {
+  background: rgba(139,92,246,0.12);
+  border: 1px solid rgba(139,92,246,0.32);
+}
+.yorifor-vis__node--yor {
+  background: rgba(245,197,24,0.09);
+  border: 1px solid rgba(245,197,24,0.32);
+}
+.yorifor-vis__node-sym {
+  font-size: 1.25rem;
+  font-weight: 900;
+  line-height: 1;
+}
+.yorifor-vis__node--ifa .yorifor-vis__node-sym { color: var(--violet-lt); }
+.yorifor-vis__node--yor .yorifor-vis__node-sym { color: var(--gold-lt, #fde68a); }
+.yorifor-vis__node-dir {
+  font-size: 0.7rem;
+  color: var(--text-2);
+  font-style: italic;
+}
+.yorifor-vis__arrow {
+  font-size: 1.8rem;
+  color: var(--text-2);
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.yorifor-vis__sep {
+  width: 60%;
+  height: 1px;
+  background: rgba(139,92,246,0.25);
+}
+.yorifor-vis__term {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--violet-lt);
+  font-style: italic;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+.yorifor-vis__gloss {
+  font-size: 0.72rem;
+  color: var(--text-2);
+  text-align: center;
+}

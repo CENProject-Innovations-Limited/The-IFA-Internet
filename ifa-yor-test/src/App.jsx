@@ -442,6 +442,7 @@ function Header() {
         </a>
         <nav className="header__nav">
           <a className="nav-link" href="#definition">IfaYor</a>
+          <a className="nav-link" href="#yorifor">YorIfa</a>
           <a className="nav-link" href="#tracks">Tracks</a>
           <a className="nav-link" href="#curriculum">Curriculum</a>
           <a className="nav-link" href="#projects">Projects</a>
@@ -623,6 +624,90 @@ function DefinitionSection() {
               </div>
               <div className="script-symbol__label">Oduduwa-Aebajiogbe</div>
               <div className="script-symbol__sub">Native Yoruba Script · Ifa Language Matrix</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── YORIFOR SECTION ─────────────────────────────────────────────────────────
+
+function YorIfaSection() {
+  return (
+    <section className="section" id="yorifor">
+      <div className="container">
+        <div className="section__header section__header--center">
+          <span className="section__eyebrow section__eyebrow--violet">Duality · Metalanguage · Metasystem</span>
+          <h2 className="section__title">
+            YorIfa: the Dual of <span className="accent--violet">IfaYor</span>
+          </h2>
+          <p className="section__subtitle">
+            <span lang="yo" className="yorifor__phrase">Èdè ìperí YorIfa</span>
+            {' '}— YorIfa Metalanguage &amp; Metasystem
+          </p>
+        </div>
+
+        <div className="def-grid">
+          <div className="def-text">
+            <div className="def-blocks">
+              <div className="def-block">
+                <div className="def-block__icon yorifor__icon--dual">↔</div>
+                <div className="def-block__content">
+                  <div className="def-block__label">YorIfa — The Dual</div>
+                  <p className="def-block__body">
+                    YorIfa is the Dual of IfaYor. Where IfaYor studies Yoruba through the lens
+                    of the Odu Ifa, YorIfa positions Yoruba as the primary metalanguage and
+                    metasystem of Ifa — the living tongue through which all Ifa knowledge,
+                    structure, and cosmology is encoded, transmitted, and developed.
+                  </p>
+                </div>
+              </div>
+              <div className="def-block">
+                <div className="def-block__icon yorifor__icon--ede" lang="yo">Èdè</div>
+                <div className="def-block__content">
+                  <div className="def-block__label" lang="yo">Èdè ìperí — Metalanguage</div>
+                  <p className="def-block__body">
+                    In Yoruba, <strong lang="yo">Èdè</strong> means language or tongue, and{' '}
+                    <strong lang="yo">ìperí</strong> means meta — above, encompassing, beyond.{' '}
+                    <strong lang="yo">Èdè ìperí YorIfa</strong> therefore names the YorIfa
+                    metalanguage: the language system that operates above and through all Ifa
+                    language and knowledge systems on the IFA Internet.
+                  </p>
+                </div>
+              </div>
+              <div className="def-block">
+                <div className="def-block__icon yorifor__icon--amulu">⊕</div>
+                <div className="def-block__content">
+                  <div className="def-block__label">Amulu — Dual Unity</div>
+                  <p className="def-block__body">
+                    YorIfa and IfaYor are not opposites but Amulu — a composed unity of two
+                    directions within the same living system. IfaYor encodes Yoruba through Ifa;
+                    YorIfa encodes Ifa through Yoruba. Together they form the complete
+                    IfaYor–YorIfa duality at the heart of the IfaYoruba Platform.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="def-visual">
+            <div className="yorifor-vis">
+              <div className="yorifor-vis__row">
+                <div className="yorifor-vis__node yorifor-vis__node--ifa">
+                  <div className="yorifor-vis__node-sym">IfaYor</div>
+                  <div className="yorifor-vis__node-dir" lang="yo">Ifa → Yoruba</div>
+                </div>
+                <div className="yorifor-vis__arrow">↔</div>
+                <div className="yorifor-vis__node yorifor-vis__node--yor">
+                  <div className="yorifor-vis__node-sym">YorIfa</div>
+                  <div className="yorifor-vis__node-dir" lang="yo">Yoruba → Ifa</div>
+                </div>
+              </div>
+              <div className="yorifor-vis__sep" />
+              <div className="yorifor-vis__term" lang="yo">Èdè ìperí YorIfa</div>
+              <div className="yorifor-vis__gloss">YorIfa Metalanguage · Metasystem</div>
             </div>
           </div>
         </div>
@@ -1125,6 +1210,7 @@ function Footer() {
           </div>
           <nav className="footer__links">
             <a href="#definition"  className="footer__link">IfaYor</a>
+            <a href="#yorifor"     className="footer__link">YorIfa</a>
             <a href="#tracks"      className="footer__link">Learning Tracks</a>
             <a href="#curriculum"  className="footer__link">Curriculum</a>
             <a href="#projects"    className="footer__link">Projects</a>
@@ -1156,6 +1242,7 @@ function App() {
       <main>
         <HeroSection />
         <DefinitionSection />
+        <YorIfaSection />
         <IlefeLangsBridgeSection />
         <IfaHistBridgeSection />
         <TracksSection />

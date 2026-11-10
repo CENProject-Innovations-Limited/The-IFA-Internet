@@ -31,7 +31,7 @@ const PIECES = {
   asoluu:    { name:'Aṣọ́lùú',          yoruba:'Aṣọ́lùú',          symbol:'▲', role:'Rook',        color:'#e8ecf2',
     desc:'The Fortress. Moves horizontally and vertically any number of squares.',
     moves:'Unlimited · horizontal & vertical', special:'Iron Gate: immune to first capture attempt' },
-  babalawo:  { name:'Babalawo',         yoruba:'Babalawo',         symbol:'⚡', role:'Bishop',      color:'#fb923c',
+  babalawo:  { name:'Babalawo',         yoruba:'Babalawo',         symbol:'⚡', role:'Priest',      color:'#fb923c',
     desc:'The Diviner of Ifa. Strikes diagonally any number of squares.',
     moves:'Unlimited · diagonal', special:'Ifa Sight: can capture on the square before its target' },
   balogun:   { name:'Balógun',          yoruba:'Balógun',          symbol:'⚔', role:'Knight',      color:'#e8772a',
@@ -699,10 +699,6 @@ function BoardComponent({ board, selected, validMoves, lastMove, onCellClick }) 
         />
       );
     }
-    // Rank label on RIGHT
-    cells.push(
-      <div key="rank" className="ic-rank-label">{r + 1}</div>
-    );
     rows.push(
       <div key={r} className="ic-board-row">
         {cells}
@@ -710,28 +706,53 @@ function BoardComponent({ board, selected, validMoves, lastMove, onCellClick }) 
     );
   }
 
-  // File labels row (bottom) — Ofun on left, Ogbe on right (Ifa RTL order)
-  const fileLabels = (
-    <div className="ic-file-labels-row">
-      {[...ODU].reverse().map((odu) => (
-        <div
-          key={odu.id}
-          className="ic-file-label"
-          style={{ '--odu-c': odu.color, color: odu.color }}
-          title={odu.yoruba}
-        >
-          {odu.name.substring(0, 3)}
-        </div>
-      ))}
-      <div className="ic-rank-label-spacer" />
-    </div>
-  );
-
   return (
     <div className="ic-board-wrap">
       <div className="ic-board-inner">
         {rows}
-        {fileLabels}
+      </div>
+    </div>
+  );
+}
+
+// ─── OPỌN IFÁ CIRCULAR BOARD FRAME ──────────────────────────────────────────
+
+function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, aiThinking }) {
+  const oduLabels = useMemo(() =>
+    ODU.map((odu, i) => {
+      // 16 Odu evenly around circle, starting from top (-π/2), going clockwise
+      const angle = -Math.PI / 2 + (i / 16) * 2 * Math.PI;
+      return { odu, angle };
+    }), []);
+
+  return (
+    <div className="ic-opon-outer">
+      {/* Odu name labels orbiting outside the ring, in the label zone */}
+      {oduLabels.map(({ odu, angle }) => (
+        <div
+          key={odu.id}
+          className="ic-opon-odu-label"
+          style={{ '--a': angle, color: odu.color }}
+        >
+          {odu.name}
+        </div>
+      ))}
+
+      {/* Circle container: clips board corners + contains ring overlay */}
+      <div className="ic-opon-circle">
+        {/* Wooden Opọ́n ring — decorative overlay, pointer-events:none */}
+        <div className="ic-opon-ring" aria-hidden="true" />
+
+        {/* Chess grid centred inside the ring */}
+        <div className={`ic-opon-board-inner${aiThinking ? ' ic-opon-board-inner--thinking' : ''}`}>
+          <BoardComponent
+            board={board}
+            selected={selected}
+            validMoves={validMoves}
+            lastMove={lastMove}
+            onCellClick={onCellClick}
+          />
+        </div>
       </div>
     </div>
   );
@@ -1010,12 +1031,208 @@ function SetupScreen({ onStart }) {
     <div className="ic-setup-overlay">
       <div className="ic-bg-nebula" />
       <div className="ic-setup-modal">
-        <div className="ic-winner-marks" style={{ marginBottom:'16px' }}>
-          <span className="ic-ifa-mark">|  |</span><span className="ic-ifa-mark">|  O</span>
-          <span className="ic-ifa-mark">O  |</span><span className="ic-ifa-mark">O  O</span>
+
+        {/* Cover design image */}
+        <div className="ic-cover-design-wrap">
+          <img
+            src="./src/cover-design.png"
+            alt="IfáChess — Cover Design"
+            className="ic-cover-design-img"
+          />
         </div>
-        <h1 className="ic-setup-title">IfáChess</h1>
-        <p className="ic-setup-sub">Ṣẹ́ẹ̀sì ní Èdè Ifá · 16×16 · 256 Sacred Squares</p>
+
+        {/* Brain SVG illustration — hidden, kept for reference */}
+        <div className="ic-cover-brain-wrap" style={{display:'none'}}>
+          <svg className="ic-cover-brain-svg" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg" aria-label="Human brain illustration">
+            <defs>
+              {/* Warm amber ambient glow */}
+              <radialGradient id="cbglow" cx="50%" cy="44%" r="54%">
+                <stop offset="0%"   stopColor="#c9a227" stopOpacity="0.45"/>
+                <stop offset="70%"  stopColor="#a07010" stopOpacity="0.18"/>
+                <stop offset="100%" stopColor="#c9a227" stopOpacity="0"/>
+              </radialGradient>
+              {/* Left hemisphere — warm gold highlight fades to deep amber shadow */}
+              <radialGradient id="lhemi-grad" cx="36%" cy="26%" r="70%">
+                <stop offset="0%"   stopColor="#c89030"/>
+                <stop offset="38%"  stopColor="#8b5518"/>
+                <stop offset="72%"  stopColor="#4a2608"/>
+                <stop offset="100%" stopColor="#1e0a02"/>
+              </radialGradient>
+              {/* Right hemisphere */}
+              <radialGradient id="rhemi-grad" cx="64%" cy="26%" r="70%">
+                <stop offset="0%"   stopColor="#c89030"/>
+                <stop offset="38%"  stopColor="#8b5518"/>
+                <stop offset="72%"  stopColor="#4a2608"/>
+                <stop offset="100%" stopColor="#1e0a02"/>
+              </radialGradient>
+              {/* Cerebellum — slightly cooler amber */}
+              <radialGradient id="cbell-grad" cx="50%" cy="36%" r="64%">
+                <stop offset="0%"   stopColor="#7a4510"/>
+                <stop offset="100%" stopColor="#1e0a02"/>
+              </radialGradient>
+              {/* Bright crown sheen — top highlight */}
+              <radialGradient id="cgold" cx="50%" cy="28%" r="48%">
+                <stop offset="0%"   stopColor="#f8e090" stopOpacity="0.28"/>
+                <stop offset="55%"  stopColor="#d4a030" stopOpacity="0.10"/>
+                <stop offset="100%" stopColor="#c9a227" stopOpacity="0"/>
+              </radialGradient>
+              {/* Clip paths keep sulci inside each hemisphere */}
+              <clipPath id="clip-lh">
+                <path d="M 97 13 Q 82 6 66 11 Q 46 17 30 31 Q 14 46 13 64 Q 11 81 22 95 Q 35 109 57 115 Q 74 119 90 115 Q 96 113 97 108 Z"/>
+              </clipPath>
+              <clipPath id="clip-rh">
+                <path d="M 103 13 Q 118 6 134 11 Q 154 17 170 31 Q 186 46 187 64 Q 189 81 178 95 Q 165 109 143 115 Q 126 119 110 115 Q 104 113 103 108 Z"/>
+              </clipPath>
+            </defs>
+
+            {/* ── Ambient warm glow ────────────────────────── */}
+            <ellipse cx="100" cy="64" rx="94" ry="68" fill="url(#cbglow)"/>
+
+            {/* ── LEFT HEMISPHERE ──────────────────────────── */}
+            <path d="M 97 13 Q 82 6 66 11 Q 46 17 30 31 Q 14 46 13 64 Q 11 81 22 95 Q 35 109 57 115 Q 74 119 90 115 Q 96 113 97 108 Z"
+              fill="url(#lhemi-grad)" stroke="#c9a227" strokeWidth="1.5"/>
+
+            {/* Superior frontal sulcus */}
+            <path d="M 76 13 Q 73 27 70 42 Q 68 57 69 71 Q 70 83 74 93"
+              fill="none" stroke="#1a0803" strokeWidth="3" strokeLinecap="round" clipPath="url(#clip-lh)"/>
+            <path d="M 76 13 Q 73 27 70 42 Q 68 57 69 71 Q 70 83 74 93"
+              fill="none" stroke="#e8b040" strokeWidth="0.9" strokeLinecap="round" opacity="0.6" clipPath="url(#clip-lh)"/>
+
+            {/* Precentral / inferior frontal sulcus */}
+            <path d="M 52 23 Q 50 36 48 51 Q 47 65 50 78 Q 53 88 57 97"
+              fill="none" stroke="#1a0803" strokeWidth="2.5" strokeLinecap="round" clipPath="url(#clip-lh)"/>
+            <path d="M 52 23 Q 50 36 48 51 Q 47 65 50 78 Q 53 88 57 97"
+              fill="none" stroke="#d49820" strokeWidth="0.8" strokeLinecap="round" opacity="0.52" clipPath="url(#clip-lh)"/>
+
+            {/* Central sulcus — most prominent */}
+            <path d="M 89 18 Q 81 30 74 44 Q 66 59 62 74 Q 60 85 61 97"
+              fill="none" stroke="#0e0401" strokeWidth="3.5" strokeLinecap="round" clipPath="url(#clip-lh)"/>
+            <path d="M 89 18 Q 81 30 74 44 Q 66 59 62 74 Q 60 85 61 97"
+              fill="none" stroke="#f0c060" strokeWidth="1.2" strokeLinecap="round" opacity="0.70" clipPath="url(#clip-lh)"/>
+
+            {/* Post-central sulcus */}
+            <path d="M 94 29 Q 87 42 81 57 Q 77 71 77 84 Q 77 95 79 104"
+              fill="none" stroke="#1a0803" strokeWidth="2.5" strokeLinecap="round" clipPath="url(#clip-lh)"/>
+            <path d="M 94 29 Q 87 42 81 57 Q 77 71 77 84 Q 77 95 79 104"
+              fill="none" stroke="#d49820" strokeWidth="0.8" strokeLinecap="round" opacity="0.52" clipPath="url(#clip-lh)"/>
+
+            {/* Lateral (Sylvian) sulcus */}
+            <path d="M 25 60 Q 38 57 50 61 Q 60 65 65 73 Q 68 81 66 91"
+              fill="none" stroke="#1a0803" strokeWidth="2.4" strokeLinecap="round" clipPath="url(#clip-lh)"/>
+            <path d="M 25 60 Q 38 57 50 61 Q 60 65 65 73 Q 68 81 66 91"
+              fill="none" stroke="#c08818" strokeWidth="0.8" strokeLinecap="round" opacity="0.48" clipPath="url(#clip-lh)"/>
+
+            {/* Intraparietal sulcus */}
+            <path d="M 85 68 Q 78 76 74 86 Q 72 95 73 104"
+              fill="none" stroke="#1a0803" strokeWidth="2.2" strokeLinecap="round" clipPath="url(#clip-lh)"/>
+            <path d="M 85 68 Q 78 76 74 86 Q 72 95 73 104"
+              fill="none" stroke="#c08818" strokeWidth="0.8" strokeLinecap="round" opacity="0.44" clipPath="url(#clip-lh)"/>
+
+            {/* Occipital sulcus */}
+            <path d="M 28 85 Q 40 82 52 86 Q 62 90 68 100"
+              fill="none" stroke="#1a0803" strokeWidth="2" strokeLinecap="round" clipPath="url(#clip-lh)"/>
+            <path d="M 28 85 Q 40 82 52 86 Q 62 90 68 100"
+              fill="none" stroke="#b07810" strokeWidth="0.7" strokeLinecap="round" opacity="0.38" clipPath="url(#clip-lh)"/>
+
+            {/* ── RIGHT HEMISPHERE ─────────────────────────── */}
+            <path d="M 103 13 Q 118 6 134 11 Q 154 17 170 31 Q 186 46 187 64 Q 189 81 178 95 Q 165 109 143 115 Q 126 119 110 115 Q 104 113 103 108 Z"
+              fill="url(#rhemi-grad)" stroke="#b89020" strokeWidth="1.5"/>
+
+            {/* Superior frontal sulcus */}
+            <path d="M 124 13 Q 127 27 130 42 Q 132 57 131 71 Q 130 83 126 93"
+              fill="none" stroke="#1a0803" strokeWidth="3" strokeLinecap="round" clipPath="url(#clip-rh)"/>
+            <path d="M 124 13 Q 127 27 130 42 Q 132 57 131 71 Q 130 83 126 93"
+              fill="none" stroke="#e8b040" strokeWidth="0.9" strokeLinecap="round" opacity="0.6" clipPath="url(#clip-rh)"/>
+
+            {/* Precentral / inferior frontal sulcus */}
+            <path d="M 148 23 Q 150 36 152 51 Q 153 65 150 78 Q 147 88 143 97"
+              fill="none" stroke="#1a0803" strokeWidth="2.5" strokeLinecap="round" clipPath="url(#clip-rh)"/>
+            <path d="M 148 23 Q 150 36 152 51 Q 153 65 150 78 Q 147 88 143 97"
+              fill="none" stroke="#d49820" strokeWidth="0.8" strokeLinecap="round" opacity="0.52" clipPath="url(#clip-rh)"/>
+
+            {/* Central sulcus */}
+            <path d="M 111 18 Q 119 30 126 44 Q 134 59 138 74 Q 140 85 139 97"
+              fill="none" stroke="#0e0401" strokeWidth="3.5" strokeLinecap="round" clipPath="url(#clip-rh)"/>
+            <path d="M 111 18 Q 119 30 126 44 Q 134 59 138 74 Q 140 85 139 97"
+              fill="none" stroke="#f0c060" strokeWidth="1.2" strokeLinecap="round" opacity="0.70" clipPath="url(#clip-rh)"/>
+
+            {/* Post-central sulcus */}
+            <path d="M 106 29 Q 113 42 119 57 Q 123 71 123 84 Q 123 95 121 104"
+              fill="none" stroke="#1a0803" strokeWidth="2.5" strokeLinecap="round" clipPath="url(#clip-rh)"/>
+            <path d="M 106 29 Q 113 42 119 57 Q 123 71 123 84 Q 123 95 121 104"
+              fill="none" stroke="#d49820" strokeWidth="0.8" strokeLinecap="round" opacity="0.52" clipPath="url(#clip-rh)"/>
+
+            {/* Lateral (Sylvian) sulcus */}
+            <path d="M 175 60 Q 162 57 150 61 Q 140 65 135 73 Q 132 81 134 91"
+              fill="none" stroke="#1a0803" strokeWidth="2.4" strokeLinecap="round" clipPath="url(#clip-rh)"/>
+            <path d="M 175 60 Q 162 57 150 61 Q 140 65 135 73 Q 132 81 134 91"
+              fill="none" stroke="#c08818" strokeWidth="0.8" strokeLinecap="round" opacity="0.48" clipPath="url(#clip-rh)"/>
+
+            {/* Intraparietal sulcus */}
+            <path d="M 115 68 Q 122 76 126 86 Q 128 95 127 104"
+              fill="none" stroke="#1a0803" strokeWidth="2.2" strokeLinecap="round" clipPath="url(#clip-rh)"/>
+            <path d="M 115 68 Q 122 76 126 86 Q 128 95 127 104"
+              fill="none" stroke="#c08818" strokeWidth="0.8" strokeLinecap="round" opacity="0.44" clipPath="url(#clip-rh)"/>
+
+            {/* Occipital sulcus */}
+            <path d="M 172 85 Q 160 82 148 86 Q 138 90 132 100"
+              fill="none" stroke="#1a0803" strokeWidth="2" strokeLinecap="round" clipPath="url(#clip-rh)"/>
+            <path d="M 172 85 Q 160 82 148 86 Q 138 90 132 100"
+              fill="none" stroke="#b07810" strokeWidth="0.7" strokeLinecap="round" opacity="0.38" clipPath="url(#clip-rh)"/>
+
+            {/* ── LONGITUDINAL FISSURE ─────────────────────── */}
+            <line x1="100" y1="13" x2="100" y2="110" stroke="#0a0401" strokeWidth="4.5"/>
+            <line x1="100" y1="13" x2="100" y2="110" stroke="#f0c840" strokeWidth="0.9" strokeDasharray="4 4" opacity="0.55"/>
+
+            {/* ── CEREBELLUM ───────────────────────────────── */}
+            <path d="M 65 119 Q 76 112 100 115 Q 124 112 135 119 Q 146 126 140 134 Q 130 141 100 143 Q 70 141 60 134 Q 54 126 65 119 Z"
+              fill="url(#cbell-grad)" stroke="#c9a227" strokeWidth="1.3"/>
+            {/* Vermis */}
+            <path d="M 93 115 Q 97 117 100 115 Q 103 117 107 115 L 107 139 Q 103 141 100 142 Q 97 141 93 139 Z"
+              fill="#2a1005" stroke="#d4a827" strokeWidth="0.7"/>
+            {/* Folia — left lobe */}
+            <path d="M 65 120 Q 77 117 93 118" fill="none" stroke="#8b5e18" strokeWidth="1.3" strokeLinecap="round"/>
+            <path d="M 61 124 Q 74 121 92 122" fill="none" stroke="#a07020" strokeWidth="1.1" strokeLinecap="round"/>
+            <path d="M 60 128 Q 73 125 91 126" fill="none" stroke="#8b5e18" strokeWidth="1.1" strokeLinecap="round"/>
+            <path d="M 61 132 Q 73 129 91 130" fill="none" stroke="#a07020" strokeWidth="1"   strokeLinecap="round"/>
+            <path d="M 63 136 Q 74 134 91 134" fill="none" stroke="#8b5e18" strokeWidth="0.9" strokeLinecap="round"/>
+            {/* Folia — right lobe */}
+            <path d="M 135 120 Q 123 117 107 118" fill="none" stroke="#8b5e18" strokeWidth="1.3" strokeLinecap="round"/>
+            <path d="M 139 124 Q 126 121 108 122" fill="none" stroke="#a07020" strokeWidth="1.1" strokeLinecap="round"/>
+            <path d="M 140 128 Q 127 125 109 126" fill="none" stroke="#8b5e18" strokeWidth="1.1" strokeLinecap="round"/>
+            <path d="M 139 132 Q 127 129 109 130" fill="none" stroke="#a07020" strokeWidth="1"   strokeLinecap="round"/>
+            <path d="M 137 136 Q 126 134 109 134" fill="none" stroke="#8b5e18" strokeWidth="0.9" strokeLinecap="round"/>
+
+            {/* ── BRAIN STEM ───────────────────────────────── */}
+            <path d="M 91 139 Q 89 143 90 148 L 110 148 Q 111 143 109 139 Z"
+              fill="#1a0803" stroke="#c9a227" strokeWidth="1.2"/>
+
+            {/* ── NEURAL SPARK NODES ───────────────────────── */}
+            <circle cx="54"  cy="40"  r="2.4" fill="#ffe090" opacity="0.90"/>
+            <circle cx="34"  cy="62"  r="1.8" fill="#f8d060" opacity="0.72"/>
+            <circle cx="84"  cy="50"  r="2.2" fill="#ffe090" opacity="0.82"/>
+            <circle cx="42"  cy="84"  r="1.6" fill="#f0c840" opacity="0.62"/>
+            <circle cx="72"  cy="80"  r="2"   fill="#ffe090" opacity="0.68"/>
+            <circle cx="146" cy="40"  r="2.4" fill="#ffe090" opacity="0.90"/>
+            <circle cx="166" cy="62"  r="1.8" fill="#f8d060" opacity="0.72"/>
+            <circle cx="116" cy="50"  r="2.2" fill="#ffe090" opacity="0.82"/>
+            <circle cx="158" cy="84"  r="1.6" fill="#f0c840" opacity="0.62"/>
+            <circle cx="128" cy="80"  r="2"   fill="#ffe090" opacity="0.68"/>
+
+            {/* Neural connections */}
+            <line x1="54"  y1="40"  x2="84"  y2="50"  stroke="#f0c840" strokeWidth="0.7" opacity="0.35"/>
+            <line x1="34"  y1="62"  x2="42"  y2="84"  stroke="#f0c840" strokeWidth="0.7" opacity="0.35"/>
+            <line x1="84"  y1="50"  x2="72"  y2="80"  stroke="#ffe066" strokeWidth="0.6" opacity="0.28"/>
+            <line x1="146" y1="40"  x2="116" y2="50"  stroke="#f0c840" strokeWidth="0.7" opacity="0.35"/>
+            <line x1="166" y1="62"  x2="158" y2="84"  stroke="#f0c840" strokeWidth="0.7" opacity="0.35"/>
+            <line x1="116" y1="50"  x2="128" y2="80"  stroke="#ffe066" strokeWidth="0.6" opacity="0.28"/>
+
+            {/* ── Crown sheen — bright highlight at the top ── */}
+            <ellipse cx="100" cy="52" rx="80" ry="48" fill="url(#cgold)"/>
+          </svg>
+        </div>
+
+        {/* Title, taglines, badges — shown in cover design image above */}
 
         <div className="ic-setup-section">
           <div className="ic-setup-label">Play Against</div>
@@ -1056,9 +1273,19 @@ function SetupScreen({ onStart }) {
           </div>
         )}
 
-        <button className="ic-play-again-btn" style={{ marginTop:'28px' }} onClick={handleBegin}>
+        <button className="ic-play-again-btn" style={{ marginTop:'24px' }} onClick={handleBegin}>
           Begin Game
         </button>
+
+        {/* Child/parent tagline */}
+        <p className="ic-cover-child-tagline">
+          A Fun and Thrilling Tool to Develop Your Child's Intelligence with Ifa &amp; Orisa
+        </p>
+
+        <div className="ic-cover-ero-label">
+          <span className="ic-cover-ero-line">— Ẹ̀rọ Ìṣeré Ọpọlọ —</span>
+        </div>
+
         <a href="../index.html" className="ic-back-btn-small">← Back to Play IFA Games</a>
       </div>
     </div>
@@ -1107,6 +1334,319 @@ function SelectedPieceInfo({ piece }) {
   );
 }
 
+// ─── OPON SIDEBAR ────────────────────────────────────────────────────────────
+
+function OponSidebar({
+  turn, inCheck, aiThinking, opponent, difficulty,
+  selectedPiece, moveHistory, capturedWhite, capturedBlack,
+  onSetup
+}) {
+  const [tab, setTab] = useState('roster');
+
+  return (
+    <aside className="ic-opon-sidebar">
+
+      {/* Logo / Title */}
+      <div className="ic-opon-logo-wrap">
+        <div className="ic-opon-logo">
+          <span className="ic-opon-logo-ifa">IFÁ</span>
+          <span className="ic-opon-logo-chess">CHESS</span>
+        </div>
+        <div className="ic-opon-logo-yoruba">ÈjìAyò Ọlọ́pọ́nfá</div>
+        <div className="ic-opon-logo-sub">Ṣẹ́ẹ̀sì ní Èdè Ifá</div>
+      </div>
+
+      {/* Tabs: Cover · Roster · Info */}
+      <div className="ic-opon-tabs">
+        {[['cover','⬛','Cover'],['roster','⚔','Roster'],['info','○','Info']].map(([id, icon, label]) => (
+          <button
+            key={id}
+            className={`ic-opon-tab${tab === id ? ' ic-opon-tab--active' : ''}`}
+            onClick={() => setTab(id)}
+          >
+            <span className="ic-opon-tab-icon">{icon}</span>
+            <span>{label}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Player 2 · Ebony (black) */}
+      <div className={`ic-opon-player-card${turn === 'black' ? ' ic-opon-player-card--active' : ''}`}>
+        <div className="ic-opon-player-avatar" style={{ background:'rgba(0,180,166,0.18)', border:'1.5px solid #00b4a6' }}>
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+            <circle cx="12" cy="8" r="4" fill="#00b4a6"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#00b4a6" strokeWidth="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div className="ic-opon-player-info">
+          <span className="ic-opon-player-num">Player 2</span>
+          <span className="ic-opon-player-name" style={{ color:'#00d9b8' }}>Ebony</span>
+        </div>
+        {turn === 'black' && inCheck && <span className="ic-opon-check-badge">CHECK</span>}
+        {turn === 'black' && !inCheck && aiThinking && <span className="ic-opon-thinking-badge">thinking…</span>}
+        {turn === 'black' && !inCheck && !aiThinking && (
+          <span className="ic-opon-turn-badge" style={{ color:'#00d9b8' }}>● your turn</span>
+        )}
+      </div>
+
+      {/* Tab-controlled content area */}
+      <div className="ic-opon-tab-body">
+
+        {tab === 'cover' && (
+          <div className="ic-opon-cover-panel">
+            <div className="ic-opon-cover-desc">
+              <p>IfáChess — 16×16 Ifa strategy on the sacred Opọ́n Ifá board. 256 Ifa Squares, 16 Odu files, 9 Orisa-inspired piece types.</p>
+              <p>{opponent === 'ai' ? `Playing vs Ifa AI · ${difficulty} difficulty.` : 'Local 2-player game.'}</p>
+            </div>
+            <div className="ic-opon-cover-stats">
+              {[['256','Ifa Squares'],['16','Odu Files'],['9','Orisa Pieces']].map(([n,l]) => (
+                <div key={l} className="ic-opon-stat">
+                  <span className="ic-opon-stat-num">{n}</span>
+                  <span className="ic-opon-stat-label">{l}</span>
+                </div>
+              ))}
+            </div>
+            <button className="ic-opon-new-game-btn" onClick={onSetup}>New Game Setup</button>
+          </div>
+        )}
+
+        {tab === 'roster' && (
+          <OrisaRoster selectedPiece={selectedPiece} onClose={() => setTab('info')} />
+        )}
+
+        {tab === 'info' && (
+          <div className="ic-opon-info-panel">
+            <div className="ic-captured-section">
+              <div className="ic-captured-group">
+                <div className="ic-captured-label">Captured by Bosewood</div>
+                <div className="ic-captured-list">
+                  {capturedWhite.map((p, i) => {
+                    const c = PIECES[p.type]?.color || '#c9a227';
+                    return (
+                      <div key={i} className="ic-captured-piece"
+                        style={{ background:`${c}22`, border:`1px solid ${c}55`, color:c }}>
+                        <PieceSVG type={p.type} oduid={p.oduid} />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="ic-captured-group">
+                <div className="ic-captured-label">Captured by Ebony</div>
+                <div className="ic-captured-list">
+                  {capturedBlack.map((p, i) => (
+                    <div key={i} className="ic-captured-piece"
+                      style={{ background:'rgba(0,180,166,0.14)', border:'1px solid rgba(0,180,166,0.3)', color:'#00d9b8' }}>
+                      <PieceSVG type={p.type} oduid={p.oduid} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <MoveLog moveHistory={moveHistory} />
+          </div>
+        )}
+
+      </div>
+
+      {/* IFA SQUARE — selected piece info */}
+      {selectedPiece && (
+        <div className="ic-opon-ifa-square">
+          <div className="ic-opon-ifa-square-label">Ifa Square</div>
+          <SelectedPieceInfo piece={selectedPiece} />
+        </div>
+      )}
+
+      {/* ON THE OPỌN — quick rules */}
+      <div className="ic-opon-on-the-opon">
+        <div className="ic-opon-section-label">On the Opọ́n</div>
+        {[
+          [ODU[0].color,  '256 Ifa Squares. Each column is an Odu file; each square carries the Odu sign of that file.'],
+          [ODU[3].color,  'The Mẹji line. Sixteen squares where an Odu meets itself, Ẹ̀jì Ọgbè to Ọlọ́n Mẹji.'],
+          [ODU[6].color,  'Sixteen Ayò pots — one per Odu. A captured piece becomes a seed of its Odu.'],
+          [ODU[9].color,  'Seed pawns. Each Odu\'s sixteen Ẹrú Ọba are Ayò seeds; white for Bosewood, black for Ebony.'],
+          [ODU[12].color, 'Ọlọ Opọn — the face of the tray marks the head, with Ọgbè and Ọfún on either side.'],
+        ].map(([color, text], i) => (
+          <div key={i} className="ic-opon-rule-item">
+            <span className="ic-opon-rule-icon" style={{ color }}>◈</span>
+            <span className="ic-opon-rule-text">{text}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Player 1 · Bosewood (white) */}
+      <div className={`ic-opon-player-card ic-opon-player-card--bottom${turn === 'white' ? ' ic-opon-player-card--active' : ''}`}>
+        <div className="ic-opon-player-avatar" style={{ background:'rgba(201,162,39,0.18)', border:'1.5px solid #c9a227' }}>
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
+            <circle cx="12" cy="8" r="4" fill="#c9a227"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#c9a227" strokeWidth="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div className="ic-opon-player-info">
+          <span className="ic-opon-player-num">Player 1</span>
+          <span className="ic-opon-player-name" style={{ color:'#f0c840' }}>Bosewood</span>
+        </div>
+        {turn === 'white' && inCheck && <span className="ic-opon-check-badge">CHECK</span>}
+        {turn === 'white' && !inCheck && aiThinking && <span className="ic-opon-thinking-badge">thinking…</span>}
+        {turn === 'white' && !inCheck && !aiThinking && (
+          <div className="ic-opon-go-move">
+            <span>Go Move</span>
+            <div className="ic-opon-go-move-dot" />
+          </div>
+        )}
+      </div>
+
+    </aside>
+  );
+}
+
+// ─── GAME MENU & MODALS ───────────────────────────────────────────────────────
+
+function GameMenuDropdown({ onNewGame, onOpen, onSave, onSaveAs, onResign, onPrefs, onShortcuts, onHelp, onAbout, onClose }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    function h(e) { if (ref.current && !ref.current.contains(e.target)) onClose(); }
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, [onClose]);
+  return (
+    <div className="ic-menu-dropdown" ref={ref} role="menu">
+      <button className="ic-menu-item" role="menuitem" onClick={() => { onNewGame(); onClose(); }}>
+        <span>New Game…</span><kbd>Ctrl+N</kbd>
+      </button>
+      <button className="ic-menu-item" role="menuitem" onClick={() => { onOpen(); onClose(); }}>
+        <span>Open Game…</span><kbd>Ctrl+O</kbd>
+      </button>
+      <button className="ic-menu-item" role="menuitem" onClick={() => { onSave(); onClose(); }}>
+        <span>Save Game</span><kbd>Ctrl+S</kbd>
+      </button>
+      <button className="ic-menu-item" role="menuitem" onClick={() => { onSaveAs(); onClose(); }}>
+        <span>Save Game As…</span><kbd>⇧Ctrl+S</kbd>
+      </button>
+      <div className="ic-menu-sep" role="separator" />
+      <button className="ic-menu-item ic-menu-item--danger" role="menuitem" onClick={() => { onResign(); onClose(); }}>
+        <span>Resign Game</span>
+      </button>
+      <div className="ic-menu-sep" role="separator" />
+      <button className="ic-menu-item" role="menuitem" onClick={() => { onPrefs(); onClose(); }}>
+        <span>Preferences</span>
+      </button>
+      <div className="ic-menu-sep" role="separator" />
+      <button className="ic-menu-item" role="menuitem" onClick={() => { onShortcuts(); onClose(); }}>
+        <span>Keyboard Shortcuts</span><kbd>Ctrl+?</kbd>
+      </button>
+      <button className="ic-menu-item" role="menuitem" onClick={() => { onHelp(); onClose(); }}>
+        <span>Help</span><kbd>F1</kbd>
+      </button>
+      <button className="ic-menu-item" role="menuitem" onClick={() => { onAbout(); onClose(); }}>
+        <span>About IfáChess</span>
+      </button>
+    </div>
+  );
+}
+
+function ModalOverlay({ title, onClose, children }) {
+  useEffect(() => {
+    function h(e) { if (e.key === 'Escape') onClose(); }
+    document.addEventListener('keydown', h);
+    return () => document.removeEventListener('keydown', h);
+  }, [onClose]);
+  return (
+    <div className="ic-modal-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="ic-modal" role="dialog" aria-modal="true">
+        <div className="ic-modal-header">
+          <span className="ic-modal-title">{title}</span>
+          <button className="ic-modal-close" onClick={onClose} aria-label="Close">✕</button>
+        </div>
+        <div className="ic-modal-body">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function PreferencesModal({ soundOn, setSoundOn, onClose }) {
+  return (
+    <ModalOverlay title="Preferences" onClose={onClose}>
+      <div className="ic-pref-row">
+        <span className="ic-pref-label">Sound Effects</span>
+        <button className={`ic-pref-toggle${soundOn ? ' ic-pref-toggle--on' : ''}`}
+          onClick={() => setSoundOn(v => !v)}>
+          {soundOn ? '🔊 On' : '🔇 Off'}
+        </button>
+      </div>
+    </ModalOverlay>
+  );
+}
+
+function ShortcutsModal({ onClose }) {
+  return (
+    <ModalOverlay title="Keyboard Shortcuts" onClose={onClose}>
+      <table className="ic-shortcuts-table">
+        <tbody>
+          {[
+            ['Ctrl+N',       'New Game'],
+            ['Ctrl+O',       'Open Game…'],
+            ['Ctrl+S',       'Save Game'],
+            ['Shift+Ctrl+S', 'Save Game As…'],
+            ['Ctrl+?',       'Keyboard Shortcuts'],
+            ['F1',           'Help'],
+            ['Escape',       'Close menus / modals'],
+          ].map(([k, d]) => (
+            <tr key={k}>
+              <td><kbd className="ic-kbd">{k}</kbd></td>
+              <td className="ic-shortcut-desc">{d}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </ModalOverlay>
+  );
+}
+
+function HelpModal({ onClose }) {
+  return (
+    <ModalOverlay title="Help — IfáChess" onClose={onClose}>
+      <div className="ic-help-content">
+        <h3 className="ic-help-h">How to Play</h3>
+        <p>Click a piece to select it. Highlighted squares show valid moves — click one to move. Capture the enemy <b>Ọba (◉)</b> to win.</p>
+        <h3 className="ic-help-h">Pieces</h3>
+        <ul className="ic-help-list">
+          <li><b>Ọba ◉</b> — King · 1 step any direction</li>
+          <li><b>Olorì ♦</b> — Queen · unlimited all 8 directions</li>
+          <li><b>Aṣọ́lùú ▲</b> — Rook · unlimited horizontal &amp; vertical</li>
+          <li><b>Babalawo ⚡</b> — Priest · unlimited diagonal</li>
+          <li><b>Balógun ⚔</b> — Knight · 3+1 L-shape, jumps over pieces</li>
+          <li><b>Ìyálóde ✦</b> — Diplomat · 2+1 L-shape <em>or</em> 1 step any direction</li>
+          <li><b>Ìyá Ọlọ́jà ≋</b> — Merchant · up to 4 steps all 8 directions</li>
+          <li><b>Ìyá Ọba ∿</b> — Queen Mother · up to 6 steps horiz/vert, cannot capture</li>
+          <li><b>Ìyá Olóoṣà ○</b> — Priestess · up to 3 steps any direction, cannot capture</li>
+          <li><b>Odu Pawns</b> — 16 unique pawns each with a hidden Odu power; promote on the back rank</li>
+        </ul>
+        <h3 className="ic-help-h">Saving &amp; Loading</h3>
+        <p>Use <kbd className="ic-kbd">Ctrl+S</kbd> to save to browser storage. Use <kbd className="ic-kbd">Shift+Ctrl+S</kbd> to download as a JSON file. Load a saved file with <kbd className="ic-kbd">Ctrl+O</kbd>.</p>
+      </div>
+    </ModalOverlay>
+  );
+}
+
+function AboutModal({ onClose }) {
+  return (
+    <ModalOverlay title="About IfáChess" onClose={onClose}>
+      <div className="ic-about-content">
+        <div className="ic-about-brand">IfáChess</div>
+        <div className="ic-about-yoruba">Ṣẹ́ẹ̀sì ní Èdè Ifá</div>
+        <div className="ic-about-alt">Ayò Ọlọ́pọ́nfá Méjì</div>
+        <p>The sacred chess of Ifa — a 16×16 strategy game featuring 256 Ifa squares, 16 unique Odu Pawns, and 9 Orisa-inspired piece types. Challenge the Ifa AI or play with a friend.</p>
+        <div className="ic-about-credit">
+          Part of <b>Play IFA Games</b><br />
+          <a href="https://playifagames.org" target="_blank" rel="noopener noreferrer">playifagames.org</a><br />
+          By <b>CENProject</b>
+        </div>
+      </div>
+    </ModalOverlay>
+  );
+}
+
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
 
 function App() {
@@ -1131,6 +1671,11 @@ function App() {
   const [showRight,     setShowRight]     = useState(false);
   const [deskLeft,      setDeskLeft]      = useState(true);
   const [deskRight,     setDeskRight]     = useState(true);
+  const [headerCollapsed, setHeaderCollapsed] = useState(false);
+  const [menuOpen,    setMenuOpen]    = useState(false);
+  const [activeModal, setActiveModal] = useState(null); // 'prefs'|'shortcuts'|'help'|'about'
+  const fileInputRef = useRef(null);
+  const gameStateRef = useRef(null);
 
   // Refs so AI effect always sees latest values without re-triggering
   const boardRef      = useRef(board);
@@ -1140,6 +1685,10 @@ function App() {
   useEffect(() => { opponentRef.current = opponent; },     [opponent]);
   useEffect(() => { difficultyRef.current = difficulty; }, [difficulty]);
   useEffect(() => { SoundEngine.enabled = soundOn; },      [soundOn]);
+  // Keep gameStateRef always current (no deps = runs every render)
+  useEffect(() => {
+    gameStateRef.current = { board, turn, capturedWhite, capturedBlack, moveHistory, lastMove, inCheck, winner, opponent, difficulty };
+  });
 
   // ── valid moves ───────────────────────────────────────────────────────────────
   const validMoves = useMemo(() => {
@@ -1249,21 +1798,65 @@ function App() {
   function handlePlayAgain() { resetGame(); }
   function handleNewSetup()  { resetGame(); setGameMode('setup'); }
 
+  // ── save / load / resign ──────────────────────────────────────────────────────
+  function saveGame() {
+    const s = gameStateRef.current; if (!s) return;
+    try { localStorage.setItem('ifachess_save', JSON.stringify(s)); SoundEngine.play('start'); }
+    catch(e) { alert('Save failed: ' + e.message); }
+  }
+  function saveGameAs() {
+    const s = gameStateRef.current; if (!s) return;
+    const blob = new Blob([JSON.stringify(s, null, 2)], { type:'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a   = document.createElement('a');
+    a.href = url; a.download = `ifachess-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+  }
+  function openGame() { fileInputRef.current && fileInputRef.current.click(); }
+  function handleFileLoad(e) {
+    const file = e.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const s = JSON.parse(ev.target.result);
+        setBoard(s.board); setTurn(s.turn || 'white');
+        setCapturedWhite(s.capturedWhite || []); setCapturedBlack(s.capturedBlack || []);
+        setMoveHistory(s.moveHistory || []); setLastMove(s.lastMove || null);
+        setInCheck(s.inCheck || null); setWinner(s.winner || null);
+        setOpponent(s.opponent || 'human'); setDifficulty(s.difficulty || 'medium');
+        setGameMode('playing');
+      } catch(err) { alert('Invalid save file.'); }
+    };
+    reader.readAsText(file); e.target.value = '';
+  }
+  function resignGame() { if (!winner) setWinner(turn === 'white' ? 'black' : 'white'); }
+
+  // Global keyboard shortcuts
+  useEffect(() => {
+    if (gameMode !== 'playing') return;
+    function onKey(e) {
+      if (e.key === 'Escape') { setMenuOpen(false); setActiveModal(null); return; }
+      if (e.ctrlKey && !e.shiftKey && e.key === 'n') { e.preventDefault(); handleNewSetup(); return; }
+      if (e.ctrlKey && !e.shiftKey && e.key === 's') { e.preventDefault(); saveGame(); return; }
+      if (e.ctrlKey && e.shiftKey && (e.key==='s'||e.key==='S')) { e.preventDefault(); saveGameAs(); return; }
+      if (e.ctrlKey && e.key === 'o') { e.preventDefault(); openGame(); return; }
+      if (e.ctrlKey && e.key === '/') { e.preventDefault(); setActiveModal('shortcuts'); return; }
+      if (e.key === 'F1') { e.preventDefault(); setActiveModal('help'); return; }
+    }
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [gameMode, turn, winner]);
+
   if (gameMode === 'setup') return <SetupScreen onStart={handleStart} />;
 
   return (
     <div className="ic-app">
       <div className="ic-bg-nebula" />
 
-      <header className="ic-header">
+      <header className={`ic-header${headerCollapsed ? ' ic-header--collapsed' : ''}`}>
         <a href="../index.html" className="ic-back-link">← Play IFA Games</a>
-        <div className="ic-header-center">
-          <h1 className="ic-title">IfáChess: Ṣẹ́ẹ̀sì ní Èdè Ifá</h1>
-          <div className="ic-subtitle">
-            Ifa/Orisa Strategy · 16×16 · 256 Ifa Squares
-            {opponent === 'ai' && <span className="ic-mode-badge"> · vs AI ({difficulty})</span>}
-          </div>
-        </div>
+        {/* title lives in OponSidebar */}
         <div className="ic-header-right">
           {aiThinking && (
             <div className="ic-ai-thinking">
@@ -1276,6 +1869,27 @@ function App() {
             <span className="ic-turn-text">{turn === 'white' ? 'White' : 'Black'}'s Turn</span>
             {inCheck && <span className="ic-check-badge">⚠ Check!</span>}
           </div>
+          {/* Game menu */}
+          <div className="ic-menu-wrap">
+            <button className="ic-menu-btn" onClick={() => setMenuOpen(v => !v)}
+              title="Game Menu" aria-label="Game Menu">
+              ☰
+            </button>
+            {menuOpen && (
+              <GameMenuDropdown
+                onNewGame={handleNewSetup}
+                onOpen={openGame}
+                onSave={saveGame}
+                onSaveAs={saveGameAs}
+                onResign={resignGame}
+                onPrefs={() => setActiveModal('prefs')}
+                onShortcuts={() => setActiveModal('shortcuts')}
+                onHelp={() => setActiveModal('help')}
+                onAbout={() => setActiveModal('about')}
+                onClose={() => setMenuOpen(false)}
+              />
+            )}
+          </div>
           <button className="ic-sound-btn" onClick={() => setSoundOn(v => !v)}
             title={soundOn ? 'Mute' : 'Unmute'} aria-label={soundOn ? 'Mute' : 'Unmute'}>
             {soundOn ? '🔊' : '🔇'}
@@ -1283,37 +1897,30 @@ function App() {
         </div>
       </header>
 
-      <MobileToggles
-        showLeft={showLeft} showRight={showRight}
-        onToggleLeft={()  => { setShowLeft(v => !v); setShowRight(false); }}
-        onToggleRight={() => { setShowRight(v => !v); setShowLeft(false); }}
-      />
-
-      <div className={`ic-layout${!deskLeft?' ic-layout--no-left':''}${!deskRight?' ic-layout--no-right':''}`}>
-        <div className={`ic-sidebar-wrapper ic-sidebar-wrapper--left${showLeft?' ic-sidebar-wrapper--open':''}${!deskLeft?' ic-sidebar-wrapper--collapsed':''}`}>
-          <OrisaRoster selectedPiece={selectedPiece} onClose={() => setDeskLeft(false)} />
+      <div className="ic-opon-layout">
+        <div className="ic-opon-sidebar-wrap">
+          <OponSidebar
+            turn={turn}
+            inCheck={inCheck}
+            aiThinking={aiThinking}
+            opponent={opponent}
+            difficulty={difficulty}
+            selectedPiece={selectedPiece}
+            moveHistory={moveHistory}
+            capturedWhite={capturedWhite}
+            capturedBlack={capturedBlack}
+            onSetup={handleNewSetup}
+          />
         </div>
-
-        <div className="ic-board-area">
-          {(!deskLeft || !deskRight) && (
-            <div className="ic-panel-restore-bar">
-              {!deskLeft  && <button className="ic-restore-btn" onClick={() => setDeskLeft(true)}>▶ Roster</button>}
-              {!deskRight && <button className="ic-restore-btn" onClick={() => setDeskRight(true)}>Info ◀</button>}
-            </div>
-          )}
-          {selectedPiece && <SelectedPieceInfo piece={selectedPiece} />}
-          <div className={`ic-board-frame${aiThinking?' ic-board-frame--thinking':''}`}>
-            <BoardComponent board={board} selected={selected} validMoves={validMoves}
-              lastMove={lastMove} onCellClick={handleCellClick} />
-          </div>
-          {aiThinking && (
-            <div className="ic-ai-board-msg">Ifa Intelligence is thinking…</div>
-          )}
-        </div>
-
-        <div className={`ic-sidebar-wrapper ic-sidebar-wrapper--right${showRight?' ic-sidebar-wrapper--open':''}${!deskRight?' ic-sidebar-wrapper--collapsed':''}`}>
-          <RightSidebar moveHistory={moveHistory} capturedWhite={capturedWhite}
-            capturedBlack={capturedBlack} onClose={() => setDeskRight(false)} />
+        <div className="ic-opon-board-area">
+          <OponBoardFrame
+            board={board}
+            selected={selected}
+            validMoves={validMoves}
+            lastMove={lastMove}
+            onCellClick={handleCellClick}
+            aiThinking={aiThinking}
+          />
         </div>
       </div>
 
@@ -1321,6 +1928,16 @@ function App() {
         <div className="ic-footer-line1">IfáChess — 16 Odu · 256 Sacred Squares · IfaLogic · OrisaLogic · ToE Logic</div>
         <div className="ic-footer-line2">A subgame of Play IFA Games · playifagames.org</div>
       </footer>
+
+      {/* Hidden file input for Open Game */}
+      <input type="file" accept=".json" ref={fileInputRef} style={{display:'none'}}
+        onChange={handleFileLoad} />
+
+      {/* Modals */}
+      {activeModal === 'prefs'     && <PreferencesModal soundOn={soundOn} setSoundOn={setSoundOn} onClose={() => setActiveModal(null)} />}
+      {activeModal === 'shortcuts' && <ShortcutsModal onClose={() => setActiveModal(null)} />}
+      {activeModal === 'help'      && <HelpModal onClose={() => setActiveModal(null)} />}
+      {activeModal === 'about'     && <AboutModal onClose={() => setActiveModal(null)} />}
 
       {winner && <WinnerModal winner={winner} onReset={handlePlayAgain} onSetup={handleNewSetup} />}
     </div>

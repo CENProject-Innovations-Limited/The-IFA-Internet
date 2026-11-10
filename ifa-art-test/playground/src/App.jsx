@@ -258,6 +258,9 @@ function PlaygroundHeader() {
           <span className="pg-header__badge">Playground</span>
           <span className="pg-header__name">Ifart &amp; Orisart</span>
         </div>
+        <a href="https://ifainternet.org/ifagram" className="pg-header__ifa" target="_blank" rel="noopener noreferrer">
+          Ifagram
+        </a>
         <a href="https://ifainternet.org" className="pg-header__ifa" target="_blank" rel="noopener noreferrer">
           IFA Internet
         </a>
@@ -1193,6 +1196,7 @@ function PlaygroundFooter() {
           <a href="../" className="pg-footer__link">← Ifa Art</a>
           <a href="../../" className="pg-footer__link">IFA Internet</a>
           <a href="../../ebology-test/" className="pg-footer__link">Ebology</a>
+          <a href="https://ifainternet.org/ifagram" target="_blank" rel="noopener noreferrer" className="pg-footer__link">Ifagram</a>
           <a href="./ilu-ilu/" className="pg-footer__link pg-footer__link--ilu">🥁 Ìlú-Ìlù</a>
           <a href="https://www.playifagames.org/ayo-oloponfa/" target="_blank" rel="noopener noreferrer" className="pg-footer__link pg-footer__link--game">▶ Ayo-Oloponfa</a>
           <a href="https://ifainternet.org" target="_blank" rel="noopener noreferrer" className="pg-footer__link">ifainternet.org ↗</a>

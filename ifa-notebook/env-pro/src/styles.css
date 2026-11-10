@@ -4243,6 +4243,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
 }
 .nb-ifaprog__sound-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.nb-ifaprog__sound-meta-row {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.nb-ifaprog__sound-meta-field {
+  display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 140px;
+}
+.nb-ifaprog__input--sm {
+  font-size: 0.78rem; padding: 4px 8px;
+}
 .nb-ifaprog__sbtn {
   font-size: 0.78rem; font-family: inherit; font-weight: 600;
   padding: 4px 10px; border-radius: 4px; cursor: pointer;
@@ -4460,4 +4469,61 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .pro-present-body       { padding: 10px 6px; }
   .pro-present-cell       { padding: 14px 12px; }
   .pro-present-nav-btn    { padding: 5px 8px; min-width: 54px; }
+  /* Sound credit/date: force single-column so they never overflow narrow screens */
+  .nb-ifaprog__sound-meta-row   { flex-direction: column; gap: 6px; }
+  .nb-ifaprog__sound-meta-field { min-width: 0; width: 100%; }
+  .nb-ifaprog__section-label    { font-size: 0.65rem; letter-spacing: 0.04em; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   Mobile optimisation pass — targeted fixes for gaps in earlier breakpoints
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤768px): cell-control tap targets ───────────────────────────────── */
+@media (max-width: 768px) {
+  .nb-ctrl-btn { min-height: 38px; padding: 5px 10px; font-size: 0.72rem; }
+}
+
+/* ── Phone landscape / small tablet (≤600px) ────────────────────────────────── */
+@media (max-width: 600px) {
+  /* Bottom add-row: comfortable touch targets (was missing at this breakpoint) */
+  .nb-add-inline {
+    padding: 5px 10px; font-size: 0.68rem;
+    min-height: 36px; white-space: nowrap;
+  }
+  /* Hide topbar separator dots and header hint text — not useful on small screens */
+  .env-topbar__sep    { display: none; }
+  .nb-cell__hdr-note  { display: none; }
+  /* IfaProg hint: make it legible */
+  .nb-ifaprog__hint   { font-size: 0.78rem; }
+}
+
+/* ── Phone portrait (≤480px): IfaSound Credit/Date row stacking ─────────────── */
+@media (max-width: 480px) {
+  .nb-ifaprog__sound-meta-row   { flex-direction: column; gap: 8px; }
+  .nb-ifaprog__sound-meta-field { min-width: 0; width: 100%; }
+  .nb-ifaprog__hint             { font-size: 0.8rem; }
+}
+
+/* ── Landscape phone (short viewport, wide screen) ──────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Collapse topbar to a single tight row so cells get more vertical space */
+  .env-topbar { padding: 5px 10px; gap: 4px; flex-wrap: nowrap; }
+  .env-topbar__center {
+    order: 3; width: auto; flex: 1;
+    overflow-x: auto; flex-wrap: nowrap;
+    padding-bottom: 0;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .env-topbar__center::-webkit-scrollbar { display: none; }
+  .env-topbar__right  { order: 2; gap: 3px; }
+  .env-topbar__left   { order: 1; }
+  .env-title-btn      { max-width: 100px; font-size: 0.7rem; }
+  .nb-add-btn         { padding: 4px 8px; font-size: 0.65rem; min-height: 30px; }
+  .pro-topbar-btn,
+  .nb-run-all-btn,
+  .nb-file-btn,
+  .nb-save-btn        { min-height: 30px; padding: 3px 8px; font-size: 0.65rem; }
+  /* Give the main area more height */
+  .env-main           { padding-top: 0; }
 }

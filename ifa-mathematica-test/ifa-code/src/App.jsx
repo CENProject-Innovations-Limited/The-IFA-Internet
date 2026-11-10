@@ -263,6 +263,38 @@ const IFAPL_LP_DIMS = [
   },
 ];
 
+// ─── DATA — Ifa-Orisa Bridge Pairs ───────────────────────────────────────────
+
+const BRIDGE_PAIRS = [
+  {
+    id: 'ancient-modern',
+    label: 'Ancient ↔ Modern',
+    left:  { title: 'Ancient Systems',        sym: '◈',  color: '#f0920c',
+      tags: ['Odu Ifa · 256 Codes', 'Indigenous Intelligence', 'Natural Cycles', 'Oral Wisdom'] },
+    right: { title: 'Modern Systems',          sym: '>_', color: '#3b9eff',
+      tags: ['AI & Machine Learning', 'Digital Networks', 'Cloud Architecture', 'Computation'] },
+    body: 'The I/O Bridge integrates ancestral intelligence with modern computation — the 256 Odu Ifa as the living code matrix encoding both ancient wisdom and modern digital systems as one unified field.',
+  },
+  {
+    id: 'nature-synthetic',
+    label: 'Nature ↔ Synthetic',
+    left:  { title: 'Nature',                  sym: '⬡',  color: '#00c87c',
+      tags: ['Biological Systems', 'Natural Intelligence', 'Organic Processes', 'Àṣẹ (Life Force)'] },
+    right: { title: 'Synthetic / Artificial',  sym: '⬢',  color: '#8b5cf6',
+      tags: ['Machine Intelligence', 'Artificial Systems', 'Synthetic Processes', 'Digital Minds'] },
+    body: 'The I/O Bridge maintains equilibrium between natural and artificial intelligence — ensuring synthetic systems remain grounded in the natural laws encoded within the 16 Ifa-Orisa Laws of Nature.',
+  },
+  {
+    id: 'auto-nonauto',
+    label: 'Automation ↔ Non-automation',
+    left:  { title: 'Automation',              sym: '↻',  color: '#14b8d4',
+      tags: ['AI Agents', 'Autonomous Systems', 'Algorithmic Decision', 'Self-executing Code'] },
+    right: { title: 'Non-Automation',           sym: '✦',  color: '#ec4899',
+      tags: ['Human Judgment', 'Creative Craft', 'Intuition & Wisdom', 'Ethical Oversight'] },
+    body: 'The I/O Bridge calibrates when to automate and when not to — recognizing that human wisdom, creativity, and cultural judgment cannot and should not be fully automated, while leveraging automation where it serves life.',
+  },
+];
+
 // ─── MATRIX DIAGRAM COMPONENT ─────────────────────────────────────────────────
 
 function MatrixDiagram({ index, title, centerLine1, centerLine2, accentColor, dims, imageUrl, imageAlt, ringText }) {
@@ -467,6 +499,7 @@ function Header() {
           <a className="nav-link" href="#ifapl">IfaPL</a>
           <a className="nav-link" href="#ifaconstruct">-OEs</a>
           <a className="nav-link" href="#ifalp">IfaLP</a>
+          <a className="nav-link" href="#ifase">IfaSE</a>
           <a className="nav-link" href="#paal">PaaL</a>
           <a className="nav-link" href="../">IFA Mathematica</a>
           <a className="nav-link nav-link--cta"
@@ -830,6 +863,166 @@ function IfaPLSection() {
   );
 }
 
+// ─── IFA-ORISA BRIDGE ─────────────────────────────────────────────────────────
+
+function BridgeNodeTitle({ cx, title, color }) {
+  const words = title.split(' ');
+  if (words.length <= 1) {
+    return <text x={cx} y="108" textAnchor="middle" fill={color} fontSize="10" fontWeight="700" opacity="0.92">{title}</text>;
+  }
+  const mid = Math.ceil(words.length / 2);
+  return (
+    <>
+      <text x={cx} y="104" textAnchor="middle" fill={color} fontSize="10" fontWeight="700" opacity="0.92">
+        {words.slice(0, mid).join(' ')}
+      </text>
+      <text x={cx} y="117" textAnchor="middle" fill={color} fontSize="10" fontWeight="700" opacity="0.92">
+        {words.slice(mid).join(' ')}
+      </text>
+    </>
+  );
+}
+
+function IfaBridgeSVG({ pair, uid }) {
+  const lc = pair.left.color;
+  const rc = pair.right.color;
+  const au = '#f5c518';
+  const u  = 'br' + uid;
+
+  return (
+    <svg viewBox="0 0 760 200" style={{ width: '100%', height: 'auto', display: 'block' }}>
+      <defs>
+        <radialGradient id={u+'-lg'} cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor={au} stopOpacity="0.28"/>
+          <stop offset="100%" stopColor={au} stopOpacity="0"/>
+        </radialGradient>
+        <linearGradient id={u+'-bg'} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stopColor={lc} stopOpacity="0.05"/>
+          <stop offset="50%"  stopColor={au} stopOpacity="0.02"/>
+          <stop offset="100%" stopColor={rc} stopOpacity="0.05"/>
+        </linearGradient>
+        <path id={u+'-lc'} d="M 208,100 L 322,100" fill="none"/>
+        <path id={u+'-cl'} d="M 322,100 L 208,100" fill="none"/>
+        <path id={u+'-cr'} d="M 438,100 L 552,100" fill="none"/>
+        <path id={u+'-rc'} d="M 552,100 L 438,100" fill="none"/>
+      </defs>
+
+      {/* Background gradient */}
+      <rect x="0" y="0" width="760" height="200" fill={'url(#'+u+'-bg)'} rx="10"/>
+
+      {/* Full-width beam (balance metaphor) */}
+      <line x1="40" y1="100" x2="720" y2="100" stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
+
+      {/* Connection lines */}
+      <line x1="208" y1="100" x2="322" y2="100" stroke={lc} strokeWidth="1.5" strokeDasharray="4 5" opacity="0.38"/>
+      <line x1="438" y1="100" x2="552" y2="100" stroke={rc} strokeWidth="1.5" strokeDasharray="4 5" opacity="0.38"/>
+
+      {/* Left node */}
+      <circle cx="130" cy="100" r="78" fill={lc} opacity="0.05"/>
+      <circle cx="130" cy="100" r="66" fill="#0a0f1a" stroke={lc} strokeWidth="1.8"/>
+      <text x="130" y="92" textAnchor="middle" fill={lc} fontSize="20" fontWeight="900" fontFamily="monospace">{pair.left.sym}</text>
+      <BridgeNodeTitle cx={130} title={pair.left.title} color={lc}/>
+
+      {/* Right node */}
+      <circle cx="630" cy="100" r="78" fill={rc} opacity="0.05"/>
+      <circle cx="630" cy="100" r="66" fill="#0a0f1a" stroke={rc} strokeWidth="1.8"/>
+      <text x="630" y="92" textAnchor="middle" fill={rc} fontSize="20" fontWeight="900" fontFamily="monospace">{pair.right.sym}</text>
+      <BridgeNodeTitle cx={630} title={pair.right.title} color={rc}/>
+
+      {/* Center glow */}
+      <circle cx="380" cy="100" r="52" fill={'url(#'+u+'-lg)'}/>
+      {/* Center diamond */}
+      <polygon points="380,58 426,100 380,142 334,100" fill="#0a0f1a" stroke={au} strokeWidth="2"/>
+      <text x="380" y="96" textAnchor="middle" fill={au} fontSize="12" fontWeight="900" fontFamily="monospace">I/O</text>
+      <text x="380" y="111" textAnchor="middle" fill={au} fontSize="8" opacity="0.75">Bridge</text>
+
+      {/* Fulcrum (balance metaphor) */}
+      <polygon points="380,170 374,182 386,182" fill="rgba(245,197,24,0.14)"/>
+      <line x1="374" y1="182" x2="386" y2="182" stroke="rgba(245,197,24,0.18)" strokeWidth="1"/>
+
+      {/* Flow dots: left → center, gold → left */}
+      <circle r="3.5" fill={lc} opacity="0.9">
+        <animateMotion dur="1.7s" repeatCount="indefinite"><mpath href={'#'+u+'-lc'}/></animateMotion>
+      </circle>
+      <circle r="2.8" fill={au} opacity="0.65">
+        <animateMotion dur="1.7s" begin="0.85s" repeatCount="indefinite"><mpath href={'#'+u+'-cl'}/></animateMotion>
+      </circle>
+      {/* Flow dots: center → right, right → gold */}
+      <circle r="3.5" fill={rc} opacity="0.9">
+        <animateMotion dur="1.7s" begin="0.3s" repeatCount="indefinite"><mpath href={'#'+u+'-cr'}/></animateMotion>
+      </circle>
+      <circle r="2.8" fill={au} opacity="0.65">
+        <animateMotion dur="1.7s" begin="1.15s" repeatCount="indefinite"><mpath href={'#'+u+'-rc'}/></animateMotion>
+      </circle>
+
+      {/* Outer labels */}
+      <text x="130" y="186" textAnchor="middle" fill={lc} fontSize="7" opacity="0.38" fontFamily="monospace" letterSpacing="1">◂ LEFT POLE ▸</text>
+      <text x="630" y="186" textAnchor="middle" fill={rc} fontSize="7" opacity="0.38" fontFamily="monospace" letterSpacing="1">◂ RIGHT POLE ▸</text>
+      <text x="380" y="162" textAnchor="middle" fill={au} fontSize="6.5" opacity="0.38" fontFamily="monospace" letterSpacing="1">IFA-ORISA BRIDGE</text>
+    </svg>
+  );
+}
+
+function IfaBridgeDemo() {
+  const [active, setActive] = React.useState(0);
+  const [animKey, setAnimKey] = React.useState(0);
+  const pair = BRIDGE_PAIRS[active];
+
+  const handleTab = (i) => { setActive(i); setAnimKey(k => k + 1); };
+
+  return (
+    <div className="ifa-bridge">
+      <div className="ifa-bridge__header">
+        <div className="ifa-bridge__heading">◈ Ifa-Orisa Bridge (I/O Bridge) — Balance Visualizer</div>
+      </div>
+
+      <div className="ifa-bridge__tabs">
+        {BRIDGE_PAIRS.map((p, i) => (
+          <button key={p.id}
+            className={'ifa-bridge__tab' + (active === i ? ' ifa-bridge__tab--active' : '')}
+            onClick={() => handleTab(i)}>
+            {p.label}
+          </button>
+        ))}
+      </div>
+
+      <div key={animKey} className="ifa-bridge__content">
+        <div className="ifa-bridge__view">
+          <IfaBridgeSVG pair={pair} uid={animKey}/>
+        </div>
+
+        <div className="ifa-bridge__desc-row">
+          <div className="ifa-bridge__pole" style={{ '--bc': pair.left.color }}>
+            <div className="ifa-bridge__pole-header">
+              <span className="ifa-bridge__pole-sym">{pair.left.sym}</span>
+              <span className="ifa-bridge__pole-title">{pair.left.title}</span>
+            </div>
+            <div className="ifa-bridge__pole-tags">
+              {pair.left.tags.map((t, ti) => <span key={ti} className="ifa-bridge__pole-tag">{t}</span>)}
+            </div>
+          </div>
+
+          <div className="ifa-bridge__center-col">
+            <div className="ifa-bridge__center-label">⇌ Ifa-Orisa Bridge ⇌</div>
+            <p className="ifa-bridge__center-body">{pair.body}</p>
+            <span className="ifa-bridge__balance-pill">Balance · Equilibrium · Unity</span>
+          </div>
+
+          <div className="ifa-bridge__pole" style={{ '--bc': pair.right.color }}>
+            <div className="ifa-bridge__pole-header">
+              <span className="ifa-bridge__pole-sym">{pair.right.sym}</span>
+              <span className="ifa-bridge__pole-title">{pair.right.title}</span>
+            </div>
+            <div className="ifa-bridge__pole-tags">
+              {pair.right.tags.map((t, ti) => <span key={ti} className="ifa-bridge__pole-tag">{t}</span>)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── IfaPL IMAGE MODELS SECTION ───────────────────────────────────────────────
 
 function IfaPLImageSection() {
@@ -932,6 +1125,70 @@ function IfaPLImageSection() {
             ringText="IFALP · IFA LITERATE PROGRAMMING · LP · NOTEBOOKS · DOCGEN · AI-LP · PL/UI · IFALANG ·"
           />
         </div>
+
+        {/* IfaSE — Ifa Software Engineering */}
+        <div id="ifase" className="ifc-model-header">
+          <div className="ifc-model-num ifc-model-num--electric">SE</div>
+          <div>
+            <h3 className="ifc-model-title">Ifa Software Engineering (IfaSE): Interdisciplinary and Polymathic SE</h3>
+            <p className="ifc-model-sub">Systems-thinking · First-principles reasoning · Polymathy · 16 Ifa-Orisa Laws of Nature</p>
+          </div>
+        </div>
+
+        <div className="ifc-ifase-block">
+          <div className="ifc-ifase-block__row">
+            <div className="ifc-ifase-block__col">
+              <div className="ifc-ifase-block__label">The Shifting Role of the Programmer</div>
+              <p className="ifc-ifase-block__body">
+                The claim that "programming is dead" — amplified by AI-powered tools such as the{' '}
+                <a href="https://github.com/morluto/rea"
+                   target="_blank" rel="noopener noreferrer" className="ifc-link">
+                  Reverse Engineer Anything (REA) Platform
+                </a>{' '}
+                — reflects a real transformation, not an ending.
+              </p>
+              <br/>
+              <p className="ifc-ifase-block__body">
+                Traditional manual coding is not dead: the programmer's role is shifting from typing
+                syntax line-by-line to orchestrating AI agents, composing systems, and solving
+                high-level architecture problems.
+              </p>
+              <br/>
+              <p className="ifc-ifase-block__body">
+                The demand is now for engineers who can think in systems, not just in syntax.
+              </p>
+            </div>
+            <div className="ifc-ifase-block__col">
+              <div className="ifc-ifase-block__label">What IfaSE Introduces to the Field</div>
+              <p className="ifc-ifase-block__body">
+                Ifa Software Engineering (IfaSE) brings systems-thinking, first-principles reasoning,
+                interdisciplinarity, and polymathy into SE training — grounded in the{' '}
+                <strong>16 Ifa-Orisa Laws of Nature</strong> (in Yoruba and English).
+              </p>
+              <br/>
+              <p className="ifc-ifase-block__body">
+                The underlying <strong>Ifa-Orisa Paradigm for Everything (Paradigm-oE)</strong> seeks
+                balance: between the natural and the artificial, between automation and
+                non-automation, between ancient systems and modern methods.
+              </p>
+              <br/>
+              <p className="ifc-ifase-block__body">
+                Rather than training narrow coders, IfaSE trains engineers to function as visionary
+                system architects and polymaths: understanding how software, knowledge, and energy
+                interact across all fields of the CodoE, in alignment with the living intelligence
+                of the 256 Odu Ifa.
+              </p>
+              <br/>
+              <div className="ifc-alias-row">
+                {['Orisa Software Engineering (OrisaSE)', 'Ifa-Orisa Software Engineering (Ifa-OrisaSE)'].map((a, i) => (
+                  <span key={i} className="ifc-alias">{a}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <IfaBridgeDemo />
       </div>
     </section>
   );

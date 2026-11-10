@@ -1623,6 +1623,11 @@ function CtaSection() {
             system, encoding scheme, and notation language is recognized as a sacred technology
             for expressing Consciousness-Energy. All scripts are One in ScriptoE.
           </p>
+          <p className="cta-block__desc" style={{ marginTop: '1rem' }}>
+            <strong>IfaLab · OrisaLab</strong> — the dual symbol generation laboratory of IfaScript —
+            applies ifalgo and orisalgo to generate new dual symbols for logic, mathematics, and the
+            Aebajiogbe-Oduduwa Script. Every symbol in every field now has an Ifa dual form.
+          </p>
           <div className="cta-block__btns">
             <a
               className="btn btn--primary"
@@ -1632,6 +1637,10 @@ function CtaSection() {
               className="btn btn--secondary"
               href="../ifagraphy-toegraphy/"
             >Ifagraphy — Writing Platform →</a>
+            <a
+              className="btn btn--secondary"
+              href="./ifa-lab/"
+            >IfaLab · OrisaLab →</a>
             <a
               className="btn btn--ghost"
               href="https://toe.cenproject.org/"
@@ -1694,6 +1703,7 @@ function Header() {
           <a className="nav-link" href="#script-explorer">Explorer</a>
           <a className="nav-link" href="#practice">Practice</a>
           <a className="nav-link" href="../ifa-language/">IfaLang</a>
+          <a className="nav-link" href="./ifa-lab/">IfaLab</a>
           <a className="nav-link nav-link--cta" href="#explore">Get Started</a>
         </nav>
       </div>
@@ -1718,6 +1728,7 @@ function Footer() {
           <a href="#practice"           className="footer__link">Practice</a>
           <a href="../ifa-language/"    className="footer__link">IFA Language</a>
           <a href="../ifagraphy-toegraphy/" className="footer__link">Ifagraphy</a>
+          <a href="./ifa-lab/"              className="footer__link">IfaLab · OrisaLab</a>
           <a href="https://toe.cenproject.org/ifa-linguistics-ifalin-the-linguistics-of-everything-linoe/"
              target="_blank" rel="noopener noreferrer" className="footer__link">IFA Linguistics</a>
           <a href="https://toe.cenproject.org/ifa-programming-language-ifa-pl/"

@@ -3483,16 +3483,25 @@ function App() {
   function handleLogin(username, password) {
     // Check localStorage users first — covers admin password changes
     const found = users.find(u => u.username === username && u.password === password);
-    if (found) { setCurrentUser(found); setLoginError(''); return; }
+    if (found) {
+      setCurrentUser(found); setLoginError('');
+      try { localStorage.setItem('ifaLMS_session', JSON.stringify({ userId: found.id, role: found.role, program: found.program, status: found.status, name: found.name, ts: Date.now() })); } catch (e) {}
+      return;
+    }
     // Fallback: seed admin credentials in case localStorage was wiped
     const seedAdmin = SEED_USERS.find(u => u.role === 'admin');
     if (username === seedAdmin.username && password === seedAdmin.password) {
-      setCurrentUser(seedAdmin); setLoginError(''); return;
+      setCurrentUser(seedAdmin); setLoginError('');
+      try { localStorage.setItem('ifaLMS_session', JSON.stringify({ userId: seedAdmin.id, role: seedAdmin.role, program: seedAdmin.program, status: seedAdmin.status, name: seedAdmin.name, ts: Date.now() })); } catch (e) {}
+      return;
     }
     setLoginError('Invalid username or password.');
   }
 
-  function handleLogout() { setCurrentUser(null); setLoginError(''); }
+  function handleLogout() {
+    setCurrentUser(null); setLoginError('');
+    try { localStorage.removeItem('ifaLMS_session'); } catch (e) {}
+  }
 
   if (!currentUser) return <LoginPage onLogin={handleLogin} loginError={loginError} />;
 

@@ -1296,6 +1296,81 @@ function LinkedPlatformsSection() {
   );
 }
 
+// ─── IFA-ORISA MODEL SECTION ─────────────────────────────────────────────────
+
+function IfaOrisaModelSection() {
+  return (
+    <section className="section section--alt" id="ifa-orisa-model">
+      <div className="container">
+        <div className="section__header section__header--center">
+          <span className="section__eyebrow section__eyebrow--amber">Research &amp; Application Model</span>
+          <h2 className="section__title">
+            Ifa-Orisa Model: <span className="accent--amber">AI-Assisted Field and Research</span>
+          </h2>
+        </div>
+
+        <div className="iom-body">
+          <div className="iom-block">
+            <h3 className="iom-block__title">AI-Assisted Approaches</h3>
+            <p className="iom-block__text">
+              AI-assisted methods are applied across all fields — AI-assisted mathematics,
+              AI-assisted arts, AI-assisted physics, AI-assisted medicine, AI-assisted education,
+              and more. These automated approaches accelerate research, pattern recognition, and
+              generation across every discipline. While useful, AI-assisted methods alone are
+              incomplete and unsustainable as a sole research model.
+            </p>
+          </div>
+
+          <div className="iom-block">
+            <h3 className="iom-block__title">The Ifa-Assisted Approach (Ifapproach)</h3>
+            <p className="iom-block__text">
+              A more efficient, effective, and sustainable model is the{' '}
+              <strong>Ifa-Assisted Approach</strong> — also known as the{' '}
+              <strong>Ifa-Informed Approach</strong>, <strong>ToE-Informed Approach</strong>,{' '}
+              <strong>Energy-Based Approach</strong>, or simply{' '}
+              <strong>Ifapproach / ToE Approach</strong>. The Ifapproach incorporates both{' '}
+              <em>AI-assisted methods</em> (artificial methods, automation) and{' '}
+              <em>non-AI-assisted approaches</em> (natural methods, non-automation).
+              Balancing automation and non-automation is key — the Ifa-Orisa System provides
+              the integrating framework for both.
+            </p>
+          </div>
+
+          <div className="iom-os-grid">
+            <div className="iom-os-card">
+              <div className="iom-os-card__label">IfaOpen-Source Model</div>
+              <p className="iom-os-card__body">
+                The <strong>IfaOpen-Source Model</strong> (Ifa Open-Source Model) uses Ifa Systems
+                to develop open-source models for every field and profession — from mathematics
+                and science to arts, law, medicine, engineering, and beyond.
+              </p>
+            </div>
+            <div className="iom-os-card">
+              <div className="iom-os-card__label">OrisaOpen-Source Model</div>
+              <p className="iom-os-card__body">
+                The <strong>OrisaOpen-Source Model</strong> (Orisa Open-Source Model) extends this
+                through Orisa Systems — open-source models grounded in Orisa principles, applicable
+                across every field and profession, complementing the IfaOpen-Source Model.
+              </p>
+            </div>
+          </div>
+
+          <div className="iom-keywords">
+            {[
+              'Ifa Assistant', 'Ifassistant', 'Orisa Assistant', 'Orisassistant',
+              'Ìránṣẹ́ Ifá', 'Ìránṣẹ́ Òrìṣà', 'Ìránṣẹ́fá', 'Ìránṣẹ́ṣà',
+              'Irinṣẹ́', 'Irinṣẹ́ Ifá', 'Irinṣẹ́fá', 'Irinṣẹ́ṣà', 'Irinṣẹ́ Òrìṣà',
+              'Ifa Messenger', 'Orisa Messenger', 'Ifa-Orisa Messenger Systems'
+            ].map(k => (
+              <span key={k} className="iom-keyword">{k}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 
 function Footer() {
@@ -1322,6 +1397,7 @@ function Footer() {
             <a href="#frameworks" className="footer__link">Frameworks</a>
             <a href="#laws" className="footer__link">16 LOKs</a>
             <a href="#path" className="footer__link">Learn</a>
+            <a href="#ifa-orisa-model" className="footer__link">Ifa-Orisa Model</a>
             <a href="https://ifainternet.org/ifa-mathematica/ifa-gebra/" className="footer__link" target="_blank" rel="noopener noreferrer">IfaGebra</a>
             <a href="./ifa-transform/" className="footer__link" target="_blank" rel="noopener noreferrer">Ifa Transform</a>
             <a href="https://ifainternet.org/ifa-matrix/" className="footer__link" target="_blank" rel="noopener noreferrer">IFA Matrix ↗</a>
@@ -1357,6 +1433,7 @@ function App() {
         <LawsSection />
         <PathSection />
         <LinkedPlatformsSection />
+        <IfaOrisaModelSection />
       </main>
       <Footer />
       <MobileBar />

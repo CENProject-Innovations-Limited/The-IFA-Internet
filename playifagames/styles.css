@@ -2109,3 +2109,50 @@ button { cursor: pointer; font-family: inherit; }
   text-shadow: 0 0 18px rgba(201,162,39,0.5);
   z-index: 2;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   IFÁCHESS CARD ART
+══════════════════════════════════════════════════════════════ */
+.ifachess-art {
+  background: linear-gradient(145deg, #060410 0%, #0d0b1e 50%, #160a35 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.ifachess-board {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(201,162,39,0.4);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 24px rgba(124,77,255,0.35), 0 0 8px rgba(201,162,39,0.25);
+}
+.ifc-row { display: flex; }
+.ifc-sq {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+}
+.ifc-sq--l { background: rgba(201,162,39,0.14); }
+.ifc-sq--d { background: rgba(10,6,30,0.85); }
+.ifc-piece { font-style: normal; }
+.ifc-p--w  { color: #c9a227; text-shadow: 0 0 6px rgba(201,162,39,0.7); }
+.ifc-p--b  { color: #a78bfa; text-shadow: 0 0 6px rgba(167,139,250,0.7); }
+.game-card--live:hover .ifachess-board {
+  box-shadow: 0 0 32px rgba(124,77,255,0.55), 0 0 14px rgba(201,162,39,0.4);
+}
+
+/* IfaChess card subtitle */
+.card-yor-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: #a78bfa;
+  margin: -4px 0 6px;
+  opacity: 0.85;
+}
