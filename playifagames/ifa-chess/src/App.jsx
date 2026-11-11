@@ -715,45 +715,143 @@ function BoardComponent({ board, selected, validMoves, lastMove, onCellClick }) 
   );
 }
 
-// ─── OPỌN IFÁ CIRCULAR BOARD FRAME ──────────────────────────────────────────
+// ─── OPỌ́N IFÁ BOARD FRAME (carved tray + 16 Ayò pots) ───────────────────────
+// The tray artwork (assets/opon-live*.webp) is drawn on a 1240-unit square:
+// board 640×640 at 300,300 · Ayò pots on a 519 radius · rim edge at 571.
+// The Odù signs carved into the squares assume this orientation, which is the
+// game's own: files right→left = Ogbè … Òfún (col 0 on the right), ranks top→bottom = Ogbè … Òfún.
 
-function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, aiThinking }) {
-  const oduLabels = useMemo(() =>
-    ODU.map((odu, i) => {
-      // 16 Odu evenly around circle, starting from top (-π/2), going clockwise
-      const angle = -Math.PI / 2 + (i / 16) * 2 * Math.PI;
-      return { odu, angle };
-    }), []);
+const OPON_BOARD_FRAC  = 640 / 1240;   // board share of the full tray
+const OPON_CROP_FRAC   = 640 / 700;    // board share of the compact (cropped) tray
+const OPON_LABEL_SPACE = 1.092;        // full tray + pot labels, as a multiple of the tray width
+const OPON_MIN_CELL    = 22;           // below this the full tray switches to compact
+const OPON_STRIP_H     = 70;           // Ayò pot strip (56px) + gap, reserved in compact
+
+function oduShortName(odu) {
+  return odu.yoruba.replace(/\s*M[ẹe]́?j[ìi]̀?$/u, '').replace(/^Ẹ̀jì\s+/u, '');
+}
+
+function seedSpots(n) {
+  if (n <= 0) return [];
+  const fixed = { 1: [[50, 52]], 2: [[37, 50], [63, 52]], 3: [[38, 40], [62, 42], [50, 64]],
+    4: [[37, 38], [63, 39], [37, 62], [63, 63]] };
+  if (fixed[n]) return fixed[n];
+  const out = [], ga = Math.PI * (3 - Math.sqrt(5));
+  for (let k = 0; k < n; k++) {
+    const r = 30 * Math.sqrt((k + 0.5) / n), a = k * ga;
+    out.push([50 + r * Math.cos(a), 52 + r * Math.sin(a)]);
+  }
+  return out;
+}
+
+function AyoPot({ odu, count, className, style }) {
+  return (
+    <div className={className} style={style} role="img"
+      aria-label={`${oduShortName(odu)} pot: ${count} ${count === 1 ? 'seed' : 'seeds'}`}>
+      {seedSpots(count).map(([x, y], k) => (
+        <span key={k} className="iob-seed" style={{ left: `${x}%`, top: `${y}%` }} />
+      ))}
+    </div>
+  );
+}
+
+function useOponFit(ref) {
+  const [fit, setFit] = useState({ mode: 'full', tray: 0, cell: 26 });
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => {
+      const w = el.clientWidth - 24, h = el.clientHeight - 24;
+      if (w <= 0 || h <= 0) return;
+      const fullTray = Math.min(h, w / OPON_LABEL_SPACE);
+      const fullCell = fullTray * OPON_BOARD_FRAC / 16;
+      const box = Math.min(h - OPON_STRIP_H, w);
+      const compactCell = box * OPON_CROP_FRAC / 16;
+      const next = (fullCell >= OPON_MIN_CELL || compactCell <= fullCell)
+        ? { mode: 'full', tray: Math.floor(fullTray), cell: Math.floor(fullTray) * OPON_BOARD_FRAC / 16 }
+        : { mode: 'compact', tray: Math.floor(box), cell: Math.floor(box) * OPON_CROP_FRAC / 16 };
+      setFit(prev => (prev.mode === next.mode && prev.tray === next.tray) ? prev : next);
+    };
+    measure();
+    if (typeof ResizeObserver !== 'undefined') {
+      const ro = new ResizeObserver(measure);
+      ro.observe(el);
+      return () => ro.disconnect();
+    }
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, [ref]);
+  return fit;
+}
+
+function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, aiThinking, moveHistory }) {
+  const hostRef = useRef(null);
+  const { mode, tray, cell } = useOponFit(hostRef);
+
+  // Ayò pots: every capture drops a seed into the pot of the Odù file where it happened (col 0 = Ogbè).
+  const seeds = useMemo(() => {
+    const c = new Array(16).fill(0);
+    (moveHistory || []).forEach(m => { if (m && m.captured && m.to) c[m.to.col] += 1; });
+    return c;
+  }, [moveHistory]);
+
+  const files = useMemo(() => {
+    const out = [];
+    for (let c = 15; c >= 0; c--) out.push(ODU[c].name.slice(0, 3).toUpperCase());
+    return out;
+  }, []);
+
+  const rimPots = useMemo(() => ODU.map((odu, i) => {
+    const ang = (78.75 - i * 22.5) * Math.PI / 180;
+    return {
+      odu, i,
+      pot:   { left: `${50 + 41.855 * Math.cos(ang)}%`, top: `${50 - 41.855 * Math.sin(ang)}%` },
+      label: { left: `${50 + 47.9 * Math.cos(ang)}%`,   top: `${50 - 47.9 * Math.sin(ang)}%` },
+    };
+  }), []);
 
   return (
-    <div className="ic-opon-outer">
-      {/* Odu name labels orbiting outside the ring, in the label zone */}
-      {oduLabels.map(({ odu, angle }) => (
-        <div
-          key={odu.id}
-          className="ic-opon-odu-label"
-          style={{ '--a': angle, color: odu.color }}
-        >
-          {odu.name}
-        </div>
-      ))}
+    <div className="iob" data-mode={mode} ref={hostRef} style={{ '--cell': `${cell}px`, '--iob-tray': `${tray}px` }}>
+      <div className="iob-stage">
+        <div className="iob-tray">
+          {mode === 'full' && rimPots.map(({ odu, i, pot, label }) => (
+            <React.Fragment key={odu.id}>
+              <AyoPot odu={odu} count={seeds[i]} className="iob-pot" style={pot} />
+              <div className="iob-potlabel" style={label} aria-hidden="true">
+                <i style={{ background: odu.color, boxShadow: `0 0 6px ${odu.color}` }} />
+                {oduShortName(odu)}
+                {seeds[i] > 0 && <b>{seeds[i]}</b>}
+              </div>
+            </React.Fragment>
+          ))}
 
-      {/* Circle container: clips board corners + contains ring overlay */}
-      <div className="ic-opon-circle">
-        {/* Wooden Opọ́n ring — decorative overlay, pointer-events:none */}
-        <div className="ic-opon-ring" aria-hidden="true" />
+          <div className="iob-files iob-files--top" aria-hidden="true">{files.map((f, k) => <span key={k}>{f}</span>)}</div>
+          <div className="iob-files iob-files--bottom" aria-hidden="true">{files.map((f, k) => <span key={k}>{f}</span>)}</div>
+          <div className="iob-ranks iob-ranks--left" aria-hidden="true">{ODU.map((o, r) => <span key={r}>{r + 1}</span>)}</div>
+          <div className="iob-ranks iob-ranks--right" aria-hidden="true">{ODU.map((o, r) => <span key={r}>{o.name.slice(0, 3).toUpperCase()}</span>)}</div>
 
-        {/* Chess grid centred inside the ring */}
-        <div className={`ic-opon-board-inner${aiThinking ? ' ic-opon-board-inner--thinking' : ''}`}>
-          <BoardComponent
-            board={board}
-            selected={selected}
-            validMoves={validMoves}
-            lastMove={lastMove}
-            onCellClick={onCellClick}
-          />
+          <div className={`iob-slot${aiThinking ? ' iob-slot--thinking' : ''}`}>
+            <BoardComponent
+              board={board}
+              selected={selected}
+              validMoves={validMoves}
+              lastMove={lastMove}
+              onCellClick={onCellClick}
+            />
+          </div>
         </div>
       </div>
+
+      {mode === 'compact' && (
+        <div className="iob-strip" role="list" aria-label="Ayò pots">
+          {ODU.map((odu, i) => (
+            <div key={odu.id} className="iob-spot" role="listitem">
+              <AyoPot odu={odu} count={seeds[i]} className="iob-pot" />
+              <span style={{ borderBottomColor: odu.color }} title={oduShortName(odu)}>{odu.name.slice(0, 3).toUpperCase()}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -1418,7 +1516,7 @@ function OponSidebar({
           <div className="ic-opon-info-panel">
             <div className="ic-captured-section">
               <div className="ic-captured-group">
-                <div className="ic-captured-label">Captured by Bosewood</div>
+                <div className="ic-captured-label">Captured by Boxwood</div>
                 <div className="ic-captured-list">
                   {capturedWhite.map((p, i) => {
                     const c = PIECES[p.type]?.color || '#c9a227';
@@ -1461,11 +1559,11 @@ function OponSidebar({
       <div className="ic-opon-on-the-opon">
         <div className="ic-opon-section-label">On the Opọ́n</div>
         {[
-          [ODU[0].color,  '256 Ifa Squares. Each column is an Odu file; each square carries the Odu sign of that file.'],
-          [ODU[3].color,  'The Mẹji line. Sixteen squares where an Odu meets itself, Ẹ̀jì Ọgbè to Ọlọ́n Mẹji.'],
-          [ODU[6].color,  'Sixteen Ayò pots — one per Odu. A captured piece becomes a seed of its Odu.'],
-          [ODU[9].color,  'Seed pawns. Each Odu\'s sixteen Ẹrú Ọba are Ayò seeds; white for Bosewood, black for Ebony.'],
-          [ODU[12].color, 'Ọlọ Opọn — the face of the tray marks the head, with Ọgbè and Ọfún on either side.'],
+          [ODU[0].color,  '256 Ifa Squares. Each square carries its Odu sign in iyẹ̀rọsùn: the file Odu on the left, the rank Odu on the right.'],
+          [ODU[3].color,  'The Méjì line. Sixteen brass-inlaid squares where an Odu meets itself, from Èjì Ogbè to Òfún Méjì.'],
+          [ODU[6].color,  'Sixteen Ayò pots in the rim, one per Odu. Every capture drops a seed into the pot of the file where it happened.'],
+          [ODU[9].color,  'Ẹrú Ọba. Each pawn carries the power of its Odu file (see the Odu tab).'],
+          [ODU[12].color, 'Ojú Ọpọ́n. Ẹ̀ṣù’s face marks the head of the tray, with Ogbè and Òfún on either side.'],
         ].map(([color, text], i) => (
           <div key={i} className="ic-opon-rule-item">
             <span className="ic-opon-rule-icon" style={{ color }}>◈</span>
@@ -1474,7 +1572,7 @@ function OponSidebar({
         ))}
       </div>
 
-      {/* Player 1 · Bosewood (white) */}
+      {/* Player 1 · Boxwood (white) */}
       <div className={`ic-opon-player-card ic-opon-player-card--bottom${turn === 'white' ? ' ic-opon-player-card--active' : ''}`}>
         <div className="ic-opon-player-avatar" style={{ background:'rgba(201,162,39,0.18)', border:'1.5px solid #c9a227' }}>
           <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
@@ -1484,7 +1582,7 @@ function OponSidebar({
         </div>
         <div className="ic-opon-player-info">
           <span className="ic-opon-player-num">Player 1</span>
-          <span className="ic-opon-player-name" style={{ color:'#f0c840' }}>Bosewood</span>
+          <span className="ic-opon-player-name" style={{ color:'#f0c840' }}>Boxwood</span>
         </div>
         {turn === 'white' && inCheck && <span className="ic-opon-check-badge">CHECK</span>}
         {turn === 'white' && !inCheck && aiThinking && <span className="ic-opon-thinking-badge">thinking…</span>}
@@ -1920,6 +2018,7 @@ function App() {
             lastMove={lastMove}
             onCellClick={handleCellClick}
             aiThinking={aiThinking}
+            moveHistory={moveHistory}
           />
         </div>
       </div>
