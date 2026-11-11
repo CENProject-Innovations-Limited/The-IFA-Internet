@@ -2455,7 +2455,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   --iob-ink: #3b230f;
 }
 .iob-stage { flex: none; display: flex; justify-content: center; }
@@ -2600,14 +2600,12 @@ body {
   box-shadow: inset 0 3px 6px rgba(0,0,0,0.55);
 }
 .iob-spot span {
-  font-size: 8px;
+  font-size: 7px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
   line-height: 1.1;
   color: #f1e3c4;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
   white-space: nowrap;
   border-bottom: 2px solid transparent;
 }
@@ -2997,3 +2995,235 @@ body {
     --opon-circle: calc(100vw - 20px);
   }
 }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   OPỌ́N THEME — indigo adire cloth, candle-lit carved wood, brass
+   (layered last so it restyles the screens above without touching layout)
+   ════════════════════════════════════════════════════════════════════════════ */
+:root {
+  --indigo-0: #070a1f;
+  --indigo-1: #0d1233;
+  --indigo-2: #18204f;
+  --brass: #e2b65a;
+  --brass-soft: rgba(226, 182, 90, 0.28);
+  --brass-faint: rgba(226, 182, 90, 0.12);
+  --wood-hi: #8a5a33;
+  --wood-lo: #3a2213;
+  --bead-row: radial-gradient(circle at 50% 50%, rgba(226,182,90,0.75) 0 1.6px, transparent 2.2px) 0 50% / 9px 6px repeat-x;
+}
+
+body { background: var(--indigo-0); }
+
+/* adire indigo cloth under everything, dimmed and vignetted */
+.ic-app {
+  background:
+    radial-gradient(120% 95% at 55% 50%, transparent 35%, rgba(3, 4, 14, 0.88) 100%),
+    linear-gradient(rgba(7, 10, 31, 0.80), rgba(7, 10, 31, 0.80)),
+    url("../assets/adire.webp") 0 0 / 360px 360px repeat,
+    var(--indigo-1);
+}
+.ic-bg-nebula { opacity: 0.45; mix-blend-mode: screen; }
+
+/* ── header: dark glass with a brass bead row ── */
+.ic-header {
+  background: linear-gradient(180deg, rgba(9, 9, 26, 0.95), rgba(9, 9, 26, 0.86));
+  border-bottom: 1px solid var(--brass-soft);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+}
+.ic-header::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 6px;
+  background: var(--bead-row);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.ic-back-link { color: #d8cdb0; font-weight: 600; letter-spacing: 0.02em; }
+.ic-back-link:hover { color: var(--brass); }
+.ic-turn-indicator {
+  background: linear-gradient(180deg, rgba(226,182,90,0.14), rgba(226,182,90,0.05));
+  border: 1px solid var(--brass-soft);
+  box-shadow: inset 0 1px 0 rgba(255,236,190,0.12), 0 4px 14px rgba(0,0,0,0.35);
+}
+.ic-menu-btn, .ic-sound-btn {
+  background: rgba(226,182,90,0.07);
+  border: 1px solid var(--brass-soft);
+  color: #f0d48a;
+}
+.ic-menu-btn:hover, .ic-sound-btn:hover { background: rgba(226,182,90,0.16); }
+
+/* ── board area: a warm pool of lamplight under the opọ́n ── */
+.ic-opon-board-area::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(closest-side at 50% 52%, rgba(255, 170, 80, 0.26), rgba(190, 100, 40, 0.10) 55%, transparent 100%),
+    radial-gradient(closest-side at 50% 54%, rgba(0, 0, 0, 0.55), transparent 85%);
+  background-size: min(118vh, 96%) min(118vh, 96%), min(105vh, 86%) min(105vh, 86%);
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.ic-opon-board-area > * { position: relative; }
+
+/* ── sidebar: indigo cloth panel framed in brass ── */
+.ic-opon-sidebar-wrap {
+  background:
+    linear-gradient(180deg, rgba(10, 12, 36, 0.90), rgba(8, 9, 28, 0.95)),
+    url("../assets/adire.webp") 0 0 / 300px 300px repeat,
+    var(--indigo-1);
+  border-right: 1px solid var(--brass-soft);
+  box-shadow: 8px 0 30px rgba(0, 0, 0, 0.45), inset -1px 0 0 rgba(255, 230, 170, 0.05);
+}
+.ic-opon-sidebar::before {
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--brass) 20%, #f6dc96 50%, var(--brass) 80%, transparent);
+  opacity: 0.9;
+}
+.ic-opon-logo-wrap {
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid var(--brass-faint);
+  background: radial-gradient(120% 90% at 0% 0%, rgba(226,182,90,0.10), transparent 60%);
+}
+.ic-opon-logo { font-size: 1.4rem; }
+.ic-opon-logo-chess {
+  background: linear-gradient(90deg, #f5ecd6 0%, #ffffff 50%, #f5ecd6 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.ic-opon-logo-yoruba { color: #a9b8ff; font-size: 0.8rem; opacity: 1; }
+.ic-opon-logo-sub { color: #a69dc2; opacity: 1; }
+
+.ic-opon-tabs {
+  background: rgba(0, 0, 0, 0.28);
+  border-bottom: 1px solid var(--brass-faint);
+  padding: 0 6px;
+  gap: 2px;
+}
+.ic-opon-tab { color: #9c93b8; padding: 9px 4px 8px; border-radius: 8px 8px 0 0; }
+.ic-opon-tab:hover { color: #efe6cf; background: rgba(226,182,90,0.06); }
+.ic-opon-tab--active {
+  color: #f6dc96;
+  border-bottom-color: var(--brass);
+  background: linear-gradient(180deg, rgba(226,182,90,0.16), rgba(226,182,90,0.02));
+}
+
+/* player cards become brass-edged plaques */
+.ic-opon-player-card {
+  margin: 10px 10px 0;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.ic-opon-player-card--bottom { margin: 0 10px 10px; border-top: 1px solid rgba(255,255,255,0.07); }
+.ic-opon-player-card--active {
+  border-color: rgba(226, 182, 90, 0.6);
+  background: linear-gradient(180deg, rgba(226,182,90,0.16), rgba(226,182,90,0.05));
+  box-shadow: 0 0 0 3px rgba(226,182,90,0.08), 0 8px 22px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,236,190,0.18);
+}
+.ic-opon-player-avatar {
+  box-shadow: 0 0 0 1px rgba(226,182,90,0.45), 0 2px 6px rgba(0,0,0,0.5);
+}
+
+/* section labels get a small brass lozenge */
+.ic-opon-section-label { color: var(--brass); letter-spacing: 0.2em; }
+.ic-opon-section-label::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  margin-right: 8px;
+  vertical-align: 1px;
+  border: 1px solid var(--brass);
+  transform: rotate(45deg);
+}
+.ic-opon-on-the-opon {
+  margin: 10px;
+  border: 1px solid var(--brass-faint);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.22);
+}
+.ic-opon-rule-text { color: #cfc7e2; }
+.ic-opon-new-game-btn {
+  background: linear-gradient(180deg, #f3d47e, #d2a640);
+  color: #1a1206;
+  border: 0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 8px 20px rgba(210,166,64,0.25);
+}
+
+/* roster rows */
+.ic-roster-item { border-radius: 10px; }
+.ic-roster-item:hover { background: rgba(226,182,90,0.06); }
+
+/* ── pieces: carved boxwood and ebony medallions, inlaid with their role colour ── */
+.ic-piece {
+  width: 86%;
+  height: 86%;
+  border: 2px solid var(--pc, var(--brass));
+  animation: none;
+}
+.ic-piece::after {
+  inset: 2px;
+  background:
+    radial-gradient(ellipse at 34% 26%, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0) 46%),
+    radial-gradient(circle at 50% 50%, transparent 58%, rgba(0,0,0,0.18) 100%);
+}
+.ic-piece--white {
+  background: radial-gradient(circle at 36% 30%, #fff4da 0%, #ecd09b 30%, #c39459 68%, #8a5e2e 100%);
+  color: #4a2a10;
+  box-shadow: 0 2px 3px rgba(40, 18, 0, 0.65), 0 0 0 1px rgba(60, 30, 5, 0.55), inset 0 -2px 3px rgba(100, 58, 18, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  animation: none;
+}
+.ic-piece--black {
+  background: radial-gradient(circle at 36% 30%, #6a5648 0%, #34241c 34%, #170e0a 75%, #0a0605 100%);
+  color: #f0c860;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(0, 0, 0, 0.7), inset 0 -2px 3px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 220, 160, 0.35);
+  animation: none;
+}
+.ic-piece svg { width: 60%; height: 60%; filter: drop-shadow(0 1px 0 rgba(0,0,0,0.35)); }
+.ic-piece--white svg { filter: drop-shadow(0 1px 0 rgba(255,240,210,0.6)); }
+.ic-piece:hover { transform: translateY(-1px) scale(1.1); }
+.ic-cell--selected .ic-piece,
+.ic-cell--selected .ic-piece--white,
+.ic-cell--selected .ic-piece--black {
+  animation: ic-medallion-lift 0.8s ease-in-out infinite alternate;
+}
+@keyframes ic-medallion-lift {
+  from { transform: translateY(0) scale(1.04); }
+  to   { transform: translateY(-2px) scale(1.12); box-shadow: 0 6px 8px rgba(30,12,0,0.55), 0 0 0 2px #fff1c7, 0 0 14px rgba(255,220,130,0.8); }
+}
+/* last move: a soft brass glow on both squares */
+.iob-slot .ic-cell--last-moved { background: rgba(226, 182, 90, 0.20) !important; box-shadow: inset 0 0 0 1px rgba(226,182,90,0.55); }
+.iob-slot .ic-valid-dot {
+  width: 30%; height: 30%;
+  background: radial-gradient(circle, rgba(18, 120, 108, 0.95) 0 45%, rgba(18,120,108,0.0) 72%);
+  box-shadow: none;
+}
+
+/* captured pieces in the sidebar reuse the medallion look */
+.ic-captured-piece { filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5)); }
+
+/* phones: no side bead row clutter, keep the cloth */
+@media (max-width: 480px) {
+  .ic-app { background-size: auto, auto, 260px 260px, auto; }
+}
+
+/* phone view switch: zoomed board ⇄ full carved opọ́n */
+.iob-toggle-row { flex: none; display: flex; justify-content: flex-end; max-width: 100%; }
+.iob-view-toggle {
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--brass-soft);
+  background: rgba(9, 9, 26, 0.82);
+  color: #f6dc96;
+  font: 600 11px/1 var(--font-game, Inter, sans-serif);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.iob-view-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }

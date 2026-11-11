@@ -600,37 +600,18 @@ function PieceComponent({ piece }) {
   if (!piece) return null;
   const { type, player, oduid } = piece;
 
-  let color = '#c9a227';
-  let bg = player === 'white' ? 'rgba(201,162,39,0.18)' : 'rgba(0,180,166,0.18)';
-  let borderColor = player === 'white' ? '#c9a227' : '#00b4a6';
-  let glowColor = player === 'white' ? 'rgba(201,162,39,0.35)' : 'rgba(0,180,166,0.35)';
-
+  // Carved medallions: boxwood (white) and ebony (black). The role or Odù colour is the
+  // inlaid ring, so every piece reads the same on both sides.
+  let accent = '#c9a227';
   if (type === 'odu' && oduid) {
     const odu = ODU.find(o => o.id === oduid);
-    if (odu) {
-      color = odu.color;
-      bg = `${odu.color}30`;
-      borderColor = `${odu.color}88`;
-      glowColor = `${odu.color}55`;
-    }
+    if (odu) accent = odu.color;
   } else if (PIECES[type]) {
-    const pColor = PIECES[type].color;
-    bg = player === 'white' ? `${pColor}28` : 'rgba(0,180,166,0.18)';
-    borderColor = player === 'white' ? pColor : '#00b4a6';
-    glowColor = player === 'white' ? `${pColor}44` : 'rgba(0,180,166,0.35)';
-    color = player === 'white' ? pColor : '#00d9b8';
+    accent = PIECES[type].color;
   }
 
   return (
-    <div
-      className={`ic-piece ic-piece--${player}`}
-      style={{
-        background: bg,
-        border: `1.5px solid ${borderColor}`,
-        boxShadow: `0 0 8px ${glowColor}, inset 0 0 4px ${glowColor}`,
-        color: color,
-      }}
-    >
+    <div className={`ic-piece ic-piece--${player}`} style={{ '--pc': accent }}>
       <PieceSVG type={type} oduid={oduid} />
     </div>
   );
@@ -724,7 +705,8 @@ function BoardComponent({ board, selected, validMoves, lastMove, onCellClick }) 
 const OPON_BOARD_FRAC  = 640 / 1240;   // board share of the full tray
 const OPON_CROP_FRAC   = 640 / 700;    // board share of the compact (cropped) tray
 const OPON_LABEL_SPACE = 1.092;        // full tray + pot labels, as a multiple of the tray width
-const OPON_MIN_CELL    = 22;           // below this the full tray switches to compact
+const OPON_COMPACT_BELOW = 560;        // board-area width under which phones get the cropped board
+const OPON_TOGGLE_BELOW  = 900;        // board-area width under which players can switch views
 const OPON_STRIP_H     = 70;           // Ayò pot strip (56px) + gap, reserved in compact
 
 function oduShortName(odu) {
@@ -755,19 +737,22 @@ function AyoPot({ odu, count, className, style }) {
   );
 }
 
-function useOponFit(ref) {
+function useOponFit(ref, choice) {
   const [fit, setFit] = useState({ mode: 'full', tray: 0, cell: 26 });
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const measure = () => {
-      const w = el.clientWidth - 24, h = el.clientHeight - 24;
+      const toggleRow = el.clientWidth < OPON_TOGGLE_BELOW ? 40 : 0;    // view switch sits above the board
+      const w = el.clientWidth - 16, h = el.clientHeight - 12 - toggleRow;
       if (w <= 0 || h <= 0) return;
       const fullTray = Math.min(h, w / OPON_LABEL_SPACE);
       const fullCell = fullTray * OPON_BOARD_FRAC / 16;
       const box = Math.min(h - OPON_STRIP_H, w);
       const compactCell = box * OPON_CROP_FRAC / 16;
-      const next = (fullCell >= OPON_MIN_CELL || compactCell <= fullCell)
+      // the full carved tray is the design: keep it everywhere except narrow phone screens
+      const wantFull = choice ? choice === 'full' : el.clientWidth >= OPON_COMPACT_BELOW;
+      const next = (wantFull || compactCell <= fullCell)
         ? { mode: 'full', tray: Math.floor(fullTray), cell: Math.floor(fullTray) * OPON_BOARD_FRAC / 16 }
         : { mode: 'compact', tray: Math.floor(box), cell: Math.floor(box) * OPON_CROP_FRAC / 16 };
       setFit(prev => (prev.mode === next.mode && prev.tray === next.tray) ? prev : next);
@@ -780,13 +765,23 @@ function useOponFit(ref) {
     }
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
-  }, [ref]);
+  }, [ref, choice]);
   return fit;
 }
 
 function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, aiThinking, moveHistory }) {
   const hostRef = useRef(null);
-  const { mode, tray, cell } = useOponFit(hostRef);
+  const [viewChoice, setViewChoice] = useState(null);   // null = automatic, 'full' | 'compact' = player's pick
+  const { mode, tray, cell } = useOponFit(hostRef, viewChoice);
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const el = hostRef.current;
+    if (!el) return;
+    const check = () => setNarrow(el.clientWidth < OPON_TOGGLE_BELOW);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   // Ayò pots: every capture drops a seed into the pot of the Odù file where it happened (col 0 = Ogbè).
   const seeds = useMemo(() => {
@@ -812,6 +807,14 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
 
   return (
     <div className="iob" data-mode={mode} ref={hostRef} style={{ '--cell': `${cell}px`, '--iob-tray': `${tray}px` }}>
+      {narrow && (
+        <div className="iob-toggle-row" style={{ width: `${tray}px` }}>
+          <button type="button" className="iob-view-toggle"
+            onClick={() => setViewChoice(mode === 'full' ? 'compact' : 'full')}>
+            {mode === 'full' ? 'Zoom to board' : 'Show full Opọ́n'}
+          </button>
+        </div>
+      )}
       <div className="iob-stage">
         <div className="iob-tray">
           {mode === 'full' && rimPots.map(({ odu, i, pot, label }) => (
