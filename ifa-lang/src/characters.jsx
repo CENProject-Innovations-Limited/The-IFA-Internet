@@ -360,7 +360,8 @@
           <div className="ilc-compose__pickers">
             <div><h4>Right leg</h4><Picker value={r} onPick={setR} dir={dir} kind="dots" small /></div>
             <div><h4>Left leg</h4><Picker value={l} onPick={setL} dir={dir} kind="dots" small /></div>
-            <button className="ilc-btn ilc-btn--gold" onClick={cast} disabled={casting}>{casting ? 'Casting…' : 'Cast the Ọ̀pẹ̀lẹ̀'}</button>
+            <button className="ilc-btn ilc-btn--gold" onClick={cast} disabled={casting} title="Ọ̀pẹ̀lẹ̀Compute: generate one of the 256 Odù with the Ọ̀pẹ̀lẹ̀">{casting ? 'IfaComputing…' : 'IfaCompute with Ọ̀pẹ̀lẹ̀'}</button>
+            <p className="ilc-tags"><span>Keywords</span> Ọ̀pẹ̀lẹ̀Compute · Ọ̀pẹ̀lẹ̀ Computations</p>
           </div>
           <div className={'ilc-compose__out' + (casting ? ' is-casting' : '')}>
             <div className="ilc-legs">{legL}{legR}</div>
@@ -547,7 +548,7 @@
             </a>
           ))}
         </div>
-        <p className="ilc-keywords"><span>Keywords</span> Ifa-Orisa Metacharacter · IfaLang · Èdè Ọ̀pẹ̀</p>
+        <p className="ilc-keywords"><span>Keywords</span> Ifa-Orisa Metacharacter · IfaLang · Èdè Ọ̀pẹ̀ · Ọ̀pẹ̀lẹ̀Compute · Ọ̀pẹ̀lẹ̀ Computations</p>
       </section>
     );
   }
