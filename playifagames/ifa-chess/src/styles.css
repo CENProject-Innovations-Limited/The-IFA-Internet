@@ -3404,3 +3404,64 @@ body { background: var(--indigo-0); }
 }
 .ic-ifa-sq-hint { margin-top: 10px; font: 400 11px/1.4 var(--font-body, 'Inter'), sans-serif; color: #9c93b8; }
 .ic-ifa-sq:not(:has(.ic-ifa-sq-body)) .ic-ifa-sq-hint { margin-top: 8px; color: #b7aecf; }
+
+/* ════════════════════════════════════════════════════════════════════════════
+   MOBILE — the board fills the screen; details follow underneath
+   ════════════════════════════════════════════════════════════════════════════ */
+.ic-opon-board-host { flex: 1; align-self: stretch; min-width: 0; min-height: 0; display: flex; }
+.ic-opon-board-area { flex-direction: column; }
+.ic-mobile-dock { display: none; }
+.iob-slot, .iob-strip { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.ic-app { -webkit-tap-highlight-color: transparent; }
+
+/* tiny squares (full Opọ́n forced on a small screen): keep rank numbers, drop the crowded file names */
+.iob--tiny .iob-files, .iob--tiny .iob-ranks--right { display: none; }
+
+/* touch screens: a tapped square must not stay lit as if hovered */
+@media (hover: none) {
+  .iob-slot .ic-cell:hover:not(.ic-cell--selected):not(.ic-cell--valid-move) { background: transparent !important; box-shadow: none; }
+}
+
+/* phones and small tablets, portrait: page scrolls, board first at full width */
+@media (max-width: 800px) and (min-height: 471px) {
+  .ic-app { height: auto; min-height: 100vh; min-height: 100svh; overflow: visible; }
+  .ic-opon-layout {
+    display: flex; flex-direction: column;
+    height: auto; overflow: visible; flex: none;
+  }
+  .ic-opon-board-area { order: 1; padding: 4px 0 0; gap: 10px; align-items: stretch; }
+  .ic-opon-board-area::before { background-size: 130% 80%; }
+  .ic-opon-board-host {
+    flex: none; width: 100%;
+    /* square slab (screen width) + pot strip + switch row; never taller than the screen under the header */
+    height: min(calc(100vw + 122px), calc(100svh - 64px));
+  }
+  .ic-opon-sidebar-wrap { order: 2; max-height: none; overflow: visible; border-top: 1px solid var(--brass-soft); }
+  .ic-opon-sidebar { height: auto; overflow: visible; }
+  .ic-opon-tab-body { overflow: visible; flex: none; }
+  .ic-desktop-only { display: none; }
+  .ic-mobile-dock { display: flex; flex-direction: column; gap: 10px; padding: 0 10px 12px; }
+  .ic-mobile-dock .ic-ifa-sq { margin: 0; }
+  .iob-toggle-row { padding: 0 4px; }
+  .ic-opon-layout ~ .ic-footer { display: block; padding-bottom: calc(14px + env(safe-area-inset-bottom)); }
+  .ic-header { padding-top: max(8px, env(safe-area-inset-top)); }
+}
+
+/* phone landscape: one screen, slim sidebar, slim header, board as large as the height allows */
+@media (max-height: 470px) and (orientation: landscape) {
+  .ic-app { height: 100vh; height: 100svh; }
+  .ic-header { padding: 4px 14px; padding-left: max(14px, env(safe-area-inset-left)); padding-right: max(14px, env(safe-area-inset-right)); }
+  .ic-opon-layout { grid-template-columns: minmax(200px, 30%) 1fr; grid-template-areas: "sidebar board"; }
+  .ic-opon-sidebar-wrap { max-height: none; border-top: none; border-right: 1px solid var(--brass-soft); overflow-y: auto; padding-left: env(safe-area-inset-left); }
+  .ic-opon-sidebar { height: auto; min-height: 100%; }
+  .ic-opon-tab-body { overflow: visible; flex: none; }
+  .ic-opon-logo-wrap { padding: 10px 14px 8px; }
+  .ic-opon-board-area { padding-right: env(safe-area-inset-right); }
+  .iob-toggle-float { top: 6px; right: 8px; }
+}
+
+/* very narrow phones */
+@media (max-width: 360px) {
+  .ic-header .ic-back-link span, .ic-back-link { font-size: 0.68rem; }
+  .iob-view-toggle { min-height: 30px; padding: 0 10px; font-size: 11px; }
+}
