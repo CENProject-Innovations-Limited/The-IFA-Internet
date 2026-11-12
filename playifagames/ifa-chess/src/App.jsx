@@ -711,6 +711,8 @@ const OPON_LABEL_SPACE = 1.092;        // full tray + pot labels, as a multiple 
 const OPON_PHONE_BELOW = 560;          // board-area width under which the Opọ́n starts hidden
 const OPON_STRIP_H     = 70;           // Ayò pot strip (56px) + gap
 const OPON_TOGGLE_ROW  = 44;           // height of the switch row when it can't float beside the tray
+const OPON_MIN_FULL_CELL = 18;         // automatic mode shows the full Opọ́n only if squares stay at least this big
+const OPON_NO_STRIP_BELOW = 470;       // on short screens (phone landscape) the pot strip gives its height to the board
 const OPON_PREF_KEY    = 'ifachess.opon';
 
 function oduShortName(odu) {
@@ -747,29 +749,39 @@ function writeOponPref(v) {
 // Sizes the tray to the board area. 'full' shows the whole carved Opọ́n; 'compact' hides it and
 // lets the board fill the space, with the Ayò pots in a strip underneath.
 function useOponFit(ref, pref) {
-  const [fit, setFit] = useState({ mode: 'full', tray: 0, cell: 26, floatToggle: true });
+  const [fit, setFit] = useState({ mode: 'full', tray: 0, cell: 26, floatToggle: true, strip: true });
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const measure = () => {
       const W = el.clientWidth, Hh = el.clientHeight;
       if (W <= 0 || Hh <= 0) return;
-      const wantFull = pref ? pref === 'shown' : W >= OPON_PHONE_BELOW;
-      const size = (row) => {
-        const w = W - 16, h = Hh - 12 - row;
-        if (wantFull) {
+      const strip = Hh >= OPON_NO_STRIP_BELOW;
+      const size = (row, full) => {
+        const w = W - (W < 600 ? 8 : 16), h = Hh - 12 - row;
+        if (full) {
           const tray = Math.floor(Math.min(h, w / OPON_LABEL_SPACE));
           return { mode: 'full', tray, cell: tray * OPON_BOARD_FRAC / 16, used: tray * OPON_LABEL_SPACE };
         }
-        const box = Math.floor(Math.min(h - OPON_STRIP_H, w));
+        const box = Math.floor(Math.min(h - (strip ? OPON_STRIP_H : 0), w));
         return { mode: 'compact', tray: box, cell: box * OPON_CROP_FRAC / 16, used: box };
       };
-      let next = size(0);
-      // the switch floats in the free space beside the tray when there is room for it
-      const floatToggle = (W - next.used) / 2 >= 150;
-      if (!floatToggle) next = size(OPON_TOGGLE_ROW);
-      next = { mode: next.mode, tray: next.tray, cell: next.cell, floatToggle };
-      setFit(prev => (prev.mode === next.mode && prev.tray === next.tray && prev.floatToggle === next.floatToggle) ? prev : next);
+      const layout = full => {
+        let n = size(0, full);
+        // the switch floats in the free space beside the tray when there is room for it
+        const fl = (W - n.used) / 2 >= 124;
+        if (!fl) n = size(OPON_TOGGLE_ROW, full);
+        return { ...n, floatToggle: fl };
+      };
+      let next;
+      if (pref) next = layout(pref === 'shown');
+      else {
+        // automatic: the full carved Opọ́n when the squares stay comfortably big, else the zoomed slab
+        next = W >= OPON_PHONE_BELOW ? layout(true) : null;
+        if (!next || next.cell < OPON_MIN_FULL_CELL) next = layout(false);
+      }
+      next = { mode: next.mode, tray: next.tray, cell: next.cell, floatToggle: next.floatToggle, strip };
+      setFit(prev => (prev.mode === next.mode && prev.tray === next.tray && prev.floatToggle === next.floatToggle && prev.strip === next.strip) ? prev : next);
     };
     measure();
     if (typeof ResizeObserver !== 'undefined') {
@@ -786,7 +798,7 @@ function useOponFit(ref, pref) {
 function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, aiThinking, moveHistory }) {
   const hostRef = useRef(null);
   const [pref, setPref] = useState(readOponPref);          // 'shown' | 'hidden' | null (automatic)
-  const { mode, tray, cell, floatToggle } = useOponFit(hostRef, pref);
+  const { mode, tray, cell, floatToggle, strip } = useOponFit(hostRef, pref);
   const shown = mode === 'full';
   const toggleOpon = () => { const v = shown ? 'hidden' : 'shown'; setPref(v); writeOponPref(v); };
 
@@ -845,7 +857,7 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
   );
 
   return (
-    <div className="iob" data-mode={mode} ref={hostRef}
+    <div className={'iob' + (cell < 15 ? ' iob--tiny' : '')} data-mode={mode} ref={hostRef}
       style={{ '--cell': `${cell}px`, '--iob-tray': `${tray}px`, '--frame': `${cell * OPON_FRAME_CELLS}px` }}>
       {floatToggle
         ? <div className="iob-toggle-float">{toggle}</div>
@@ -887,7 +899,7 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
         </div>
       </div>
 
-      {!shown && (
+      {!shown && strip && (
         <div className="iob-strip" role="list" aria-label="Ayò pots">
           {ODU.map((odu, i) => (
             <div key={odu.id} className="iob-spot" role="listitem">
@@ -1644,11 +1656,11 @@ function OponSidebar({
       </div>
 
       {/* IFA SQUARE — the Odù and marks of the cup just pressed */}
-      <IfaSquareCard square={inspected} />
+      <div className="ic-desktop-only"><IfaSquareCard square={inspected} /></div>
 
       {/* SELECTED PIECE — what the chosen piece is and how it moves */}
       {selectedPiece && (
-        <div className="ic-opon-ifa-square">
+        <div className="ic-opon-ifa-square ic-desktop-only">
           <div className="ic-opon-ifa-square-label">Selected Piece</div>
           <SelectedPieceInfo piece={selectedPiece} />
         </div>
@@ -2117,15 +2129,27 @@ function App() {
           />
         </div>
         <div className="ic-opon-board-area">
-          <OponBoardFrame
-            board={board}
-            selected={selected}
-            validMoves={validMoves}
-            lastMove={lastMove}
-            onCellClick={handleCellClick}
-            aiThinking={aiThinking}
-            moveHistory={moveHistory}
-          />
+          <div className="ic-opon-board-host">
+            <OponBoardFrame
+              board={board}
+              selected={selected}
+              validMoves={validMoves}
+              lastMove={lastMove}
+              onCellClick={handleCellClick}
+              aiThinking={aiThinking}
+              moveHistory={moveHistory}
+            />
+          </div>
+          {/* phones: the square just pressed and the chosen piece, right under the board */}
+          <div className="ic-mobile-dock">
+            <IfaSquareCard square={inspected} />
+            {selectedPiece && (
+              <div className="ic-opon-ifa-square ic-mobile-dock-piece">
+                <div className="ic-opon-ifa-square-label">Selected Piece</div>
+                <SelectedPieceInfo piece={selectedPiece} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
