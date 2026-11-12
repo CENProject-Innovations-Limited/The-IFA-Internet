@@ -1477,12 +1477,63 @@ function SelectedPieceInfo({ piece }) {
   );
 }
 
+// ─── IFA SQUARE — the Odù of any cup the player presses ─────────────────────
+// Odù marks, top → bottom: 1 = single mark (I), 2 = double mark (II). Index = ODU order (Ogbè … Òfún).
+const ODU_SIGNS = [[1,1,1,1],[2,2,2,2],[2,1,1,2],[1,2,2,1],[1,1,2,2],[2,2,1,1],[1,2,2,2],[2,2,2,1],
+                   [1,1,1,2],[2,1,1,1],[2,1,2,2],[2,2,1,2],[1,2,1,1],[1,1,2,1],[1,2,1,2],[2,1,2,1]];
+
+// row = rank (top row = Ogbè), col = file (col 0 = Ogbè, on the right) — as carved into the cups.
+function ifaSquareOf(row, col) {
+  const rankOdu = ODU[row], fileOdu = ODU[col];
+  const meji = row === col;
+  return {
+    meji,
+    name: meji ? rankOdu.yoruba : `${oduShortName(rankOdu)} ${oduShortName(fileOdu)}`,
+    rank: row + 1,
+    rankOdu, fileOdu,
+    fileCode: fileOdu.name.slice(0, 3).toUpperCase(),
+    left: ODU_SIGNS[col],    // file Odù
+    right: ODU_SIGNS[row],   // rank Odù
+  };
+}
+
+function IfaSquareCard({ square }) {
+  const sq = square ? ifaSquareOf(square.row, square.col) : null;
+  return (
+    <div className="ic-ifa-sq" aria-live="polite">
+      <div className="ic-ifa-sq-label">Ifa Square</div>
+      {sq ? (
+        <div className="ic-ifa-sq-body">
+          <div className="ic-ifa-sq-sign" role="img"
+            aria-label={`Odù sign: ${sq.fileOdu.name} marks on the left, ${sq.rankOdu.name} marks on the right`}>
+            {[0, 1, 2, 3].map(k => (
+              <div key={k} className="ic-ifa-sq-row">
+                <span className="ic-ifa-sq-col">{sq.left[k] === 2 ? <><i /><i /></> : <i />}</span>
+                <span className="ic-ifa-sq-col">{sq.right[k] === 2 ? <><i /><i /></> : <i />}</span>
+              </div>
+            ))}
+          </div>
+          <div className="ic-ifa-sq-text">
+            <div className="ic-ifa-sq-name" lang="yo">{sq.name}</div>
+            <div className="ic-ifa-sq-meta">
+              Rank {sq.rank} · <span lang="yo">{oduShortName(sq.rankOdu)}</span><br />
+              File {sq.fileCode} · <span lang="yo">{oduShortName(sq.fileOdu)}</span>
+            </div>
+            {sq.meji && <div className="ic-ifa-sq-meji">Méjì square</div>}
+          </div>
+        </div>
+      ) : null}
+      <div className="ic-ifa-sq-hint">{sq ? 'Press any cup on the board to read its Odù.' : 'Press any cup on the board to read its Odù and its marks.'}</div>
+    </div>
+  );
+}
+
 // ─── OPON SIDEBAR ────────────────────────────────────────────────────────────
 
 function OponSidebar({
   turn, inCheck, aiThinking, opponent, difficulty,
   selectedPiece, moveHistory, capturedWhite, capturedBlack,
-  onSetup
+  onSetup, inspected
 }) {
   const [tab, setTab] = useState('roster');
 
@@ -1592,10 +1643,13 @@ function OponSidebar({
 
       </div>
 
-      {/* IFA SQUARE — selected piece info */}
+      {/* IFA SQUARE — the Odù and marks of the cup just pressed */}
+      <IfaSquareCard square={inspected} />
+
+      {/* SELECTED PIECE — what the chosen piece is and how it moves */}
       {selectedPiece && (
         <div className="ic-opon-ifa-square">
-          <div className="ic-opon-ifa-square-label">Ifa Square</div>
+          <div className="ic-opon-ifa-square-label">Selected Piece</div>
           <SelectedPieceInfo piece={selectedPiece} />
         </div>
       )}
@@ -1808,6 +1862,7 @@ function App() {
   const [board,         setBoard]         = useState(() => createInitialBoard());
   const [turn,          setTurn]          = useState('white');
   const [selected,      setSelected]      = useState(null);
+  const [inspected,     setInspected]     = useState(null);   // cup shown in the Ifa Square card
   const [capturedWhite, setCapturedWhite] = useState([]);
   const [capturedBlack, setCapturedBlack] = useState([]);
   const [winner,        setWinner]        = useState(null);
@@ -1912,6 +1967,7 @@ function App() {
   }
 
   function handleCellClick(row, col) {
+    setInspected({ row, col });   // the Ifa Square card reads any cup, on any turn
     if (winner || aiThinking) return;
     if (opponent === 'ai' && turn !== 'white') return;
     const piece = board[row][col];
@@ -2057,6 +2113,7 @@ function App() {
             capturedWhite={capturedWhite}
             capturedBlack={capturedBlack}
             onSetup={handleNewSetup}
+            inspected={inspected}
           />
         </div>
         <div className="ic-opon-board-area">

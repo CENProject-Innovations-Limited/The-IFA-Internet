@@ -3241,8 +3241,9 @@ body { background: var(--indigo-0); }
   border: 1px solid var(--brass-soft);
   background: rgba(9, 9, 26, 0.82);
   color: #f6dc96;
-  font: 600 11px/1 var(--font-game, Inter, sans-serif);
-  letter-spacing: 0.04em;
+  /* Inter places Yoruba tone marks and dots-below correctly (Space Grotesk drifts the acute off ọ́) */
+  font: 600 12px/1 var(--font-body, 'Inter'), 'Noto Sans', system-ui, sans-serif;
+  letter-spacing: 0.02em;
   cursor: pointer;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -3342,3 +3343,64 @@ body { background: var(--indigo-0); }
 .ic-opon-meji-sum span { font-size: 1.05rem; color: #efe6cf; }
 .ic-opon-meji-sum i { font-style: normal; color: var(--brass); font-size: 0.95rem; }
 .ic-opon-meji-sum b { font-size: 1.35rem; color: #f6dc96; text-shadow: 0 0 12px rgba(226,182,90,0.45); }
+
+/* ─── IFA SQUARE card: the Odù and marks of the cup just pressed ─── */
+.ic-ifa-sq {
+  margin: 10px 10px 0;
+  padding: 14px 14px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(226, 182, 90, 0.42);
+  background: linear-gradient(180deg, rgba(226,182,90,0.11), rgba(226,182,90,0.03));
+  box-shadow: inset 0 1px 0 rgba(255,236,190,0.1);
+}
+.ic-ifa-sq-label {
+  font: 600 10px/1 var(--font-body, 'Inter'), sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c9a44e;
+}
+.ic-ifa-sq-body { display: flex; align-items: center; gap: 14px; margin-top: 12px; }
+.ic-ifa-sq-sign {
+  flex: none;
+  width: 52px;
+  height: 74px;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 9px;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,240,200,0.35), transparent 60%),
+    #e0b25c;
+  box-shadow: inset 0 2px 6px rgba(80, 40, 0, 0.4), 0 2px 6px rgba(0,0,0,0.35);
+}
+.ic-ifa-sq-row { display: flex; justify-content: space-between; }
+.ic-ifa-sq-col { width: 12px; display: flex; justify-content: center; gap: 3px; }
+.ic-ifa-sq-col i { width: 3px; height: 9px; border-radius: 2px; background: #4a2a10; }
+.ic-ifa-sq-text { min-width: 0; }
+.ic-ifa-sq-name {
+  font-family: var(--font-display, 'Playfair Display'), 'Noto Serif', serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  line-height: 1.15;
+  color: #fff6de;
+}
+.ic-ifa-sq-meta {
+  margin-top: 6px;
+  font: 400 11.5px/1.55 var(--font-body, 'Inter'), sans-serif;
+  color: #cdbf95;
+}
+.ic-ifa-sq-meji {
+  display: inline-block;
+  margin-top: 7px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid #e2b65a;
+  font: 700 9px/1 var(--font-body, 'Inter'), sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f0d48a;
+}
+.ic-ifa-sq-hint { margin-top: 10px; font: 400 11px/1.4 var(--font-body, 'Inter'), sans-serif; color: #9c93b8; }
+.ic-ifa-sq:not(:has(.ic-ifa-sq-body)) .ic-ifa-sq-hint { margin-top: 8px; color: #b7aecf; }
