@@ -510,6 +510,142 @@ function LawCard({ law, dualName, onClick }) {
 }
 
 // ════════════════════════════════════════════════════════════
+// VIDEO INTRO · Èdè Ọ̀pẹ̀ (vertical 9:16, mobile-first)
+// ════════════════════════════════════════════════════════════
+const EDE_OPE_CHAPTERS = [
+  [0,   'Before the alphabet'],
+  [12,  'How Èdè Ọ̀pẹ̀ works'],
+  [40,  'Ifá’s Origin of Language Theory'],
+  [62,  'Ifa Language (IfaLang)'],
+  [84,  'The 16 Characters of IfaLang'],
+  [120, 'The Aebajiogbe-Oduduwa Script'],
+  [152, 'Aebajiogbe Yorùbá vs ABD Yorùbá'],
+  [180, 'Ifá-Òrìṣà Communications'],
+  [198, 'Ifá-Òrìṣà Networking'],
+  [216, 'The IFA-Òrìṣà Internet'],
+];
+const fmtTime = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+
+function VideoIntro({ onChars }) {
+  const vref = useRef(null);
+  const wrapRef = useRef(null);
+  const [started, setStarted] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [now, setNow] = useState(0);
+  const [quality, setQuality] = useState(() => {
+    try {
+      const saved = localStorage.getItem('ifalang.video.q');
+      if (saved) return saved;
+      const c = navigator.connection;
+      if (c && (c.saveData || /(^|-)2g|3g/.test(c.effectiveType || ''))) return 'sd';
+    } catch (e) { /* ignore */ }
+    return 'hd';
+  });
+  const src = quality === 'hd' ? './media/ede-ope-ifalang-720.mp4' : './media/ede-ope-ifalang-480.mp4';
+
+  // pause when the video scrolls out of view (saves data and battery on phones)
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => {
+      const v = vref.current;
+      if (v && !e.isIntersecting && !v.paused && !document.fullscreenElement && !v.webkitDisplayingFullscreen) v.pause();
+    }, { threshold: 0.25 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const play = (t) => {
+    const v = vref.current;
+    if (!v) return;
+    setStarted(true);
+    if (typeof t === 'number') { try { v.currentTime = t; } catch (e) { /* not ready yet */ } }
+    const p = v.play();
+    if (p && p.catch) p.catch(() => {});
+  };
+  const switchQuality = q => {
+    if (q === quality) return;
+    const v = vref.current;
+    const t = v ? v.currentTime : 0, wasPlaying = v && !v.paused;
+    try { localStorage.setItem('ifalang.video.q', q); } catch (e) { /* ignore */ }
+    setQuality(q);
+    setTimeout(() => {
+      const w = vref.current; if (!w) return;
+      const go = () => { try { w.currentTime = t; } catch (e) { /* ignore */ } if (wasPlaying) w.play().catch(() => {}); };
+      if (w.readyState >= 1) go(); else w.addEventListener('loadedmetadata', go, { once: true });
+    }, 0);
+  };
+  const share = () => {
+    const data = { title: 'Èdè Ọ̀pẹ̀ — The Language Technology of Ilẹ̀-Ifẹ̀', text: 'Before the alphabet, there was Èdè Ọ̀pẹ̀. Watch the IfaLang video intro.', url: 'https://ifainternet.org/ifa-language/' };
+    if (navigator.share) navigator.share(data).catch(() => {});
+    else { try { navigator.clipboard.writeText(data.url); } catch (e) { /* ignore */ } }
+  };
+  const active = EDE_OPE_CHAPTERS.reduce((a, c, i) => (now >= c[0] ? i : a), 0);
+
+  return (
+    <section className="vi" aria-labelledby="vi-title">
+      <div className="vi__inner">
+        <div className="vi__head">
+          <p className="vi__kicker">Video intro · 4 min</p>
+          <h2 id="vi-title" className="vi__title">Èdè Ọ̀pẹ̀: <span>the Language Technology of Ilẹ̀-Ifẹ̀</span></h2>
+          {!started && (
+            <button className="vi__watch" onClick={() => {
+              play();
+              const f = wrapRef.current, h = document.querySelector('.header');
+              if (f) window.scrollTo({ top: f.getBoundingClientRect().top + window.scrollY - (h ? h.getBoundingClientRect().height : 0) - 16, behavior: 'smooth' });
+            }}>
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg>
+              Watch the intro · 4:00
+            </button>
+          )}
+          <p className="vi__lede vi__lede--wide">Before the alphabet, there was a language written in marks. Meet Ifá’s system of signs, the 16 Characters of IfaLang, the Aebajiogbe-Oduduwa script and the IFA-Òrìṣà Internet.</p>
+        </div>
+
+        <div className="vi__player" ref={wrapRef}>
+          <div className={'vi__frame' + (started ? ' is-started' : '')}>
+            <video ref={vref} key={src} src={src} poster="./media/ede-ope-poster.jpg"
+              preload={started ? 'auto' : 'none'} playsInline controls={started}
+              controlsList="nodownload" disablePictureInPicture={false}
+              onPlay={() => { setPlaying(true); setStarted(true); }} onPause={() => setPlaying(false)}
+              onTimeUpdate={e => setNow(e.currentTarget.currentTime)}
+              aria-label="Èdè Ọ̀pẹ̀ video introduction" />
+            {!started && (
+              <button className="vi__play" onClick={() => play()} aria-label="Play the video intro">
+                <span className="vi__play-btn"><svg viewBox="0 0 24 24" width="30" height="30"><path d="M8 5.5v13l11-6.5z" fill="currentColor" /></svg></span>
+                <span className="vi__play-label">Watch with sound · 4:00</span>
+              </button>
+            )}
+          </div>
+          <div className="vi__tools">
+            <div className="vi__seg" role="group" aria-label="Video quality">
+              <button className={quality === 'hd' ? 'is-on' : ''} onClick={() => switchQuality('hd')} aria-pressed={quality === 'hd'}>HD</button>
+              <button className={quality === 'sd' ? 'is-on' : ''} onClick={() => switchQuality('sd')} aria-pressed={quality === 'sd'}>Data saver</button>
+            </div>
+            <button className="vi__tool" onClick={share}>Share</button>
+          </div>
+        </div>
+
+        <div className="vi__side">
+          <p className="vi__lede vi__lede--narrow">Before the alphabet, there was a language written in marks. Meet Ifá’s system of signs, the 16 Characters of IfaLang, the Aebajiogbe-Oduduwa script and the IFA-Òrìṣà Internet.</p>
+          <ol className="vi__chapters" aria-label="Chapters">
+            {EDE_OPE_CHAPTERS.map(([t, label], i) => (
+              <li key={t}>
+                <button className={'vi__chap' + (started && i === active ? ' is-active' : '')} onClick={() => play(t)}>
+                  <span className="vi__chap-t">{fmtTime(t)}</span>
+                  <span className="vi__chap-l">{label}</span>
+                  {started && i === active && playing && <span className="vi__eq" aria-hidden="true"><i /><i /><i /></span>}
+                </button>
+              </li>
+            ))}
+          </ol>
+          {onChars && <button className="vi__cta" onClick={onChars}>Try the 16 Characters demo →</button>}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
 // IFA BINARY ENCODING SCHEME
 // ════════════════════════════════════════════════════════════
 function IfaBinaryEncoding() {
@@ -675,6 +811,7 @@ function Overview({ lawPairs, meta, onSelect, onChars }) {
 
   return (
     <div>
+      <VideoIntro onChars={onChars} />
       <div className="hero">
         <p className="hero__itoe-tag">IFA Language · CEN Language · Language of Energy</p>
         <h1 className="hero__title">IfaLang</h1>
@@ -694,19 +831,6 @@ function Overview({ lawPairs, meta, onSelect, onChars }) {
           </a>
         </div>
       </div>
-      {onChars && (
-        <button className="chars-cta" onClick={onChars}>
-          <span className="chars-cta__glyphs" aria-hidden="true">
-            <svg viewBox="0 0 60 122" height="40" width="20">{[16,46,76,106].map(y => <circle key={y} cx="30" cy={y} r="8" />)}</svg>
-            <svg viewBox="0 0 60 122" height="40" width="20">{[16,46,76,106].map(y => <g key={y}><circle cx="17" cy={y} r="8" /><circle cx="43" cy={y} r="8" /></g>)}</svg>
-          </span>
-          <span className="chars-cta__text">
-            <b>New: The 16 Characters of IfaLang</b>
-            <small>Generate Ogbè from Ọ̀yẹ̀kú, compose the 256 Odù, write messages in Meta-Characters, and practise.</small>
-          </span>
-          <span className="chars-cta__go">Try the demo →</span>
-        </button>
-      )}
       <IfaBinaryEncoding />
       <div className="overview">
         <div className="overview__search-row">
