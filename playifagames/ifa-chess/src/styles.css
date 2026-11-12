@@ -2444,7 +2444,7 @@ body {
 }
 
 /* ─── OPỌ́N IFÁ TRAY (carved board + 16 Ayò pots) ─────────────────────────────
-   Geometry follows ../assets/opon-meji-live*.webp (1240-unit square):
+   Geometry follows ../assets/opon-meji2-live*.webp (1240-unit square):
    board 640×640 at 300,300 · pots on a 519 radius · rim edge at 571.
    OponBoardFrame sets --iob-tray (tray size) and --cell (square size) in px. */
 .iob {
@@ -2465,13 +2465,13 @@ body {
   height: var(--iob-tray);
   flex: none;
   container-type: inline-size;
-  background-image: url("../assets/opon-meji-live-1x.webp");
-  background-image: image-set(url("../assets/opon-meji-live-1x.webp") 1x, url("../assets/opon-meji-live.webp") 2x);
+  background-image: url("../assets/opon-meji2-live-1x.webp");
+  background-image: image-set(url("../assets/opon-meji2-live-1x.webp") 1x, url("../assets/opon-meji2-live.webp") 2x);
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
 .iob[data-mode="compact"] .iob-tray {
-  background-size: 177.1429% 177.1429%;
+  background-size: 151.2195% 151.2195%;
   background-position: 50% 50%;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.55);
@@ -2480,12 +2480,12 @@ body {
 /* the game grid sits exactly on the carved board */
 .iob-slot {
   position: absolute;
-  left: 24.1935%;
-  top: 24.1935%;
+  left: 19.6774%;
+  top: 19.6774%;
   width: calc(16 * var(--cell));
   height: calc(16 * var(--cell));
 }
-.iob[data-mode="compact"] .iob-slot { left: 4.2857%; top: 4.2857%; }
+.iob[data-mode="compact"] .iob-slot { left: 4.1463%; top: 4.1463%; }
 .iob-slot--thinking { animation: ic-opon-thinking 1.5s ease-in-out infinite alternate; }
 @keyframes ic-opon-thinking {
   from { filter: brightness(1); }
@@ -2514,27 +2514,40 @@ body {
 /* file / rank labels written on the dust */
 .iob-files, .iob-ranks {
   position: absolute;
+  z-index: 1;
   display: grid;
   pointer-events: none;
   user-select: none;
-  color: var(--iob-ink);
+  color: #e9c97a;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7), 0 1px 0 rgba(255, 230, 170, 0.15);
+  font-size: clamp(6px, calc(var(--cell) * 0.27), 12px);
   font-family: var(--font-game, Inter, sans-serif);
   font-weight: 700;
   letter-spacing: 0.04em;
   line-height: 1;
 }
-.iob-files { left: 24.1935%; width: calc(16 * var(--cell)); grid-template-columns: repeat(16, minmax(0, 1fr)); text-align: center; font-size: max(7px, 0.78cqw); }
-.iob-files--top    { top: calc(24.1935% - 1.75cqw); }
-.iob-files--bottom { top: calc(24.1935% + 16 * var(--cell) + 0.8cqw); }
-.iob-ranks { top: 24.1935%; height: calc(16 * var(--cell)); grid-template-rows: repeat(16, minmax(0, 1fr)); align-items: center; font-size: max(7px, 0.82cqw); }
-.iob-ranks--left  { left: calc(24.1935% - 2.7cqw); width: 2.2cqw; text-align: right; }
-.iob-ranks--right { left: calc(24.1935% + 16 * var(--cell) + 0.6cqw); width: 2.8cqw; font-size: max(6.5px, 0.74cqw); }
-.iob[data-mode="compact"] .iob-files { left: 4.2857%; font-size: max(7px, 1.55cqw); }
-.iob[data-mode="compact"] .iob-files--top { top: 1.1%; }
-.iob[data-mode="compact"] .iob-files--bottom { top: calc(4.2857% + 16 * var(--cell) + 0.35cqw); }
-.iob[data-mode="compact"] .iob-ranks { top: 4.2857%; font-size: max(7px, 1.5cqw); }
-.iob[data-mode="compact"] .iob-ranks--left { left: 0.3%; width: 3.6%; text-align: center; }
-.iob[data-mode="compact"] .iob-ranks--right { display: none; }
+.iob-files {
+  left: 0;
+  width: 100%;
+  height: var(--frame);
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  align-items: center;
+  text-align: center;
+}
+.iob-files--top    { top: calc(-1 * var(--frame)); }
+.iob-files--bottom { bottom: calc(-1 * var(--frame)); }
+.iob-ranks {
+  top: 0;
+  height: 100%;
+  width: var(--frame);
+  grid-template-rows: repeat(16, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+}
+.iob-ranks--left  { left: calc(-1 * var(--frame)); }
+.iob-ranks--right { right: calc(-1 * var(--frame)); }
+.iob-ranks--right span { writing-mode: vertical-rl; transform: rotate(180deg); letter-spacing: 0.06em; }
+
 
 /* Ayò pots and seeds */
 .iob-tray > .iob-pot {
@@ -3213,6 +3226,14 @@ body { background: var(--indigo-0); }
 
 /* phone view switch: zoomed board ⇄ full carved opọ́n */
 .iob-toggle-row { flex: none; display: flex; justify-content: flex-end; max-width: 100%; }
+.iob-toggle-float { position: absolute; top: 10px; right: 14px; z-index: 6; }
+.iob-view-toggle { display: inline-flex; align-items: center; gap: 7px; }
+.iob-view-toggle:hover { background: rgba(30, 24, 50, 0.92); color: #fff3cf; border-color: rgba(226,182,90,0.6); }
+.iob-view-toggle[aria-pressed="true"] { background: linear-gradient(180deg, rgba(226,182,90,0.22), rgba(226,182,90,0.08)); }
+/* Opọ́n hidden: the slab fills the space, pieces get bigger */
+.iob[data-mode="compact"] .iob-tray { box-shadow: 0 14px 40px rgba(0,0,0,0.6); }
+.iob[data-mode="compact"] .ic-piece { width: 84%; height: 84%; }
+.iob[data-mode="compact"] .ic-piece--seed { width: 74%; height: 64%; }
 .iob-view-toggle {
   min-height: 32px;
   padding: 0 12px;

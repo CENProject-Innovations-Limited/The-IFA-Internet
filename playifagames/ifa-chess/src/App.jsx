@@ -697,17 +697,21 @@ function BoardComponent({ board, selected, validMoves, lastMove, onCellClick }) 
 }
 
 // ─── OPỌ́N IFÁ BOARD FRAME (carved tray + 16 Ayò pots) ───────────────────────
-// The tray artwork (assets/opon-meji-live*.webp) is drawn on a 1240-unit square:
-// board 640×640 at 300,300 · Ayò pots on a 519 radius · rim edge at 571.
-// The Odù signs carved into the squares assume this orientation, which is the
-// game's own: files right→left = Ogbè … Òfún (col 0 on the right), ranks top→bottom = Ogbè … Òfún.
+// Artwork: assets/opon-meji2-live*.webp, drawn on a 1240-unit square.
+//   Board 752×752 at 244,244 — a raised slab (20-unit frame) whose corners rest on the rim
+//   Ayò pots on a 519 radius · rim edge at 571 · compact crop = the central 820 units.
+// The Odù signs carved into the cups assume the game's own orientation:
+//   files right→left = Ogbè … Òfún (col 0 on the right), ranks top→bottom = Ogbè … Òfún.
 
-const OPON_BOARD_FRAC  = 640 / 1240;   // board share of the full tray
-const OPON_CROP_FRAC   = 640 / 700;    // board share of the compact (cropped) tray
+const OPON_BOARD_FRAC  = 752 / 1240;   // board share of the full tray
+const OPON_BOARD_OFF   = 244 / 1240;   // board offset inside the full tray
+const OPON_CROP_FRAC   = 752 / 820;    // board share of the cropped (Opọ́n hidden) tray
+const OPON_FRAME_CELLS = 20 / 47;      // slab frame width, in squares
 const OPON_LABEL_SPACE = 1.092;        // full tray + pot labels, as a multiple of the tray width
-const OPON_COMPACT_BELOW = 560;        // board-area width under which phones get the cropped board
-const OPON_TOGGLE_BELOW  = 900;        // board-area width under which players can switch views
-const OPON_STRIP_H     = 70;           // Ayò pot strip (56px) + gap, reserved in compact
+const OPON_PHONE_BELOW = 560;          // board-area width under which the Opọ́n starts hidden
+const OPON_STRIP_H     = 70;           // Ayò pot strip (56px) + gap
+const OPON_TOGGLE_ROW  = 44;           // height of the switch row when it can't float beside the tray
+const OPON_PREF_KEY    = 'ifachess.opon';
 
 function oduShortName(odu) {
   return odu.yoruba.replace(/\s*M[ẹe]́?j[ìi]̀?$/u, '').replace(/^Ẹ̀jì\s+/u, '');
@@ -732,25 +736,40 @@ function AyoPot({ odu, count, className, style, landing }) {
   );
 }
 
-function useOponFit(ref, choice) {
-  const [fit, setFit] = useState({ mode: 'full', tray: 0, cell: 26 });
+function readOponPref() {
+  try { const v = window.localStorage.getItem(OPON_PREF_KEY); return v === 'shown' || v === 'hidden' ? v : null; }
+  catch (e) { return null; }
+}
+function writeOponPref(v) {
+  try { window.localStorage.setItem(OPON_PREF_KEY, v); } catch (e) { /* private mode: keep it for this visit only */ }
+}
+
+// Sizes the tray to the board area. 'full' shows the whole carved Opọ́n; 'compact' hides it and
+// lets the board fill the space, with the Ayò pots in a strip underneath.
+function useOponFit(ref, pref) {
+  const [fit, setFit] = useState({ mode: 'full', tray: 0, cell: 26, floatToggle: true });
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
     const measure = () => {
-      const toggleRow = el.clientWidth < OPON_TOGGLE_BELOW ? 40 : 0;    // view switch sits above the board
-      const w = el.clientWidth - 16, h = el.clientHeight - 12 - toggleRow;
-      if (w <= 0 || h <= 0) return;
-      const fullTray = Math.min(h, w / OPON_LABEL_SPACE);
-      const fullCell = fullTray * OPON_BOARD_FRAC / 16;
-      const box = Math.min(h - OPON_STRIP_H, w);
-      const compactCell = box * OPON_CROP_FRAC / 16;
-      // the full carved tray is the design: keep it everywhere except narrow phone screens
-      const wantFull = choice ? choice === 'full' : el.clientWidth >= OPON_COMPACT_BELOW;
-      const next = (wantFull || compactCell <= fullCell)
-        ? { mode: 'full', tray: Math.floor(fullTray), cell: Math.floor(fullTray) * OPON_BOARD_FRAC / 16 }
-        : { mode: 'compact', tray: Math.floor(box), cell: Math.floor(box) * OPON_CROP_FRAC / 16 };
-      setFit(prev => (prev.mode === next.mode && prev.tray === next.tray) ? prev : next);
+      const W = el.clientWidth, Hh = el.clientHeight;
+      if (W <= 0 || Hh <= 0) return;
+      const wantFull = pref ? pref === 'shown' : W >= OPON_PHONE_BELOW;
+      const size = (row) => {
+        const w = W - 16, h = Hh - 12 - row;
+        if (wantFull) {
+          const tray = Math.floor(Math.min(h, w / OPON_LABEL_SPACE));
+          return { mode: 'full', tray, cell: tray * OPON_BOARD_FRAC / 16, used: tray * OPON_LABEL_SPACE };
+        }
+        const box = Math.floor(Math.min(h - OPON_STRIP_H, w));
+        return { mode: 'compact', tray: box, cell: box * OPON_CROP_FRAC / 16, used: box };
+      };
+      let next = size(0);
+      // the switch floats in the free space beside the tray when there is room for it
+      const floatToggle = (W - next.used) / 2 >= 150;
+      if (!floatToggle) next = size(OPON_TOGGLE_ROW);
+      next = { mode: next.mode, tray: next.tray, cell: next.cell, floatToggle };
+      setFit(prev => (prev.mode === next.mode && prev.tray === next.tray && prev.floatToggle === next.floatToggle) ? prev : next);
     };
     measure();
     if (typeof ResizeObserver !== 'undefined') {
@@ -760,23 +779,16 @@ function useOponFit(ref, choice) {
     }
     window.addEventListener('resize', measure);
     return () => window.removeEventListener('resize', measure);
-  }, [ref, choice]);
+  }, [ref, pref]);
   return fit;
 }
 
 function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, aiThinking, moveHistory }) {
   const hostRef = useRef(null);
-  const [viewChoice, setViewChoice] = useState(null);   // null = automatic, 'full' | 'compact' = player's pick
-  const { mode, tray, cell } = useOponFit(hostRef, viewChoice);
-  const [narrow, setNarrow] = useState(false);
-  useEffect(() => {
-    const el = hostRef.current;
-    if (!el) return;
-    const check = () => setNarrow(el.clientWidth < OPON_TOGGLE_BELOW);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
+  const [pref, setPref] = useState(readOponPref);          // 'shown' | 'hidden' | null (automatic)
+  const { mode, tray, cell, floatToggle } = useOponFit(hostRef, pref);
+  const shown = mode === 'full';
+  const toggleOpon = () => { const v = shown ? 'hidden' : 'shown'; setPref(v); writeOponPref(v); };
 
   // Ayò pots: every capture drops a seed into the pot of the Odù file where it happened (col 0 = Ogbè).
   const seeds = useMemo(() => {
@@ -792,15 +804,15 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
     const h = moveHistory || [];
     const grew = h.length > histLen.current;
     histLen.current = h.length;
-    if (!grew || mode !== 'full' || !tray) return;
+    if (!grew || !shown || !tray) return;
     const m = h[h.length - 1];
     if (!m || !m.captured || !m.to) return;
-    const sx = 0.241935 * tray + (15 - m.to.col + 0.5) * cell;
-    const sy = 0.241935 * tray + (m.to.row + 0.5) * cell;
+    const sx = OPON_BOARD_OFF * tray + (15 - m.to.col + 0.5) * cell;
+    const sy = OPON_BOARD_OFF * tray + (m.to.row + 0.5) * cell;
     const ang = (78.75 - m.to.col * 22.5) * Math.PI / 180;
     const tx = tray * (0.5 + 0.41855 * Math.cos(ang));
     const ty = tray * (0.5 - 0.41855 * Math.sin(ang));
-    setFlight({ key: h.length, pot: m.to.col, sx, sy, dx: tx - sx, dy: ty - sy, size: Math.max(8, cell * 0.55) });
+    setFlight({ key: h.length, pot: m.to.col, sx, sy, dx: tx - sx, dy: ty - sy, size: Math.max(8, cell * 0.5) });
     const t = setTimeout(() => setFlight(null), 900);
     return () => clearTimeout(t);
   }, [moveHistory]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -820,19 +832,28 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
     };
   }), []);
 
+  const toggle = (
+    <button type="button" className="iob-view-toggle" onClick={toggleOpon} aria-pressed={!shown}
+      title={shown ? 'Hide the Opọ́n to make the board and pieces bigger' : 'Show the carved Opọ́n around the board'}>
+      <svg aria-hidden="true" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        {shown
+          ? <><rect x="5" y="5" width="14" height="14" rx="1.5"/><path d="M9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/></>
+          : <><circle cx="12" cy="12" r="9"/><rect x="8" y="8" width="8" height="8" rx="1"/></>}
+      </svg>
+      {shown ? 'Hide Opọ́n' : 'Show Opọ́n'}
+    </button>
+  );
+
   return (
-    <div className="iob" data-mode={mode} ref={hostRef} style={{ '--cell': `${cell}px`, '--iob-tray': `${tray}px` }}>
-      {narrow && (
-        <div className="iob-toggle-row" style={{ width: `${tray}px` }}>
-          <button type="button" className="iob-view-toggle"
-            onClick={() => setViewChoice(mode === 'full' ? 'compact' : 'full')}>
-            {mode === 'full' ? 'Zoom to board' : 'Show full Opọ́n'}
-          </button>
-        </div>
-      )}
+    <div className="iob" data-mode={mode} ref={hostRef}
+      style={{ '--cell': `${cell}px`, '--iob-tray': `${tray}px`, '--frame': `${cell * OPON_FRAME_CELLS}px` }}>
+      {floatToggle
+        ? <div className="iob-toggle-float">{toggle}</div>
+        : <div className="iob-toggle-row" style={{ width: `${tray}px` }}>{toggle}</div>}
+
       <div className="iob-stage">
         <div className="iob-tray">
-          {mode === 'full' && rimPots.map(({ odu, i, pot, label }) => (
+          {shown && rimPots.map(({ odu, i, pot, label }) => (
             <React.Fragment key={odu.id}>
               <AyoPot odu={odu} count={seeds[i]} className="iob-pot" style={pot} landing={flight && flight.pot === i} />
               <div className="iob-potlabel" style={label} aria-hidden="true">
@@ -843,11 +864,6 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
             </React.Fragment>
           ))}
 
-          <div className="iob-files iob-files--top" aria-hidden="true">{files.map((f, k) => <span key={k}>{f}</span>)}</div>
-          <div className="iob-files iob-files--bottom" aria-hidden="true">{files.map((f, k) => <span key={k}>{f}</span>)}</div>
-          <div className="iob-ranks iob-ranks--left" aria-hidden="true">{ODU.map((o, r) => <span key={r}>{r + 1}</span>)}</div>
-          <div className="iob-ranks iob-ranks--right" aria-hidden="true">{ODU.map((o, r) => <span key={r}>{o.name.slice(0, 3).toUpperCase()}</span>)}</div>
-
           {flight && (
             <span key={flight.key} className="iob-flyseed" aria-hidden="true"
               style={{ left: `${flight.sx}px`, top: `${flight.sy}px`, width: `${flight.size}px`, height: `${flight.size * 0.84}px`,
@@ -855,6 +871,11 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
           )}
 
           <div className={`iob-slot${aiThinking ? ' iob-slot--thinking' : ''}`}>
+            {/* coordinates engraved in brass on the slab's frame */}
+            <div className="iob-files iob-files--top" aria-hidden="true">{files.map((f, k) => <span key={k}>{f}</span>)}</div>
+            <div className="iob-files iob-files--bottom" aria-hidden="true">{files.map((f, k) => <span key={k}>{f}</span>)}</div>
+            <div className="iob-ranks iob-ranks--left" aria-hidden="true">{ODU.map((o, r) => <span key={r}>{r + 1}</span>)}</div>
+            <div className="iob-ranks iob-ranks--right" aria-hidden="true">{ODU.map((o, r) => <span key={r}>{o.name.slice(0, 3).toUpperCase()}</span>)}</div>
             <BoardComponent
               board={board}
               selected={selected}
@@ -866,7 +887,7 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
         </div>
       </div>
 
-      {mode === 'compact' && (
+      {!shown && (
         <div className="iob-strip" role="list" aria-label="Ayò pots">
           {ODU.map((odu, i) => (
             <div key={odu.id} className="iob-spot" role="listitem">
