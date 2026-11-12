@@ -1436,19 +1436,6 @@ function SetupScreen({ onStart }) {
         <div className="ic-setup-section ic-cover-family">
           <div className="ic-setup-label">More Games</div>
           <div className="ic-cover-family-grid">
-            <a className="ic-family-card" href="https://chess.com/" target="_blank" rel="noopener noreferrer">
-              <span className="ic-family-icon" aria-hidden="true">
-                <svg viewBox="0 0 40 40" width="34" height="34">
-                  <rect x="2" y="2" width="36" height="36" rx="5" fill="#e9d6a8"/>
-                  {[0,1,2,3].map(r => [0,1,2,3].map(c => (r + c) % 2 ? <rect key={r+'-'+c} x={2 + c * 9} y={2 + r * 9} width="9" height="9" fill="#7a5a35"/> : null))}
-                  <text x="20" y="29" textAnchor="middle" fontSize="24" fill="#fff8e6" stroke="#1a1208" strokeWidth="1.2">♞</text>
-                </svg>
-              </span>
-              <span className="ic-family-text">
-                <span className="ic-family-name">Play Chess</span>
-                <span className="ic-family-sub">Classic 8×8 chess · chess.com ↗</span>
-              </span>
-            </a>
             <a className="ic-family-card" href="https://playifagames.org/ayo-oloponfa/">
               <span className="ic-family-icon" aria-hidden="true">
                 <svg viewBox="0 0 40 40" width="34" height="34">
@@ -1464,6 +1451,19 @@ function SetupScreen({ onStart }) {
               <span className="ic-family-text">
                 <span className="ic-family-name" lang="yo">Play Ayò Ọlọ́pọ́nfá</span>
                 <span className="ic-family-sub">128 seeds · the single board IfáChess doubles</span>
+              </span>
+            </a>
+            <a className="ic-family-card" href="https://chess.com/" target="_blank" rel="noopener noreferrer">
+              <span className="ic-family-icon" aria-hidden="true">
+                <svg viewBox="0 0 40 40" width="34" height="34">
+                  <rect x="2" y="2" width="36" height="36" rx="5" fill="#e9d6a8"/>
+                  {[0,1,2,3].map(r => [0,1,2,3].map(c => (r + c) % 2 ? <rect key={r+'-'+c} x={2 + c * 9} y={2 + r * 9} width="9" height="9" fill="#7a5a35"/> : null))}
+                  <text x="20" y="29" textAnchor="middle" fontSize="24" fill="#fff8e6" stroke="#1a1208" strokeWidth="1.2">♞</text>
+                </svg>
+              </span>
+              <span className="ic-family-text">
+                <span className="ic-family-name">Play Chess</span>
+                <span className="ic-family-sub">Classic 8×8 chess · chess.com ↗</span>
               </span>
             </a>
           </div>
