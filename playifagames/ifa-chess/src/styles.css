@@ -3468,7 +3468,7 @@ body { background: var(--indigo-0); }
 
 /* ─── COVER: MORE GAMES (classic chess · Ayò Ọlọ́pọ́nfá) ───────────────────── */
 .ic-cover-family { margin-top: 22px; }
-.ic-cover-family-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.ic-cover-family-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
 .ic-family-card {
   display: flex; align-items: center; gap: 12px; padding: 12px 14px; min-height: 64px;
   border-radius: 12px; text-decoration: none; text-align: left;
