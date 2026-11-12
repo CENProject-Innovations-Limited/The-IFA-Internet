@@ -250,3 +250,5 @@
   .ilc-card__name { font-size: 18px; }
   .ilc-card--lg .ilc-card__name { font-size: 26px; }
 }
+.ilc-tags { margin: -4px 0 0; text-align: center; font: 500 13px/1.4 'Playfair Display', serif; color: var(--navy); }
+.ilc-tags span { display: inline-block; margin-right: 8px; padding: 2px 9px; border: 1px solid var(--gold-3); border-radius: 999px; font: 700 10px/1.4 Inter, sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-3); vertical-align: middle; }
