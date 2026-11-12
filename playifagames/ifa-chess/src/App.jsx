@@ -600,8 +600,8 @@ function PieceComponent({ piece }) {
   if (!piece) return null;
   const { type, player, oduid } = piece;
 
-  // Carved medallions: boxwood (white) and ebony (black). The role or Odù colour is the
-  // inlaid ring, so every piece reads the same on both sides.
+  // Carved medallions: boxwood (white) and ebony (black), inlaid with the role colour.
+  // Ẹrú Ọba (pawns) are Ayò seeds marked with their file's Odù — Ayò Ọlọ́pọ́nfá inside the chess army.
   let accent = '#c9a227';
   if (type === 'odu' && oduid) {
     const odu = ODU.find(o => o.id === oduid);
@@ -611,7 +611,7 @@ function PieceComponent({ piece }) {
   }
 
   return (
-    <div className={`ic-piece ic-piece--${player}`} style={{ '--pc': accent }}>
+    <div className={`ic-piece ic-piece--${player}${type === 'odu' ? ' ic-piece--seed' : ''}`} style={{ '--pc': accent }}>
       <PieceSVG type={type} oduid={oduid} />
     </div>
   );
@@ -697,7 +697,7 @@ function BoardComponent({ board, selected, validMoves, lastMove, onCellClick }) 
 }
 
 // ─── OPỌ́N IFÁ BOARD FRAME (carved tray + 16 Ayò pots) ───────────────────────
-// The tray artwork (assets/opon-live*.webp) is drawn on a 1240-unit square:
+// The tray artwork (assets/opon-meji-live*.webp) is drawn on a 1240-unit square:
 // board 640×640 at 300,300 · Ayò pots on a 519 radius · rim edge at 571.
 // The Odù signs carved into the squares assume this orientation, which is the
 // game's own: files right→left = Ogbè … Òfún (col 0 on the right), ranks top→bottom = Ogbè … Òfún.
@@ -713,26 +713,21 @@ function oduShortName(odu) {
   return odu.yoruba.replace(/\s*M[ẹe]́?j[ìi]̀?$/u, '').replace(/^Ẹ̀jì\s+/u, '');
 }
 
-function seedSpots(n) {
-  if (n <= 0) return [];
-  const fixed = { 1: [[50, 52]], 2: [[37, 50], [63, 52]], 3: [[38, 40], [62, 42], [50, 64]],
-    4: [[37, 38], [63, 39], [37, 62], [63, 63]] };
-  if (fixed[n]) return fixed[n];
-  const out = [], ga = Math.PI * (3 - Math.sqrt(5));
-  for (let k = 0; k < n; k++) {
-    const r = 30 * Math.sqrt((k + 0.5) / n), a = k * ga;
-    out.push([50 + r * Math.cos(a), 52 + r * Math.sin(a)]);
-  }
-  return out;
-}
+// Ayò's signature seed layout: up to 8 seeds in 2 columns × 4 rows (the Odù mark grid),
+// with a "+n" badge beyond eight — exactly as Ayò Ọlọ́pọ́nfá shows its pots.
+const AYO_GRID = [[38, 23], [62, 23], [38, 41], [62, 41], [38, 59], [62, 59], [38, 77], [62, 77]];
 
-function AyoPot({ odu, count, className, style }) {
+function AyoPot({ odu, count, className, style, landing }) {
+  const shown = Math.min(count, 8);
   return (
     <div className={className} style={style} role="img"
       aria-label={`${oduShortName(odu)} pot: ${count} ${count === 1 ? 'seed' : 'seeds'}`}>
-      {seedSpots(count).map(([x, y], k) => (
-        <span key={k} className="iob-seed" style={{ left: `${x}%`, top: `${y}%` }} />
+      {AYO_GRID.slice(0, shown).map(([x, y], k) => (
+        <span key={k} className="iob-seed"
+          style={{ left: `${x}%`, top: `${y}%`,
+                   ...(landing && k === shown - 1 && count <= 8 ? { animationDelay: '0.62s' } : null) }} />
       ))}
+      {count > 8 && <b className="iob-pot-more">+{count - 8}</b>}
     </div>
   );
 }
@@ -790,6 +785,26 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
     return c;
   }, [moveHistory]);
 
+  // Ayò sowing gesture: a captured piece flies into its Odù pot as a seed.
+  const [flight, setFlight] = useState(null);
+  const histLen = useRef((moveHistory || []).length);
+  useEffect(() => {
+    const h = moveHistory || [];
+    const grew = h.length > histLen.current;
+    histLen.current = h.length;
+    if (!grew || mode !== 'full' || !tray) return;
+    const m = h[h.length - 1];
+    if (!m || !m.captured || !m.to) return;
+    const sx = 0.241935 * tray + (15 - m.to.col + 0.5) * cell;
+    const sy = 0.241935 * tray + (m.to.row + 0.5) * cell;
+    const ang = (78.75 - m.to.col * 22.5) * Math.PI / 180;
+    const tx = tray * (0.5 + 0.41855 * Math.cos(ang));
+    const ty = tray * (0.5 - 0.41855 * Math.sin(ang));
+    setFlight({ key: h.length, pot: m.to.col, sx, sy, dx: tx - sx, dy: ty - sy, size: Math.max(8, cell * 0.55) });
+    const t = setTimeout(() => setFlight(null), 900);
+    return () => clearTimeout(t);
+  }, [moveHistory]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const files = useMemo(() => {
     const out = [];
     for (let c = 15; c >= 0; c--) out.push(ODU[c].name.slice(0, 3).toUpperCase());
@@ -819,7 +834,7 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
         <div className="iob-tray">
           {mode === 'full' && rimPots.map(({ odu, i, pot, label }) => (
             <React.Fragment key={odu.id}>
-              <AyoPot odu={odu} count={seeds[i]} className="iob-pot" style={pot} />
+              <AyoPot odu={odu} count={seeds[i]} className="iob-pot" style={pot} landing={flight && flight.pot === i} />
               <div className="iob-potlabel" style={label} aria-hidden="true">
                 <i style={{ background: odu.color, boxShadow: `0 0 6px ${odu.color}` }} />
                 {oduShortName(odu)}
@@ -832,6 +847,12 @@ function OponBoardFrame({ board, selected, validMoves, lastMove, onCellClick, ai
           <div className="iob-files iob-files--bottom" aria-hidden="true">{files.map((f, k) => <span key={k}>{f}</span>)}</div>
           <div className="iob-ranks iob-ranks--left" aria-hidden="true">{ODU.map((o, r) => <span key={r}>{r + 1}</span>)}</div>
           <div className="iob-ranks iob-ranks--right" aria-hidden="true">{ODU.map((o, r) => <span key={r}>{o.name.slice(0, 3).toUpperCase()}</span>)}</div>
+
+          {flight && (
+            <span key={flight.key} className="iob-flyseed" aria-hidden="true"
+              style={{ left: `${flight.sx}px`, top: `${flight.sy}px`, width: `${flight.size}px`, height: `${flight.size * 0.84}px`,
+                       '--dx': `${flight.dx}px`, '--dy': `${flight.dy}px` }} />
+          )}
 
           <div className={`iob-slot${aiThinking ? ' iob-slot--thinking' : ''}`}>
             <BoardComponent
@@ -1454,7 +1475,7 @@ function OponSidebar({
           <span className="ic-opon-logo-chess">CHESS</span>
         </div>
         <div className="ic-opon-logo-yoruba">ÈjìAyò Ọlọ́pọ́nfá</div>
-        <div className="ic-opon-logo-sub">Ṣẹ́ẹ̀sì ní Èdè Ifá</div>
+        <div className="ic-opon-logo-sub">Ṣẹ́ẹ̀sì ní Èdè Ifá · Double Ayò</div>
       </div>
 
       {/* Tabs: Cover · Roster · Info */}
@@ -1560,13 +1581,17 @@ function OponSidebar({
 
       {/* ON THE OPỌN — quick rules */}
       <div className="ic-opon-on-the-opon">
-        <div className="ic-opon-section-label">On the Opọ́n</div>
+        <div className="ic-opon-section-label">Ayò Ọlọ́pọ́nfá Méjì</div>
+        <div className="ic-opon-meji-sum" aria-label="Two Ayò boards of 128 seed cups make 256">
+          <span>128</span><i>+</i><span>128</span><i>=</i><b>256</b>
+        </div>
         {[
-          [ODU[0].color,  '256 Ifa Squares. Each square carries its Odu sign in iyẹ̀rọsùn: the file Odu on the left, the rank Odu on the right.'],
-          [ODU[3].color,  'The Méjì line. Sixteen brass-inlaid squares where an Odu meets itself, from Èjì Ogbè to Òfún Méjì.'],
-          [ODU[6].color,  'Sixteen Ayò pots in the rim, one per Odu. Every capture drops a seed into the pot of the file where it happened.'],
-          [ODU[9].color,  'Ẹrú Ọba. Each pawn carries the power of its Odu file (see the Odu tab).'],
-          [ODU[12].color, 'Ojú Ọpọ́n. Ẹ̀ṣù’s face marks the head of the tray, with Ogbè and Òfún on either side.'],
+          [ODU[0].color,  'Double Ayò. Ayò Ọlọ́pọ́nfá has 16 pots of 8 seeds: 128. Each side of this board is one Ayò, 16 Odu pots of 8 seed cups, and the two together make 256.'],
+          [ODU[3].color,  'Ifa seed cups. Every cup carries its Odu sign in iyẹ̀rọsùn: the file Odu on the left, the rank Odu on the right.'],
+          [ODU[6].color,  'The Méjì line. Sixteen brass-ringed cups where an Odu meets itself, from Èjì Ogbè to Òfún Méjì.'],
+          [ODU[9].color,  'Ayò pots in the rim. A captured piece flies into its file’s Odu pot as a seed, laid out in Ayò’s 2 × 4 pattern.'],
+          [ODU[12].color, 'Seed pawns. The Ẹrú Ọba are Ayò seeds, each carrying the power of its Odu file.'],
+          [ODU[15].color, 'Ojú Ọpọ́n. Ẹ̀ṣù’s face marks the head of the tray, with Ogbè and Òfún on either side.'],
         ].map(([color, text], i) => (
           <div key={i} className="ic-opon-rule-item">
             <span className="ic-opon-rule-icon" style={{ color }}>◈</span>

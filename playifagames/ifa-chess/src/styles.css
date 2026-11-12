@@ -2444,7 +2444,7 @@ body {
 }
 
 /* ─── OPỌ́N IFÁ TRAY (carved board + 16 Ayò pots) ─────────────────────────────
-   Geometry follows ../assets/opon-live*.webp (1240-unit square):
+   Geometry follows ../assets/opon-meji-live*.webp (1240-unit square):
    board 640×640 at 300,300 · pots on a 519 radius · rim edge at 571.
    OponBoardFrame sets --iob-tray (tray size) and --cell (square size) in px. */
 .iob {
@@ -2465,8 +2465,8 @@ body {
   height: var(--iob-tray);
   flex: none;
   container-type: inline-size;
-  background-image: url("../assets/opon-live-1x.webp");
-  background-image: image-set(url("../assets/opon-live-1x.webp") 1x, url("../assets/opon-live.webp") 2x);
+  background-image: url("../assets/opon-meji-live-1x.webp");
+  background-image: image-set(url("../assets/opon-meji-live-1x.webp") 1x, url("../assets/opon-meji-live.webp") 2x);
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -2546,9 +2546,9 @@ body {
 }
 .iob-seed {
   position: absolute;
-  width: 27%;
-  height: 23%;
-  margin: -11.5% 0 0 -13.5%;
+  width: 21%;
+  height: 17%;
+  margin: -8.5% 0 0 -10.5%;
   border-radius: 50% / 46%;
   background: radial-gradient(circle at 34% 30%, #eef1ea 0, #a8ad9f 32%, #6a7064 70%, #3c4139 100%);
   box-shadow: 1px 2px 2px rgba(20, 8, 0, 0.6);
@@ -3227,3 +3227,97 @@ body { background: var(--indigo-0); }
   -webkit-backdrop-filter: blur(6px);
 }
 .iob-view-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+
+/* ════════════════════════════════════════════════════════════════════════════
+   AYÒ ỌLỌ́PỌ́NFÁ MÉJÌ — the board is two Ayò boards (16 pots × 8 seed cups each)
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* squares are round seed cups: highlights follow the cup, not the square */
+.iob-slot .ic-cell { border-radius: 50%; }
+.iob-slot .ic-cell--selected { box-shadow: 0 0 0 2px #fff1c7, 0 0 14px rgba(255,220,130,0.9); }
+.iob-slot .ic-cell:hover:not(.ic-cell--selected) { box-shadow: 0 0 0 1.5px rgba(255,244,214,0.7); }
+.iob-slot .ic-cell--last-moved { box-shadow: 0 0 0 1.5px rgba(226,182,90,0.75); }
+.iob-slot .ic-cell--valid-move { background: radial-gradient(circle, rgba(18,140,124,0.55) 0 36%, rgba(18,140,124,0.18) 37% 62%, transparent 63%) !important; }
+
+/* seed pawns: Ayò seeds (grey for Boxwood, black for Ebony) carrying their Odù marks */
+.ic-piece--seed {
+  width: 76%;
+  height: 66%;
+  border-radius: 50% / 47%;
+  border-width: 1.5px;
+}
+.ic-piece--white.ic-piece--seed {
+  background:
+    radial-gradient(ellipse at 34% 28%, #f2f4ee 0%, rgba(242,244,238,0) 30%),
+    repeating-linear-gradient(98deg, rgba(255,255,255,0.05) 0 2px, rgba(0,0,0,0.04) 2px 4px),
+    radial-gradient(circle at 42% 38%, #c9cdc0 0%, #9ba192 42%, #687061 78%, #474e42 100%);
+  color: #2e3328;
+  box-shadow: 0 2px 3px rgba(30, 20, 5, 0.6), inset 0 -2px 3px rgba(40, 46, 34, 0.5), inset 0 1px 1px rgba(255,255,255,0.75);
+}
+.ic-piece--black.ic-piece--seed {
+  background:
+    radial-gradient(ellipse at 34% 28%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 28%),
+    repeating-linear-gradient(98deg, rgba(255,255,255,0.03) 0 2px, rgba(0,0,0,0.05) 2px 4px),
+    radial-gradient(circle at 42% 38%, #4a4440 0%, #262220 45%, #121010 80%, #060505 100%);
+  color: #f0c860;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.75), inset 0 -2px 3px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,235,200,0.3);
+}
+.ic-piece--seed svg { width: 62%; height: 62%; }
+.ic-piece--seed::after {
+  background: radial-gradient(ellipse at 32% 24%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 40%);
+}
+
+/* the rim pots: "+n" beyond Ayò's eight */
+.iob-pot-more {
+  position: absolute;
+  right: -18%;
+  top: -16%;
+  min-width: 46%;
+  padding: 0 4%;
+  border-radius: 999px;
+  background: #e2b65a;
+  color: #1a1206;
+  font: 700 max(8px, 0.8cqw)/1.5 var(--font-game, Inter, sans-serif);
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+/* a captured piece flies into its Odù pot as a seed */
+.iob-flyseed {
+  position: absolute;
+  z-index: 8;
+  margin: -6px 0 0 -6px;
+  border-radius: 50% / 46%;
+  background: radial-gradient(circle at 34% 30%, #f4f6f0 0, #b0b5a7 30%, #6d7466 72%, #3c4139 100%);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.55), 0 0 12px rgba(255,220,140,0.6);
+  pointer-events: none;
+  animation: iob-sow 0.7s cubic-bezier(.45,.05,.35,1) forwards;
+}
+@keyframes iob-sow {
+  0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  12%  { transform: translate(calc(var(--dx) * 0.08), calc(var(--dy) * 0.08 - 18px)) scale(1.2); opacity: 1; }
+  55%  { transform: translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6 - 46px)) scale(1.35); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0.55); opacity: 0.2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .iob-flyseed { display: none; }
+  .iob-seed { animation: none; }
+}
+
+/* sidebar: the Méjì sum */
+.ic-opon-meji-sum {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin: 2px 0 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(226,182,90,0.12), rgba(226,182,90,0.03));
+  border: 1px solid var(--brass-faint);
+  font-family: var(--font-display, 'Cinzel Decorative', serif);
+}
+.ic-opon-meji-sum span { font-size: 1.05rem; color: #efe6cf; }
+.ic-opon-meji-sum i { font-style: normal; color: var(--brass); font-size: 0.95rem; }
+.ic-opon-meji-sum b { font-size: 1.35rem; color: #f6dc96; text-shadow: 0 0 12px rgba(226,182,90,0.45); }
