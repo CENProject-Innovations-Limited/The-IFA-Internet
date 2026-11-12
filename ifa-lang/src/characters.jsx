@@ -374,6 +374,10 @@
           </div>
           <Opele right={ODU[r].m} left={ODU[l].m} dir="rtl" />
         </div>
+        <aside className="ilc-disclaimer" role="note" aria-label="Disclaimer">
+          <span className="ilc-disclaimer__label">Disclaimer</span>
+          <p>IFA-ORISA Internet Systems and Technologies are created strictly for educational, research, entertainment, and technology development purposes. They are not designed or intended as a substitute for authentic Ifa-Orisa Knowledge, Practice, or Tradition. The Study and Practice of Ifa-Orisa as a Babalawo/Iyanifa and Olorisa requires direct initiation, mentorship, and transmission within the living Ifa-Orisa Tradition — something no digital platform, comic, or game can provide or replace.</p>
+        </aside>
       </section>
     );
   }
