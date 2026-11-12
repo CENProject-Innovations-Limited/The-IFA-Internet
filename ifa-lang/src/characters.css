@@ -252,3 +252,10 @@
 }
 .ilc-tags { margin: -4px 0 0; text-align: center; font: 500 13px/1.4 'Playfair Display', serif; color: var(--navy); }
 .ilc-tags span { display: inline-block; margin-right: 8px; padding: 2px 9px; border: 1px solid var(--gold-3); border-radius: 999px; font: 700 10px/1.4 Inter, sans-serif; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-3); vertical-align: middle; }
+
+/* disclaimer (below IfaCompute with Ọ̀pẹ̀lẹ̀) */
+.ilc-disclaimer { max-width: 920px; margin: 30px auto 0; padding: 18px 22px; border-radius: 16px; background: var(--paper);
+  border: 1px solid rgba(201,151,58,0.45); border-left: 4px solid var(--gold-3); display: flex; flex-direction: column; gap: 8px; }
+.ilc-disclaimer__label { font: 700 11px/1 Inter, sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-3); }
+.ilc-disclaimer p { margin: 0; font-size: 14.5px; line-height: 1.65; color: var(--ink-2); }
+@media (max-width: 680px) { .ilc-disclaimer { margin-top: 22px; padding: 14px 16px; } .ilc-disclaimer p { font-size: 14px; } }
