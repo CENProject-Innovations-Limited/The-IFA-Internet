@@ -3227,3 +3227,15 @@ body {
 @media (max-width: 480px) {
   .app-footer__inner { padding: 0 16px; }
 }
+
+/* ── 16 Characters tab + CTA ─────────────────────────────── */
+.new-badge { display: inline-block; margin-left: 6px; padding: 2px 6px; border-radius: 999px; background: #f2cf72; color: #161c55; font-size: 0.62rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; vertical-align: middle; }
+.chars-cta { display: flex; align-items: center; gap: 18px; width: calc(100% - 40px); max-width: 1100px; margin: 8px auto 28px; padding: 16px 22px; border-radius: 16px; border: 1px solid rgba(242,207,114,0.4);
+  background: linear-gradient(120deg, #1a2160, #0f1440); color: #f6efe0; text-align: left; cursor: pointer; font: inherit; transition: transform .15s, box-shadow .15s; }
+.chars-cta:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(20,26,90,0.5); }
+.chars-cta__glyphs { display: flex; gap: 6px; fill: #f2cf72; flex: none; }
+.chars-cta__text { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.chars-cta__text b { font-size: 1.05rem; color: #f2cf72; }
+.chars-cta__text small { color: #c9cff3; font-size: .9rem; line-height: 1.45; }
+.chars-cta__go { flex: none; font-weight: 700; color: #161c55; background: #f2cf72; padding: 10px 16px; border-radius: 999px; font-size: .9rem; }
+@media (max-width: 640px) { .chars-cta { flex-wrap: wrap; } .chars-cta__go { width: 100%; text-align: center; } }

@@ -437,6 +437,10 @@ function Header({ section, onSection, laws, activeId, onSelect, ifaplUrl }) {
             onClick={() => onSection('ifalang')}
           >IfaLang</button>
           <button
+            className={'header__sec-btn header__sec-btn--chars' + (section === 'chars' ? ' header__sec-btn--active' : '')}
+            onClick={() => onSection('chars')}
+          >16 Characters <span className="new-badge">New</span></button>
+          <button
             className={'header__sec-btn' + (section === 'orisa' ? ' header__sec-btn--active' : '')}
             onClick={() => onSection('orisa')}
           >OrisaLang <span className="dev-badge">Under Development</span></button>
@@ -643,7 +647,7 @@ function IfaBinaryEncoding() {
 // ════════════════════════════════════════════════════════════
 // OVERVIEW  —  all 16 laws
 // ════════════════════════════════════════════════════════════
-function Overview({ lawPairs, meta, onSelect }) {
+function Overview({ lawPairs, meta, onSelect, onChars }) {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
 
@@ -690,6 +694,19 @@ function Overview({ lawPairs, meta, onSelect }) {
           </a>
         </div>
       </div>
+      {onChars && (
+        <button className="chars-cta" onClick={onChars}>
+          <span className="chars-cta__glyphs" aria-hidden="true">
+            <svg viewBox="0 0 60 122" height="40" width="20">{[16,46,76,106].map(y => <circle key={y} cx="30" cy={y} r="8" />)}</svg>
+            <svg viewBox="0 0 60 122" height="40" width="20">{[16,46,76,106].map(y => <g key={y}><circle cx="17" cy={y} r="8" /><circle cx="43" cy={y} r="8" /></g>)}</svg>
+          </span>
+          <span className="chars-cta__text">
+            <b>New: The 16 Characters of IfaLang</b>
+            <small>Generate Ogbè from Ọ̀yẹ̀kú, compose the 256 Odù, write messages in Meta-Characters, and practise.</small>
+          </span>
+          <span className="chars-cta__go">Try the demo →</span>
+        </button>
+      )}
       <IfaBinaryEncoding />
       <div className="overview">
         <div className="overview__search-row">
@@ -2287,7 +2304,20 @@ function IlefeLangsSection() {
 // APP ROOT
 // ════════════════════════════════════════════════════════════
 function App() {
-  const [section,  setSection]  = useState('ifalang');
+  const HASH_SECTIONS = { characters: 'chars', orisalang: 'orisa', 'periodic-table': 'pt', ilefelangs: 'ilelang' };
+  const sectionFromHash = () => HASH_SECTIONS[(window.location.hash || '').replace('#', '')] || 'ifalang';
+  const [section,  setSection]  = useState(sectionFromHash);
+  useEffect(() => {
+    const onHash = () => setSection(sectionFromHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+  const goSection = id => {
+    setSection(id); setActiveId(null);
+    const h = Object.keys(HASH_SECTIONS).find(k => HASH_SECTIONS[k] === id);
+    try { history.replaceState(null, '', h ? '#' + h : window.location.pathname + window.location.search); } catch (e) { /* ignore */ }
+    window.scrollTo(0, 0);
+  };
   const [langData, setLangData] = useState(null);
   const [oduData,  setOduData]  = useState(null);
   const [activeId, setActiveId] = useState(null);
@@ -2352,7 +2382,7 @@ function App() {
     <div>
       <Header
         section={section}
-        onSection={id => { setSection(id); setActiveId(null); }}
+        onSection={goSection}
         laws={langData.lawPairs}
         activeId={activeId}
         onSelect={setActiveId}
@@ -2361,7 +2391,7 @@ function App() {
 
       {section === 'ifalang' && (
         !activeId
-          ? <Overview lawPairs={langData.lawPairs} meta={langData.meta} onSelect={setActiveId} />
+          ? <Overview lawPairs={langData.lawPairs} meta={langData.meta} onSelect={setActiveId} onChars={() => goSection('chars')} />
           : <LawDetail key={activeId} law={activeLaw} dualLaw={dualLaw} onSelectDual={setActiveId} />
       )}
 
@@ -2373,9 +2403,11 @@ function App() {
           : <OrisaOverview data={orisaData} />
       )}
 
+      {section === 'chars' && (window.IfaCharactersLab ? <window.IfaCharactersLab /> : null)}
+
       {section === 'ilelang' && <IlefeLangsSection />}
 
-      {(section === 'ifalang' || section === 'orisa' || section === 'ilelang') && <AppFooter />}
+      {(section === 'ifalang' || section === 'orisa' || section === 'ilelang' || section === 'chars') && <AppFooter />}
 
       {section === 'pt' && (
         !oduData
