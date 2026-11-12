@@ -1432,6 +1432,43 @@ function SetupScreen({ onStart }) {
           Begin Game
         </button>
 
+        {/* Family of games: classic chess and the single Ayò board that IfáChess doubles */}
+        <div className="ic-setup-section ic-cover-family">
+          <div className="ic-setup-label">More Games</div>
+          <div className="ic-cover-family-grid">
+            <a className="ic-family-card" href="https://chess.com/" target="_blank" rel="noopener noreferrer">
+              <span className="ic-family-icon" aria-hidden="true">
+                <svg viewBox="0 0 40 40" width="34" height="34">
+                  <rect x="2" y="2" width="36" height="36" rx="5" fill="#e9d6a8"/>
+                  {[0,1,2,3].map(r => [0,1,2,3].map(c => (r + c) % 2 ? <rect key={r+'-'+c} x={2 + c * 9} y={2 + r * 9} width="9" height="9" fill="#7a5a35"/> : null))}
+                  <text x="20" y="29" textAnchor="middle" fontSize="24" fill="#fff8e6" stroke="#1a1208" strokeWidth="1.2">♞</text>
+                </svg>
+              </span>
+              <span className="ic-family-text">
+                <span className="ic-family-name">Play Chess</span>
+                <span className="ic-family-sub">Classic 8×8 chess · chess.com ↗</span>
+              </span>
+            </a>
+            <a className="ic-family-card" href="https://playifagames.org/ayo-oloponfa/">
+              <span className="ic-family-icon" aria-hidden="true">
+                <svg viewBox="0 0 40 40" width="34" height="34">
+                  <rect x="1" y="9" width="38" height="22" rx="8" fill="#7a4a24" stroke="#3c2410" strokeWidth="1.2"/>
+                  {[0,1,2,3].map(c => [0,1].map(r => (
+                    <g key={c+'-'+r}>
+                      <circle cx={8 + c * 8} cy={15 + r * 10} r="3.4" fill="#2a170b"/>
+                      <circle cx={7.2 + c * 8} cy={14.4 + r * 10} r="1.3" fill="#d8dccf"/>
+                    </g>
+                  )))}
+                </svg>
+              </span>
+              <span className="ic-family-text">
+                <span className="ic-family-name" lang="yo">Play Ayò Ọlọ́pọ́nfá</span>
+                <span className="ic-family-sub">128 seeds · the single board IfáChess doubles</span>
+              </span>
+            </a>
+          </div>
+        </div>
+
         {/* Child/parent tagline */}
         <p className="ic-cover-child-tagline">
           A Fun and Thrilling Tool to Develop Your Child's Intelligence with Ifa &amp; Orisa
