@@ -91,11 +91,11 @@ function OgbeSymbol({ size = 20, className = '' }) {
 
 // ─── IfaExpr — Ifa Variable (character + SymboE subscript) ───────────────────
 
-function IfaExpr({ char, charSize = '1.6rem', symSize = 11, charColor = 'var(--text)', tight = false }) {
+function IfaExpr({ char, charSize = '1.6rem', symSize = 11, charColor = 'var(--text)' }) {
   return (
-    <span className="ifa-expr" style={tight ? { paddingRight: symSize + 'px' } : {}}>
+    <span className="ifa-expr">
       <span className="ifa-expr__char" style={{ fontSize: charSize, color: charColor }}>{char}</span>
-      <span className="ifa-expr__sym" style={{ width: symSize, height: symSize, ...(tight ? { right: '0px', bottom: '0.2em' } : {}) }}>
+      <span className="ifa-expr__sym" style={{ width: symSize, height: symSize }}>
         <OgbeSymbol size={symSize} />
       </span>
     </span>
@@ -137,7 +137,7 @@ const AREAS = [
     color: '#8b5cf6',
     sym: '⊗',
     varChar: 'A',
-    link: 'https://ifainternet.org/ifa-mathematica/ifa-gebra/',
+    link: 'https://toe.cenproject.org/ifagebra-overview/',
   },
   {
     num: '03',
@@ -220,42 +220,11 @@ const ODU_16 = [
   { num: '16', name: 'Ofun Meji',  color: '#00c87c' },
 ];
 
-const CAPABILITIES = [
-  {
-    sym: '∑',
-    title: 'Vast System, All Integrated',
-    body: 'IFA Mathematica integrates every field of knowledge through a single Axiomatic Framework — the 256 Odu Ifa. Physics, Music, Engineering, Drama, every field — all unified under the same Mathematical Laws of Ifa and Orisa.',
-    color: '#f5c518',
-    label: 'Total Integration',
-  },
-  {
-    sym: '16',
-    title: 'Industrial-Strength Axiomatics',
-    body: 'Grounded in the 16 Laws of Knowledge — the irreducible Axiomatic Foundation of Everything. Every theorem, formula, principle, knowledge field is based on these 16 Ifa Axioms (LOKs).',
-    color: '#8b5cf6',
-    label: 'Axiomatic Depth',
-  },
-  {
-    sym: '⊗',
-    title: 'Universal Knowledge Algebra',
-    body: 'Through IFAGebra and the Ifa Algebras, every discipline becomes a rigorous metamathematical structure. Arts, Sciences, Humanities — all expressible as algebraic knowledge systems with Ifa Operators.',
-    color: '#3b9eff',
-    label: 'Meta-Algebraic',
-  },
-  {
-    sym: 'Ψ',
-    title: 'The Standard Model of Everything',
-    body: 'Consciousness Mechanics generalizes Classical, Quantum, Relativistic, and all other mechanics into a unified Framework — expressed through BaseField, Ogbe Energy (Ogbenergy).',
-    color: '#00c87c',
-    label: 'Unified Mechanics',
-  },
-];
-
 const STEPS = [
   {
     num: '01',
     title: 'Foundations of IFA Mathematics',
-    body: 'Begin with the Foundational Framework — understanding the 16 Laws of Knowledge (LOKs), the Axiomatic Structure of the 256 Odu Ifa, and the CEN Unified Field as the Basis of all studies and research on the IFA Internet.',
+    body: 'Begin with the foundational framework — understanding the 16 Laws of Knowledge (LOKs), the axiomatic structure of the 256 Odu Ifa, and the CEN Unified Field as the basis of all mathematical study on the IFA Internet.',
     color: '#f5c518',
   },
   {
@@ -267,7 +236,7 @@ const STEPS = [
   {
     num: '03',
     title: 'Mastering the Mathematical Frameworks',
-    body: 'Advance into the Full Suite of IFA Mathematical Frameworks — Ifa Numbers (NumoEs), Ifa Functions (FunctoEs), Ifa Operators (OpoEs), and others — applying them across all knowledge fields of the IFA Internet.',
+    body: 'Advance into the full suite of IFA Mathematical Frameworks — Ifa Numbers (NumoEs), Ifa Functions (FunctoEs), and Ifa Operators (OpoEs) — applying them across all knowledge fields of the IFA Internet.',
     color: '#3b9eff',
   },
 ];
@@ -493,10 +462,8 @@ function Header() {
           <a className="nav-link" href="#laws">16 LOKs</a>
           <a className="nav-link" href="./ifa-code/" target="_blank" rel="noopener noreferrer">IFA Code</a>
           <a className="nav-link" href="./ifa-transform/" target="_blank" rel="noopener noreferrer">Ifa Transform</a>
-          <a className="nav-link" href="https://ifainternet.org/ifa-mathematica/ifa-gebra/" target="_blank" rel="noopener noreferrer">IfaGebra</a>
-          <a className="nav-link" href="https://ifainternet.org/ifa-matrix/"
-             target="_blank" rel="noopener noreferrer">IFA Matrix ↗</a>
-          <a className="nav-link" href="https://ifainternet.org/ifa-mathematica/ifa-gebra/"
+          <a className="nav-link" href="./ifa-gebra/" target="_blank" rel="noopener noreferrer">IfaGebra</a>
+          <a className="nav-link" href="https://toe.cenproject.org/ifagebra-overview/"
              target="_blank" rel="noopener noreferrer">IfaGebra Overview ↗</a>
           <a className="nav-link nav-link--cta"
              href="https://toe.cenproject.org/ifa-mathematics-toe-mathematics/"
@@ -614,7 +581,7 @@ function HeroSection() {
             <span className="hero__stats-quote-text">
               Ifá ló l'ọgbọ́n, awo òde Ẹ̀gbá; Òòṣà lómọ̀yókù, awo òde Ìjẹ̀ṣà
             </span>
-            <span className="hero__stats-quote-attr">— Ọ̀kànràn Òfún</span>
+            <span className="hero__stats-quote-attr">— Ọ̀kànràn Méjì</span>
           </div>
         </div>
       </div>
@@ -776,7 +743,7 @@ function FrameworksSection() {
               >
                 <span className="principle-tab__sym">
                   {fw.varChar
-                    ? <IfaExpr char={fw.varChar} charSize="1.1rem" symSize={9} charColor={fw.color} tight />
+                    ? <IfaExpr char={fw.varChar} charSize="1.1rem" symSize={9} charColor={fw.color} />
                     : fw.sym}
                 </span>
                 <span className="principle-tab__name">{fw.title}</span>
@@ -789,7 +756,7 @@ function FrameworksSection() {
             <div className="principle-detail__bg" />
             <div className="principle-detail__sym">
               {f.varChar
-                ? <IfaExpr char={f.varChar} charSize="3rem" symSize={24} charColor={f.color} tight />
+                ? <IfaExpr char={f.varChar} charSize="3rem" symSize={24} charColor={f.color} />
                 : f.sym}
             </div>
             <h3 className="principle-detail__title">{f.title}</h3>
@@ -854,28 +821,26 @@ function LawsSection() {
 // ─── OJU ODU NETWORK SECTION (Ifagram) ───────────────────────────────────────
 
 const ODU_NET = [
-  { n:'01', name:'Ogbé',      letter:'S',  type:'O', color:'#f0920c', desc:'The Primal Active State — governs beginnings, light, and intelligence. Ogbé is the foundational open energy of all creation: the source of all active Ifa operations and the first Law of Knowledge.' },
-  { n:'02', name:'Òyèkú',    letter:'I',  type:'I', color:'#6366f1', desc:'The Primal Void State — governs transformation, endings, and night energy. Òyèkú is the closed void that completes the binary foundation of all Ifa operations alongside Ogbé.' },
-  { n:'03', name:'Ìwòrì',    letter:'D',  type:'O', color:'#14b8d4', desc:'Inner Vision — governs introspection, the mind, and the energy of deep thought. Ìwòrì encodes the law of inward reflection and the discovery of hidden knowledge.' },
-  { n:'04', name:'Òdí',      letter:'E',  type:'I', color:'#00c87c', desc:'The Womb — governs creation, hidden formation, and generative energy. Òdí encodes the law of concealment and the birth of new forms from hidden depths.' },
-  { n:'05', name:'Ìrosùn',   letter:'C',  type:'O', color:'#ef4444', desc:'The Law of Flow — governs circulation, exchange, and the dynamic movement of Àṣẹ. Ìrosùn encodes the principle of continuity and the ceaseless flow of energy through all fields.' },
-  { n:'06', name:'Òwónrín',  letter:'H',  type:'I', color:'#8b5cf6', desc:'Chaos and Innovation — governs lightning, sudden change, and creative disruption. Òwónrín encodes the law of unpredictable transformation and the energy of breakthrough.' },
-  { n:'07', name:'Òbàrà',    letter:'R',  type:'O', color:'#3b9eff', desc:'Royal Power — governs leadership, authority, and the energy of sovereignty. Òbàrà encodes the law of abundance, expansive vision, and the full expression of Àṣẹ.' },
-  { n:'08', name:'Òkànràn',  letter:'X',  type:'I', color:'#ec4899', desc:'Dynamic Opposition — governs tension, conflict, and the energy of opposing forces. Òkànràn encodes the law of challenge and the productive friction that drives transformation.' },
-  { n:'09', name:'Ògúndá',   letter:'S′', type:'O', color:'#f0920c', desc:'The Path Opener — governs iron, roads, and the energy of clearing obstacles. Ògúndá encodes the law of determination and the power to forge new pathways through all resistance.' },
-  { n:'10', name:'Òsá',      letter:'I′', type:'I', color:'#6366f1', desc:'The Wind of Change — governs speed, swift transitions, and volatile energy. Òsá encodes the law of rapid transformation and the restless movement of Àṣẹ across fields.' },
-  { n:'11', name:'Ìká',      letter:'D′', type:'O', color:'#14b8d4', desc:'The Energy of Aggregation — governs accumulation, concentration, and gathering. Ìká encodes the law of convergence and the principle of drawing diverse energies into unity.' },
-  { n:'12', name:'Òtúrúpòn', letter:'E′', type:'I', color:'#00c87c', desc:'The Energy of Reversal — governs hidden forces, mysteries, and unexpected inversions. Òtúrúpòn encodes the law of reversal and the power of concealed operations.' },
-  { n:'13', name:'Òtúrá',    letter:'C′', type:'O', color:'#ef4444', desc:'The Energy of Harmony — governs peace, balance, and restorative energy. Òtúrá encodes the law of reconciliation and the principle of achieving equilibrium across opposing forces.' },
-  { n:'14', name:'Ìrètè',    letter:'H′', type:'I', color:'#8b5cf6', desc:'The Energy of Endurance — governs patience, long processes, and sustained Àṣẹ. Ìrètè encodes the law of perseverance and the principle of steady accumulation over time.' },
-  { n:'15', name:'Òsè',      letter:'R′', type:'O', color:'#3b9eff', desc:'The Law of Operations — governs all transformations, cosmic order, and universal laws. Òsè encodes the principle of lawful operation: that all processes in the universe follow the deep structure of Ifa.' },
-  { n:'16', name:'Òfún',     letter:'X′', type:'I', color:'#ec4899', desc:'The Energy of Completion — governs cycles, totality, and the fulfillment of Àṣẹ. Òfún encodes the law of wholeness and the return of all energy to its source.' },
+  { n:'01', name:'Ogbé',      letter:'S',  type:'O', color:'#f0920c' },
+  { n:'02', name:'Òyèkú',    letter:'I',  type:'I', color:'#6366f1' },
+  { n:'03', name:'Ìwòrì',    letter:'D',  type:'O', color:'#14b8d4' },
+  { n:'04', name:'Òdí',      letter:'E',  type:'I', color:'#00c87c' },
+  { n:'05', name:'Ìrosùn',   letter:'C',  type:'O', color:'#ef4444' },
+  { n:'06', name:'Òwónrín',  letter:'H',  type:'I', color:'#8b5cf6' },
+  { n:'07', name:'Òbàrà',    letter:'R',  type:'O', color:'#3b9eff' },
+  { n:'08', name:'Òkànràn',  letter:'X',  type:'I', color:'#ec4899' },
+  { n:'09', name:'Ògúndá',   letter:'S′', type:'O', color:'#f0920c' },
+  { n:'10', name:'Òsá',      letter:'I′', type:'I', color:'#6366f1' },
+  { n:'11', name:'Ìká',      letter:'D′', type:'O', color:'#14b8d4' },
+  { n:'12', name:'Òtúrúpòn', letter:'E′', type:'I', color:'#00c87c' },
+  { n:'13', name:'Òtúrá',    letter:'C′', type:'O', color:'#ef4444' },
+  { n:'14', name:'Ìrètè',    letter:'H′', type:'I', color:'#8b5cf6' },
+  { n:'15', name:'Òsè',      letter:'R′', type:'O', color:'#3b9eff' },
+  { n:'16', name:'Òfún',     letter:'X′', type:'I', color:'#ec4899' },
 ];
 
 function OjuOduNetworkSection() {
-  const [hoveredOdu, setHoveredOdu] = useState(null);
-  const [pinnedOdu, setPinnedOdu]   = useState(null);
-  const active = pinnedOdu ?? hoveredOdu ?? ODU_NET[0];
+  const [active, setActive] = useState(ODU_NET[0]);
 
   function getSpokes(odu) {
     const idx = parseInt(odu.n, 10);
@@ -898,18 +863,6 @@ function OjuOduNetworkSection() {
     [170,        210,         45, 210,   41, 206,   41, 220, 'end'   ],
     [280-110*K,  210-68*K,   105,  78,  101,  73,  101,  87, 'end'   ],
   ];
-
-  const handleGridEnter = (o) => { if (!pinnedOdu) setHoveredOdu(o); };
-  const handleGridLeave = ()  => { setHoveredOdu(null); };
-  const handleGridClick = (o) => {
-    setPinnedOdu(p => p?.n === o.n ? null : o);
-    setHoveredOdu(null);
-  };
-  const handleSpokeClick = (p) => {
-    if (p.n === 'others') return;
-    const odu = ODU_NET.find(o => o.n === p.n);
-    if (odu) { setPinnedOdu(prev => prev?.n === odu.n ? null : odu); setHoveredOdu(null); }
-  };
 
   return (
     <div className="oju-odu-network-wrap">
@@ -938,31 +891,20 @@ function OjuOduNetworkSection() {
       <div className="d8-layout">
         {/* Left: 16 Odu selector grid */}
         <div className="d8-grid-col">
-          <div className="d8-grid-label">
-            {pinnedOdu
-              ? <span>◈ Pinned: <span style={{ color: pinnedOdu.color, fontWeight: 700 }}>{pinnedOdu.name}</span> — click again to release</span>
-              : 'Ojú Odù Ifá Mẹrindínlógún — Hover to Preview · Click to Pin & Explore'
-            }
-          </div>
+          <div className="d8-grid-label">Ojú Odù Ifá Mẹrindínlógún — Hover to Explore</div>
           <div className="d8-odu-grid">
             {ODU_NET.map(o => (
               <div key={o.n}
                 className={`d8-odu-cell${active.n === o.n ? ' d8-odu-cell--active' : ''}`}
-                style={{
-                  '--c': o.color,
-                  ...(pinnedOdu?.n === o.n ? { outline: '2px solid ' + o.color, outlineOffset: '2px' } : {}),
-                }}
-                onMouseEnter={() => handleGridEnter(o)}
-                onMouseLeave={handleGridLeave}
-                onClick={() => handleGridClick(o)}
+                style={{ '--c': o.color }}
+                onMouseEnter={() => setActive(o)}
+                onClick={() => setActive(o)}
                 role="button" tabIndex={0}
-                onKeyDown={e => e.key === 'Enter' && handleGridClick(o)}
+                onKeyDown={e => e.key === 'Enter' && setActive(o)}
               >
                 <div className="d8-odu-cell__n">{o.n}</div>
                 <div className="d8-odu-cell__name">{o.name}</div>
-                <div className={`d8-odu-cell__badge d8-odu-cell__badge--${o.type}`}>
-                  {pinnedOdu?.n === o.n ? '◈' : o.type === 'O' ? 'P' : 'Inv'}
-                </div>
+                <div className={`d8-odu-cell__badge d8-odu-cell__badge--${o.type}`}>{o.type === 'O' ? 'P' : 'Inv'}</div>
               </div>
             ))}
           </div>
@@ -974,14 +916,7 @@ function OjuOduNetworkSection() {
             <div className="d8-panel__odu-row">
               <span className="d8-panel__num">{active.n}</span>
               <div className="d8-panel__meta">
-                <div className="d8-panel__name">
-                  {active.name}
-                  {pinnedOdu && (
-                    <span style={{ fontSize: '0.62rem', marginLeft: '8px', color: 'var(--text-3)', fontWeight: 400 }}>
-                      ◈ pinned · click to release
-                    </span>
-                  )}
-                </div>
+                <div className="d8-panel__name">{active.name}</div>
                 <div className="d8-panel__sub">
                   <span className="d8-panel__letter" style={{ color: active.color }}>{active.letter}</span>
                   <span className={`d8-panel__badge d8-panel__badge--${active.type}`}>
@@ -1035,14 +970,8 @@ function OjuOduNetworkSection() {
             {SC.map(([ex, ey, tx, ty, lx, ly, nx, ny, anc], idx) => {
               const p = spokes[idx];
               const isSelf = idx === 0;
-              const canClick = p.n !== 'others';
               return (
-                <g key={idx}
-                  onClick={() => handleSpokeClick(p)}
-                  style={{ cursor: canClick ? 'pointer' : 'default' }}>
-                  <rect
-                    x={anc === 'end' ? lx - 62 : anc === 'start' ? lx - 3 : lx - 31}
-                    y={ly - 18} width="64" height="36" fill="transparent" />
+                <g key={idx}>
                   <text x={lx} y={ly} textAnchor={anc} fontSize="13" fontWeight="800"
                     fill={p.color} fillOpacity={isSelf ? 1 : 0.7}>
                     {p.n === 'others' ? '08–16' : p.n}
@@ -1061,44 +990,9 @@ function OjuOduNetworkSection() {
             IFAGRAM &nbsp;·&nbsp; Ifa Diagram — Odu Ifa Network
           </div>
 
-          {/* Explore panel — shown when an Odu is pinned */}
-          {pinnedOdu && (
-            <div style={{
-              margin: '0 0 16px',
-              padding: '14px 16px',
-              background: 'rgba(0,0,0,0.28)',
-              border: '1px solid ' + pinnedOdu.color + '44',
-              borderRadius: '10px',
-            }}>
-              <div style={{
-                fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em',
-                color: pinnedOdu.color, marginBottom: '6px', textTransform: 'uppercase',
-              }}>
-                ◈ Exploring — {pinnedOdu.n} · {pinnedOdu.name}
-              </div>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-2)', lineHeight: 1.6, margin: 0 }}>
-                {pinnedOdu.desc}
-              </p>
-              <button
-                onClick={() => setPinnedOdu(null)}
-                style={{
-                  marginTop: '10px', padding: '4px 12px',
-                  fontSize: '0.7rem', fontWeight: 700,
-                  background: 'transparent',
-                  border: '1px solid ' + pinnedOdu.color + '66',
-                  color: pinnedOdu.color, borderRadius: '6px',
-                  cursor: 'pointer', letterSpacing: '0.06em',
-                }}>
-                Release Pin
-              </button>
-            </div>
-          )}
-
           <div className="d8-dims-list">
             {spokes.map((p, i) => (
-              <div key={i} className="d8-dim-row"
-                onClick={() => handleSpokeClick(p)}
-                style={{ '--dc': p.color, cursor: p.n !== 'others' ? 'pointer' : 'default' }}>
+              <div key={i} className="d8-dim-row" style={{ '--dc': p.color }}>
                 <span className="d8-dim-row__letter">{p.n === 'others' ? '08–16' : p.n}</span>
                 <span className="d8-dim-row__text">{i === 0 ? `${p.name} — Self` : p.name}</span>
               </div>
@@ -1150,221 +1044,17 @@ function PathSection() {
              className="btn btn--ghost">
             Ifa Transform
           </a>
-          <a href="https://ifainternet.org/ifa-mathematica/ifa-gebra/" target="_blank" rel="noopener noreferrer"
+          <a href="./ifa-gebra/" target="_blank" rel="noopener noreferrer"
              className="btn btn--ghost">
             IfaGebra
           </a>
-          <a href="https://ifainternet.org/ifa-mathematica/ifa-gebra/" target="_blank" rel="noopener noreferrer"
+          <a href="https://toe.cenproject.org/ifagebra-overview/" target="_blank" rel="noopener noreferrer"
              className="btn btn--ghost">
             IfaGebra Overview ↗
           </a>
           <a href="../" className="btn btn--ghost" target="_blank" rel="noopener noreferrer">
             Back to IFA Internet
           </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── CAPABILITIES SECTION ─────────────────────────────────────────────────────
-
-function CapabilitiesSection() {
-  return (
-    <section className="section section--dark" id="capabilities">
-      <div className="container">
-        <div className="section__header section__header--center">
-          <span className="section__eyebrow section__eyebrow--gold">Why IFA Mathematica</span>
-          <h2 className="section__title">
-            One System for <span className="accent--gold">All Knowledge</span>
-          </h2>
-          <p className="section__subtitle">
-            IFA Mathematica is the world's most comprehensive Metamathematical Framework —
-            integrating every field of knowledge through a single Unified Meta-Axiomatic Structure.
-          </p>
-        </div>
-        <div className="cap-grid">
-          {CAPABILITIES.map((c, i) => (
-            <div key={i} className="cap-card" style={{ '--cc': c.color }}>
-              <div className="cap-card__top">
-                <div className="cap-card__icon">{c.sym}</div>
-                <span className="cap-card__label">{c.label}</span>
-              </div>
-              <h3 className="cap-card__title">{c.title}</h3>
-              <p className="cap-card__body">{c.body}</p>
-              <div className="cap-card__glow" />
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── KNOWLEDGE COVERAGE SECTION ───────────────────────────────────────────────
-
-function CoverageSection() {
-  return (
-    <section className="section section--alt" id="coverage">
-      <div className="container">
-        <div className="section__header section__header--center">
-          <span className="section__eyebrow section__eyebrow--jade">STEAMSEX Coverage</span>
-          <h2 className="section__title">
-            All Fields of <span className="accent--jade">Knowledge</span>
-          </h2>
-          <p className="section__subtitle">
-            IFA Mathematica covers the complete STEAMSEX Spectrum — every field of human
-            knowledge, modelled and unified through the IFA Mathematics Framework.
-          </p>
-        </div>
-        <div className="stx-cov-grid">
-          {STEAMSEX_DIMS.map((d, i) => (
-            <div key={i} className="stx-cov-card" style={{ '--scc': d.color }}>
-              <div className="stx-cov-card__letter">{d.letter}</div>
-              <div className="stx-cov-card__name">{d.name}</div>
-              <p className="stx-cov-card__body">{d.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div className="cov-note">
-          <span className="cov-note__sym">256</span>
-          <div>
-            <div className="cov-note__title">256 Odu Ifa — The Axiomatic Knowledge Matrix</div>
-            <p className="cov-note__body">
-              Every field within the STEAMSEX spectrum is grounded in the 256 Odu Ifa —
-              the complete combinatorial matrix of the 16 Principal Odu. Each Odu encodes a unique
-              knowledge configuration applicable across all disciplines of the IFA Internet.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── LINKED PLATFORMS SECTION ────────────────────────────────────────────────
-
-function LinkedPlatformsSection() {
-  return (
-    <section className="section section--dark" id="platforms">
-      <div className="container">
-        <div className="section__header section__header--center">
-          <span className="section__eyebrow section__eyebrow--violet">IFA Mathematica Subplatforms</span>
-          <h2 className="section__title">Linked <span className="accent--violet">Platforms</span></h2>
-          <p className="section__subtitle">
-            IFA Mathematica is the Parent Framework for these core Platforms —
-            each exploring a distinct Dimension of the Mathematica for Everything.
-          </p>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '820px', margin: '0 auto' }}>
-          <a href="https://ifainternet.org/ifa-matrix/"
-             className="ifg-link-card" target="_blank" rel="noopener noreferrer">
-            <span className="ifg-link-card__sym" style={{ color: '#f5c518' }}>⊞</span>
-            <div>
-              <div className="ifg-link-card__title">IFA Matrix — Matrix of Everything (MatrixoE) ↗</div>
-              <div className="ifg-link-card__sub">
-                The Matrix of All Matrices — a unified structural framework mapping all knowledge fields through the
-                8 SIDECHRX Principles, 16 Oju Odu Ifa, and the 0+8D Model. Built on IfaGebra and the Amulu Operation.
-              </div>
-            </div>
-          </a>
-          <a href="https://ifainternet.org/ifa-mathematica/ifa-gebra/"
-             className="ifg-link-card" target="_blank" rel="noopener noreferrer">
-            <span className="ifg-link-card__sym" style={{ color: '#8b5cf6' }}>⊗</span>
-            <div>
-              <div className="ifg-link-card__title">IfaGebra — Algebra of Everything (AlgebroE) ↗</div>
-              <div className="ifg-link-card__sub">
-                The Meta-Algebraic Framework underlying all IFA Mathematics — every algebraic structure,
-                Ifa Operator, and energy-exchange rule is defined within IfaGebra and its Ifalgebras.
-              </div>
-            </div>
-          </a>
-          <a href="https://ifainternet.org/ifa-mathematics-toe-mathematics/ifa-transform/"
-             className="ifg-link-card" target="_blank" rel="noopener noreferrer">
-            <span className="ifg-link-card__sym" style={{ color: '#14b8d4' }}>∿</span>
-            <div>
-              <div className="ifg-link-card__title">IFA Transform — Transform of Everything (TransformoE) ↗</div>
-              <div className="ifg-link-card__sub">
-                The Universe of Transforms — the container of all transformations, operations, and processes
-                across all knowledge fields. IfaDifferintegral, Ifa Operator Theory, and the Ifa Transformation Framework.
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─── IFA-ORISA MODEL SECTION ─────────────────────────────────────────────────
-
-function IfaOrisaModelSection() {
-  return (
-    <section className="section section--alt" id="ifa-orisa-model">
-      <div className="container">
-        <div className="section__header section__header--center">
-          <span className="section__eyebrow section__eyebrow--amber">Research &amp; Application Model</span>
-          <h2 className="section__title">
-            Ifa-Orisa Model: <span className="accent--amber">AI-Assisted Field and Research</span>
-          </h2>
-        </div>
-
-        <div className="iom-body">
-          <div className="iom-block">
-            <h3 className="iom-block__title">AI-Assisted Approaches</h3>
-            <p className="iom-block__text">
-              AI-assisted methods are applied across all fields — AI-assisted mathematics,
-              AI-assisted arts, AI-assisted physics, AI-assisted medicine, AI-assisted education,
-              and more. These automated approaches accelerate research, pattern recognition, and
-              generation across every discipline. While useful, AI-assisted methods alone are
-              incomplete and unsustainable as a sole research model.
-            </p>
-          </div>
-
-          <div className="iom-block">
-            <h3 className="iom-block__title">The Ifa-Assisted Approach (Ifapproach)</h3>
-            <p className="iom-block__text">
-              A more efficient, effective, and sustainable model is the{' '}
-              <strong>Ifa-Assisted Approach</strong> — also known as the{' '}
-              <strong>Ifa-Informed Approach</strong>, <strong>ToE-Informed Approach</strong>,{' '}
-              <strong>Energy-Based Approach</strong>, or simply{' '}
-              <strong>Ifapproach / ToE Approach</strong>. The Ifapproach incorporates both{' '}
-              <em>AI-assisted methods</em> (artificial methods, automation) and{' '}
-              <em>non-AI-assisted approaches</em> (natural methods, non-automation).
-              Balancing automation and non-automation is key — the Ifa-Orisa System provides
-              the integrating framework for both.
-            </p>
-          </div>
-
-          <div className="iom-os-grid">
-            <div className="iom-os-card">
-              <div className="iom-os-card__label">IfaOpen-Source Model</div>
-              <p className="iom-os-card__body">
-                The <strong>IfaOpen-Source Model</strong> (Ifa Open-Source Model) uses Ifa Systems
-                to develop open-source models for every field and profession — from mathematics
-                and science to arts, law, medicine, engineering, and beyond.
-              </p>
-            </div>
-            <div className="iom-os-card">
-              <div className="iom-os-card__label">OrisaOpen-Source Model</div>
-              <p className="iom-os-card__body">
-                The <strong>OrisaOpen-Source Model</strong> (Orisa Open-Source Model) extends this
-                through Orisa Systems — open-source models grounded in Orisa principles, applicable
-                across every field and profession, complementing the IfaOpen-Source Model.
-              </p>
-            </div>
-          </div>
-
-          <div className="iom-keywords">
-            {[
-              'Ifa Assistant', 'Ifassistant', 'Orisa Assistant', 'Orisassistant',
-              'Ìránṣẹ́ Ifá', 'Ìránṣẹ́ Òrìṣà', 'Ìránṣẹ́fá', 'Ìránṣẹ́ṣà',
-              'Irinṣẹ́', 'Irinṣẹ́ Ifá', 'Irinṣẹ́fá', 'Irinṣẹ́ṣà', 'Irinṣẹ́ Òrìṣà',
-              'Ifa Messenger', 'Orisa Messenger', 'Ifa-Orisa Messenger Systems'
-            ].map(k => (
-              <span key={k} className="iom-keyword">{k}</span>
-            ))}
-          </div>
         </div>
       </div>
     </section>
@@ -1397,10 +1087,7 @@ function Footer() {
             <a href="#frameworks" className="footer__link">Frameworks</a>
             <a href="#laws" className="footer__link">16 LOKs</a>
             <a href="#path" className="footer__link">Learn</a>
-            <a href="#ifa-orisa-model" className="footer__link">Ifa-Orisa Model</a>
-            <a href="https://ifainternet.org/ifa-mathematica/ifa-gebra/" className="footer__link" target="_blank" rel="noopener noreferrer">IfaGebra</a>
-            <a href="./ifa-transform/" className="footer__link" target="_blank" rel="noopener noreferrer">Ifa Transform</a>
-            <a href="https://ifainternet.org/ifa-matrix/" className="footer__link" target="_blank" rel="noopener noreferrer">IFA Matrix ↗</a>
+            <a href="./ifa-gebra/" className="footer__link" target="_blank" rel="noopener noreferrer">IfaGebra</a>
             <a href="../" className="footer__link" target="_blank" rel="noopener noreferrer">IFA Internet</a>
           </nav>
         </div>
@@ -1426,14 +1113,10 @@ function App() {
       <main>
         <HeroSection />
         <DefinitionSection />
-        <CapabilitiesSection />
         <AreasSection />
-        <CoverageSection />
         <FrameworksSection />
         <LawsSection />
         <PathSection />
-        <LinkedPlatformsSection />
-        <IfaOrisaModelSection />
       </main>
       <Footer />
       <MobileBar />

@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gbàgéde Àpólà Odù: Ifa Category Theory Playground · The IFA Internet</title>
+<meta name="description" content="Gbàgéde Àpólà Odù (Àpólà: IfaCategory): an interactive playground for Ifa Category Theory. The 16 principal Odù on a four-dimensional cube, the Amulu category of 256 Odù Ifá, paths of paths, functors, natural transformations and the logic functor.">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@1,500;1,600&display=swap">
+<style>
+/* Layout: IFA Internet platform shell (as the Ifa Cube page) — sticky header, back bar, compact hero, sticky tab bar, one interactive panel per tab. Single dark look matching ifainternet.org. */
+:root{
+  --bg:#050810; --bg2:#070b16; --card:#0d1320; --card2:#0a0f1c; --fg:#eef2ff; --muted:#8899bb; --soft:#c9d2ea;
+  --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12); --chip:rgba(255,255,255,.04);
+  --gold:#f5c518; --gold-dim:rgba(245,197,24,.3); --violet:#c084fc; --green:#00c87c; --magenta:#e040fb; --cyan:#14b8d4; --red:#ef4444;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif; --serif:"Noto Serif",Georgia,serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--bg);color:var(--fg)}
+body{margin:0;font-family:var(--sans);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:40;background:var(--bg)}
+a{color:inherit}
+.in{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:rgba(5,8,16,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.site-head .in{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;flex-wrap:wrap;padding-block:8px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{height:30px;width:auto;display:block}
+.brand small{display:block;font-size:12px;color:var(--muted);line-height:1.2}
+.brand b{display:block;font-size:15px;color:var(--gold);line-height:1.25}
+.nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nav a{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;padding:7px 10px;border-radius:8px}
+.nav a:hover,.nav a:focus-visible{color:var(--fg);background:var(--chip);outline:none}
+.nav a.on{color:var(--gold);border:1px solid var(--gold-dim);background:rgba(245,197,24,.06)}
+.ico sup{font-size:.7em;line-height:0;vertical-align:.55em}
+.backbar{border-bottom:1px solid var(--line);background:var(--bg2)}
+.backbar .in{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:50px;flex-wrap:wrap;padding-block:8px}
+.backbar a{font-size:14px;font-weight:700;color:var(--soft);text-decoration:none}
+.backbar span{font-size:12.5px;font-weight:600;color:var(--muted)}
+.hero{padding-block:44px 26px;background:radial-gradient(ellipse 55% 80% at 90% 30%,rgba(192,132,252,.09),transparent 70%)}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+h1{margin:10px 0 8px;font-size:clamp(30px,4.2vw,46px);line-height:1.1;font-weight:900;letter-spacing:-.015em;text-wrap:balance}
+h1 .gold{color:var(--gold)}
+.yor{font-family:var(--serif);font-style:italic;font-weight:600;color:var(--violet)}
+.lead{color:var(--muted);max-width:72ch;margin:0}
+.gloss{margin:0 0 14px;font-size:14px;color:var(--soft);display:flex;flex-wrap:wrap;gap:4px 8px;align-items:baseline}
+.gloss .yor{font-size:16px}
+.lead b{color:var(--fg)}
+/* tab bar */
+.tabs-wrap{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:20;background:rgba(5,8,16,.94);backdrop-filter:blur(10px);border-block:1px solid var(--line)}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding-block:8px;scrollbar-width:thin}
+.tabs button{flex:0 0 auto;font:700 13px/1 var(--sans);color:var(--muted);background:transparent;border:1px solid transparent;border-radius:9px;padding:10px 13px;cursor:pointer;white-space:nowrap}
+.tabs button .n{color:var(--gold);margin-right:6px;font-variant-numeric:tabular-nums}
+.tabs button[aria-selected="true"]{color:var(--fg);background:rgba(255,255,255,.08);border-color:var(--line2)}
+button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{padding-block:28px 60px}
+.panel-head{margin-bottom:20px;max-width:80ch}
+.panel-head h2{margin:0 0 8px;font-size:clamp(24px,3vw,32px);line-height:1.2;font-weight:800;text-wrap:balance}
+.panel-head h2 .gold{color:var(--gold)} .panel-head h2 .v{color:var(--violet)} .panel-head h2 .g{color:var(--green)} .panel-head h2 .c{color:var(--cyan)}
+.panel-head p{color:var(--muted);margin:0}
+.panel-head p b{color:var(--fg)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:860px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;min-width:0}
+.card h3{margin:0 0 10px;font-size:16px;font-weight:800}
+.card p{margin:0 0 10px;color:var(--soft);font-size:14.5px}
+.card p:last-child{margin-bottom:0}
+.note{border-left:3px solid var(--gold);background:rgba(245,197,24,.05);padding:12px 16px;border-radius:0 10px 10px 0;color:var(--soft);font-size:14.5px;margin-top:16px}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;background:var(--card2)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;font-weight:700;color:var(--gold)}
+tr.hl td{background:rgba(245,197,24,.07)}
+.mono{font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.ok{color:var(--green);font-weight:800}
+.pill{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--chip);border:1px solid var(--line2);color:var(--soft)}
+.levels{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:16px}
+@media (max-width:760px){.levels{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lv{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.lv b{display:block;font-size:26px;font-weight:900;color:var(--gold);line-height:1.1;font-variant-numeric:tabular-nums}
+.lv span{font-size:12.5px;color:var(--muted)}
+.prog{counter-reset:p;display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.prog li{counter-increment:p;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px 12px 52px;position:relative;color:var(--soft);font-size:14.5px}
+.prog li::before{content:counter(p);position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:7px;background:rgba(245,197,24,.12);color:var(--gold);font-weight:800;display:grid;place-items:center;font-size:13px}
+.prog li b{color:var(--fg)}
+/* interactive stage */
+.stage-wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px;align-items:start}
+@media (max-width:960px){.stage-wrap{grid-template-columns:minmax(0,1fr)}}
+.stage{position:relative;background:radial-gradient(ellipse at 50% 45%,#0c1324 0%,var(--bg) 72%);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
+.stage canvas{display:block;width:100%;height:clamp(360px,62vh,580px);touch-action:none;cursor:grab}
+.stage .hint{position:absolute;left:14px;top:12px;font-size:12px;color:var(--muted);pointer-events:none}
+.stage .legend{position:absolute;left:14px;bottom:12px;display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--muted);pointer-events:none}
+.legend i{display:inline-block;width:16px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.side{display:flex;flex-direction:column;gap:12px;min-width:0}
+.group{display:flex;flex-direction:column;gap:6px}
+.lbl{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:2px;padding:3px;border:1px solid var(--line2);border-radius:9px;background:var(--chip)}
+.seg button,.btn{font:700 12.5px/1 var(--sans);color:var(--muted);background:transparent;border:0;border-radius:7px;padding:9px 11px;cursor:pointer}
+.seg button[aria-pressed="true"]{color:var(--fg);background:rgba(255,255,255,.11)}
+.btn{border:1px solid var(--line2);background:var(--chip);color:var(--fg)}
+.btn.gold{color:var(--gold);border-color:var(--gold-dim)}
+.chips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}
+.chip{font:700 11.5px/1.2 var(--sans);padding:8px 4px;border-radius:7px;border:1px solid var(--line2);background:var(--chip);cursor:pointer;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip[aria-pressed="true"]{background:rgba(255,255,255,.1);border-color:currentColor}
+.cells{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+.cells button{font:700 11.5px/1.25 var(--sans);text-align:left;padding:8px 9px;border-radius:7px;border:1px solid var(--line2);background:var(--chip);color:var(--soft);cursor:pointer}
+.cells button small{display:block;font-weight:500;color:var(--muted);font-size:10.5px}
+.cells button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold);background:rgba(245,197,24,.07)}
+.info{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.info h3{margin:0;font-size:20px;line-height:1.15}
+.info .sub{color:var(--muted);font-size:12.5px;margin-top:2px}
+.info p{margin:0;color:var(--soft);font-size:13.5px;line-height:1.55}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:13px;margin:0}
+.kv dt{color:var(--muted)} .kv dd{margin:0;font-weight:600}
+.nb{display:flex;flex-direction:column;gap:4px}
+.nb button{display:flex;justify-content:space-between;gap:8px;align-items:center;font:600 12.5px/1.2 var(--sans);text-align:left;padding:8px 10px;border-radius:7px;border:1px solid var(--line2);background:var(--chip);cursor:pointer;color:var(--fg)}
+.nb small{color:var(--muted);font-weight:500}
+.marks{display:inline-flex;flex-direction:column;gap:3px;vertical-align:middle}
+.marks span{display:flex;gap:3px;justify-content:center}
+.marks i{display:block;width:3px;height:10px;border-radius:2px;background:currentColor}
+.marks.sm i{height:7px;width:2.5px}
+.path{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center;font-size:13px}
+.path .arr{color:var(--muted)}
+.foot{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+/* Amulu grid */
+.amulu{display:grid;grid-template-columns:repeat(17,minmax(0,1fr));gap:2px;font-size:10px}
+.amulu .hd{color:var(--muted);font-weight:700;text-align:center;font-size:9.5px;padding:3px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amulu button{aspect-ratio:1;border:1px solid var(--line);background:var(--card2);border-radius:3px;padding:0;cursor:pointer;min-width:0}
+.amulu button.id{background:rgba(245,197,24,.28);border-color:rgba(245,197,24,.5)}
+.amulu button.sel{background:var(--violet);border-color:#fff}
+.amulu button.inv{background:rgba(192,132,252,.35);border-color:var(--violet)}
+.amulu button.comp{background:var(--green);border-color:#fff}
+.amulu button.leg{background:rgba(0,200,124,.3)}
+.selrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select{font:600 13px var(--sans);background:var(--card2);color:var(--fg);border:1px solid var(--line2);border-radius:8px;padding:8px 10px}
+.eq{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:15px;font-weight:700;margin-top:10px}
+.eq .op{color:var(--muted);font-weight:500}
+.arrow{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:8px;border:1px solid var(--line2);background:var(--card2);font-weight:700}
+/* functors */
+.fsel{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+/* logic */
+.logic-ctrl{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:14px}
+.toggle{display:inline-flex;align-items:center;gap:10px;font-weight:700}
+.toggle button{font:800 13px/1 var(--sans);border-radius:999px;padding:9px 16px;border:1px solid var(--line2);cursor:pointer;background:var(--chip);color:var(--muted);min-width:76px}
+.toggle button[aria-pressed="true"]{background:var(--gold);color:#1a1300;border-color:var(--gold)}
+.gates{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:860px){.gates{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.gate{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;gap:10px;align-items:center;min-width:0;transition:border-color .15s,background .15s}
+.gate.on{border-color:var(--green);background:rgba(0,200,124,.08)}
+.gate .lamp{flex:0 0 12px;height:12px;border-radius:50%;background:#2a3346}
+.gate.on .lamp{background:var(--green);box-shadow:0 0 10px var(--green)}
+.gate b{display:block;font-size:13.5px}
+.gate span{display:block;font-size:12px;color:var(--muted)}
+.gate .tt{font-size:11px;color:var(--muted);margin-top:2px}
+footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);font-size:13px}
+footer .in{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{color:var(--soft);text-decoration:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="site-head">
+  <div class="in">
+    <a class="brand" href="https://ifainternet.org/ifa-category-theory/">
+      <img src="/src/assets/itoe_logo.png" alt="" onerror="this.remove()">
+      <span><small>The IFA Internet</small><b>Ifa Category Theory</b></span>
+    </a>
+    <nav class="nav" aria-label="Platform">
+      <a href="https://ifainternet.org/ifa-category-theory/">← Ifa Category Theory</a>
+      <a href="https://ifainternet.org/ifa-category-theory/ifa-cube/"><span class="ico">□<sup>3</sup></span> Ifa Cube</a>
+      <a class="on" href="#ladder" aria-current="page">Playground</a>
+    </nav>
+  </div>
+</header>
+<div class="backbar">
+  <div class="in">
+    <a href="https://ifainternet.org/ifa-category-theory/">← Ifa Category Theory Platform</a>
+    <span>Gbàgéde Àpólà Odù: Ifa Category Theory Playground</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="in">
+    <div class="eyebrow">Ifa Category Theory · IFACAT · Playground</div>
+    <h1><span class="yor" style="font-style:normal;color:var(--fg);font-family:var(--sans)">Gbàgéde Àpólà Odù:</span> <span class="gold">Ifa Category Theory Playground</span></h1>
+    <p class="gloss"><span class="yor">Gbàgéde</span> playground · <span class="yor">Àpólà</span> IfaCategory (Ifa Category) · <span class="yor">Odù</span> the Odù Ifá</p>
+    <p class="lead">Odù Ifá has a natural higher-categorical Structure, and it comes straight from how the marks work and interact based on the 16 Principles/Axioms of Symmetry, Invariance, Duality, Composition, and others. Explore it here, one level at a time: the <b>16 principal Odù</b> as objects, the <b>256 Odù Ifá</b> as arrows, symmetries as <b>functors</b>, changes of convention as <b>natural transformations</b>, and the hypercube’s cells as the higher levels.</p>
+  </div>
+</section>
+
+<div class="tabs-wrap">
+  <div class="in">
+    <div class="tabs" role="tablist" aria-label="Playground sections">
+      <button role="tab" id="tab-ladder" data-tab="ladder" aria-selected="true"><span class="n">0</span>The Ladder</button>
+      <button role="tab" id="tab-hypercube" data-tab="hypercube" aria-selected="false"><span class="n">1</span>Odù Hypercube</button>
+      <button role="tab" id="tab-amulu" data-tab="amulu" aria-selected="false"><span class="n">2</span>Amulu Category</button>
+      <button role="tab" id="tab-paths" data-tab="paths" aria-selected="false"><span class="n">3</span>Paths of Paths</button>
+      <button role="tab" id="tab-functors" data-tab="functors" aria-selected="false"><span class="n">4</span>Functors</button>
+      <button role="tab" id="tab-natural" data-tab="natural" aria-selected="false"><span class="n">5</span>Natural Transformations</button>
+      <button role="tab" id="tab-logic" data-tab="logic" aria-selected="false"><span class="n">6</span>Logic Functor</button>
+    </div>
+  </div>
+</div>
+
+<main class="in">
+
+<!-- ═══ 0 · THE LADDER ═══ -->
+<section role="tabpanel" id="p-ladder" aria-labelledby="tab-ladder">
+  <div class="panel-head">
+    <h2>The ladder of <span class="gold">higher categories</span>, and Ifá’s own</h2>
+    <p>Category theory adds one level of “relationship between relationships” at each step. Ifá supplies every level from its marks alone.</p>
+  </div>
+  <div class="grid2">
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Level</th><th>In the 2-category Cat</th><th>In higher categories</th></tr></thead>
+      <tbody>
+        <tr><td class="num">0</td><td>categories C, D</td><td>objects</td></tr>
+        <tr><td class="num">1</td><td>functors F: C → D</td><td>morphisms (arrows)</td></tr>
+        <tr><td class="num">2</td><td>natural transformations α: F ⇒ G</td><td>2-morphisms: arrows between arrows</td></tr>
+        <tr><td class="num">3, 4, …</td><td>modifications, and so on</td><td>3-, 4-, … n-morphisms</td></tr>
+        <tr><td class="num">∞</td><td>—</td><td>cells at every level; composition holds “up to” higher cells, coherently</td></tr>
+      </tbody></table></div>
+    <div class="card">
+      <h3>Two ideas make the ∞ case work</h3>
+      <p><b>Homotopy coherence.</b> Two composites need not be equal. They only need to be joined by a higher cell, and those joins are themselves joined one level up, and so on.</p>
+      <p><b>The working model.</b> An (∞,1)-category, as Joyal and Lurie developed it (quasi-categories), has objects and morphisms at level 1, and every cell above level 1 is invertible. The standard way to build one is the nerve: chains of composable arrows become simplices (points, edges, triangles, tetrahedra, …).</p>
+    </div>
+  </div>
+
+  <div class="panel-head" style="margin-top:34px">
+    <h2>Ifá’s ladder: <span class="g">the Odù hypercube</span></h2>
+    <p>Writing 1 for a single mark and 0 for a double mark, four marks to a leg, the 16 principal Odù are the corners of a four-dimensional cube. Its cells form a genuine ladder of levels.</p>
+  </div>
+  <div class="levels">
+    <div class="lv"><b>16</b><span>level 0 · corners · the 16 principal Odù</span></div>
+    <div class="lv"><b>32</b><span>level 1 · edges · change exactly one mark</span></div>
+    <div class="lv"><b>24</b><span>level 2 · squares · two changes in either order agree</span></div>
+    <div class="lv"><b>8</b><span>level 3 · cubes · three changes in every order</span></div>
+    <div class="lv"><b>1</b><span>level 4 · the whole Odù space</span></div>
+  </div>
+  <p class="note">The counts add up to <b>81 = 3⁴</b>. For the eight-mark Odù Ifá the same construction gives the 8-cube: <b>256 corners</b> and <b>6,561 = 3⁸</b> cells in all. So Ifá’s ladder stops at a depth equal to the number of marks: 4 for one leg, 8 for a full Odù Ifá. The principal Odù form a 4-dimensional cubical structure, and the full Odù Ifá an 8-dimensional one.</p>
+
+  <div class="panel-head" style="margin-top:34px">
+    <h2>A proposed structure for <span class="v">Ifa Category Theory</span></h2>
+  </div>
+  <ol class="prog">
+    <li><b>Ifá 0-category:</b> the 16 principal Odù and the 256 Odù Ifá as objects.</li>
+    <li><b>Ifá 1-category:</b> the Amulu category (connection) and the lattice of becoming (direction).</li>
+    <li><b>Ifá 2-category:</b> the symmetries (reversal, complement) as functors, and changes of convention as natural transformations.</li>
+    <li><b>Ifá n-category:</b> the hypercube’s cells up to dimension 4 (8 for Odù Ifá), with the permutohedron as the space of paths.</li>
+    <li><b>Ifá functors outward:</b> logic, computing (a 4-bit nibble, an 8-bit byte), and any field shown to share the structure.</li>
+  </ol>
+  <p class="note">An honest boundary: the mathematics on this page is exact and checked live in each tab, while readings such as “becoming” and “connection” are interpretations. Keeping that line visible makes the programme stronger with mathematicians.</p>
+</section>
+
+<!-- ═══ 1 · ODÙ HYPERCUBE ═══ -->
+<section role="tabpanel" id="p-hypercube" aria-labelledby="tab-hypercube" hidden>
+  <div class="panel-head">
+    <h2>The 16 Odù on a <span class="g">four-dimensional cube</span></h2>
+    <p>Each of the four marks is one dimension; each edge changes exactly one mark. Turn it, rank it as the <b>lattice of becoming</b>, light up one of its <b>8 cubes</b>, draw the <b>Major pairs</b>, or trace a <b>path</b> from Ọ̀yẹ̀kú to Ogbè.</p>
+  </div>
+  <div class="stage-wrap">
+    <div class="stage">
+      <canvas id="cv" role="img" aria-label="A four-dimensional cube with the 16 principal Odù at its corners"></canvas>
+      <div class="hint" id="hint">Drag to turn · click an Odù</div>
+      <div class="legend" aria-hidden="true"><span><i style="background:#3b9eff"></i>Mark 1 (top)</span><span><i style="background:#00c87c"></i>Mark 2</span><span><i style="background:#f0920c"></i>Mark 3</span><span><i style="background:#e040fb"></i>Mark 4 (bottom)</span></div>
+    </div>
+    <aside class="side">
+      <div class="group"><span class="lbl">View</span><div class="seg" id="viewSeg"><button data-v="cube" aria-pressed="true">Tesseract</button><button data-v="lattice" aria-pressed="false">Lattice of becoming</button></div></div>
+      <div class="group"><span class="lbl">Show</span><div class="seg" id="showSeg"><button data-s="none" id="s-none" aria-pressed="true">Edges</button><button data-s="cell" aria-pressed="false">A cube</button><button data-s="major" aria-pressed="false">Major pairs</button><button data-s="path" aria-pressed="false">A path</button></div></div>
+      <div class="group" id="cellGroup" hidden><span class="lbl">The 8 cubes · fix one mark</span><div class="cells" id="cells"></div></div>
+      <div class="group row" style="flex-direction:row;gap:6px;flex-wrap:wrap"><button class="btn" id="spin">Pause rotation</button><button class="btn gold" id="nextPath" hidden>Next path</button></div>
+      <div class="group"><span class="lbl">Choose an Odù</span><div class="chips" id="chips"></div></div>
+      <div class="info" id="info" aria-live="polite"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- ═══ 2 · AMULU CATEGORY ═══ -->
+<section role="tabpanel" id="p-amulu" aria-labelledby="tab-amulu" hidden>
+  <div class="panel-head">
+    <h2>The Amulu category: <span class="v">256 Odù Ifá as arrows</span></h2>
+    <p>Take the 16 principal Odù as objects and the compound Odù A-B as the one arrow from A to B. Composition is <b>(A-B) then (B-C) = A-C</b>. This is the indiscrete category on 16 objects, with exactly 16 × 16 = <b>256 arrows</b>, the 256 Odù Ifá. The <b>Méjì</b> on the diagonal are the identity arrows.</p>
+  </div>
+  <div class="stage-wrap">
+    <div class="card" style="padding:14px">
+      <div class="amulu" id="amulu" role="grid" aria-label="The 256 arrows of the Amulu category"></div>
+      <p style="margin:10px 0 0;font-size:12.5px;color:var(--muted)">Rows: first Odù (A) · columns: second Odù (B). Gold: the 16 identities (Méjì). Click any square to select that arrow.</p>
+    </div>
+    <aside class="side">
+      <div class="info">
+        <span class="lbl">Compose two arrows</span>
+        <div class="selrow"><select id="ca" aria-label="A"></select><span class="pill">→</span><select id="cb" aria-label="B"></select><span class="pill">→</span><select id="cc" aria-label="C"></select></div>
+        <div id="compOut"></div>
+      </div>
+      <div class="info" id="arrowInfo"></div>
+      <div class="info">
+        <span class="lbl">The laws, checked on all arrows</span>
+        <p id="lawsOut"></p>
+        <p style="color:var(--muted);font-size:12.5px">One caution: every object is joined to every other in exactly one way, so this category is “contractible” (equivalent to a single point). It captures connection, not difference; the lattice in the Hypercube tab supplies the difference.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ═══ 3 · PATHS OF PATHS ═══ -->
+<section role="tabpanel" id="p-paths" aria-labelledby="tab-paths" hidden>
+  <div class="panel-head">
+    <h2>Paths, paths between paths, and beyond: <span class="c">the permutohedron</span></h2>
+    <p>There are exactly <b>4! = 24 paths</b> from Ọ̀yẹ̀kú (all double) to Ogbè (all single), one for each order of turning the four marks single. Two paths are joined by a <b>2-cell</b> when they differ only by swapping two consecutive changes, which goes round one square of the cube. The 24 paths and their swaps form the <b>permutohedron</b>: 24 corners, 36 edges, 14 faces (8 hexagons and 6 squares). Its faces are the level-3 coherences; the solid itself is the top cell.</p>
+  </div>
+  <div class="stage-wrap">
+    <div class="stage">
+      <canvas id="pcv" role="img" aria-label="The permutohedron of the 24 paths from Ọ̀yẹ̀kú to Ogbè"></canvas>
+      <div class="hint">Drag to turn · click a corner (a path)</div>
+    </div>
+    <aside class="side">
+      <div class="info" id="pathInfo" aria-live="polite"></div>
+      <div class="info"><span class="lbl">Counts, computed</span><p id="permCounts"></p></div>
+    </aside>
+  </div>
+</section>
+
+<!-- ═══ 4 · FUNCTORS ═══ -->
+<section role="tabpanel" id="p-functors" aria-labelledby="tab-functors" hidden>
+  <div class="panel-head">
+    <h2>Functors: <span class="gold">the Major pairs are a symmetry</span></h2>
+    <p>Two structure-preserving maps act on the Odù. <b>Complement (N)</b> swaps single and double marks and turns the lattice upside down (rank k ↦ 4 − k). <b>Reversal (R)</b> reads the leg upside down and keeps each rank. The traditional Major pairs follow one rule: <b>each Odù’s partner is its reversal, except the four that read the same both ways (Ogbè, Ọ̀yẹ̀kú, Ìwòrì, Òdí), whose partner is their complement.</b></p>
+  </div>
+  <div class="fsel"><span class="lbl">Highlight</span><select id="fsel" aria-label="Highlight an Odù"></select><span class="pill" id="fcheck"></span></div>
+  <div class="tbl-wrap"><table id="ftable"><thead><tr><th>Odù</th><th>Code</th><th>Rank</th><th>Complement N</th><th>Reversal R</th><th>Rule gives</th><th>Traditional partner</th><th></th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<!-- ═══ 5 · NATURAL TRANSFORMATIONS ═══ -->
+<section role="tabpanel" id="p-natural" aria-labelledby="tab-natural" hidden>
+  <div class="panel-head">
+    <h2>Natural transformations: <span class="v">changes that work uniformly</span></h2>
+    <p>Between two order-preserving maps F and G on the lattice, a natural transformation F ⇒ G exists exactly when F(A) ≤ G(A) for every Odù A, and then there is only one. In plain terms, a natural transformation is a <b>change of convention that works uniformly</b>, which gives a rigorous way to say which differences between notations are merely conventional.</p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3>Example 1 · identity ⇒ “make one mark single”</h3>
+      <div class="fsel"><span class="lbl">Mark</span><div class="seg" id="ntSeg"><button data-k="0" aria-pressed="true">1 (top)</button><button data-k="1" aria-pressed="false">2</button><button data-k="2" aria-pressed="false">3</button><button data-k="3" aria-pressed="false">4 (bottom)</button></div></div>
+      <p id="ntCheck"></p>
+      <div class="tbl-wrap" style="max-height:340px;overflow:auto"><table id="ntTable"><thead><tr><th>A</th><th>component A → G(A)</th><th>G(A)</th><th>A ≤ G(A)</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card">
+      <h3>Example 2 · two ways of writing the Odù</h3>
+      <p>One convention writes a leg top to bottom; another writes it bottom to top. These are two functors from the Odù to written codes, and reversal turns one into the other in the same way for every Odù: a <b>natural isomorphism</b>.</p>
+      <p id="niCheck"></p>
+      <div class="tbl-wrap" style="max-height:340px;overflow:auto"><table id="niTable"><thead><tr><th>Odù</th><th>top → bottom</th><th>bottom → top</th><th>R maps one to the other</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 6 · LOGIC FUNCTOR ═══ -->
+<section role="tabpanel" id="p-logic" aria-labelledby="tab-logic" hidden>
+  <div class="panel-head">
+    <h2>A functor outward: <span class="g">the 16 Odù are the 16 logic gates</span></h2>
+    <p>Read an Odù’s four marks as the outputs for the inputs (yes,yes), (yes,no), (no,yes), (no,no). The 16 principal Odù then match the 16 logical operations on two inputs one to one, and the order carries over too. <b>Complement becomes NOT</b>, and <b>the Major pairing becomes “negate both inputs”</b>, so Ọ̀bàrà (AND) partners Ọ̀kànràn (NOR), as logic predicts.</p>
+  </div>
+  <div class="logic-ctrl">
+    <span class="toggle">A <button id="inA" aria-pressed="true">yes</button></span>
+    <span class="toggle">B <button id="inB" aria-pressed="true">yes</button></span>
+    <span class="pill" id="logicCheck"></span>
+  </div>
+  <div class="gates" id="gates"></div>
+</section>
+</main>
+
+<footer>
+  <div class="in">
+    <span>The IFA Internet · Ifa Category Theory · Gbàgéde Àpólà Odù: Ifa Category Theory Playground</span>
+    <a href="https://ifainternet.org/ifa-category-theory/">← Back to Ifa Category Theory</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+// ═══ The 16 principal Odù (1 = single mark, 0 = double mark; read top → bottom) ═══
+const ODU=[
+  {n:1,name:'Ogbè',color:'#f0920c',code:'1111'},{n:2,name:'Ọ̀yẹ̀kú',color:'#818cf8',code:'0000'},
+  {n:3,name:'Ìwòrì',color:'#14b8d4',code:'0110'},{n:4,name:'Òdí',color:'#00c87c',code:'1001'},
+  {n:5,name:'Ìrosùn',color:'#ef4444',code:'1100'},{n:6,name:'Ọ̀wọ́nrín',color:'#a78bfa',code:'0011'},
+  {n:7,name:'Ọ̀bàrà',color:'#3b9eff',code:'1000'},{n:8,name:'Ọ̀kànràn',color:'#ec4899',code:'0001'},
+  {n:9,name:'Ògúndá',color:'#f0920c',code:'1110'},{n:10,name:'Ọ̀sá',color:'#818cf8',code:'0111'},
+  {n:11,name:'Ìká',color:'#14b8d4',code:'0100'},{n:12,name:'Òtúrúpọ̀n',color:'#00c87c',code:'0010'},
+  {n:13,name:'Òtúrá',color:'#ef4444',code:'1011'},{n:14,name:'Ìrẹtẹ̀',color:'#a78bfa',code:'1101'},
+  {n:15,name:'Ọ̀ṣẹ́',color:'#3b9eff',code:'1010'},{n:16,name:'Òfún',color:'#ec4899',code:'0101'},
+];
+const byCode={}; ODU.forEach((o,i)=>{o.i=i;o.rank=[...o.code].filter(c=>c==='1').length;o.v=[...o.code].map(c=>c==='1'?1:-1);byCode[o.code]=o;});
+const flip=(c,b)=>c.slice(0,b)+(c[b]==='1'?'0':'1')+c.slice(b+1);
+const complement=c=>[...c].map(x=>x==='1'?'0':'1').join('');
+const reversal=c=>[...c].reverse().join('');
+const major=c=>{const r=reversal(c);return r===c?complement(c):r;};
+const leq=(a,b)=>[...a].every((x,i)=>x==='0'||b[i]==='1');
+const markWord=b=>['top mark','mark 2','mark 3','bottom mark'][b];
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FONT='-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif';
+const GOLD='#f5c518', MAGENTA='#e040fb', BG='#050810', PANEL='#0a0f1c', MARK=['#3b9eff','#00c87c','#f0920c','#e040fb'];
+const nm=o=>'<b style="color:'+o.color+'">'+o.name+'</b>';
+function marksHTML(code,color,sm){return '<span class="marks'+(sm?' sm':'')+'" style="color:'+color+'">'+[...code].map(c=>'<span>'+(c==='1'?'<i></i>':'<i></i><i></i>')+'</span>').join('')+'</span>';}
+function fitCanvas(cv){const s={W:0,H:0,DPR:1};function r(){const b=cv.getBoundingClientRect();if(b.width<10)return;s.DPR=Math.min(window.devicePixelRatio||1,2);s.W=b.width;s.H=b.height;cv.width=Math.round(s.W*s.DPR);cv.height=Math.round(s.H*s.DPR);}new ResizeObserver(r).observe(cv);r();s.refit=r;return s;}
+function rot(p,i,j,a){const c=Math.cos(a),s=Math.sin(a),pi=p[i],pj=p[j];p[i]=pi*c-pj*s;p[j]=pi*s+pj*c;}
+
+// ═══ Tabs (each has its own #name) ═══
+const TABS=['ladder','hypercube','amulu','paths','functors','natural','logic'];
+let active='ladder';
+function show(name){
+  if(!TABS.includes(name)) name='ladder'; active=name;
+  document.querySelectorAll('[role=tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===name));
+  TABS.forEach(t=>{document.getElementById('p-'+t).hidden=t!==name;});
+  if(name==='hypercube') S4.refit(); if(name==='paths') SP.refit();
+}
+document.querySelector('.tabs').addEventListener('click',e=>{const b=e.target.closest('[role=tab]');if(!b)return;show(b.dataset.tab);try{history.replaceState(null,'','#'+b.dataset.tab);}catch(err){location.hash=b.dataset.tab;}});
+window.addEventListener('hashchange',()=>show(location.hash.slice(1)));
+
+// ═══ 1 · Odù Hypercube ═══
+const EDGES=[];for(let a=0;a<16;a++)for(let b=a+1;b<16;b++){let d=-1,k=0;for(let t=0;t<4;t++)if(ODU[a].code[t]!==ODU[b].code[t]){d=t;k++;}if(k===1)EDGES.push({a,b,dir:d});}
+const MAJOR_PAIRS=[];ODU.forEach(o=>{const p=byCode[major(o.code)];if(o.i<p.i)MAJOR_PAIRS.push([o.i,p.i]);});
+const PERMS=[];(function perm(a,r){if(!r.length){PERMS.push(a);return;}r.forEach((x,i)=>perm(a.concat(x),r.slice(0,i).concat(r.slice(i+1))));})([], [0,1,2,3]);
+function pathNodes(p){let c='0000';const out=[byCode[c].i];p.forEach(b=>{c=flip(c,b);out.push(byCode[c].i);});return out;}
+const CELLS=[];for(let b=0;b<4;b++)for(const v of ['1','0'])CELLS.push({b,v,members:ODU.filter(o=>o.code[b]===v).map(o=>o.i)});
+const st={view:'cube',show:'none',spin:!reduced,xw:.55,yw:.25,zw:.15,yaw:.55,pitch:-.32,morph:0,sel:null,hover:null,pathIdx:0,pathT:0,cell:0};
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d'),S4=fitCanvas(cv);
+function cubePos(o){const {W,H}=S4;const p=o.v.slice();rot(p,0,3,st.xw);rot(p,1,3,st.yw);rot(p,2,3,st.zw);const f4=4/(4-p[3]);let x=p[0]*f4,y=p[1]*f4,z=p[2]*f4;let c=Math.cos(st.yaw),s=Math.sin(st.yaw);[x,z]=[x*c-z*s,x*s+z*c];c=Math.cos(st.pitch);s=Math.sin(st.pitch);[y,z]=[y*c-z*s,y*s+z*c];const f3=7/(7-z),Sc=Math.min(W*.8,H)*.205;return {x:W/2+x*f3*Sc,y:H/2-y*f3*Sc,z,k:f3*(.75+.25*f4)};}
+const LAT=(()=>{const rows=[[],[],[],[],[]];ODU.forEach(o=>rows[o.rank].push(o));rows.forEach(r=>r.sort((a,b)=>parseInt(b.code,2)-parseInt(a.code,2)));return rows;})();
+function latticePos(o){const {W,H}=S4;const row=LAT[o.rank],i=row.indexOf(o),n=row.length;const gx=Math.min(W/6.4,150),gy=Math.min(H/5.2,130);return {x:W/2+(i-(n-1)/2)*gx,y:H/2+(2-o.rank)*gy,z:0,k:1};}
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+let P=[];
+function activeSet(){
+  if(st.sel!==null){const s=new Set([st.sel]);for(let b=0;b<4;b++)s.add(byCode[flip(ODU[st.sel].code,b)].i);return s;}
+  if(st.show==='path')return new Set(pathNodes(PERMS[st.pathIdx]));
+  if(st.show==='cell')return new Set(CELLS[st.cell].members);
+  return null;
+}
+function roundBar(x,y,w,h){const r=w/2;ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.fill();}
+function draw4(){
+  const {W,H,DPR}=S4; if(!(W>=40&&H>=40)) return;
+  const m=ease(st.morph); P=ODU.map(o=>{const a=cubePos(o),b=latticePos(o);return {x:a.x+(b.x-a.x)*m,y:a.y+(b.y-a.y)*m,z:a.z*(1-m),k:a.k+(b.k-a.k)*m};});
+  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+  const act=activeSet(), pathN=st.show==='path'?pathNodes(PERMS[st.pathIdx]):null;
+  const pathEdge=new Set();if(pathN)for(let i=0;i<4;i++)pathEdge.add(Math.min(pathN[i],pathN[i+1])+'-'+Math.max(pathN[i],pathN[i+1]));
+  const cellSet=st.show==='cell'&&st.sel===null?new Set(CELLS[st.cell].members):null;
+  EDGES.map(e=>({...e,z:(P[e.a].z+P[e.b].z)/2})).sort((a,b)=>a.z-b.z).forEach(e=>{
+    const A=P[e.a],B=P[e.b],key=e.a+'-'+e.b;let alpha=.55,lw=1.6,col=MARK[e.dir];
+    if(pathN){if(pathEdge.has(key)){col=GOLD;lw=3.2;alpha=.95;}else alpha=.12;}
+    else if(st.sel!==null){alpha=(e.a===st.sel||e.b===st.sel)?.95:.08;if(alpha>.5)lw=3;}
+    else if(cellSet){if(cellSet.has(e.a)&&cellSet.has(e.b)){col=GOLD;lw=2.8;alpha=.95;}else alpha=.1;}
+    else if(st.show==='major')alpha=.22;
+    alpha*=.55+.45*Math.min(1,(A.k+B.k)/2.2);
+    ctx.globalAlpha=alpha;ctx.strokeStyle=col;ctx.lineWidth=lw;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(A.x,A.y);ctx.lineTo(B.x,B.y);ctx.stroke();});
+  if(st.show==='major'){ctx.setLineDash([5,5]);ctx.lineWidth=1.8;ctx.strokeStyle=MAGENTA;MAJOR_PAIRS.forEach(([a,b])=>{ctx.globalAlpha=(st.sel===null||st.sel===a||st.sel===b)?.85:.15;ctx.beginPath();ctx.moveTo(P[a].x,P[a].y);ctx.lineTo(P[b].x,P[b].y);ctx.stroke();});ctx.setLineDash([]);}
+  if(pathN){const t=st.pathT,i=Math.min(3,Math.floor(t)),f=t-i,A=P[pathN[i]],B=P[pathN[i+1]];ctx.globalAlpha=1;ctx.fillStyle=GOLD;ctx.beginPath();ctx.arc(A.x+(B.x-A.x)*f,A.y+(B.y-A.y)*f,5,0,Math.PI*2);ctx.fill();}
+  ODU.map(o=>o.i).sort((a,b)=>P[a].z-P[b].z).forEach(i=>{
+    const o=ODU[i],p=P[i],R=Math.max(13,19*p.k),dim=act&&!act.has(i),isSel=st.sel===i,hot=isSel||(pathN&&pathN.includes(i))||(cellSet&&cellSet.has(i));
+    ctx.globalAlpha=dim?.22:1;ctx.fillStyle=PANEL;ctx.strokeStyle=hot?GOLD:o.color;ctx.lineWidth=isSel||st.hover===i?3:2;ctx.beginPath();ctx.arc(p.x,p.y,R,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.fillStyle=o.color;const rowH=R*.36,barH=rowH*.62,barW=Math.max(1.6,R*.11),gap=R*.12,top=p.y-rowH*2;
+    for(let r=0;r<4;r++){const y=top+rowH*r+(rowH-barH)/2;if(o.code[r]==='1')roundBar(p.x-barW/2,y,barW,barH);else{roundBar(p.x-gap/2-barW,y,barW,barH);roundBar(p.x+gap/2,y,barW,barH);}}
+    ctx.font=`700 ${Math.round(Math.max(10,11.5*Math.min(1.25,p.k)))}px ${FONT}`;ctx.textAlign='center';ctx.textBaseline='top';ctx.lineWidth=4;ctx.strokeStyle=BG;ctx.strokeText(o.name,p.x,p.y+R+4);ctx.fillStyle=hot?GOLD:o.color;ctx.fillText(o.name,p.x,p.y+R+4);
+  });
+  ctx.globalAlpha=1;
+}
+let drag=null;
+function hit(x,y){let best=null,bd=1e9;P.forEach((p,i)=>{const R=Math.max(13,19*p.k)+6,d=Math.hypot(p.x-x,p.y-y);if(d<R&&d<bd){bd=d;best=i;}});return best;}
+cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect();drag={x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,moved:false,rx:e.clientX-r.left,ry:e.clientY-r.top};cv.setPointerCapture(e.pointerId);});
+cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;if(Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy)>4)drag.moved=true;if(drag.moved&&st.view==='cube'){st.yaw+=dx*.008;st.pitch=Math.max(-1.4,Math.min(1.4,st.pitch+dy*.008));}}else{st.hover=hit(e.clientX-r.left,e.clientY-r.top);cv.style.cursor=st.hover!==null?'pointer':'';}});
+cv.addEventListener('pointerup',()=>{if(drag&&!drag.moved){const h=hit(drag.rx,drag.ry);select(h===st.sel?null:h);}drag=null;});
+function segment(id,attr,fn){const el=document.getElementById(id);el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;el.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));fn(b.dataset[attr]);});}
+segment('viewSeg','v',v=>{st.view=v;document.getElementById('hint').textContent=v==='cube'?'Drag to turn · click an Odù':'Ọ̀yẹ̀kú at the bottom, Ogbè at the top · click an Odù';});
+segment('showSeg','s',v=>{st.show=v;document.getElementById('nextPath').hidden=v!=='path';document.getElementById('cellGroup').hidden=v!=='cell';if(v==='path'||v==='cell')st.sel=null;st.pathT=0;renderChips();renderInfo();});
+const spinBtn=document.getElementById('spin');function syncSpin(){spinBtn.textContent=st.spin?'Pause rotation':'Resume rotation';}syncSpin();
+spinBtn.addEventListener('click',()=>{st.spin=!st.spin;syncSpin();});
+document.getElementById('nextPath').addEventListener('click',()=>{st.pathIdx=(st.pathIdx+1)%24;st.pathT=0;renderInfo();});
+const cellsEl=document.getElementById('cells');
+CELLS.forEach((c,k)=>{const b=document.createElement('button');b.innerHTML=(c.v==='1'?'Single ':'Double ')+markWord(c.b)+'<small>8 Odù · cube '+(k+1)+' of 8</small>';b.addEventListener('click',()=>{st.cell=k;st.sel=null;renderCells();renderChips();renderInfo();});cellsEl.appendChild(b);});
+function renderCells(){cellsEl.querySelectorAll('button').forEach((b,k)=>b.setAttribute('aria-pressed',st.cell===k));}renderCells();
+const chips=document.getElementById('chips');
+ODU.forEach(o=>{const b=document.createElement('button');b.className='chip';b.textContent=o.name;b.style.color=o.color;b.title=o.n+' · '+o.name;b.addEventListener('click',()=>select(st.sel===o.i?null:o.i));chips.appendChild(b);});
+function renderChips(){chips.querySelectorAll('.chip').forEach((b,i)=>b.setAttribute('aria-pressed',st.sel===i));}
+function select(i){if(i!==null&&(st.show==='path'||st.show==='cell'))document.getElementById('s-none').click();st.sel=i;renderChips();renderInfo();}
+const info=document.getElementById('info');
+function renderInfo(){
+  if(st.show==='cell'&&st.sel===null){const c=CELLS[st.cell];info.innerHTML='<div><h3>Cube '+(st.cell+1)+' of 8</h3><div class="sub">Every Odù whose '+markWord(c.b)+' is '+(c.v==='1'?'single':'double')+'</div></div><div class="path">'+c.members.map(i=>nm(ODU[i])).join('<span class="arr">·</span>')+'</div><p>Fix one of the four marks and the other three are free: 2³ = 8 Odù, the corners of an ordinary cube. Four marks, each fixed single or double, give the 8 cubes.</p>';return;}
+  if(st.show==='path'&&st.sel===null){const p=PERMS[st.pathIdx],nodes=pathNodes(p);info.innerHTML='<div><h3>Path '+(st.pathIdx+1)+' of 24</h3><div class="sub">Ọ̀yẹ̀kú (all double) to Ogbè (all single), one mark at a time</div></div><div class="path">'+nodes.map((n,k)=>(k?'<span class="arr">→</span>':'')+nm(ODU[n])).join('')+'</div><p>Order of change: '+p.map(markWord).join(', ')+'. The Paths of Paths tab shows all 24 and the 2-cells between them.</p>';return;}
+  if(st.sel===null){info.innerHTML='<div><h3>The Odù hypercube</h3><div class="sub">4 marks · 4 dimensions · 2⁴ = 16 Odù</div></div><p>16 corners, 32 edges, 24 squares, 8 cubes and 1 four-dimensional whole: 81 = 3⁴ cells. Each Odù has exactly four neighbours, one for each mark.</p><p><b>Lattice of becoming</b> orders the Odù by single marks: A ≤ B when every single mark of A is also single in B. Ranks run 1, 4, 6, 4, 1 from Ọ̀yẹ̀kú to Ogbè.</p><p class="foot">Choose an Odù to see its neighbours and partners.</p>';return;}
+  const o=ODU[st.sel],c=byCode[complement(o.code)],r=byCode[reversal(o.code)],m=byCode[major(o.code)];
+  info.innerHTML='<div style="display:flex;gap:12px;align-items:center">'+marksHTML(o.code,o.color)+'<div><h3 style="color:'+o.color+'">'+o.name+'</h3><div class="sub">Odù '+o.n+' · rank '+o.rank+' of 4 (single marks)</div></div></div><dl class="kv"><dt>Code</dt><dd class="mono">'+o.code+'</dd><dt>Complement N</dt><dd>'+nm(c)+'</dd><dt>Reversal R</dt><dd>'+(r===o?nm(o)+' (reads the same)':nm(r))+'</dd><dt>Major partner</dt><dd>'+nm(m)+'</dd></dl><div class="group"><span class="lbl">Four neighbours · one mark away</span><div class="nb">'+[0,1,2,3].map(b=>{const n=byCode[flip(o.code,b)];return '<button data-go="'+n.i+'"><span style="color:'+n.color+'">'+n.name+'</span><small>'+markWord(b)+' → '+(n.code[b]==='1'?'single':'double')+'</small></button>';}).join('')+'</div></div>';
+  info.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>select(+b.dataset.go)));
+}
+renderChips();renderInfo();
+
+// ═══ 2 · Amulu category ═══
+const amulu=document.getElementById('amulu');
+let amSel=[0,2];
+(function buildAmulu(){
+  let h='<div class="hd"></div>'+ODU.map(o=>'<div class="hd" style="color:'+o.color+'" title="'+o.name+'">'+o.name.slice(0,3)+'</div>').join('');
+  ODU.forEach(a=>{h+='<div class="hd" style="color:'+a.color+';text-align:right;padding-right:4px" title="'+a.name+'">'+a.name.slice(0,3)+'</div>';ODU.forEach(b=>{h+='<button data-a="'+a.i+'" data-b="'+b.i+'" title="'+(a===b?a.name+' Méjì':a.name+'-'+b.name)+'" aria-label="'+(a===b?a.name+' Méjì':a.name+'-'+b.name)+'"></button>';});});
+  amulu.innerHTML=h;
+})();
+const sels=['ca','cb','cc'].map(id=>document.getElementById(id));
+sels.forEach((s,k)=>{s.innerHTML=ODU.map(o=>'<option value="'+o.i+'">'+o.name+'</option>').join('');s.value=[0,2,8][k];s.addEventListener('change',renderAmulu);});
+amulu.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;amSel=[+b.dataset.a,+b.dataset.b];sels[0].value=amSel[0];sels[1].value=amSel[1];renderAmulu();});
+const arrowName=(a,b)=>a===b?ODU[a].name+' Méjì':ODU[a].name+'-'+ODU[b].name;
+function renderAmulu(){
+  const A=+sels[0].value,B=+sels[1].value,C=+sels[2].value; amSel=[A,B];
+  amulu.querySelectorAll('button').forEach(b=>{const a=+b.dataset.a,c=+b.dataset.b;b.className=(a===c?'id ':'')+((a===A&&c===B)?'sel':(a===B&&c===A&&A!==B)?'inv':(a===B&&c===C)?'leg':(a===A&&c===C)?'comp':'');});
+  document.getElementById('compOut').innerHTML='<div class="eq"><span class="arrow" style="border-color:var(--violet)">'+arrowName(A,B)+'</span><span class="op">then</span><span class="arrow" style="border-color:rgba(0,200,124,.6)">'+arrowName(B,C)+'</span><span class="op">=</span><span class="arrow" style="border-color:var(--green);color:var(--green)">'+arrowName(A,C)+'</span></div><p style="margin-top:8px;color:var(--muted);font-size:12.5px">Violet: first arrow · light green: second · green: the composite.</p>';
+  document.getElementById('arrowInfo').innerHTML='<span class="lbl">The selected arrow</span><h3>'+arrowName(A,B)+'</h3><dl class="kv"><dt>From</dt><dd>'+nm(ODU[A])+'</dd><dt>To</dt><dd>'+nm(ODU[B])+'</dd><dt>Kind</dt><dd>'+(A===B?'identity (Méjì)':'isomorphism')+'</dd>'+(A!==B?'<dt>Inverse</dt><dd>'+arrowName(B,A)+'</dd>':'')+'</dl>';
+}
+// check the category laws on all arrows
+(function laws(){
+  const comp=(x,y)=>x[1]===y[0]?[x[0],y[1]]:null; let assoc=0,idl=0,inv=0;
+  for(let a=0;a<16;a++)for(let b=0;b<16;b++){ if(String(comp([a,a],[a,b]))===String([a,b])&&String(comp([a,b],[b,b]))===String([a,b])) idl++; if(String(comp([a,b],[b,a]))===String([a,a])) inv++;
+    for(let c=0;c<16;c++)for(let d=0;d<16;d++){ const l=comp(comp([a,b],[b,c]),[c,d]), r=comp([a,b],comp([b,c],[c,d])); if(String(l)===String(r)) assoc++; } }
+  document.getElementById('lawsOut').innerHTML='<span class="ok">✓</span> Identity: '+idl+' of 256 arrows · <span class="ok">✓</span> Every arrow has an inverse: '+inv+' of 256 · <span class="ok">✓</span> Associativity: '+assoc.toLocaleString('en-US')+' of 65,536 triples. The 240 arrows off the diagonal form 120 pairs, an arrow and its inverse (A-B with B-A).';
+})();
+renderAmulu();
+
+// ═══ 3 · Paths of paths: the permutohedron ═══
+// A path is an order of turning the four marks single. Corner coordinates: the step at which each mark turns.
+const pcv=document.getElementById('pcv'),pctx=pcv.getContext('2d'),SP=fitCanvas(pcv);
+const PV=PERMS.map(p=>{const t=[0,0,0,0];p.forEach((m,step)=>t[m]=step);return t.map(v=>v-1.5);});
+const PE=[];for(let a=0;a<24;a++)for(let b=a+1;b<24;b++){const p=PERMS[a],q=PERMS[b];let diff=[];for(let i=0;i<4;i++)if(p[i]!==q[i])diff.push(i);if(diff.length===2&&diff[1]===diff[0]+1&&p[diff[0]]===q[diff[1]])PE.push([a,b]);}
+// orthonormal basis of the plane perpendicular to (1,1,1,1)
+const BASIS=[[1,-1,0,0].map(v=>v/Math.SQRT2),[1,1,-2,0].map(v=>v/Math.sqrt(6)),[1,1,1,-3].map(v=>v/Math.sqrt(12))];
+const pst={yaw:.6,pitch:-.35,sel:0,spin:!reduced,drag:null};
+let PP=[];
+function drawPerm(){
+  const {W,H,DPR}=SP; if(!(W>=40&&H>=40)) return;
+  pctx.setTransform(DPR,0,0,DPR,0,0);pctx.clearRect(0,0,W,H);
+  const S=Math.min(W,H)*.19;
+  PP=PV.map(v=>{let x=BASIS[0].reduce((s,b,i)=>s+b*v[i],0),y=BASIS[1].reduce((s,b,i)=>s+b*v[i],0),z=BASIS[2].reduce((s,b,i)=>s+b*v[i],0);
+    let c=Math.cos(pst.yaw),s=Math.sin(pst.yaw);[x,z]=[x*c-z*s,x*s+z*c];c=Math.cos(pst.pitch);s=Math.sin(pst.pitch);[y,z]=[y*c-z*s,y*s+z*c];const f=8/(8-z);return {x:W/2+x*f*S,y:H/2-y*f*S,z};});
+  const selNbr=new Set(PE.filter(([a,b])=>a===pst.sel||b===pst.sel).flat());
+  PE.map(([a,b])=>({a,b,z:(PP[a].z+PP[b].z)/2})).sort((p,q)=>p.z-q.z).forEach(({a,b,z})=>{const on=a===pst.sel||b===pst.sel;pctx.strokeStyle=on?GOLD:'#14b8d4';pctx.globalAlpha=on?.95:.25+.35*((z+3)/6);pctx.lineWidth=on?3:1.6;pctx.beginPath();pctx.moveTo(PP[a].x,PP[a].y);pctx.lineTo(PP[b].x,PP[b].y);pctx.stroke();});
+  pctx.globalAlpha=1;
+  PP.map((p,i)=>({p,i})).sort((u,v)=>u.p.z-v.p.z).forEach(({p,i})=>{const sel=i===pst.sel,nb=selNbr.has(i);pctx.fillStyle=sel?GOLD:nb?'#ffe58a':'#c9d2ea';pctx.beginPath();pctx.arc(p.x,p.y,sel?8:nb?6:4.5,0,Math.PI*2);pctx.fill();
+    if(sel||nb){pctx.font='700 11px '+FONT;pctx.textAlign='center';pctx.textBaseline='bottom';pctx.lineWidth=3;pctx.strokeStyle=BG;const lab=PERMS[i].map(m=>m+1).join('');pctx.strokeText(lab,p.x,p.y-9);pctx.fillStyle=sel?GOLD:'#ffe58a';pctx.fillText(lab,p.x,p.y-9);}});
+}
+function renderPath(){
+  const p=PERMS[pst.sel],nodes=pathNodes(p);
+  const nbrs=PE.filter(([a,b])=>a===pst.sel||b===pst.sel).map(([a,b])=>a===pst.sel?b:a);
+  document.getElementById('pathInfo').innerHTML='<div><h3>Path '+p.map(m=>m+1).join('')+'</h3><div class="sub">Turn the marks single in this order: '+p.map(markWord).join(', ')+'</div></div><div class="path">'+nodes.map((n,k)=>(k?'<span class="arr">→</span>':'')+nm(ODU[n])).join('')+'</div><span class="lbl">'+nbrs.length+' 2-cells: paths one swap away</span><div class="nb">'+nbrs.map(j=>{const q=PERMS[j];let i=0;while(p[i]===q[i])i++;return '<button data-pp="'+j+'"><span>Path '+q.map(m=>m+1).join('')+'</span><small>swap steps '+(i+1)+' and '+(i+2)+'</small></button>';}).join('')+'</div>';
+  document.querySelectorAll('[data-pp]').forEach(b=>b.addEventListener('click',()=>{pst.sel=+b.dataset.pp;renderPath();}));
+}
+// count faces: hexagons (three marks, any order: 4 choices of the mark left out... computed) and squares
+(function permCounts(){
+  // 2-faces: cycles of the adjacency graph of length 4 (squares) and 6 (hexagons) bounding faces;
+  // squares: pairs of disjoint adjacent swaps (positions 1-2 & 3-4) → 24/4 = 6; hexagons: overlapping swaps → 2 blocks × 24/6 = 8
+  let sq=new Set(),hx=new Set();
+  PERMS.forEach(p=>{
+    const sw=(q,i)=>{const r=q.slice();[r[i],r[i+1]]=[r[i+1],r[i]];return r;};
+    const key=arr=>arr.map(q=>q.join('')).sort().join('|');
+    let a=p,cyc=[p];for(let k=0;k<4;k++){a=sw(a,k%2?2:0);cyc.push(a);}sq.add(key(cyc.slice(0,4)));
+    for(const s of [0,1]){let b=p,c6=[];for(let k=0;k<6;k++){c6.push(b);b=sw(b,k%2?s+1:s);}hx.add(key(c6));}
+  });
+  document.getElementById('permCounts').innerHTML='<span class="ok">✓</span> '+PERMS.length+' corners (paths) · <span class="ok">✓</span> '+PE.length+' edges (2-cells) · <span class="ok">✓</span> '+sq.size+' squares and '+hx.size+' hexagons = '+(sq.size+hx.size)+' faces (3-cells) · 1 solid.';
+})();
+pcv.addEventListener('pointerdown',e=>{pst.drag={x:e.clientX,y:e.clientY,moved:false};pcv.setPointerCapture(e.pointerId);});
+pcv.addEventListener('pointermove',e=>{if(!pst.drag)return;const dx=e.clientX-pst.drag.x,dy=e.clientY-pst.drag.y;if(Math.abs(dx)+Math.abs(dy)>3)pst.drag.moved=true;pst.drag.x=e.clientX;pst.drag.y=e.clientY;if(pst.drag.moved){pst.yaw+=dx*.008;pst.pitch=Math.max(-1.4,Math.min(1.4,pst.pitch+dy*.008));}});
+pcv.addEventListener('pointerup',e=>{if(pst.drag&&!pst.drag.moved){const r=pcv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;let best=null,bd=18;PP.forEach((p,i)=>{const d=Math.hypot(p.x-x,p.y-y);if(d<bd){bd=d;best=i;}});if(best!==null){pst.sel=best;renderPath();}}pst.drag=null;});
+renderPath();
+
+// ═══ 4 · Functors ═══
+const TRAD=new Map();for(let i=0;i<16;i+=2){TRAD.set(i,i+1);TRAD.set(i+1,i);}  // the traditional Major pairs: 1–2, 3–4, …, 15–16
+const fsel=document.getElementById('fsel');fsel.innerHTML='<option value="">— none —</option>'+ODU.map(o=>'<option value="'+o.i+'">'+o.name+'</option>').join('');
+function renderFunctors(){
+  const h=fsel.value===''?null:+fsel.value; let ok=0;
+  document.querySelector('#ftable tbody').innerHTML=ODU.map(o=>{const n=byCode[complement(o.code)],r=byCode[reversal(o.code)],m=byCode[major(o.code)],t=ODU[TRAD.get(o.i)],good=m===t;if(good)ok++;
+    return '<tr class="'+(h===o.i||(h!==null&&TRAD.get(h)===o.i)?'hl':'')+'"><td>'+marksHTML(o.code,o.color,true)+' '+nm(o)+'</td><td class="mono">'+o.code+'</td><td>'+o.rank+'</td><td>'+nm(n)+' <span class="mono" style="color:var(--muted)">'+n.code+'</span></td><td>'+(r===o?'<i style="color:var(--muted)">reads the same</i>':nm(r)+' <span class="mono" style="color:var(--muted)">'+r.code+'</span>')+'</td><td>'+nm(m)+'</td><td>'+nm(t)+'</td><td>'+(good?'<span class="ok">✓</span>':'✗')+'</td></tr>';}).join('');
+  document.getElementById('fcheck').innerHTML='<span class="ok">✓</span> The rule reproduces '+ok+' of 16 traditional partners';
+}
+fsel.addEventListener('change',renderFunctors);renderFunctors();
+
+// ═══ 5 · Natural transformations ═══
+const raise=(c,k)=>c.slice(0,k)+'1'+c.slice(k+1);
+function renderNT(k){
+  let comps=0;
+  document.querySelector('#ntTable tbody').innerHTML=ODU.map(o=>{const g=byCode[raise(o.code,k)],ok=leq(o.code,g.code);if(ok)comps++;return '<tr><td>'+nm(o)+'</td><td class="mono">'+o.code+' → '+g.code+'</td><td>'+nm(g)+'</td><td>'+(ok?'<span class="ok">✓</span>':'✗')+'</td></tr>';}).join('');
+  // naturality: for every comparable pair A ≤ B in the lattice, the square id(A)→id(B), G(A)→G(B) commutes (in a poset, exactly when G is monotone)
+  let pairs=0,squares=0;ODU.forEach(a=>ODU.forEach(b=>{if(leq(a.code,b.code)){pairs++;if(leq(raise(a.code,k),raise(b.code,k)))squares++;}}));
+  document.getElementById('ntCheck').innerHTML='G = “make '+markWord(k)+' single”. <span class="ok">✓</span> '+comps+' of 16 components exist (A ≤ G(A)) · <span class="ok">✓</span> '+squares+' of '+pairs+' naturality squares commute (one for every A ≤ B).';
+}
+segment('ntSeg','k',k=>renderNT(+k));renderNT(0);
+(function renderNI(){
+  let ok=0; const bt=c=>reversal(c);
+  document.querySelector('#niTable tbody').innerHTML=ODU.map(o=>{const good=reversal(o.code)===bt(o.code)&&reversal(bt(o.code))===o.code;if(good)ok++;return '<tr><td>'+nm(o)+'</td><td class="mono">'+o.code+'</td><td class="mono">'+bt(o.code)+'</td><td>'+(good?'<span class="ok">✓</span>':'✗')+'</td></tr>';}).join('');
+  document.getElementById('niCheck').innerHTML='<span class="ok">✓</span> Reversal converts one reading into the other for '+ok+' of 16 Odù, and applying it twice returns the original: a natural isomorphism.';
+})();
+
+// ═══ 6 · Logic functor ═══
+const GATE={'1111':'always true','0000':'always false','1000':'A AND B','1110':'A OR B','0111':'NAND','0001':'NOR','0110':'XOR (either, not both)','1001':'IFF (both the same)','1011':'IF A THEN B','1101':'IF B THEN A','1100':'A','0011':'NOT A','1010':'B','0101':'NOT B','0100':'A AND NOT B','0010':'NOT A AND B'};
+const IN=[[1,1],[1,0],[0,1],[0,0]];
+const evalG=(code,a,b)=>code[IN.findIndex(([x,y])=>x===a&&y===b)]==='1';
+let A=1,B=1;
+function renderLogic(){
+  document.getElementById('gates').innerHTML=ODU.map(o=>{const on=evalG(o.code,A,B);return '<div class="gate'+(on?' on':'')+'"><span class="lamp" aria-hidden="true"></span><div style="min-width:0"><b style="color:'+o.color+'">'+o.name+'</b><span>'+GATE[o.code]+'</span><div class="tt mono">'+o.code+'</div></div><span class="sr" style="position:absolute;left:-9999px">'+(on?'on':'off')+'</span></div>';}).join('');
+}
+// checks: 16 distinct gates; complement = NOT; reversal = negate both inputs
+(function logicChecks(){
+  const distinct=new Set(ODU.map(o=>GATE[o.code])).size;
+  let notOK=0,negOK=0;ODU.forEach(o=>{let n=true,r=true;IN.forEach(([a,b])=>{if(evalG(complement(o.code),a,b)!==!evalG(o.code,a,b))n=false;if(evalG(reversal(o.code),a,b)!==evalG(o.code,1-a,1-b))r=false;});if(n)notOK++;if(r)negOK++;});
+  document.getElementById('logicCheck').innerHTML='<span class="ok">✓</span> '+distinct+' distinct gates · <span class="ok">✓</span> complement = NOT for '+notOK+'/16 · <span class="ok">✓</span> reversal = negate both inputs for '+negOK+'/16';
+})();
+function tog(id,get,set){const b=document.getElementById(id);b.addEventListener('click',()=>{set(get()?0:1);b.setAttribute('aria-pressed',!!get());b.textContent=get()?'yes':'no';renderLogic();});}
+tog('inA',()=>A,v=>A=v);tog('inB',()=>B,v=>B=v);renderLogic();
+
+// ═══ Animation ═══
+let last=performance.now();
+function tick(now){
+  requestAnimationFrame(tick);
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  try{
+    if(active==='hypercube'){
+      const target=st.view==='lattice'?1:0;
+      if(st.morph!==target){st.morph+=Math.sign(target-st.morph)*dt*1.6;st.morph=target?Math.min(1,st.morph):Math.max(0,st.morph);}
+      if(st.spin&&st.view==='cube'&&!drag){st.xw+=dt*.32;st.zw+=dt*.18;}
+      if(st.show==='path')st.pathT=(st.pathT+dt*.7)%4;
+      draw4();
+    } else if(active==='paths'){
+      if(pst.spin&&!pst.drag)pst.yaw+=dt*.25; drawPerm();
+    }
+  }catch(e){ if(!tick.w){tick.w=true;console.error(e);} }
+}
+show(location.hash.slice(1)||'ladder');
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

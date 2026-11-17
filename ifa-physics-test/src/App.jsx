@@ -51,26 +51,7 @@ const ODU_16 = [
   'Ogbe', 'Oyeku', 'Iwori', 'Odi',
   'Irosun', 'Owonrin', 'Obara', 'Okanran',
   'Ogunda', 'Osa', 'Ika', 'Oturupon',
-  'Otura', 'Irete', 'Ose', 'Ofun',
-];
-
-const META_LAWS_16 = [
-  { name: 'Symmetry',           dual: false },
-  { name: 'Asymmetry',          dual: true  },
-  { name: 'Invariance',         dual: false },
-  { name: 'Variance',           dual: true  },
-  { name: 'Duality',            dual: false },
-  { name: 'Unity',              dual: true  },
-  { name: 'Emergence',          dual: false },
-  { name: 'Submergence',        dual: true  },
-  { name: 'Composition',        dual: false },
-  { name: 'Decomposition',      dual: true  },
-  { name: 'Holism',             dual: false },
-  { name: 'Atomism',            dual: true  },
-  { name: 'Reductionism',       dual: false },
-  { name: 'Irreducibility',     dual: true  },
-  { name: 'Structuralism',      dual: false },
-  { name: 'Post-Structuralism', dual: true  },
+  'Otura', 'Irete', 'Ose', 'Ofu',
 ];
 
 const PILLARS = [
@@ -87,7 +68,7 @@ const PILLARS = [
     sym: '\u25c9',
     title: 'Consciousness Physics',
     subtitle: 'ConPhy \u2014 Consciousness = Energy',
-    body: 'Consciousness and Energy are one and the same within the CEN Framework. ConPhy studies how this unified Consciousness-Energy shapes physical reality within the PoE.',
+    body: 'Consciousness and Energy are one and the same within the CEN framework. ConPhy studies how this unified Consciousness-Energy shapes physical reality within the PoE \u2014 making awareness itself a physical quantity, not a philosophical abstraction.',
     color: '#4361ee',
   },
   {
@@ -95,7 +76,7 @@ const PILLARS = [
     sym: '\u2295',
     title: 'Energy Dynamics',
     subtitle: 'CEN as the Universal Driving Force',
-    body: 'Energy interactions are the universe\u2019s fundamental driving force. PoE applies Energy-based principles universally across all knowledge fields \u2014 every phenomenon, living or non-living, is a censtate or cenform of the foundational CEN Field.',
+    body: 'Energy interactions are the universe\u2019s fundamental driving force. PoE applies Energy-based principles universally across all knowledge fields \u2014 every phenomenon, living or non-living, is a censtate or cenform of the foundational CEN field.',
     color: '#00d4aa',
   },
   {
@@ -122,7 +103,7 @@ const IQF_CONCEPTS = [
     sym: '\u210f',
     title: 'IfaQuantum',
     subtitle: 'QuantoE \u2014 Quantum of Everything',
-    body: 'IfaQuantum, known as Horofa in Yoruba, is the Quantum of Everything (QuantoE) \u2014 the most fundamental unit of Energy in the PoE Framework. It generalises the quantum concept beyond physics into every domain of knowledge within the IFA Internet.',
+    body: 'IfaQuantum is the Quantum of Everything (QuantoE) \u2014 the most fundamental discrete unit of Energy-Information in the PoE framework. It generalises the quantum concept beyond physics into every domain of knowledge within the IFA Internet.',
     color: '#7c4dff',
   },
   {
@@ -130,7 +111,7 @@ const IQF_CONCEPTS = [
     sym: '\u03a8',
     title: 'Ifaquantization',
     subtitle: 'Quantization of Everything',
-    body: 'Ifaquantization encompasses first quantization, second quantization, geometric quantization, canonical quantization, and others. It extends universally to signal processing, music theory, large language models, linguistics, and other fields \u2014 a universal IFA tool applied across all knowledge fields.',
+    body: 'Ifaquantization encompasses first quantization, second quantization, geometric quantization, and canonical quantization. It extends universally to signal processing, music theory, large language models, and linguistics \u2014 a universal IFA tool applied across all knowledge fields.',
     color: '#00d4aa',
   },
   {
@@ -138,7 +119,7 @@ const IQF_CONCEPTS = [
     sym: '\u25ce',
     title: 'Horofa',
     subtitle: 'Yoruba \u2014 Quantum as Energyform',
-    body: 'Horo is the Yoruba IFA term for quantum, while Horofa is IfaQuantum, the quantum expressed in IfaLang as an energyform. In Ifa Quantum Physics, the Horofa is the censtate corresponding to the quantum \u2014 a conceptual bridge between the ancient Ife/Yoruba scientific vocabulary originating from the Odu Ifa and modern quantum theory.',
+    body: 'Horofa is the Yoruba IFA term representing quantum as an energyform. In Ifa Quantum Physics, the Horofa is the censtate corresponding to the quantum \u2014 a conceptual bridge between the ancient Yoruba scientific vocabulary and modern quantum theory.',
     color: '#f5c518',
   },
   {
@@ -173,7 +154,7 @@ const IPF_CONCEPTS = [
     sym: '\u25cf',
     title: 'IfaParticle',
     subtitle: 'PartoE \u2014 Particle of Everything',
-    body: 'IfaParticle is the Particle of Everything (PartoE) \u2014 the most fundamental discrete particle-unit of matter in the PoE framework. It generalises the particle concept beyond conventional microphysics into every domain of knowledge within the IFA Internet.',
+    body: 'IfaParticle is the Particle of Everything (PartoE) \u2014 the most fundamental discrete particle-unit of matter-energy in the PoE framework. It generalises the particle concept beyond conventional microphysics into every domain of knowledge within the IFA Internet.',
     color: '#4361ee',
   },
   {
@@ -189,7 +170,7 @@ const IPF_CONCEPTS = [
     sym: '\u2299',
     title: 'Ifaxiom Particle Laws',
     subtitle: '16 Ifaxioms \u2014 Laws of the IPF',
-    body: 'The 16 Principal Ifa Codes govern all particle behaviours within the IPF. Conventional particle symmetries \u2014 gauge invariance, conservation laws, CPT symmetry \u2014 are understood as derivative expressions of these deeper Meta-Axioms.',
+    body: 'Each of the 16 Principal Ifa Codes governs a fundamental mode of particle behaviour within the IPF. Conventional particle symmetries \u2014 gauge invariance, conservation laws, CPT symmetry \u2014 are understood as derivative expressions of these deeper Ifaxiomatic codes.',
     color: '#f5c518',
   },
   {
@@ -232,9 +213,6 @@ function Header() {
           <a className="nav-link" href="#quantum">Quantum</a>
           <a className="nav-link" href="#particle-field">Particles</a>
           <a className="nav-link" href="#ifatization">Ifatize</a>
-          <a className="nav-link" href="#studies">Studies</a>
-          <a className="nav-link nav-link--cta nav-link--teleport"
-             href="/ifa-physics/ifa-orisa-teleportation/">Teleportation ↗</a>
           <a className="nav-link nav-link--cta"
              href="https://toe.cenproject.org/ifa-mathematics-toe-mathematics/"
              target="_blank" rel="noopener noreferrer">IFA Mathematics</a>
@@ -354,12 +332,12 @@ function DefinitionSection() {
               In IfaPhysics, the Physics of Everything (PoE) functions as a{' '}
               <strong>censtate or cenform</strong>: a form or state of CEN rather than an independent
               system. Every physical theory &mdash; from classical mechanics to quantum field theory &mdash;
-              is a special expression of the same underlying CEN Field, organized through the{' '}
+              is a special expression of the same underlying CEN field, organized through the{' '}
               <strong>16 Principal Ifa Codes (Ifaxioms)</strong>.
             </p>
             <p>
-              Physics is conducted here <strong>through the Lens of Ifa</strong>, utilizing the Ifa and Orisa Tools
-              and the Odu as the axiomatic instruments &mdash; the Meta-Codes Ifa and Orisa which are deeper
+              Physics is conducted here <strong>through the Lens of Ifa</strong>, utilizing the Ifa Tools
+              and the 16 Principal Ifa Codes as the axiomatic instruments &mdash; codes identified as deeper
               and more fundamental than any conventional law of nature.
             </p>
           </div>
@@ -522,20 +500,6 @@ function IfaLensSection() {
               ))}
             </div>
             <p className="odu-grid-caption">The 16 Principal Ifa Codes &mdash; Ifaxioms of PoE</p>
-
-            <div className="meta-laws-grid">
-              {META_LAWS_16.map((item, i) => (
-                <div
-                  key={item.name}
-                  className={`odu-cell meta-law-cell${item.dual ? ' meta-law-cell--dual' : ' meta-law-cell--law'}`}
-                >
-                  <div className="odu-cell__n">M{i < 9 ? '0' : ''}{i + 1}</div>
-                  <div className="odu-cell__name">{item.name}</div>
-                  <div className="meta-law-cell__type">{item.dual ? 'Dual' : 'Law'}</div>
-                </div>
-              ))}
-            </div>
-            <p className="odu-grid-caption">The 16 Ifa Meta-Laws of Nature Governing All Knowledge Fields</p>
           </div>
           <div className="lens-text">
             <span className="section__eyebrow section__eyebrow--gold">The Ifa Lens</span>
@@ -545,14 +509,15 @@ function IfaLensSection() {
             <p>
               In IfaPhysics, science is conducted through <strong>&ldquo;the Lens of Ifa&rdquo;</strong> &mdash;
               utilizing Ifa Tools and the <strong>16 Principal Ifa Codes</strong> as the primary analytical
-              instruments. These Codes are not metaphors for physical laws; they are the axiomatic foundations
+              instruments. These codes are not metaphors for physical laws; they are the axiomatic foundations
               from which physical laws themselves emerge.
             </p>
             <p>
-              The <strong>16 Odu Ifa</strong> (Ogbe through Ofun), which are the Primary Ifa Meta-Codes (<strong>Ifaxioms</strong>),
-              function as Laws of the Physics of Everything. The conventional laws of nature (Newton&rsquo;s laws,
-              Maxwell&rsquo;s equations, the laws of thermodynamics) are understood in IfaPhysics as{' '}
-              <em>derivative expressions</em> of these deeper axiomatic Codes.
+              The <strong>16 Odu Ifa</strong> (Ogbe through Ofu) each represent a Principal Ifa Code &mdash;
+              called an <strong>Ifaxiom</strong> &mdash; which functions as a law of the Physics of
+              Everything. The conventional laws of nature (Newton&rsquo;s laws, Maxwell&rsquo;s equations,
+              the laws of thermodynamics) are understood in IfaPhysics as <em>derivative expressions</em>{' '}
+              of these deeper axiomatic codes.
             </p>
             <p>
               Physics conducted through the Ifa Lens is therefore a form of{' '}
@@ -586,7 +551,7 @@ function PillarsSection() {
           <h2 className="section__title">The Foundations of IfaPhysics</h2>
           <p className="section__subtitle">
             Four principal topics constitute the working foundation of the Physics of Everything framework &mdash;
-            each grounded in the 16 Principal Ifa Codes and the CEN Field.
+            each grounded in the 16 Principal Ifa Codes and the CEN field.
           </p>
         </div>
         <div className="pillars-grid">
@@ -637,7 +602,7 @@ function IQFSection() {
             </p>
             <p>
               The IQF is a core component of the <strong>IFA Body of Knowledge (IFABOK)</strong> and forms
-              the quantum layer of the CEN Field. It is the field from which every PoE phenomenon &mdash;
+              the quantum layer of the CEN field. It is the field from which every PoE phenomenon &mdash;
               physical, cognitive, social, mathematical &mdash; emerges as a quantised censtate.
             </p>
           </div>
@@ -688,7 +653,7 @@ function QuantumPhysicsSection() {
             </p>
             <p>
               In Ifa Quantum Physics, the quantum is not merely a mathematical abstraction but an
-              <strong> energyform</strong> &mdash; a censtate of the CEN Field with a specific Yoruba
+              <strong> energyform</strong> &mdash; a censtate of the CEN field with a specific Yoruba
               scientific name: <strong>Horofa</strong>. The Horofa is the censtate corresponding to the
               quantum, giving the quantum a physical, energetic identity within the PoE framework.
             </p>
@@ -703,11 +668,10 @@ function QuantumPhysicsSection() {
             <div className="horofa-name">Horofa</div>
             <div className="horofa-yor">Yoruba IFA Science</div>
             <div className="horofa-def">
-              <strong>Horo</strong> is the Yoruba IFA term for quantum, while <strong>Horofa</strong> is
-              IfaQuantum, the quantum expressed in IfaLang as an energyform. In Ifa Quantum Physics, the
-              Horofa is the <em>censtate</em> corresponding to the quantum &mdash; a discrete, quantised
-              manifestation of the CEN Field. It bridges the ancient Ife/Yoruba scientific vocabulary
-              originating from the Odu Ifa with modern quantum theory.
+              <strong>Horofa</strong> is the Yoruba IFA term for <strong>quantum as an energyform</strong>.
+              In Ifa Quantum Physics, the Horofa is the <em>censtate</em> corresponding to the quantum &mdash;
+              a discrete, quantised manifestation of the CEN field. It bridges the ancient Yoruba scientific
+              vocabulary of the Odu Ifa with modern quantum theory.
             </div>
           </div>
         </div>
@@ -791,7 +755,7 @@ function IfaParticlePhysicsSection() {
               using the <strong>16 Principal Ifa Codes</strong> as the primary analytical framework.
               It is the application of IfaPhysics specifically to the particle domain &mdash; studying
               matter, antimatter, force carriers, and the fundamental fields as{' '}
-              <strong>censtates and cenforms</strong> of the CEN Field.
+              <strong>censtates and cenforms</strong> of the CEN field.
             </p>
             <p>
               In Ifa Particle Physics, every elementary particle &mdash; quarks, leptons, gauge bosons,
@@ -923,56 +887,6 @@ function IfatizationSection() {
   );
 }
 
-// ─── IFA PHYSICS STUDIES SECTION ─────────────────────────────────────────────
-
-const PHYSICS_STUDIES = [
-  {
-    id: 'teleportation',
-    sym: '\u29b8',
-    title: 'Ifa-Orisa Teleportation Sciences, Technologies & Arts',
-    subtitle: 'Universal Teleportation Model / Protocol',
-    body: 'A General and Universal Teleportation Model — governing all forms of teleportation across all dimensions of reality through the axioms of the 256 Odu Ifa. Grounded in Egbé (Òrìṣà Egbé) as the Ifa-Orisa Carrier/Transmitter and Ẹrọ Ẹgbà as the Ifa-Orisa Receiver. Governing Odu: Èjìogbè, Ọ̀yẹ̀kú Méjì, Ọkànràn Ọṣà, Ọṣà Ọkànràn.',
-    href: '/ifa-physics/ifa-orisa-teleportation/',
-    color: '#ffd700',
-    tag1: 'Sciences',
-    tag2: 'Technologies',
-    tag3: 'Arts',
-  },
-];
-
-function IfaPhysicsStudiesSection() {
-  return (
-    <section className="section section--alt" id="studies">
-      <div className="container">
-        <div className="section__header">
-          <span className="section__eyebrow section__eyebrow--gold">Ifa Physics Studies</span>
-          <h2 className="section__title">Ifa Physics Sciences, Technologies &amp; Arts</h2>
-          <p className="section__subtitle">
-            Specialised studies within Ifa Physics &mdash; each grounded in the 256 Odu Ifa and the
-            16 Principal Ifa Codes as the axiomatic foundations.
-          </p>
-        </div>
-        <div className="studies-grid">
-          {PHYSICS_STUDIES.map(s => (
-            <a key={s.id} className="study-card" href={s.href}>
-              <div className="study-card__sym">{s.sym}</div>
-              <div className="study-card__title">{s.title}</div>
-              <div className="study-card__subtitle">{s.subtitle}</div>
-              <div className="study-card__body">{s.body}</div>
-              <div className="study-card__tags">
-                <span className="study-card__tag">{s.tag1}</span>
-                <span className="study-card__tag">{s.tag2}</span>
-                <span className="study-card__tag">{s.tag3}</span>
-              </div>
-              <div className="study-card__cta">Explore {s.tag1} &rarr;</div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // ─── CTA SECTION ─────────────────────────────────────────────────────────────
 
 function CTASection() {
@@ -996,9 +910,6 @@ function CTASection() {
           <a className="btn btn--outline"
              href="https://toe.cenproject.org/ifapedia-the-toe-encyclopedia/"
              target="_blank" rel="noopener noreferrer">IfaPedia</a>
-          <a className="btn btn--outline"
-             href="https://toe.cenproject.org/ifa-physics/"
-             target="_blank" rel="noopener noreferrer">Ifa Physics</a>
           <a className="btn btn--ghost"
              href="/"
              >&#8592; The IFA Internet</a>
@@ -1057,7 +968,6 @@ function App() {
         <IPFSection />
         <IfaParticlePhysicsSection />
         <IfatizationSection />
-        <IfaPhysicsStudiesSection />
         <CTASection />
       </main>
       <Footer />

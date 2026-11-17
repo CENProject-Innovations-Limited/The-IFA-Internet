@@ -313,6 +313,7 @@ const NAV_LINKS = [
   { href: '#features',     label: 'Features' },
   { href: '#fields',       label: 'Fields' },
   { href: '#roadmap',      label: 'Roadmap' },
+  { href: './ifabok-journal/', label: 'IFABOK Journal' },
   { href: 'https://ifainternet.org', label: 'IFA Internet', ext: true },
 ];
 
@@ -2704,6 +2705,38 @@ function RoadmapSection() {
 }
 
 /* ── CTA Banner ─────────────────────────────────────────────────────────────── */
+function JournalSection() {
+  const pillars = [
+    { t: 'Odù Ifá at the head', d: 'Every IfaNote opens with its governing Odù, its marks and its credited Ifá sound.' },
+    { t: 'Integrity & attribution', d: 'Cite native Ifá-Òrìṣà and academic sources alike, and credit every contributor.' },
+    { t: 'Publish & connect', d: 'Share open-source Ifa & Orisa work made with IFA Internet tools and find collaborators.' },
+  ];
+  return (
+    <section className="section" id="journal" aria-labelledby="journal-title">
+      <p className="section__eyebrow">IFABOK Journal · IFA Internet Journal</p>
+      <h2 className="section__title" id="journal-title">Publish Your IfaNote Work</h2>
+      <p className="section__sub">
+        IFABOK Journal sets the standards, rubrics and guidelines for using IFA Internet (IFABOK)
+        Systems and Technologies in research, projects, field work and professional practice — and
+        is the home for collaborating on open-source Ifa &amp; Orisa projects, publishing your work,
+        and connecting with like-minded researchers.
+      </p>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(240px, 1fr))', gap:'16px', margin:'36px 0 32px' }}>
+        {pillars.map(p => (
+          <div key={p.t} style={{ background:'rgba(7,14,28,0.9)', border:'1px solid rgba(240,146,12,0.18)', borderRadius:'14px', padding:'22px' }}>
+            <h3 style={{ margin:'0 0 8px', fontSize:'1.05rem', fontWeight:800, color:'#ffaa32' }}>{p.t}</h3>
+            <p style={{ margin:0, color:'#b9c6dc', fontSize:'0.94rem', lineHeight:1.6 }}>{p.d}</p>
+          </div>
+        ))}
+      </div>
+      <div style={{ display:'flex', flexWrap:'wrap', gap:'12px' }}>
+        <a className="btn-primary" href="./ifabok-journal/">Visit IFABOK Journal</a>
+        <a className="btn-secondary" href="./ifabok-journal/#standard">Read the IfaNote Standard</a>
+      </div>
+    </section>
+  );
+}
+
 function CTABanner() {
   return (
     <div className="cta-banner">
@@ -2909,6 +2942,7 @@ function App() {
         <FieldsSection />
         <AudienceSection />
         <RoadmapSection />
+        <JournalSection />
         <CTABanner />
       </main>
       <Footer />

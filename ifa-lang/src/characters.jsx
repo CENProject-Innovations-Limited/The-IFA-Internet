@@ -360,8 +360,7 @@
           <div className="ilc-compose__pickers">
             <div><h4>Right leg</h4><Picker value={r} onPick={setR} dir={dir} kind="dots" small /></div>
             <div><h4>Left leg</h4><Picker value={l} onPick={setL} dir={dir} kind="dots" small /></div>
-            <button className="ilc-btn ilc-btn--gold" onClick={cast} disabled={casting} title="Ọ̀pẹ̀lẹ̀Compute: generate one of the 256 Odù with the Ọ̀pẹ̀lẹ̀">{casting ? 'IfaComputing…' : 'IfaCompute with Ọ̀pẹ̀lẹ̀'}</button>
-            <p className="ilc-tags"><span>Keywords</span> Ọ̀pẹ̀lẹ̀Compute · Ọ̀pẹ̀lẹ̀ Computations</p>
+            <button className="ilc-btn ilc-btn--gold" onClick={cast} disabled={casting}>{casting ? 'Casting…' : 'Cast the Ọ̀pẹ̀lẹ̀'}</button>
           </div>
           <div className={'ilc-compose__out' + (casting ? ' is-casting' : '')}>
             <div className="ilc-legs">{legL}{legR}</div>
@@ -374,10 +373,6 @@
           </div>
           <Opele right={ODU[r].m} left={ODU[l].m} dir="rtl" />
         </div>
-        <aside className="ilc-disclaimer" role="note" aria-label="Disclaimer">
-          <span className="ilc-disclaimer__label">Disclaimer</span>
-          <p>IFA-ORISA Internet Systems and Technologies are created strictly for educational, research, entertainment, and technology development purposes. They are not designed or intended as a substitute for authentic Ifa-Orisa Knowledge, Practice, or Tradition. The Study and Practice of Ifa-Orisa as a Babalawo/Iyanifa and Olorisa requires direct initiation, mentorship, and transmission within the living Ifa-Orisa Tradition — something no digital platform, comic, or game can provide or replace.</p>
-        </aside>
       </section>
     );
   }
@@ -552,7 +547,7 @@
             </a>
           ))}
         </div>
-        <p className="ilc-keywords"><span>Keywords</span> Ifa-Orisa Metacharacter · IfaLang · Èdè Ọ̀pẹ̀ · Ọ̀pẹ̀lẹ̀Compute · Ọ̀pẹ̀lẹ̀ Computations</p>
+        <p className="ilc-keywords"><span>Keywords</span> Ifa-Orisa Metacharacter · IfaLang · Èdè Ọ̀pẹ̀</p>
       </section>
     );
   }

@@ -261,21 +261,6 @@
   line-height: 1; display: inline-block;
 }
 
-/* ─── IfaGebra link card ─────────────────────────────────────────────────────── */
-.ifg-link-card {
-  display: flex; align-items: flex-start; gap: 14px;
-  background: color-mix(in srgb, #f5c518 6%, var(--bg-card));
-  border: 1px solid color-mix(in srgb, #f5c518 25%, transparent);
-  border-radius: 10px;
-  padding: 16px 18px;
-  text-decoration: none;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.ifg-link-card:hover { border-color: color-mix(in srgb, #f5c518 50%, transparent); transform: translateY(-2px); }
-.ifg-link-card__sym   { font-size: 1.8rem; font-family: monospace; line-height: 1; flex-shrink: 0; margin-top: 2px; }
-.ifg-link-card__title { font-size: 0.9rem; font-weight: 700; color: var(--text-1); margin-bottom: 4px; }
-.ifg-link-card__sub   { font-size: 0.78rem; color: var(--text-2); line-height: 1.6; }
-
 /* ─── Responsive ─────────────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
   .hero--sub { padding-top: 80px; }
