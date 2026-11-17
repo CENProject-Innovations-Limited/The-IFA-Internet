@@ -4,3 +4,9 @@ build/
 .cache/
 .env
 *.log
+
+# Server-only secrets (added 17 Nov 2026)
+ifa-auth/config.php
+.env
+.env.*
+*.bak-*

@@ -1,0 +1,24 @@
+# ── The IFA Internet · CENProject: keep private files and folder listings hidden ──
+
+# 1. No folder listings (stops "Index of /src/" pages)
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+# 2. README files, integration guides and notes
+RewriteRule (^|/)(readme|integration|changelog|notes?)([._-][^/]*)?$ - [F,NC,L]
+# 3. Markdown, source maps, backups, logs and config files
+RewriteRule \.(md|markdown|map|bak|old|orig|log|ini|env|sql)$ - [F,NC,L]
+# 4. Hidden system files
+RewriteRule (^|/)\.(git|svn|env|htpasswd|DS_Store) - [F,NC,L]
+</IfModule>
+
+# ── Security: suppress server information headers ──────────────────────────────
+ServerSignature Off
+
+<IfModule mod_headers.c>
+    Header always unset X-Powered-By
+    Header always unset x-turbo-charged-by
+    Header always unset x-generator
+    Header always unset X-Generator
+</IfModule>

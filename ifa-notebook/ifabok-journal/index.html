@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>IFABOK Journal — IFA Internet Journal | IfaNote · The IFA Internet</title>
+  <meta name="description" content="IFABOK Journal, the IFA Internet Journal: standards, rubrics and guidelines for research, projects and field work with IFA Internet (IFABOK) Systems and Technologies. Collaborate on open-source Ifa & Orisa projects, publish work made with IFA Internet tools, and connect with researchers." />
+  <meta name="keywords" content="IFABOK Journal, IFA Internet Journal, IfaNote, IFABOK, Odu Ifa, Ifa research standards, Ifa Orisa open source, academic integrity, IFA Internet, CENProject, Yoruba research, IfaCAD, OrisaCAD, ORISABOK Journal, ORISA Internet Journal, Olorisa" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://ifainternet.org/ifa-notebook/ifabok-journal/" />
+  <meta name="theme-color" content="#04080f" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ifainternet.org/ifa-notebook/ifabok-journal/" />
+  <meta property="og:title" content="IFABOK Journal — IFA Internet Journal" />
+  <meta property="og:description" content="Standards, rubrics and guidelines for working with IFA Internet (IFABOK) Systems and Technologies — and an open journal for Ifa & Orisa research." />
+  <meta property="og:site_name" content="The IFA Internet" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="https://ifainternet.org/src/assets/itoe_logo.png" />
+
+  <style>
+    :root {
+      --bg: #03060d;
+      --bg-2: #060b16;
+      --card: #0a1120;
+      --card-2: #0d1628;
+      --ink: #f0f5ff;
+      --ink-2: #b9c6dc;
+      --muted: #7b8fb0;
+      --line: rgba(126, 147, 179, 0.16);
+      --line-2: rgba(126, 147, 179, 0.28);
+      --amber: #f0920c;
+      --amber-2: #ffaa32;
+      --gold: #f5c518;
+      --amber-soft: rgba(240, 146, 12, 0.12);
+      --amber-line: rgba(240, 146, 12, 0.32);
+      --green: #3ecf8e;
+      --blue: #4c9bff;
+      --red: #ff5d5d;
+      --red-soft: rgba(255, 93, 93, 0.09);
+      --red-line: rgba(255, 93, 93, 0.4);
+      --font: "Segoe UI", system-ui, -apple-system, Roboto, "Noto Sans", sans-serif;
+      --mono: ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace;
+      --serif: "Noto Serif", Georgia, "Times New Roman", serif;
+      --r: 14px;
+      --wrap: 1160px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: var(--amber-2); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    img { max-width: 100%; display: block; }
+    :focus-visible { outline: 2px solid var(--amber-2); outline-offset: 3px; border-radius: 4px; }
+    .wrap { width: min(var(--wrap), 100% - 32px); margin-inline: auto; }
+
+    /* ── Nav ─────────────────────────────────────────────── */
+    .navbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(3, 6, 13, 0.92);
+      -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .navbar__in { display: flex; align-items: center; gap: 18px; height: 62px; }
+    .brand { display: flex; align-items: center; gap: 9px; color: var(--ink); font-weight: 800; letter-spacing: -0.01em; white-space: nowrap; flex: none; }
+    .brand:hover { text-decoration: none; }
+    .brand img { width: 26px; height: 26px; }
+    .brand__badge {
+      font-size: 0.62rem; font-weight: 800; letter-spacing: 0.12em;
+      color: var(--amber-2); border: 1px solid var(--amber-line); background: var(--amber-soft);
+      padding: 2px 7px; border-radius: 999px;
+    }
+    .navlinks { display: flex; gap: 2px; margin-left: auto; list-style: none; padding: 0; }
+    .navlinks a {
+      display: block; padding: 7px 9px; border-radius: 7px; white-space: nowrap;
+      font-size: 0.84rem; font-weight: 600; color: var(--ink-2);
+    }
+    .navlinks a:hover, .navlinks a[aria-current="true"] { color: var(--ink); background: rgba(255,255,255,0.05); text-decoration: none; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      height: 42px; padding: 0 18px; border-radius: 9px;
+      font: 700 0.9rem var(--font); cursor: pointer; border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .btn:hover { text-decoration: none; }
+    .btn--amber { background: linear-gradient(135deg, var(--amber), var(--amber-2)); color: #0a0400; }
+    .btn--amber:hover { filter: brightness(1.07); }
+    .btn--ghost { border-color: var(--line-2); color: var(--ink); background: rgba(255,255,255,0.02); }
+    .btn--ghost:hover { border-color: var(--amber-line); background: var(--amber-soft); }
+    .btn--sm { height: 34px; padding: 0 13px; font-size: 0.8rem; border-radius: 7px; }
+    .burger {
+      display: none; margin-left: auto; width: 40px; height: 40px; border-radius: 8px;
+      border: 1px solid var(--line-2); background: transparent; color: var(--ink); cursor: pointer;
+    }
+    .burger svg { width: 20px; height: 20px; }
+    @media (max-width: 1180px) {
+      .burger { display: grid; place-items: center; }
+      .navbar__cta { display: none; }
+      .navlinks {
+        display: none; position: absolute; left: 0; right: 0; top: 62px;
+        flex-direction: column; gap: 0; margin: 0; padding: 8px 16px 14px;
+        background: rgba(3, 6, 13, 0.98); border-bottom: 1px solid var(--line);
+      }
+      .navlinks.is-open { display: flex; }
+      .navlinks a { padding: 11px 6px; font-size: 0.95rem; }
+    }
+
+    /* ── Hero ────────────────────────────────────────────── */
+    .hero { position: relative; padding: 88px 0 70px; text-align: center; overflow: hidden; }
+    .hero::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(60% 50% at 50% 0%, rgba(240,146,12,0.16), transparent 70%),
+        linear-gradient(rgba(126,147,179,0.06) 1px, transparent 1px) 0 0 / 44px 44px,
+        linear-gradient(90deg, rgba(126,147,179,0.06) 1px, transparent 1px) 0 0 / 44px 44px;
+      -webkit-mask-image: linear-gradient(#000 55%, transparent);
+      mask-image: linear-gradient(#000 55%, transparent);
+    }
+    .crumbs { font-size: 0.8rem; color: var(--muted); margin-bottom: 22px; }
+    .crumbs a { color: var(--ink-2); }
+    .crumbs span { margin: 0 7px; opacity: .6; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--amber-2); background: var(--amber-soft); border: 1px solid var(--amber-line);
+      padding: 6px 14px; border-radius: 999px;
+    }
+    .eyebrow::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+    .hero h1 {
+      margin: 22px 0 6px;
+      font-size: clamp(2.7rem, 8vw, 5.6rem);
+      font-weight: 900; line-height: 1.02; letter-spacing: -0.035em;
+    }
+    .grad {
+      background: linear-gradient(130deg, #ffaa32, #f0920c, #f5c518, #ffaa32);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero__sub {
+      margin: 0 0 22px;
+      font-family: var(--serif); font-style: italic;
+      font-size: clamp(1.15rem, 2.6vw, 1.6rem); font-weight: 400; color: var(--ink-2);
+    }
+    .hero__lede { max-width: 720px; margin: 0 auto 30px; color: var(--ink-2); font-size: 1.06rem; }
+    .hero__lede strong { color: var(--ink); }
+    .hero__cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .audience {
+      margin: 46px auto 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+      max-width: 900px;
+    }
+    .audience span {
+      font-size: 0.8rem; color: var(--ink-2);
+      border: 1px solid var(--line); background: rgba(255,255,255,0.02);
+      padding: 5px 12px; border-radius: 999px;
+    }
+
+    /* ── Sections ────────────────────────────────────────── */
+    section { padding: 78px 0; }
+    section.alt { background: var(--bg-2); border-block: 1px solid var(--line); }
+    .s-eyebrow {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--amber); margin: 0 0 10px;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; letter-spacing: -0.025em;
+      line-height: 1.12; margin: 0 0 14px;
+    }
+    h3 { font-size: 1.12rem; font-weight: 800; margin: 0 0 8px; letter-spacing: -0.01em; }
+    .lead { color: var(--ink-2); font-size: 1.04rem; max-width: 760px; margin: 0 0 36px; }
+    p { margin: 0 0 14px; }
+    .muted { color: var(--muted); }
+    .grid { display: grid; gap: 16px; }
+    .g-2 { grid-template-columns: repeat(2, 1fr); }
+    .g-3 { grid-template-columns: repeat(3, 1fr); }
+    .g-4 { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 960px) { .g-3, .g-4 { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .g-2, .g-3, .g-4 { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+      padding: 22px;
+    }
+    .card p:last-child, .card ul:last-child { margin-bottom: 0; }
+    .card__icon {
+      width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
+      background: var(--amber-soft); border: 1px solid var(--amber-line); color: var(--amber-2);
+      margin-bottom: 14px; font-weight: 900;
+    }
+    .card__icon svg { width: 19px; height: 19px; }
+    .card p, .card li { color: var(--ink-2); font-size: 0.94rem; }
+    ul.ticks { list-style: none; padding: 0; margin: 0 0 12px; }
+    ul.ticks li { position: relative; padding-left: 24px; margin-bottom: 7px; }
+    ul.ticks li::before {
+      content: ""; position: absolute; left: 2px; top: 0.55em; width: 11px; height: 6px;
+      border-left: 2px solid var(--green); border-bottom: 2px solid var(--green); transform: rotate(-45deg);
+    }
+
+    /* ── The Standard ────────────────────────────────────── */
+    .principle {
+      display: flex; gap: 18px; align-items: center;
+      background: linear-gradient(135deg, rgba(240,146,12,0.14), rgba(245,197,24,0.04));
+      border: 1px solid var(--amber-line); border-radius: var(--r);
+      padding: 22px 24px; margin-bottom: 40px;
+    }
+    .principle__mark { flex: none; }
+    .principle p { margin: 0; font-size: 1.12rem; color: var(--ink); }
+    .principle strong { color: var(--amber-2); }
+    .standard { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: start; }
+    @media (max-width: 960px) { .standard { grid-template-columns: 1fr; } }
+    ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; }
+    ol.steps > li {
+      counter-increment: s; position: relative;
+      padding: 0 0 26px 62px;
+    }
+    ol.steps > li::before {
+      content: counter(s); position: absolute; left: 0; top: 0;
+      width: 40px; height: 40px; border-radius: 50%;
+      display: grid; place-items: center;
+      font-weight: 900; color: #0a0400;
+      background: linear-gradient(135deg, var(--amber), var(--amber-2));
+    }
+    ol.steps > li::after {
+      content: ""; position: absolute; left: 19px; top: 46px; bottom: 6px; width: 2px;
+      background: linear-gradient(var(--amber-line), transparent);
+    }
+    ol.steps > li:last-child::after { display: none; }
+    ol.steps h3 { padding-top: 7px; }
+    ol.steps p { color: var(--ink-2); font-size: 0.95rem; margin-bottom: 6px; }
+    .tag {
+      display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: 2px;
+    }
+    .tag--req { color: var(--amber-2); background: var(--amber-soft); border: 1px solid var(--amber-line); }
+    .tag--opt { color: var(--blue); background: rgba(76,155,255,0.1); border: 1px solid rgba(76,155,255,0.35); }
+
+    /* Mock IfaNote */
+    .nb {
+      background: #070d19; border: 1px solid var(--line-2); border-radius: var(--r);
+      box-shadow: 0 30px 70px -30px rgba(0,0,0,0.8);
+      overflow: hidden; position: sticky; top: 90px;
+    }
+    @media (max-width: 960px) { .nb { position: static; } }
+    .nb__bar {
+      display: flex; align-items: center; gap: 8px; padding: 11px 14px;
+      border-bottom: 1px solid var(--line); background: #0a1222;
+      font-size: 0.8rem; color: var(--muted);
+    }
+    .nb__dots { display: flex; gap: 5px; margin-right: 6px; }
+    .nb__dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line-2); }
+    .nb__bar b { color: var(--ink); font-family: var(--serif); font-weight: 700; font-size: 0.92rem; }
+    .nb__body { padding: 14px 14px 18px 8px; }
+    .cell { display: grid; grid-template-columns: 54px 1fr; gap: 4px; margin-bottom: 10px; position: relative; }
+    .cell__n { font: 0.68rem var(--mono); color: #5b8fd6; text-align: right; padding: 12px 8px 0 0; white-space: nowrap; }
+    .cell__b {
+      border: 1px solid var(--line); border-radius: 9px; padding: 11px 12px;
+      background: rgba(255,255,255,0.015); position: relative;
+    }
+    .cell--head .cell__b {
+      border-color: rgba(62,207,142,0.55);
+      box-shadow: inset 3px 0 0 var(--green), 0 0 0 3px rgba(62,207,142,0.08);
+    }
+    .cell__b::after {
+      content: ""; position: absolute; right: -9px; top: 8px; bottom: 8px; width: 5px;
+      border: 1.5px solid var(--c, var(--line-2)); border-left: 0; border-radius: 0 2px 2px 0; opacity: .8;
+    }
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.58rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 999px;
+      color: var(--c); border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+      background: color-mix(in srgb, var(--c) 12%, transparent);
+    }
+    .pill::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--c); }
+    .cell__t { font-size: 0.8rem; color: var(--ink-2); margin-top: 7px; }
+    .odu { display: flex; align-items: center; gap: 18px; margin-top: 10px; flex-wrap: wrap; }
+    .odu__legs { display: flex; gap: 16px; }
+    .odu__name { font-weight: 800; font-size: 1rem; }
+    .odu__name small { display: block; font-weight: 500; color: var(--muted); font-size: 0.74rem; }
+    .snd {
+      margin-top: 10px; border: 1px solid rgba(62,207,142,0.3); border-radius: 8px;
+      padding: 9px 10px; background: rgba(62,207,142,0.05);
+    }
+    .snd__row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .snd label { display: block; font-size: 0.56rem; font-weight: 800; letter-spacing: 0.09em; color: var(--green); text-transform: uppercase; }
+    .snd .f { font-size: 0.74rem; color: var(--ink); border: 1px solid var(--line); border-radius: 5px; padding: 4px 7px; margin-top: 3px; background: rgba(0,0,0,0.25); }
+    .wave { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+    .wave__play { width: 22px; height: 22px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; flex: none; }
+    .wave__play::before { content: ""; border-left: 7px solid #070d19; border-top: 4.5px solid transparent; border-bottom: 4.5px solid transparent; margin-left: 2px; }
+    .wave__bars { flex: 1; height: 18px; background: repeating-linear-gradient(90deg, rgba(62,207,142,0.55) 0 2px, transparent 2px 5px); -webkit-mask: linear-gradient(90deg,#000,#000); border-radius: 3px; clip-path: polygon(0 40%,5% 20%,10% 55%,15% 10%,20% 45%,25% 25%,30% 60%,35% 15%,40% 50%,45% 30%,50% 65%,55% 20%,60% 45%,65% 10%,70% 55%,75% 30%,80% 50%,85% 20%,90% 45%,95% 35%,100% 50%,100% 100%,0 100%); }
+    .wave small { font: 0.66rem var(--mono); color: var(--muted); }
+    .callout {
+      position: absolute; right: 10px; top: -9px;
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+      color: #04140c; background: var(--green); padding: 2px 8px; border-radius: 999px;
+    }
+    .any {
+      display: flex; align-items: center; gap: 10px; margin: 14px 0 10px 58px;
+      font-size: 0.68rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+    }
+    .any::before, .any::after { content: ""; flex: 1; height: 1px; background: var(--line-2); }
+    .codeln { font: 0.72rem/1.55 var(--mono); color: #b9c6dc; margin-top: 7px; white-space: pre; overflow: hidden; text-overflow: ellipsis; }
+    .codeln .k { color: #c792ea; } .codeln .s { color: #c3e88d; } .codeln .c { color: #5b6b85; }
+    .mini-design { margin-top: 8px; height: 58px; border-radius: 6px; border: 1px solid var(--line); background:
+      linear-gradient(rgba(126,147,179,0.07) 1px, transparent 1px) 0 0 / 12px 12px,
+      linear-gradient(90deg, rgba(126,147,179,0.07) 1px, transparent 1px) 0 0 / 12px 12px, #0b1324; position: relative; overflow: hidden; }
+    .mini-design svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    .dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+    @media (max-width: 640px) { .dodont { grid-template-columns: 1fr; } }
+    .dd { border-radius: 12px; padding: 16px 18px; border: 1px solid; font-size: 0.92rem; }
+    .dd h4 { margin: 0 0 6px; font-size: 0.86rem; letter-spacing: 0.02em; }
+    .dd ul { margin: 0; padding-left: 18px; color: var(--ink-2); }
+    .dd--do { border-color: rgba(62,207,142,0.4); background: rgba(62,207,142,0.05); }
+    .dd--do h4 { color: var(--green); }
+    .dd--dont { border-color: var(--red-line); background: var(--red-soft); }
+    .dd--dont h4 { color: var(--red); }
+
+    /* ── Rubric table ───────────────────────────────────── */
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--card); }
+    table { width: 100%; border-collapse: collapse; min-width: 860px; font-size: 0.88rem; }
+    th, td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+    thead th {
+      position: sticky; top: 0; background: var(--card-2);
+      font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2);
+    }
+    thead th span { display: block; font-size: 0.68rem; letter-spacing: 0; text-transform: none; color: var(--muted); font-weight: 600; margin-top: 2px; }
+    tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+    tbody th { width: 21%; font-weight: 800; color: var(--ink); font-size: 0.92rem; }
+    tbody th small { display: block; font-weight: 500; color: var(--muted); font-size: 0.78rem; margin-top: 3px; }
+    td { color: var(--ink-2); }
+    .lv4 { color: var(--green); } .lv3 { color: var(--amber-2); } .lv2 { color: #e0b44a; } .lv1 { color: var(--red); }
+    tr.core th::before {
+      content: "Required"; display: table; margin-bottom: 7px;
+      font-size: 0.6rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--amber-2); background: var(--amber-soft); border: 1px solid var(--amber-line);
+      padding: 1px 7px; border-radius: 999px;
+    }
+    .scoring { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+    @media (max-width: 760px) { .scoring { grid-template-columns: 1fr; } }
+    .scoring .card { padding: 16px 18px; }
+    .scoring b { display: block; font-size: 1.5rem; font-weight: 900; color: var(--amber-2); line-height: 1.1; }
+
+    /* ── ORISABOK (the Dual) ─────────────────────────────── */
+    :root { --orisa: #a78bfa; --orisa-soft: rgba(167,139,250,0.12); --orisa-line: rgba(167,139,250,0.4); }
+    .audience .chip-dual {
+      font-size: 0.8rem; font-weight: 700; color: var(--orisa);
+      border: 1px solid var(--orisa-line); background: var(--orisa-soft);
+      padding: 5px 12px; border-radius: 999px;
+    }
+    .audience .chip-dual:hover { text-decoration: none; filter: brightness(1.15); }
+    .dual { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch; margin-bottom: 22px; }
+    .dual__side { border-radius: var(--r); padding: 26px; border: 1px solid; }
+    .dual__side--ifa { border-color: var(--amber-line); background: linear-gradient(160deg, rgba(240,146,12,0.13), rgba(240,146,12,0.02)); }
+    .dual__side--orisa { border-color: var(--orisa-line); background: linear-gradient(200deg, rgba(167,139,250,0.14), rgba(167,139,250,0.02)); }
+    .dual__k { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 6px; }
+    .dual__side--ifa .dual__k { color: var(--amber-2); }
+    .dual__side--orisa .dual__k { color: var(--orisa); }
+    .dual__name { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 4px; }
+    .dual__sub { font-family: var(--serif); font-style: italic; color: var(--ink-2); margin: 0 0 18px; }
+    .dual dl { margin: 0; display: grid; gap: 10px; }
+    .dual dt { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .dual dd { margin: 2px 0 0; color: var(--ink); font-size: 0.96rem; }
+    .dual__mid { display: grid; place-items: center; padding: 0 14px; }
+    .dual__mid span {
+      width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+      font-size: 1.4rem; font-weight: 900; color: var(--ink);
+      background: linear-gradient(135deg, rgba(240,146,12,0.35), rgba(167,139,250,0.35));
+      border: 1px solid var(--line-2);
+    }
+    .dual__mid small { display: block; margin-top: 8px; font-size: 0.66rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); text-align: center; }
+    @media (max-width: 860px) {
+      .dual { grid-template-columns: 1fr; gap: 12px; }
+      .dual__mid { padding: 2px 0; }
+    }
+    .shared {
+      display: flex; gap: 16px; align-items: flex-start;
+      border: 1px solid var(--line-2); border-radius: var(--r); padding: 20px 22px;
+      background: var(--card);
+    }
+    .shared__icon { flex: none; width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; background: rgba(62,207,142,0.12); border: 1px solid rgba(62,207,142,0.4); color: var(--green); }
+    .shared__icon svg { width: 20px; height: 20px; }
+    .shared h3 { margin-bottom: 4px; }
+    .shared p { margin: 0; color: var(--ink-2); font-size: 0.95rem; }
+
+    /* ── Integrity ──────────────────────────────────────── */
+    .quote {
+      font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.55rem); line-height: 1.5;
+      border-left: 3px solid var(--amber); padding: 4px 0 4px 22px; margin: 0 0 36px; max-width: 860px;
+      color: var(--ink);
+    }
+
+    /* ── Citations ──────────────────────────────────────── */
+    .cite-col h3 { display: flex; align-items: center; gap: 10px; }
+    .cite-col .num { font-size: 0.7rem; color: var(--amber-2); border: 1px solid var(--amber-line); background: var(--amber-soft); border-radius: 999px; padding: 2px 9px; font-weight: 800; letter-spacing: .06em; }
+    .fields { list-style: none; padding: 0; margin: 12px 0 16px; display: grid; gap: 6px; }
+    .fields li { display: grid; grid-template-columns: 22px 1fr; color: var(--ink-2); font-size: 0.92rem; }
+    .fields li::before { content: "▸"; color: var(--amber); }
+    .tpl {
+      position: relative; margin: 10px 0 0;
+      background: #050a14; border: 1px solid var(--line); border-radius: 10px;
+      padding: 12px 14px; padding-right: 74px;
+    }
+    .tpl__label { font-size: 0.62rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .tpl code { font: 0.82rem/1.6 var(--mono); color: var(--ink); white-space: pre-wrap; word-break: break-word; display: block; }
+    .tpl code em { color: var(--amber-2); font-style: normal; }
+    .copy {
+      position: absolute; top: 10px; right: 10px;
+      height: 28px; padding: 0 10px; border-radius: 6px;
+      border: 1px solid var(--line-2); background: transparent; color: var(--ink-2);
+      font: 700 0.72rem var(--font); cursor: pointer;
+    }
+    .copy:hover { color: var(--ink); border-color: var(--amber-line); }
+    .note { font-size: 0.86rem; color: var(--muted); margin-top: 14px; }
+
+    /* ── IP notice ──────────────────────────────────────── */
+    .notice {
+      border: 1px solid var(--red-line); background: var(--red-soft);
+      border-radius: 18px; padding: 34px; position: relative; overflow: hidden;
+    }
+    .notice::before {
+      content: ""; position: absolute; inset: 0 auto 0 0; width: 5px;
+      background: repeating-linear-gradient(-45deg, var(--red) 0 10px, #f0920c 10px 20px);
+    }
+    .notice__head { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 18px; }
+    .notice__icon { flex: none; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: rgba(255,93,93,0.15); color: var(--red); }
+    .notice__icon svg { width: 24px; height: 24px; }
+    .notice .s-eyebrow { color: var(--red); }
+    .notice h2 { margin-bottom: 4px; }
+    .notice p { color: var(--ink-2); max-width: 900px; }
+    .notice strong { color: var(--ink); }
+    .works { display: flex; flex-wrap: wrap; gap: 7px; margin: 6px 0 20px; }
+    .works span { font-size: 0.78rem; font-weight: 700; color: var(--ink); border: 1px solid var(--line-2); background: rgba(0,0,0,0.25); border-radius: 999px; padding: 4px 11px; }
+    .warn {
+      border: 1px solid var(--red-line); background: rgba(255,93,93,0.12); border-radius: 12px;
+      padding: 16px 18px; color: var(--ink); font-weight: 600; margin: 8px 0 18px; max-width: 900px;
+    }
+    .warn b { color: var(--red); text-transform: uppercase; letter-spacing: .06em; font-size: .8rem; display: block; margin-bottom: 4px; }
+
+    /* ── Publish ────────────────────────────────────────── */
+    .flow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; counter-reset: f; margin: 0 0 44px; padding: 0; }
+    @media (max-width: 960px) { .flow { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 560px) { .flow { grid-template-columns: 1fr; } }
+    .flow li { list-style: none; counter-increment: f; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+    .flow li::before { content: "0" counter(f); display: block; font: 800 0.74rem var(--mono); color: var(--amber); margin-bottom: 8px; letter-spacing: .08em; }
+    .flow h3 { font-size: 0.98rem; }
+    .flow p { color: var(--ink-2); font-size: 0.86rem; margin: 0; }
+    .pub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .pub-grid { grid-template-columns: 1fr; } }
+    .types { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .types span { font-size: 0.84rem; color: var(--ink); border: 1px solid var(--line-2); border-radius: 9px; padding: 7px 12px; background: rgba(255,255,255,0.02); }
+    .checklist { list-style: none; padding: 0; margin: 6px 0 0; }
+    .checklist li { border-bottom: 1px solid var(--line); }
+    .checklist li:last-child { border-bottom: 0; }
+    .checklist label { display: flex; gap: 12px; align-items: flex-start; padding: 10px 2px; cursor: pointer; color: var(--ink-2); font-size: 0.92rem; }
+    .checklist input { appearance: none; -webkit-appearance: none; flex: none; width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--line-2); margin-top: 2px; display: grid; place-items: center; cursor: pointer; background: transparent; }
+    .checklist input:checked { background: var(--green); border-color: var(--green); }
+    .checklist input:checked::after { content: ""; width: 9px; height: 5px; border-left: 2px solid #04140c; border-bottom: 2px solid #04140c; transform: rotate(-45deg) translate(1px, -1px); }
+    .checklist input:checked + span { color: var(--ink); }
+    .progress { display: flex; align-items: center; gap: 12px; margin-top: 14px; font-size: 0.84rem; color: var(--muted); }
+    .progress__bar { flex: 1; height: 6px; border-radius: 99px; background: rgba(255,255,255,0.06); overflow: hidden; }
+    .progress__bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--amber), var(--green)); transition: width .25s; }
+    .ready { color: var(--green); font-weight: 700; }
+
+    /* ── Connect ────────────────────────────────────────── */
+    .fieldcard { display: flex; gap: 14px; align-items: flex-start; }
+    .fieldcard .letter {
+      flex: none; width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center;
+      font: 900 1.05rem var(--serif); color: var(--c); background: color-mix(in srgb, var(--c) 13%, transparent);
+      border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+    }
+    .fieldcard h3 { font-size: 1rem; margin-bottom: 3px; }
+    .fieldcard p { margin: 0; font-size: 0.88rem; }
+    .cta-band {
+      margin-top: 48px; text-align: center; padding: 44px 24px; border-radius: 18px;
+      background: radial-gradient(70% 120% at 50% 0%, rgba(240,146,12,0.18), transparent 70%), var(--card);
+      border: 1px solid var(--amber-line);
+    }
+    .cta-band h2 { margin-bottom: 8px; }
+    .cta-band p { color: var(--ink-2); max-width: 640px; margin: 0 auto 24px; }
+    .cta-band .hero__cta { gap: 10px; }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    footer { border-top: 1px solid var(--line); padding: 40px 0 46px; color: var(--muted); font-size: 0.86rem; }
+    .foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 28px; }
+    @media (max-width: 800px) { .foot { grid-template-columns: 1fr 1fr; } }
+    .foot h4 { color: var(--ink); font-size: 0.8rem; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 10px; }
+    .foot ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+    .foot a { color: var(--ink-2); }
+    .foot__brand p { margin: 10px 0 0; max-width: 320px; }
+    .foot__base { margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
+
+    .toast {
+      position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px);
+      background: var(--ink); color: var(--bg); font-weight: 700; font-size: 0.86rem;
+      padding: 9px 14px; border-radius: 8px; opacity: 0; pointer-events: none; transition: .2s; z-index: 80;
+    }
+    .toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+    @media print {
+      .navbar, .hero__cta, .copy, .cta-band, .burger, .toast { display: none !important; }
+      body { background: #fff; color: #111; }
+      section.alt, .card, .nb, .table-wrap, .notice { background: #fff !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═════════ Navigation ═════════ -->
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="wrap navbar__in">
+      <a class="brand" href="../" aria-label="IfaNote home">
+        <img src="https://ifainternet.org/src/assets/itoe_logo.png" alt="" width="26" height="26" />
+        IFABOK Journal <span class="brand__badge">IFABOK</span>
+      </a>
+      <button class="burger" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navlinks">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <ul class="navlinks" id="navlinks">
+        <li><a href="#standard">The Standard</a></li>
+        <li><a href="#rubric">Rubric</a></li>
+        <li><a href="#orisabok">ORISABOK</a></li>
+        <li><a href="#integrity">Integrity</a></li>
+        <li><a href="#citing">Citing Sources</a></li>
+        <li><a href="#ip-notice">IP Notice</a></li>
+        <li><a href="#publish">Publish</a></li>
+        <li><a href="#connect">Connect</a></li>
+        <li><a href="../">IfaNote</a></li>
+      </ul>
+      <a class="btn btn--amber btn--sm navbar__cta" href="#publish">Publish your work</a>
+    </div>
+  </nav>
+
+  <main id="top">
+
+    <!-- ═════════ Hero ═════════ -->
+    <header class="hero">
+      <div class="wrap">
+        <div class="crumbs"><a href="https://ifainternet.org/">The IFA Internet</a><span>/</span><a href="../">IfaNote</a><span>/</span>IFABOK Journal</div>
+        <span class="eyebrow">Open-Source · The IFA Internet · IFABOK</span>
+        <h1><span class="grad">IFABOK</span> Journal</h1>
+        <p class="hero__sub">IFA Internet Journal</p>
+        <p class="hero__lede">
+          The open journal and shared standard for everyone who works with <strong>IFA Internet (IFABOK) Systems and Technologies</strong>.
+          Here we set out the general standards, rubrics and guidelines for research, investigations, projects, programmes, field work and professional practice —
+          and a home to <strong>collaborate on open-source Ifá &amp; Òrìṣà projects</strong>, <strong>publish work made with IFA Internet tools</strong>, and <strong>connect with like-minded researchers</strong>.
+        </p>
+        <div class="hero__cta">
+          <a class="btn btn--amber" href="#standard">Read the IfaNote Standard</a>
+          <a class="btn btn--ghost" href="#publish">Publish with IFABOK Journal</a>
+        </div>
+        <div class="audience" aria-label="Who this is for">
+          <span>Babaláwo &amp; Ìyánífá</span><a class="chip-dual" href="#orisabok">Olórìṣà · ORISABOK Journal</a><span>Yorùbá scholars &amp; communities</span><span>Academics</span><span>Researchers</span><span>Students of IFA Academy</span><span>Engineers &amp; designers</span><span>Artists</span><span>Professionals in every field</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═════════ Scope ═════════ -->
+    <section class="alt" id="scope" aria-labelledby="scope-title">
+      <div class="wrap">
+        <p class="s-eyebrow">Scope</p>
+        <h2 id="scope-title">One standard for every kind of work</h2>
+        <p class="lead">These guidelines apply whenever IFA Internet (IFABOK) Systems and Technologies — IfaNote, IfaLabs, Ilé Arọ́ (IfaCAD &amp; OrisaCAD), IfaLang, IfaDiagram, IfaLens and the rest — are used, whether you are Yorùbá or not, inside the academy or outside it.</p>
+        <div class="grid g-4">
+          <div class="card">
+            <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+            <h3>Research &amp; investigation</h3>
+            <p>Theses, papers, studies and inquiries in any field of knowledge.</p>
+          </div>
+          <div class="card">
+            <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5"/></svg></div>
+            <h3>Projects &amp; programmes</h3>
+            <p>Open-source builds, designs, curricula, community and institutional programmes.</p>
+          </div>
+          <div class="card">
+            <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></div>
+            <h3>Field work</h3>
+            <p>Recordings, interviews, consultations and documentation with knowledge holders and communities.</p>
+          </div>
+          <div class="card">
+            <div class="card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M6 20V9l6-5 6 5v11"/><path d="M10 20v-6h4v6"/></svg></div>
+            <h3>Professional practice</h3>
+            <p>Engineering, medicine, law, education, business, the arts — any profession working in IfaLang &amp; OrisaLang.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ The IfaNote Standard ═════════ -->
+    <section id="standard" aria-labelledby="standard-title">
+      <div class="wrap">
+        <p class="s-eyebrow">The IfaNote Standard · General Rubric</p>
+        <h2 id="standard-title">Odù Ifá at the head of every IfaNote</h2>
+        <p class="lead">Every IfaNote — whatever the field, size or purpose — opens with the Odù Ifá that govern it. After that, you are free to build in whatever order your work needs.</p>
+
+        <div class="principle">
+          <svg class="principle__mark" width="46" height="56" viewBox="0 0 46 56" aria-hidden="true">
+            <g fill="#ffaa32"><rect x="8" y="2" width="5" height="10" rx="2.5"/><rect x="8" y="16" width="5" height="10" rx="2.5"/><rect x="8" y="30" width="5" height="10" rx="2.5"/><rect x="8" y="44" width="5" height="10" rx="2.5"/><rect x="33" y="2" width="5" height="10" rx="2.5"/><rect x="33" y="16" width="5" height="10" rx="2.5"/><rect x="33" y="30" width="5" height="10" rx="2.5"/><rect x="33" y="44" width="5" height="10" rx="2.5"/></g>
+          </svg>
+          <p><strong>The governing rule:</strong> the Odù Ifá cell is always cell [1]. It may never be moved below an introduction, a title, code or any other cell.</p>
+        </div>
+
+        <div class="standard">
+          <ol class="steps">
+            <li>
+              <h3>Name the governing Odù Ifá <span class="tag tag--req">Required</span></h3>
+              <p>Begin with the specific Odù Ifá — one or more — that govern what the research, project or programme is about. Write each name in correct Yorùbá orthography, with tone marks (e.g. Èjìogbè, Ọ̀yẹ̀kú Méjì, Ìwòrì Méjì).</p>
+              <p>When several Odù govern the work, list them in order and say in a sentence why each one governs it.</p>
+            </li>
+            <li>
+              <h3>Print the Odù marks <span class="tag tag--req">Required</span></h3>
+              <p>Show the marks of every governing Odù in the Odù cell — the Òsì (left) and Ọ̀tún (right) legs — so that every reader sees its structure. A single mark ( I ) carries Ogbè; a double mark ( II ) carries Ọ̀yẹ̀kú. Check that the marks match the name.</p>
+            </li>
+            <li>
+              <h3>Attach the sound of the Odù Ifá <span class="tag tag--opt">If available</span></h3>
+              <p>Attach a recording of the ẹsẹ Ifá or chant of the Odù with IfaSound (record or attach). Add the transcript or extracted knowledge beneath it.</p>
+              <p>If no sound is available, write <em>“Ifá sound: not available”</em> so readers know it was considered.</p>
+            </li>
+            <li>
+              <h3>Credit the Ifá sound <span class="tag tag--req">Required with sound</span></h3>
+              <p>Give the credit of every recording: who chanted it (name, title, Ilé or lineage, town), who recorded it, the date, the place, and the permission under which it is shared. Use the IfaSound Credit and Date Posted fields.</p>
+            </li>
+            <li>
+              <h3>Then attach other cells, in any order</h3>
+              <p>Text, Code, Art, Media, Math, Schematics, Language, Ilé Arọ́ designs and the rest — in whatever order the work needs. Everything after the Odù is yours to arrange; the Odù never leaves the head.</p>
+            </li>
+          </ol>
+
+          <!-- Anatomy of a compliant IfaNote -->
+          <figure class="nb" aria-label="Example of an IfaNote that follows the standard" style="margin:0">
+            <div class="nb__bar"><span class="nb__dots"><i></i><i></i><i></i></span><b>Your research title</b><span style="margin-left:auto">IfaNote</span></div>
+            <div class="nb__body">
+              <div class="cell cell--head" style="--c: var(--green)">
+                <div class="cell__n">In [1]:</div>
+                <div class="cell__b">
+                  <span class="callout">Always first</span>
+                  <span class="pill" style="--c:#3ecf8e">Odù</span>
+                  <div class="odu">
+                    <div class="odu__legs" aria-label="Odù marks: four single marks on each leg">
+                      <svg width="22" height="64" viewBox="0 0 22 64" aria-hidden="true"><text x="11" y="8" font-size="6" fill="#4c9bff" text-anchor="middle" font-family="Segoe UI, sans-serif" font-weight="700">ÒSÌ</text><g fill="#f0920c"><rect x="9" y="13" width="4" height="9" rx="2"/><rect x="9" y="26" width="4" height="9" rx="2"/><rect x="9" y="39" width="4" height="9" rx="2"/><rect x="9" y="52" width="4" height="9" rx="2"/></g></svg>
+                      <svg width="22" height="64" viewBox="0 0 22 64" aria-hidden="true"><text x="11" y="8" font-size="6" fill="#f0920c" text-anchor="middle" font-family="Segoe UI, sans-serif" font-weight="700">Ọ̀TÚN</text><g fill="#f0920c"><rect x="9" y="13" width="4" height="9" rx="2"/><rect x="9" y="26" width="4" height="9" rx="2"/><rect x="9" y="39" width="4" height="9" rx="2"/><rect x="9" y="52" width="4" height="9" rx="2"/></g></svg>
+                    </div>
+                    <div class="odu__name">Èjìogbè<small>Governing Odù · Ogbè Méjì</small></div>
+                  </div>
+                  <div class="snd">
+                    <div class="snd__row">
+                      <div><label>IfaSound credit</label><div class="f">Babaláwo [Name], [Ilé, Town]</div></div>
+                      <div><label>Date posted</label><div class="f">[Date recorded]</div></div>
+                    </div>
+                    <div class="wave"><span class="wave__play" aria-hidden="true"></span><span class="wave__bars" aria-hidden="true"></span><small>ẹsẹ Ifá</small></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="any">Any order after the Odù</div>
+
+              <div class="cell" style="--c:#4c9bff">
+                <div class="cell__n">[2]</div>
+                <div class="cell__b"><span class="pill" style="--c:#4c9bff">Text</span><div class="cell__t">Introduction, aims, and why Èjìogbè governs this work.</div></div>
+              </div>
+              <div class="cell" style="--c:#f0920c">
+                <div class="cell__n">In [3]:</div>
+                <div class="cell__b"><span class="pill" style="--c:#f0920c">Code</span>
+                  <div class="codeln"><span class="c"># model built in IfaNote</span>
+<span class="k">import</span> numpy <span class="k">as</span> np</div>
+                </div>
+              </div>
+              <div class="cell" style="--c:#8b5cf6">
+                <div class="cell__n">In [4]:</div>
+                <div class="cell__b"><span class="pill" style="--c:#a78bfa">Media</span><div class="cell__t">Design from Ilé Arọ́ (IfaCAD)</div>
+                  <div class="mini-design" aria-hidden="true"><svg viewBox="0 0 300 58" preserveAspectRatio="xMidYMid meet"><path d="M60 29 C 100 6, 120 6, 150 29 C 180 52, 200 52, 240 29 C 200 6, 180 6, 150 29 C 120 52, 100 52, 60 29 Z" fill="none" stroke="#f5c518" stroke-width="1.6"/><circle cx="150" cy="29" r="3" fill="#f0920c"/></svg></div>
+                </div>
+              </div>
+              <div class="cell" style="--c:#4c9bff">
+                <div class="cell__n">[5]</div>
+                <div class="cell__b"><span class="pill" style="--c:#4c9bff">Text</span><div class="cell__t">References — native and academic sources.</div></div>
+              </div>
+            </div>
+          </figure>
+        </div>
+
+        <div class="dodont">
+          <div class="dd dd--do">
+            <h4>✓ Follows the standard</h4>
+            <ul>
+              <li>Cell [1] is the Odù cell with name and marks</li>
+              <li>Sound attached and fully credited, or marked “not available”</li>
+              <li>Title, introduction and everything else come after</li>
+            </ul>
+          </div>
+          <div class="dd dd--dont">
+            <h4>✕ Does not follow the standard</h4>
+            <ul>
+              <li>A title or introduction cell placed above the Odù</li>
+              <li>An Odù named but its marks not printed — or marks that do not match the name</li>
+              <li>A recording of someone’s chant with no credit</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ Rubric ═════════ -->
+    <section class="alt" id="rubric" aria-labelledby="rubric-title">
+      <div class="wrap">
+        <p class="s-eyebrow">Assessment Rubric</p>
+        <h2 id="rubric-title">How an IfaNote is assessed</h2>
+        <p class="lead">Use this rubric to check your own work, to review a colleague’s, and to assess student submissions. Each criterion is scored from 4 (Exemplary) to 1 (Not yet). Criteria 1–3 are the IfaNote Standard itself.</p>
+
+        <div class="table-wrap" role="region" aria-label="Assessment rubric" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Criterion</th>
+                <th scope="col" class="lv4">4 · Exemplary</th>
+                <th scope="col" class="lv3">3 · Meets standard</th>
+                <th scope="col" class="lv2">2 · Developing</th>
+                <th scope="col" class="lv1">1 · Not yet</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="core">
+                <th scope="row">1. Governing Odù at the head</th>
+                <td>Odù cell is [1]; every governing Odù named with correct orthography; a clear statement of why each governs the work.</td>
+                <td>Odù cell is [1]; governing Odù named correctly.</td>
+                <td>Odù present but not first, or its name is unclear or misspelt.</td>
+                <td>No governing Odù.</td>
+              </tr>
+              <tr class="core">
+                <th scope="row">2. Odù marks</th>
+                <td>Marks printed for every governing Odù, both legs, verified against the names.</td>
+                <td>Marks printed for the principal Odù and match its name.</td>
+                <td>Marks incomplete, or inconsistent with the name given.</td>
+                <td>No marks printed.</td>
+              </tr>
+              <tr class="core">
+                <th scope="row">3. Ifá sound &amp; credit<small>“Not available”, stated, scores 3</small></th>
+                <td>Sound attached with full credit — chanter, title, Ilé/town, recorder, date, place, permission — and a transcript.</td>
+                <td>Sound attached with chanter and date credited; or clearly stated as not available.</td>
+                <td>Sound attached with partial or vague credit.</td>
+                <td>Someone else’s recording used without credit.</td>
+              </tr>
+              <tr>
+                <th scope="row">4. Referencing &amp; attribution</th>
+                <td>Every native and academic source cited consistently; IFA Internet tools and designs credited.</td>
+                <td>All sources cited, with minor inconsistencies.</td>
+                <td>Some sources or tools not cited.</td>
+                <td>Others’ work presented as one’s own.</td>
+              </tr>
+              <tr>
+                <th scope="row">5. Accuracy &amp; honesty</th>
+                <td>Yorùbá text transcribed with tone marks; ẹsẹ Ifá clearly separated from the author’s interpretation; data unaltered and traceable.</td>
+                <td>Accurate content; source and interpretation distinguishable.</td>
+                <td>Errors in transcription, or source and interpretation blurred.</td>
+                <td>Fabricated verses, data or citations.</td>
+              </tr>
+              <tr>
+                <th scope="row">6. Structure &amp; clarity</th>
+                <td>Cells labelled and ordered so the work reads and runs top to bottom; results reproducible by others.</td>
+                <td>Clear and mostly reproducible.</td>
+                <td>Hard to follow; outputs not reproducible.</td>
+                <td>Disorganised or incomplete.</td>
+              </tr>
+              <tr>
+                <th scope="row">7. Ethics &amp; consent</th>
+                <td>Informed consent from knowledge holders and participants documented; restricted knowledge respected; communities acknowledged.</td>
+                <td>Consent obtained and stated.</td>
+                <td>Consent unclear.</td>
+                <td>Material shared against the wishes of its holders.</td>
+              </tr>
+              <tr>
+                <th scope="row">8. Openness</th>
+                <td>Licence stated; materials shareable; others invited to build on the work with credit.</td>
+                <td>Shareable with terms stated.</td>
+                <td>Terms of reuse unclear.</td>
+                <td>Not shareable or reusable.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="scoring">
+          <div class="card"><b>32</b>Maximum score — 8 criteria × 4.</div>
+          <div class="card"><b>3+ on 1–3</b>Required for publication in IFABOK Journal and ORISABOK Journal: the IfaNote Standard must be met.</div>
+          <div class="card"><b>24+</b>Recommended overall for publication, with no criterion at 1.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ ORISABOK Journal — the Dual ═════════ -->
+    <section id="orisabok" aria-labelledby="orisabok-title">
+      <div class="wrap">
+        <p class="s-eyebrow">The Dual · ORISA Internet Journal</p>
+        <h2 id="orisabok-title">ORISABOK Journal, the Dual of IFABOK Journal</h2>
+        <p class="lead">Just as IfaCAD has its Dual in OrisaCAD and IfaLang in OrisaLang, IFABOK Journal has its Dual in <strong>ORISABOK Journal — the ORISA Internet Journal</strong>. Both journals follow the same IfaNote Standard and the same assessment rubric. IFABOK Journal applies them to Babaláwo &amp; Ìyánífá; ORISABOK Journal applies them to Olórìṣà.</p>
+
+        <div class="dual">
+          <div class="dual__side dual__side--ifa">
+            <p class="dual__k">IFA Internet Journal</p>
+            <p class="dual__name">IFABOK Journal</p>
+            <p class="dual__sub">The Dual of ORISABOK Journal</p>
+            <dl>
+              <div><dt>Applies to</dt><dd>Babaláwo &amp; Ìyánífá</dd></div>
+              <div><dt>Language</dt><dd>IfaLang (Ifa Language)</dd></div>
+              <div><dt>Designs</dt><dd>Ifa-Aided Designs (IfaCAD)</dd></div>
+              <div><dt>Knowledge holders credited</dt><dd>Babaláwo &amp; Ìyánífá, by name, title, Ilé and town</dd></div>
+            </dl>
+          </div>
+          <div class="dual__mid" aria-hidden="true"><div><span>⇄</span><small>Dual</small></div></div>
+          <div class="dual__side dual__side--orisa">
+            <p class="dual__k">ORISA Internet Journal</p>
+            <p class="dual__name">ORISABOK Journal</p>
+            <p class="dual__sub">The Dual of IFABOK Journal</p>
+            <dl>
+              <div><dt>Applies to</dt><dd>Olórìṣà</dd></div>
+              <div><dt>Language</dt><dd>OrisaLang (Orisa Language)</dd></div>
+              <div><dt>Designs</dt><dd>Orisa-Aided Designs (OrisaCAD)</dd></div>
+              <div><dt>Knowledge holders credited</dt><dd>Olórìṣà, by name, title, Ilé and town</dd></div>
+            </dl>
+          </div>
+        </div>
+
+        <div class="shared">
+          <div class="shared__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+          <div>
+            <h3>One standard, one rubric, two journals</h3>
+            <p>Everything on this page — <a href="#standard">the IfaNote Standard</a> with Odù Ifá at the head of every IfaNote, <a href="#rubric">the assessment rubric</a>, <a href="#integrity">integrity</a>, <a href="#citing">referencing</a>, <a href="#fieldwork">field-work ethics</a>, <a href="#ip-notice">the IP notice</a> and <a href="#publish">publishing</a> — applies equally to ORISABOK Journal. Where this page names Babaláwo &amp; Ìyánífá as knowledge holders, ORISABOK Journal names Olórìṣà: in Ifá sound credits, oral-source citations and consent.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ Integrity ═════════ -->
+    <section id="integrity" aria-labelledby="integrity-title">
+      <div class="wrap">
+        <p class="s-eyebrow">Academic Integrity &amp; Honesty</p>
+        <h2 id="integrity-title">No one owns Odù Ifá — so honesty matters more, not less</h2>
+        <blockquote class="quote">
+          Odù Ifá is not the property of any person or organisation. It is a shared inheritance, carried for generations by Babaláwo, Ìyánífá and the communities of Ifá and Òrìṣà. Because it belongs to everyone, the people who keep it alive — and the scholars who build on it — must always be named.
+        </blockquote>
+        <div class="grid g-3">
+          <div class="card">
+            <h3>Credit the carriers</h3>
+            <p>Name the Babaláwo, Ìyánífá, Olórìṣà and elders whose chants, verses and teaching your work uses. Oral knowledge is a primary source.</p>
+          </div>
+          <div class="card">
+            <h3>Separate source from interpretation</h3>
+            <p>Make clear what the ẹsẹ Ifá says and what you conclude from it. Never put your interpretation in the mouth of Ifá or of an elder.</p>
+          </div>
+          <div class="card">
+            <h3>Never fabricate</h3>
+            <p>Do not invent Odù, verses, data, quotations, recordings or references. Do not alter results to fit expectations.</p>
+          </div>
+          <div class="card">
+            <h3>Do not plagiarise</h3>
+            <p>Do not present the words, designs, code, notebooks or ideas of others — including CENProject’s — as your own. Quote, cite and link.</p>
+          </div>
+          <div class="card">
+            <h3>Declare your tools</h3>
+            <p>Say which IFA Internet tools, software and AI assistance you used, and for what. Transparency lets others reproduce and trust your work.</p>
+          </div>
+          <div class="card">
+            <h3>Correct openly</h3>
+            <p>When you find an error, correct it and note the correction. In the spirit of the <a href="https://cenproject.org/code-of-ethics/" target="_blank" rel="noopener">Ọmọlúwàbí Ethos and Values</a> and the E.T.H.I.C.S Framework, integrity is the work.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ Citing sources ═════════ -->
+    <section class="alt" id="citing" aria-labelledby="citing-title">
+      <div class="wrap">
+        <p class="s-eyebrow">Referencing Your Sources</p>
+        <h2 id="citing-title">Cite both systems of knowledge</h2>
+        <p class="lead">Reference your sources from the native Ifá-Òrìṣà System of Education and from the foreign (Western) academic system with equal care. Use one consistent academic style (APA, MLA, Chicago or Harvard) throughout an IfaNote.</p>
+
+        <div class="grid g-2">
+          <div class="card cite-col">
+            <h3><span class="num">I</span> Native Ifá-Òrìṣà System of Education</h3>
+            <p>Oral sources — chants, ẹsẹ Ifá, consultations and teaching — are cited as primary sources. Record:</p>
+            <ul class="fields">
+              <li>The knowledge holder: full name and title (Babaláwo, Ìyánífá, Olórìṣà, Àràbà…)</li>
+              <li>Ilé, lineage or temple, and town</li>
+              <li>The Odù and the ẹsẹ (verse) recited</li>
+              <li>Date and place of recitation or consultation</li>
+              <li>Who recorded or transcribed it</li>
+              <li>The permission under which it is shared</li>
+            </ul>
+            <div class="tpl">
+              <div class="tpl__label">Oral source</div>
+              <code><em>[Title] [Full name]</em>, <em>[Ilé / lineage]</em>, <em>[Town]</em>. <em>[Odù]</em>, ẹsẹ <em>[number or opening line]</em>. Chanted <em>[date]</em> at <em>[place]</em>; recorded by <em>[name]</em>. Shared with permission.</code>
+              <button class="copy" type="button">Copy</button>
+            </div>
+            <div class="tpl">
+              <div class="tpl__label">IfaSound credit (short form)</div>
+              <code><em>[Title] [Full name]</em> (<em>[Town]</em>), <em>[Odù]</em>, rec. <em>[name]</em>, <em>[date]</em>.</code>
+              <button class="copy" type="button">Copy</button>
+            </div>
+          </div>
+
+          <div class="card cite-col">
+            <h3><span class="num">II</span> Foreign (Western) academic system</h3>
+            <p>Books, articles, preprints, datasets and software are cited in your chosen style, with DOIs or links wherever they exist. Examples in APA 7:</p>
+            <div class="tpl">
+              <div class="tpl__label">Article or preprint</div>
+              <code><em>Author, A. A.</em> (<em>Year</em>). <em>Title of the work</em>. <em>Journal or repository</em>. https://doi.org/<em>xx.xxxx/xxxxx</em></code>
+              <button class="copy" type="button">Copy</button>
+            </div>
+            <div class="tpl">
+              <div class="tpl__label">IFA Internet tool</div>
+              <code>CENProject. (<em>Year</em>). <em>IfaNote</em> [Computer software]. The IFA Internet. https://ifainternet.org/ifa-notebook/</code>
+              <button class="copy" type="button">Copy</button>
+            </div>
+            <div class="tpl">
+              <div class="tpl__label">Audio recording</div>
+              <code><em>Chanter, A.</em> (<em>Year, Month Day</em>). <em>Odù name</em> [Audio recording]. Recorded by <em>Name</em>, <em>Town</em>.</code>
+              <button class="copy" type="button">Copy</button>
+            </div>
+            <p class="note">Cite the IFA Internet framework through the iTOE paper, <a href="https://doi.org/10.31219/osf.io/wr42m" target="_blank" rel="noopener">doi.org/10.31219/osf.io/wr42m</a>, and credit designs made in Ilé Arọ́ (IfaCAD / OrisaCAD), IfaDiagram and IfaLabs by tool name and link.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ Field work & practice ═════════ -->
+    <section id="fieldwork" aria-labelledby="field-title">
+      <div class="wrap">
+        <p class="s-eyebrow">Field Work &amp; Professional Practice</p>
+        <h2 id="field-title">Working with people, communities and sacred knowledge</h2>
+        <p class="lead">Field work and professional activities carry responsibilities beyond the notebook.</p>
+        <div class="grid g-3">
+          <div class="card">
+            <h3>Consent first</h3>
+            <ul class="ticks">
+              <li>Explain your purpose before recording</li>
+              <li>Ask before recording, photographing or publishing</li>
+              <li>Record how and when consent was given</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Respect what is restricted</h3>
+            <ul class="ticks">
+              <li>Some knowledge is not for public sharing</li>
+              <li>Follow the guidance of the knowledge holder</li>
+              <li>When in doubt, do not publish</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Give back and acknowledge</h3>
+            <ul class="ticks">
+              <li>Share results with the people who contributed</li>
+              <li>Acknowledge communities, Ilé and towns by name</li>
+              <li>Represent people as they wish to be represented</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Write Yorùbá correctly</h3>
+            <ul class="ticks">
+              <li>Use tone marks and sub-dots (ẹ, ọ, ṣ)</li>
+              <li>Keep the original beside any translation</li>
+              <li>Name the translator</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Care for data</h3>
+            <ul class="ticks">
+              <li>Keep original recordings unaltered</li>
+              <li>Protect personal information</li>
+              <li>Store and back up responsibly</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Practise professionally</h3>
+            <ul class="ticks">
+              <li>Follow your profession’s own codes too</li>
+              <li>Be clear about the limits of your claims</li>
+              <li>Put safety and wellbeing first</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ IP notice ═════════ -->
+    <section class="alt" id="ip-notice" aria-labelledby="ip-title">
+      <div class="wrap">
+        <div class="notice" role="note">
+          <div class="notice__head">
+            <div class="notice__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20L12 3z"/><path d="M12 10v4M12 17.5v.01"/></svg></div>
+            <div>
+              <p class="s-eyebrow">Warning · Intellectual Property</p>
+              <h2 id="ip-title">Odù Ifá belongs to no one. CENProject’s works do.</h2>
+            </div>
+          </div>
+          <p>The original works of the IFA Internet are the intellectual property of <strong>CENProject</strong> and their authors — including its software, systems, texts, research, designs, graphics, games, frameworks and names, such as:</p>
+          <div class="works">
+            <span>The IFA Internet</span><span>IFABOK</span><span>iTOE</span><span>IfaNote</span><span>IfaLabs · ToELabs</span><span>Ilé Arọ́ — the Digital Isese Workstation</span><span>IfaCAD</span><span>OrisaCAD</span><span>IfaLang</span><span>OrisaLang</span><span>IfaDiagram</span><span>IfaLens</span><span>IfaGames</span><span>The IFA Academy of Polymaths</span>
+          </div>
+          <p>Copying, adapting, publishing, teaching or commercialising these works <strong>without proper attribution</strong> — presenting them as your own, removing credits, re-branding them, or passing off derived products as original — is intellectual-property theft and fraud.</p>
+          <div class="warn">
+            <b>Cease and desist</b>
+            Anyone stealing or fraudulently misappropriating CENProject’s works without proper attribution must stop immediately, or face legal action.
+          </div>
+          <p>Open-source means open to build on — <strong>with credit</strong>. Follow the licence attached to each work and always attribute CENProject and the authors. To report misuse or ask about permitted use, contact <a href="https://cenproject.org/" target="_blank" rel="noopener">CENProject</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ Publish ═════════ -->
+    <section id="publish" aria-labelledby="publish-title">
+      <div class="wrap">
+        <p class="s-eyebrow">Publish with IFABOK Journal</p>
+        <h2 id="publish-title">From IfaNote to published work</h2>
+        <p class="lead">IFABOK Journal publishes work done with any IFA Internet tool — so that it can be read, reproduced, cited and built upon.</p>
+
+        <ol class="flow">
+          <li><h3>Build</h3><p>Create your work in IfaNote, with the governing Odù at cell [1].</p></li>
+          <li><h3>Self-check</h3><p>Score your IfaNote with the rubric and the checklist below.</p></li>
+          <li><h3>Cite &amp; credit</h3><p>Reference native and academic sources; credit every sound and tool.</p></li>
+          <li><h3>Submit</h3><p>Send your IfaNote and a short abstract to the editors.</p></li>
+          <li><h3>Review</h3><p>Editors and peers review it against the IfaNote Standard.</p></li>
+          <li><h3>Publish &amp; connect</h3><p>Your work is published and opened to collaborators.</p></li>
+        </ol>
+
+        <div class="pub-grid">
+          <div class="card">
+            <h3>What you can publish</h3>
+            <p>Any work made with IFA Internet (IFABOK) Systems and Technologies:</p>
+            <div class="types">
+              <span>IfaNotes</span><span>Research articles</span><span>Field studies</span><span>Project &amp; programme reports</span><span>IfaCAD &amp; OrisaCAD designs</span><span>Circuits &amp; simulations</span><span>Datasets</span><span>Code &amp; tools</span><span>Teaching materials</span><span>IfaArt &amp; creative works</span><span>Translations</span><span>Reviews</span>
+            </div>
+            <div class="hero__cta" style="justify-content:flex-start;margin-top:22px">
+              <!-- EDIT: replace this href with the journal's submission address (form, email or page) -->
+              <a class="btn btn--amber" id="submit-link" href="https://cenproject.org/" target="_blank" rel="noopener">Submit your work</a>
+              <a class="btn btn--ghost" href="../env/" target="_blank" rel="noopener">Open IfaNote</a>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Before you submit</h3>
+            <ul class="checklist" id="checklist">
+              <li><label><input type="checkbox" /><span>Cell [1] is the Odù cell, naming every governing Odù Ifá</span></label></li>
+              <li><label><input type="checkbox" /><span>The Odù marks are printed and match the names</span></label></li>
+              <li><label><input type="checkbox" /><span>The Ifá sound is attached and credited — or marked “not available”</span></label></li>
+              <li><label><input type="checkbox" /><span>Native and academic sources are cited in one consistent style</span></label></li>
+              <li><label><input type="checkbox" /><span>IFA Internet tools and CENProject works are attributed</span></label></li>
+              <li><label><input type="checkbox" /><span>Consent is documented for people, recordings and images</span></label></li>
+              <li><label><input type="checkbox" /><span>Yorùbá text carries correct tone marks</span></label></li>
+              <li><label><input type="checkbox" /><span>A licence and terms of reuse are stated</span></label></li>
+            </ul>
+            <div class="progress" aria-live="polite"><div class="progress__bar"><i id="progress-bar"></i></div><span id="progress-text">0 of 8</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ Connect ═════════ -->
+    <section class="alt" id="connect" aria-labelledby="connect-title">
+      <div class="wrap">
+        <p class="s-eyebrow">Collaborate &amp; Connect</p>
+        <h2 id="connect-title">Open-source Ifá &amp; Òrìṣà projects in every field</h2>
+        <p class="lead">IFABOK Journal connects people building in IfaLang and OrisaLang across every field of STEAM and every profession. Find collaborators, join a project, or start one.</p>
+        <div class="grid g-3">
+          <div class="card fieldcard" style="--c:#3ecf8e"><span class="letter">S</span><div><h3>Ifa Science</h3><p class="muted">Energy, nature and Ifa Simulation Theory.</p></div></div>
+          <div class="card fieldcard" style="--c:#4c9bff"><span class="letter">T</span><div><h3>Ifa Technology</h3><p class="muted">IfaLang computing, networks and intelligent systems.</p></div></div>
+          <div class="card fieldcard" style="--c:#f0920c"><span class="letter">E</span><div><h3>Ifa Engineering</h3><p class="muted">IfaCAD &amp; OrisaCAD design in Ilé Arọ́.</p></div></div>
+          <div class="card fieldcard" style="--c:#f472b6"><span class="letter">A</span><div><h3>Ifa Arts</h3><p class="muted">Ifarts, Orisarts and the Ifa Graphical Language System.</p></div></div>
+          <div class="card fieldcard" style="--c:#a78bfa"><span class="letter">M</span><div><h3>Ifa Mathematics</h3><p class="muted">The 256 Odù, IfaGebra and Ifa Calculus.</p></div></div>
+          <div class="card fieldcard" style="--c:#eab308"><span class="letter">+</span><div><h3>Every other field</h3><p class="muted">Social science, education, medicine, law, agriculture, culture and heritage.</p></div></div>
+        </div>
+
+        <div class="grid g-4" style="margin-top:16px">
+          <div class="card"><h3>Credit every contributor</h3><p>Name everyone who chanted, coded, designed, translated or reviewed.</p></div>
+          <div class="card"><h3>Share openly</h3><p>Publish notebooks others can run, read and extend.</p></div>
+          <div class="card"><h3>Review with care</h3><p>Give honest, respectful feedback against the standard.</p></div>
+          <div class="card"><h3>Live as Ọmọlúwàbí</h3><p>Good character in research, as in life.</p></div>
+        </div>
+
+        <div class="cta-band">
+          <h2>Start your next IfaNote with Odù Ifá</h2>
+          <p>Open IfaNote, explore IfaLabs, or join IFA Academy to work with IfaNote Pro and Ilé Arọ́.</p>
+          <div class="hero__cta">
+            <a class="btn btn--amber" href="../env/" target="_blank" rel="noopener">Open IfaNote</a>
+            <a class="btn btn--ghost" href="../env-pro/">IfaNote Pro</a>
+            <a class="btn btn--ghost" href="/ifa-labs/">IfaLabs</a>
+            <a class="btn btn--ghost" href="/ifa-lms/">Join IFA Academy</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═════════ Footer ═════════ -->
+  <footer>
+    <div class="wrap">
+      <div class="foot">
+        <div class="foot__brand">
+          <a class="brand" href="../"><img src="https://ifainternet.org/src/assets/itoe_logo.png" alt="" width="26" height="26" />IFABOK Journal</a>
+          <p>The IFA Internet Journal — standards, open research and collaboration for Ifá &amp; Òrìṣà knowledge. A <a href="https://cenproject.org/" target="_blank" rel="noopener">CENProject</a> initiative.</p>
+        </div>
+        <div>
+          <h4>Journal</h4>
+          <ul>
+            <li><a href="#standard">The IfaNote Standard</a></li>
+            <li><a href="#rubric">Assessment rubric</a></li>
+            <li><a href="#orisabok">ORISABOK Journal</a></li>
+            <li><a href="#citing">Citing sources</a></li>
+            <li><a href="#publish">Publish</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="../">IfaNote</a></li>
+            <li><a href="../env-pro/">IfaNote Pro</a></li>
+            <li><a href="/ifa-labs/">IfaLabs</a></li>
+            <li><a href="/ifa-labs/ile-aro/">Ilé Arọ́</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>IFA Internet</h4>
+          <ul>
+            <li><a href="https://ifainternet.org/">Home</a></li>
+            <li><a href="/ifa-lms/">IFA Academy</a></li>
+            <li><a href="https://cenproject.org/code-of-ethics/" target="_blank" rel="noopener">Ọmọlúwàbí Ethos</a></li>
+            <li><a href="https://doi.org/10.31219/osf.io/wr42m" target="_blank" rel="noopener">The iTOE paper</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot__base">
+        <span>© <span id="year">2026</span> IFABOK Journal · The IFA Internet · CENProject. All rights reserved.</span>
+        <span>Odù Ifá belongs to no one — credit everyone.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      // Mobile navigation
+      var burger = document.querySelector('.burger');
+      var links = document.getElementById('navlinks');
+      burger.addEventListener('click', function () {
+        var open = links.classList.toggle('is-open');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      links.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') { links.classList.remove('is-open'); burger.setAttribute('aria-expanded', 'false'); }
+      });
+
+      // Highlight the section in view
+      var navAnchors = Array.prototype.slice.call(links.querySelectorAll('a[href^="#"]'));
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            navAnchors.forEach(function (a) { a.setAttribute('aria-current', a.getAttribute('href') === '#' + en.target.id ? 'true' : 'false'); });
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        navAnchors.forEach(function (a) { var s = document.querySelector(a.getAttribute('href')); if (s) io.observe(s); });
+      }
+
+      // Copy citation templates
+      var toast = document.getElementById('toast'), t;
+      function say(msg) { toast.textContent = msg; toast.classList.add('is-on'); clearTimeout(t); t = setTimeout(function () { toast.classList.remove('is-on'); }, 1800); }
+      document.querySelectorAll('.copy').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var text = btn.parentNode.querySelector('code').innerText;
+          var done = function () { say('Template copied'); };
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { fallback(text); done(); });
+          else { fallback(text); done(); }
+        });
+      });
+      function fallback(text) {
+        var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} ta.remove();
+      }
+
+      // Submission checklist (kept for this visit only)
+      var boxes = document.querySelectorAll('#checklist input');
+      var bar = document.getElementById('progress-bar'), txt = document.getElementById('progress-text');
+      function update() {
+        var n = 0; boxes.forEach(function (b) { if (b.checked) n++; });
+        bar.style.width = (n / boxes.length * 100) + '%';
+        txt.innerHTML = n === boxes.length ? '<span class="ready">Ready to submit</span>' : n + ' of ' + boxes.length;
+      }
+      boxes.forEach(function (b) { b.addEventListener('change', update); });
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>

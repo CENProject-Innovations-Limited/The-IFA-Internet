@@ -172,23 +172,23 @@ const LOGIC_TABS = [
     color: '#14b8d4',
     body: 'Ifa Binary Logic generalises classical Boolean (two-valued) logic based on the full 256 Odu Ifa Framework. Where classical logic uses {0, 1} (True/False), Ifa Binary Logic operates with Ogbe (open/active — 0, and other infinities of possible representations) and Oyeku (closed/void — 1, and other infinities of impossible representations) as the two Primal Energy States. Every logical operation — AND, OR, NOT, XOR, etc. — is modelled as an Energyform (Energy exchange between these two Ifa Poles), extending seamlessly to all fields of knowledge through the IFABit Encoding System.',
     imgs: [
-      { src: '../src/Ifa-Computing-Operators1-2-768x314.png', alt: 'Ifa Binary Logic OperatoEs' },
-      { src: '../src/image-11.png', alt: 'Ifa Binary Logic Diagram' },
+      { src: '../src/Ifa-Computing-Operators1-2-768x314.png', alt: 'Ifa Binary Logic operators' },
+      { src: '../src/image-11.png', alt: 'Ifa Binary Logic diagram' },
     ],
   },
   {
     id: 'ternary', label: 'Ifa Ternary Logic (Ifanary)',
     color: '#8b5cf6',
-    body: 'Ifa Ternary Logic (Ifanary) is a Three-Valued Logic Meta-System emerging from Ogbe Energy. Beyond the binary {0, 1}, Ifanary introduces a third State — the Superposition State — representing the moment before wavefunction collapse when all possibilities and impossibilities coexist. This three-valued system enables Ifa Mechanics to model uncertainty, potential, and manifestation simultaneously, far beyond what classical binary or fuzzy logic can represent.',
+    body: 'Ifa Ternary Logic (Ifanary) is a three-valued logic system emerging from Ogbe Energy. Beyond the binary {0, 1}, Ifanary introduces a third State — the Superposition State — representing the moment before wavefunction collapse when all possibilities and impossibilities coexist. This three-valued system enables Ifa Mechanics to model uncertainty, potential, and manifestation simultaneously, far beyond what classical binary or fuzzy logic can represent.',
     imgs: [
-      { src: '../src/Ifa-Ternary-Operators-3-768x314.png', alt: 'Ifa Ternary Logic OperatoEs' },
-      { src: '../src/Ifanary-Operations-768x314.png', alt: 'Ifanary Operations Table' },
+      { src: '../src/Ifa-Ternary-Operators-3-768x314.png', alt: 'Ifa Ternary Logic operators' },
+      { src: '../src/Ifanary-Operations-768x314.png', alt: 'Ifanary Operations table' },
     ],
   },
   {
     id: 'computing', label: 'Ifa Computing Operators',
     color: '#f0920c',
-    body: 'Ifa Computing Operators extend digital computing logic to the IFA Internet. Every computing operation — from basic logic gates to complex algorithms — is modelled as an Ifa Operator acting on energyforms encoded in the IFABit System. Ifa Computing Operators unify hardware-level binary operations with the higher-level Symbolic and Metamathematical Operations of IFA Mathematica, establishing a Single Unified Operational Framework for the Full Stack of the IFA Internet.',
+    body: 'Ifa Computing Operators extend digital computing logic to the IFA Internet. Every computing operation — from basic logic gates to complex algorithms — is modelled as an Ifa Operator acting on energyforms encoded in the IFABit system. Ifa Computing Operators unify hardware-level binary operations with the higher-level symbolic and metamathematical operations of IFA Mathematica, establishing a single unified operational framework for the full stack of the IFA Internet.',
     imgs: [
       { src: '../src/Ifa-Computing-Operators-4-768x314.png', alt: 'Ifa Computing Operators' },
     ],
@@ -475,7 +475,7 @@ function DifferintegralSection() {
 
         <figure className="ift-fig ift-fig--center" style={{ marginTop: '36px' }}>
           <img src="../src/Ifa-Function-2-768x314.png" alt="Ifa Function — generalized transform function" className="ift-img ift-img--wide" />
-          <figcaption className="ift-fig-cap">Ifa Function (FunctoE): the Generalised Transform Meta-Function underlying IfaDifferintegral and all Ifa Operations</figcaption>
+          <figcaption className="ift-fig-cap">Ifa Function (FunctoE): the generalised transform function underlying IfaDifferintegral and all Ifa Operations</figcaption>
         </figure>
       </div>
     </section>
@@ -537,7 +537,7 @@ function TransformerSection() {
           <div className="ift-split__img">
             <figure className="ift-fig">
               <img src="../src/image-107.png" alt="Ifa Transformer diagram" className="ift-img" />
-              <figcaption className="ift-fig-cap">Odufa Ose Meji (Odù 15): the Ifa Law governing all operations and transformations</figcaption>
+              <figcaption className="ift-fig-cap">The Ifa Transformer: modelling, simulation, and mapping across all fields of the IFA Internet</figcaption>
             </figure>
           </div>
         </div>
@@ -657,7 +657,7 @@ function OseMejiSection() {
           <div className="ift-split__img">
             <figure className="ift-fig">
               <img src="../src/image-169.png" alt="Odufa Ose Meji — 15th Principal Odu Ifa" className="ift-img" />
-              <figcaption className="ift-fig-cap">The Ifa Notations: IfaSigma OperatoE for the Integration and Unification of Everything (UIoE)</figcaption>
+              <figcaption className="ift-fig-cap">Odufa Ose Meji (Odù 15): the Ifa Law governing all operations and transformations</figcaption>
             </figure>
           </div>
           <div className="ift-split__text">
@@ -794,12 +794,12 @@ function PlusMinusSection() {
 
           <figure className="ift-fig ift-fig--center" style={{ marginTop: '28px', maxWidth: '860px', margin: '28px auto 0' }}>
             <img src="../src/Amulu-Matrix-768x314.png" alt="The 8 Amulu Operator Symbols" className="ift-img" />
-            <figcaption className="ift-fig-cap">The 8 Amulu Operator Symbols — the AND OperatoE (Energy Intersection) is the Plus-and-Minus Meta-Operator in IFALang</figcaption>
+            <figcaption className="ift-fig-cap">The 8 Amulu Operator Symbols — the AND operator (Energy Intersection) is the Plus-and-Minus operator in IFALang</figcaption>
           </figure>
 
           <figure className="ift-fig ift-fig--center" style={{ marginTop: '28px' }}>
             <img src="../src/Plus-and-Minus-Use-Cases-768x314.png" alt="Plus-and-Minus operator use cases" className="ift-img ift-img--wide" />
-            <figcaption className="ift-fig-cap">Use cases of the Plus-and-Minus Operator across mathematics, physics, and the IFA Internet</figcaption>
+            <figcaption className="ift-fig-cap">Use cases of the Plus-and-Minus operator across mathematics, physics, and the IFA Internet</figcaption>
           </figure>
         </div>
       </div>
@@ -851,7 +851,7 @@ function OpoESection() {
           <div className="ift-split__img">
             <figure className="ift-fig">
               <img src="../src/Amulu-Matrix-768x314.png" alt="The Amulu Matrix — Ifa composition table" className="ift-img" />
-              <figcaption className="ift-fig-cap">The Amulu Matrix: the Complete Table of all Ifa Compositions or Operations for Everything (OpoE)</figcaption>
+              <figcaption className="ift-fig-cap">The Amulu Matrix: the complete table of all Ifa compositions (OpoE)</figcaption>
             </figure>
           </div>
         </div>
@@ -913,7 +913,7 @@ function LogicSection() {
             The Ifa Truth Table: The ToE Truth Table
           </h3>
           <p style={{ fontSize: '0.8rem', color: 'var(--text-3)', textAlign: 'center', marginBottom: '20px' }}>
-            IfaLang Representation of every logical operator using Ifa Brackets (Brackets for Everything, BracktoE/ToE Brackets)
+            IfaLang representation of every logical operator using Ifa Brackets
           </p>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
@@ -979,8 +979,8 @@ function ParticlePhysicsSection() {
             <p className="ift-body">
               In Ifa Particle Physics, the concept of a <strong>particle</strong> is generalised
               to an <strong>energyform</strong> — any entity in any field that carries, stores,
-              or exchanges the Energy of Ogbe. The General Class of the Composite Form (Amulu) of such entities is called <strong>IfaOniums</strong>:
-              Composite Particles of knowledge, consciousness, culture, biology, physics, and all other domains.
+              or exchanges the Energy of Ogbe. The general class of the composite form (Amulu) of such entities is called <strong>IfaOniums</strong>:
+              composite particles of knowledge, consciousness, culture, biology, physics, and all other domains.
             </p>
             <p className="ift-body">
               Just as particle physics models the forces between physical particles (gravitational,
@@ -994,13 +994,12 @@ function ParticlePhysicsSection() {
               <div className="ift-highlight-box__label">Onium — General Particle Symbol</div>
               <p className="ift-highlight-box__text">
                 The general symbol for an Onium is <strong>X</strong> (or <IfaExpr char="X" charSize="1rem" symSize={10} charColor="#ec4899" />
-                {' '}in Ifa Script Notation) — where X represents any energyform in any field, consistent
-                with the SIDECHRX Framework encoded in the 16 Principal Odu Ifa.
+                {' '}in Ifa Script notation) — where X represents any energyform in any field, consistent
+                with the SIDECHRX framework encoded in the 16 Principal Odu Ifa.
               </p>
             </div>
             <figure className="ift-fig ift-fig--center" style={{ marginTop: '28px', maxWidth: '860px', margin: '28px auto 0' }}>
               <img src="../src/Ifa-Computing-Operators1-2-768x314.png" alt="Ifa Computing Operators" className="ift-img" />
-              <figcaption className="ift-fig-cap">The Symbol for Everything (SymboE): Ifa-Infinity, the Ifa Symbol for Ogbe Energy</figcaption>
             </figure>
           </div>
         </div>

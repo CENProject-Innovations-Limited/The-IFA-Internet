@@ -1,0 +1,117 @@
+IFA ACADEMY STUDENT SIGN-IN: SETUP ON cPANEL
+============================================
+
+This package protects these four pages. Only approved students and
+premium users can open them:
+  /ifa-labs/ile-aro/       Ilé Arọ́: IfaCAD and OrisaCAD Playground
+  /ifagram/kids/           Ifagrams for Kids & Teens
+  /ifa-lens/playground/    IfaLens Playground
+  /ifa-notebook/env-pro/   IfaNotebook Env Pro
+/ifa-labs/ itself stays public.
+
+It also moves IfaLMS (/ifa-lms/) onto the same server accounts: one
+username and password for IfaLMS and all four pages, saved progress on
+every device, and no passwords left in IfaLMS's public code.
+
+1. CREATE THE DATABASE (cPanel > MySQL Databases)
+   - Create a database, e.g. ifaacad   (cPanel shows it as  youruser_ifaacad)
+   - Create a user with a long random password, e.g. youruser_ifaauth
+   - "Add User To Database" and tick ALL PRIVILEGES.
+   - Write down: database name, user name, password.
+
+2. CHECK PHP (cPanel > MultiPHP Manager or Select PHP Version)
+   - ifainternet.org must use PHP 8.0 or newer, with pdo_mysql on
+     (it is on by default on almost all hosts).
+
+3. BACK UP, THEN UPLOAD (cPanel > File Manager > public_html)
+   - First download a copy of the current ifagram/kids/index.html,
+     ifa-labs/index.html and ifa-labs/ile-aro/ (if it exists).
+   - Upload this zip into public_html and choose Extract. It creates or
+     replaces:
+       public_html/ifa-auth/            (new folder, the sign-in system)
+       public_html/ifa-labs/index.html
+       public_html/ifa-labs/ile-aro/index.html + .htaccess
+       public_html/ifagram/kids/index.html + .htaccess
+       public_html/ifa-lens/playground/.htaccess
+       public_html/ifa-notebook/env-pro/.htaccess
+       public_html/ifa-lms/index.html
+       public_html/ifa-lms/src/App.jsx
+   - Also back up ifa-lms/index.html and ifa-lms/src/App.jsx first.
+   - DELETE public_html/ifa-lms/App.prod.jsx. It is an old copy that still
+     contains passwords and anyone can open it.
+   - If you also keep a copy of the site in the folder
+     "ifagram-ifa-diagram-diagroe", only the ifagram/kids files matter there
+     if that folder is actually served; otherwise ignore it.
+   - Files starting with a dot are hidden. In File Manager click
+     Settings > "Show Hidden Files (dotfiles)" to see the .htaccess files.
+     If a protected folder ALREADY had a .htaccess, do not overwrite it;
+     paste the 4 lines from ours at the TOP of the existing one.
+
+4. CONFIGURE
+   - In public_html/ifa-auth/ copy config.sample.php to config.php.
+   - Edit config.php: fill in DB_DSN (database name), DB_USER, DB_PASS
+     from step 1. Leave the rest as is.
+   - Optional: set MAIL_FROM to an address on your domain, e.g.
+     no-reply@ifainternet.org, to let students reset passwords by email.
+     Left empty, students ask their instructor for a new link instead.
+
+5. INSTALL
+   - Visit https://ifainternet.org/ifa-auth/install.php
+   - It creates the tables and your admin account. Use a strong password.
+   - THEN DELETE install.php from the server. (It refuses to run twice,
+     but delete it anyway.)
+
+6. MOVE YOUR STUDENTS FROM THE OLD IfaLMS
+   Do this on the computer and browser you normally use as the IfaLMS
+   admin. That browser holds the only full copy of the student list.
+   - Open https://ifainternet.org/ifa-lms/ and sign in with the NEW admin
+     account you made in step 5 (the old IfaLMS admin login is gone).
+   - Go to Students. An orange box says "N student accounts from the old
+     IfaLMS are saved in this browser". Click "Move N students to the
+     server". Their courses, IGA scores and progress come along.
+   - Check the report, then click "Delete the old copy from this browser".
+   - Usernames: lowercase, spaces become dots ("Taiwo A." -> taiwo.a), but
+     students can still type them the old way. The shared "Guest" login
+     is not moved.
+   - Tell students: sign in at IfaLMS with your usual username and
+     password; you'll be asked to choose a new password once. (The old
+     passwords were inside the "class code" every student had, so each
+     student must replace theirs.) Students who forget theirs: send a
+     reset link from the admin page.
+   - New students later: add them in IfaLMS (Students > + Add Student,
+     with a temporary password) or in bulk on
+     https://ifainternet.org/ifa-auth/admin.php (sends welcome links).
+   - Do NOT also paste students-bulk-add.txt; the move above replaces it.
+
+7. CLEAR THE CACHE
+   - cPanel > LiteSpeed Web Cache Manager > Flush All (or Purge All).
+     Otherwise old public copies of the pages may still be served.
+
+8. TEST (use a private / incognito window)
+   - Open https://ifainternet.org/ifa-labs/ile-aro/  -> you should land on
+     the sign-in page.
+   - Try https://ifainternet.org/ifa-auth/config.php -> must be "Forbidden".
+   - Sign in with a test student -> the playground opens and shows
+     "Signed in as ...". Try the other three pages: no second sign-in.
+   - Log out -> the pages are locked again.
+   - Check https://ifainternet.org/ifa-labs/ still opens without signing in.
+
+IF SOMETHING GOES WRONG
+   - "Setup needed" message: config.php is missing or misnamed.
+   - Database error: re-check DB name/user/password; on cPanel they all
+     start with your cPanel username and an underscore.
+   - Page opens without sign-in: the folder's .htaccess is missing (hidden
+     files), or the LiteSpeed cache wasn't purged.
+   - 500 error on a protected page: the server may not allow RewriteRule
+     in .htaccess. Ask the host to enable "AllowOverride All" / mod_rewrite.
+   - To undo everything: delete the 4 .htaccess files. The pages become
+     public again exactly as before.
+
+GOOD TO KNOW
+   - Passwords are stored hashed; sessions last 7 days; 8 wrong attempts
+     on one username lock it for 15 minutes.
+   - IfaLMS course content (lessons) is still written inside App.jsx,
+     which anyone can open. Accounts and progress are protected; the
+     lesson text itself is not secret.
+   - Course edits made in IfaLMS's admin Courses screen are still not
+     saved (same as before): course changes go into App.jsx.

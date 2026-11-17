@@ -1,65 +1,1245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IfaLabs — TOELabs | The IFA Internet</title>
-  <meta name="description" content="IfaLabs (TOELabs) — the research and innovation lab of the IFA Internet. Integrating Ifa Engineering, Ifa Mechanics, Ifa Analysis, Ifa Modelling, the Ifa Periodic Table, and Ifa Games." />
-  <meta name="keywords" content="IfaLabs, TOELabs, Theory of Everything Labs, Ifa Engineering, Ifa Mechanics, Ifa Analysis, Ifa Modelling, Ifa Periodic Table, Ifa Games, IFA Internet, CENProject, ETHICS Framework, Research Lab" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://ifainternet.org/ifa-labs/" />
-  <meta name="theme-color" content="#06080e" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IfaLabs — ToELabs · Iṣẹ́ Ọnà Ayárabíàṣá · IfaCAD &amp; OrisaCAD | The IFA Internet</title>
+<meta name="description" content="IfaLabs (ToELabs) — the IFA Internet's labs for every field of STEAM and every dimension of learning. Home of Iṣẹ́ Ọnà Ayárabíàṣá (Computer-Aided Design in Yoruba), Ifa-Aided Designs (IfaCAD) and Orisa-Aided Designs (OrisaCAD).">
+<meta name="keywords" content="IfaLabs, ToELabs, IfaSpace, ToESpace, EnergySpace, Ifa Space, E.T.H.I.C.S Framework, Iṣẹ́ Ọnà Ayárabíàṣá, Computer-Aided Design in Yoruba, IfaCAD, Ifa-Aided Designs, Ifa Computer-Aided Designs, Ifaided Designs, Energy-Based Designs, Ifa-Based Designs, Ifa Designs, Consciousness Designs, OrisaCAD, Orisa-Aided Designs, Orisaided Designs, Orisa-Based Designs, IfaLang, OrisaLang, Ifa STEAM, IfaGames, ToEGames, IFA Internet, CENProject">
+<meta name="theme-color" content="#04070f">
+<link rel="canonical" href="https://ifainternet.org/ifa-labs/">
+<meta property="og:title" content="IfaLabs — ToELabs | The IFA Internet">
+<meta property="og:description" content="Labs for every field of STEAM. Iṣẹ́ Ọnà Ayárabíàṣá — Computer-Aided Design (CAD) in Yoruba: IfaCAD and OrisaCAD.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ifainternet.org/ifa-labs/">
+<meta property="og:site_name" content="The IFA Internet">
+<link rel="icon" type="image/png" href="https://ifainternet.org/src/assets/itoe_favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Concept: a drafting room for the IFA Internet. Blueprint ground, drawing-sheet frames
+   with title blocks and dimension lines; Ifa (gold) and Orisa (red) as dual drafting inks;
+   the five STEAM labs colour-keyed in the IFA Internet palette. */
+:root{
+  --void:#04070f; --deep:#070c1a; --panel:#0b1226; --panel-2:#0f1830;
+  --line:rgba(150,170,230,.13); --line-2:rgba(150,170,230,.26); --blue:rgba(80,140,255,.10);
+  --text:#ecf0fa; --text-2:#aab4cd; --text-3:#6e7997;
+  --gold:#f5c518; --red:#e03050; --violet:#a855f7; --cyan:#14b8d4; --jade:#00c87c; --orange:#f0920c;
+  --S:var(--cyan); --T:var(--violet); --E:var(--jade); --A:var(--orange); --M:var(--gold); --SS:#ff6fae; --ED:#4c8dff; --X:#c9d3e6;
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r:14px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px;background:var(--void)}
+body{margin:0;background:var(--void);color:var(--text);font-family:var(--f-body);font-size:1rem;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+strong{color:var(--text);font-weight:600}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+::selection{background:rgba(245,197,24,.3)}
+.wrap{max-width:1220px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
 
-  <!-- Open Graph -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://ifainternet.org/ifa-labs/" />
-  <meta property="og:title"       content="IfaLabs — TOELabs | The IFA Internet" />
-  <meta property="og:description" content="IfaLabs (TOELabs) — the research and innovation lab of the IFA Internet. Integrating Ifa Engineering, Ifa Mechanics, Ifa Analysis, Ifa Modelling, the Ifa Periodic Table, and Ifa Games." />
-  <meta property="og:site_name"   content="The IFA Internet" />
+/* Blueprint ground */
+.ground{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(60rem 40rem at 80% -10%,rgba(245,197,24,.07),transparent 60%),
+  radial-gradient(50rem 40rem at -10% 50%,rgba(20,184,212,.05),transparent 60%),
+  radial-gradient(50rem 40rem at 110% 90%,rgba(224,48,80,.06),transparent 60%),
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/100px 100px,
+  linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/100px 100px,
+  linear-gradient(rgba(150,170,230,.045) 1px,transparent 1px) 0 0/20px 20px,
+  linear-gradient(90deg,rgba(150,170,230,.045) 1px,transparent 1px) 0 0/20px 20px,var(--void);
+  -webkit-mask-image:linear-gradient(#000,rgba(0,0,0,.6));mask-image:linear-gradient(#000,rgba(0,0,0,.6))}
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary" />
-  <meta name="twitter:title"       content="IfaLabs — TOELabs | The IFA Internet" />
-  <meta name="twitter:description" content="IfaLabs (TOELabs) — the research and innovation lab of the IFA Internet, bridging tech development with African cultural values through the E.T.H.I.C.S Framework." />
+/* ── Header ── */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(4,7,15,.92)}
+.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(4,7,15,.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.header .wrap{display:flex;align-items:center;gap:20px;min-height:66px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.brand img{height:30px;width:auto}
+.brand__names{display:flex;flex-direction:column;line-height:1.15}
+.brand__k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3)}
+.brand__n{font-family:var(--f-display);font-weight:700;font-size:1.02rem;letter-spacing:.02em;color:var(--gold)}
+.nav{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav a{font-size:.84rem;text-decoration:none;color:var(--text-2);padding:7px 10px;border-radius:8px;transition:color .2s,background .2s;white-space:nowrap}
+.nav a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.nav a.cta{color:#1b1300;background:var(--gold);font-weight:600;margin-left:6px;padding:8px 14px}
+.nav a.cta:hover{background:#ffd84a}
+.burger{display:none;margin-left:auto;width:44px;height:44px;border-radius:10px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.burger span{display:block;width:20px;height:2px;border-radius:2px;background:var(--text);transition:transform .2s,opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:1080px){
+  .burger{display:flex}
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;padding:10px max(20px,env(safe-area-inset-right,0px)) 18px max(20px,env(safe-area-inset-left,0px));background:rgba(4,7,15,.97);border-bottom:1px solid var(--line)}
+  .nav.is-open{display:flex}
+  .nav a{padding:12px 10px;font-size:1rem}
+  .nav a.cta{margin:8px 0 0;text-align:center}
+}
 
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "IfaLabs",
-    "alternateName": ["TOELabs", "Theory of Everything Labs", "Ifa Research Labs", "IFA Labs"],
-    "description": "IfaLabs (TOELabs) is the research and innovation lab of the IFA Internet — integrating Ifa Engineering, Ifa Mechanics, Ifa Analysis, Ifa Modelling, the Ifa Periodic Table, and Ifa Games, grounded in the E.T.H.I.C.S Framework.",
-    "url": "https://ifainternet.org/ifa-labs/",
-    "applicationCategory": "EducationApplication",
-    "operatingSystem": "Web",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "The IFA Internet",
-      "url": "https://ifainternet.org"
-    }
-  }
-  </script>
+/* ── Shared type ── */
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:12px}
+.eyebrow{white-space:nowrap}
+@media (max-width:480px){.eyebrow{white-space:normal;text-align:center}}
+.eyebrow::after{content:"";flex:0 1 80px;height:1px;background:linear-gradient(90deg,var(--line-2),transparent)}
+.eyebrow--c{justify-content:center}
+.eyebrow--c::before{content:"";flex:0 1 80px;height:1px;background:linear-gradient(270deg,var(--line-2),transparent)}
+.h2{margin:14px 0 14px;font-family:var(--f-display);font-weight:700;font-size:clamp(1.9rem,1.3rem + 2.4vw,3rem);line-height:1.06;letter-spacing:-.02em;text-wrap:balance}
+.sub{margin:0;color:var(--text-2);font-size:1.05rem;max-width:66ch;text-wrap:pretty}
+.head-c{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:clamp(30px,5vw,52px)}
+.gold{color:var(--gold)}.red{color:var(--red)}
+.section{padding-block:clamp(60px,8vw,108px);border-top:1px solid var(--line);position:relative}
+.section--alt{background:linear-gradient(180deg,rgba(7,12,26,.88),rgba(7,12,26,.5))}
 
-  <link rel="icon" type="image/png" href="../src/assets/itoe_favicon.png" />
-  <link rel="stylesheet" href="./src/styles.css" />
+/* Drawing-sheet frame: corner marks + rulers */
+.sheet{position:relative;border:1px solid var(--line-2);border-radius:var(--r);background:var(--void)}
+.sheet::before,.sheet::after{content:"";position:absolute;width:16px;height:16px;border-color:var(--gold);border-style:solid;opacity:.75;pointer-events:none}
+.sheet::before{top:9px;left:9px;border-width:1.5px 0 0 1.5px}
+.sheet::after{bottom:9px;right:9px;border-width:0 1.5px 1.5px 0}
+.sheet--red::before,.sheet--red::after{border-color:var(--red)}
+.rx,.ry{position:absolute;pointer-events:none;opacity:.5}
+.rx{left:34px;right:34px;top:0;height:8px;background:repeating-linear-gradient(90deg,var(--line-2) 0 1px,transparent 1px 10px),repeating-linear-gradient(90deg,rgba(245,197,24,.6) 0 1px,transparent 1px 50px);background-size:auto 5px,auto 8px;background-repeat:repeat-x}
+.ry{top:34px;bottom:34px;left:0;width:8px;background:repeating-linear-gradient(0deg,var(--line-2) 0 1px,transparent 1px 10px),repeating-linear-gradient(0deg,rgba(245,197,24,.6) 0 1px,transparent 1px 50px);background-size:5px auto,8px auto;background-repeat:repeat-y}
+
+/* ── Hero ── */
+.hero{padding-block:clamp(40px,7vw,90px) clamp(48px,7vw,90px)}
+.hero__grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,64px);align-items:center}
+.hero__text{display:flex;flex-direction:column;gap:20px;min-width:0}
+.badge{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(245,197,24,.35);border-radius:999px;padding:7px 14px;background:rgba(245,197,24,.06)}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.h1{margin:0;display:flex;flex-direction:column;gap:8px}
+.h1__main{font-family:var(--f-display);font-weight:700;font-size:clamp(3rem,1.6rem + 5.6vw,5.8rem);line-height:.92;letter-spacing:-.04em;background:linear-gradient(100deg,#fff6cf,var(--gold) 45%,var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+.h1__ethics{font-family:var(--f-mono);font-weight:500;font-size:clamp(1.05rem,.9rem + .8vw,1.45rem);letter-spacing:.32em;color:var(--text)}
+.h1__ethics b{color:var(--gold);font-weight:600}
+.h1__sub{font-family:var(--f-display);font-weight:500;font-size:clamp(1.15rem,1rem + .6vw,1.45rem);color:var(--cyan);letter-spacing:-.005em}
+.lead{margin:0;color:var(--text-2);max-width:62ch}
+.lead + .lead{margin-top:-6px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:.92rem;padding:12px 20px;border-radius:10px;transition:transform .2s,box-shadow .2s,border-color .2s,color .2s}
+.btn--p{background:var(--gold);color:#1b1300;box-shadow:0 0 0 1px rgba(245,197,24,.4),0 8px 30px -8px rgba(245,197,24,.6)}
+.btn--p:hover{transform:translateY(-2px)}
+.btn--g{border:1px solid var(--line-2);background:rgba(255,255,255,.02)}
+.btn--g:hover{border-color:var(--gold);color:var(--gold)}
+.ext::after{content:"↗";font-size:.85em;opacity:.8}
+
+/* Hero instrument: Ifa Infinity with the five STEAM labs on its orbit */
+.orbit{position:relative;width:100%;max-width:520px;aspect-ratio:1;margin:0 auto}
+.orbit canvas{position:absolute;inset:0;width:100%;height:100%}
+.orbit__ring{position:absolute;inset:7%;border-radius:50%;border:1px dashed var(--line-2)}
+.orbit__ring--2{inset:14%;border-style:solid;border-color:var(--line)}
+.node{--c:var(--S);position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;z-index:2}
+.node__dot{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:1.25rem;color:#06101e;background:radial-gradient(circle at 35% 30%,#fff 0%,var(--c) 45%,color-mix(in srgb,var(--c) 55%,#000));box-shadow:0 0 0 4px var(--void),0 0 0 5px color-mix(in srgb,var(--c) 60%,transparent),0 0 26px color-mix(in srgb,var(--c) 60%,transparent);transition:transform .2s}
+.node:hover .node__dot{transform:scale(1.1)}
+.node__l{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--c);background:rgba(4,7,15,.85);padding:2px 7px;border-radius:5px;white-space:nowrap}
+
+.steamsex{display:flex;justify-content:center;gap:4px;margin-top:14px;font-family:var(--f-mono);font-weight:600;font-size:1.05rem;letter-spacing:.06em}
+.steamsex span{color:var(--c);width:28px;height:30px;display:grid;place-items:center;border-radius:6px;border:1px solid color-mix(in srgb,var(--c) 40%,transparent);background:color-mix(in srgb,var(--c) 8%,transparent)}
+/* E.T.H.I.C.S acrostic */
+.ethics{margin-top:clamp(36px,5vw,56px);display:grid;grid-template-columns:repeat(6,minmax(0,1fr));border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:rgba(11,18,38,.6)}
+.ethics__i{padding:18px 16px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:4px;min-width:0}
+.ethics__i:last-child{border-right:0}
+.ethics__k{font-family:var(--f-display);font-weight:700;font-size:2rem;line-height:1;color:var(--gold)}
+.ethics__n{font-size:.88rem;font-weight:600;color:var(--text)}
+.ethics__cap{grid-column:1/-1;border-top:1px solid var(--line);padding:12px 16px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ethics__cap a{color:var(--gold);text-decoration:none}
+
+/* IfaSpace band */
+.space{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,56px);align-items:center}
+.space__names{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.tag{--c:var(--gold);font-size:.8rem;padding:5px 12px;border-radius:7px;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 40%,transparent);background:color-mix(in srgb,var(--c) 8%,transparent)}
+.net{width:100%;aspect-ratio:1;border-radius:var(--r)}
+
+/* ── Labs ── */
+.labs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.lab{--c:var(--S);position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden;transition:border-color .25s,transform .25s;min-width:0}
+.lab:hover{border-color:color-mix(in srgb,var(--c) 50%,transparent);transform:translateY(-3px)}
+.lab__top{display:flex;align-items:center;gap:16px;padding:22px 22px 18px;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 14%,transparent),transparent 70%);border-bottom:1px dashed color-mix(in srgb,var(--c) 30%,transparent)}
+.lab__sym{width:62px;height:62px;flex-shrink:0;border:1.5px solid var(--c);border-radius:10px;display:grid;place-items:center;position:relative;font-family:var(--f-display);font-weight:700;font-size:2rem;color:var(--c);text-shadow:0 0 18px color-mix(in srgb,var(--c) 60%,transparent)}
+.lab__sym small{position:absolute;top:3px;left:5px;font-family:var(--f-mono);font-size:.55rem;color:var(--text-3);text-shadow:none}
+.lab__name{margin:0;font-family:var(--f-display);font-weight:700;font-size:1.2rem;line-height:1.2}
+.lab__field{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--c)}
+.lab__body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px;flex:1}
+.lab__body p{margin:0;color:var(--text-2);font-size:.94rem}
+.lab__links{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px}
+.lab__links a{font-size:.8rem;text-decoration:none;color:var(--text);padding:5px 10px;border-radius:7px;border:1px solid var(--line-2);background:rgba(255,255,255,.02);transition:border-color .2s,color .2s}
+.lab__links a:hover{border-color:var(--c);color:var(--c)}
+
+/* ── Iṣẹ́ Ọnà Ayárabíàṣá ── */
+.ise__title{margin:12px 0 4px;font-family:var(--f-body);font-weight:700;font-size:clamp(2.3rem,1.4rem + 4vw,4.4rem);line-height:1;letter-spacing:-.03em;text-wrap:balance}
+.ise__title .a{color:var(--gold)}.ise__title .b{color:var(--red)}
+.ise__sub{font-family:var(--f-mono);font-size:clamp(.82rem,.75rem + .3vw,1rem);letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+.ise__intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);margin:26px 0 clamp(30px,4vw,44px)}
+.ise__intro p{margin:0;color:var(--text-2)}
+.dual-key{display:flex;flex-direction:column;gap:12px}
+.dual-key__row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(11,18,38,.6)}
+.dual-key__sw{width:36px;height:36px;border-radius:50%}
+.dual-key__row b{font-family:var(--f-display);font-size:1.02rem}
+.dual-key__row span{display:block;font-size:.88rem;color:var(--text-2)}
+
+.aro-link{display:flex;align-items:center;justify-content:space-between;gap:14px;text-decoration:none;padding:14px 16px;border-radius:12px;border:1px solid rgba(240,146,12,.55);background:linear-gradient(90deg,rgba(240,146,12,.12),rgba(224,48,80,.08));transition:border-color .2s,transform .2s}
+.aro-link:hover{border-color:var(--gold);transform:translateY(-2px)}
+.aro-link b{display:block;font-family:var(--f-body);font-weight:700;color:var(--orange)}
+.aro-link span span{font-size:.86rem;color:var(--text-2)}
+.aro-link i{font-style:normal;font-size:1.3rem;color:var(--orange)}
+/* Workbench */
+.bench{display:grid;grid-template-columns:minmax(0,1fr) 300px;border:1px solid var(--line-2);border-radius:18px;overflow:hidden;background:var(--panel)}
+.bench__bar{grid-column:1/-1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(4,7,15,.6)}
+.bench__dots{display:flex;gap:6px}
+.bench__dots i{width:10px;height:10px;border-radius:50%;background:var(--line-2)}
+.bench__file{font-family:var(--f-body);font-size:.74rem;color:var(--text-2)}
+.bench__file b{color:var(--gold);font-weight:500}
+.bench__lang{margin-left:auto;display:inline-flex;padding:3px;border-radius:10px;border:1px solid var(--line-2);background:var(--void)}
+.bench__lang button{cursor:pointer;border:0;background:none;padding:7px 14px;border-radius:7px;font-family:var(--f-mono);font-size:.76rem;letter-spacing:.06em;color:var(--text-2)}
+.bench__lang button[aria-pressed="true"][data-mode="ifa"]{background:var(--gold);color:#1b1300}
+.bench__lang button[aria-pressed="true"][data-mode="orisa"]{background:var(--red);color:#fff}
+.bench__stage{position:relative;background:#04070f;display:grid;place-items:center;padding:14px;min-width:0;border-right:1px solid var(--line)}
+.bench__stage canvas{max-width:100%;display:block}
+.bench__coords{position:absolute;left:14px;bottom:12px;font-family:var(--f-mono);font-size:.7rem;color:var(--text-3);font-variant-numeric:tabular-nums;background:rgba(4,7,15,.8);padding:3px 8px;border-radius:5px}
+.bench__side{display:flex;flex-direction:column;min-width:0}
+.ctl{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.ctl__h{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.ctl label.range{display:flex;flex-direction:column;gap:6px;font-size:.86rem;color:var(--text-2)}
+.ctl label.range span{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.ctl label.range output{font-family:var(--f-mono);color:var(--text)}
+.ctl input[type=range]{width:100%;accent-color:var(--gold)}
+.mode-orisa .ctl input[type=range]{accent-color:var(--red)}
+.chk{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--text-2);cursor:pointer}
+.chk input{width:16px;height:16px;accent-color:var(--gold)}
+.mode-orisa .chk input{accent-color:var(--red)}
+.chk.is-off{opacity:.4;pointer-events:none}
+.spec{padding:16px 18px;display:flex;flex-direction:column;gap:0;flex:1;font-size:.84rem}
+.spec dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 12px}
+.spec dt{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);padding-top:2px}
+.spec dd{margin:0;color:var(--text);font-variant-numeric:tabular-nums}
+.spec dd.gold{color:var(--gold)}.spec dd.red{color:var(--red)}
+.bench__eq{grid-column:1/-1;padding:10px 16px;border-top:1px solid var(--line);font-family:var(--f-mono);font-size:.74rem;color:var(--text-3);display:flex;gap:18px;flex-wrap:wrap;background:rgba(4,7,15,.6)}
+.bench__eq em{font-style:normal;color:var(--gold)}
+
+
+/* ── Àmúlù composer ── */
+.amulu{margin-top:clamp(36px,5vw,56px);border:1px solid var(--line-2);border-radius:18px;background:var(--panel);overflow:hidden}
+.amulu__head{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:end;padding:clamp(20px,3vw,30px);border-bottom:1px solid var(--line);background:radial-gradient(70% 120% at 0% 0%,rgba(245,197,24,.08),transparent 60%)}
+.amulu__intro{min-width:0}
+.amulu__title{margin:10px 0 8px;font-family:var(--f-display);font-weight:700;font-size:clamp(1.4rem,1.1rem + 1.2vw,1.9rem);line-height:1.15}
+.amulu__intro p{margin:0;color:var(--text-2);max-width:68ch}
+.meter{border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;background:rgba(4,7,15,.7);display:flex;flex-direction:column;gap:8px;min-width:0}
+.meter__top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.meter__k{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
+.meter__v{font-family:var(--f-display);font-size:1.7rem;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1}
+.meter__bar{height:8px;border-radius:999px;background:rgba(150,170,230,.12);overflow:hidden}
+.meter__bar i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--orange),var(--gold));transition:width .35s}
+.meter__sub{display:flex;gap:16px;font-family:var(--f-mono);font-size:.7rem;color:var(--text-3)}
+.meter__sub b{color:var(--text);font-weight:500;font-variant-numeric:tabular-nums}
+.meter__msg{font-size:.88rem;color:var(--text-2);min-height:1.4em}
+.meter__msg.is-win{color:var(--gold);font-weight:600}
+.studio{display:grid;grid-template-columns:76px minmax(0,1fr) 290px;min-height:0}
+.am-tools{display:flex;flex-direction:column;gap:6px;padding:12px 8px;border-right:1px solid var(--line);background:rgba(4,7,15,.5)}
+.tool-btn{cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;border-radius:10px;border:1px solid transparent;background:none;color:var(--text-2);font-family:var(--f-mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase}
+.tool-btn:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.tool-btn[aria-pressed="true"]{color:var(--gold);border-color:rgba(245,197,24,.5);background:rgba(245,197,24,.08)}
+.studio__stage{position:relative;display:grid;place-items:center;padding:12px;background:#04070f;min-width:0;border-right:1px solid var(--line)}
+.studio__stage canvas{display:block;max-width:100%;touch-action:none;border-radius:8px;outline:none;cursor:crosshair}
+.studio__stage canvas.is-select{cursor:default}
+.studio__stage canvas:focus-visible{box-shadow:0 0 0 2px var(--gold)}
+.studio__hint{position:absolute;left:16px;right:16px;bottom:12px;text-align:center;font-size:.78rem;color:var(--text-3);pointer-events:none}
+.studio__side{display:flex;flex-direction:column;min-width:0}
+.studio__side .ctl:last-child{border-bottom:0}
+.swatches{display:flex;gap:8px}
+.sw{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2px solid var(--void);background:var(--c);box-shadow:0 0 0 1px var(--line-2)}
+.sw[aria-checked="true"]{box-shadow:0 0 0 2px var(--c),0 0 14px var(--c)}
+.seg{display:flex;border:1px solid var(--line-2);border-radius:9px;overflow:hidden}
+.seg button{flex:1;cursor:pointer;border:0;border-right:1px solid var(--line);background:none;padding:7px 0;font-family:var(--f-mono);font-size:.76rem;color:var(--text-2)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--gold);color:#1b1300}
+.btn-row{display:flex;flex-wrap:wrap;gap:6px}
+.mini{cursor:pointer;font-size:.8rem;padding:6px 10px;border-radius:8px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);color:var(--text)}
+.mini:hover{border-color:var(--gold);color:var(--gold)}
+.mini--warn:hover{border-color:var(--red);color:var(--red)}
+.presets{display:flex;flex-direction:column;gap:6px}
+.preset{cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:1px;padding:9px 12px;border-radius:10px;border:1px solid var(--line-2);background:rgba(4,7,15,.5);color:var(--text)}
+.preset:hover{border-color:var(--gold)}
+.preset b{font-family:var(--f-display);font-weight:600;font-size:.92rem}
+.preset span{font-size:.76rem;color:var(--text-3)}
+@media (max-width:1000px){
+  .amulu__head{grid-template-columns:minmax(0,1fr)}
+  .studio{grid-template-columns:minmax(0,1fr)}
+  .am-tools{flex-direction:row;justify-content:center;border-right:0;border-bottom:1px solid var(--line)}
+  .tool-btn{flex:1;max-width:96px}
+  .studio__stage{border-right:0;border-bottom:1px solid var(--line);padding-bottom:40px}
+  .studio__side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .studio__side .ctl{border-right:1px solid var(--line)}
+}
+@media (max-width:640px){
+  .studio__side{grid-template-columns:minmax(0,1fr)}
+  .studio__side .ctl{border-right:0}
+}
+
+[hidden]{display:none!important}
+/* ── IfaCAD / OrisaCAD duals ── */
+.duo{display:grid;grid-template-columns:minmax(0,1fr) 56px minmax(0,1fr);gap:0;align-items:stretch}
+.duo__axis{position:relative;display:flex;align-items:center;justify-content:center}
+.duo__axis::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:linear-gradient(var(--gold),var(--line-2) 50%,var(--red))}
+.duo__axis span{position:relative;writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--f-mono);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--text-3);background:var(--void);padding:12px 0}
+.cad{--c:var(--gold);padding:clamp(22px,3vw,34px);display:flex;flex-direction:column;gap:18px;min-width:0}
+.cad--orisa{--c:var(--red);text-align:right;align-items:flex-end}
+.cad__label{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--c)}
+.cad__title{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(1.7rem,1.2rem + 2vw,2.6rem);line-height:1.08;letter-spacing:-.02em}
+.cad__title em{font-style:normal;color:var(--c)}
+.cad__def{margin:0;font-size:1.06rem;color:var(--text);max-width:46ch}
+.cad__def b{color:var(--c);font-weight:600}
+.aka{display:flex;flex-direction:column;gap:8px}
+.aka__h{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.aka__list{display:flex;flex-wrap:wrap;gap:8px}
+.cad--orisa .aka__list{justify-content:flex-end}
+.aka__list span{font-size:.84rem;padding:5px 11px;border-radius:7px;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 40%,transparent);background:color-mix(in srgb,var(--c) 8%,transparent)}
+.cad__art{align-self:stretch;display:grid;place-items:center;padding:18px;border-radius:12px;background:#04070f;border:1px solid var(--line)}
+.cad__spec{align-self:stretch;margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:left}
+.cad__spec dt,.cad__spec dd{margin:0;padding:10px 14px;border-bottom:1px solid var(--line)}
+.cad__spec dt{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);background:rgba(11,18,38,.6)}
+.cad__spec dd{font-size:.9rem}
+.cad__spec dt:nth-last-of-type(1),.cad__spec dd:last-of-type{border-bottom:0}
+.duo__note{margin-top:clamp(26px,4vw,40px);text-align:center;font-family:var(--f-display);font-size:clamp(1.1rem,1rem + .6vw,1.4rem);color:var(--text);text-wrap:balance}
+.duo__note .gold,.duo__note .red{font-weight:600}
+
+/* ── Fields & professions ── */
+.fields{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.field{--c:var(--S);border-radius:var(--r);border:1px solid var(--line);background:var(--panel);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0;border-top:3px solid var(--c)}
+.field__h{display:flex;align-items:baseline;gap:10px}
+.field__k{font-family:var(--f-display);font-weight:700;font-size:1.8rem;line-height:1;color:var(--c)}
+.field__n{font-family:var(--f-display);font-weight:600;font-size:1rem}
+.field ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.field li{font-size:.88rem;color:var(--text-2);padding-left:14px;position:relative}
+.field li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;border:1.5px solid var(--c)}
+.every{margin-top:16px;border-radius:var(--r);border:1px dashed var(--line-2);padding:18px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.every__h{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-right:6px}
+.every span:not(.every__h){font-size:.86rem;color:var(--text);padding:4px 10px;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+
+/* ── Capabilities ── */
+.caps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.cap{background:var(--deep);padding:24px 24px 26px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.cap__n{font-family:var(--f-mono);font-size:.7rem;color:var(--text-3)}
+.cap__t{margin:0;font-family:var(--f-display);font-weight:600;font-size:1.12rem}
+.cap p{margin:0;color:var(--text-2);font-size:.94rem}
+.cap p a{color:var(--gold)}
+
+/* ── IfaGames ── */
+.games{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,56px);align-items:center}
+.games__board{order:2;direction:rtl;position:relative;aspect-ratio:1;max-width:420px;width:100%;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:16px;border-radius:18px;border:1px solid var(--line-2);background:var(--panel)}
+.games__cell{border-radius:10px;border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:#04070f;cursor:pointer;transition:border-color .2s,background .2s}
+.games__cell:hover{border-color:var(--gold)}
+.games__cell i{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.games__cell i.d{width:7px;height:7px;background:var(--violet);box-shadow:0 0 8px var(--violet)}
+.games__cell .p{display:flex;gap:5px}
+.games__status{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);border:1px dashed rgba(240,146,12,.5);padding:6px 12px;border-radius:999px;align-self:flex-start}
+.games__text{display:flex;flex-direction:column;gap:18px;min-width:0}
+.games__item h3{margin:0 0 6px;font-family:var(--f-display);font-weight:600;font-size:1.2rem}
+.games__item p{margin:0;color:var(--text-2)}
+
+.games__status--live{color:var(--jade);border:1px solid rgba(0,200,124,.5);background:rgba(0,200,124,.08)}
+.games__status--live i{width:8px;height:8px;border-radius:50%;background:var(--jade);box-shadow:0 0 10px var(--jade);animation:live 1.8s ease-in-out infinite}
+@keyframes live{50%{opacity:.35}}
+.games__live{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.game{display:flex;flex-direction:column;gap:3px;text-decoration:none;padding:12px 14px;border-radius:12px;border:1px solid var(--line-2);background:rgba(4,7,15,.55);transition:border-color .2s,transform .2s;min-width:0}
+.game:hover{border-color:var(--gold);transform:translateY(-2px)}
+.game b{font-family:var(--f-body);font-weight:600;font-size:.95rem;color:var(--gold)}
+.game b::after{content:" ↗";color:var(--text-3);font-weight:400}
+.game span{font-size:.84rem;color:var(--text-2)}
+.games__ctas{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.games__soon{font-size:.84rem;color:var(--text-3)}
+@media (max-width:640px){.games__live{grid-template-columns:minmax(0,1fr)}}
+/* ── Tools ── */
+.tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.tool{border-radius:var(--r);border:1px solid var(--line);background:var(--panel);padding:24px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.tool svg{color:var(--gold)}
+.tool h3{margin:6px 0 0;font-family:var(--f-display);font-weight:600;font-size:1.14rem}
+.tool p{margin:0;color:var(--text-2);font-size:.94rem}
+.tool__soon{margin-top:auto;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+
+/* ── ToELabs link panel ── */
+.toe{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:24px;align-items:center;padding:clamp(24px,4vw,44px);border-radius:20px;border:1px solid rgba(245,197,24,.3);background:radial-gradient(70% 90% at 100% 0%,rgba(245,197,24,.1),transparent 60%),var(--panel)}
+.toe h2{margin:10px 0 10px;font-family:var(--f-display);font-weight:700;font-size:clamp(1.6rem,1.2rem + 1.6vw,2.3rem);line-height:1.1}
+.toe p{margin:0;color:var(--text-2)}
+.toe__links{display:flex;flex-direction:column;gap:10px}
+.toe__links a{display:flex;justify-content:space-between;align-items:center;gap:12px;text-decoration:none;padding:14px 16px;border-radius:12px;border:1px solid var(--line-2);background:rgba(4,7,15,.6);transition:border-color .2s}
+.toe__links a:hover{border-color:var(--gold)}
+.toe__links a b{font-family:var(--f-display);font-weight:600}
+.toe__links a span{font-family:var(--f-mono);font-size:.72rem;color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toe__links a:first-child{border-color:rgba(245,197,24,.55);background:rgba(245,197,24,.08)}
+
+/* ── Footer: drawing title block ── */
+.footer{border-top:1px solid var(--line);background:#03050b;padding-block:48px calc(28px + env(safe-area-inset-bottom,0px))}
+.tblock{display:grid;grid-template-columns:1.4fr repeat(3,1fr);border:1px solid var(--line-2);border-radius:12px;overflow:hidden}
+.tblock > div{padding:16px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-width:0}
+.tblock > div:last-child{border-right:0}
+.tblock__k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.tblock__v{font-size:.9rem;color:var(--text)}
+.tblock__v a{color:var(--text-2);text-decoration:none;display:block;line-height:1.9}
+.tblock__v a:hover{color:var(--gold)}
+.tblock__brand{display:flex;align-items:center;gap:10px}
+.tblock__brand img{height:26px;width:auto}
+.tblock__brand b{font-family:var(--f-display);color:var(--gold)}
+.footer__bottom{margin-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--f-mono);font-size:.72rem;color:var(--text-3)}
+.footer__bottom a{color:var(--gold);text-decoration:none}
+
+/* ── Responsive ── */
+@media (max-width:1000px){
+  .hero__grid,.space,.games,.toe,.ise__intro{grid-template-columns:minmax(0,1fr)}
+  .labs,.tools,.caps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fields{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .fields .field:last-child{grid-column:1/-1}
+  .bench{grid-template-columns:minmax(0,1fr)}
+  .bench__stage{border-right:0;border-bottom:1px solid var(--line)}
+  .bench__side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bench__side .spec{grid-column:1/-1}
+  .ethics{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .ethics__i:nth-child(3){border-right:0}
+  .ethics__i:nth-child(-n+3){border-bottom:1px solid var(--line)}
+  .tblock{grid-template-columns:1fr 1fr}
+  .tblock > div:nth-child(2){border-right:0}
+  .tblock > div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+}
+@media (max-width:820px){
+  .duo{grid-template-columns:minmax(0,1fr)}
+  .duo__axis{height:56px}
+  .duo__axis::before{top:50%;bottom:auto;left:0;right:0;width:auto;height:1px;background:linear-gradient(90deg,var(--gold),var(--line-2) 50%,var(--red))}
+  .duo__axis span{writing-mode:horizontal-tb;transform:none;padding:0 12px}
+  .cad--orisa{text-align:left;align-items:flex-start}
+  .cad--orisa .aka__list{justify-content:flex-start}
+}
+@media (max-width:640px){
+  .labs,.tools,.caps,.fields,.bench__side{grid-template-columns:minmax(0,1fr)}
+  .ethics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ethics__i{border-bottom:1px solid var(--line)}
+  .ethics__i:nth-child(odd){border-right:1px solid var(--line)}
+  .ethics__i:nth-child(even){border-right:0}
+  .ethics__i:nth-child(5),.ethics__i:nth-child(6){border-bottom:0}
+  .tblock{grid-template-columns:1fr}
+  .tblock > div{border-right:0!important;border-bottom:1px solid var(--line)}
+  .tblock > div:last-child{border-bottom:0}
+  .node__dot{width:32px;height:32px;font-size:.9rem}
+  .node__l{font-size:.5rem;letter-spacing:.08em}
+  .steamsex span{width:24px;height:26px;font-size:.9rem}
+  .bench__lang{margin-left:0;width:100%}
+  .bench__lang button{flex:1}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
-  <div id="root">
-    <div style="font-family:sans-serif;max-width:860px;margin:0 auto;padding:24px 20px;color:#eee;background:#060a10;min-height:100vh">
-      <h1 style="font-size:1.6rem;color:#f0920c;margin-bottom:8px">IfaLabs — TOELabs | The IFA Internet</h1>
-      <p style="color:#8892aa;margin-bottom:16px">Part of The IFA Internet · The IFA Body of Knowledge (IFABOK)</p>
-      <h2 style="font-size:1.1rem;color:#c0cce0;margin-bottom:8px">What is IfaLabs?</h2>
-      <p style="color:#8892aa;margin-bottom:12px">IfaLabs (TOELabs) is the research and innovation lab of the IFA Internet — integrating Ifa Engineering, Ifa Mechanics, Ifa Analysis, Ifa Modelling, the Ifa Periodic Table, and Ifa Games. Grounded in the E.T.H.I.C.S Framework and the 256 Odu Ifa as the axiomatic foundation.</p>
-      <p style="color:#8892aa">Also known as: TOELabs, Theory of Everything Labs, IFA Labs, CENProject Innovation Hub.</p>
+<div class="ground" aria-hidden="true"></div>
+
+<header class="header">
+  <div class="wrap">
+    <a href="https://ifainternet.org/" class="brand">
+      <img src="https://ifainternet.org/src/assets/itoe_logo.png" alt="The IFA Internet" width="96" height="34" onerror="this.remove()">
+      <span class="brand__names"><span class="brand__k">The IFA Internet</span><span class="brand__n">IfaLabs</span></span>
+    </a>
+    <button class="burger" id="burger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <a href="#labs">Labs</a>
+      <a href="#ise-ona">Iṣẹ́ Ọnà Ayárabíàṣá</a>
+      <a href="#ifacad">IfaCAD</a>
+      <a href="#orisacad">OrisaCAD</a>
+      <a href="https://ifainternet.org/ifa-labs/ile-aro/">Ilé Arọ́</a>
+      <a href="#ifagames">IfaGames</a>
+      <a href="#ethics">E.T.H.I.C.S</a>
+      <a href="https://ifainternet.org/ifagram/">IfaDiagram</a>
+      <a href="https://toe.cenproject.org/ifalabs-toelabs/" class="cta ext" target="_blank" rel="noopener">ToELabs</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero__grid">
+      <div class="hero__text">
+        <div class="badge"><i aria-hidden="true"></i>The IFA Internet — IfaLabs Platform</div>
+        <h1 class="h1">
+          <span class="h1__main">IfaLabs</span>
+          <span class="h1__ethics" aria-label="E.T.H.I.C.S"><b>E</b>.<b>T</b>.<b>H</b>.<b>I</b>.<b>C</b>.<b>S</b></span>
+          <span class="h1__sub">Explore the ToE Playground Inspired by the Odu Ifa</span>
+        </h1>
+        <p class="lead">Also called <strong>ToELabs</strong>, IfaLabs is based on the E.T.H.I.C.S Framework, which means Engineering, Trust, Honesty, Integrity, Courage, Sustainability &amp; Safety.</p>
+        <p class="lead">We’re driven by the commitment to innovation and sustainable development, blending African cultural heritage and IFA Principles to empower the IFA Internet Structure, <a href="https://doi.org/10.31219/osf.io/wr42m" target="_blank" rel="noopener" class="gold">iTOE</a>, for a transformative future.</p>
+        <p class="lead">There is an IfaLab for each field of STEAM — every dimension of learning.</p>
+        <div class="ctas">
+          <a href="#labs" class="btn btn--p">Enter the Labs</a>
+          <a href="#ise-ona" class="btn btn--g">Open Iṣẹ́ Ọnà Ayárabíàṣá</a>
+          <a href="https://toe.cenproject.org/ifalabs-toelabs/" class="btn btn--g ext" target="_blank" rel="noopener">ToELabs</a>
+        </div>
+      </div>
+      <div class="sheet" style="padding:22px">
+        <span class="rx" aria-hidden="true"></span><span class="ry" aria-hidden="true"></span>
+        <div class="orbit" id="orbit">
+          <div class="orbit__ring" aria-hidden="true"></div>
+          <div class="orbit__ring orbit__ring--2" aria-hidden="true"></div>
+          <canvas id="hero-art" aria-hidden="true"></canvas>
+          <a class="node" href="#lab-s" style="--c:var(--S);--x:50%;--y:9%" aria-label="S — Natural Science"><span class="node__dot">S</span><span class="node__l">(Natural) Science</span></a>
+          <a class="node" href="#lab-t" style="--c:var(--T);--x:79%;--y:21%" aria-label="T — Technology"><span class="node__dot">T</span><span class="node__l">Technology</span></a>
+          <a class="node" href="#lab-e" style="--c:var(--E);--x:89%;--y:50%" aria-label="E — Engineering"><span class="node__dot">E</span><span class="node__l">Engineering</span></a>
+          <a class="node" href="#lab-a" style="--c:var(--A);--x:79%;--y:79%" aria-label="A — Art &amp; Design"><span class="node__dot">A</span><span class="node__l">Art &amp; Design</span></a>
+          <a class="node" href="#lab-m" style="--c:var(--M);--x:50%;--y:91%" aria-label="M — Mathematics"><span class="node__dot">M</span><span class="node__l">Mathematics</span></a>
+          <a class="node" href="#fields" style="--c:var(--SS);--x:21%;--y:79%" aria-label="S — Social Science"><span class="node__dot">S</span><span class="node__l">Social Science</span></a>
+          <a class="node" href="#fields" style="--c:var(--ED);--x:11%;--y:50%" aria-label="E — Education"><span class="node__dot">E</span><span class="node__l">Education</span></a>
+          <a class="node" href="#fields" style="--c:var(--X);--x:21%;--y:21%" aria-label="X — Others"><span class="node__dot">X</span><span class="node__l">Others</span></a>
+        </div>
+        <div class="steamsex" aria-label="STEAMSEX: Natural Science, Technology, Engineering, Art and Design, Mathematics, Social Science, Education, Others">
+          <span style="--c:var(--S)">S</span><span style="--c:var(--T)">T</span><span style="--c:var(--E)">E</span><span style="--c:var(--A)">A</span><span style="--c:var(--M)">M</span><span style="--c:var(--SS)">S</span><span style="--c:var(--ED)">E</span><span style="--c:var(--X)">X</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ethics" id="ethics" aria-label="The E.T.H.I.C.S Framework">
+      <div class="ethics__i"><span class="ethics__k">E</span><span class="ethics__n">Engineering</span></div>
+      <div class="ethics__i"><span class="ethics__k">T</span><span class="ethics__n">Trust</span></div>
+      <div class="ethics__i"><span class="ethics__k">H</span><span class="ethics__n">Honesty</span></div>
+      <div class="ethics__i"><span class="ethics__k">I</span><span class="ethics__n">Integrity</span></div>
+      <div class="ethics__i"><span class="ethics__k">C</span><span class="ethics__n">Courage</span></div>
+      <div class="ethics__i"><span class="ethics__k">S</span><span class="ethics__n">Sustainability &amp; Safety</span></div>
+      <div class="ethics__cap"><span>The E.T.H.I.C.S Framework</span><a href="https://cenproject.org/code-of-ethics/" target="_blank" rel="noopener" class="ext">Ọmọlúwàbí Ethos and Values</a></div>
     </div>
   </div>
+</section>
 
-  <script src="../lib/react.min.js"></script>
-  <script src="../lib/react-dom.min.js"></script>
-  <script src="../lib/babel.min.js"></script>
+<!-- ═══ IfaSpace ═══ -->
+<section class="section section--alt" id="ifaspace">
+  <div class="wrap space">
+    <div>
+      <div class="eyebrow">IfaSpace · ToESpace</div>
+      <h2 class="h2">A ToE Space for <span class="gold">every field of knowledge</span></h2>
+      <p class="sub">ToELabs are a dynamic platform that bridges innovative tech development with rich African cultural values and history.</p>
+      <p class="sub" style="margin-top:14px">IfaLabs are a ToE Space (IfaSpace) that serves as an Information and Knowledge Space consisting of knowledge networks, with all fields of knowledge made to “talk” to one another in Ifa Language (<a href="https://cenproject.org/cen-language-the-language-for-everything-loe/" target="_blank" rel="noopener" class="gold">CEN Language</a>) for building the TOE.</p>
+      <div class="space__names" aria-label="IfaSpace is also known as">
+        <span class="tag">IfaSpace</span><span class="tag" style="--c:var(--cyan)">ToESpace</span><span class="tag" style="--c:var(--jade)">EnergySpace</span><span class="tag" style="--c:var(--violet)">Ifa Space</span>
+      </div>
+      <p class="sub" style="margin-top:20px;color:var(--text)">Watch Ifa Simulation Theory in action via interactive designs and games!</p>
+    </div>
+    <div class="sheet" style="padding:14px">
+      <canvas class="net" id="net" aria-label="16-dimensional knowledge network: 16 fields of knowledge, each connected to every other, centred on the Ifa Infinity in IfaLang"></canvas>
+    </div>
+  </div>
+</section>
 
-  <script type="text/babel" data-presets="react" src="./src/App.jsx"></script>
+<!-- ═══ Labs ═══ -->
+<section class="section" id="labs">
+  <div class="wrap">
+    <div class="head-c">
+      <div class="eyebrow eyebrow--c">The Labs</div>
+      <h2 class="h2">An IfaLab for every field of <span class="gold">STEAM</span></h2>
+      <p class="sub">Ifa Science, Ifa Technology, Ifa Engineering, Ifa Arts, and Ifa Mathematics (Ifa STEAM) — every dimension of learning, each with its own lab.</p>
+    </div>
+    <div class="labs">
+      <article class="lab" id="lab-s" style="--c:var(--S)">
+        <div class="lab__top"><div class="lab__sym" aria-hidden="true"><small>01</small>S</div><div><h3 class="lab__name">Ifa Science Lab</h3><div class="lab__field">Science</div></div></div>
+        <div class="lab__body"><p>Observe energy and nature through Ifa: the Ogbe Energy (Ogbenergy) and Oyeku Anergy, energy fields, and Ifa Simulation Theory in action.</p>
+          <div class="lab__links"><a href="https://ifainternet.org/ifa-analysis/">Ifa Analysis</a></div></div>
+      </article>
+      <article class="lab" id="lab-t" style="--c:var(--T)">
+        <div class="lab__top"><div class="lab__sym" aria-hidden="true"><small>02</small>T</div><div><h3 class="lab__name">Ifa Technology Lab</h3><div class="lab__field">Technology</div></div></div>
+        <div class="lab__body"><p>Build with IfaLang: networks, computing and intelligent systems that connect ancient Ifa wisdom with modern computing.</p>
+          <div class="lab__links"><a href="https://toe.cenproject.org/sample-page/" target="_blank" rel="noopener" class="ext">IfAI: ToEAI</a><a href="https://toe.cenproject.org/ifabitcoin/" target="_blank" rel="noopener" class="ext">IFABitcoin</a></div></div>
+      </article>
+      <article class="lab" id="lab-e" style="--c:var(--E)">
+        <div class="lab__top"><div class="lab__sym" aria-hidden="true"><small>03</small>E</div><div><h3 class="lab__name">Ifa Engineering Lab</h3><div class="lab__field">Engineering</div></div></div>
+        <div class="lab__body"><p>Design and build with Iṣẹ́ Ọnà Ayárabíàṣá — Ifa-Aided Designs (IfaCAD) and Orisa-Aided Designs (OrisaCAD) — guided by Green Engineering.</p>
+          <div class="lab__links"><a href="https://ifainternet.org/ifa-labs/ile-aro/">🔒 Ilé Arọ́ playground</a><a href="#ise-ona">Iṣẹ́ Ọnà Ayárabíàṣá</a><a href="#ifacad">IfaCAD</a><a href="#orisacad">OrisaCAD</a></div></div>
+      </article>
+      <article class="lab" id="lab-a" style="--c:var(--A)">
+        <div class="lab__top"><div class="lab__sym" aria-hidden="true"><small>04</small>A</div><div><h3 class="lab__name">Ifa Arts Lab</h3><div class="lab__field">Arts</div></div></div>
+        <div class="lab__body"><p>Ifarts and Orisarts, IfaDesigns and OrisaDesigns — visual art grounded in the Ifa Graphical Language System and the 256 Odu Ifa.</p>
+          <div class="lab__links"><a href="https://ifainternet.org/ifa-art/">Ifa Art</a><a href="https://ifainternet.org/ifagram/">IfaDiagram</a></div></div>
+      </article>
+      <article class="lab" id="lab-m" style="--c:var(--M)">
+        <div class="lab__top"><div class="lab__sym" aria-hidden="true"><small>05</small>M</div><div><h3 class="lab__name">Ifa Mathematics Lab</h3><div class="lab__field">Mathematics</div></div></div>
+        <div class="lab__body"><p>Patterns and structure: the binary structure of the 256 Odu Ifa, IfaGebra, and Ifa Calculus.</p>
+          <div class="lab__links"><a href="https://toe.cenproject.org/ifa-mathematics-toe-mathematics/" target="_blank" rel="noopener" class="ext">IFA Mathematics</a><a href="https://toe.cenproject.org/ifagebra-overview/" target="_blank" rel="noopener" class="ext">IfaGebra</a><a href="https://toe.cenproject.org/ifa-calculus-toe-calculus/" target="_blank" rel="noopener" class="ext">Ifa Calculus</a></div></div>
+      </article>
+      <article class="lab" style="--c:#ff7ab3">
+        <div class="lab__top"><div class="lab__sym" aria-hidden="true"><small>06</small>4+</div><div><h3 class="lab__name">IfaLab For Children</h3><div class="lab__field">Kids &amp; Teens</div></div></div>
+        <div class="lab__body"><p>Ifa STEAM for young learners: Orisa characters, Yoruba counting and greetings, Odu Ifa patterns, sounds and Ifanimations.</p>
+          <div class="lab__links"><a href="https://ifainternet.org/ifagram/kids/">Ifagrams for Kids &amp; Teens</a></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Iṣẹ́ Ọnà Ayárabíàṣá ═══ -->
+<section class="section section--alt" id="ise-ona">
+  <div class="wrap">
+    <div class="eyebrow">Ifa Engineering Lab · Design</div>
+    <h2 class="ise__title"><span class="a">Iṣẹ́ Ọnà</span> <span class="b">Ayárabíàṣá</span></h2>
+    <div class="ise__sub">Computer-Aided Design (CAD) in Yoruba</div>
+    <div class="ise__intro">
+      <p>Iṣẹ́ Ọnà Ayárabíàṣá is design with the computer in Yoruba — the IfaLabs home of Computer-Aided Design. It works in two dual languages: designs built in Ifa Language (IfaLang) are Ifa-Aided Designs (IfaCAD), and designs built in Orisa Language (OrisaLang) are Orisa-Aided Designs (OrisaCAD). Together, Ifa-Orisa Designs serve every field of STEAM and every profession.</p>
+      <div class="dual-key">
+        <div class="dual-key__row"><span class="dual-key__sw" style="background:radial-gradient(circle at 35% 30%,#fff8d2,var(--gold) 50%,#7a5c00)"></span><div><b class="gold">IfaCAD</b><span>Building designs in Ifa Language (IfaLang)</span></div></div>
+        <div class="dual-key__row"><span class="dual-key__sw" style="background:radial-gradient(circle at 35% 30%,#ffd0d8,var(--red) 50%,#6e0f20)"></span><div><b class="red">OrisaCAD</b><span>Building designs in Orisa Language (OrisaLang)</span></div></div>
+        <a class="aro-link" href="https://ifainternet.org/ifa-labs/ile-aro/"><span><b>Ilé Arọ́: IfaCAD and OrisaCAD Playground</b><span>🔒 Premium · IFA Academy students sign in with their IfaLMS account. Build gates, circuits, blueprints and simulations.</span></span><i aria-hidden="true">→</i></a>
+      </div>
+    </div>
+
+    <div class="bench" id="bench">
+      <div class="bench__bar">
+        <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="bench__file" id="bench-file">iṣẹ́-ọnà / <b>ifa-infinity.ifacad</b></span>
+        <div class="bench__lang" role="group" aria-label="Design language">
+          <button type="button" data-mode="ifa" aria-pressed="true">IfaLang · IfaCAD</button>
+          <button type="button" data-mode="orisa" aria-pressed="false">OrisaLang · OrisaCAD</button>
+        </div>
+      </div>
+      <div class="bench__stage">
+        <canvas id="bench-canvas" aria-label="Design canvas"></canvas>
+        <div class="bench__coords" id="bench-coords" aria-hidden="true">x 0 · y 0</div>
+      </div>
+      <div class="bench__side">
+        <div class="ctl">
+          <div class="ctl__h">Parameters</div>
+          <label class="range"><span>Lobe size a <output id="out-a">0.357</output></span><input type="range" id="in-a" min="0.25" max="0.42" step="0.001" value="0.357"></label>
+          <label class="range"><span>Nested curves <output id="out-n">1</output></span><input type="range" id="in-n" min="1" max="16" step="1" value="1"></label>
+        </div>
+        <div class="ctl">
+          <div class="ctl__h">Layers</div>
+          <label class="chk"><input type="checkbox" id="ly-grid" checked> Grid</label>
+          <label class="chk"><input type="checkbox" id="ly-con" checked> Construction lines</label>
+          <label class="chk"><input type="checkbox" id="ly-dim" checked> Dimensions</label>
+          <label class="chk" id="ly-diag-wrap"><input type="checkbox" id="ly-diag"> Diagonal axis</label>
+        </div>
+        <div class="spec">
+          <div class="ctl__h" style="margin-bottom:10px">Design</div>
+          <dl>
+            <dt>Name</dt><dd id="sp-name" class="gold">The Ifa Infinity (ToE Infinity)</dd>
+            <dt>Language</dt><dd id="sp-lang">IfaLang</dd>
+            <dt>System</dt><dd id="sp-sys">Ifa-Aided Designs (IfaCAD)</dd>
+            <dt>Lobes</dt><dd id="sp-lobes">4</dd>
+            <dt>a</dt><dd id="sp-a">—</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="bench__eq"><span>Lemniscate of Bernoulli <em>(x² + y²)² = 2a²(x² − y²)</em></span><span>polar <em>r² = 2a² cos(2θ)</em></span><span>Four lobes · two lemniscates · the Ifa Infinity</span></div>
+    </div>
+
+    <!-- ═══ Àmúlù Composer: draw the Ifa Infinity by hand ═══ -->
+    <div class="amulu" id="amulu">
+      <div class="amulu__head">
+        <div class="amulu__intro">
+          <div class="eyebrow">Àmúlù · IfaComposition</div>
+          <h3 class="amulu__title">Compose the Ifa Infinity by hand</h3>
+          <p>The 256 Ọpọ́nfá Infinities are built through the Àmúlù Operation, also called IfaComposition. It begins with the Ọpọ́n Ifá — the IfaZero (IfaCircle) — and four such circles composed together produce the Òbìrìkìtí, the Ifa Infinity. Draw circles, ellipses and lobes; move, resize and rotate them; and combine them into the Ifa Infinity design, or a design of your own.</p>
+        </div>
+        <div class="meter" aria-live="polite">
+          <div class="meter__top"><span class="meter__k">Match with the Ifa Infinity</span><b class="meter__v" id="am-score">0%</b></div>
+          <div class="meter__bar"><i id="am-bar"></i></div>
+          <div class="meter__sub"><span>Coverage <b id="am-cov">0%</b></span><span>Precision <b id="am-pre">0%</b></span></div>
+          <div class="meter__msg" id="am-msg">Start composing.</div>
+        </div>
+      </div>
+
+      <div class="studio">
+        <div class="am-tools" role="toolbar" aria-label="Drawing tools">
+          <button type="button" class="tool-btn" data-tool="select" aria-pressed="true" title="Select &amp; move (V)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M5 3l14 8-6 1.5L10 19z"/></svg><span>Select</span></button>
+          <button type="button" class="tool-btn" data-tool="circle" aria-pressed="false" title="Circle — drag from the centre (C)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg><span>Circle</span></button>
+          <button type="button" class="tool-btn" data-tool="ellipse" aria-pressed="false" title="Ellipse — drag from the centre (E)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><ellipse cx="12" cy="12" rx="9" ry="5.5" transform="rotate(-25 12 12)"/></svg><span>Ellipse</span></button>
+          <button type="button" class="tool-btn" data-tool="lobe" aria-pressed="false" title="Lobe — drag from its point (L)"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12C8 8 13 6.5 17 7.5c3 .8 3 8.2 0 9C13 17.5 8 16 4 12z"/><circle cx="4" cy="12" r="1" fill="currentColor"/></svg><span>Lobe</span></button>
+        </div>
+
+        <div class="studio__stage">
+          <canvas id="amulu-canvas" tabindex="0" aria-label="Composition canvas. Use the tools to draw circles, ellipses and lobes."></canvas>
+          <div class="studio__hint" id="am-hint">Select a shape to move it. Drag its handles to resize and rotate.</div>
+        </div>
+
+        <div class="studio__side">
+          <div class="ctl">
+            <div class="ctl__h">Ink</div>
+            <div class="swatches" role="radiogroup" aria-label="Ink">
+              <button type="button" class="sw" data-ink="gold" style="--c:#f5c518" role="radio" aria-checked="true" title="Gold — IfaLang"></button>
+              <button type="button" class="sw" data-ink="red" style="--c:#e03050" role="radio" aria-checked="false" title="Red — OrisaLang"></button>
+              <button type="button" class="sw" data-ink="cyan" style="--c:#14b8d4" role="radio" aria-checked="false" title="Cyan"></button>
+              <button type="button" class="sw" data-ink="violet" style="--c:#a855f7" role="radio" aria-checked="false" title="Violet"></button>
+              <button type="button" class="sw" data-ink="white" style="--c:#ecf0fa" role="radio" aria-checked="false" title="White"></button>
+            </div>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Rotational symmetry</div>
+            <div class="seg" role="group" aria-label="Rotational symmetry">
+              <button type="button" data-sym="1" aria-pressed="false">Off</button><button type="button" data-sym="2" aria-pressed="false">×2</button><button type="button" data-sym="4" aria-pressed="false">×4</button><button type="button" data-sym="8" aria-pressed="false">×8</button>
+            </div>
+            <label class="chk"><input type="checkbox" id="am-guide" checked> Ifa Infinity guide</label>
+            <label class="chk"><input type="checkbox" id="am-snap" checked> Snap to grid &amp; centre</label>
+          </div>
+          <div class="ctl" id="am-props" hidden>
+            <div class="ctl__h">Selected · <span id="am-type">Circle</span></div>
+            <label class="range"><span>Size <output id="am-o-size">0</output></span><input type="range" id="am-size" min="5" max="300" step="1"></label>
+            <label class="range" id="am-width-wrap"><span>Width <output id="am-o-width">0</output></span><input type="range" id="am-width" min="5" max="300" step="1"></label>
+            <label class="range" id="am-rot-wrap"><span>Rotation <output id="am-o-rot">0°</output></span><input type="range" id="am-rot" min="-180" max="180" step="1"></label>
+            <div class="btn-row"><button type="button" class="mini" id="am-dup">Duplicate</button><button type="button" class="mini mini--warn" id="am-del">Delete</button></div>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Compose</div>
+            <div class="btn-row">
+              <button type="button" class="mini" id="am-undo">Undo</button>
+              <button type="button" class="mini" id="am-bake" title="Turn the symmetry copies into real shapes">Àmúlù: combine copies</button>
+              <button type="button" class="mini" id="am-clear">Clear</button>
+            </div>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Start from</div>
+            <div class="presets">
+              <button type="button" class="preset" data-preset="circles"><b>Four IfaCircles</b><span>The Àmúlù of four circles</span></button>
+              <button type="button" class="preset" data-preset="lobes"><b>Four lobes</b><span>The exact Ifa Infinity</span></button>
+              <button type="button" class="preset" data-preset="challenge"><b>Challenge</b><span>Draw one lobe, symmetry ×4</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ IfaCAD & OrisaCAD ═══ -->
+<section class="section" id="ifacad">
+  <div class="wrap">
+    <div class="head-c">
+      <div class="eyebrow eyebrow--c">Ifa‑Orisa Designs</div>
+      <h2 class="h2"><span class="gold">IfaCAD</span> and its Dual, <span class="red">OrisaCAD</span></h2>
+      <p class="sub">Two design systems that mirror each other — one built in Ifa Language, one in Orisa Language.</p>
+    </div>
+    <div class="duo">
+      <article class="cad sheet">
+        <span class="rx" aria-hidden="true"></span>
+        <div class="cad__label">IfaCAD · IfaLang</div>
+        <h3 class="cad__title">Ifa-Aided Designs <em>(IfaCAD)</em></h3>
+        <p class="cad__def"><b>Ifaided Designs</b> entail building designs in <b>Ifa Language (IfaLang)</b>.</p>
+        <div class="aka"><div class="aka__h">Also known as</div>
+          <div class="aka__list"><span>Ifa Computer-Aided Designs</span><span>Ifaided Designs</span><span>Energy-Based Designs</span><span>Ifa-Based Designs</span><span>Ifa Designs</span><span>Consciousness Designs</span></div></div>
+        <div class="cad__art" data-art="ifa"></div>
+        <dl class="cad__spec">
+          <dt>Language</dt><dd>IfaLang (Ifa Language)</dd>
+          <dt>Foundation</dt><dd>The Ifa Infinity</dd>
+          <dt>Structure</dt><dd>IfaCategory · the 256 Odu Ifa</dd>
+          <dt>Fields</dt><dd>Every field of STEAM and every profession</dd>
+        </dl>
+      </article>
+      <div class="duo__axis" aria-hidden="true"><span>Duality</span></div>
+      <article class="cad cad--orisa sheet sheet--red" id="orisacad">
+        <span class="rx" aria-hidden="true" style="background-image:repeating-linear-gradient(90deg,var(--line-2) 0 1px,transparent 1px 10px),repeating-linear-gradient(90deg,rgba(224,48,80,.6) 0 1px,transparent 1px 50px)"></span>
+        <div class="cad__label">OrisaCAD · OrisaLang</div>
+        <h3 class="cad__title">Orisa-Aided Designs <em>(OrisaCAD)</em></h3>
+        <p class="cad__def">The Dual of Ifa-Aided Designs. <b>Orisaided Designs</b> entail building designs in <b>Orisa Language (OrisaLang)</b>.</p>
+        <div class="aka"><div class="aka__h">Also known as</div>
+          <div class="aka__list"><span>Orisaided Designs</span><span>Orisa-Based Designs</span></div></div>
+        <div class="cad__art" data-art="orisa"></div>
+        <dl class="cad__spec">
+          <dt>Language</dt><dd>OrisaLang (Orisa Language)</dd>
+          <dt>Foundation</dt><dd>The Orisa Infinity (Ifa Ninifinity)</dd>
+          <dt>Structure</dt><dd>OrisaCategory · the Àpólà Odù</dd>
+          <dt>Fields</dt><dd>Every field of STEAM and every profession</dd>
+        </dl>
+      </article>
+    </div>
+    <p class="duo__note">Ifa-Orisa Designs: <span class="gold">Ifaided</span> and <span class="red">Orisaided</span> — for every field and every profession.</p>
+  </div>
+</section>
+
+<!-- ═══ Fields & professions ═══ -->
+<section class="section section--alt" id="fields">
+  <div class="wrap">
+    <div class="head-c">
+      <div class="eyebrow eyebrow--c">Every field · Every profession</div>
+      <h2 class="h2">Ifa-Orisa Designs for <span class="gold">every field</span> and <span class="red">profession</span></h2>
+      <p class="sub">IfaCAD and OrisaCAD are not limited to one discipline. Every field of STEAM, and every profession, can build its designs in IfaLang and OrisaLang.</p>
+    </div>
+    <div class="fields">
+      <div class="field" style="--c:var(--S)"><div class="field__h"><span class="field__k">S</span><span class="field__n">Science</span></div><ul><li>Physicists</li><li>Chemists</li><li>Biologists</li><li>Earth &amp; climate scientists</li></ul></div>
+      <div class="field" style="--c:var(--T)"><div class="field__h"><span class="field__k">T</span><span class="field__n">Technology</span></div><ul><li>Software engineers</li><li>Data &amp; AI scientists</li><li>Network engineers</li><li>Game developers</li></ul></div>
+      <div class="field" style="--c:var(--E)"><div class="field__h"><span class="field__k">E</span><span class="field__n">Engineering</span></div><ul><li>Architects</li><li>Civil &amp; structural engineers</li><li>Mechanical &amp; electrical engineers</li><li>Product designers</li></ul></div>
+      <div class="field" style="--c:var(--A)"><div class="field__h"><span class="field__k">A</span><span class="field__n">Arts</span></div><ul><li>Visual artists</li><li>Graphic &amp; fashion designers</li><li>Musicians &amp; animators</li><li>Writers &amp; storytellers</li></ul></div>
+      <div class="field" style="--c:var(--M)"><div class="field__h"><span class="field__k">M</span><span class="field__n">Mathematics</span></div><ul><li>Mathematicians</li><li>Statisticians</li><li>Economists &amp; analysts</li><li>Teachers &amp; educators</li></ul></div>
+    </div>
+    <div class="every"><span class="every__h">…and every profession</span><span>Medicine &amp; health</span><span>Law &amp; governance</span><span>Agriculture</span><span>Business &amp; finance</span><span>Education</span><span>Media &amp; communication</span><span>Culture &amp; heritage</span></div>
+  </div>
+</section>
+
+<!-- ═══ Capabilities ═══ -->
+<section class="section" id="capabilities">
+  <div class="wrap">
+    <div class="head-c">
+      <div class="eyebrow eyebrow--c">Discover Our Unique Capabilities</div>
+      <h2 class="h2">What IfaLabs <span class="gold">bring together</span></h2>
+      <p class="sub">This section highlights our standout platform features.</p>
+    </div>
+    <div class="caps">
+      <div class="cap"><span class="cap__n">01</span><h3 class="cap__t">The ETHICS Framework</h3><p>Blends the <a href="https://cenproject.org/code-of-ethics/" target="_blank" rel="noopener">Ọmọlúwàbí Ethos and Values</a> with Green Engineering.</p></div>
+      <div class="cap"><span class="cap__n">02</span><h3 class="cap__t">Cultural Integration</h3><p>Seamlessly bridges African heritage with modern technology.</p></div>
+      <div class="cap"><span class="cap__n">03</span><h3 class="cap__t">Innovative Framework</h3><p>Unlocks new perspectives within the IFA Internet Structure.</p></div>
+      <div class="cap"><span class="cap__n">04</span><h3 class="cap__t">Comprehensive Environment</h3><p>Provides tools for development inspired by Odu Ifa themes.</p></div>
+      <div class="cap"><span class="cap__n">05</span><h3 class="cap__t">Purposeful Design</h3><p>Combines tradition and innovation in a unified platform.</p></div>
+      <div class="cap"><span class="cap__n">06</span><h3 class="cap__t">Global Connectivity</h3><p>Facilitates meaningful engagement across diverse communities.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ IfaGames ═══ -->
+<section class="section section--alt" id="ifagames">
+  <div class="wrap games">
+    <div class="games__board" id="games-board" aria-label="The 16 principal Odu Ifa as a game board, read right to left from Ogbe to Ofun"></div>
+    <div class="games__text">
+      <div class="eyebrow">IfaGames · ToEGames</div>
+      <h2 class="h2" style="margin:0">IfaGames</h2>
+      <p class="sub">Also known as ToEGames, Ifa Games are games written in IfaLang.</p>
+      <div class="games__item"><h3>Ifa-Powered Games</h3><p>These are games developed and designed as applications of Ifa Philosophy and Ifa Science. IfaGames are primarily knowledge unifiers, integrators, and generators, among many other uses.</p></div>
+      <div class="games__item"><h3>Learning STEAM Using a Gamified Approach</h3><p>Ifa Games are tools for learning Ifa science, Ifa Technology, Ifa Engineering, Ifa Arts, and Ifa Mathematics (Ifa STEAM), helping you develop polymathic skills in a fun and exciting way.</p></div>
+      <span class="games__status games__status--live"><i aria-hidden="true"></i>Now live · playifagames.org</span>
+      <div class="games__live">
+        <a class="game" href="https://playifagames.org/ayo-oloponfa/" target="_blank" rel="noopener"><b>Ayò Ọlọ́pọ́nfá Olójú Mẹ́rìndínlógún</b><span>Sow seeds through the 16 Odu pits and outwit the Oracle or a friend.</span></a>
+        <a class="game" href="https://playifagames.org/ifa-bin/" target="_blank" rel="noopener"><b>IfaBin</b><span>Learn binary numbers through Ifa symbols — cowrie shells and Odu marks.</span></a>
+        <a class="game" href="https://playifagames.org/" target="_blank" rel="noopener"><b>Erélayé</b><span>Ifa Simulation: 256 Odu energy states evolving on a 16 × 16 field.</span></a>
+        <a class="game" href="https://playifagames.org/ifa-chess/" target="_blank" rel="noopener"><b>IfáChess</b><span>Chess on a 16 × 16 Ọpọ́n Ifá board, against the Ifa AI or a friend.</span></a>
+      </div>
+      <div class="games__ctas">
+        <a href="https://playifagames.org/" target="_blank" rel="noopener" class="btn btn--p ext">Play IfaGames</a>
+        <span class="games__soon">Coming soon: Odu Quiz, Odu Match, IfaGates, Orisa games and more.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Tools ═══ -->
+<section class="section" id="tools">
+  <div class="wrap">
+    <div class="head-c">
+      <div class="eyebrow eyebrow--c">Our Innovative Development Tools</div>
+      <h2 class="h2">Resources for <span class="gold">builders</span></h2>
+      <p class="sub">Access a curated collection of resources inspired by African heritage and Odu Ifa themes, designed to deepen your expertise and foster innovation.</p>
+    </div>
+    <div class="tools">
+      <div class="tool"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="17" cy="17" r="3"/><circle cx="6" cy="6" r="2.5"/><circle cx="28" cy="6" r="2.5"/><circle cx="6" cy="28" r="2.5"/><circle cx="28" cy="28" r="2.5"/><path d="M8 8l7 7M26 8l-7 7M8 26l7-7M26 26l-7-7"/></svg><h3>IFA Internet Structure</h3><p>Unpack the principles behind the IFA Internet Structure and its applications.</p><span class="tool__soon">Coming soon</span></div>
+      <div class="tool"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="4" y="6" width="26" height="20" rx="3"/><path d="M4 11h26M9 17h8M9 21h12"/><circle cx="25" cy="19" r="3"/></svg><h3>IFA Integrated Environment</h3><p>Learn how our unified platform streamlines development and creativity.</p><span class="tool__soon">Coming soon</span></div>
+      <div class="tool"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="17" cy="17" r="13"/><circle cx="17" cy="17" r="7"/><path d="M17 4v26M4 17h26"/></svg><h3>Cultural Foundations</h3><p>Gain insights into the cultural heritage shaping our platform’s core.</p><span class="tool__soon">Coming soon</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ToELabs link ═══ -->
+<section class="section section--alt" id="toelabs">
+  <div class="wrap">
+    <div class="toe">
+      <div>
+        <div class="eyebrow">ToELabs · The Theory of Everything</div>
+        <h2>Visit IfaLabs: ToELabs on the ToE site</h2>
+        <p>The original IfaLabs: E.T.H.I.C.S page lives on toe.cenproject.org, alongside IFA Mathematics, IfaGebra, IFABitcoin and IfAI.</p>
+      </div>
+      <div class="toe__links">
+        <a href="https://toe.cenproject.org/ifalabs-toelabs/" target="_blank" rel="noopener"><b>IfaLabs: ToELabs</b><span>toe.cenproject.org/ifalabs-toelabs ↗</span></a>
+        <a href="https://doi.org/10.31219/osf.io/wr42m" target="_blank" rel="noopener"><b>The iTOE paper</b><span>doi.org/10.31219/osf.io/wr42m ↗</span></a>
+        <a href="https://cenproject.org/cen-language-the-language-for-everything-loe/" target="_blank" rel="noopener"><b>CEN Language</b><span>cenproject.org ↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="tblock">
+      <div><span class="tblock__k">Project</span><div class="tblock__brand"><img src="https://ifainternet.org/src/assets/itoe_logo.png" alt="The IFA Internet" width="96" height="34" onerror="this.remove()"><b>IfaLabs</b></div><span class="tblock__v" style="color:var(--text-2)">The IFA Internet · A <a href="https://cenproject.org" target="_blank" rel="noopener" style="display:inline;color:var(--gold)">CENProject</a> initiative</span></div>
+      <div><span class="tblock__k">Labs</span><div class="tblock__v"><a href="#lab-s">Ifa Science</a><a href="#lab-t">Ifa Technology</a><a href="#lab-e">Ifa Engineering</a><a href="#lab-a">Ifa Arts</a><a href="#lab-m">Ifa Mathematics</a></div></div>
+      <div><span class="tblock__k">Design</span><div class="tblock__v"><a href="https://ifainternet.org/ifa-labs/ile-aro/">Ilé Arọ́</a><a href="#ise-ona">Iṣẹ́ Ọnà Ayárabíàṣá</a><a href="#ifacad">IfaCAD</a><a href="#orisacad">OrisaCAD</a><a href="#ifagames">IfaGames</a></div></div>
+      <div><span class="tblock__k">IFA Internet</span><div class="tblock__v"><a href="https://ifainternet.org/">Home</a><a href="https://ifainternet.org/ifagram/">IfaDiagram</a><a href="https://ifainternet.org/ifa-art/">Ifa Art</a><a href="https://ifainternet.org/ifagram/kids/">Kids &amp; Teens</a><a href="https://playifagames.org/" target="_blank" rel="noopener">Play IfaGames ↗</a><a href="https://toe.cenproject.org/ifalabs-toelabs/" target="_blank" rel="noopener">ToELabs ↗</a></div></div>
+    </div>
+    <div class="footer__bottom"><div>© 2026 IfaLabs · The IFA Internet · CENProject</div><div>Sheet: ifainternet.org/ifa-labs</div></div>
+  </div>
+</footer>
+
+<script>
+/* ═══ Ifa Infinity drawing — same curve and glow code as the IfaDiagram artworks ═══ */
+const PI = Math.PI;
+function buildHLobe(t0, t1, a, cx, cy, N = 3000) { const pts = []; for (let i = 0; i <= N; i++) { const t = t0 + (t1 - t0) * i / N; const c2 = Math.cos(2 * t); if (c2 < 1e-10) continue; const rho = a * Math.sqrt(c2); pts.push([cx + rho * Math.cos(t), cy + rho * Math.sin(t)]); } return pts; }
+function buildVLobe(t0, t1, a, cx, cy, N = 3000) { const pts = []; for (let i = 0; i <= N; i++) { const t = t0 + (t1 - t0) * i / N; const mc2 = -Math.cos(2 * t); if (mc2 < 1e-10) continue; const rho = a * Math.sqrt(mc2); pts.push([cx + rho * Math.cos(t), cy + rho * Math.sin(t)]); } return pts; }
+function sPts(ctx, pts, lw, rgba, blur) { if (!pts || !pts.length) return; ctx.save(); ctx.strokeStyle = rgba; ctx.lineWidth = lw; ctx.shadowColor = rgba; ctx.shadowBlur = blur; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]); ctx.stroke(); ctx.restore(); }
+function gLobe(ctx, pts, s) { sPts(ctx, pts, 44 * s, 'rgba(245,197,24,0.03)', 65 * s); sPts(ctx, pts, 26 * s, 'rgba(245,197,24,0.07)', 44 * s); sPts(ctx, pts, 15 * s, 'rgba(245,197,24,0.16)', 28 * s); sPts(ctx, pts, 7 * s, 'rgba(245,197,24,0.34)', 16 * s); sPts(ctx, pts, 3 * s, 'rgba(245,197,24,0.62)', 8 * s); sPts(ctx, pts, 1.4 * s, 'rgba(245,197,24,0.90)', 4 * s); sPts(ctx, pts, 0.7 * s, 'rgba(255,248,210,0.95)', 2 * s); }
+function rLobe(ctx, pts, s) { sPts(ctx, pts, 22 * s, 'rgba(180,10,30,0.025)', 55 * s); sPts(ctx, pts, 12 * s, 'rgba(200,15,40,0.07)', 32 * s); sPts(ctx, pts, 6 * s, 'rgba(210,20,50,0.18)', 16 * s); sPts(ctx, pts, 2.4 * s, 'rgba(225,35,65,0.42)', 8 * s); sPts(ctx, pts, 1.2 * s, 'rgba(235,55,80,0.72)', 4 * s); sPts(ctx, pts, 0.6 * s, 'rgba(255,110,130,0.88)', 1.5 * s); }
+function allLobes(a, cx, cy, N) { return [ buildHLobe(-PI / 4, PI / 4, a, cx, cy, N), buildHLobe(3 * PI / 4, 5 * PI / 4, a, cx, cy, N), buildVLobe(PI / 4, 3 * PI / 4, a, cx, cy, N), buildVLobe(5 * PI / 4, 7 * PI / 4, a, cx, cy, N) ]; }
+function centreNode(ctx, cx, cy, r, gold = true) { const color = gold ? 'rgba(245,197,24,1)' : 'rgba(230,40,65,1)'; const fill = gold ? 'rgba(255,248,210,1)' : 'rgba(255,170,185,1)'; ctx.save(); ctx.shadowColor = color; ctx.shadowBlur = 22; ctx.fillStyle = fill; ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * PI); ctx.fill(); ctx.restore(); }
+function prep(canvas, w, h, bg) { w = Math.max(1, Math.floor(w) || 1); h = Math.max(1, Math.floor(h) || 1); const dpr = Math.min(window.devicePixelRatio || 1, 2); canvas.width = w * dpr; canvas.height = h * dpr; canvas.style.width = w + 'px'; canvas.style.height = h + 'px'; const ctx = canvas.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); if (bg) { ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h); } else ctx.clearRect(0, 0, w, h); return ctx; }
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* Header menu */
+const burger = document.getElementById('burger'), nav = document.getElementById('nav');
+burger.addEventListener('click', () => { const open = burger.getAttribute('aria-expanded') !== 'true'; burger.setAttribute('aria-expanded', open); nav.classList.toggle('is-open', open); });
+nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { burger.setAttribute('aria-expanded', 'false'); nav.classList.remove('is-open'); }));
+
+/* Hero: Ifa Infinity with spokes to the five STEAM labs */
+function drawHero() {
+  const box = document.getElementById('orbit'), c = document.getElementById('hero-art');
+  const W = Math.max(200, Math.floor(box.clientWidth)); const ctx = prep(c, W, W, null);
+  const cx = W / 2, cy = W / 2, a = W * 0.30, s = a / 200;
+  const nodes = [[.5, .09, '20,184,212'], [.79, .21, '168,85,247'], [.89, .5, '0,200,124'], [.79, .79, '240,146,12'], [.5, .91, '245,197,24'], [.21, .79, '255,111,174'], [.11, .5, '76,141,255'], [.21, .21, '201,211,230']];
+  nodes.forEach(([x, y, col]) => { const g = ctx.createLinearGradient(cx, cy, x * W, y * W); g.addColorStop(0, 'rgba(' + col + ',0)'); g.addColorStop(1, 'rgba(' + col + ',.45)'); ctx.strokeStyle = g; ctx.lineWidth = 1; ctx.setLineDash([3, 5]); ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x * W, y * W); ctx.stroke(); });
+  ctx.setLineDash([]);
+  for (const lobe of allLobes(a, cx, cy)) sPts(ctx, lobe, 60 * s, 'rgba(245,197,24,0.012)', 80 * s);
+  for (const lobe of allLobes(a, cx, cy)) gLobe(ctx, lobe, s);
+  centreNode(ctx, cx, cy, 4 * s);
+}
+
+/* IfaSpace: knowledge network — fields of knowledge talking to one another */
+function drawNet() {
+  const c = document.getElementById('net'); const W = Math.max(240, Math.floor(c.parentElement.clientWidth - 28)), H = W;
+  const ctx = prep(c, W, H, '#04070f'); c.style.width = '100%'; c.style.height = 'auto';
+  // 16 fields, grouped by STEAM colour, arranged around a 16-gon
+  const F = [
+    ['Physics', '20,184,212'], ['Chemistry', '20,184,212'], ['Biology', '20,184,212'], ['Medicine', '20,184,212'], ['Agriculture', '20,184,212'],
+    ['Computing', '168,85,247'], ['Engineering', '0,200,124'], ['Architecture', '0,200,124'],
+    ['Mathematics', '245,197,24'], ['Economics', '245,197,24'],
+    ['Art', '240,146,12'], ['Music', '240,146,12'], ['Language', '240,146,12'],
+    ['Culture', '224,48,80'], ['Philosophy', '224,48,80'], ['Law', '224,48,80']
+  ];
+  const n = F.length, cx = W / 2, cy = H / 2;
+  const fs = W < 290 ? 8 : W < 380 ? 9 : W < 460 ? 10 : 11;
+  const R = W / 2 - (12 * fs * 0.62 + 20); // room for the longest label (Architecture / Agriculture)
+  const P = F.map((_, i) => { const t = -PI / 2 + i * 2 * PI / n; return [cx + R * Math.cos(t), cy + R * Math.sin(t), t]; });
+  ctx.lineWidth = 1;
+  // every field talks to every other field: all 120 links
+  for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) { ctx.strokeStyle = 'rgba(150,170,230,.07)'; ctx.beginPath(); ctx.moveTo(P[i][0], P[i][1]); ctx.lineTo(P[j][0], P[j][1]); ctx.stroke(); }
+  // 16-point star {16/7}
+  ctx.strokeStyle = 'rgba(245,197,24,.22)'; ctx.beginPath();
+  for (let k = 0; k <= n; k++) { const p = P[(k * 7) % n]; k ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); } ctx.stroke();
+  // outer 16-gon and spokes to the centre
+  ctx.strokeStyle = 'rgba(150,170,230,.22)'; ctx.beginPath(); P.forEach((p, k) => k ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.closePath(); ctx.stroke();
+  P.forEach((p, i) => { const g = ctx.createLinearGradient(cx, cy, p[0], p[1]); g.addColorStop(0, 'rgba(245,197,24,.45)'); g.addColorStop(1, 'rgba(' + F[i][1] + ',.35)'); ctx.strokeStyle = g; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(p[0], p[1]); ctx.stroke(); });
+  // Ifa Infinity at the centre
+  const a = W * 0.11, s = a / 200;
+  for (const lobe of allLobes(a, cx, cy, 800)) gLobe(ctx, lobe, s);
+  centreNode(ctx, cx, cy, 3);
+  // nodes and labels, placed outward from each node
+  ctx.font = '500 ' + fs + 'px "IBM Plex Mono", monospace'; ctx.textBaseline = 'middle';
+  P.forEach(([x, y, t], i) => {
+    ctx.fillStyle = 'rgba(' + F[i][1] + ',1)'; ctx.shadowColor = 'rgba(' + F[i][1] + ',.8)'; ctx.shadowBlur = 8;
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, 2 * PI); ctx.fill(); ctx.shadowBlur = 0;
+    const cs = Math.cos(t), sn = Math.sin(t);
+    ctx.textAlign = Math.abs(cs) < 0.2 ? 'center' : cs > 0 ? 'left' : 'right';
+    const off = 10;
+    ctx.fillStyle = 'rgba(236,240,250,.88)';
+    ctx.fillText(F[i][0], x + cs * off, y + sn * (Math.abs(cs) < 0.2 ? 14 : off));
+  });
+  ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(245,197,24,.95)'; ctx.fillText('IfaLang', cx, cy + a + 16);
+  ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(110,121,151,1)'; ctx.font = '500 ' + (fs - 1) + 'px "IBM Plex Mono", monospace';
+  ctx.fillText('16 FIELDS · 120 CONNECTIONS', 12, H - 14);
+}
+
+/* IfaCAD / OrisaCAD panel art */
+function drawCadArt() {
+  document.querySelectorAll('.cad__art').forEach(host => {
+    let c = host.querySelector('canvas'); if (!c) { c = document.createElement('canvas'); host.appendChild(c); }
+    const d = Math.max(120, Math.min(240, Math.floor(host.clientWidth - 36))); const ctx = prep(c, d, d, '#04070f');
+    const cx = d / 2, cy = d / 2, a = d * 0.357, s = a / 200;
+    if (host.dataset.art === 'ifa') { for (const lobe of allLobes(a, cx, cy)) gLobe(ctx, lobe, s); centreNode(ctx, cx, cy, 3.5 * s); }
+    else { for (const lobe of allLobes(a, cx, cy)) rLobe(ctx, lobe, s); const ext = a * 0.85; rLobe(ctx, [[cx + ext, cy - ext], [cx - ext, cy + ext]], s); centreNode(ctx, cx, cy, 3.5 * s, false); }
+  });
+}
+
+/* ═══ Iṣẹ́ Ọnà Ayárabíàṣá workbench ═══ */
+const bench = { mode: 'ifa', a: 0.357, n: 1, grid: true, con: true, dim: true, diag: false, D: 520 };
+const bc = document.getElementById('bench-canvas');
+function drawBench() {
+  const host = bc.parentElement; const D = Math.max(240, Math.min(560, Math.floor(host.clientWidth - 28))); bench.D = D;
+  const ctx = prep(bc, D, D, '#04070f');
+  const cx = D / 2, cy = D / 2, a = D * bench.a, s = a / 200, ifa = bench.mode === 'ifa';
+  const ink = ifa ? '245,197,24' : '224,48,80';
+  if (bench.grid) {
+    for (let x = cx % 10; x < D; x += 10) { ctx.strokeStyle = 'rgba(150,170,230,.06)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, D); ctx.stroke(); }
+    for (let y = cy % 10; y < D; y += 10) { ctx.beginPath(); ctx.moveTo(0, y + .5); ctx.lineTo(D, y + .5); ctx.stroke(); }
+    ctx.strokeStyle = 'rgba(150,170,230,.14)';
+    for (let x = cx % 50; x < D; x += 50) { ctx.beginPath(); ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, D); ctx.stroke(); }
+    for (let y = cy % 50; y < D; y += 50) { ctx.beginPath(); ctx.moveTo(0, y + .5); ctx.lineTo(D, y + .5); ctx.stroke(); }
+  }
+  if (bench.con) {
+    ctx.strokeStyle = 'rgba(20,184,212,.45)'; ctx.lineWidth = 1; ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(0, cy + .5); ctx.lineTo(D, cy + .5); ctx.moveTo(cx + .5, 0); ctx.lineTo(cx + .5, D); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx - a, cy - a); ctx.lineTo(cx + a, cy + a); ctx.moveTo(cx + a, cy - a); ctx.lineTo(cx - a, cy + a); ctx.strokeStyle = 'rgba(20,184,212,.22)'; ctx.stroke();
+    ctx.beginPath(); ctx.arc(cx, cy, a, 0, 2 * PI); ctx.strokeStyle = 'rgba(20,184,212,.35)'; ctx.stroke(); ctx.setLineDash([]);
+    const f = a / Math.SQRT2; ctx.strokeStyle = 'rgba(20,184,212,.9)'; ctx.lineWidth = 1.2;
+    [[cx + f, cy], [cx - f, cy], [cx, cy + f], [cx, cy - f]].forEach(([x, y]) => { ctx.beginPath(); ctx.moveTo(x - 5, y); ctx.lineTo(x + 5, y); ctx.moveTo(x, y - 5); ctx.lineTo(x, y + 5); ctx.stroke(); });
+  }
+  const N = bench.n > 6 ? 900 : 1600;
+  if (bench.n > 1) {
+    const A_MAX = a, A_MIN = D * 0.005;
+    for (let i = 0; i < bench.n - 1; i++) { const ai = A_MIN + (A_MAX - A_MIN) * i / (bench.n - 1); for (const lobe of allLobes(ai, cx, cy, N)) { sPts(ctx, lobe, 1.4, 'rgba(' + ink + ',0.28)', 2.5); sPts(ctx, lobe, .6, 'rgba(' + ink + ',0.45)', .8); } }
+  }
+  const lobes = allLobes(a, cx, cy, N);
+  for (const lobe of lobes) ifa ? gLobe(ctx, lobe, s) : rLobe(ctx, lobe, s);
+  if (bench.diag || !ifa) { const ext = a * 0.85; const dl = [[cx + ext, cy - ext], [cx - ext, cy + ext]]; ifa ? gLobe(ctx, dl, s) : rLobe(ctx, dl, s); }
+  centreNode(ctx, cx, cy, 3.5 * s, ifa);
+  if (bench.dim) {
+    const y0 = cy + a + 26; ctx.strokeStyle = 'rgba(236,240,250,.55)'; ctx.fillStyle = 'rgba(236,240,250,.75)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(cx, cy + 6); ctx.lineTo(cx, y0 + 6); ctx.moveTo(cx + a, cy + 6); ctx.lineTo(cx + a, y0 + 6); ctx.moveTo(cx, y0); ctx.lineTo(cx + a, y0); ctx.stroke();
+    [[cx, 1], [cx + a, -1]].forEach(([x, dir]) => { ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x + 7 * dir, y0 - 3.5); ctx.lineTo(x + 7 * dir, y0 + 3.5); ctx.closePath(); ctx.fill(); });
+    ctx.font = '500 11px "IBM Plex Mono", monospace'; ctx.textAlign = 'center'; ctx.fillText('a = ' + Math.round(a) + ' px', cx + a / 2, y0 - 8);
+    const x0 = cx - a - 26; ctx.beginPath(); ctx.moveTo(cx - 6, cy - a); ctx.lineTo(x0 - 6, cy - a); ctx.moveTo(cx - 6, cy + a); ctx.lineTo(x0 - 6, cy + a); ctx.moveTo(x0, cy - a); ctx.lineTo(x0, cy + a); ctx.stroke();
+    ctx.save(); ctx.translate(x0 - 8, cy); ctx.rotate(-PI / 2); ctx.fillText('2a = ' + Math.round(2 * a) + ' px', 0, 0); ctx.restore();
+  }
+  ctx.font = '500 10px "IBM Plex Mono", monospace'; ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(' + ink + ',.75)';
+  ctx.fillText(ifa ? 'IFALANG · IFACAD' : 'ORISALANG · ORISACAD', 12, 18);
+  updateSpec(a);
+}
+function updateSpec(a) {
+  const ifa = bench.mode === 'ifa';
+  const name = bench.n > 1 ? 'Ifa Fractal (ToE Fractal)' : ifa ? (bench.diag ? 'The Ifa Ninifinity (Non-Infinity)' : 'The Ifa Infinity (ToE Infinity)') : 'The Orisa Infinity (Ifa Ninifinity)';
+  const nm = document.getElementById('sp-name'); nm.textContent = name; nm.className = ifa ? 'gold' : 'red';
+  document.getElementById('sp-lang').textContent = ifa ? 'IfaLang' : 'OrisaLang';
+  document.getElementById('sp-sys').textContent = ifa ? 'Ifa-Aided Designs (IfaCAD)' : 'Orisa-Aided Designs (OrisaCAD)';
+  document.getElementById('sp-lobes').textContent = String(4 * bench.n) + (bench.n > 1 ? ' (' + bench.n + ' × 4)' : '');
+  document.getElementById('sp-a').textContent = Math.round(a) + ' px';
+  const file = (bench.n > 1 ? 'ifa-fractal' : ifa ? (bench.diag ? 'ifa-ninifinity' : 'ifa-infinity') : 'orisa-infinity') + (ifa ? '.ifacad' : '.orisacad');
+  document.getElementById('bench-file').innerHTML = 'iṣẹ́-ọnà / <b style="color:' + (ifa ? 'var(--gold)' : 'var(--red)') + '">' + file + '</b>';
+}
+let raf = 0; const redraw = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(drawBench); };
+document.querySelectorAll('.bench__lang button').forEach(b => b.addEventListener('click', () => {
+  bench.mode = b.dataset.mode;
+  document.querySelectorAll('.bench__lang button').forEach(x => x.setAttribute('aria-pressed', x === b));
+  document.getElementById('bench').classList.toggle('mode-orisa', bench.mode === 'orisa');
+  document.getElementById('ly-diag-wrap').classList.toggle('is-off', bench.mode === 'orisa');
+  redraw();
+}));
+const inA = document.getElementById('in-a'), inN = document.getElementById('in-n');
+inA.addEventListener('input', () => { bench.a = +inA.value; document.getElementById('out-a').textContent = (+inA.value).toFixed(3); redraw(); });
+inN.addEventListener('input', () => { bench.n = +inN.value; document.getElementById('out-n').textContent = inN.value; redraw(); });
+[['ly-grid', 'grid'], ['ly-con', 'con'], ['ly-dim', 'dim'], ['ly-diag', 'diag']].forEach(([id, k]) => document.getElementById(id).addEventListener('change', e => { bench[k] = e.target.checked; redraw(); }));
+const coords = document.getElementById('bench-coords');
+bc.addEventListener('pointermove', e => { const r = bc.getBoundingClientRect(); const x = (e.clientX - r.left) * (bench.D / r.width) - bench.D / 2, y = bench.D / 2 - (e.clientY - r.top) * (bench.D / r.height); const rr = Math.hypot(x, y), th = Math.atan2(y, x); coords.textContent = 'x ' + Math.round(x) + ' · y ' + Math.round(y) + ' · r ' + Math.round(rr) + ' · θ ' + (th >= 0 ? th : th + 2 * PI).toFixed(2); });
+
+/* IfaGames board: the 16 principal Odu Ifa as tiles (single mark = ı, double mark = ॥) */
+const ODU = [['Ogbe', [1, 1, 1, 1]], ['Oyeku', [2, 2, 2, 2]], ['Iwori', [2, 1, 1, 2]], ['Odi', [1, 2, 2, 1]], ['Irosun', [1, 1, 2, 2]], ['Owonrin', [2, 2, 1, 1]], ['Obara', [1, 2, 2, 2]], ['Okanran', [2, 2, 2, 1]], ['Ogunda', [1, 1, 1, 2]], ['Osa', [2, 1, 1, 1]], ['Ika', [2, 1, 2, 2]], ['Oturupon', [2, 2, 1, 2]], ['Otura', [1, 2, 1, 1]], ['Irete', [1, 1, 2, 1]], ['Ose', [1, 2, 1, 2]], ['Ofun', [2, 1, 2, 1]]];
+const gb = document.getElementById('games-board');
+ODU.forEach(([name, m]) => { const cell = document.createElement('button'); cell.type = 'button'; cell.className = 'games__cell'; cell.setAttribute('aria-label', name); cell.title = name; cell.innerHTML = m.map(v => v === 1 ? '<i></i>' : '<span class="p"><i class="d"></i><i class="d"></i></span>').join(''); gb.appendChild(cell); });
+
+
+/* ═══ Àmúlù composer: build the Ifa Infinity from circles, ellipses and lobes ═══ */
+(function () {
+  const cv = document.getElementById('amulu-canvas'); if (!cv) return;
+  const CW = 560, C = CW / 2, A = CW * 0.357;            // world size; guide uses the same proportion as the IfaDiagram artworks
+  const INK = { gold: '245,197,24', red: '224,48,80', cyan: '20,184,212', violet: '168,85,247', white: '236,240,250' };
+  const NAMES = { circle: 'Circle', ellipse: 'Ellipse', lobe: 'Lobe' };
+  const HINTS = {
+    select: 'Select a shape to move it. Drag its handles to resize and rotate. Delete removes it.',
+    circle: 'Drag from a centre point to draw a circle.',
+    ellipse: 'Drag from a centre point to draw an ellipse. Drag the second handle to change its width.',
+    lobe: 'Drag from the lobe’s point outwards. Start at the centre to build the Ifa Infinity.'
+  };
+  const st = { shapes: [], sel: -1, tool: 'select', ink: 'gold', sym: 1, guide: true, snap: true, D: 520 };
+  const hist = [];
+  const save = () => { hist.push(JSON.stringify({ s: st.shapes, y: st.sym })); if (hist.length > 100) hist.shift(); };
+  const $ = (id) => document.getElementById(id);
+  const hctx = document.createElement('canvas').getContext('2d');
+
+  /* geometry */
+  function local(s, N) {
+    const pts = [];
+    if (s.type === 'lobe') {
+      const k = s.k || 1;
+      for (let i = 0; i <= N; i++) { const t = -PI / 4 + (PI / 2) * i / N; const c2 = Math.cos(2 * t); const r = c2 > 0 ? s.rx * Math.sqrt(c2) : 0; pts.push([r * Math.cos(t), r * Math.sin(t) * k]); }
+    } else {
+      for (let i = 0; i <= N; i++) { const t = 2 * PI * i / N; pts.push([s.rx * Math.cos(t), s.ry * Math.sin(t)]); }
+    }
+    return pts;
+  }
+  const toW = (p, s) => { const c = Math.cos(s.rot), n = Math.sin(s.rot); return [s.x + p[0] * c - p[1] * n, s.y + p[0] * n + p[1] * c]; };
+  const world = (s, N) => local(s, N).map(p => toW(p, s));
+  function copies(s) {
+    const out = [];
+    for (let k = 0; k < st.sym; k++) { const a = 2 * PI * k / st.sym, c = Math.cos(a), n = Math.sin(a), dx = s.x - C, dy = s.y - C; out.push(Object.assign({}, s, { x: C + dx * c - dy * n, y: C + dx * n + dy * c, rot: s.rot + a, copy: k > 0 })); }
+    return out;
+  }
+  function handles(s) {
+    const h = [toW([s.rx, 0], s)];
+    if (s.type === 'ellipse') h.push(toW([0, s.ry], s));
+    if (s.type === 'lobe') h.push(toW([s.rx * 0.612, s.rx * 0.354 * (s.k || 1)], s));
+    return h;
+  }
+  const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+  const snapPt = (p) => { if (!st.snap) return p; if (dist(p, [C, C]) < 14) return [C, C]; return [Math.round(p[0] / 10) * 10, Math.round(p[1] / 10) * 10]; };
+  const toWorld = (e) => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * CW / r.width, (e.clientY - r.top) * CW / r.height]; };
+
+  /* drawing */
+  function glow(ctx, pts, rgb, a) {
+    [[10, .07, 14], [4, .3, 8], [1.6, .95, 3]].forEach(([lw, al, bl]) => {
+      ctx.save(); ctx.strokeStyle = 'rgba(' + rgb + ',' + (al * a) + ')'; ctx.lineWidth = lw; ctx.shadowColor = 'rgba(' + rgb + ',' + Math.min(1, al * 2) * a + ')'; ctx.shadowBlur = bl;
+      ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke(); ctx.restore();
+    });
+  }
+  function render() {
+    const host = cv.parentElement; const D = Math.max(260, Math.min(620, Math.floor(host.clientWidth - 24))); st.D = D;
+    const ctx = prep(cv, D, D, '#04070f'); const sc = D / CW, px = 1 / sc; ctx.scale(sc, sc);
+    ctx.lineWidth = px;
+    for (let v = 0; v <= CW; v += 20) { ctx.strokeStyle = v % 100 === C % 100 ? 'rgba(150,170,230,.13)' : 'rgba(150,170,230,.05)'; ctx.beginPath(); ctx.moveTo(v, 0); ctx.lineTo(v, CW); ctx.moveTo(0, v); ctx.lineTo(CW, v); ctx.stroke(); }
+    ctx.save(); ctx.setLineDash([5 * px, 5 * px]); ctx.strokeStyle = 'rgba(20,184,212,.35)'; ctx.beginPath(); ctx.moveTo(C, 0); ctx.lineTo(C, CW); ctx.moveTo(0, C); ctx.lineTo(CW, C); ctx.stroke(); ctx.restore();
+    if (st.guide) {
+      ctx.save(); ctx.setLineDash([7 * px, 6 * px]); ctx.strokeStyle = 'rgba(245,197,24,.3)'; ctx.lineWidth = 1.3 * px;
+      for (const lobe of allLobes(A, C, C, 300)) { ctx.beginPath(); lobe.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke(); }
+      ctx.restore();
+    }
+    st.shapes.forEach(s => copies(s).forEach(cp => glow(ctx, world(cp, 160), INK[s.ink] || INK.gold, cp.copy ? .55 : 1)));
+    ctx.fillStyle = 'rgba(255,248,210,.95)'; ctx.beginPath(); ctx.arc(C, C, 2.5 * px, 0, 2 * PI); ctx.fill();
+    const s = st.shapes[st.sel];
+    if (s) {
+      ctx.save(); ctx.setLineDash([4 * px, 4 * px]); ctx.strokeStyle = 'rgba(236,240,250,.7)'; ctx.lineWidth = px;
+      ctx.beginPath(); world(s, 160).forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(s.x - 6 * px, s.y); ctx.lineTo(s.x + 6 * px, s.y); ctx.moveTo(s.x, s.y - 6 * px); ctx.lineTo(s.x, s.y + 6 * px); ctx.stroke();
+      handles(s).forEach((h, i) => { ctx.beginPath(); ctx.arc(h[0], h[1], 6 * px, 0, 2 * PI); ctx.fillStyle = i ? '#04070f' : 'rgba(' + (INK[s.ink] || INK.gold) + ',1)'; ctx.fill(); ctx.lineWidth = 1.5 * px; ctx.strokeStyle = '#ecf0fa'; ctx.stroke(); });
+      ctx.restore();
+    }
+    ctx.font = '500 ' + (10 * px) + 'px "IBM Plex Mono", monospace'; ctx.fillStyle = 'rgba(110,121,151,1)'; ctx.textAlign = 'left';
+    ctx.fillText(st.shapes.length + ' shape' + (st.shapes.length === 1 ? '' : 's') + (st.sym > 1 ? ' · symmetry ×' + st.sym : ''), 10 * px, 18 * px);
+  }
+
+  /* match score: coverage of the Ifa Infinity guide × precision of the drawing */
+  let scoreT;
+  function score() {
+    const target = [].concat(...allLobes(A, C, C, 160));
+    const drawn = []; st.shapes.forEach(s => copies(s).forEach(cp => drawn.push(...world(cp, 140))));
+    let cov = 0, pre = 0;
+    if (drawn.length) {
+      const T = 7, B = 14, bin = (pts) => { const m = new Map(); pts.forEach(p => { const k = Math.floor(p[0] / B) + ',' + Math.floor(p[1] / B); (m.get(k) || m.set(k, []).get(k)).push(p); }); return m; };
+      const near = (m, p) => { const bx = Math.floor(p[0] / B), by = Math.floor(p[1] / B); for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) { const a = m.get((bx + i) + ',' + (by + j)); if (a) for (const q of a) if (Math.abs(q[0] - p[0]) < T && Math.abs(q[1] - p[1]) < T && dist(p, q) < T) return true; } return false; };
+      const dm = bin(drawn), tm = bin(target);
+      cov = target.filter(p => near(dm, p)).length / target.length;
+      pre = drawn.filter(p => near(tm, p)).length / drawn.length;
+    }
+    const f = cov + pre ? 2 * cov * pre / (cov + pre) : 0, pc = Math.round(f * 100);
+    $('am-score').textContent = pc + '%'; $('am-bar').style.width = pc + '%';
+    $('am-cov').textContent = Math.round(cov * 100) + '%'; $('am-pre').textContent = Math.round(pre * 100) + '%';
+    const msg = $('am-msg');
+    msg.classList.toggle('is-win', pc >= 95);
+    msg.textContent = !st.shapes.length ? 'Start composing.' : pc >= 95 ? 'Òbìrìkìtí formed — the Ifa Infinity!' : pc >= 70 ? 'Close. Refine the lobes to follow the guide.' : cov < 0.5 ? 'Keep composing: the guide still has open lobes.' : 'Trim shapes that leave the guide.';
+  }
+  const scheduleScore = () => { clearTimeout(scoreT); scoreT = setTimeout(score, 120); };
+
+  /* panel */
+  function syncPanel() {
+    document.querySelectorAll('.tool-btn').forEach(b => b.setAttribute('aria-pressed', b.dataset.tool === st.tool));
+    document.querySelectorAll('.sw').forEach(b => b.setAttribute('aria-checked', b.dataset.ink === st.ink));
+    document.querySelectorAll('.seg button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.sym === st.sym));
+    $('am-hint').textContent = HINTS[st.tool]; cv.classList.toggle('is-select', st.tool === 'select');
+    $('am-guide').checked = st.guide; $('am-snap').checked = st.snap;
+    const s = st.shapes[st.sel], props = $('am-props');
+    props.hidden = !s; if (!s) return;
+    $('am-type').textContent = NAMES[s.type];
+    $('am-size').value = Math.round(s.rx); $('am-o-size').textContent = Math.round(s.rx);
+    const ww = $('am-width-wrap'), w = $('am-width');
+    ww.hidden = s.type === 'circle';
+    if (s.type === 'lobe') { w.min = 0.3; w.max = 2.5; w.step = 0.01; w.value = (s.k || 1); $('am-o-width').textContent = '×' + (s.k || 1).toFixed(2); }
+    else { w.min = 5; w.max = 300; w.step = 1; w.value = Math.round(s.ry); $('am-o-width').textContent = Math.round(s.ry); }
+    $('am-rot-wrap').hidden = s.type === 'circle';
+    const deg = Math.round(((s.rot * 180 / PI) + 540) % 360 - 180); $('am-rot').value = deg; $('am-o-rot').textContent = deg + '°';
+  }
+  function changed() { render(); syncPanel(); scheduleScore(); }
+
+  /* hit testing (any symmetry copy selects its original) */
+  function hitTest(p) {
+    hctx.lineWidth = 14 * CW / st.D;
+    for (let i = st.shapes.length - 1; i >= 0; i--) {
+      for (const cp of copies(st.shapes[i])) {
+        const path = new Path2D(); world(cp, 90).forEach((q, j) => j ? path.lineTo(q[0], q[1]) : path.moveTo(q[0], q[1])); path.closePath();
+        if (hctx.isPointInStroke(path, p[0], p[1]) || hctx.isPointInPath(path, p[0], p[1])) return i;
+      }
+    }
+    return -1;
+  }
+
+  /* pointer interaction */
+  let drag = null;
+  cv.addEventListener('pointerdown', e => {
+    cv.focus({ preventScroll: true }); cv.setPointerCapture(e.pointerId);
+    const p = toWorld(e);
+    if (st.tool === 'select') {
+      const s = st.shapes[st.sel];
+      if (s) { const hs = handles(s); for (let i = 0; i < hs.length; i++) if (dist(hs[i], p) < 12 * CW / st.D) { save(); drag = { kind: 'h' + (i + 1) }; return; } }
+      const hit = hitTest(p);
+      if (hit >= 0) { st.sel = hit; save(); const s2 = st.shapes[hit]; drag = { kind: 'move', dx: p[0] - s2.x, dy: p[1] - s2.y }; }
+      else st.sel = -1;
+      changed(); return;
+    }
+    save(); const q = snapPt(p);
+    st.shapes.push({ type: st.tool, x: q[0], y: q[1], rx: 1, ry: 1, rot: 0, k: 1, ink: st.ink });
+    st.sel = st.shapes.length - 1; drag = { kind: 'create' }; render();
+  });
+  cv.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const p = toWorld(e), s = st.shapes[st.sel]; if (!s) return;
+    if (drag.kind === 'move') { const q = snapPt([p[0] - drag.dx, p[1] - drag.dy]); s.x = q[0]; s.y = q[1]; }
+    else if (drag.kind === 'create' || drag.kind === 'h1') {
+      let d = dist([s.x, s.y], p), a = Math.atan2(p[1] - s.y, p[0] - s.x);
+      if (st.snap) { d = Math.round(d / 5) * 5; a = Math.round(a / (PI / 12)) * (PI / 12); }
+      s.rx = Math.max(4, d);
+      if (s.type === 'circle') s.ry = s.rx; else s.rot = a;
+      if (drag.kind === 'create' && s.type === 'ellipse') s.ry = Math.max(4, s.rx * 0.62);
+    } else if (drag.kind === 'h2') {
+      const c = Math.cos(-s.rot), n = Math.sin(-s.rot), dx = p[0] - s.x, dy = p[1] - s.y, ly = Math.abs(dx * n + dy * c);
+      if (s.type === 'ellipse') s.ry = Math.max(4, st.snap ? Math.round(ly / 5) * 5 : ly);
+      else s.k = Math.min(2.5, Math.max(0.3, ly / (0.354 * s.rx)));
+    }
+    render(); syncPanel();
+  });
+  const end = () => {
+    if (drag && drag.kind === 'create') { const s = st.shapes[st.sel]; if (s && s.rx < 6) { st.shapes.pop(); st.sel = -1; hist.pop(); } }
+    if (drag) { drag = null; changed(); }
+  };
+  cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+
+  /* keyboard */
+  cv.addEventListener('keydown', e => {
+    const s = st.shapes[st.sel];
+    if ((e.key === 'Delete' || e.key === 'Backspace') && s) { e.preventDefault(); save(); st.shapes.splice(st.sel, 1); st.sel = -1; changed(); }
+    else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); }
+    else if (s && e.key.startsWith('Arrow')) { e.preventDefault(); save(); const m = e.shiftKey ? 10 : 1; if (e.key === 'ArrowLeft') s.x -= m; if (e.key === 'ArrowRight') s.x += m; if (e.key === 'ArrowUp') s.y -= m; if (e.key === 'ArrowDown') s.y += m; changed(); }
+    else { const t = { v: 'select', c: 'circle', e: 'ellipse', l: 'lobe' }[e.key.toLowerCase()]; if (t && !e.ctrlKey && !e.metaKey) { st.tool = t; changed(); } }
+  });
+  function undo() { if (!hist.length) return; const h = JSON.parse(hist.pop()); st.shapes = h.s; st.sym = h.y; st.sel = -1; changed(); }
+
+  /* controls */
+  document.querySelectorAll('.tool-btn').forEach(b => b.addEventListener('click', () => { st.tool = b.dataset.tool; changed(); }));
+  document.querySelectorAll('.sw').forEach(b => b.addEventListener('click', () => { st.ink = b.dataset.ink; const s = st.shapes[st.sel]; if (s) { save(); s.ink = st.ink; } changed(); }));
+  document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => { save(); st.sym = +b.dataset.sym; changed(); }));
+  $('am-guide').addEventListener('change', e => { st.guide = e.target.checked; render(); });
+  $('am-snap').addEventListener('change', e => { st.snap = e.target.checked; });
+  let sliding = false; const slideStart = () => { if (!sliding) { save(); sliding = true; } }, slideEnd = () => { sliding = false; scheduleScore(); };
+  ['am-size', 'am-width', 'am-rot'].forEach(id => { $(id).addEventListener('pointerdown', slideStart); $(id).addEventListener('change', slideEnd); $(id).addEventListener('keydown', slideStart); });
+  $('am-size').addEventListener('input', e => { const s = st.shapes[st.sel]; if (!s) return; s.rx = +e.target.value; if (s.type === 'circle') s.ry = s.rx; render(); syncPanel(); scheduleScore(); });
+  $('am-width').addEventListener('input', e => { const s = st.shapes[st.sel]; if (!s) return; if (s.type === 'lobe') s.k = +e.target.value; else s.ry = +e.target.value; render(); syncPanel(); scheduleScore(); });
+  $('am-rot').addEventListener('input', e => { const s = st.shapes[st.sel]; if (!s) return; s.rot = +e.target.value * PI / 180; render(); syncPanel(); scheduleScore(); });
+  $('am-dup').addEventListener('click', () => { const s = st.shapes[st.sel]; if (!s) return; save(); st.shapes.push(Object.assign({}, s, { x: s.x + 20, y: s.y + 20 })); st.sel = st.shapes.length - 1; changed(); });
+  $('am-del').addEventListener('click', () => { if (st.sel < 0) return; save(); st.shapes.splice(st.sel, 1); st.sel = -1; changed(); });
+  $('am-undo').addEventListener('click', undo);
+  $('am-bake').addEventListener('click', () => { if (st.sym < 2 || !st.shapes.length) return; save(); st.shapes = [].concat(...st.shapes.map(s => copies(s).map(cp => { const o = Object.assign({}, cp); delete o.copy; return o; }))); st.sym = 1; st.sel = -1; changed(); });
+  $('am-clear').addEventListener('click', () => { if (!st.shapes.length) return; save(); st.shapes = []; st.sel = -1; changed(); });
+  function preset(name) {
+    save(); st.sel = -1;
+    if (name === 'circles') { const r = A / 2; st.sym = 1; st.tool = 'select'; st.shapes = [[r, 0], [0, r], [-r, 0], [0, -r]].map(([dx, dy]) => ({ type: 'circle', x: C + dx, y: C + dy, rx: r, ry: r, rot: 0, k: 1, ink: st.ink })); }
+    if (name === 'lobes') { st.sym = 1; st.tool = 'select'; st.shapes = [0, 90, 180, 270].map(d => ({ type: 'lobe', x: C, y: C, rx: A, ry: A, rot: d * PI / 180, k: 1, ink: st.ink })); }
+    if (name === 'challenge') { st.shapes = []; st.sym = 4; st.tool = 'lobe'; st.guide = true; }
+    changed();
+  }
+  document.querySelectorAll('.preset').forEach(b => b.addEventListener('click', () => preset(b.dataset.preset)));
+
+  /* start with the Àmúlù of four IfaCircles */
+  const r0 = A / 2;
+  st.shapes = [[r0, 0], [0, r0], [-r0, 0], [0, -r0]].map(([dx, dy]) => ({ type: 'circle', x: C + dx, y: C + dy, rx: r0, ry: r0, rot: 0, k: 1, ink: 'gold' }));
+  window.__amuluRender = render;
+  changed();
+})();
+
+function drawAll() { [drawHero, drawNet, drawCadArt, drawBench, () => window.__amuluRender && window.__amuluRender()].forEach(f => { try { f(); } catch (e) { console.error(e); } }); }
+drawAll();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawAll);
+let rt, lastW = 0; const schedule = () => { clearTimeout(rt); rt = setTimeout(drawAll, 160); };
+addEventListener('resize', schedule);
+if ('ResizeObserver' in window) new ResizeObserver(() => { const w = document.documentElement.clientWidth; if (w !== lastW) { lastW = w; schedule(); } }).observe(document.body);
+</script>
 </body>
 </html>

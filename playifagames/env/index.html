@@ -1,0 +1,1553 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>IfaGame of Life, Erélayé · Gaming Environment</title>
+  <meta name="description" content="The gaming environment of Play IFA Games for playing and building Ifa Games and Orisa Games, in a living 3D Yorùbá world.">
+  <meta name="theme-color" content="#080A1A">
+  <link rel="manifest" href="/env/manifest.webmanifest">
+  <link rel="icon" href="/env/icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/env/icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Erélayé">
+  <script src="/env/theme.js"></script>
+  <script type="module" crossorigin src="/env/assets/index-D2pxr1gL.js"></script>
+  <link rel="modulepreload" crossorigin href="/env/assets/three-BO4-fiJ4.js">
+  <link rel="stylesheet" crossorigin href="/env/assets/index-0XyNKjyK.css">
+</head>
+<body>
+<div id="app" class="fixed inset-0 overflow-hidden bg-canvas select-none">
+  <canvas id="world" class="absolute inset-0 w-full h-full touch-none" aria-label="The world of IfaGame of Life, Erélayé, in 3D. Tap to walk, drag to look around, pinch or scroll to zoom."></canvas>
+  <canvas id="labels" class="absolute inset-0 w-full h-full"></canvas>
+
+  <!-- ================= HUD ================= -->
+  <div id="hud" class="absolute inset-0 pointer-events-none z-20">
+    <!-- top-left: player + objectives -->
+    <div class="hud-top absolute left-3 sm:left-4 flex flex-col gap-2.5 w-[min(19rem,calc(100vw-9rem))]">
+      <a href="#profile" class="pointer-events-auto hud flex items-center gap-3 p-2 pr-3" aria-label="Your profile">
+        <canvas data-avatar-mini class="size-11 rounded-xl bg-raised shrink-0"></canvas>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-2"><p class="font-display font-bold text-[15px] leading-tight truncate" data-player-name>Adéọlá D.</p><span class="chip-green h-5 hidden sm:inline-flex" data-level>Lv 14</span><button type="button" class="chip-gold h-5 pointer-events-auto" data-auth-open hidden data-guest-chip>Sign in</button></div>
+          <div class="mt-1 h-1.5 rounded-full bg-raised overflow-hidden" title="XP to level 15" data-xp-title><div class="h-full w-[72%] bg-ifa rounded-full transition-[width] duration-700" data-xp-bar></div></div>
+          <div class="mt-1.5 flex items-center gap-3 text-[12px] font-semibold tnum">
+            <span class="inline-flex items-center gap-1 text-gold"><i data-lucide="circle-dot" class="size-3.5"></i><span data-coins>2,480</span></span>
+            <span class="hidden sm:inline-flex items-center gap-1 text-ai"><i data-lucide="medal" class="size-3.5"></i><span data-rating>1,544</span></span>
+          </div>
+        </div>
+      </a>
+
+      <section id="objectives" class="pointer-events-auto hud p-3 hidden lg:block" aria-label="Objectives">
+        <div class="flex items-center justify-between"><p class="text-[12px] font-semibold text-muted">Objectives</p><button class="text-[12px] font-semibold text-muted hover:text-ink" data-collapse="#obj-list">Hide</button></div>
+        <ul id="obj-list" class="mt-2 grid gap-2"></ul>
+      </section>
+      <button id="obj-pill" class="pointer-events-auto lg:hidden hud self-start inline-flex items-center gap-2 h-9 px-3 text-[12px] font-semibold"><i data-lucide="target" class="size-4 text-gold"></i><span data-obj-count>3 objectives</span></button>
+    </div>
+
+    <!-- top-center: place, population, clock -->
+    <div class="hud-top absolute left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2">
+      <button id="loc-pill" class="pointer-events-auto hud rounded-full h-11 pl-4 pr-2 flex items-center gap-3" data-open="#pop-card" aria-expanded="false">
+        <i data-lucide="map-pin" class="size-4 text-gold"></i>
+        <span class="text-left leading-tight"><span class="block font-display font-bold text-[14px]" data-scene-name>Erélayé World</span><span class="block text-[11px] text-muted" data-zone-name>Plaza</span></span>
+        <span class="h-6 w-px bg-line"></span>
+        <span class="inline-flex items-center gap-1.5 text-[12px] font-semibold tnum"><span class="size-2 rounded-full bg-ifa"></span><span data-pop-humans>0</span></span>
+        <span class="inline-flex items-center gap-1.5 text-[12px] font-semibold tnum"><span class="size-2 rounded-full bg-ai"></span><span data-pop-ai>0</span></span>
+        <span class="rounded-full bg-raised h-7 px-2.5 inline-flex items-center gap-1.5 text-[12px] font-semibold tnum"><i data-lucide="sun-moon" class="size-3.5"></i><span data-clock>12:00</span></span>
+      </button>
+      <div id="pop-card" class="pointer-events-auto hud p-4 w-80 text-sm" hidden>
+        <p class="font-semibold">Who is here</p>
+        <dl class="mt-3 grid gap-2">
+          <div class="flex items-center gap-2"><span class="size-2.5 rounded-full bg-ifa"></span><dt class="flex-1">People connected</dt><dd class="font-semibold tnum" data-pop-humans>0</dd></div>
+          <div class="flex items-center gap-2"><span class="size-2.5 rounded-full bg-ai"></span><dt class="flex-1">AI opponents</dt><dd class="font-semibold tnum" data-pop-ai>0</dd></div>
+          <div class="flex items-center gap-2"><span class="size-2.5 rounded-full bg-gold"></span><dt class="flex-1">NPC guides</dt><dd class="font-semibold tnum" data-pop-npc>0</dd></div>
+          <div class="flex items-center gap-2"><span class="size-2.5 rounded-full border border-dashed border-muted"></span><dt class="flex-1">Ambient crowd</dt><dd class="text-muted">simulated, not counted</dd></div>
+        </dl>
+        <p class="mt-3 text-[11px] text-muted">People = signed-in players connected now. In this prototype they are sample agents.</p>
+      </div>
+      <div id="feed" class="flex flex-col items-center gap-2" aria-live="polite"></div>
+    </div>
+
+    <!-- top-right: system buttons + minimap -->
+    <div class="hud-top absolute right-3 sm:right-4 flex flex-col items-end gap-2.5">
+      <div class="pointer-events-auto hud rounded-full p-1 flex items-center gap-0.5">
+        <button class="icon-btn size-9" data-sound-toggle aria-pressed="false" aria-label="Mute sound"></button>
+        <button class="icon-btn size-9" data-theme-toggle aria-label="Switch to night"><i data-lucide="moon" class="size-[18px] theme-icon-moon"></i><i data-lucide="sun" class="size-[18px] theme-icon-sun"></i></button>
+        <button class="icon-btn size-9 relative" aria-label="Notifications, 3 unread" data-open="#notif-card"><i data-lucide="bell" class="size-[18px]"></i><span class="absolute top-1.5 right-1.5 size-2 rounded-full bg-laterite"></span></button>
+        <button class="icon-btn size-9" aria-label="Settings" data-open="#settings-card"><i data-lucide="settings-2" class="size-[18px]"></i></button>
+      </div>
+      <div class="pointer-events-auto hud p-1.5 relative">
+        <canvas id="minimap" class="block w-[104px] h-[74px] sm:w-[200px] sm:h-[132px] rounded-xl cursor-pointer" aria-label="Minimap. Click to walk there."></canvas>
+        <a href="#map" class="absolute bottom-2.5 right-2.5 grid place-items-center size-7 rounded-lg bg-surface/90 text-muted hover:text-ink" aria-label="Open map"><i data-lucide="maximize-2" class="size-3.5"></i></a>
+      </div>
+      <div class="pointer-events-auto hud rounded-2xl p-1 hidden sm:flex flex-col">
+        <button class="icon-btn size-9" data-zoom="0.83" aria-label="Zoom in"><i data-lucide="plus" class="size-[18px]"></i></button>
+        <button class="icon-btn size-9" data-zoom="1.2" aria-label="Zoom out"><i data-lucide="minus" class="size-[18px]"></i></button>
+        <button class="icon-btn size-9" data-recenter aria-label="Camera behind me"><i data-lucide="locate-fixed" class="size-[18px]"></i></button>
+      </div>
+      <!-- dropdown cards -->
+      <div id="notif-card" class="pointer-events-auto hud p-2 w-80 text-sm absolute top-12 right-0" hidden>
+        <p class="px-2 py-1.5 font-semibold">Notifications</p>
+        <a href="#tournament" class="flex gap-3 rounded-xl p-2 hover:bg-raised"><i data-lucide="trophy" class="size-4 text-gold mt-0.5"></i><span><b>Round 1 check-in is open</b><span class="block text-[12px] text-muted">Arena B, Table 4 · vs Ìfẹ́ T.</span></span></a>
+        <a href="#social" class="flex gap-3 rounded-xl p-2 hover:bg-raised"><i data-lucide="user-plus" class="size-4 text-ifa mt-0.5"></i><span><b>Ìfẹ́olúwa A. sent a friend request</b><span class="block text-[12px] text-muted">3 mutual friends</span></span></a>
+        <a href="#events" class="flex gap-3 rounded-xl p-2 hover:bg-raised"><i data-lucide="mic-vocal" class="size-4 text-ai mt-0.5"></i><span><b>Odù and number talk at 19:00</b><span class="block text-[12px] text-muted">Community Stage · you RSVP'd</span></span></a>
+      </div>
+      <div id="settings-card" class="pointer-events-auto hud p-4 w-80 text-sm absolute top-12 right-0 grid gap-3" hidden>
+        <p class="font-semibold">World settings</p>
+        <label class="flex items-center justify-between gap-3"><span>Name tags</span><input id="set-labels" type="checkbox" checked class="size-4 accent-[rgb(var(--ifa))]"></label>
+        <label class="flex items-center justify-between gap-3"><span>Ambient crowd</span><input id="set-ambient" type="checkbox" checked class="size-4 accent-[rgb(var(--ifa))]"></label>
+        <label class="flex items-center justify-between gap-3"><span>Low graphics (saves data)</span><input id="set-low" type="checkbox" class="size-4 accent-[rgb(var(--ifa))]"></label>
+        <fieldset class="grid gap-2 border-t border-line pt-3" data-sound-settings>
+          <legend class="sr-only">Sound</legend>
+          <label class="flex items-center justify-between gap-3"><span class="font-semibold">Sound</span><input type="checkbox" data-sound="on" class="size-4 accent-[rgb(var(--ifa))]" checked></label>
+          <label class="grid grid-cols-[5.5rem_1fr_2rem] items-center gap-2 text-[12px]"><span>Volume</span><input type="range" min="0" max="100" step="5" data-sound="master" class="accent-[rgb(var(--ifa))]"><output class="tnum text-muted text-right" data-sound-out="master"></output></label>
+          <label class="grid grid-cols-[5.5rem_1fr_2rem] items-center gap-2 text-[12px]"><span>Drums &amp; music</span><input type="range" min="0" max="100" step="5" data-sound="music" class="accent-[rgb(var(--ifa))]"><output class="tnum text-muted text-right" data-sound-out="music"></output></label>
+          <label class="grid grid-cols-[5.5rem_1fr_2rem] items-center gap-2 text-[12px]"><span>Crowd &amp; nature</span><input type="range" min="0" max="100" step="5" data-sound="ambience" class="accent-[rgb(var(--ifa))]"><output class="tnum text-muted text-right" data-sound-out="ambience"></output></label>
+          <label class="grid grid-cols-[5.5rem_1fr_2rem] items-center gap-2 text-[12px]"><span>Board &amp; effects</span><input type="range" min="0" max="100" step="5" data-sound="effects" class="accent-[rgb(var(--ifa))]"><output class="tnum text-muted text-right" data-sound-out="effects"></output></label>
+          <label class="grid grid-cols-[5.5rem_1fr_2rem] items-center gap-2 text-[12px]"><span>Voices &amp; table talk</span><input type="range" min="0" max="100" step="5" data-sound="voices" class="accent-[rgb(var(--ifa))]"><output class="tnum text-muted text-right" data-sound-out="voices"></output></label>
+          <label class="grid grid-cols-[5.5rem_1fr] items-center gap-2 text-[12px]"><span>Table talk</span><select data-sound="banter" class="field h-8 py-0 text-[12px]"><option value="all">All banter</option><option value="kind">Kind only (no teasing)</option><option value="off">Off</option></select></label>
+        </fieldset>
+        <div class="well p-3 text-[12px] text-muted leading-relaxed"><b class="text-ink">Controls</b><br>Tap or click the ground to walk · drag to turn the camera · scroll or pinch to zoom<br>WASD / arrows to move · Shift to run · H to ride · G to greet · E to interact · M map · 1–4 menu · Esc close</div>
+      </div>
+    </div>
+
+    <!-- bottom-left: chat -->
+    <section id="chat" class="hud-bottom pointer-events-auto hud absolute left-3 sm:left-4 w-[min(22rem,calc(100vw-1.5rem))] hidden lg:flex flex-col h-56" aria-label="Chat">
+      <div role="tablist" aria-label="Chat channel" class="flex items-center gap-1 p-1.5 border-b border-line">
+        <button role="tab" class="tab h-7 px-2.5 text-[12px]" aria-selected="true" data-chat-tab="zone">Here</button>
+        <button role="tab" class="tab h-7 px-2.5 text-[12px]" aria-selected="false" data-chat-tab="club">Club</button>
+        <button role="tab" class="tab h-7 px-2.5 text-[12px]" aria-selected="false" data-chat-tab="system">World</button>
+        <button class="ml-auto icon-btn size-7 lg:hidden" data-close-chat aria-label="Close chat"><i data-lucide="x" class="size-4"></i></button>
+      </div>
+      <ul id="chat-log" class="flex-1 overflow-y-auto px-3 py-2 grid gap-1.5 content-start text-[13px]"></ul>
+      <form id="chat-form" class="p-1.5 border-t border-line flex gap-1.5"><input id="chat-input" class="field h-8 rounded-lg text-[13px]" placeholder="Say something kind" autocomplete="off"><button class="icon-btn size-8 bg-ifa text-onifa hover:bg-ifa/90 hover:text-onifa shrink-0" aria-label="Send"><i data-lucide="send" class="size-3.5"></i></button></form>
+    </section>
+    <button id="chat-btn" class="hud-bottom pointer-events-auto lg:hidden hud absolute left-3 size-11 rounded-full grid place-items-center" aria-label="Open chat"><i data-lucide="message-circle" class="size-5"></i><span class="absolute -top-1 -right-1 grid place-items-center min-w-5 h-5 px-1 rounded-full bg-laterite text-onlaterite text-[10px] font-bold" data-unread>3</span></button>
+
+    <!-- greet + ride buttons -->
+    <div id="act-bar" class="hud-bottom pointer-events-none absolute right-3 sm:right-4 flex items-end gap-2">
+      <div class="relative pointer-events-auto" data-greet-wrap>
+        <button id="greet-btn" class="hud h-14 px-2.5 sm:pl-3 sm:pr-4 rounded-2xl flex items-center gap-2.5 font-semibold" data-open="#greet-card" aria-haspopup="true" aria-controls="greet-card" aria-label="Greet or emote (G)">
+          <span class="grid place-items-center size-9 rounded-xl bg-gold/20 text-gold"><i data-lucide="hand" class="size-5"></i></span><span class="hidden sm:block text-left leading-tight"><span class="block text-[14px]">Greet</span><span class="block text-[11px] text-muted">Emotes · G</span></span>
+        </button>
+        <div id="greet-card" class="hud p-2 w-64 absolute bottom-16 right-0 grid gap-1 text-sm" role="menu" aria-label="Greetings and emotes" hidden></div>
+      </div>
+      <button id="ride-btn" class="pointer-events-auto hud h-14 pl-3 pr-4 rounded-2xl flex items-center gap-2.5 font-semibold" data-ride aria-label="Call your horse (H)">
+        <span class="grid place-items-center size-9 rounded-xl bg-[#9a4e22] text-white"><i data-lucide="horse" class="size-5"></i></span><span class="text-left leading-tight"><span class="block text-[14px]" data-ride-label>Ride</span><span class="block text-[11px] text-muted" data-ride-sub>Call your horse · H</span></span>
+      </button>
+    </div>
+
+    <!-- bottom-right: interaction prompt -->
+    <div id="prompt" class="hud-bottom prompt-up pointer-events-auto absolute right-3 sm:right-4 w-[min(21rem,calc(100vw-5.5rem))]" hidden>
+      <div class="hud p-3 flex items-center gap-3 shadow-glow">
+        <span class="grid place-items-center size-11 rounded-xl bg-gold/15 text-gold shrink-0" data-prompt-icon></span>
+        <div class="min-w-0 flex-1"><p class="font-semibold leading-tight truncate" data-prompt-title></p><p class="text-[12px] text-muted truncate" data-prompt-sub></p></div>
+        <button class="btn-gold h-11 px-4 shrink-0" data-prompt-go><kbd class="hidden lg:inline-grid place-items-center size-5 rounded bg-black/15 text-[11px] font-mono">E</kbd><span data-prompt-verb>Go</span></button>
+      </div>
+    </div>
+
+    <!-- NPC / friend dialogue -->
+    <div id="dialogue" class="hud-bottom pointer-events-auto absolute left-1/2 -translate-x-1/2 w-[min(36rem,calc(100vw-1.5rem))]" hidden>
+      <div class="hud p-4 sm:p-5">
+        <div class="flex items-start gap-3">
+          <canvas data-dialogue-avatar class="size-14 rounded-2xl bg-raised shrink-0"></canvas>
+          <div class="min-w-0 flex-1">
+            <p class="font-display font-bold" data-dialogue-name></p>
+            <p class="mt-1 text-[15px] leading-relaxed" data-dialogue-text></p>
+          </div>
+          <button class="icon-btn size-8 -mt-1 -mr-1" data-close-dialogue aria-label="Close"><i data-lucide="x" class="size-4"></i></button>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-2" data-dialogue-choices></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Desktop dock / mobile fixed nav ================= -->
+  <nav id="dock" class="absolute z-40 inset-x-0 bottom-0 lg:bottom-4 lg:inset-x-auto lg:left-1/2 lg:-translate-x-1/2 pointer-events-auto" aria-label="Main">
+    <div class="bottom-nav lg:pb-0 bg-surface/95 lg:bg-surface/85 backdrop-blur-xl border-t lg:border border-line lg:rounded-[22px] lg:shadow-lift">
+      <div class="grid grid-cols-5 lg:flex lg:items-center lg:gap-1 h-16 lg:h-[60px] lg:px-2 max-w-lg mx-auto lg:max-w-none" id="dock-items"></div>
+    </div>
+  </nav>
+
+  <!-- ================= Windows (in-world panels) ================= -->
+  <div id="windows" class="absolute inset-0 z-30" hidden>
+    <button class="absolute inset-0 bg-night/30 backdrop-blur-[2px]" data-close-window aria-label="Close window"></button>
+    <section id="window" class="window absolute flex flex-col" role="dialog" aria-modal="false" aria-labelledby="win-title">
+      <header class="flex items-center gap-3 px-4 sm:px-6 h-16 border-b border-line shrink-0">
+        <span class="grid place-items-center size-9 rounded-xl bg-ifa/12 text-ifa" data-win-icon></span>
+        <div class="min-w-0"><p class="text-[12px] text-muted leading-none mb-1" data-win-crumb></p><h2 id="win-title" class="font-display text-lg font-bold leading-none truncate" data-win-title></h2></div>
+        <span class="hidden sm:inline-flex ml-3 text-[12px] text-muted items-center gap-1.5"><span class="size-1.5 rounded-full bg-ifa pulse-dot"></span>The world keeps running</span>
+        <button class="ml-auto icon-btn" data-close-window aria-label="Close"><i data-lucide="x" class="size-5"></i></button>
+      </header>
+      <div id="win-body" class="flex-1 overflow-y-auto px-4 sm:px-6 py-5">
+<!-- ================= WORLD MAP / TRAVEL ================= -->
+<section data-screen="map">
+  <div class="grid xl:grid-cols-[1.35fr_1fr] gap-5">
+    <div class="relative rounded-tray overflow-hidden border border-line bg-[#6f8f52]">
+      <canvas id="world-map" class="block w-full aspect-square cursor-pointer" aria-label="Map of the Erélayé land. Tap a stadium to ride there."></canvas>
+      <div class="absolute left-3 bottom-3 hud px-3 py-2 text-[12px] text-muted flex flex-wrap gap-x-4 gap-y-1">
+        <span class="inline-flex items-center gap-1.5"><span class="size-2.5 rounded-full bg-gold"></span>You</span>
+        <span class="inline-flex items-center gap-1.5"><span class="h-1 w-4 rounded bg-[#c57f4e]"></span>Roads</span>
+        <span class="inline-flex items-center gap-1.5"><span class="h-2.5 w-4 rounded bg-[#4688be]"></span>River &amp; lagoon</span>
+      </div>
+    </div>
+    <div class="grid gap-3 content-start">
+      <div class="flex items-end justify-between"><h3 class="sect-title">Stadiums</h3><span class="text-[12px] text-muted">Ride on your horse or travel instantly</span></div>
+      <ul class="grid gap-2.5" data-render="stadium-list"></ul>
+      <h3 class="sect-title mt-3">Around the plaza</h3>
+      <div class="grid sm:grid-cols-2 gap-2">
+        <button class="panel p-3 flex items-center gap-3 text-left hover:border-ifa" data-go="inter:learn"><span class="grid place-items-center size-10 rounded-xl bg-ifa/12 text-ifa"><i data-lucide="graduation-cap" class="size-5"></i></span><span class="min-w-0"><b class="block text-sm">Learning Hall</b><span class="text-[12px] text-muted">Ilé-Ifẹ̀</span></span></button>
+        <button class="panel p-3 flex items-center gap-3 text-left hover:border-ifa" data-go="inter:market"><span class="grid place-items-center size-10 rounded-xl bg-gold/15 text-gold"><i data-lucide="store" class="size-5"></i></span><span class="min-w-0"><b class="block text-sm">Ajemiposi Market</b><span class="text-[12px] text-muted">West side of the plaza</span></span></button>
+        <button class="panel p-3 flex items-center gap-3 text-left hover:border-ifa" data-go="inter:stable"><span class="grid place-items-center size-10 rounded-xl bg-[#9a4e22]/15 text-[#9a4e22]"><i data-lucide="horse" class="size-5"></i></span><span class="min-w-0"><b class="block text-sm">Plaza Stables</b><span class="text-[12px] text-muted">Horses and saddle cloths</span></span></button>
+        <button class="panel p-3 flex items-center gap-3 text-left hover:border-ifa" data-go="inter:friend-yewande"><span class="grid place-items-center size-10 rounded-full bg-ifa text-onifa font-bold text-sm">YO</span><span class="min-w-0"><b class="block text-sm">Yéwándé O.</b><span class="text-[12px] text-muted">Friend · on the plaza</span></span></button>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= GAMING ENVIRONMENT (home: play, build, programs) ================= -->
+<section data-screen="games" data-games>
+  <div class="rounded-tray p-5 sm:p-7 bg-[#080615] text-[#e8dcc2] relative overflow-hidden">
+    <p class="text-[11px] font-semibold uppercase tracking-[.16em] text-[#c9a227]">IfaGame of Life, Erélayé · Gaming Environment</p>
+    <h2 class="mt-2 font-display text-3xl sm:text-4xl font-bold text-white">Play, build and learn Ifa Games and Orisa Games</h2>
+    <p class="mt-2 max-w-2xl text-sm text-white/75">This is the gaming environment of Play IFA Games, at playifagames.org/env. One living Yorùbá world, with its seven Ifa Stadiums, plaza, market, accounts, coins and Learning Hall, is shared by every game. Ayò Ọlọ́pọ́nfá and Erélayé are live now. More games from the Ifa Games and Orisa Games families will arrive in the same world, some of them proposed by players here.</p>
+    <nav class="mt-5 grid sm:grid-cols-3 gap-2" aria-label="Environment" data-env-pillars></nav>
+  </div>
+  <a href="#championship" class="mt-4 champ-card grid sm:grid-cols-[auto_1fr_auto] items-center gap-4 rounded-tray p-5 text-white">
+    <span class="grid place-items-center size-14 rounded-2xl bg-[#f0c840]/15 text-[#f0c840]"><i data-lucide="crown" class="size-7"></i></span>
+    <span><span class="block text-[11px] font-semibold uppercase tracking-[.16em] text-[#f0c840]">Ifa Stadium · IfaSimulation</span><span class="block font-display text-2xl font-bold">World Ayò Ọlọ́pọ́n Championship</span><span class="block text-sm text-white/70">Every stadium here is an Ifa Stadium, with standing championship tables. Qualify in any of the seven, then play the Grand Prix and the final at Èkó Lagoon Arena.</span></span>
+    <span class="btn bg-[#f0c840] text-[#1b1204] justify-self-start">Watch the semi-final</span>
+  </a>
+
+  <h3 id="env-play" class="mt-7 font-display text-2xl font-bold">Play</h3>
+  <div class="mt-3 grid gap-6" data-games-list></div>
+
+  <section class="mt-8" aria-labelledby="env-design" data-env-design hidden>
+    <h3 id="env-design" class="font-display text-xl font-bold">In design, proposed by players</h3>
+    <p class="text-sm text-muted">Proposals staff have accepted. Play IFA Games designs and builds them next.</p>
+    <div class="mt-3 grid sm:grid-cols-2 xl:grid-cols-3 gap-3" data-env-design-list></div>
+  </section>
+
+  <div class="mt-8 flex flex-wrap items-baseline gap-x-3 gap-y-1"><h3 id="env-build" class="font-display text-2xl font-bold">Build</h3><a href="#build" class="text-sm link">Open the Build hub</a></div>
+  <p class="text-sm text-muted max-w-2xl">Make Ayò variants in the Creator Studio, grow and share Erélayé fields, propose a new Ifa Game or Orisa Game, or plug one in as a developer.</p>
+
+  <h3 id="env-programs" class="mt-8 font-display text-2xl font-bold">Programs</h3>
+  <p class="text-sm text-muted max-w-2xl">The programs that run in the environment beside the games.</p>
+  <div class="mt-3 grid sm:grid-cols-2 xl:grid-cols-3 gap-3" data-env-programs></div>
+</section>
+<!-- ================= BUILD (making Ifa Games and Orisa Games) ================= -->
+<section data-screen="build" data-build>
+  <div class="rounded-tray p-5 sm:p-7 bg-[#080615] text-[#e8dcc2]">
+    <p class="text-[11px] font-semibold uppercase tracking-[.16em] text-[#c9a227]">Gaming Environment · Build</p>
+    <h2 class="mt-2 font-display text-3xl sm:text-4xl font-bold text-white">Build Ifa Games and Orisa Games</h2>
+    <p class="mt-2 max-w-2xl text-sm text-white/75">The environment is for making games as well as playing them. Start small with a variant or a field, propose a whole new game for either family, or build one in code. Everything public is reviewed by staff first.</p>
+  </div>
+
+  <div class="mt-5 grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
+    <a href="#studio" class="panel p-4 grid gap-2 hover:border-ifa/50"><span class="grid place-items-center size-10 rounded-xl bg-ifa/12 text-ifa"><i data-lucide="wand-sparkles" class="size-5"></i></span><b>Ayò variants</b><span class="text-sm text-muted">Change the seeds, pots or capture rules in the Creator Studio, test them against the engine and publish for others to play.</span><span class="text-sm link">Open the Creator Studio</span></a>
+    <a href="#erelaye" class="panel p-4 grid gap-2 hover:border-ifa/50"><span class="grid place-items-center size-10 rounded-xl bg-[#080615] text-[#f0c840]"><i data-lucide="grid-2x2" class="size-5"></i></span><b>Erélayé fields</b><span class="text-sm text-muted">Draw a starting field on the Odu Cellular Field, watch it live, then save it, share it in a link or show it to every player.</span><span class="text-sm link">Open Erélayé</span></a>
+    <a href="#build" data-build-jump="build-propose" class="panel p-4 grid gap-2 hover:border-ifa/50"><span class="grid place-items-center size-10 rounded-xl bg-gold/20 text-ink"><i data-lucide="lightbulb" class="size-5"></i></span><b>Propose a game</b><span class="text-sm text-muted">Describe a new Ifa Game or Orisa Game. Accepted proposals are listed in the environment with your name, and Play IFA Games designs them.</span><span class="text-sm link">Write a proposal</span></a>
+    <a href="#build" data-build-jump="build-dev" class="panel p-4 grid gap-2 hover:border-ifa/50"><span class="grid place-items-center size-10 rounded-xl bg-ai/14 text-ai"><i data-lucide="code-xml" class="size-5"></i></span><b>Developer kit</b><span class="text-sm text-muted">How a new game plugs into the shared world: the registry, the rules engine, its screen, its place in the world and its tests.</span><span class="text-sm link">Read the steps</span></a>
+  </div>
+
+  <div class="mt-8 grid lg:grid-cols-[minmax(0,1fr)_22rem] gap-5 items-start">
+    <section aria-labelledby="build-propose">
+      <h3 id="build-propose" class="font-display text-2xl font-bold scroll-mt-24">Propose a game</h3>
+      <p class="text-sm text-muted max-w-prose">Tell us the game you want to see. Be specific about a round of play and how it honours the Odù or the Òrìṣà. Staff read every proposal and reply here.</p>
+      <form class="mt-4 panel p-4 sm:p-5 grid gap-4" data-build-form novalidate>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <label class="grid gap-1.5"><span class="label">Family</span><select class="field" name="family"><option value="ifa">Ifa Games</option><option value="orisa">Orisa Games</option></select></label>
+          <label class="grid gap-1.5"><span class="label">Kind of game</span><select class="field" name="kind" data-build-kinds></select></label>
+        </div>
+        <label class="grid gap-1.5"><span class="label">Name</span><input class="field" name="title" maxlength="60" required placeholder="e.g. Ọ̀ṣun River Run"><span class="text-[12px] text-kola" data-err="title"></span></label>
+        <label class="grid gap-1.5"><span class="label">In a sentence or two</span><textarea class="field min-h-[4.5rem]" name="summary" maxlength="300" required></textarea><span class="text-[12px] text-kola" data-err="summary"></span></label>
+        <label class="grid gap-1.5"><span class="label">How a round is played</span><textarea class="field min-h-[8rem]" name="howToPlay" maxlength="3000" required placeholder="Players, turns, what you choose, how you win."></textarea><span class="text-[12px] text-kola" data-err="howToPlay"></span></label>
+        <label class="grid gap-1.5"><span class="label">How it connects to the Odù or the Òrìṣà</span><textarea class="field min-h-[5rem]" name="connection" maxlength="1500" required></textarea><span class="text-[12px] text-kola" data-err="connection"></span></label>
+        <p class="text-[12px] text-muted">Please don't include sacred practice that belongs with initiates. Proposals are credited to your handle if accepted.</p>
+        <div class="flex flex-wrap items-center gap-3"><button class="btn-primary"><i data-lucide="send" class="size-4"></i>Send proposal</button><span class="text-sm text-muted" data-build-status></span></div>
+      </form>
+    </section>
+    <aside class="grid gap-3">
+      <div class="panel p-4" aria-live="polite"><p class="font-semibold">Your proposals</p><div class="mt-2 grid gap-2 text-sm" data-build-mine><p class="text-muted">Loading…</p></div></div>
+    </aside>
+  </div>
+
+  <section class="mt-10" aria-labelledby="build-dev">
+    <h3 id="build-dev" class="font-display text-2xl font-bold scroll-mt-24">Developer kit</h3>
+    <p class="text-sm text-muted max-w-prose">For programmers working with Play IFA Games. The full guide is <code class="font-mono text-[13px]">docs/BUILDING-GAMES.md</code> in the code.</p>
+    <ol class="mt-4 grid md:grid-cols-2 xl:grid-cols-3 gap-3 text-sm">
+      <li class="panel p-4"><b class="block">1 · Register it</b><span class="text-muted">Add an entry to <code class="font-mono text-[12px]">GAMES</code> in <code class="font-mono text-[12px]">packages/shared/src/games.ts</code>: family, kind, blurb, icon. It appears here, on the title screen and in <code class="font-mono text-[12px]">GET /v1/games</code> as "coming".</span></li>
+      <li class="panel p-4"><b class="block">2 · Write the rules engine</b><span class="text-muted">A pure TypeScript package (see <code class="font-mono text-[12px]">packages/ayo-engine</code>) with no browser or server code, so the client and the server run the same rules.</span></li>
+      <li class="panel p-4"><b class="block">3 · Give it a screen</b><span class="text-muted">A panel in <code class="font-mono text-[12px]">apps/web/src/html/panels</code>, a module that renders it, and an entry in the router. Load it lazily.</span></li>
+      <li class="panel p-4"><b class="block">4 · Place it in the world</b><span class="text-muted">A table, dais or building in <code class="font-mono text-[12px]">world/build.ts</code> with an interaction that opens the screen, like the Erélayé dais.</span></li>
+      <li class="panel p-4"><b class="block">5 · Server and online play</b><span class="text-muted">Routes and storage behind <code class="font-mono text-[12px]">/v1</code>, a migration, and moves checked on the server for anything rated or rewarded.</span></li>
+      <li class="panel p-4"><b class="block">6 · Test, review, go live</b><span class="text-muted">Engine tests from the primary source, staff review of rules and cultural content, then set its status to "live".</span></li>
+    </ol>
+  </section>
+</section>
+<!-- ================= STADIUM DIRECTORY (for the stadium you are at) ================= -->
+<section data-screen="venue">
+  <div class="relative overflow-hidden rounded-tray bg-night text-onnight">
+    <div class="absolute inset-0 adire opacity-50"></div>
+    <div class="relative p-6 sm:p-8 grid lg:grid-cols-[1fr_auto] gap-6 items-end">
+      <div>
+        <div class="flex flex-wrap gap-2"><span class="chip bg-[#f0c840]/20 text-[#f0c840]"><i data-lucide="landmark" class="size-3.5"></i>Ifa Stadium</span><span class="chip bg-onnight/10 text-onnight" data-v-state>Ọ̀yọ́</span><span class="chip bg-onnight/10 text-onnight" data-v-cap>48,000 seats</span><span class="chip-live"><span class="size-1.5 rounded-full bg-white pulse-dot"></span>Featured match live</span></div>
+        <h2 class="mt-4 font-display text-4xl sm:text-5xl font-bold tracking-tight" data-v-name>Ọ̀yọ́ Grand Arena</h2>
+        <p class="mt-1 text-onnight/60 text-sm" data-v-arena></p>
+        <p class="mt-3 max-w-2xl text-onnight/75" data-v-desc></p>
+      </div>
+      <div class="flex gap-2"><button class="btn bg-onnight/10 text-onnight hover:bg-onnight/20" data-toast="Following this stadium"><i data-lucide="star" class="size-4"></i>Follow</button></div>
+    </div>
+    <div class="relative grid grid-cols-2 sm:grid-cols-4 border-t border-onnight/10 text-sm">
+      <div class="p-4 border-r border-onnight/10"><p class="text-onnight/60 text-[12px]">People connected</p><p class="font-display text-2xl font-semibold tnum" data-pop-humans>0</p></div>
+      <div class="p-4 sm:border-r border-onnight/10"><p class="text-onnight/60 text-[12px]">AI opponents</p><p class="font-display text-2xl font-semibold tnum text-[rgb(184,176,255)]" data-pop-ai>0</p></div>
+      <div class="p-4 border-r border-onnight/10"><p class="text-onnight/60 text-[12px]">NPC guides</p><p class="font-display text-2xl font-semibold tnum" data-pop-npc>0</p></div>
+      <div class="p-4"><p class="text-onnight/60 text-[12px]">Ambient crowd</p><p class="font-display text-lg font-semibold">Simulated, not counted</p></div>
+    </div>
+  </div>
+
+  <a href="#championship" class="mt-6 champ-card flex flex-wrap items-center gap-3 rounded-2xl p-4 text-white" data-v-champ hidden>
+    <span class="grid place-items-center size-11 rounded-xl bg-[#f0c840]/15 text-[#f0c840]"><i data-lucide="crown" class="size-5"></i></span>
+    <span class="min-w-0 flex-1"><b class="block">Championship stadium</b><span class="text-[13px] text-white/70">The World Ayò Ọlọ́pọ́n Championship semi-finals and final are played here, on Heritage Gold stadium tables.</span></span>
+    <span class="btn btn-sm bg-[#f0c840] text-[#1b1204]">Open the Championship</span>
+  </a>
+  <a href="#championship" class="mt-6 panel flex flex-wrap items-center gap-3 p-4" data-v-qual>
+    <span class="grid place-items-center size-11 rounded-xl bg-gold/15 text-gold"><i data-lucide="crown" class="size-5"></i></span>
+    <span class="min-w-0 flex-1"><b class="block" data-v-qual-title>Championship qualifier</b><span class="text-[13px] text-muted" data-v-qual-sub></span></span>
+    <span class="btn-outline btn-sm">Road to the Final</span>
+  </a>
+  <div class="mt-6 grid xl:grid-cols-[1.1fr_1fr] gap-6">
+    <div class="panel p-5 sm:p-6">
+      <div class="flex items-center justify-between gap-3"><h3 class="sect-title">Featured board</h3><button class="btn-primary btn-sm" data-venue-go="rail">Walk to the rail</button></div>
+      <p class="mt-1 text-sm text-muted" data-v-match></p>
+      <div class="mt-4 py-6 px-1" data-v-board></div>
+    </div>
+    <div class="panel p-5 sm:p-6">
+      <h3 class="sect-title">Match tables</h3>
+      <p class="text-sm text-muted">Eight standing Ifa Stadium Tables ring the floor, with a chess clock on each and LED underlighting that glows at night. Your avatar walks there.</p>
+      <ul class="mt-4 grid gap-2" data-v-tables></ul>
+    </div>
+  </div>
+  <div class="mt-6 panel p-5 sm:p-6">
+    <div class="flex flex-wrap items-center justify-between gap-3"><div><h3 class="sect-title">Signs &amp; ad spaces</h3><p class="text-sm text-muted">Every billboard, banner and LED ribbon here is real inventory. Tap one in the world, or pick it below.</p></div><a href="#sponsor" class="btn-outline btn-sm"><i data-lucide="megaphone" class="size-4"></i>Advertise</a></div>
+    <ul class="mt-4 grid sm:grid-cols-2 xl:grid-cols-3 gap-2" data-v-ads></ul>
+  </div>
+  <p class="mt-4 text-[12px] text-muted">Horses wait outside the gates. Stadium names and visuals for landmark venues are concepts under cultural review.</p>
+</section>
+<!-- ================= WORLD AYÒ ỌLỌ́PỌ́N CHAMPIONSHIP (Ifa Stadium) ================= -->
+<section data-screen="championship" data-champ>
+  <div class="champ-hero relative overflow-hidden rounded-tray text-[#efe6d2] p-5 sm:p-8">
+    <div class="absolute inset-0 champ-rays" aria-hidden="true"></div>
+    <div class="relative grid lg:grid-cols-[1fr_auto] gap-6 items-end">
+      <div>
+        <p class="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[.18em] text-[#f0c840]"><i data-lucide="crown" class="size-4"></i>Ifa Stadium · Season <span data-champ-season>2026</span></p>
+        <h2 class="mt-3 font-display text-[clamp(2rem,5vw,3.4rem)] font-bold leading-[1.02] tracking-tight text-white">World Ayò Ọlọ́pọ́n <span class="text-[#f0c840]">Championship</span></h2>
+        <p class="mt-3 max-w-2xl text-white/75" data-champ-tagline></p>
+        <div class="mt-5 flex flex-wrap gap-2">
+          <a href="#champ-live" class="btn btn-lg bg-[#f0c840] text-[#1b1204] hover:bg-[#ffd75a]" data-champ-scroll="champ-live"><i data-lucide="tv" class="size-5"></i>Watch the semi-final</a>
+          <a href="#tournament" class="btn btn-lg bg-white/10 text-white hover:bg-white/20"><i data-lucide="trophy" class="size-5"></i>Enter a qualifier</a>
+          <button class="btn btn-lg bg-white/10 text-white hover:bg-white/20" data-go="ride:eko"><i data-lucide="horse" class="size-5"></i>Ride to Èkó Lagoon Arena</button>
+        </div>
+      </div>
+      <dl class="grid grid-cols-3 lg:grid-cols-1 gap-3 text-sm lg:text-right">
+        <div><dt class="text-white/55 text-[12px]">Host</dt><dd class="font-semibold text-white">Èkó Lagoon Arena, Lagos</dd></div>
+        <div><dt class="text-white/55 text-[12px]">Qualifiers</dt><dd class="font-semibold text-white">7 Ifa Stadiums, weekly</dd></div>
+        <div><dt class="text-white/55 text-[12px]">Now</dt><dd class="font-semibold text-[#f0c840]">Semi-finals</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Live semi-final -->
+  <section id="champ-live" class="mt-6 champ-arena rounded-tray text-white overflow-hidden" aria-labelledby="champ-live-title">
+    <div class="flex flex-wrap items-center gap-2 px-4 sm:px-6 pt-4">
+      <span class="chip-live h-6"><span class="size-1.5 rounded-full bg-white pulse-dot"></span>Live</span>
+      <h3 id="champ-live-title" class="font-display text-lg font-bold">2026 Semi-final · Èkó Lagoon Arena, Lagos</h3>
+      <span class="ml-auto text-[12px] text-white/60" data-champ-mode>Auto demo</span>
+    </div>
+    <div class="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-4 px-4 sm:px-6 pt-4">
+      <div class="champ-player" data-champ-side="0"></div>
+      <div class="text-center"><p class="font-display text-3xl sm:text-4xl font-bold tnum" data-champ-score>0 – 0</p><p class="font-mono text-[13px] text-[#ff9a3c] tnum" data-champ-clock>00:00</p></div>
+      <div class="champ-player text-right" data-champ-side="1"></div>
+    </div>
+    <div class="px-2 sm:px-6 pt-4"><div class="champ-table p-2 sm:p-3 rounded-[26px] sm:rounded-[36px]"><div data-champ-board></div></div></div>
+    <p class="px-4 sm:px-6 pt-3 text-[13px] text-white/70 min-h-[1.5em]" role="status" aria-live="polite" data-champ-status></p>
+    <div class="flex flex-wrap items-center gap-2 px-4 sm:px-6 py-4">
+      <div class="flex gap-1 rounded-xl bg-white/10 p-1" role="group" aria-label="Mode">
+        <button class="champ-seg" aria-pressed="true" data-champ-act="demo"><i data-lucide="play" class="size-4"></i>Auto demo</button>
+        <button class="champ-seg" aria-pressed="false" data-champ-act="vs"><i data-lucide="bot" class="size-4"></i>VS AI</button>
+        <button class="champ-seg" aria-pressed="false" data-champ-act="reset"><i data-lucide="rotate-ccw" class="size-4"></i>Reset</button>
+      </div>
+      <div class="flex gap-1 rounded-xl bg-white/10 p-1" role="group" aria-label="Speed">
+        <button class="champ-seg w-9 justify-center" aria-pressed="false" data-champ-speed="1600" title="Slow">S</button>
+        <button class="champ-seg w-9 justify-center" aria-pressed="true" data-champ-speed="900" title="Normal">N</button>
+        <button class="champ-seg w-9 justify-center" aria-pressed="false" data-champ-speed="350" title="Fast">F</button>
+      </div>
+      <button class="ml-auto btn btn-sm bg-white/10 text-white hover:bg-white/20" data-go="champ"><i data-lucide="footprints" class="size-4"></i>Play it at a stadium table</button>
+    </div>
+    <div class="grid md:grid-cols-2 border-t border-white/10">
+      <div class="p-4 sm:p-5 md:border-r border-white/10"><p class="text-[12px] font-semibold uppercase tracking-wider text-white/55">Commentary</p><ol class="mt-2 grid gap-1.5 text-sm max-h-48 overflow-y-auto pr-1" data-champ-comm></ol></div>
+      <div class="p-4 sm:p-5 border-t md:border-t-0 border-white/10"><p class="text-[12px] font-semibold uppercase tracking-wider text-white/55">Move log</p><ol class="mt-2 grid gap-y-1 font-mono text-[12px] text-white/80 max-h-48 overflow-y-auto pr-1 tnum" data-champ-log></ol></div>
+    </div>
+  </section>
+
+  <!-- Road to the final -->
+  <h3 class="mt-8 font-display text-2xl font-bold">Road to the Final</h3>
+  <p class="text-sm text-muted max-w-2xl">Anyone can start in a qualifier this week. Points from the qualifiers decide who plays the Grand Prix, and the Grand Prix decides who stands at the Championship table in Lagos.</p>
+  <ol class="mt-4 grid sm:grid-cols-2 xl:grid-cols-4 gap-3" data-champ-stages></ol>
+
+  <div class="mt-8 grid xl:grid-cols-[1.25fr_1fr] gap-6 items-start">
+    <div class="panel p-5 sm:p-6">
+      <div class="flex flex-wrap items-baseline justify-between gap-2"><h3 class="sect-title">Qualifiers this week</h3><span class="text-[12px] text-muted">Free entry · 18:00 WAT · counts toward Season <span data-champ-next>2027</span></span></div>
+      <ul class="mt-4 grid gap-2" data-champ-qualifiers></ul>
+    </div>
+    <div class="grid gap-4">
+      <div class="panel p-5 sm:p-6"><h3 class="sect-title">Championship points</h3><ul class="mt-3 grid grid-cols-2 gap-2 text-sm" data-champ-points></ul></div>
+      <div class="panel p-5 sm:p-6"><h3 class="sect-title">Championship rules</h3><dl class="mt-3 grid gap-3 text-sm" data-champ-rules></dl></div>
+    </div>
+  </div>
+
+  <!-- The Ifa Stadium line -->
+  <div class="mt-10 flex flex-wrap items-end justify-between gap-3">
+    <div><p class="text-[12px] font-semibold uppercase tracking-[.16em] text-gold">The Ifa Stadium line</p><h3 class="font-display text-2xl font-bold">The table every Ifa Stadium plays on</h3></div>
+    <span class="chip-soon">Physical boards · coming soon</span>
+  </div>
+  <p class="mt-1 text-sm text-muted max-w-2xl">Each stadium in this world has eight standing Ifa Stadium Tables, modelled on the Ayò Ọlọ́pọ́n Stadium Table: aluminium frame, LED underlighting that glows at night, and a chess clock with a live score display.</p>
+  <div class="mt-4 grid lg:grid-cols-2 gap-4" data-champ-line></div>
+  <div class="mt-4 grid md:grid-cols-[1fr_1fr] gap-4">
+    <div class="panel p-5"><p class="font-semibold">Seven colours</p><ul class="mt-3 flex flex-wrap gap-2" data-champ-colours></ul>
+      <p class="mt-5 font-semibold">Four woods</p><ul class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[13px] font-medium"><li class="well p-2.5 flex items-center gap-2"><span class="size-5 rounded" style="background:#4a3324"></span>Walnut</li><li class="well p-2.5 flex items-center gap-2"><span class="size-5 rounded" style="background:#7a2e1f"></span>Mahogany</li><li class="well p-2.5 flex items-center gap-2"><span class="size-5 rounded" style="background:#8a5a32"></span>African ìrókò</li><li class="well p-2.5 flex items-center gap-2"><span class="size-5 rounded" style="background:#d2b77a"></span>Bamboo</li></ul></div>
+    <div class="panel p-5"><p class="font-semibold">Yorùbá artwork</p><ul class="mt-3 flex flex-wrap gap-1.5" data-champ-art></ul><div class="mt-4 grid sm:grid-cols-2 gap-2" data-champ-editions></div></div>
+  </div>
+
+  <!-- Vision: IfaSimulation -->
+  <div class="mt-10 champ-vision rounded-tray p-5 sm:p-8 text-[#efe6d2]">
+    <p class="text-[12px] font-semibold uppercase tracking-[.16em] text-[#f0c840]">The vision</p>
+    <h3 class="mt-1 font-display text-3xl font-bold text-white">IfaSimulation</h3>
+    <p class="mt-2 max-w-2xl text-white/75" data-champ-vision-line></p>
+    <ul class="mt-5 grid sm:grid-cols-2 xl:grid-cols-3 gap-3" data-champ-vision></ul>
+    <div class="mt-6 flex flex-wrap gap-2"><a href="#play" class="btn bg-[#f0c840] text-[#1b1204] hover:bg-[#ffd75a]"><i data-lucide="gamepad-2" class="size-4"></i>Play Ayò Ọlọ́pọ́nfá</a><a href="#map" class="btn bg-white/10 text-white hover:bg-white/20"><i data-lucide="map" class="size-4"></i>The seven Ifa Stadiums</a></div>
+  </div>
+</section>
+<!-- ================= PLAY / CATALOGUE ================= -->
+<section data-screen="play">
+  <!-- Flagship -->
+  <div class="relative overflow-hidden rounded-tray border border-line bg-surface grid lg:grid-cols-[1fr_1.2fr]">
+    <div class="p-6 sm:p-9 flex flex-col">
+      <div class="flex flex-wrap items-center gap-2"><span class="chip-gold">Ifa Games · Strategy</span><span class="rule-canon">Rules v1.1 · approval in progress</span><a href="#games" class="text-[12px] link ml-auto">All games</a></div>
+      <h2 class="mt-4 font-display text-4xl sm:text-5xl font-bold leading-[0.95] tracking-tight">Ayò Ọlọ́pọ́nfá</h2>
+      <p class="mt-1 font-display text-lg text-muted">Olójú Mẹ́rìndínlógún · the sixteen-pit Ifá board</p>
+      <p class="mt-4 text-muted max-w-prose">Sow 128 seeds through sixteen pots named for the principal Odù, #1 Ogbè to #16 Òfún. Capture, chain captures and outwit the Oracle or a friend. The first board game of IfaGame of Life, Erélayé; more games and game families are on the way.</p>
+      <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-2" data-pick-one>
+        <button aria-pressed="false" data-play-mode="practice" class="well p-3 text-left aria-pressed:bg-ink aria-pressed:text-canvas"><i data-lucide="graduation-cap" class="size-5"></i><span class="block mt-2 text-sm font-semibold">Practice</span></button>
+        <button aria-pressed="false" data-play-mode="ai" class="well p-3 text-left aria-pressed:bg-ink aria-pressed:text-canvas"><i data-lucide="bot" class="size-5"></i><span class="block mt-2 text-sm font-semibold">vs AI</span></button>
+        <button aria-pressed="true" data-play-mode="casual" class="well p-3 text-left aria-pressed:bg-ink aria-pressed:text-canvas"><i data-lucide="users" class="size-5"></i><span class="block mt-2 text-sm font-semibold">Casual</span></button>
+        <button aria-pressed="false" data-play-mode="ranked" class="well p-3 text-left aria-pressed:bg-ink aria-pressed:text-canvas"><i data-lucide="medal" class="size-5"></i><span class="block mt-2 text-sm font-semibold">Ranked</span></button>
+      </div>
+      <div class="mt-6 flex flex-wrap items-center gap-3">
+        <button class="btn-primary btn-lg" data-go="queue:picked"><i data-lucide="search" class="size-5"></i>Find a match</button>
+        <button class="btn-outline btn-lg" data-go="oracle:ope2"><i data-lucide="bot" class="size-5"></i>Walk to an AI table</button>
+        <a href="#game" class="btn-ghost btn-lg">How to play</a>
+      </div>
+      <p class="mt-3 rounded-xl bg-gold/12 p-2.5 text-[12px]" data-rated-note hidden></p>
+      <p class="mt-4 text-[12px] text-muted">Every game is played at a real table in one of the seven Ifa Stadiums. Matchmaking pairs you with another player and seats you both at an open table; ranked games move your rating. Every stadium also has an Oracle table.</p>
+    </div>
+    <div class="relative bg-raised p-6 sm:p-9 grid place-items-center">
+      <div class="w-full max-w-[560px]" data-mini-board data-seeds="8,8,8,8,8,8,8,8,8,8,8,8,8,8,8,8" data-labels></div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="mt-8 flex flex-wrap items-center gap-3">
+    <div role="tablist" class="flex gap-1 scroll-x no-scrollbar max-w-full" data-tabs-simple data-filter-games>
+      <button role="tab" class="tab" aria-selected="true" data-family="all">All games</button>
+      <button role="tab" class="tab" aria-selected="false" data-family="ayo">Ayò</button>
+      <button role="tab" class="tab" aria-selected="false" data-family="logic">Ifá Logic</button>
+      <button role="tab" class="tab" aria-selected="false" data-family="knowledge">Knowledge</button>
+      <button role="tab" class="tab" aria-selected="false" data-family="story">Òrìṣà &amp; stories</button>
+      <button role="tab" class="tab" aria-selected="false" data-family="pending">Rules pending</button>
+    </div>
+    <label class="ml-auto flex items-center gap-2 h-10 w-full sm:w-64 rounded-full bg-raised px-3.5 text-muted">
+      <i data-lucide="search" class="size-4"></i><input id="game-search" class="bg-transparent text-sm text-ink placeholder:text-muted outline-none flex-1 min-w-0" placeholder="Find a game">
+    </label>
+  </div>
+
+  <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" data-render="game-cards" data-filterable></div>
+
+  <!-- Saved + challenges -->
+  <div class="mt-10 grid lg:grid-cols-2 gap-4">
+    <div class="panel p-5 sm:p-6">
+      <h3 class="sect-title">Saved games</h3>
+      <ul class="mt-4 grid gap-2 text-sm">
+        <li class="flex items-center gap-3 well p-3"><span class="odu text-ifa text-sm" data-odu="obara"></span><span class="min-w-0 flex-1"><b>Ayò vs Level 2</b><span class="block text-[12px] text-muted">Your move · 2 hours ago</span></span><button class="btn-primary btn-sm" data-go="oracle:ope2">Resume</button></li>
+        <li class="flex items-center gap-3 well p-3"><span class="odu text-ifa text-sm" data-odu="ika"></span><span class="min-w-0 flex-1"><b>Ayò vs Kẹ́hìndé A.</b><span class="block text-[12px] text-muted">Their move · correspondence game</span></span><button class="btn-outline btn-sm" data-go="queue">Open</button></li>
+      </ul>
+    </div>
+    <div class="panel p-5 sm:p-6">
+      <h3 class="sect-title">Challenges for you</h3>
+      <ul class="mt-4 grid gap-2 text-sm">
+        <li class="flex items-center gap-3 well p-3"><span class="grid place-items-center size-9 rounded-full bg-laterite text-onlaterite font-bold text-[12px]">TK</span><span class="min-w-0 flex-1"><b>Túndé K.</b> challenged you<span class="block text-[12px] text-muted">Ayò · 10 min clock · Arena B</span></span><button class="btn-primary btn-sm" data-go="queue">Accept</button></li>
+        <li class="flex items-center gap-3 well p-3"><span class="grid place-items-center size-9 rounded-full bg-ai text-white"><i data-lucide="puzzle" class="size-4"></i></span><span class="min-w-0 flex-1"><b>Puzzle of the day</b><span class="block text-[12px] text-muted">Win in 3 sowings from this position</span></span><button class="btn-outline btn-sm">Solve</button></li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!-- ================= GAME DETAIL ================= -->
+<section data-screen="game">
+  <div class="grid lg:grid-cols-[1fr_360px] gap-6 items-start">
+    <div class="min-w-0">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="chip-gold">Ayò family</span>
+        <span class="rule-canon">Reference rules v1</span>
+        <span class="text-[12px] text-muted">· 2 players · 10–25 min · 16 Odù pots · 128 seeds</span>
+      </div>
+      <h2 class="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-tight">Ayò Ọlọ́pọ́nfá Olójú Mẹ́rìndínlógún</h2>
+      <p class="mt-3 text-lg text-muted max-w-prose">A sowing-and-capture game played on a sixteen-pit board shaped by the Ọpọ́n Ifá. Each pit carries the name of one of the sixteen principal Odù.</p>
+
+      <div class="mt-6 flex gap-1 border-b border-line scroll-x no-scrollbar" role="tablist" data-tabs>
+        <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="true" data-tab="g-over">Overview</button>
+        <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="false" data-tab="g-rules">Rules</button>
+        <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="false" data-tab="g-var">Variants</button>
+        <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="false" data-tab="g-lead">Leaderboard</button>
+        <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="false" data-tab="g-hist">Rule history</button>
+      </div>
+
+      <!-- Overview -->
+      <div data-panel="g-over" class="pt-6">
+        <h3 class="sect-title">Each pot is an Odù</h3>
+        <p class="mt-1 text-sm text-muted">Ogbè opens your side of the board and Òfún closes the other: as seeds travel from pot to pot they pass through the sixteen principal Odù. In Play IFA each pot also carries a modern field of knowledge — <span class="font-semibold text-ai">a design theme of this game, not a teaching of Ifá</span>.</p>
+        <div class="mt-4 grid grid-cols-4 sm:grid-cols-8 gap-2" data-render="odu-pits"></div>
+        <div class="mt-8 grid sm:grid-cols-3 gap-3">
+          <div class="well p-4"><i data-lucide="move-horizontal" class="size-5 text-ifa"></i><p class="mt-3 font-semibold">Sow</p><p class="text-sm text-muted">Lift every seed from one of your pots and drop one in each following pot, counter-clockwise in number order: #1 → #8 along your row, then #9 → #16.</p></div>
+          <div class="well p-4"><i data-lucide="grab" class="size-5 text-gold"></i><p class="mt-3 font-semibold">Capture</p><p class="text-sm text-muted">Finish in an opponent pit that reaches a capturing count and take those seeds.</p></div>
+          <div class="well p-4"><i data-lucide="link" class="size-5 text-laterite"></i><p class="mt-3 font-semibold">Chain</p><p class="text-sm text-muted">Keep capturing backwards while the previous pits also qualify.</p></div>
+        </div>
+        <h3 class="mt-10 sect-title">Play the Oracle</h3>
+        <div class="mt-4 grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
+          <button class="panel p-4 text-left hover:border-ai" data-go="oracle:ope1"><span class="actor-ai">AI · Beginner</span><p class="mt-2 font-display text-lg font-bold">Òpè I</p><p class="text-[13px] text-muted">Learns with you. Random but fair.</p></button>
+          <button class="panel p-4 text-left hover:border-ai" data-go="oracle:ope2"><span class="actor-ai">AI · Intermediate</span><p class="mt-2 font-display text-lg font-bold">Òpè II</p><p class="text-[13px] text-muted">Takes captures when it sees them.</p></button>
+          <button class="panel p-4 text-left hover:border-ai" data-go="oracle:ota"><span class="actor-ai">AI · Expert</span><p class="mt-2 font-display text-lg font-bold">Ọ̀ta</p><p class="text-[13px] text-muted">Thinks five moves ahead.</p></button>
+          <button class="panel p-4 text-left hover:border-ai" data-go="oracle:agba"><span class="actor-ai">AI · Veteran</span><p class="mt-2 font-display text-lg font-bold">Àgbà-Ọ̀ta</p><p class="text-[13px] text-muted">The veteran board: exact-4 captures.</p></button>
+        </div>
+        <p class="mt-2 text-[12px] text-muted">The Oracle sits at an Oracle table in every Ifa Stadium. AI never plays in ranked games.</p>
+      </div>
+
+      <!-- Rules -->
+      <div data-panel="g-rules" class="pt-6" hidden>
+        <div class="rounded-xl border border-ifa/40 bg-ifa/10 p-4 text-sm flex gap-3"><i data-lucide="scale" class="size-5 text-ifa shrink-0"></i><p><b>Reference rules v1.</b> The standard game from Òpè I to Ọ̀ta, as published for Ayò Ọlọ́pọ́nfá on playifagames.org. Every match in the world runs on this engine.</p></div>
+        <dl class="mt-6 divide-y divide-line border-y border-line max-w-3xl">
+          <div class="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6"><dt class="font-semibold">Seeds per pot</dt><dd class="text-muted">8 seeds per pot at the start (128 in all), shown as the 2-column × 4-row Odù Ifá pattern.</dd></div>
+          <div class="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6"><dt class="font-semibold">Sowing</dt><dd class="text-muted">Sow counter-clockwise, one seed per pot, in pot-number order (#1 → #16 → #1). On the board your row (#8 … #1) is on top and your opponent's (#16 … #9) below, so both rows run right to left. Skip your starting pot on full laps.</dd></div>
+          <div class="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6"><dt class="font-semibold">Capture</dt><dd class="text-muted">Your last seed lands in an opponent pot that now holds exactly 2 or 3 seeds.</dd></div>
+          <div class="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6"><dt class="font-semibold">Chain capture</dt><dd class="text-muted">The capture extends backward through consecutive opponent pots holding 2–3 seeds.</dd></div>
+          <div class="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6"><dt class="font-semibold">Grand Slam voided</dt><dd class="text-muted">If a capture would empty all of the opponent's pots, the entire capture is cancelled.</dd></div>
+          <div class="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6"><dt class="font-semibold">Starvation rule</dt><dd class="text-muted">You cannot leave your opponent with 0 seeds if it can be avoided. Suspended when 6 or fewer seeds remain.</dd></div>
+          <div class="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6"><dt class="font-semibold">Winning</dt><dd class="text-muted">Most seeds captured when a player has no legal moves. Remaining seeds go to each player's own side.</dd></div>
+          <div class="grid gap-1 py-4 sm:grid-cols-[180px_1fr] sm:gap-6"><dt class="font-semibold">Veteran board</dt><dd class="text-muted">Àgbà-Ọ̀ta plays the veteran board: captures on exactly 4.</dd></div>
+        </dl>
+        <div class="mt-6 flex flex-wrap gap-2"><button class="btn-primary" data-go="queue">Play a game</button><button class="btn-outline" data-toast="Thanks, your note went to the rules team">Suggest a correction</button></div>
+      </div>
+
+      <!-- Variants -->
+      <div data-panel="g-var" class="pt-6" hidden>
+        <ul class="grid gap-3">
+          <li class="panel p-4 flex flex-wrap items-center gap-4"><div class="min-w-0 flex-1"><p class="font-semibold">Ayò Ọlọ́pọ́nfá · Standard</p><p class="text-sm text-muted">The reference rule set</p></div><span class="rule-canon">Approval in progress</span></li>
+          <li class="panel p-4 flex flex-wrap items-center gap-4"><div class="min-w-0 flex-1"><p class="font-semibold">Lightning Ọlọ́pọ́nfá</p><p class="text-sm text-muted">3-minute clock, no chain limit · by @funmi_builds · remix of Standard</p></div><span class="rule-community">Community variant</span></li>
+          <li class="panel p-4 flex flex-wrap items-center gap-4"><div class="min-w-0 flex-1"><p class="font-semibold">Four-seed teaching board</p><p class="text-sm text-muted">Half the seeds for lessons · by Ilé-Ifẹ̀ Learning Hall</p></div><span class="rule-exp">Experimental</span></li>
+        </ul>
+      </div>
+
+      <!-- Leaderboard -->
+      <div data-panel="g-lead" class="pt-6" hidden>
+        <div class="panel overflow-hidden"><div class="scroll-x"><table class="w-full text-sm tnum min-w-[520px]">
+          <thead class="text-left text-muted text-[12px]"><tr class="border-b border-line"><th class="p-3 pl-5 font-medium">#</th><th class="p-3 font-medium">Player</th><th class="p-3 font-medium">Rating</th><th class="p-3 font-medium">Games</th><th class="p-3 font-medium">Win rate</th></tr></thead>
+          <tbody class="divide-y divide-line" data-render="leaderboard"></tbody>
+        </table></div></div>
+        <p class="mt-2 text-[12px] text-muted">Ranked human games only. Rating is separate from coins and items.</p>
+      </div>
+
+      <!-- History -->
+      <div data-panel="g-hist" class="pt-6" hidden>
+        <ol class="relative border-l border-line ml-2 grid gap-6">
+          <li class="pl-6 relative"><span class="absolute -left-[7px] top-1 size-3 rounded-full bg-ifa"></span><p class="font-semibold">v1.0 · submitted for approval</p><p class="text-sm text-muted">8 Oct 2026 · Edited by CENProject rules team · 42 test cases</p></li>
+          <li class="pl-6 relative"><span class="absolute -left-[7px] top-1 size-3 rounded-full bg-gold"></span><p class="font-semibold">v0.9 · grand slam clarified</p><p class="text-sm text-muted">22 Sep 2026 · Reviewer notes added</p></li>
+          <li class="pl-6 relative"><span class="absolute -left-[7px] top-1 size-3 rounded-full bg-line"></span><p class="font-semibold">v0.1 · imported from the HTML prototype</p><p class="text-sm text-muted">1 Aug 2026</p></li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Play card -->
+    <aside class="panel p-5 lg:sticky lg:top-24 grid gap-4">
+      <p class="font-display text-lg font-semibold">Start a game</p>
+      <label class="grid gap-1.5"><span class="label">Mode</span>
+        <select id="g-mode" class="field"><option>Against the Oracle · Òpè II</option><option>Casual with a friend</option><option>Ranked (opens after rule approval)</option><option>Practice with hints</option></select></label>
+      <label class="grid gap-1.5"><span class="label">Venue</span>
+        <select id="g-venue" class="field"><option>Nearest stadium</option><option>Ọ̀yọ́ Grand Arena</option><option>Èkó Lagoon Arena</option><option>Osun-Osogbo Grove Arena</option></select></label>
+      <label class="grid gap-1.5"><span class="label">Clock</span>
+        <div class="grid grid-cols-3 gap-2" data-pick-one>
+          <button aria-pressed="false" class="well h-10 text-sm font-semibold aria-pressed:bg-ink aria-pressed:text-canvas">3 min</button>
+          <button aria-pressed="true" class="well h-10 text-sm font-semibold aria-pressed:bg-ink aria-pressed:text-canvas">10 min</button>
+          <button aria-pressed="false" class="well h-10 text-sm font-semibold aria-pressed:bg-ink aria-pressed:text-canvas">None</button>
+        </div></label>
+      <button class="btn-primary btn-lg w-full" data-go="queue"><i data-lucide="search" class="size-5"></i>Find a table</button>
+      <button class="btn-outline w-full" data-toast="Invite link copied"><i data-lucide="user-plus" class="size-4"></i>Invite a friend</button>
+      <div class="border-t border-line pt-4 grid grid-cols-2 gap-3 text-sm">
+        <div><p class="text-muted text-[12px]">Your rating</p><p class="font-display text-xl font-semibold tnum" data-rating>1,544</p></div>
+        <div><p class="text-muted text-[12px]">Your games</p><p class="font-display text-xl font-semibold tnum">87</p></div>
+      </div>
+      <p class="text-[12px] text-muted border-t border-line pt-4">Source: CENProject reference prototype. Reviewer: pending assignment. Content licence: CC BY-NC 4.0 (to confirm).</p>
+    </aside>
+  </div>
+</section>
+<!-- ================= ERÉLAYÉ · THE IFAGAME OF LIFE ================= -->
+<section data-screen="erelaye" data-erelaye>
+  <div class="grid lg:grid-cols-[minmax(0,1fr)_21rem] gap-4 items-start">
+    <div class="rounded-tray p-3 sm:p-5 bg-[#080615] text-[#e8dcc2] shadow-lift">
+      <div class="flex flex-wrap items-baseline justify-between gap-2">
+        <p class="text-[11px] font-semibold uppercase tracking-[.16em] text-[#c9a227]">Erélayé · Odu Cellular Field</p>
+        <p class="font-mono text-[13px] tnum text-[#f0c840]" aria-live="off"><span data-er-gen>GEN 0000</span> · <span data-er-phase>Emerging</span></p>
+      </div>
+      <canvas data-er-field class="mt-3 block w-full aspect-square touch-none cursor-crosshair rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#f0c840]" tabindex="0" role="img" aria-label="The 16 by 16 Erélayé field. Use the arrow keys to move between cells and Space to switch one on or off."></canvas>
+      <div class="mt-3 flex flex-wrap items-center gap-2" role="group" aria-label="Simulation controls">
+        <button type="button" class="btn-gold btn-sm" data-er-toggle></button>
+        <button type="button" class="btn-sm rounded-xl px-3 h-9 inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/15 text-white" data-er-step><i data-lucide="step-forward" class="size-4"></i>Step</button>
+        <button type="button" class="btn-sm rounded-xl px-3 h-9 inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/15 text-white" data-er-reset><i data-lucide="rotate-ccw" class="size-4"></i>Reset</button>
+        <button type="button" class="btn-sm rounded-xl px-3 h-9 inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/15 text-white" data-er-random><i data-lucide="dices" class="size-4"></i>Random</button>
+        <button type="button" class="btn-sm rounded-xl px-3 h-9 inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/15 text-white" data-er-clear><i data-lucide="eraser" class="size-4"></i>Clear</button>
+        <label class="ml-auto inline-flex items-center gap-2 text-[12px] text-white/70">Speed
+          <select data-er-speed class="h-9 rounded-xl bg-white/10 text-white px-2 text-[13px]"><option value="0.5">½×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select>
+        </label>
+      </div>
+      <p class="mt-3 text-[12px] text-white/60">Tap or drag on the field to draw. This is the same field that lights up the dais in Ìrókò Plaza.</p>
+    </div>
+
+    <aside class="grid gap-3">
+      <div class="panel p-4" aria-live="polite">
+        <p class="text-[12px] text-muted">Cell</p>
+        <div class="mt-1 flex items-start gap-3" data-er-cell></div>
+      </div>
+      <div class="panel p-4">
+        <dl class="grid grid-cols-2 gap-x-3 gap-y-2 text-sm tnum">
+          <dt class="text-muted">Living cells</dt><dd class="text-right font-semibold" data-er-alive>0</dd>
+          <dt class="text-muted">Born last step</dt><dd class="text-right font-semibold text-ifa" data-er-births>0</dd>
+          <dt class="text-muted">Died last step</dt><dd class="text-right font-semibold text-kola" data-er-deaths>0</dd>
+          <dt class="text-muted">Phase</dt><dd class="text-right font-semibold" data-er-phase2>Emerging</dd>
+        </dl>
+      </div>
+      <div class="panel p-4 grid gap-3 text-sm" data-er-build>
+        <p class="font-semibold">Build with this field</p>
+        <form class="grid gap-2" data-er-save>
+          <label class="grid gap-1"><span class="text-[12px] text-muted">Name the field as it is now</span><input class="field" name="name" maxlength="40" placeholder="e.g. Ọ̀sá garden" required></label>
+          <label class="flex items-center gap-2 text-[13px]"><input type="checkbox" name="shared" class="accent-[rgb(var(--ifa))]">Share it with other players</label>
+          <div class="flex flex-wrap gap-2"><button class="btn-primary btn-sm"><i data-lucide="save" class="size-4"></i>Save</button><button type="button" class="btn-outline btn-sm" data-er-link><i data-lucide="link" class="size-4"></i>Copy link</button></div>
+          <input class="field text-[12px] font-mono" data-er-linkbox readonly hidden aria-label="Link to this field">
+        </form>
+        <div><p class="text-[12px] font-semibold text-muted">Your fields</p><ul class="mt-1 grid gap-1" data-er-mine></ul></div>
+        <div><p class="text-[12px] font-semibold text-muted">Shared by players</p><ul class="mt-1 grid gap-1" data-er-shared></ul></div>
+      </div>
+      <div class="panel p-4 text-sm grid gap-2">
+        <p class="font-semibold">The IfaGame of Life</p>
+        <p class="text-muted">Erélayé is an Odù-based cellular automaton: Ifá’s parallel to Conway’s Game of Life. Each of the 256 cells on the 16 × 16 IfaField is one Odù Ifá. Its row gives the right leg and its column the left leg, so the sixteen Méjì run down the diagonal.</p>
+        <p class="text-muted"><b class="text-ink">The law of each generation:</b> a cell comes alive when exactly 3 of its 8 neighbours live, and stays alive with 2 or 3. Every other cell rests. The field wraps at its edges, so it has no border.</p>
+        <p class="text-muted">From these few laws come life, death, emergence, stillness (stasis) and rhythm (oscillation).</p>
+        <p class="text-muted"><b class="text-ink">Its dual, Erékọ́layé</b>, the Ifa Non-Game of Life, is in development at Play IFA Games and will join when its laws are published.</p>
+        <p class="text-[12px] text-muted">Source: <a class="link" href="https://playifagames.org/ayo-oloponfa/" target="_blank" rel="noopener">Erélayé · Building Mode, playifagames.org</a>. The field starts from the source’s generation 0.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+<!-- ================= WATCH ================= -->
+<section data-screen="watch">
+  <div class="grid xl:grid-cols-[1fr_330px] gap-5 items-start">
+    <!-- Featured spectator view -->
+    <div class="min-w-0 rounded-tray overflow-hidden bg-night text-onnight">
+      <div class="flex flex-wrap items-center gap-2 px-4 sm:px-6 h-14 border-b border-onnight/10 text-sm">
+        <span class="chip-live"><span class="size-1.5 rounded-full bg-white pulse-dot"></span>Live</span>
+        <span class="font-semibold truncate" data-main-title>Featured match</span>
+        <span class="ml-auto text-onnight/60 inline-flex items-center gap-1.5" data-watch-mode><i data-lucide="tv" class="size-4"></i>Featured board</span>
+      </div>
+      <div class="p-4 sm:p-6" style="background: radial-gradient(90% 70% at 20% 10%, #8c2a17 0%, transparent 60%), linear-gradient(160deg, #3a0f08, #160604 70%)" data-watch-bg>
+        <div class="flex items-center justify-between gap-3 text-white">
+          <div class="flex items-center gap-3 min-w-0"><span class="grid place-items-center size-10 rounded-full bg-laterite text-onlaterite font-bold text-sm shrink-0" data-main-ia>TK</span><div class="min-w-0"><p class="font-semibold truncate" data-main-a>Túndé K.</p><p class="text-[12px] text-white/60" data-main-asub>Pots 0–7 · Ogbe side</p></div></div>
+          <div class="text-center shrink-0"><p class="font-display text-3xl sm:text-4xl font-bold tnum"><span data-main-sa>0</span> <span class="text-white/40">:</span> <span data-main-sb>0</span></p><p class="text-[11px] text-white/60" data-main-move>Move 1</p></div>
+          <div class="flex items-center gap-3 min-w-0 justify-end text-right"><div class="min-w-0"><p class="font-semibold truncate" data-main-b>Kẹ́hìndé A.</p><p class="text-[12px] text-white/60" data-main-bsub>Pots 8–15 · Ofun side</p></div><span class="grid place-items-center size-10 rounded-full bg-gold text-ongold font-bold text-sm shrink-0" data-main-ib>KA</span></div>
+        </div>
+        <div class="mt-5 py-6 px-1" id="watch-board"></div>
+        <p class="text-center text-sm font-semibold text-white" data-main-last aria-live="polite"></p>
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          <button class="btn-gold btn-sm" data-watch-go><i data-lucide="footprints" class="size-4"></i>Watch in person</button>
+          <button class="btn bg-white/10 text-white hover:bg-white/20 btn-sm" data-watch-featured hidden><i data-lucide="tv" class="size-4"></i>Back to featured boards</button>
+          <button class="btn bg-white/10 text-white hover:bg-white/20 btn-sm" data-toast="Following this match"><i data-lucide="bell-plus" class="size-4"></i>Notify on finish</button>
+          <span class="ml-auto text-[12px] text-white/60">Presented by <b class="text-white">Ọ̀ṣun Spring Water</b> <span class="border border-white/25 rounded px-1">Sponsored</span></span>
+        </div>
+      </div>
+      <!-- stadium switcher -->
+      <div class="border-t border-onnight/10 p-4 sm:px-6">
+        <p class="text-[12px] text-onnight/60 mb-2">Featured boards in every Ifa Stadium</p>
+        <div class="flex gap-2 scroll-x no-scrollbar" data-render="watch-stadiums"></div>
+      </div>
+    </div>
+
+    <!-- Chat -->
+    <aside class="panel flex flex-col h-[560px]">
+      <div class="flex items-center justify-between p-4 border-b border-line">
+        <p class="font-semibold">Spectator chat</p>
+        <span class="text-[12px] text-muted tnum" data-spectator-count>318 verified spectators</span>
+      </div>
+      <ul class="flex-1 overflow-y-auto p-4 grid gap-3 content-start text-sm" data-render="spectator-chat"></ul>
+      <form class="p-3 border-t border-line" data-spec-form>
+        <div class="flex gap-1.5 mb-2">
+          <button type="button" class="well h-8 px-2.5 text-sm" data-spec-react="👏" aria-label="Clap">👏</button><button type="button" class="well h-8 px-2.5 text-sm" data-spec-react="🔥" aria-label="Fire">🔥</button><button type="button" class="well h-8 px-2.5 text-sm" data-spec-react="😮" aria-label="Wow">😮</button>
+          <span class="ml-auto text-[11px] text-muted self-center" data-spec-hint>Be kind · no links</span>
+        </div>
+        <div class="flex gap-2"><label class="sr-only" for="spec-msg">Message other spectators</label><input id="spec-msg" class="field h-10" maxlength="280" autocomplete="off" placeholder="Say something kind"><button class="icon-btn bg-ifa text-onifa hover:bg-ifa/90 hover:text-onifa shrink-0" aria-label="Send"><i data-lucide="send" class="size-4"></i></button></div>
+      </form>
+    </aside>
+  </div>
+
+  <!-- Live directory -->
+  <div class="mt-10 flex flex-wrap items-end justify-between gap-3">
+    <h3 class="sect-title">Live now</h3>
+    <div role="tablist" class="flex gap-1 scroll-x no-scrollbar" data-tabs-simple>
+      <button role="tab" class="tab" aria-selected="true">All</button><button role="tab" class="tab" aria-selected="false">Tournaments</button><button role="tab" class="tab" aria-selected="false">Friends</button><button role="tab" class="tab" aria-selected="false">AI exhibitions</button>
+    </div>
+  </div>
+  <div class="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-live-games></div>
+  <p class="mt-6 text-[12px] text-muted">Featured boards in the stadiums</p>
+  <div class="mt-2 grid sm:grid-cols-2 lg:grid-cols-4 gap-4" data-render="live-cards"></div>
+
+  <!-- Replay -->
+  <div class="mt-10 grid lg:grid-cols-[1.3fr_1fr] gap-4" id="replays">
+    <div class="panel p-5 sm:p-6" data-replay>
+      <div class="flex items-center justify-between gap-2"><h3 class="sect-title">Replay</h3><span class="text-[12px] text-muted">Rebuilt from the server's move log</span></div>
+      <p class="mt-1 text-sm text-muted" data-replay-title>Choose a game from the list.</p>
+      <div class="mt-3 flex items-center justify-between text-sm"><span class="font-semibold truncate" data-replay-a></span><span class="font-display text-2xl font-bold tnum" data-replay-score>0 : 0</span><span class="font-semibold truncate text-right" data-replay-b></span></div>
+      <div class="mt-3 py-4 px-1" data-replay-board></div>
+      <p class="text-center text-sm font-semibold min-h-5" data-replay-last aria-live="polite"></p>
+      <div class="mt-3 flex items-center gap-2">
+        <button class="icon-btn" aria-label="First move" data-replay-step="start"><i data-lucide="skip-back" class="size-5"></i></button>
+        <button class="icon-btn" aria-label="Previous move" data-replay-step="-1"><i data-lucide="chevron-left" class="size-5"></i></button>
+        <button class="icon-btn bg-ink text-canvas hover:bg-ink hover:text-canvas" aria-label="Play" data-replay-play><i data-lucide="play" class="size-5"></i></button>
+        <button class="icon-btn" aria-label="Next move" data-replay-step="1"><i data-lucide="chevron-right" class="size-5"></i></button>
+        <input type="range" min="0" max="0" value="0" class="flex-1 accent-[rgb(var(--gold))]" aria-label="Move" data-replay-scrub>
+        <span class="text-sm font-mono tnum text-muted w-14 text-right" data-replay-pos>0/0</span>
+        <button class="btn-ghost btn-sm" data-replay-speed>1×</button>
+      </div>
+      <div class="mt-3 flex flex-wrap gap-2 text-[12px]" data-replay-moments></div>
+      <div class="mt-3 flex flex-wrap gap-2"><button class="btn-outline btn-sm" data-replay-share hidden><i data-lucide="link" class="size-4"></i>Copy link</button></div>
+    </div>
+    <div class="panel p-5 sm:p-6">
+      <div class="flex items-center justify-between gap-2">
+        <h3 class="sect-title">Replays</h3>
+        <div class="flex gap-1" role="tablist"><button role="tab" class="tab h-7 px-2.5 text-[12px]" aria-selected="true" data-replay-tab="recent">Recent</button><button role="tab" class="tab h-7 px-2.5 text-[12px]" aria-selected="false" data-replay-tab="mine">Mine</button></div>
+      </div>
+      <ul class="mt-4 grid gap-2 text-sm" data-replay-list></ul>
+    </div>
+  </div>
+</section>
+<!-- ================= TOURNAMENTS ================= -->
+<section data-screen="tournament">
+  <a href="#championship" class="champ-card mb-5 flex flex-wrap items-center gap-3 rounded-2xl p-4 text-white">
+    <span class="grid place-items-center size-11 rounded-xl bg-[#f0c840]/15 text-[#f0c840]"><i data-lucide="crown" class="size-5"></i></span>
+    <span class="min-w-0 flex-1"><b class="block">World Ayò Ọlọ́pọ́n Championship</b><span class="text-[13px] text-white/70">Every Championship Qualifier below earns points toward the next season. The 2026 semi-finals are live at Èkó Lagoon Arena.</span></span>
+    <span class="btn btn-sm bg-[#f0c840] text-[#1b1204]">Road to the Final</span>
+  </a>
+  <!-- every tournament: running, open for entry, recently finished -->
+  <div class="flex items-end justify-between gap-3">
+    <h3 class="sect-title">Tournaments</h3>
+    <span class="text-[12px] text-muted">Times in West Africa Time</span>
+  </div>
+  <div class="mt-3 flex gap-2 scroll-x no-scrollbar pb-1" data-t-list><div class="panel p-4 w-64 shrink-0 h-[92px] animate-pulse"></div><div class="panel p-4 w-64 shrink-0 h-[92px] animate-pulse"></div></div>
+
+  <div class="mt-6 grid lg:grid-cols-[1fr_340px] gap-6 items-start">
+    <div class="min-w-0">
+      <div data-t-head>
+        <h2 class="font-display text-4xl font-bold tracking-tight">Loading…</h2>
+      </div>
+
+      <div class="mt-6 flex gap-1 border-b border-line scroll-x no-scrollbar" role="tablist" data-tabs>
+        <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="true" data-tab="t-bracket" data-t-bracket-tab>Bracket</button>
+        <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="false" data-tab="t-sched">Games</button>
+        <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="false" data-tab="t-players">Players</button>
+        <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="false" data-tab="t-rules">Rules</button>
+      </div>
+      <div data-panel="t-bracket" class="pt-5">
+        <div class="scroll-x pb-2"><div data-t-bracket></div></div>
+      </div>
+      <div data-panel="t-sched" class="pt-5" hidden><div data-t-rounds class="grid gap-5"></div></div>
+      <div data-panel="t-players" class="pt-5" hidden><div data-t-players></div></div>
+      <div data-panel="t-rules" class="pt-5 grid sm:grid-cols-2 gap-3 text-sm" hidden data-t-rules></div>
+    </div>
+
+    <aside class="grid gap-4 lg:sticky lg:top-24">
+      <div class="panel p-5" data-t-you></div>
+      <div class="panel p-5 grid grid-cols-2 gap-4 text-sm" data-t-facts></div>
+      <div class="panel p-5">
+        <div class="flex items-center justify-between gap-2">
+          <p class="font-semibold">Leaderboard</p>
+          <div class="flex gap-1" role="tablist" data-lb-tabs>
+            <button role="tab" class="tab h-7 px-2.5 text-[12px]" aria-selected="true" data-lb="all">All time</button>
+            <button role="tab" class="tab h-7 px-2.5 text-[12px]" aria-selected="false" data-lb="week">This week</button>
+          </div>
+        </div>
+        <ol class="mt-3 grid gap-1 text-sm" data-lb-list></ol>
+      </div>
+    </aside>
+  </div>
+</section>
+<!-- ================= LEARN ================= -->
+<section data-screen="learn">
+  <div class="flex flex-wrap items-center gap-3">
+    <p class="text-sm text-muted min-w-0 flex-1" data-learn-intro>Lessons, rules and the culture behind the game. Everything is labelled: gameplay, Play IFA design, or cultural knowledge.</p>
+    <div class="flex gap-1 well p-1" role="group" aria-label="Language" data-i18n-label="ui.lang.label">
+      <button class="tab h-8 px-3 text-sm" aria-pressed="true" data-lang="en">English</button>
+      <button class="tab h-8 px-3 text-sm" aria-pressed="false" data-lang="yo" lang="yo">Yorùbá</button>
+    </div>
+  </div>
+  <div class="mt-3" data-learn-banner></div>
+
+  <!-- Hall: continue, paths, rules, Odù explorer, glossary -->
+  <div data-learn-home>
+    <div class="mt-4 grid lg:grid-cols-[1.2fr_1fr] gap-4 items-start">
+      <div data-learn-hero class="rounded-tray bg-ifa text-onifa p-6 sm:p-8 min-h-[220px]"><p class="opacity-80 text-sm">Loading…</p></div>
+      <div data-learn-rules class="panel p-5 sm:p-6"><p class="text-sm text-muted">Loading the rules…</p></div>
+    </div>
+
+    <h3 class="mt-10 sect-title" data-i18n="ui.learn.paths">Learning paths</h3>
+    <div class="mt-4 grid lg:grid-cols-3 gap-4 items-start" data-learn-paths></div>
+
+    <!-- Odu explorer -->
+    <div class="mt-10 grid xl:grid-cols-[1.4fr_1fr] gap-6 items-start">
+      <div>
+        <div class="flex items-end justify-between"><h3 class="sect-title" data-i18n="ui.learn.oduExplorer">Odù explorer</h3><span class="text-[12px] text-muted">I = single mark · II = double mark</span></div>
+        <div class="mt-4 grid grid-cols-4 sm:grid-cols-8 gap-2" data-render="odu-explorer"></div>
+      </div>
+      <article class="panel p-6" id="odu-detail" aria-live="polite"></article>
+    </div>
+
+    <!-- Glossary -->
+    <div class="mt-10 panel p-5 sm:p-6">
+      <div class="flex flex-wrap items-center justify-between gap-3"><h3 class="sect-title" data-i18n="ui.learn.glossary">Glossary</h3><label class="flex items-center gap-2 h-9 rounded-full bg-raised px-3 text-muted w-48 sm:w-64"><i data-lucide="search" class="size-4"></i><span class="sr-only">Search the glossary</span><input id="gloss-q" class="bg-transparent text-sm outline-none min-w-0 flex-1" placeholder="Search · with or without tone marks"></label></div>
+      <dl class="mt-4 grid md:grid-cols-2 gap-x-8 divide-y md:divide-y-0 divide-line" data-render="glossary"></dl>
+    </div>
+
+    <p class="mt-8 text-[12px] text-muted max-w-3xl">Learning content is for education. Every lesson and article lists who wrote it, how it was drafted, its sources and who reviewed it. Ifá is a living religious tradition: its practice is taught by initiated priests, not by this game. Something wrong? Use “Suggest a correction” at the end of any lesson.</p>
+  </div>
+
+  <!-- Lesson player -->
+  <div data-learn-player hidden></div>
+</section>
+<!-- ================= EVENTS ================= -->
+<section data-screen="events">
+  <div class="flex flex-wrap items-center gap-3">
+    <div class="flex gap-1 well p-1" role="tablist" data-tabs>
+      <button role="tab" class="tab h-9" aria-selected="true" data-tab="e-discover">Discover</button>
+      <button role="tab" class="tab h-9" aria-selected="false" data-tab="e-live">Live room</button>
+      <button role="tab" class="tab h-9" aria-selected="false" data-tab="e-host">Host an event</button>
+    </div>
+    <span class="ml-auto text-[12px] text-muted">Times shown in your time zone (WAT)</span>
+  </div>
+
+  <!-- Discover -->
+  <div data-panel="e-discover" class="mt-6">
+    <div class="flex gap-2 scroll-x no-scrollbar" data-render="week-strip"></div>
+    <div role="tablist" class="mt-5 flex gap-1 scroll-x no-scrollbar" data-tabs-simple>
+      <button role="tab" class="tab" aria-selected="true">All</button><button role="tab" class="tab" aria-selected="false">Competitions</button><button role="tab" class="tab" aria-selected="false">Music</button><button role="tab" class="tab" aria-selected="false">Talks &amp; learning</button><button role="tab" class="tab" aria-selected="false">Watch parties</button><button role="tab" class="tab" aria-selected="false">Community</button><button role="tab" class="tab" aria-selected="false">Launches</button>
+    </div>
+    <div class="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-4" data-render="event-cards"></div>
+  </div>
+
+  <!-- Live room -->
+  <div data-panel="e-live" class="mt-6" hidden>
+    <div class="grid xl:grid-cols-[1fr_320px] gap-5 items-start">
+      <div class="rounded-tray overflow-hidden bg-night text-onnight">
+        <div class="flex flex-wrap items-center gap-2 px-5 h-14 border-b border-onnight/10 text-sm">
+          <span class="chip-live"><span class="size-1.5 rounded-full bg-white pulse-dot"></span>Live</span>
+          <span class="font-semibold">Odù and number: binary before computers</span>
+          <span class="ml-auto text-onnight/60">Community Stage · Ọ̀yọ́ Grand Arena</span>
+        </div>
+        <div class="relative p-6 sm:p-10">
+          <div class="absolute inset-0 adire opacity-40"></div>
+          <p class="relative text-[12px] text-onnight/60">On stage</p>
+          <div class="relative mt-4 grid grid-cols-2 sm:grid-cols-4 gap-5">
+            <div class="text-center"><div class="mx-auto grid place-items-center size-20 rounded-full bg-gold text-ongold font-display text-xl font-bold ring-4 ring-ifa">BA</div><p class="mt-2 font-semibold text-sm">Dr. Bámidélé A.</p><p class="text-[11px] text-onnight/60">Host · speaking</p></div>
+            <div class="text-center"><div class="mx-auto grid place-items-center size-20 rounded-full bg-ifa text-onifa font-display text-xl font-bold">YO</div><p class="mt-2 font-semibold text-sm">Yéwándé O.</p><p class="text-[11px] text-onnight/60">Speaker</p></div>
+            <div class="text-center"><div class="mx-auto grid place-items-center size-20 rounded-full bg-laterite text-onlaterite font-display text-xl font-bold">KS</div><p class="mt-2 font-semibold text-sm">Kúnlé S.</p><p class="text-[11px] text-onnight/60">Speaker · muted</p></div>
+            <div class="text-center"><div class="mx-auto grid place-items-center size-20 rounded-full border-2 border-dashed border-onnight/30 text-onnight/50"><i data-lucide="hand" class="size-7"></i></div><p class="mt-2 font-semibold text-sm">4 requests</p><p class="text-[11px] text-onnight/60">to speak</p></div>
+          </div>
+          <div class="relative mt-8 rounded-2xl bg-onnight/5 border border-onnight/10 p-4">
+            <p class="text-[12px] text-onnight/60">Poll · 214 votes</p>
+            <p class="font-semibold mt-1">Should IfaBin add an Ọ̀pẹ̀lẹ̀ chain mode?</p>
+            <div class="mt-3 grid gap-2 text-sm">
+              <div class="relative h-9 rounded-lg bg-onnight/5 overflow-hidden"><div class="absolute inset-y-0 left-0 w-[72%] bg-ifa/40"></div><span class="relative flex items-center justify-between h-full px-3"><span>Yes</span><span class="tnum">72%</span></span></div>
+              <div class="relative h-9 rounded-lg bg-onnight/5 overflow-hidden"><div class="absolute inset-y-0 left-0 w-[28%] bg-onnight/15"></div><span class="relative flex items-center justify-between h-full px-3"><span>Not yet</span><span class="tnum">28%</span></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 px-5 py-4 border-t border-onnight/10">
+          <button class="btn bg-onnight/10 text-onnight hover:bg-onnight/20 btn-sm"><i data-lucide="hand" class="size-4"></i>Raise hand</button>
+          <button class="btn bg-onnight/10 text-onnight hover:bg-onnight/20 btn-sm"><i data-lucide="message-circle-question" class="size-4"></i>Ask a question</button>
+          <button class="btn bg-onnight/10 text-onnight hover:bg-onnight/20 btn-sm"><i data-lucide="captions" class="size-4"></i>Captions</button>
+          <a href="#events" class="ml-auto btn btn-sm bg-kola text-white hover:bg-kola/90">Leave</a>
+        </div>
+      </div>
+      <aside class="grid gap-4">
+        <div class="panel p-4 text-sm">
+          <p class="font-semibold">Attendance</p>
+          <dl class="mt-3 grid gap-2">
+            <div class="flex justify-between"><dt class="text-muted">In the room now</dt><dd class="tnum font-semibold">226</dd></div>
+            <div class="flex justify-between"><dt class="text-muted">RSVPs</dt><dd class="tnum font-semibold">390</dd></div>
+            <div class="flex justify-between"><dt class="text-muted">NPC ushers</dt><dd class="tnum font-semibold">1 <span class="actor-npc ml-1">NPC</span></dd></div>
+          </dl>
+          <p class="mt-3 text-[11px] text-muted">"In the room" counts signed-in people connected for at least 1 minute.</p>
+        </div>
+        <div class="panel p-4 text-sm">
+          <p class="font-semibold">Top questions</p>
+          <ul class="mt-3 grid gap-3">
+            <li class="flex gap-3"><span class="well px-2 h-7 grid place-items-center tnum text-[12px] font-semibold">42</span><span>How many Odù combinations exist past 256?</span></li>
+            <li class="flex gap-3"><span class="well px-2 h-7 grid place-items-center tnum text-[12px] font-semibold">18</span><span>Is the Ìrọ́kẹ́ part of the binary system?</span></li>
+          </ul>
+        </div>
+        <div class="panel p-4 text-sm"><p class="font-semibold">Recording</p><p class="mt-1 text-muted">This event is recorded. Speakers agreed before going on stage.</p></div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Host -->
+  <div data-panel="e-host" class="mt-6" hidden>
+    <div class="grid lg:grid-cols-[1fr_340px] gap-6 items-start">
+      <form class="panel p-5 sm:p-7 grid gap-5" data-fake-form>
+        <h2 class="font-display text-2xl font-bold">Host an event</h2>
+        <label class="grid gap-1.5"><span class="label">Title</span><input id="ev-title" class="field" value="Ọ̀ṣun Grove listening night"></label>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <label class="grid gap-1.5"><span class="label">Category</span><select id="ev-cat" class="field"><option>Music</option><option>Talk</option><option>Competition</option><option>Watch party</option><option>Workshop</option></select></label>
+          <label class="grid gap-1.5"><span class="label">Format</span><select id="ev-format" class="field"><option>Listening room</option><option>Stage + audience</option><option>Panel</option><option>Game activity</option></select></label>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <label class="grid gap-1.5"><span class="label">Venue</span><select id="ev-venue" class="field"><option>Osun-Osogbo Grove Pavilion</option><option>Ọ̀yọ́ Grand Arena · Community Stage</option></select></label>
+          <label class="grid gap-1.5"><span class="label">Date and time</span><input id="ev-when" class="field" type="datetime-local" value="2026-10-17T19:00"></label>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-4">
+          <label class="grid gap-1.5"><span class="label">Capacity</span><input id="ev-cap" class="field" type="number" value="300"></label>
+          <label class="grid gap-1.5 sm:col-span-2"><span class="label">Who can join</span><select id="ev-priv" class="field"><option>Public</option><option>Unlisted link</option><option>Invite only</option><option>Club members</option></select></label>
+        </div>
+        <div class="well p-4 grid gap-3 text-sm">
+          <label class="flex items-center justify-between gap-3"><span>Allow chat</span><input id="ev-chat" type="checkbox" checked class="size-4 accent-[rgb(var(--ifa))]"></label>
+          <label class="flex items-center justify-between gap-3"><span>Record this event</span><input id="ev-rec" type="checkbox" class="size-4 accent-[rgb(var(--ifa))]"></label>
+          <label class="flex items-center justify-between gap-3"><span>I have the rights to all music I will play</span><input id="ev-rights" type="checkbox" checked class="size-4 accent-[rgb(var(--ifa))]"></label>
+        </div>
+        <div class="flex flex-wrap gap-2"><button type="button" class="btn-primary" data-toast="Event published">Publish event</button><button type="button" class="btn-outline" data-toast="Draft saved">Save draft</button></div>
+      </form>
+      <aside class="panel overflow-hidden">
+        <div class="aspect-[16/9] bg-gradient-to-br from-[#0a7a52] via-[#0d3d2e] to-[#1c1a3c] relative p-4 flex items-end"><div class="absolute inset-0 adire opacity-40"></div><span class="relative chip bg-white/15 text-white">Music</span></div>
+        <div class="p-4"><p class="text-[12px] text-muted">Preview</p><p class="font-display text-lg font-bold">Ọ̀ṣun Grove listening night</p><p class="text-sm text-muted">Sat 17 Oct · 19:00 · Osun-Osogbo Grove Pavilion</p><p class="mt-3 text-[12px] text-laterite">This venue is a concept and is waiting for cultural review.</p></div>
+      </aside>
+    </div>
+  </div>
+</section>
+<!-- ================= COMMUNITY ================= -->
+<section data-screen="social">
+  <div class="grid lg:grid-cols-[300px_1fr] xl:grid-cols-[300px_1fr_300px] gap-4 items-start">
+    <!-- Lists -->
+    <aside class="panel">
+      <div class="flex gap-1 p-1.5 border-b border-line" role="tablist" data-tabs>
+        <button role="tab" class="tab h-8 px-2 flex-1 text-[13px]" aria-selected="true" data-tab="c-friends">Friends</button>
+        <button role="tab" class="tab h-8 px-2 flex-1 text-[13px]" aria-selected="false" data-tab="c-msgs">Messages <span class="ml-0.5 text-laterite" data-dm-count></span></button>
+        <button role="tab" class="tab h-8 px-2 flex-1 text-[13px]" aria-selected="false" data-tab="c-clubs">Clubs</button>
+        <button role="tab" class="tab h-8 px-2 flex-1 text-[13px]" aria-selected="false" data-tab="c-req">Requests <span class="ml-0.5 text-laterite" data-req-count></span></button>
+      </div>
+      <div data-panel="c-friends">
+        <form class="p-2 pb-0 flex gap-1.5" data-friend-add>
+          <label class="sr-only" for="friend-handle">Add a friend by handle</label>
+          <input id="friend-handle" name="handle" class="field h-9 text-sm" placeholder="Add by @handle" autocomplete="off" maxlength="24">
+          <button class="btn-primary btn-sm h-9 shrink-0" aria-label="Send friend request"><i data-lucide="user-plus" class="size-4"></i></button>
+        </form>
+        <ul class="p-2 grid gap-0.5" data-render="friends" data-friend-list></ul>
+      </div>
+      <div data-panel="c-msgs" hidden>
+        <form class="p-2 pb-0 flex gap-1.5" data-dm-new>
+          <label class="sr-only" for="dm-handle">Message someone by handle</label>
+          <input id="dm-handle" name="handle" class="field h-9 text-sm" placeholder="Message @handle" autocomplete="off" maxlength="24">
+          <button class="btn-primary btn-sm h-9 shrink-0" aria-label="Start conversation"><i data-lucide="message-square-plus" class="size-4"></i></button>
+        </form>
+        <ul class="p-2 grid gap-0.5" data-dm-list><li class="p-3 text-sm text-muted">Loading…</li></ul>
+      </div>
+      <div data-panel="c-clubs" hidden>
+        <form class="p-2 pb-0 flex gap-1.5" data-club-search role="search">
+          <label class="sr-only" for="club-q">Find a club</label>
+          <input id="club-q" name="q" class="field h-9 text-sm" placeholder="Find a club" autocomplete="off" maxlength="40">
+          <button class="btn-outline btn-sm h-9 shrink-0" aria-label="Search clubs"><i data-lucide="search" class="size-4"></i></button>
+        </form>
+        <div class="p-2 grid gap-1" data-club-list><p class="p-3 text-sm text-muted">Loading…</p></div>
+        <div class="p-2 pt-0"><button class="btn-outline btn-sm w-full" data-club-new><i data-lucide="plus" class="size-4"></i>Start a club</button></div>
+      </div>
+      <ul data-panel="c-req" class="p-2 grid gap-1" data-friend-requests hidden><li class="p-3 text-sm text-muted">No requests right now.</li></ul>
+    </aside>
+
+    <!-- Centre: friend, conversation or club -->
+    <div class="min-w-0">
+      <div class="panel p-5 lg:min-h-[420px]" data-friend-detail data-c-pane="friend">
+        <div class="h-full grid place-items-center text-center py-10">
+          <div>
+            <span class="mx-auto grid place-items-center size-14 rounded-2xl bg-ifa/12 text-ifa"><i data-lucide="users" class="size-7"></i></span>
+            <p class="mt-4 font-display text-lg font-bold">Play with friends</p>
+            <p class="mt-1 text-sm text-muted max-w-sm">Add friends by their @handle. When they are online you can challenge them to Ayò from here, wherever they are in the land.</p>
+            <button type="button" class="mt-4 btn-primary btn-sm" data-auth-open data-friend-signin>Sign in to add friends</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel overflow-hidden flex flex-col h-[min(640px,75dvh)]" data-c-pane="thread" hidden></div>
+      <div class="grid gap-4" data-c-pane="club" hidden></div>
+    </div>
+
+    <!-- Activity and safety -->
+    <aside class="grid gap-4 lg:col-span-2 xl:col-span-1">
+      <div class="panel">
+        <div class="flex items-center justify-between p-4 pb-2"><p class="font-semibold">Activity</p><button class="icon-btn size-8" aria-label="Refresh activity" data-feed-refresh><i data-lucide="refresh-cw" class="size-4"></i></button></div>
+        <ul class="px-2 pb-3 grid gap-0.5 text-sm max-h-[420px] overflow-y-auto" data-feed-list><li class="p-2 text-muted">Loading…</li></ul>
+      </div>
+      <div class="panel p-4 text-sm" data-safety-card>
+        <p class="font-semibold">Privacy and safety</p>
+        <p class="mt-1 text-muted">Friends see when you are online. Anyone standing near you can challenge you; to challenge from anywhere, you need to be friends.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+<!-- ================= AJEMIPOSI MARKET ================= -->
+<section data-screen="market" data-market>
+  <div class="relative overflow-hidden rounded-tray text-white p-5 sm:p-7 market-hero">
+    <div class="absolute inset-0 adire opacity-40" style="--pattern: 255 214 140"></div>
+    <div class="relative grid sm:grid-cols-[1fr_auto] gap-5 items-end">
+      <div>
+        <p class="text-sm text-white/75">West of Ìrókò Plaza · under the arch</p>
+        <h2 class="mt-1 font-display text-3xl sm:text-4xl font-bold leading-tight">Ajemiposi Market</h2>
+        <p class="mt-2 text-white/80 text-sm max-w-xl">Cloth from the dye pits and looms, gèlè and fìlà, beads, boards, seeds, horses and sound packs. Everything here is cosmetic: none of it changes how you play.</p>
+      </div>
+      <div class="flex flex-wrap gap-2" data-mk-wallet></div>
+    </div>
+  </div>
+
+  <div class="mt-5 flex flex-wrap items-center gap-3">
+    <div class="flex gap-1 well p-1 w-fit" role="tablist" aria-label="Market sections" data-tabs>
+      <button role="tab" class="tab h-9" aria-selected="true" data-tab="mk-shop">Shop</button>
+      <button role="tab" class="tab h-9" aria-selected="false" data-tab="mk-inv">My items</button>
+      <button role="tab" class="tab h-9" aria-selected="false" data-tab="mk-wallet">Coin history</button>
+    </div>
+    <p class="text-[12px] text-muted" data-mk-note></p>
+  </div>
+
+  <!-- Shop -->
+  <div data-panel="mk-shop" class="mt-4">
+    <div role="tablist" aria-label="Categories" class="flex gap-1 scroll-x no-scrollbar pb-1" data-mk-cats></div>
+    <div class="mt-4 grid lg:grid-cols-[1fr_22rem] gap-4 items-start">
+      <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3" data-mk-grid aria-live="polite"></div>
+      <aside class="panel p-4 sm:p-5 lg:sticky lg:top-4" data-mk-detail aria-label="Item details"></aside>
+    </div>
+  </div>
+
+  <!-- My items -->
+  <div data-panel="mk-inv" class="mt-4" hidden>
+    <div data-mk-inv class="grid gap-4"></div>
+  </div>
+
+  <!-- Coin history -->
+  <div data-panel="mk-wallet" class="mt-4" hidden>
+    <div class="panel overflow-hidden"><table class="w-full text-sm tnum">
+      <thead class="text-left text-[12px] text-muted"><tr class="border-b border-line"><th class="p-3 pl-4 sm:pl-5 font-medium">Date</th><th class="p-3 font-medium">What happened</th><th class="p-3 font-medium text-right">Coins</th><th class="hidden sm:table-cell p-3 pr-5 font-medium text-right">Balance</th></tr></thead>
+      <tbody class="divide-y divide-line" data-mk-ledger></tbody>
+    </table></div>
+    <p class="mt-2 text-[12px] text-muted">Every change is recorded and never edited. Refunds appear as new lines. Earn coins by winning games, finishing lessons and daily objectives.</p>
+  </div>
+</section>
+<!-- ================= PROFILE + SETTINGS ================= -->
+<section data-screen="profile">
+  <div class="relative overflow-hidden rounded-tray border border-line bg-surface">
+    <div class="h-28 sm:h-36 bg-night relative"><div class="absolute inset-0 adire opacity-60"></div><div class="absolute right-6 top-6 text-gold/40 text-[64px] hidden sm:block"><span class="odu" data-odu="otura"></span></div></div>
+    <div class="px-5 sm:px-8 pb-6 -mt-12 relative flex flex-wrap items-end gap-5">
+      <a href="#avatar" class="relative group" aria-label="Edit avatar"><canvas data-avatar-mini class="block size-24 rounded-3xl bg-raised ring-4 ring-surface"></canvas><span class="absolute -right-1 -bottom-1 grid place-items-center size-8 rounded-full bg-gold text-ongold ring-4 ring-surface"><i data-lucide="shirt" class="size-4"></i></span></a>
+      <div class="min-w-0 flex-1">
+        <h2 class="font-display text-3xl font-bold" data-player-name>Adéọlá D.</h2>
+        <p class="text-muted text-sm" data-profile-sub>@adeola_ayo · English, Yorùbá · Member since March 2026</p>
+      </div>
+      <div class="flex gap-2"><button class="btn-outline btn-sm" data-toast="Profile link copied"><i data-lucide="share-2" class="size-4"></i>Share</button><a href="#avatar" class="btn-primary btn-sm">Edit profile</a></div>
+    </div>
+    <div class="px-5 sm:px-8 pb-6 flex flex-wrap gap-2">
+      <span class="chip-gold"><i data-lucide="trophy" class="size-3.5"></i>Ọ̀yọ́ Open semi-finalist</span>
+      <span class="chip-green"><i data-lucide="graduation-cap" class="size-3.5"></i>Odù basics, 6/16</span>
+      <span class="chip bg-ai/14 text-ai"><i data-lucide="wand-sparkles" class="size-3.5"></i>Creator</span>
+    </div>
+  </div>
+
+  <div class="mt-6 flex gap-1 border-b border-line scroll-x no-scrollbar" role="tablist" data-tabs>
+    <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="true" data-tab="p-over">Overview</button>
+    <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="false" data-tab="p-matches">Matches</button>
+    <button role="tab" class="h-11 px-4 -mb-px border-b-2 border-transparent text-sm font-semibold text-muted aria-selected:text-ink aria-selected:border-ifa" aria-selected="false" data-tab="p-settings">Settings &amp; privacy</button>
+  </div>
+
+  <div data-panel="p-over" class="pt-6 grid lg:grid-cols-[1.3fr_1fr] gap-4">
+    <div class="panel p-5 sm:p-6">
+      <div class="flex items-center justify-between"><h3 class="sect-title">Ayò rating</h3><span class="text-sm text-ifa font-semibold tnum">+86 in 30 days</span></div>
+      <div class="mt-4" data-spark="1458,1470,1466,1481,1490,1478,1502,1511,1508,1520,1532,1527,1544" data-spark-label="Rating"></div>
+      <div class="mt-4 grid grid-cols-3 gap-3 text-center">
+        <div class="well p-3"><p class="text-[12px] text-muted">Games</p><p class="font-display text-xl font-semibold tnum">87</p></div>
+        <div class="well p-3"><p class="text-[12px] text-muted">Won</p><p class="font-display text-xl font-semibold tnum">51</p></div>
+        <div class="well p-3"><p class="text-[12px] text-muted">Best chain</p><p class="font-display text-xl font-semibold tnum">6 pits</p></div>
+      </div>
+    </div>
+    <div class="panel p-5 sm:p-6">
+      <h3 class="sect-title">Achievements</h3>
+      <ul class="mt-4 grid grid-cols-4 gap-3" data-render="achievements"></ul>
+    </div>
+  </div>
+
+  <div data-panel="p-matches" class="pt-6" hidden>
+    <ul class="panel divide-y divide-line text-sm" data-render="history"></ul>
+  </div>
+
+  <div data-panel="p-settings" class="pt-6 grid lg:grid-cols-2 gap-4" hidden>
+    <div class="panel p-5 sm:p-6 lg:col-span-2" data-account-card></div>
+    <div class="panel p-5 sm:p-6 grid gap-4 content-start">
+      <h3 class="sect-title">Display</h3>
+      <div class="flex items-center justify-between gap-4">
+        <div><p class="font-semibold text-sm">Background</p><p class="text-[12px] text-muted">Light or dark. "System" follows your device.</p></div>
+        <div role="tablist" class="flex gap-1 well p-1" data-theme-picker>
+          <button role="tab" class="tab h-8 px-3" data-set-theme="light" aria-selected="false"><i data-lucide="sun" class="size-4 inline -mt-0.5"></i> Light</button>
+          <button role="tab" class="tab h-8 px-3" data-set-theme="dark" aria-selected="false"><i data-lucide="moon" class="size-4 inline -mt-0.5"></i> Dark</button>
+          <button role="tab" class="tab h-8 px-3" data-set-theme="system" aria-selected="false">System</button>
+        </div>
+      </div>
+      <label class="flex items-center justify-between gap-4"><span><span class="block font-semibold text-sm">Reduce motion</span><span class="text-[12px] text-muted">Turns off sowing animations and spinning wheels</span></span><input id="s-motion" type="checkbox" class="size-4 accent-[rgb(var(--ifa))]"></label>
+      <label class="flex items-center justify-between gap-4"><span><span class="block font-semibold text-sm">Low-bandwidth mode</span><span class="text-[12px] text-muted">Smaller images, no crowd rendering</span></span><input id="s-lowbw" type="checkbox" class="size-4 accent-[rgb(var(--ifa))]"></label>
+      <label class="grid gap-1.5"><span class="label">Language</span><select id="s-lang" class="field"><option>English</option><option>Èdè Yorùbá</option></select></label>
+    </div>
+    <div class="panel p-5 sm:p-6 grid gap-4 content-start">
+      <h3 class="sect-title">Privacy &amp; safety</h3>
+      <label class="grid gap-1.5"><span class="label">Who can see my online status</span><select id="s-presence" class="field"><option>Friends</option><option>Everyone</option><option>No one (invisible)</option></select></label>
+      <label class="grid gap-1.5"><span class="label">Who can message me</span><select id="s-dm" class="field"><option>Friends, others send a request</option><option>Friends only</option></select></label>
+      <label class="flex items-center justify-between gap-4"><span class="text-sm font-semibold">Show my event history on my profile</span><input id="s-evhist" type="checkbox" class="size-4 accent-[rgb(var(--ifa))]"></label>
+      <div class="flex flex-wrap gap-2 pt-2 border-t border-line">
+        <a href="#social" class="btn-outline btn-sm">Blocked people and safety</a>
+        <button type="button" class="btn-outline btn-sm" data-auth-export>Download my data</button>
+        <button type="button" class="btn-ghost btn-sm text-kola hover:text-kola" data-auth-delete>Delete account</button>
+      </div>
+    </div>
+  </div>
+</section>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= Seated match: Ayò Ọlọ́pọ́nfá (world visible behind) ================= -->
+  <section id="match-win" class="absolute z-30 window-side flex flex-col text-cowrie" hidden aria-labelledby="match-title">
+    <div class="banter-wheel" data-banter-wheel hidden></div>
+    <header class="flex items-center gap-3 px-4 h-14 border-b border-white/10 shrink-0">
+      <span class="chip bg-[#e5484d]/20 text-[#ff8a8e]"><span class="size-1.5 rounded-full bg-[#e5484d] pulse-dot"></span>At the table</span>
+      <div class="min-w-0"><p id="match-title" class="font-display font-bold leading-tight truncate text-white" data-match-where>Table 7</p><p class="text-[11px] text-white/60 truncate" data-match-sub>Ọ̀yọ́ Grand Arena</p></div>
+      <button class="ml-auto btn btn-sm bg-white/10 text-white hover:bg-white/20" data-leave-table><i data-lucide="log-out" class="size-4"></i>Leave</button>
+    </header>
+    <div class="flex-1 overflow-y-auto p-3 sm:p-4 grid gap-3 content-start" id="ayo-root">
+      <!-- you: your row (#8 … #1) is the top row of the board -->
+      <div class="flex items-center gap-3 rounded-2xl bg-black/35 px-3 py-2.5 ring-2 ring-[#FFC800]">
+        <canvas data-avatar-mini class="size-10 rounded-full bg-white/10 shrink-0"></canvas>
+        <span class="min-w-0 flex-1"><b class="block truncate text-white"><span data-player-name>Adéọlá D.</span> <span class="text-xs font-normal text-white/60">You</span></b><span class="flex flex-wrap items-center gap-2 text-xs text-white/70"><span>Captured <b class="text-[#FFC800] tnum" data-ayo-cap="0">0</b></span><span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold bg-[#FFC800]/20 text-[#FFC800]"><i data-lucide="hand" class="size-3.5"></i>Your hand</span></span></span>
+        <span class="flex items-center gap-1.5 rounded-full px-3 py-1.5 font-mono text-sm font-bold tnum bg-[#FFC800] text-[#14110d]"><i data-lucide="clock" class="size-4"></i><span data-ayo-timer>0:20</span></span>
+      </div>
+      <div class="relative">
+        <div class="relative px-1 sm:px-2 py-8" data-ayo-board></div>
+        <div class="banter-cap top" data-banter-cap="you" aria-live="polite" hidden></div>
+        <div class="banter-cap bottom" data-banter-cap="opp" aria-live="polite" hidden></div>
+      </div>
+      <!-- opponent: their row (#16 … #9) is the bottom row -->
+      <div class="flex items-center gap-3 rounded-2xl bg-black/35 px-3 py-2.5">
+        <canvas data-opp-avatar class="size-10 rounded-full bg-white/10 shrink-0"></canvas>
+        <span class="min-w-0 flex-1"><b class="block truncate text-white" data-opp-name>Yéwándé O.</b><span class="flex flex-wrap items-center gap-2 text-xs text-white/70"><span data-opp-kind></span><span>Captured <b class="text-[#FFC800] tnum" data-ayo-cap="1">0</b></span></span></span>
+        <span class="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold bg-[#5B6BC0]/25 text-[#a9b4ff]"><i data-lucide="hand" class="size-3.5"></i>Their hand</span>
+      </div>
+      <p class="text-center font-semibold text-white min-h-[1.5rem]" aria-live="polite" data-ayo-msg>Your turn: choose a glowing pot to sow</p>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-sm bg-[#FFC800] text-[#14110d] hover:bg-[#ffd84a]" data-banter-open aria-keyshortcuts="T" title="Table talk (T)"><i data-lucide="message-circle" class="size-4"></i>Talk</button>
+        <button class="btn btn-sm bg-white/10 text-white hover:bg-white/20" data-ayo-hint><i data-lucide="lightbulb" class="size-4"></i>Hint</button>
+        <button class="btn btn-sm bg-white/10 text-white hover:bg-white/20" data-ayo-restart><i data-lucide="rotate-ccw" class="size-4"></i>New game</button>
+        <button class="btn btn-sm bg-white/10 text-[#ff8a8e] hover:bg-white/20" data-ayo-resign><i data-lucide="flag" class="size-4"></i>Resign</button>
+      </div>
+      <!-- result -->
+      <div id="match-result" class="rounded-2xl overflow-hidden border border-[#FFC800]/40" hidden>
+        <div class="bg-black/40 p-5 text-center"><span class="mx-auto grid size-14 place-items-center rounded-full bg-[#FFC800] text-[#14110d]"><i data-lucide="trophy" class="size-7"></i></span>
+          <p class="mt-3 font-display text-2xl font-bold text-white" data-result-title>You won</p><p class="text-sm text-white/70" data-result-sub></p>
+          <p class="mt-2 font-display text-4xl font-semibold tnum text-white" data-result-score>0 – 0</p>
+          <p class="mt-3 rounded-xl bg-white/5 p-2 text-sm italic text-white/70">“Mo kí ọ̀ta, mo kí ọ̀pẹ̀.”</p>
+          <div class="mt-3 flex justify-center gap-2"><button class="btn-gold btn-sm" data-ayo-restart>Rematch</button><button class="btn btn-sm bg-white/10 text-white hover:bg-white/20" data-leave-table>Back to the arena</button></div>
+        </div>
+        <div class="grid grid-cols-3 divide-x divide-white/10 bg-black/30 text-center text-sm"><div class="p-3"><p class="text-[11px] text-white/60">Rating</p><p class="font-semibold text-white/70" data-result-rating>Not rated</p></div><div class="p-3"><p class="text-[11px] text-white/60">XP</p><p class="font-semibold text-[#5fe0a5]" data-result-xp>+60</p></div><div class="p-3"><p class="text-[11px] text-white/60">Play Coins</p><p class="font-semibold text-[#FFC800]" data-result-coins>+25</p></div></div>
+        <div class="bg-black/30 px-4 pb-3 text-center text-[12px] text-white/70" data-result-note hidden></div>
+      </div>
+      <details class="rounded-2xl bg-black/35 p-3 text-sm" open><summary class="font-semibold text-white cursor-pointer">Board &amp; hand speed</summary>
+        <div class="mt-3 grid grid-cols-5 gap-2" data-design-picker></div>
+        <label class="mt-3 grid gap-1 text-xs text-white/70">Hand speed<input type="range" min="1" max="3" value="2" data-ayo-speed class="accent-[#FFC800]"></label>
+      </details>
+      <details class="rounded-2xl bg-black/35 p-3 text-sm"><summary class="font-semibold text-white cursor-pointer">Moves</summary><ol class="mt-2 max-h-48 overflow-y-auto grid gap-1 text-white/80" data-ayo-log></ol></details>
+      <p class="text-[11px] text-white/50">Rules: Ayò Ọlọ́pọ́nfá v1.1 (as on playifagames.org) — 2–3 captures with backward chains, Grand Slam cancelled, starvation rule. Online games are checked move by move on the server.</p>
+    </div>
+  </section>
+
+  <!-- ================= Title screen ================= -->
+  <section id="title-screen" class="absolute inset-0 z-50 overflow-y-auto" hidden>
+    <div class="absolute inset-0 bg-gradient-to-r from-canvas via-canvas/75 to-transparent pointer-events-none"></div>
+    <div class="relative min-h-full flex flex-col px-5 sm:px-10 lg:px-16 pt-6 pb-10 max-w-[1400px]">
+      <div class="flex items-center gap-3">
+        <span data-logo class="text-ink"></span><span class="leading-tight"><span class="block font-display text-lg font-bold">IfaGame of Life, Erélayé</span><span class="block text-[11px] text-muted">Gaming Environment · by Play IFA Games · CENProject</span></span>
+        <button class="ml-auto icon-btn hud" data-theme-toggle aria-label="Switch to night"><i data-lucide="moon" class="size-5 theme-icon-moon"></i><i data-lucide="sun" class="size-5 theme-icon-sun"></i></button>
+      </div>
+      <div class="flex-1 grid lg:grid-cols-[1.2fr_1fr] gap-10 items-center py-10">
+        <div class="max-w-xl">
+          <p class="inline-flex items-center gap-2 rounded-full hud pl-1.5 pr-3 h-8 text-[13px] font-medium"><span class="chip-live h-5"><span class="size-1.5 rounded-full bg-white pulse-dot"></span>Live</span>Seven Ifa Stadiums, matches in progress</p>
+          <h1 class="mt-6 font-display font-bold leading-[0.95] text-[clamp(2.6rem,6.4vw,5.2rem)] tracking-[-0.035em]">IfaGame of Life<span class="block text-gold">Erélayé</span></h1>
+          <p class="mt-5 text-lg text-muted max-w-md">The gaming environment of Play IFA Games: one living Yorùbá world for playing and building Ifa Games and Orisa Games. Stand at an Ayò Ọlọ́pọ́nfá table in seven Ifa Stadiums, chase the World Ayò Ọlọ́pọ́n Championship, grow the Odu Cellular Field, make games of your own, and learn the sixteen Odù as you play.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#avatar" class="btn-primary btn-lg"><i data-lucide="play" class="size-5"></i>Enter the world</a>
+            <a href="#here" class="btn-outline btn-lg hud">Look around as a guest</a>
+          </div>
+          <p class="mt-4 text-sm text-muted" data-title-account>Free in your browser. No download. <button type="button" class="link" data-auth-open>Sign in</button> to keep your coins, XP and avatar.</p>
+          <div class="mt-6 hud p-3 max-w-md">
+            <p class="text-[12px] font-semibold text-muted">Games in this environment</p>
+            <ul class="mt-2 flex flex-wrap gap-1.5 text-[12px]" data-title-games></ul>
+            <span class="mt-2 flex flex-wrap gap-x-4 text-[12px]"><a href="#games" class="link">Play: all games and families</a><a href="#build" class="link">Build a game</a><a href="#games" class="link">Programs</a></span>
+          </div>
+        </div>
+        <aside class="grid gap-3 w-full max-w-sm lg:justify-self-end">
+        <a href="#championship" class="champ-card block rounded-2xl p-4 text-white">
+          <span class="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[.14em] text-[#f0c840]"><i data-lucide="crown" class="size-3.5"></i>World Ayò Ọlọ́pọ́n Championship</span>
+          <span class="mt-1.5 block font-display text-xl font-bold leading-tight">2026 Semi-final · Èkó Lagoon Arena</span>
+          <span class="mt-1 flex items-center gap-2 text-[13px] text-white/75"><span class="chip-live h-5"><span class="size-1.5 rounded-full bg-white pulse-dot"></span>Live</span>AI Champion vs Challenger</span>
+        </a>
+        <div class="hud p-5">
+          <div class="flex items-center justify-between"><p class="font-semibold">The seven Ifa Stadiums</p><span class="text-[12px] text-muted" data-clock>12:00</span></div>
+          <ul class="mt-3 grid gap-1.5 text-sm" id="title-live"></ul>
+          <p class="mt-4 text-[11px] text-muted">Counts are people connected. AI matches are labelled.</p>
+        </div></aside>
+      </div>
+      <p class="text-[12px] text-muted max-w-2xl">Made by CENProject for education and play. It does not replace Ifá practice, which requires initiation and mentorship within the living tradition. Play Coins have no cash value.</p>
+    </div>
+  </section>
+
+  <!-- ================= Avatar creator ================= -->
+  <section id="avatar-screen" class="absolute inset-0 z-50 overflow-y-auto bg-canvas/80 backdrop-blur-xl" hidden>
+    <div class="min-h-full grid lg:grid-cols-[1.1fr_1fr] max-w-[1200px] mx-auto">
+      <div class="relative flex items-center justify-center p-6 lg:p-10 min-h-[46vh]">
+        <div class="absolute inset-x-[16%] bottom-[12%] h-24 rounded-[50%] bg-gold/20 blur-2xl"></div>
+        <canvas id="avatar-big" class="relative w-[min(26rem,78vw)] aspect-[3/4]"></canvas>
+        <a href="#start" class="absolute left-5 top-5 btn-ghost btn-sm hud"><i data-lucide="arrow-left" class="size-4"></i>Back</a>
+        <p class="absolute right-5 top-5 hud rounded-full h-9 px-3 inline-flex items-center gap-2 text-[12px] font-semibold" data-av-account></p>
+      </div>
+      <form class="p-5 sm:p-8 lg:p-10 grid gap-5 content-center" data-fake-form>
+        <div><p class="text-sm text-muted">Create your character</p><h2 class="font-display text-3xl sm:text-4xl font-bold mt-1">Who walks into the plaza?</h2></div>
+        <label class="grid gap-1.5"><span class="label">Display name</span><input id="av-name" class="field" value="" placeholder="Your name, e.g. Adéọlá D." maxlength="40" autocomplete="nickname"><span class="text-[12px] text-kola" data-av-name-err></span></label>
+        <label class="grid gap-1.5" data-av-handle-wrap hidden><span class="label">Handle <span class="font-normal">· your public @name</span></span>
+          <span class="relative"><span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted">@</span><input id="av-handle" class="field pl-8" maxlength="20" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="ade_ayo"></span>
+          <span class="text-[12px] text-muted" data-av-handle-msg>3–20 lowercase letters, numbers or underscores.</span></label>
+        <div><p class="label mb-2">Skin tone</p><div class="flex flex-wrap gap-2" id="av-skin"></div></div>
+        <div><p class="label mb-2">Clothing</p><div class="flex flex-wrap gap-2" id="av-garment"></div></div>
+        <div><p class="label mb-2">Fabric</p><div class="grid grid-cols-5 sm:grid-cols-10 gap-2" id="av-outfit"></div><p class="mt-2 text-[12px] text-muted" id="av-outfit-name"></p></div>
+        <div><p class="label mb-2">Hair and headwear</p><div class="flex flex-wrap gap-2" id="av-head"></div></div>
+        <div><p class="label mb-2">Fìlà, gèlè and ìpèlé colour</p><div class="flex flex-wrap gap-2" id="av-headc"></div></div>
+        <div><p class="label mb-2">Accessories</p><div class="grid gap-3" id="av-acc"></div></div>
+        <div id="av-tryon" class="well p-3 text-sm flex items-center gap-3" role="status" hidden></div>
+        <div class="well p-3 text-[12px] text-muted">Pieces with a ${'<span class="inline-grid place-items-center size-4 rounded-full bg-gold text-ongold align-middle"><i data-lucide="lock" class="size-2.5"></i></span>'} come from Ajemiposi Market, west of the plaza. You can try them on here. None of them change how you play.</div>
+        <div class="flex flex-wrap gap-2"><a href="#here" class="btn-primary btn-lg" data-enter-world><i data-lucide="footprints" class="size-5"></i>Walk into the plaza</a><button type="button" class="btn-outline btn-lg" data-randomize><i data-lucide="shuffle" class="size-5"></i>Surprise me</button></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= Tools (outside the world) ================= -->
+  <div id="tools" class="absolute inset-0 z-50 bg-canvas overflow-y-auto" hidden>
+    <header class="top-bar sticky z-10 bg-canvas/90 backdrop-blur-xl border-b border-line">
+      <div class="flex items-center gap-3 h-16 px-4 sm:px-6 lg:px-10 max-w-[1320px] mx-auto">
+        <a href="#here" class="btn-outline btn-sm"><i data-lucide="arrow-left" class="size-4"></i><span class="hidden sm:inline">Back to the world</span><span class="sm:hidden">World</span></a>
+        <div class="min-w-0"><p class="text-[12px] text-muted leading-none mb-1" data-tool-crumb></p><h2 class="font-display text-lg font-bold leading-none truncate" data-tool-title></h2></div>
+        <button class="ml-auto icon-btn" data-theme-toggle aria-label="Switch to night"><i data-lucide="moon" class="size-5 theme-icon-moon"></i><i data-lucide="sun" class="size-5 theme-icon-sun"></i></button>
+      </div>
+    </header>
+    <main class="px-4 sm:px-6 lg:px-10 pt-6 pb-16 max-w-[1320px] mx-auto">
+<!-- ================= CREATOR STUDIO ================= -->
+<section data-screen="studio" data-title="Creator Studio" data-crumb="Community variants of Ayò Ọlọ́pọ́nfá">
+  <!-- project bar: name, status, actions -->
+  <div class="flex flex-wrap items-start gap-3" data-cs-head>
+    <div class="min-w-0"><span class="rule-community">Community variant</span><h2 class="mt-1 font-display text-2xl sm:text-3xl font-bold">Creator Studio</h2></div>
+  </div>
+
+  <!-- pipeline -->
+  <ol class="mt-5 flex gap-1.5 scroll-x no-scrollbar text-[12px] font-semibold" data-cs-pipeline aria-label="Publishing steps"></ol>
+
+  <div class="mt-5 grid xl:grid-cols-[240px_1fr_320px] gap-4 items-start">
+    <!-- Projects -->
+    <aside class="panel p-3 order-2 xl:order-1">
+      <div class="flex items-center justify-between px-1"><p class="font-semibold text-sm">Your variants</p><button class="btn-primary btn-sm h-8" data-cs-new><i data-lucide="plus" class="size-4"></i>New</button></div>
+      <ul class="mt-2 grid gap-1" data-cs-projects><li class="p-2 text-sm text-muted">Loading…</li></ul>
+      <p class="mt-3 px-1 text-[12px] text-muted">Variants change the rules of Ayò Ọlọ́pọ́nfá on the same 16-pot Odù board. They are always labelled <b>Community variant</b> and never replace the standard rules.</p>
+    </aside>
+
+    <!-- Editor -->
+    <div class="panel overflow-hidden order-1 xl:order-2 min-w-0" data-cs-editor><p class="p-5 text-sm text-muted">Loading…</p></div>
+
+    <!-- Tests, versions -->
+    <aside class="grid gap-4 order-3">
+      <div class="panel p-4" data-cs-tests></div>
+      <div class="panel p-4 text-sm" data-cs-versions hidden></div>
+    </aside>
+  </div>
+
+  <!-- Gallery -->
+  <div class="mt-10 flex flex-wrap items-end gap-3">
+    <div><h3 class="sect-title">Community variants</h3><p class="text-sm text-muted">Published by players and reviewed by the Play IFA team. Play any of them against the Oracle.</p></div>
+    <form class="ml-auto flex gap-2" data-cs-search role="search"><label class="sr-only" for="cs-q">Search variants</label><input id="cs-q" name="q" class="field h-9 text-sm w-44" placeholder="Search" maxlength="40"><label class="sr-only" for="cs-sort">Sort</label><select id="cs-sort" name="sort" class="field h-9 text-sm w-auto"><option value="popular">Most played</option><option value="new">Newest</option></select></form>
+  </div>
+  <div class="mt-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-4" data-cs-gallery><p class="text-sm text-muted">Loading…</p></div>
+</section>
+<!-- ================= SPONSOR PORTAL ================= -->
+<section data-screen="sponsor" data-title="Sponsor portal" data-crumb="Campaigns and bookings">
+  <div class="flex flex-wrap items-center gap-3">
+    <div class="flex gap-1 well p-1" role="tablist" data-tabs>
+      <button role="tab" class="tab h-9" aria-selected="true" data-tab="s-mine">My campaigns</button>
+      <button role="tab" class="tab h-9" aria-selected="false" data-tab="s-place">Book a space</button>
+    </div>
+    <p class="ml-auto text-[12px] text-muted" data-sp-who></p>
+  </div>
+
+  <!-- Bookings: list + detail, filled by the sponsorship module -->
+  <div data-panel="s-mine" class="mt-6">
+    <div class="grid lg:grid-cols-[300px_1fr] gap-5 items-start">
+      <div class="grid gap-2 lg:sticky lg:top-24" data-sp-list><p class="text-sm text-muted">Loading your bookings…</p></div>
+      <div class="min-w-0" data-sp-detail></div>
+    </div>
+  </div>
+
+  <!-- Placements: live inventory from the ads API -->
+  <div data-panel="s-place" class="mt-6" hidden>
+    <div data-sponsor-spaces><p class="text-sm text-muted">Loading ad spaces…</p></div>
+  </div>
+</section>
+<!-- ================= ADMIN CONSOLE ================= -->
+<section data-screen="admin" data-title="Admin console" data-crumb="Operations">
+  <div class="grid lg:grid-cols-[200px_1fr] gap-6 items-start">
+    <nav class="flex lg:flex-col gap-1 scroll-x no-scrollbar lg:sticky lg:top-24" role="tablist" data-tabs aria-label="Admin sections">
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="true" data-tab="a-world"><i data-lucide="globe" class="size-4"></i>World Director</button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-over"><i data-lucide="gauge" class="size-4"></i>Overview</button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-ads"><i data-lucide="megaphone" class="size-4"></i>Ad review <span class="ml-auto chip-gold h-5" data-adm-count hidden></span></button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-mod"><i data-lucide="shield-alert" class="size-4"></i>Moderation <span class="ml-auto chip-live h-5" data-mod-count hidden></span></button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-var"><i data-lucide="wand-sparkles" class="size-4"></i>Variants <span class="ml-auto chip bg-ai/14 text-ai h-5" data-var-count hidden></span></button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-prop"><i data-lucide="lightbulb" class="size-4"></i>Game proposals <span class="ml-auto chip-gold h-5" data-prop-count hidden></span></button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-rules"><i data-lucide="scale" class="size-4"></i>Rule review <span class="ml-auto chip-gold h-5" data-rules-count hidden></span></button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-learn"><i data-lucide="graduation-cap" class="size-4"></i>Learning <span class="ml-auto chip bg-ai/14 text-ai h-5" data-learn-count hidden></span></button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-tr"><i data-lucide="languages" class="size-4"></i>Translations</button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-flags"><i data-lucide="toggle-right" class="size-4"></i>Feature flags</button>
+      <button role="tab" class="nav-link shrink-0 aria-selected:bg-ifa/10 aria-selected:text-ink" aria-selected="false" data-tab="a-audit"><i data-lucide="scroll-text" class="size-4"></i>Audit log</button>
+    </nav>
+
+    <div class="min-w-0">
+      <!-- Overview -->
+      <!-- Living World Director -->
+      <div data-panel="a-world">
+        <div class="flex flex-wrap items-end justify-between gap-3">
+          <div><h3 class="font-display text-2xl font-bold">Living World Director</h3><p class="text-sm text-muted max-w-prose">Keeps the world useful at quiet times with clearly labelled AI, NPCs and ambience. Changes apply to the live simulation immediately.</p></div>
+          <a href="#stadium" class="btn-outline btn-sm"><i data-lucide="eye" class="size-4"></i>Look at the arena</a>
+        </div>
+        <div class="mt-5 grid xl:grid-cols-[1.2fr_1fr] gap-4">
+          <div class="panel p-5 grid gap-5">
+            <label class="grid gap-2"><span class="flex justify-between text-sm"><b>Ambient crowd density</b><span class="tnum text-muted" data-director-out="crowd">70%</span></span><input type="range" min="0" max="100" value="70" data-director="crowd" class="accent-[rgb(var(--ifa))]"><span class="text-[12px] text-muted">Translucent figures in empty seats. Never counted as people and never billed as ad reach.</span></label>
+            <label class="grid gap-2"><span class="flex justify-between text-sm"><b>Walking agents</b><span class="tnum text-muted" data-director-out="walkers">100%</span></span><input type="range" min="0" max="100" value="100" data-director="walkers" class="accent-[rgb(var(--ifa))]"><span class="text-[12px] text-muted">Sample players walking between places in this prototype. In production these are real connected people only.</span></label>
+            <label class="flex items-center justify-between gap-3 text-sm"><span><b class="block">Ambient crowd visible</b><span class="text-[12px] text-muted">Turn off to show only verified spectators</span></span><input type="checkbox" checked data-director="ambient" class="size-4 accent-[rgb(var(--ifa))]"></label>
+            <label class="flex items-center justify-between gap-3 text-sm"><span><b class="block">Name tags</b><span class="text-[12px] text-muted">Human, AI and NPC tags over avatars</span></span><input type="checkbox" checked data-director="labels" class="size-4 accent-[rgb(var(--ifa))]"></label>
+          </div>
+          <div class="grid gap-4 content-start">
+            <div class="panel p-5">
+              <p class="font-semibold">Scheduled by the Director</p>
+              <ul class="mt-3 grid gap-2 text-sm">
+                <li class="well p-3 flex items-center gap-3"><span class="actor-ai">AI vs AI</span><span class="flex-1">Exhibition, Practice Hall table 2</span><span class="chip-live h-5">Live</span></li>
+                <li class="well p-3 flex items-center gap-3"><span class="actor-ai">AI</span><span class="flex-1">4 practice opponents always free</span><span class="chip-green h-5">On</span></li>
+                <li class="well p-3 flex items-center gap-3"><span class="actor-npc">NPC</span><span class="flex-1">Àbẹ̀ní greets new players at the plaza and arena gate</span><span class="chip-green h-5">On</span></li>
+              </ul>
+            </div>
+            <div class="panel p-5"><p class="font-semibold">Rules the Director follows</p><ul class="mt-2 grid gap-1.5 text-[13px] text-muted list-disc pl-5"><li>No fake human accounts or invented chat</li><li>AI never enters ranked or tournament games</li><li>Ambient crowd is excluded from every count and report</li></ul></div>
+          </div>
+        </div>
+        <ol class="mt-4 panel divide-y divide-line text-[12.5px] font-mono" data-director-log><li class="p-3 grid sm:grid-cols-[7rem_1fr] gap-1"><span class="text-muted">09:00</span><span><b class="font-sans">system.director</b> started exhibition at practice table 2</span></li></ol>
+      </div>
+
+      <div data-panel="a-over" hidden>
+        <div class="grid grid-cols-2 xl:grid-cols-4 gap-3">
+          <div class="panel p-4"><p class="text-[12px] text-muted">Weekly active people</p><p class="mt-1 font-display text-2xl font-bold tnum">18,402</p><p class="text-[11px] text-ifa font-semibold">+9.4% vs last week</p></div>
+          <div class="panel p-4"><p class="text-[12px] text-muted">Human matches completed</p><p class="mt-1 font-display text-2xl font-bold tnum">41,880</p><p class="text-[11px] text-muted">AI-only games excluded</p></div>
+          <div class="panel p-4"><p class="text-[12px] text-muted">Open reports</p><p class="mt-1 font-display text-2xl font-bold tnum text-laterite">12</p><p class="text-[11px] text-muted">Median response 38 min</p></div>
+          <div class="panel p-4"><p class="text-[12px] text-muted">Coin ledger flags</p><p class="mt-1 font-display text-2xl font-bold tnum">3</p><p class="text-[11px] text-muted">Possible farming</p></div>
+        </div>
+
+        <div class="mt-4 grid xl:grid-cols-[1.2fr_1fr] gap-4">
+          <div class="panel p-5">
+            <div class="flex items-center justify-between"><h3 class="sect-title">Service health</h3><span class="chip-green"><span class="size-1.5 rounded-full bg-ifa"></span>All systems normal</span></div>
+            <ul class="mt-4 grid gap-2 text-sm" data-render="health"></ul>
+          </div>
+          <div class="panel p-5">
+            <h3 class="sect-title">Media delivery</h3>
+            <div class="mt-4 grid grid-cols-2 gap-3">
+              <div class="well p-3"><p class="text-[12px] text-muted">Bunny CDN cache hit</p><p class="font-display text-xl font-semibold tnum">96.2%</p></div>
+              <div class="well p-3"><p class="text-[12px] text-muted">CDN bandwidth, 24h</p><p class="font-display text-xl font-semibold tnum">1.8 TB</p></div>
+              <div class="well p-3"><p class="text-[12px] text-muted">Backblaze B2 stored</p><p class="font-display text-xl font-semibold tnum">640 GB</p></div>
+              <div class="well p-3"><p class="text-[12px] text-muted">B2 → Bunny egress</p><p class="font-display text-xl font-semibold tnum">₦0</p></div>
+            </div>
+            <p class="mt-3 text-[12px] text-muted">Replays, board skins, creator assets and event media live in B2 buckets. Bunny pull zones serve them; signed URLs protect private files.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ad review: applications, creatives, bookings, audit (filled by the sponsorship module) -->
+      <div data-panel="a-ads" hidden><div data-adm-ads><p class="text-sm text-muted">Loading the review queue…</p></div></div>
+
+      <!-- Moderation: reports queue, appeals, player lookup and the moderation log (filled by admin/moderation.ts) -->
+      <div data-panel="a-mod" hidden><div data-mod><p class="text-sm text-muted">Loading the moderation queue…</p></div></div>
+
+      <!-- Community variants waiting for review -->
+      <div data-panel="a-var" hidden><div data-var-review><p class="text-sm text-muted">Loading variants…</p></div></div>
+
+      <!-- Rule review -->
+      <div data-panel="a-prop" hidden><div data-prop-review><p class="text-sm text-muted">Loading proposals…</p></div></div>
+      <div data-panel="a-rules" hidden><div data-rules-review><p class="text-sm text-muted">Loading rule sets…</p></div></div>
+
+      <!-- Learning content review and correction suggestions (admin/learning.ts) -->
+      <div data-panel="a-learn" hidden><div data-learn-review><p class="text-sm text-muted">Loading lessons…</p></div></div>
+
+      <!-- Yorùbá translation editor (admin/learning.ts) -->
+      <div data-panel="a-tr" hidden><div data-tr-editor><p class="text-sm text-muted">Loading translations…</p></div></div>
+
+      <!-- Flags -->
+      <div data-panel="a-flags" hidden>
+        <ul class="panel divide-y divide-line text-sm">
+          <li class="flex items-center gap-4 p-4"><div class="flex-1"><p class="font-semibold">Ranked Ayò</p><p class="text-[12px] text-muted">Off until Standard v1.0 is approved</p></div><span class="chip-soon">Off</span></li>
+          <li class="flex items-center gap-4 p-4"><div class="flex-1"><p class="font-semibold">Voice in event rooms</p><p class="text-[12px] text-muted">Waiting for moderation staffing</p></div><span class="chip-soon">Off</span></li>
+          <li class="flex items-center gap-4 p-4"><div class="flex-1"><p class="font-semibold">Creator Studio · code editor</p><p class="text-[12px] text-muted">Beta for 40 invited creators</p></div><span class="chip-gold">Beta</span></li>
+          <li class="flex items-center gap-4 p-4"><div class="flex-1"><p class="font-semibold">Play Coins rewards</p><p class="text-[12px] text-muted">Daily cap 300 coins per person</p></div><span class="chip-green">On</span></li>
+          <li class="flex items-center gap-4 p-4"><div class="flex-1"><p class="font-semibold">Item trading</p><p class="text-[12px] text-muted">Needs legal and payments review</p></div><span class="chip-soon">Off</span></li>
+        </ul>
+      </div>
+
+      <!-- Audit -->
+      <div data-panel="a-audit" hidden>
+        <ol class="panel divide-y divide-line text-sm font-mono text-[12.5px]">
+          <li class="p-4 grid sm:grid-cols-[9rem_1fr] gap-1"><span class="text-muted tnum">11 Oct 14:02:17</span><span><b class="font-sans">moderator.kemi</b> suspended chat for @quick_seed_77 (24h) · reason: harassment · corr 8f2a</span></li>
+          <li class="p-4 grid sm:grid-cols-[9rem_1fr] gap-1"><span class="text-muted tnum">11 Oct 13:40:05</span><span><b class="font-sans">admin.tobi</b> set flag rewards.daily_cap 250 → 300 · approved by admin.ada · corr 77c1</span></li>
+          <li class="p-4 grid sm:grid-cols-[9rem_1fr] gap-1"><span class="text-muted tnum">11 Oct 12:15:51</span><span><b class="font-sans">system.tournament</b> advanced entry #2231 to R2 · Spring Open · from act_7d2kq</span></li>
+          <li class="p-4 grid sm:grid-cols-[9rem_1fr] gap-1"><span class="text-muted tnum">11 Oct 09:03:44</span><span><b class="font-sans">reviewer.bamidele</b> commented on ayo-oloponfa v1.0 rule 3.2 · corr 1c09</span></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= DESIGN SYSTEM ================= -->
+<section data-screen="system" data-title="Design system" data-crumb="Tokens and components">
+  <div class="max-w-4xl">
+    <h2 class="font-display text-3xl font-bold">Design language</h2>
+    <p class="mt-2 text-muted max-w-prose">The interface borrows from the Ọpọ́n Ifá: a fixed rim around a working field. Green and gold come from Ọ̀rúnmìlà's beads, the dark background from àdìrẹ indigo, and the light background from ìyẹ̀rọ̀sùn-dusted wood. Odù marks are the recurring motif.</p>
+  </div>
+
+  <h3 class="mt-10 sect-title">Colour</h3>
+  <p class="text-sm text-muted mt-1">Switch the background with the sun/moon button to see the dark values.</p>
+  <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3" data-render="swatches"></div>
+
+  <h3 class="mt-10 sect-title">Type</h3>
+  <div class="mt-4 panel p-6 grid gap-5">
+    <div class="grid sm:grid-cols-[10rem_1fr] gap-2 items-baseline"><span class="text-[12px] text-muted">Display · Plus Jakarta Sans 800 · Grotesque 700</span><span class="font-display text-5xl font-bold tracking-tight">Ayò Ọlọ́pọ́nfá</span></div>
+    <div class="grid sm:grid-cols-[10rem_1fr] gap-2 items-baseline"><span class="text-[12px] text-muted">Heading · 600, 24px</span><span class="font-display text-2xl font-semibold">Route to the champion</span></div>
+    <div class="grid sm:grid-cols-[10rem_1fr] gap-2 items-baseline"><span class="text-[12px] text-muted">Body · Plus Jakarta Sans 400, 15px</span><span class="max-w-prose">Sow 128 seeds through sixteen pits named for the principal Odù. Tone marks are kept everywhere: Ọ̀ṣun, Ṣàngó, Èṣù, Ọbàtálá.</span></div>
+    <div class="grid sm:grid-cols-[10rem_1fr] gap-2 items-baseline"><span class="text-[12px] text-muted">Data · IBM Plex Mono</span><span class="font-mono tnum">act_7f3k9q · 07:48 · 1111/0000</span></div>
+  </div>
+
+  <h3 class="mt-10 sect-title">Actions</h3>
+  <div class="mt-4 panel p-6 flex flex-wrap gap-3 items-center">
+    <button class="btn-primary">Primary</button><button class="btn-gold">Reward / premium</button><button class="btn-outline">Secondary</button><button class="btn-ghost">Quiet</button><button class="btn btn-sm bg-kola text-white">Destructive</button><button class="icon-btn" aria-label="Icon button"><i data-lucide="bell" class="size-5"></i></button>
+  </div>
+
+  <h3 class="mt-10 sect-title">Who is this?</h3>
+  <p class="text-sm text-muted mt-1">Every person or system on screen carries one of these labels.</p>
+  <div class="mt-4 panel p-6 flex flex-wrap gap-3 items-center"><span class="actor-human">Human</span><span class="actor-ai">AI opponent</span><span class="actor-npc">NPC guide</span><span class="actor-sim">Simulated crowd</span></div>
+
+  <h3 class="mt-10 sect-title">Rule status</h3>
+  <div class="mt-4 panel p-6 flex flex-wrap gap-5"><span class="rule-canon">Approved canonical</span><span class="rule-reviewed">Reviewed</span><span class="rule-community">Community variant</span><span class="rule-exp">Experimental</span><span class="rule-pending">Rules pending</span></div>
+
+  <h3 class="mt-10 sect-title">States</h3>
+  <div class="mt-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+    <div class="panel p-5"><span class="chip-live"><span class="size-1.5 rounded-full bg-white pulse-dot"></span>Live</span><p class="mt-3 text-sm text-muted">Happening now</p></div>
+    <div class="panel p-5"><span class="chip-green">Open</span><p class="mt-3 text-sm text-muted">You can join</p></div>
+    <div class="panel p-5"><span class="chip-gold">Reward</span><p class="mt-3 text-sm text-muted">Coins, trophies, premium</p></div>
+    <div class="panel p-5"><span class="chip-soon">Later</span><p class="mt-3 text-sm text-muted">Scheduled or coming soon</p></div>
+  </div>
+  <div class="mt-3 grid sm:grid-cols-3 gap-3">
+    <div class="panel p-5 flex items-center gap-3"><i data-lucide="wifi-off" class="size-5 text-laterite"></i><div><p class="font-semibold text-sm">Reconnecting…</p><p class="text-[12px] text-muted">Your game is safe on the server.</p></div></div>
+    <div class="panel p-5 flex items-center gap-3"><i data-lucide="inbox" class="size-5 text-muted"></i><div><p class="font-semibold text-sm">No saved games</p><p class="text-[12px] text-muted">Start one from Play.</p></div></div>
+    <div class="panel p-5 flex items-center gap-3"><i data-lucide="circle-alert" class="size-5 text-kola"></i><div><p class="font-semibold text-sm">That pit is empty</p><p class="text-[12px] text-muted">Choose a pit with seeds.</p></div></div>
+  </div>
+
+  <h3 class="mt-10 sect-title">The sixteen Odù marks</h3>
+  <div class="mt-4 panel p-6 grid grid-cols-4 sm:grid-cols-8 gap-4 text-center" data-render="odu-sheet"></div>
+</section>
+
+<!-- ================= SCREEN INDEX (prototype helper) ================= -->
+<section data-screen="screens" data-title="All screens" data-crumb="Prototype">
+  <p class="text-muted max-w-prose">Every screen in this prototype, mapped to the product spec. Data is sample data.</p>
+  <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3" data-render="screen-index"></div>
+</section>
+    </main>
+  </div>
+
+  <!-- More sheet (mobile + dock "More") -->
+  <div id="more-sheet" class="absolute inset-0 z-[45]" hidden>
+    <button class="absolute inset-0 bg-night/40 backdrop-blur-sm" data-close-sheet aria-label="Close menu"></button>
+    <div class="absolute inset-x-0 bottom-0 lg:bottom-24 lg:left-1/2 lg:-translate-x-1/2 lg:w-[520px] rounded-t-[28px] lg:rounded-[28px] bg-surface border border-line p-5 pb-8 bottom-nav max-h-[85vh] overflow-y-auto">
+      <div class="mx-auto mb-4 h-1.5 w-12 rounded-full bg-line lg:hidden"></div>
+      <p class="font-display text-lg font-semibold mb-4">Everything in IfaGame of Life, Erélayé</p>
+      <div id="more-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-2"></div>
+    </div>
+  </div>
+
+  <div id="fade" class="absolute inset-0 z-[60] bg-night pointer-events-none opacity-0 transition-opacity duration-300 grid place-items-center"><p class="text-onnight font-display text-xl font-bold" data-fade-text></p></div>
+  <div id="toast" class="absolute z-[70] left-1/2 -translate-x-1/2 bottom-24 lg:bottom-28 rounded-full bg-ink text-canvas px-4 h-10 inline-flex items-center gap-2 text-sm font-semibold shadow-lift" hidden role="status"></div>
+</div>
+
+<!-- ================= AD SIGN SHEET (details for active signs, application form for vacant ones) ================= -->
+<div id="ad-sheet" class="fixed inset-0 z-[80]" hidden>
+  <button class="absolute inset-0 bg-night/50 backdrop-blur-[2px]" data-ad-close aria-label="Close"></button>
+  <aside class="ad-panel absolute inset-x-0 bottom-0 max-h-[92dvh] rounded-t-[28px] lg:inset-y-3 lg:right-3 lg:left-auto lg:w-[440px] lg:max-h-none lg:rounded-[28px] bg-surface border border-line shadow-lift flex flex-col overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="ad-title">
+    <div class="mx-auto mt-2.5 h-1.5 w-12 rounded-full bg-line lg:hidden"></div>
+    <div class="flex items-center gap-2 px-5 pt-3 pb-2">
+      <p class="text-[12px] font-semibold text-muted truncate" data-ad-where>Ad space</p>
+      <button class="ml-auto icon-btn" data-ad-close aria-label="Close"><i data-lucide="x" class="size-5"></i></button>
+    </div>
+    <div class="flex-1 min-h-0 overflow-y-auto overscroll-contain px-5 pb-6" data-ad-body></div>
+  </aside>
+</div>
+
+<!-- ================= FORM SHEET (report, appeal, new club, submit a variant) ================= -->
+<div id="c-sheet" class="fixed inset-0 z-[85]" hidden>
+  <button class="absolute inset-0 bg-night/50 backdrop-blur-[2px]" data-c-sheet-close aria-label="Close"></button>
+  <aside class="absolute inset-x-0 bottom-0 max-h-[92dvh] rounded-t-[28px] sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-[480px] sm:max-h-[86dvh] sm:rounded-[28px] bg-surface border border-line shadow-lift flex flex-col overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="c-sheet-title">
+    <div class="flex items-center gap-2 px-5 pt-4 pb-2">
+      <h2 id="c-sheet-title" class="font-display text-xl font-bold" data-c-sheet-title>Report</h2>
+      <button class="ml-auto icon-btn" data-c-sheet-close aria-label="Close"><i data-lucide="x" class="size-5"></i></button>
+    </div>
+    <div class="flex-1 min-h-0 overflow-y-auto overscroll-contain px-5 pb-6" data-c-sheet-body></div>
+  </aside>
+</div>
+
+<!-- ================= SIGN IN (one-time code by email or SMS) ================= -->
+<div id="auth-sheet" class="fixed inset-0 z-[85]" hidden>
+  <button class="absolute inset-0 bg-night/55 backdrop-blur-sm" data-auth-close aria-label="Close"></button>
+  <section class="absolute inset-x-0 bottom-0 max-h-[94dvh] overflow-y-auto rounded-t-[28px] sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-[420px] sm:rounded-[28px] bg-surface border border-line shadow-lift" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="mx-auto mt-2.5 h-1.5 w-12 rounded-full bg-line sm:hidden"></div>
+    <div class="relative overflow-hidden bg-night text-onnight px-6 pt-6 pb-5">
+      <div class="absolute inset-0 adire opacity-40"></div>
+      <button class="absolute right-3 top-3 icon-btn text-onnight/80 hover:text-onnight" data-auth-close aria-label="Close"><i data-lucide="x" class="size-5"></i></button>
+      <p class="relative text-[12px] font-semibold tracking-wide text-gold">PLAY IFA GAMES</p>
+      <h2 id="auth-title" tabindex="-1" class="relative mt-1 font-display text-2xl font-bold outline-none" data-auth-heading>Sign in or create an account</h2>
+      <p class="relative mt-1 text-sm text-onnight/70" data-auth-lede>No password. We send you a 6-digit code.</p>
+    </div>
+    <div class="p-6" data-auth-body></div>
+  </section>
+</div>
+
+</body>
+</html>

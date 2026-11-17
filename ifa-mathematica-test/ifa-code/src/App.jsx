@@ -131,27 +131,6 @@ const IFAPL_LANGS_DIMS = [
     desc: 'All other programming language CodoEs — Rust, Lisp, Erlang, SQL, Prolog, and beyond — encoded through the universal Odu Ifa framework of IfaPL.' },
 ];
 
-// ─── DATA — IfaPL MODEL 1: IfaConstruction -OEs (IfaGeneralization & IfaExtension) ─
-
-const IFAPL_LANGS_OE_DIMS = [
-  { letter: 'Py', name: 'PythoE — Python for Everything',      short: 'PythoE', color: '#3b82f6',
-    desc: 'PythoE — Python for Everything. IfaGeneralization and IfaExtension of Python (IfaPython) using IfaLang and the 16 Ifa Laws of Nature — applying Python\'s paradigms, dynamic typing, and library ecosystem to Everything: every field, system, discipline, and domain, via the CodoE framework.' },
-  { letter: 'Jv', name: 'JvoE — Java for Everything',          short: 'JvoE',   color: '#f97316',
-    desc: 'JvoE — Java for Everything. IfaGeneralization and IfaExtension of Java (IfaJava) using IfaLang and the 16 Ifa Laws of Nature — applying Java\'s type system, class hierarchy, and platform-independent design to Everything: every field, system, discipline, and domain, via the CodoE framework.' },
-  { letter: 'C',  name: 'CoE — C for Everything',              short: 'CoE',    color: '#94a3b8',
-    desc: 'CoE — C for Everything. IfaGeneralization and IfaExtension of C (IfaC) using IfaLang and the 16 Ifa Laws of Nature — applying C\'s foundational systems programming, memory patterns, and primitive knowledge laws to Everything: every field, system, discipline, and domain, via the CodoE framework.' },
-  { letter: 'Hs', name: 'HsoE — Haskell for Everything',       short: 'HsoE',   color: '#8b5cf6',
-    desc: 'HsoE — Haskell for Everything. IfaGeneralization and IfaExtension of Haskell (IfaHaskell) using IfaLang and the 16 Ifa Laws of Nature — applying Haskell\'s purely functional paradigm, monadic structures, and type algebras to Everything: every field, system, discipline, and domain, via the CodoE framework.' },
-  { letter: 'Rb', name: 'RboE — Ruby for Everything',          short: 'RboE',   color: '#dc2626',
-    desc: 'RboE — Ruby for Everything. IfaGeneralization and IfaExtension of Ruby (Ifa Ruby) using IfaLang and the 16 Ifa Laws of Nature — applying Ruby\'s dynamic expressiveness, object orientation, and human-centred design to Everything: every field, system, discipline, and domain, via the CodoE framework.' },
-  { letter: 'JS', name: 'JSoE — JavaScript for Everything',    short: 'JSoE',   color: '#f5c518',
-    desc: 'JSoE — JavaScript for Everything. IfaGeneralization and IfaExtension of JavaScript (Ifa JavaScript) using IfaLang and the 16 Ifa Laws of Nature — applying JS\'s event model, prototype chain, and asynchronous design to Everything: every field, system, discipline, and domain, via the CodoE framework.' },
-  { letter: 'HT', name: 'HToE — HTML for Everything',          short: 'HToE',   color: '#f0920c',
-    desc: 'HToE — HTML for Everything. IfaGeneralization and IfaExtension of HTML (IfaHTML) using IfaLang and the 16 Ifa Laws of Nature — applying HTML\'s hypertext structures, semantic document patterns, and web foundations to Everything: every field, system, discipline, and domain, via the CodoE framework.' },
-  { letter: 'X',  name: 'XoE — X for Everything',              short: 'XoE',    color: '#6366f1',
-    desc: 'XoE — X for Everything. The IfaGeneralization and IfaExtension of all other programming languages and frameworks using IfaLang and the 16 Ifa Laws of Nature — the open frontier of Everything: every unknown field, system, and discipline, via the CodoE framework.' },
-];
-
 // ─── DATA — IfaPL MODEL 2: SIDECHRX Principles ───────────────────────────────
 
 const SIDECHRX_DIMS = [
@@ -205,94 +184,6 @@ const IFAPL_KL_DIMS = [
     desc: 'Threads, actors, async/await, and parallel computation — the multi-dimensional execution model of PLs through Ifa concurrent knowledge-language laws (KL-Concurrent).' },
   { letter: 'ML', name: 'Meta-Language',   short: 'Meta-Lang',   color: '#6366f1',
     desc: 'Macros, reflection, meta-objects, and language-level extensibility — the self-referential X-layer of all PLs encoded as IfaLang meta-structures (KL-Meta). The key of PaaL.' },
-];
-
-// ─── DATA — IfaPL MODEL 5: IfaLP — Ifa Literate Programming ──────────────────
-
-const IFAPL_LP_DIMS = [
-  { letter: 'NB', name: 'Notebook Computing · Literate Computing', short: 'Notebooks', color: '#14b8d4',
-    desc: 'Doing/studying computational notebook programming (Jupyter, Quarto, RMarkdown, nbdev) based on the 16 General and Universal Ifa Laws of Nature for the key purpose of PL/UI — interconnecting interactive, executable document-code environments with Ifa Literate Programming.',
-    links: [
-      { label: 'Jupyter', href: 'https://jupyter.org/' },
-      { label: 'Quarto', href: 'https://quarto.org/' },
-      { label: 'nbdev', href: 'https://nbdev.fast.ai/' },
-    ],
-  },
-  { letter: 'DG', name: 'Documentation Generators', short: 'DocGen', color: '#f0920c',
-    desc: 'Doing/studying documentation generation systems (Doxygen, JSDoc, Sphinx, Rustdoc) based on the 16 General and Universal Ifa Laws of Nature for the key purpose of PL/UI — unifying code-first documentation extraction with Ifa Literate Programming.',
-    links: [
-      { label: 'Doxygen', href: 'https://www.doxygen.nl/' },
-      { label: 'JSDoc', href: 'https://jsdoc.app/' },
-      { label: 'Sphinx', href: 'https://www.sphinx-doc.org/' },
-    ],
-  },
-  { letter: 'DD', name: 'Documentation-Driven Development', short: 'Doc-DDD', color: '#00c87c',
-    desc: 'Doing/studying Documentation-Driven Development based on the 16 General and Universal Ifa Laws of Nature for the key purpose of PL/UI — connecting documentation-as-design-specification, where prose drives implementation, with Ifa Literate Programming.',
-    links: [
-      { label: 'WEB (Knuth)', href: 'https://www-cs-faculty.stanford.edu/~knuth/lp.html' },
-    ],
-  },
-  { letter: 'RD', name: 'README-Driven Development', short: 'README-D', color: '#ec4899',
-    desc: 'Doing/studying README-Driven Development based on the 16 General and Universal Ifa Laws of Nature for the key purpose of PL/UI — connecting plain-language-first software specification with Ifa Literate Programming.',
-    links: [
-      { label: 'literateprogramming.com', href: 'http://literateprogramming.com/' },
-    ],
-  },
-  { letter: 'ED', name: 'Executable Documentation', short: 'ExecDocs', color: '#8b5cf6',
-    desc: 'Doing/studying Executable Documentation (Doctest, noweb, Literate CoffeeScript, Literate Haskell) based on the 16 General and Universal Ifa Laws of Nature for the key purpose of PL/UI — unifying runnable specification-as-documentation with Ifa Literate Programming.',
-    links: [
-      { label: 'noweb', href: 'https://www.cs.tufts.edu/~nr/noweb/' },
-      { label: 'Literate Haskell', href: 'https://wiki.haskell.org/Literate_programming' },
-      { label: 'Literate CoffeeScript', href: 'https://coffeescript.org/#literate' },
-    ],
-  },
-  { letter: 'EP', name: 'Exploratory · REPL-Driven Programming', short: 'Exploratory', color: '#3b9eff',
-    desc: 'Doing/studying Exploratory / REPL-Driven Programming based on the 16 General and Universal Ifa Laws of Nature for the key purpose of PL/UI — interconnecting live-code experimentation and interactive evaluation environments with Ifa Literate Programming.',
-    links: [
-      { label: 'Org-mode Babel', href: 'https://orgmode.org/worg/org-contrib/babel/intro.html' },
-      { label: 'Leo Editor', href: 'https://leo-editor.github.io/leo-editor/' },
-    ],
-  },
-  { letter: 'AI', name: 'AI-Augmented Literate Programming', short: 'AI-LP', color: '#f5c518',
-    desc: 'Doing/studying AI-Augmented Literate Programming (LLM-assisted documentation, AI code narration, AI-generated literate programs) based on the 16 General and Universal Ifa Laws of Nature for the key purpose of PL/UI — connecting artificial intelligence with Ifa Literate Programming.',
-    links: [],
-  },
-  { letter: 'X', name: 'Others', short: 'Others', color: '#6366f1',
-    desc: 'Doing/studying all other rival and related literate programming approaches based on the 16 General and Universal Ifa Laws of Nature for the key purpose of PL/UI — the open frontier of IfaLP interconnection and integration.',
-    links: [],
-  },
-];
-
-// ─── DATA — Ifa-Orisa Bridge Pairs ───────────────────────────────────────────
-
-const BRIDGE_PAIRS = [
-  {
-    id: 'ancient-modern',
-    label: 'Ancient ↔ Modern',
-    left:  { title: 'Ancient Systems',        sym: '◈',  color: '#f0920c',
-      tags: ['Odu Ifa · 256 Codes', 'Indigenous Intelligence', 'Natural Cycles', 'Oral Wisdom'] },
-    right: { title: 'Modern Systems',          sym: '>_', color: '#3b9eff',
-      tags: ['AI & Machine Learning', 'Digital Networks', 'Cloud Architecture', 'Computation'] },
-    body: 'The I/O Bridge integrates ancestral intelligence with modern computation — the 256 Odu Ifa as the living code matrix encoding both ancient wisdom and modern digital systems as one unified field.',
-  },
-  {
-    id: 'nature-synthetic',
-    label: 'Nature ↔ Synthetic',
-    left:  { title: 'Nature',                  sym: '⬡',  color: '#00c87c',
-      tags: ['Biological Systems', 'Natural Intelligence', 'Organic Processes', 'Àṣẹ (Life Force)'] },
-    right: { title: 'Synthetic / Artificial',  sym: '⬢',  color: '#8b5cf6',
-      tags: ['Machine Intelligence', 'Artificial Systems', 'Synthetic Processes', 'Digital Minds'] },
-    body: 'The I/O Bridge maintains equilibrium between natural and artificial intelligence — ensuring synthetic systems remain grounded in the natural laws encoded within the 16 Ifa-Orisa Laws of Nature.',
-  },
-  {
-    id: 'auto-nonauto',
-    label: 'Automation ↔ Non-automation',
-    left:  { title: 'Automation',              sym: '↻',  color: '#14b8d4',
-      tags: ['AI Agents', 'Autonomous Systems', 'Algorithmic Decision', 'Self-executing Code'] },
-    right: { title: 'Non-Automation',           sym: '✦',  color: '#ec4899',
-      tags: ['Human Judgment', 'Creative Craft', 'Intuition & Wisdom', 'Ethical Oversight'] },
-    body: 'The I/O Bridge calibrates when to automate and when not to — recognizing that human wisdom, creativity, and cultural judgment cannot and should not be fully automated, while leveraging automation where it serves life.',
-  },
 ];
 
 // ─── MATRIX DIAGRAM COMPONENT ─────────────────────────────────────────────────
@@ -462,14 +353,6 @@ function MatrixDiagram({ index, title, centerLine1, centerLine2, accentColor, di
                   {pinnedDim !== null && <span className="stx-dim-info__pin">◈ pinned · click to release</span>}
                 </div>
                 <p className="stx-dim-info__desc">{hovNode.desc}</p>
-                {hovNode.links && hovNode.links.length > 0 && (
-                  <div className="stx-dim-info__links">
-                    {hovNode.links.map((l, li) => (
-                      <a key={li} className="stx-dim-info__link" href={l.href}
-                        target="_blank" rel="noopener noreferrer">↗ {l.label}</a>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
           ) : active ? (
@@ -497,9 +380,6 @@ function Header() {
         <nav className="header__nav">
           <a className="nav-link" href="#codoe">CodoE</a>
           <a className="nav-link" href="#ifapl">IfaPL</a>
-          <a className="nav-link" href="#ifaconstruct">-OEs</a>
-          <a className="nav-link" href="#ifalp">IfaLP</a>
-          <a className="nav-link" href="#ifase">IfaSE</a>
           <a className="nav-link" href="#paal">PaaL</a>
           <a className="nav-link" href="../">IFA Mathematica</a>
           <a className="nav-link nav-link--cta"
@@ -518,8 +398,6 @@ function MobileBar() {
     { sym: '⌂',  label: 'IFA Math',  href: '../' },
     { sym: '⊞',  label: 'CodoE',     href: '#codoe' },
     { sym: '{ }',label: 'IfaPL',     href: '#ifapl' },
-    { sym: '-OE',label: '-OEs',      href: '#ifaconstruct' },
-    { sym: '§',  label: 'IfaLP',     href: '#ifalp' },
     { sym: '∞',  label: 'PaaL',      href: '#paal' },
     { sym: '↗',  label: 'TOE',       href: 'https://toe.cenproject.org/ifa-programming-language-ifa-pl/' },
   ];
@@ -582,7 +460,7 @@ function HeroSection() {
           <p className="hero__desc">
             Ifa Codes (Odù Ifá) are the <strong>Codes for Everything (CodoE)</strong> — also known as
             Knowledge Codes, ToE Codes, and Ifa Programming Codes. The 256 Odu Ifa
-            constitute the <strong>Universal Code Matrix</strong> underlying all fields of knowledge,
+            constitute the <strong>universal code matrix</strong> underlying all fields of knowledge,
             all programming languages, and all systems of the IFA Internet.
           </p>
 
@@ -645,9 +523,9 @@ function IfaCodeSection() {
             <div>
               <div className="ifc-def-block__label">Codes for Everything (CodoE)</div>
               <p className="ifc-def-block__body">
-                CodoE is the Universal Code System of the IFA Internet — encoding all fields
+                CodoE is the universal code system of the IFA Internet — encoding all fields
                 of knowledge, all sciences, technologies, arts, and disciplines as Ifa Code
-                Structures rooted in the 256 Odu Ifa Axiomatic Matrices.
+                structures rooted in the 256 Odu Ifa axiomatic matrix.
               </p>
             </div>
           </div>
@@ -656,7 +534,7 @@ function IfaCodeSection() {
             <div>
               <div className="ifc-def-block__label">Knowledge Codes · ToE Codes</div>
               <p className="ifc-def-block__body">
-                Every field of knowledge has its corresponding Ifa Code (Odufa) — a formal encoding
+                Every field of knowledge has its corresponding Ifa Code — a formal encoding
                 through the 256 Odu Ifa. Scientific codes, artistic codes, engineering codes,
                 and all others are unified dimensions of the CodoE.
               </p>
@@ -697,8 +575,6 @@ function IfaCodeSection() {
 // ─── IfaPL SECTION ────────────────────────────────────────────────────────────
 
 function IfaPLSection() {
-  const [model1View, setModel1View] = React.useState('ifapl');
-
   return (
     <section className="section section--alt" id="ifapl">
       <div className="container">
@@ -708,9 +584,9 @@ function IfaPLSection() {
             IfaPL — <span className="accent--violet">Programming for Everything</span>
           </h2>
           <p className="section__subtitle">
-            Ifa Programming is one of the many Dimensions of the CodoE.
+            Ifa Programming is one of the many dimensions of the CodoE.
             IfaPL is the <strong>universe of programming languages</strong> — revealing the
-            Fundamental Principles (16 Odu Ifa) as the Meta-Structures that underpin all
+            Fundamental Principles (16 Odu Ifa) as the meta-structures that underpin all
             programming languages and their models.
           </p>
         </div>
@@ -736,106 +612,16 @@ function IfaPLSection() {
             <p className="ifc-model-sub">Node: <em>Ifa Codes: IfaPL</em> · 8 programming language dimensions</p>
           </div>
         </div>
-
-        {/* IfaSlider */}
-        <div className="ifa-slider">
-          <button
-            className={'ifa-slider__tab' + (model1View === 'ifapl' ? ' ifa-slider__tab--active' : '')}
-            onClick={() => setModel1View('ifapl')}
-          >
-            <span className="ifa-slider__tab-sym">{'{ }'}</span> IfaPL · Language CodoEs
-          </button>
-          <button
-            className={'ifa-slider__tab' + (model1View === 'construct' ? ' ifa-slider__tab--active' : '')}
-            onClick={() => setModel1View('construct')}
-          >
-            <span className="ifa-slider__tab-sym">-OE</span> IfaConstruction · -OEs
-          </button>
-        </div>
-
-        {model1View === 'ifapl' ? (
-          <div className="ifc-diagram-wrap ifc-diagram-wrap--single">
-            <MatrixDiagram
-              index={1}
-              title="Ifa Codes: IfaPL — 0+8D Programming Language Matrix"
-              centerLine1="IfaPL"
-              centerLine2="Ifa Codes"
-              accentColor="#8b5cf6"
-              dims={IFAPL_LANGS_DIMS}
-              ringText="IFAPL · IFA CODES · CODOE · PYTHON · JAVA · HASKELL · JAVASCRIPT · HTML ·"
-            />
-          </div>
-        ) : (
-          <div className="ifc-diagram-wrap ifc-diagram-wrap--single">
-            <MatrixDiagram
-              index={11}
-              title="IfaConstruction: -OEs — 0+8D CodoE for Everything Matrix"
-              centerLine1="CodoE"
-              centerLine2="-OEs"
-              accentColor="#8b5cf6"
-              dims={IFAPL_LANGS_OE_DIMS}
-              ringText="IFACONSTRUCTION · -OES · PYTHOE · JVOE · COE · JSOE · HTOE · FOR EVERYTHING ·"
-            />
-          </div>
-        )}
-
-        {/* IfaConstruction subsection */}
-        <div id="ifaconstruct" className="ifc-model-header">
-          <div className="ifc-model-num ifc-model-num--violet">-OEs</div>
-          <div>
-            <h3 className="ifc-model-title">The IfaConstruction: IfaGeneralization and IfaExtension</h3>
-            <p className="ifc-model-sub">IfaLang — the Language of/for Everything (LoE) · The -OEs (-of/for-Everything) · The IfaStructure</p>
-          </div>
-        </div>
-
-        <div className="ifc-notice ifc-notice--violet">
-          <span className="ifc-notice__icon" style={{ color: '#8b5cf6' }}>-OE</span>
-          <div>
-            <strong>IfaLang — the Language of/for Everything (LoE)</strong>, also known as the Language of/for Energy,
-            is the universal meta-language of the IFA Internet. Its core tools are the{' '}
-            <strong>-OEs (-of/for-Everything)</strong>: suffixes applied to any name, field, language,
-            technology, or system to denote its IfaGeneralization and IfaExtension through the 16 Universal
-            Ifa Laws of Nature. PythoE is Python-for-Everything, JvoE is Java-for-Everything,
-            PhysoE is Physics-for-Everything, MedoE is Medicine-for-Everything, AroE is Art-for-Everything —
-            the <strong>-OE suffix</strong> transforms any X into its <strong>IfaConstruction</strong>: the
-            universal CodoE form that applies X to every field, discipline, technology, and system.
-          </div>
-        </div>
-
-        <div className="ifc-intro-grid">
-          <div className="ifc-def-block">
-            <div className="ifc-def-block__icon" style={{ color: '#8b5cf6' }}>-OE</div>
-            <div>
-              <div className="ifc-def-block__label">-OEs — of/for-Everything Suffix</div>
-              <p className="ifc-def-block__body">
-                The -OE suffix is IfaLang's core generalization operator: appending -OE to any term
-                declares its IfaExtension to Everything — every field, system, and domain in the CodoE.
-                PythoE, JvoE, PhysoE, BioE, LawE — all are -OE constructions.
-              </p>
-            </div>
-          </div>
-          <div className="ifc-def-block">
-            <div className="ifc-def-block__icon" style={{ color: '#3b9eff' }}>LoE</div>
-            <div>
-              <div className="ifc-def-block__label">IfaLang — Language of/for Everything</div>
-              <p className="ifc-def-block__body">
-                IfaLang (Language of/for Everything, LoE) is the meta-language of the IFA Internet —
-                encoding all fields, all languages, and all systems through the 256 Odu Ifa.
-                The -OEs are its primary tools for IfaGeneralization and IfaExtension.
-              </p>
-            </div>
-          </div>
-          <div className="ifc-def-block">
-            <div className="ifc-def-block__icon" style={{ color: '#f0920c' }}>⊕</div>
-            <div>
-              <div className="ifc-def-block__label">IfaGeneralization · IfaExtension</div>
-              <p className="ifc-def-block__body">
-                IfaGeneralization abstracts any X to its universal Ifa form. IfaExtension applies
-                that universal form to any and all domains. Together, they form the IfaConstruction —
-                the process of building X-for-Everything through IfaLang and the CodoE.
-              </p>
-            </div>
-          </div>
+        <div className="ifc-diagram-wrap ifc-diagram-wrap--single">
+          <MatrixDiagram
+            index={1}
+            title="Ifa Codes: IfaPL — 0+8D Programming Language Matrix"
+            centerLine1="IfaPL"
+            centerLine2="Ifa Codes"
+            accentColor="#8b5cf6"
+            dims={IFAPL_LANGS_DIMS}
+            ringText="IFAPL · IFA CODES · CODOE · PYTHON · JAVA · HASKELL · JAVASCRIPT · HTML ·"
+          />
         </div>
 
         {/* Model 2: SIDECHRX Principles */}
@@ -863,166 +649,6 @@ function IfaPLSection() {
   );
 }
 
-// ─── IFA-ORISA BRIDGE ─────────────────────────────────────────────────────────
-
-function BridgeNodeTitle({ cx, title, color }) {
-  const words = title.split(' ');
-  if (words.length <= 1) {
-    return <text x={cx} y="108" textAnchor="middle" fill={color} fontSize="10" fontWeight="700" opacity="0.92">{title}</text>;
-  }
-  const mid = Math.ceil(words.length / 2);
-  return (
-    <>
-      <text x={cx} y="104" textAnchor="middle" fill={color} fontSize="10" fontWeight="700" opacity="0.92">
-        {words.slice(0, mid).join(' ')}
-      </text>
-      <text x={cx} y="117" textAnchor="middle" fill={color} fontSize="10" fontWeight="700" opacity="0.92">
-        {words.slice(mid).join(' ')}
-      </text>
-    </>
-  );
-}
-
-function IfaBridgeSVG({ pair, uid }) {
-  const lc = pair.left.color;
-  const rc = pair.right.color;
-  const au = '#f5c518';
-  const u  = 'br' + uid;
-
-  return (
-    <svg viewBox="0 0 760 200" style={{ width: '100%', height: 'auto', display: 'block' }}>
-      <defs>
-        <radialGradient id={u+'-lg'} cx="50%" cy="50%" r="50%">
-          <stop offset="0%"   stopColor={au} stopOpacity="0.28"/>
-          <stop offset="100%" stopColor={au} stopOpacity="0"/>
-        </radialGradient>
-        <linearGradient id={u+'-bg'} x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%"   stopColor={lc} stopOpacity="0.05"/>
-          <stop offset="50%"  stopColor={au} stopOpacity="0.02"/>
-          <stop offset="100%" stopColor={rc} stopOpacity="0.05"/>
-        </linearGradient>
-        <path id={u+'-lc'} d="M 208,100 L 322,100" fill="none"/>
-        <path id={u+'-cl'} d="M 322,100 L 208,100" fill="none"/>
-        <path id={u+'-cr'} d="M 438,100 L 552,100" fill="none"/>
-        <path id={u+'-rc'} d="M 552,100 L 438,100" fill="none"/>
-      </defs>
-
-      {/* Background gradient */}
-      <rect x="0" y="0" width="760" height="200" fill={'url(#'+u+'-bg)'} rx="10"/>
-
-      {/* Full-width beam (balance metaphor) */}
-      <line x1="40" y1="100" x2="720" y2="100" stroke="rgba(255,255,255,0.04)" strokeWidth="1"/>
-
-      {/* Connection lines */}
-      <line x1="208" y1="100" x2="322" y2="100" stroke={lc} strokeWidth="1.5" strokeDasharray="4 5" opacity="0.38"/>
-      <line x1="438" y1="100" x2="552" y2="100" stroke={rc} strokeWidth="1.5" strokeDasharray="4 5" opacity="0.38"/>
-
-      {/* Left node */}
-      <circle cx="130" cy="100" r="78" fill={lc} opacity="0.05"/>
-      <circle cx="130" cy="100" r="66" fill="#0a0f1a" stroke={lc} strokeWidth="1.8"/>
-      <text x="130" y="92" textAnchor="middle" fill={lc} fontSize="20" fontWeight="900" fontFamily="monospace">{pair.left.sym}</text>
-      <BridgeNodeTitle cx={130} title={pair.left.title} color={lc}/>
-
-      {/* Right node */}
-      <circle cx="630" cy="100" r="78" fill={rc} opacity="0.05"/>
-      <circle cx="630" cy="100" r="66" fill="#0a0f1a" stroke={rc} strokeWidth="1.8"/>
-      <text x="630" y="92" textAnchor="middle" fill={rc} fontSize="20" fontWeight="900" fontFamily="monospace">{pair.right.sym}</text>
-      <BridgeNodeTitle cx={630} title={pair.right.title} color={rc}/>
-
-      {/* Center glow */}
-      <circle cx="380" cy="100" r="52" fill={'url(#'+u+'-lg)'}/>
-      {/* Center diamond */}
-      <polygon points="380,58 426,100 380,142 334,100" fill="#0a0f1a" stroke={au} strokeWidth="2"/>
-      <text x="380" y="96" textAnchor="middle" fill={au} fontSize="12" fontWeight="900" fontFamily="monospace">I/O</text>
-      <text x="380" y="111" textAnchor="middle" fill={au} fontSize="8" opacity="0.75">Bridge</text>
-
-      {/* Fulcrum (balance metaphor) */}
-      <polygon points="380,170 374,182 386,182" fill="rgba(245,197,24,0.14)"/>
-      <line x1="374" y1="182" x2="386" y2="182" stroke="rgba(245,197,24,0.18)" strokeWidth="1"/>
-
-      {/* Flow dots: left → center, gold → left */}
-      <circle r="3.5" fill={lc} opacity="0.9">
-        <animateMotion dur="1.7s" repeatCount="indefinite"><mpath href={'#'+u+'-lc'}/></animateMotion>
-      </circle>
-      <circle r="2.8" fill={au} opacity="0.65">
-        <animateMotion dur="1.7s" begin="0.85s" repeatCount="indefinite"><mpath href={'#'+u+'-cl'}/></animateMotion>
-      </circle>
-      {/* Flow dots: center → right, right → gold */}
-      <circle r="3.5" fill={rc} opacity="0.9">
-        <animateMotion dur="1.7s" begin="0.3s" repeatCount="indefinite"><mpath href={'#'+u+'-cr'}/></animateMotion>
-      </circle>
-      <circle r="2.8" fill={au} opacity="0.65">
-        <animateMotion dur="1.7s" begin="1.15s" repeatCount="indefinite"><mpath href={'#'+u+'-rc'}/></animateMotion>
-      </circle>
-
-      {/* Outer labels */}
-      <text x="130" y="186" textAnchor="middle" fill={lc} fontSize="7" opacity="0.38" fontFamily="monospace" letterSpacing="1">◂ LEFT POLE ▸</text>
-      <text x="630" y="186" textAnchor="middle" fill={rc} fontSize="7" opacity="0.38" fontFamily="monospace" letterSpacing="1">◂ RIGHT POLE ▸</text>
-      <text x="380" y="162" textAnchor="middle" fill={au} fontSize="6.5" opacity="0.38" fontFamily="monospace" letterSpacing="1">IFA-ORISA BRIDGE</text>
-    </svg>
-  );
-}
-
-function IfaBridgeDemo() {
-  const [active, setActive] = React.useState(0);
-  const [animKey, setAnimKey] = React.useState(0);
-  const pair = BRIDGE_PAIRS[active];
-
-  const handleTab = (i) => { setActive(i); setAnimKey(k => k + 1); };
-
-  return (
-    <div className="ifa-bridge">
-      <div className="ifa-bridge__header">
-        <div className="ifa-bridge__heading">◈ Ifa-Orisa Bridge (I/O Bridge) — Balance Visualizer</div>
-      </div>
-
-      <div className="ifa-bridge__tabs">
-        {BRIDGE_PAIRS.map((p, i) => (
-          <button key={p.id}
-            className={'ifa-bridge__tab' + (active === i ? ' ifa-bridge__tab--active' : '')}
-            onClick={() => handleTab(i)}>
-            {p.label}
-          </button>
-        ))}
-      </div>
-
-      <div key={animKey} className="ifa-bridge__content">
-        <div className="ifa-bridge__view">
-          <IfaBridgeSVG pair={pair} uid={animKey}/>
-        </div>
-
-        <div className="ifa-bridge__desc-row">
-          <div className="ifa-bridge__pole" style={{ '--bc': pair.left.color }}>
-            <div className="ifa-bridge__pole-header">
-              <span className="ifa-bridge__pole-sym">{pair.left.sym}</span>
-              <span className="ifa-bridge__pole-title">{pair.left.title}</span>
-            </div>
-            <div className="ifa-bridge__pole-tags">
-              {pair.left.tags.map((t, ti) => <span key={ti} className="ifa-bridge__pole-tag">{t}</span>)}
-            </div>
-          </div>
-
-          <div className="ifa-bridge__center-col">
-            <div className="ifa-bridge__center-label">⇌ Ifa-Orisa Bridge ⇌</div>
-            <p className="ifa-bridge__center-body">{pair.body}</p>
-            <span className="ifa-bridge__balance-pill">Balance · Equilibrium · Unity</span>
-          </div>
-
-          <div className="ifa-bridge__pole" style={{ '--bc': pair.right.color }}>
-            <div className="ifa-bridge__pole-header">
-              <span className="ifa-bridge__pole-sym">{pair.right.sym}</span>
-              <span className="ifa-bridge__pole-title">{pair.right.title}</span>
-            </div>
-            <div className="ifa-bridge__pole-tags">
-              {pair.right.tags.map((t, ti) => <span key={ti} className="ifa-bridge__pole-tag">{t}</span>)}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── IfaPL IMAGE MODELS SECTION ───────────────────────────────────────────────
 
 function IfaPLImageSection() {
@@ -1035,8 +661,8 @@ function IfaPLImageSection() {
             IfaPL <span className="accent--gold">Paradigm &amp; Knowledge Matrices</span>
           </h2>
           <p className="section__subtitle">
-            Three complementary 0+8D views of IfaPL — the Paradigm Matrix (PaaL), the
-            Knowledge-Language Matrix (KL), and the Ifa Literate Programming Matrix (IfaLP) — encoded through the 256 Odu Ifa.
+            Two complementary 0+8D views of IfaPL — the Paradigm Matrix (PaaL) and the
+            Knowledge-Language Matrix (KL) — encoded through the 256 Odu Ifa.
           </p>
         </div>
 
@@ -1081,114 +707,6 @@ function IfaPLImageSection() {
             ringText="IFAKL · KNOWLEDGE LANGUAGE · SYNTAX · SEMANTICS · TYPES · MEMORY · EVALUATION · MODULARITY · CONCURRENCY · META ·"
           />
         </div>
-
-        {/* Model 5: IfaLP — Ifa Literate Programming */}
-        <div id="ifalp" className="ifc-model-header">
-          <div className="ifc-model-num">Model 5</div>
-          <div>
-            <h3 className="ifc-model-title">IfaLP — Ifa Literate Programming · IfaLiterate Programming</h3>
-            <p className="ifc-model-sub">Node: <em>IfaLP</em> · 6 Rival &amp; Related Approaches + AI-Augmented LP + Others</p>
-            <p className="ifc-model-sub">LP in IfaLang — doing/studying Literate Programming based on the 16 General and Universal Ifa Laws of Nature for the key purpose of PL/UI</p>
-          </div>
-        </div>
-
-        <div className="ifc-notice ifc-notice--jade">
-          <span className="ifc-notice__icon">§</span>
-          <div>
-            <strong>Ifa Literate Programming (IfaLP · IfaLiterate Programming)</strong> — IfaLP is
-            LP in IfaLang: doing/studying <em>Literate Programming</em> — the practice of writing
-            programs as human-readable essays (Knuth, 1984) — based on the 16 General and Universal
-            Ifa Laws of Nature, for the key purpose of <strong>PL/UI</strong> (connecting and
-            interconnecting LP together with its Rival &amp; Related Approaches), among other aims.
-            The IfaLP 0+8D Matrix below has IfaLP at the center and its 6 Rival &amp; Related
-            Approaches on the edges, with AI-Augmented Literate Programming as the 7th component and
-            Others as the 8th.{' '}
-            <a href="https://www-cs-faculty.stanford.edu/~knuth/lp.html"
-               target="_blank" rel="noopener noreferrer" className="ifc-link">
-              Knuth: Literate Programming →
-            </a>{' '}
-            <a href="http://literateprogramming.com/"
-               target="_blank" rel="noopener noreferrer" className="ifc-link">
-              literateprogramming.com →
-            </a>
-          </div>
-        </div>
-
-        <div className="ifc-diagram-wrap ifc-diagram-wrap--single">
-          <MatrixDiagram
-            index={5}
-            title="IfaLP — 0+8D Ifa Literate Programming Matrix"
-            centerLine1="IfaLP"
-            centerLine2="IfaLang"
-            accentColor="#14b8d4"
-            dims={IFAPL_LP_DIMS}
-            ringText="IFALP · IFA LITERATE PROGRAMMING · LP · NOTEBOOKS · DOCGEN · AI-LP · PL/UI · IFALANG ·"
-          />
-        </div>
-
-        {/* IfaSE — Ifa Software Engineering */}
-        <div id="ifase" className="ifc-model-header">
-          <div className="ifc-model-num ifc-model-num--electric">SE</div>
-          <div>
-            <h3 className="ifc-model-title">Ifa Software Engineering (IfaSE): Interdisciplinary and Polymathic SE</h3>
-            <p className="ifc-model-sub">Systems-thinking · First-principles reasoning · Polymathy · 16 Ifa-Orisa Laws of Nature</p>
-          </div>
-        </div>
-
-        <div className="ifc-ifase-block">
-          <div className="ifc-ifase-block__row">
-            <div className="ifc-ifase-block__col">
-              <div className="ifc-ifase-block__label">The Shifting Role of the Programmer</div>
-              <p className="ifc-ifase-block__body">
-                The claim that "programming is dead" — amplified by AI-powered tools such as the{' '}
-                <a href="https://github.com/morluto/rea"
-                   target="_blank" rel="noopener noreferrer" className="ifc-link">
-                  Reverse Engineer Anything (REA) Platform
-                </a>{' '}
-                — reflects a real transformation, not an ending.
-              </p>
-              <br/>
-              <p className="ifc-ifase-block__body">
-                Traditional manual coding is not dead: the programmer's role is shifting from typing
-                syntax line-by-line to orchestrating AI agents, composing systems, and solving
-                high-level architecture problems.
-              </p>
-              <br/>
-              <p className="ifc-ifase-block__body">
-                The demand is now for engineers who can think in systems, not just in syntax.
-              </p>
-            </div>
-            <div className="ifc-ifase-block__col">
-              <div className="ifc-ifase-block__label">What IfaSE Introduces to the Field</div>
-              <p className="ifc-ifase-block__body">
-                Ifa Software Engineering (IfaSE) brings systems-thinking, first-principles reasoning,
-                interdisciplinarity, and polymathy into SE training — grounded in the{' '}
-                <strong>16 Ifa-Orisa Laws of Nature</strong> (in Yoruba and English).
-              </p>
-              <br/>
-              <p className="ifc-ifase-block__body">
-                The underlying <strong>Ifa-Orisa Paradigm for Everything (Paradigm-oE)</strong> seeks
-                balance: between the natural and the artificial, between automation and
-                non-automation, between ancient systems and modern methods.
-              </p>
-              <br/>
-              <p className="ifc-ifase-block__body">
-                Rather than training narrow coders, IfaSE trains engineers to function as visionary
-                system architects and polymaths: understanding how software, knowledge, and energy
-                interact across all fields of the CodoE, in alignment with the living intelligence
-                of the 256 Odu Ifa.
-              </p>
-              <br/>
-              <div className="ifc-alias-row">
-                {['Orisa Software Engineering (OrisaSE)', 'Ifa-Orisa Software Engineering (Ifa-OrisaSE)'].map((a, i) => (
-                  <span key={i} className="ifc-alias">{a}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <IfaBridgeDemo />
       </div>
     </section>
   );
@@ -1202,19 +720,19 @@ function PaaLSection() {
       sym: '{ }',
       color: '#f5c518',
       title: 'IfaPL — Universe of Programming Languages',
-      body: 'IfaPL is the universe of programming languages (PLs). It reveals the Fundamental Principles (16 Odu Ifa) as the Meta-Structures that underpin all programming languages and their models. Every programming language — from Python to Haskell, C to HTML — is modelled and studied as an element of IfaPL.'
+      body: 'IfaPL is the universe of programming languages (PLs). It reveals the Fundamental Principles (16 Odu Ifa) as the meta-structures that underpin all programming languages and their models. Every programming language — from Python to Haskell, C to HTML — is a special case of IfaPL.'
     },
     {
       sym: '↔',
       color: '#8b5cf6',
       title: 'PaaL — Programming-as-a-Language',
-      body: 'Also known as Programming-as-a-Language (PaaL), IfaPL is a tool for scientifically studying the features or principles common and fundamental to all PLs, and modelling them using Ifabits. PaaL treats the entire space of programming languages as a single unified Language.'
+      body: 'Also known as Programming-as-a-Language (PaaL), IfaPL is a tool for scientifically studying the features or principles common and fundamental to all PLs, and modelling them using Ifabits. PaaL treats the entire space of programming languages as a single unified language — IfaPL itself.'
     },
     {
       sym: '⊗',
       color: '#3b9eff',
       title: 'PL-UI — Programming Language Unification & Integration',
-      body: 'Programming Language Unification & Integration (PL-UI), also known as PL/UI, is the project of unifying all programming languages under IfaPL. PL-UI demonstrates that all PLs share a common Meta-Axiomatic Foundation: the 16 Odu Ifa as Universal Programming Laws governing all computational paradigms.'
+      body: 'Programming Language Unification & Integration (PL-UI), also known as PL/UI, is the project of unifying all programming languages through IfaPL. PL-UI demonstrates that all PLs share a common axiomatic foundation: the 16 Odu Ifa as universal programming laws governing all computational paradigms.'
     },
     {
       sym: 'KL',
@@ -1232,7 +750,7 @@ function PaaLSection() {
       sym: '16',
       color: '#e040fb',
       title: '16 Odu Ifa — Universal Programming Laws',
-      body: 'The 16 Principal Odu Ifa are the Universal Programming Laws (UPLs) — the irreducible Meta-Structures underlying all programming languages. They are the Ifa Axioms of computation: governing syntax, semantics, type systems, evaluation, and every other dimension of the SIDECHRX Framework.'
+      body: 'The 16 Principal Odu Ifa are the Universal Programming Laws (UPLs) — the irreducible meta-structures underlying all programming languages. They are the Ifa Axioms of computation: governing syntax, semantics, type systems, evaluation, and every other dimension of the SIDECHRX framework.'
     },
   ];
 
@@ -1309,9 +827,7 @@ function Footer() {
           <nav className="footer__links">
             <a href="#codoe"      className="footer__link">CodoE Matrix</a>
             <a href="#ifapl"      className="footer__link">IfaPL</a>
-            <a href="#ifaconstruct" className="footer__link">IfaConstruction · -OEs</a>
             <a href="#ifapl-models" className="footer__link">PaaL · KL</a>
-            <a href="#ifalp"      className="footer__link">IfaLP</a>
             <a href="#paal"       className="footer__link">PL-UI · XaaL</a>
             <a href="../"         className="footer__link">IFA Mathematica</a>
             <a href="../../"      className="footer__link">IFA Internet</a>

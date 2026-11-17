@@ -628,12 +628,156 @@ a.ip-game-card:hover { text-decoration: none; color: inherit; }
 }
 .ip-ilelang__aside-link:hover { color: #00c87c; text-decoration: none; }
 
+/* ── Alántakùn — The IfaWeb ─────────────────────────────────────────────────── */
+.ip-alantakun {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg3);
+  border-top: 1px solid var(--br);
+  border-bottom: 1px solid var(--br);
+}
+.ip-alantakun__glow {
+  position: absolute;
+  top: -120px; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 500px;
+  background: radial-gradient(ellipse at center, rgba(245,197,24,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.ip-alantakun__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.ip-alantakun__status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--fm);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f0920c;
+  border: 1px solid rgba(240,146,12,0.35);
+  border-radius: 20px;
+  padding: 3px 10px;
+  background: rgba(240,146,12,0.07);
+}
+.ip-alantakun__status-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #f0920c;
+  animation: ip-pulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.ip-alantakun__title {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  margin-bottom: 8px;
+}
+.ip-alantakun__yoruba {
+  font-family: var(--fm);
+  font-size: 0.75rem;
+  color: rgba(245,197,24,0.5);
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.ip-alantakun__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+  margin-top: 40px;
+}
+.ip-alantakun__web {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ip-alantakun__svg {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  display: block;
+}
+.ip-alantakun__info {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.ip-alantakun__info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ip-alantakun__info-label {
+  font-family: var(--fm);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+}
+.ip-alantakun__info-block p {
+  font-size: 0.9rem;
+  color: var(--t2);
+  line-height: 1.75;
+}
+.ip-alantakun__info-block p + p {
+  margin-top: 1em;
+}
+.ip-alantakun__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.ip-alantakun__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--pc, var(--t2));
+  border: 1px solid color-mix(in srgb, var(--pc, #888) 30%, transparent);
+  background: color-mix(in srgb, var(--pc, #888) 7%, transparent);
+  border-radius: 20px;
+  padding: 3px 10px;
+  transition: background 0.15s;
+}
+.ip-alantakun__chip:hover {
+  background: color-mix(in srgb, var(--pc, #888) 14%, transparent);
+}
+.ip-alantakun__chip-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--pc, #888);
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+.ip-alantakun__chip--more {
+  --pc: #505869;
+  color: var(--t3);
+  font-style: italic;
+  font-family: var(--fm);
+  font-size: 0.68rem;
+}
+.ip-alantakun__cta-row {
+  margin-top: 4px;
+}
+.ip-alantakun__coming-soon {
+  font-family: var(--fm);
+  font-size: 0.72rem;
+  color: rgba(245,197,24,0.45);
+  letter-spacing: 0.06em;
+}
+
 /* ── Responsive additions ────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
-  .ip-stats__grid    { grid-template-columns: repeat(2, 1fr); }
-  .ip-discover-grid  { grid-template-columns: 1fr; }
-  .ip-ilelang__inner { grid-template-columns: 1fr; gap: 32px; }
-  .ip-ilelang__chips { grid-template-columns: repeat(3, 1fr); }
+  .ip-stats__grid         { grid-template-columns: repeat(2, 1fr); }
+  .ip-discover-grid       { grid-template-columns: 1fr; }
+  .ip-ilelang__inner      { grid-template-columns: 1fr; gap: 32px; }
+  .ip-ilelang__chips      { grid-template-columns: repeat(3, 1fr); }
+  .ip-alantakun__body     { grid-template-columns: 1fr; gap: 32px; }
+  .ip-alantakun__web      { max-width: 320px; margin: 0 auto; }
 }
 @media (max-width: 680px) {
   .ip-stats__grid    { grid-template-columns: repeat(2, 1fr); }
@@ -643,3 +787,6 @@ a.ip-game-card:hover { text-decoration: none; color: inherit; }
 @media (max-width: 480px) {
   .ip-stat__num      { font-size: 1.8rem; }
 }
+
+/* Alantakun live: CTA spacing (17 Nov 2026) */
+.ip-alantakun__cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }

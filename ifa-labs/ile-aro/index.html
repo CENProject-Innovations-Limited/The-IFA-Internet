@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ilé Arọ́ — IfaCAD and OrisaCAD Playground | IfaLabs · The IFA Internet</title>
+<meta name="description" content="Ilé Arọ́: IfaCAD and OrisaCAD Playground — the IfaLab for building Ifa-Based and Orisa-Based circuits, boards, panels, logic gates, models, simulations, architectures and blueprints. CAD in Yoruba, CAD in IfaLang and OrisaLang, Ifa-Orisa Engineering and Ìṣèṣe Engineering (Isesengineering).">
+<meta name="keywords" content="Ilé Arọ́, IfaCAD, OrisaCAD, IfaLabs, Ifa-Based Circuits, Orisa-Based Circuits, Logic Gates, Odu logic, CAD in Yoruba, CAD in IfaLang, CAD in OrisaLang, Ifa-Orisa Engineering, Engineering in Yoruba, Ìṣèṣe Engineering, Isesengineering, Blueprints, Architectures, Simulations, IFA Internet">
+<meta name="theme-color" content="#04070f">
+<link rel="canonical" href="https://ifainternet.org/ifa-labs/ile-aro/">
+<meta property="og:title" content="Ilé Arọ́ — IfaCAD and OrisaCAD Playground">
+<meta property="og:description" content="Build Ifa-Based and Orisa-Based circuits, logic gates, blueprints and simulations. Start Tinkering with Ifa & Orisa.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ifainternet.org/ifa-labs/ile-aro/">
+<meta property="og:site_name" content="The IFA Internet">
+<link rel="icon" type="image/png" href="https://ifainternet.org/src/assets/itoe_favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+Display:wght@600;700;800&display=swap">
+<style>
+/* Concept: the forge-room of IfaLabs. Same drafting-room identity as the IfaLabs platform,
+   with a workshop layer: benches, boards and component trays. Ifa = gold ink, Orisa = red ink. */
+:root{
+  --void:#04070f; --deep:#070c1a; --panel:#0b1226; --panel-2:#0f1830;
+  --line:rgba(150,170,230,.13); --line-2:rgba(150,170,230,.26);
+  --text:#ecf0fa; --text-2:#aab4cd; --text-3:#6e7997;
+  --gold:#f5c518; --red:#e03050; --violet:#a855f7; --cyan:#14b8d4; --jade:#00c87c; --orange:#f0920c;
+  --ink:var(--gold);
+  --f-display:"Space Grotesk","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --f-yo:"Noto Sans","Noto Sans Display","Segoe UI",system-ui,sans-serif;
+  --f-hero:"Noto Sans Display","Noto Sans","Segoe UI",system-ui,sans-serif;
+  --r:14px; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:80px;background:var(--void)}
+body{margin:0;background:var(--void);color:var(--text);font-family:var(--f-body);font-size:1rem;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit} button,input,select{font:inherit;color:inherit}
+strong{font-weight:600}
+/* Yoruba words: a typeface built for stacked tone marks and the dot below */
+.yo{font-family:var(--f-yo);letter-spacing:0;font-feature-settings:normal}
+select,option{font-family:var(--f-yo)}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.ground{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(60rem 40rem at 85% -10%,rgba(240,146,12,.09),transparent 60%),
+  radial-gradient(50rem 40rem at -10% 60%,rgba(224,48,80,.05),transparent 60%),
+  linear-gradient(var(--line) 1px,transparent 1px) 0 0/100px 100px,
+  linear-gradient(90deg,var(--line) 1px,transparent 1px) 0 0/100px 100px,
+  linear-gradient(rgba(150,170,230,.045) 1px,transparent 1px) 0 0/20px 20px,
+  linear-gradient(90deg,rgba(150,170,230,.045) 1px,transparent 1px) 0 0/20px 20px,var(--void);
+  -webkit-mask-image:linear-gradient(#000,rgba(0,0,0,.6));mask-image:linear-gradient(#000,rgba(0,0,0,.6))}
+
+/* Header */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(4,7,15,.92)}
+.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(4,7,15,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.header .wrap{display:flex;align-items:center;gap:18px;min-height:66px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.brand img{height:30px;width:auto}
+.crumb{display:flex;flex-direction:column;line-height:1.15}
+.crumb__k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.crumb__k a{text-decoration:none}.crumb__k a:hover{color:var(--gold)}
+.crumb__n{font-family:var(--f-body);font-weight:700;font-size:1.02rem;color:var(--orange)}
+.nav{display:flex;align-items:center;gap:2px;margin-left:auto}
+.nav a{font-size:.84rem;text-decoration:none;color:var(--text-2);padding:7px 10px;border-radius:8px;white-space:nowrap}
+.nav a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.nav a.cta{color:#1b1300;background:var(--gold);font-weight:600;margin-left:6px;padding:8px 14px}
+.burger{display:none;margin-left:auto;width:44px;height:44px;border-radius:10px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.burger span{display:block;width:20px;height:2px;border-radius:2px;background:var(--text)}
+@media (max-width:1060px){
+  .burger{display:flex}
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;padding:10px max(20px,env(safe-area-inset-right,0px)) 18px max(20px,env(safe-area-inset-left,0px));background:rgba(4,7,15,.97);border-bottom:1px solid var(--line)}
+  .nav.is-open{display:flex}.nav a{padding:12px 10px;font-size:1rem}.nav a.cta{margin:8px 0 0;text-align:center}
+}
+
+/* Type */
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);display:flex;align-items:center;gap:12px;white-space:nowrap}
+.eyebrow::after{content:"";flex:0 1 80px;height:1px;background:linear-gradient(90deg,var(--line-2),transparent)}
+@media (max-width:480px){.eyebrow{white-space:normal}}
+.h2{margin:12px 0 12px;font-family:var(--f-display);font-weight:700;font-size:clamp(1.8rem,1.3rem + 2.2vw,2.8rem);line-height:1.06;letter-spacing:-.02em;text-wrap:balance}
+.sub{margin:0;color:var(--text-2);font-size:1.04rem;max-width:68ch}
+.gold{color:var(--gold)}.red{color:var(--red)}.orange{color:var(--orange)}
+.section{padding-block:clamp(56px,7vw,96px);border-top:1px solid var(--line)}
+.section--alt{background:linear-gradient(180deg,rgba(7,12,26,.88),rgba(7,12,26,.5))}
+.head{margin-bottom:clamp(24px,4vw,40px)}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:.94rem;padding:12px 20px;border-radius:10px;cursor:pointer;border:0;transition:transform .2s,border-color .2s,color .2s}
+.btn--p{background:var(--gold);color:#1b1300;box-shadow:0 0 0 1px rgba(245,197,24,.4),0 8px 30px -8px rgba(245,197,24,.6)}
+.btn--p:hover{transform:translateY(-2px)}
+.btn--g{border:1px solid var(--line-2);background:rgba(255,255,255,.02)}
+.btn--g:hover{border-color:var(--gold);color:var(--gold)}
+.btn--big{font-size:1.05rem;padding:15px 24px}
+
+/* Hero */
+.hero{padding-block:clamp(36px,6vw,80px)}
+.hero__grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,60px);align-items:center}
+.hero__text{display:flex;flex-direction:column;gap:18px;min-width:0}
+.badge{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--orange);border:1px solid rgba(240,146,12,.4);border-radius:999px;padding:7px 14px;background:rgba(240,146,12,.07)}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 10px var(--orange)}
+.h1{margin:0;display:flex;flex-direction:column;gap:10px}
+.h1__main{font-family:var(--f-hero);font-weight:800;font-size:clamp(3.4rem,2rem + 5.2vw,6.4rem);line-height:1.12;letter-spacing:-.02em;background:linear-gradient(100deg,#ffe2b8,var(--orange) 50%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent;padding-top:.1em;margin-bottom:-.04em}
+.h1__main .yo{font-family:var(--f-hero)}
+.h1__tag{font-family:var(--f-hero);font-weight:600;font-size:clamp(1.55rem,1.05rem + 2vw,2.6rem);line-height:1.28;letter-spacing:-.01em;color:var(--text);padding-top:.06em}
+.h1__tag .yo,.h1__isese{font-family:var(--f-hero);font-weight:700;background:linear-gradient(100deg,var(--gold),var(--orange));-webkit-background-clip:text;background-clip:text;color:transparent}
+.h1__rule{display:block;width:72px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--orange),var(--red));margin:4px 0 2px}
+.h1__sub{font-family:var(--f-display);font-weight:600;font-size:clamp(1.1rem,.95rem + .7vw,1.45rem);line-height:1.3;color:var(--text-2)}
+.lead{margin:0;color:var(--text-2);max-width:62ch}
+.builds{display:flex;flex-wrap:wrap;gap:7px}
+.builds span{font-size:.78rem;padding:4px 10px;border-radius:7px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);color:var(--text)}
+.builds span.i{border-color:rgba(245,197,24,.4);color:var(--gold)}
+.builds span.o{border-color:rgba(224,48,80,.45);color:#ff8ea2}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.forge{position:relative;border:1px solid var(--line-2);border-radius:var(--r);background:#04070f;overflow:hidden}
+.forge canvas{display:block;width:100%;height:auto}
+.intro{display:flex;flex-direction:column;gap:10px;min-width:0}
+.intro__media{aspect-ratio:16/9;box-shadow:0 30px 80px -30px rgba(0,0,0,.85),0 0 0 1px rgba(245,197,24,.18)}
+.intro__media canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.intro__media iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.intro__play{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:12px;padding:0 16px 22px;border:0;cursor:pointer;color:var(--text);background:linear-gradient(180deg,rgba(4,7,15,0) 35%,rgba(4,7,15,.82))}
+.intro__btn{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#1b1300;box-shadow:0 0 0 10px rgba(245,197,24,.18),0 12px 40px -6px rgba(245,197,24,.6);transition:transform .2s}
+.intro__btn svg{width:40px;height:40px;margin-left:5px}
+.intro__play:hover .intro__btn{transform:translate(-50%,-50%) scale(1.07)}
+.intro__play:focus-visible{outline:2px solid var(--gold);outline-offset:-4px}
+.intro__lbl{text-align:center}
+.intro__lbl b{display:block;font-family:var(--f-display);font-size:1.15rem}
+.intro__lbl small{display:block;font-size:.84rem;color:var(--text-2)}
+.intro__cap{margin:0;font-size:.86rem;color:var(--text-3)}
+.intro__cap a{color:var(--gold);text-decoration:none}.intro__cap a:hover{text-decoration:underline}
+.forge__cap{position:absolute;left:14px;bottom:12px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+
+/* Start tinkering */
+.tinker{position:relative;border-radius:22px;border:1px solid rgba(240,146,12,.35);background:radial-gradient(70% 90% at 0% 0%,rgba(240,146,12,.12),transparent 60%),radial-gradient(60% 80% at 100% 100%,rgba(224,48,80,.08),transparent 60%),var(--panel);padding:clamp(22px,4vw,44px)}
+.tinker__title{margin:10px 0 8px;font-family:var(--f-display);font-weight:700;font-size:clamp(2rem,1.4rem + 2.6vw,3.2rem);line-height:1.05;letter-spacing:-.02em}
+.projects{margin-top:clamp(22px,3vw,32px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.proj{--c:var(--gold);display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:var(--r);border:1px solid var(--line);background:rgba(4,7,15,.6);min-width:0}
+.proj__top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.proj__n{font-family:var(--f-mono);font-size:.7rem;color:var(--text-3)}
+.proj__tool{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--c);padding:3px 8px;border-radius:6px;border:1px solid color-mix(in srgb,var(--c) 40%,transparent)}
+.proj h3{margin:0;font-family:var(--f-body);font-weight:700;font-size:1.1rem;line-height:1.3}
+.proj ol{margin:0;padding-left:1.2em;color:var(--text-2);font-size:.9rem;display:flex;flex-direction:column;gap:3px}
+.proj button{margin-top:auto;align-self:flex-start;cursor:pointer;font-weight:600;font-size:.88rem;padding:9px 14px;border-radius:9px;border:1px solid var(--c);background:color-mix(in srgb,var(--c) 12%,transparent);color:var(--text)}
+.proj button:hover{background:var(--c);color:#12080a}
+.aro-more{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:14px;text-decoration:none;padding:14px 18px;border-radius:12px;border:1px solid rgba(245,197,24,.45);background:linear-gradient(90deg,rgba(245,197,24,.1),rgba(168,85,247,.08))}
+.aro-more:hover{border-color:var(--gold)}
+.aro-more b{display:block;color:var(--gold)}
+.aro-more span span{font-size:.88rem;color:var(--text-2)}
+.aro-more i{font-style:normal;font-size:1.3rem;color:var(--gold)}
+
+/* Workbench shell (shared by the three tools) */
+.bench{border:1px solid var(--line-2);border-radius:18px;overflow:hidden;background:var(--panel)}
+.bench__bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(4,7,15,.6)}
+.bench__dots{display:flex;gap:6px}.bench__dots i{width:10px;height:10px;border-radius:50%;background:var(--line-2)}
+.bench__file{font-size:.8rem;color:var(--text-2)}.bench__file b{color:var(--ink);font-weight:600}
+.lang{margin-left:auto;display:inline-flex;padding:3px;border-radius:10px;border:1px solid var(--line-2);background:var(--void)}
+.lang button{cursor:pointer;border:0;background:none;padding:7px 12px;border-radius:7px;font-family:var(--f-mono);font-size:.74rem;color:var(--text-2)}
+.lang button[aria-pressed="true"][data-lang="ifa"]{background:var(--gold);color:#1b1300}
+.lang button[aria-pressed="true"][data-lang="orisa"]{background:var(--red);color:#fff}
+.lang button[aria-pressed="true"]:is([data-ink="ifa"],[data-rlang="ifa"]){background:var(--gold);color:#1b1300}
+.lang button[aria-pressed="true"]:is([data-ink="orisa"],[data-rlang="orisa"]){background:var(--red);color:#fff}
+.lang button[aria-pressed="true"][data-bview]{background:var(--gold);color:#1b1300}
+.stage svg:focus{outline:none}
+.stage svg:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.bench__body{display:grid;grid-template-columns:150px minmax(0,1fr) 300px;min-height:0}
+.tray{display:flex;flex-direction:column;gap:6px;padding:12px;border-right:1px solid var(--line);background:rgba(4,7,15,.45)}
+.tray__h{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin:6px 2px 2px}
+.tray button{cursor:pointer;display:flex;align-items:center;gap:8px;text-align:left;padding:7px 9px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.02);font-size:.8rem;color:var(--text)}
+.tray button:hover{border-color:var(--ink)}
+.tray button[aria-pressed="true"]{border-color:var(--ink);background:color-mix(in srgb,var(--ink) 12%,transparent)}
+.tray button b{font-family:var(--f-mono);color:var(--ink);min-width:20px;text-align:center}
+.tray button b .gate-ico{display:block;width:34px;height:19px}
+.tray button small{display:block;font-size:.66rem;color:var(--text-3)}
+.stage{position:relative;background:#04070f;min-width:0;border-right:1px solid var(--line)}
+.stage svg{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.stage__hint{position:absolute;left:12px;right:12px;bottom:10px;text-align:center;font-size:.76rem;color:var(--text-3);pointer-events:none}
+.side{display:flex;flex-direction:column;min-width:0;max-height:640px;overflow:auto}
+.ctl{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:9px}
+.ctl:last-child{border-bottom:0}
+.ctl__h{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3)}
+.btn-row{display:flex;flex-wrap:wrap;gap:6px}
+.mini{cursor:pointer;font-size:.8rem;padding:6px 10px;border-radius:8px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);color:var(--text)}
+.mini:hover{border-color:var(--ink);color:var(--ink)}
+.mini--warn:hover{border-color:var(--red);color:var(--red)}
+.mini[aria-pressed="true"]{background:var(--ink);color:#12080a;border-color:var(--ink)}
+.chk{display:flex;align-items:center;gap:9px;font-size:.86rem;color:var(--text-2);cursor:pointer}
+.chk input{width:16px;height:16px;accent-color:var(--gold)}
+.field{display:flex;flex-direction:column;gap:4px;font-size:.84rem;color:var(--text-2)}
+.field input,.field select{width:100%;padding:7px 10px;border-radius:8px;border:1px solid var(--line-2);background:var(--void);color:var(--text)}
+.note{font-size:.82rem;color:var(--text-3);margin:0}
+.kv{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;font-size:.84rem}
+.kv dt{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3);padding-top:2px}
+.kv dd{margin:0;font-variant-numeric:tabular-nums}
+.tt{overflow:auto;max-height:260px;border:1px solid var(--line);border-radius:10px}
+.tt table{border-collapse:collapse;width:100%;font-family:var(--f-mono);font-size:.76rem;font-variant-numeric:tabular-nums}
+.tt th,.tt td{padding:5px 8px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
+.tt th{position:sticky;top:0;background:var(--panel-2);color:var(--text-2);font-weight:500}
+.tt td.on{color:var(--ink)}
+.tt td.off{color:var(--text-3)}
+.tt tr.cur td{background:color-mix(in srgb,var(--ink) 10%,transparent)}
+.mode-orisa{--ink:var(--red)}
+.mode-orisa .chk input{accent-color:var(--red)}
+
+/* Odu register */
+.reg{display:grid;grid-template-columns:minmax(0,1fr) 300px}
+.reg__stage{padding:clamp(18px,3vw,30px);display:flex;flex-direction:column;align-items:center;gap:18px;background:#04070f;border-right:1px solid var(--line);min-width:0}
+.reg__odus{display:flex;gap:clamp(14px,4vw,40px);justify-content:center;direction:rtl}
+.odu{direction:ltr;display:flex;flex-direction:column;align-items:center;gap:10px}
+.odu__k{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)}
+.odu__marks{display:flex;flex-direction:column;gap:10px;padding:16px 20px;border-radius:14px;border:1px solid var(--line-2);background:var(--panel)}
+.mark{cursor:pointer;width:84px;height:30px;border-radius:9px;border:1px solid transparent;background:none;display:flex;align-items:center;justify-content:center;gap:14px}
+.mark:hover{border-color:var(--line-2)}
+.mark i{width:14px;height:14px;border-radius:50%;background:var(--ink);box-shadow:0 0 12px var(--ink)}
+.mark.is-double i{width:11px;height:11px;background:var(--violet);box-shadow:0 0 10px var(--violet)}
+.mode-orisa .mark.is-double i{background:#ff8ea2;box-shadow:0 0 10px #ff8ea2}
+.odu__name{font-family:var(--f-display);font-weight:700;font-size:1.25rem;color:var(--ink)}
+.reg__combo{font-family:var(--f-display);font-weight:600;font-size:clamp(1.2rem,1rem + .8vw,1.6rem);text-align:center}
+.reg__bits{display:flex;gap:4px;direction:ltr}
+.reg__bits span{width:28px;height:34px;display:grid;place-items:center;border-radius:6px;border:1px solid var(--line-2);font-family:var(--f-mono);font-size:1rem}
+.reg__bits span.on{color:var(--ink);border-color:color-mix(in srgb,var(--ink) 50%,transparent);background:color-mix(in srgb,var(--ink) 10%,transparent)}
+.reg__bits span.sep{width:8px;border:0}
+.prog{width:100%;max-width:520px;height:8px;border-radius:999px;background:rgba(150,170,230,.12);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--ink));transition:width .2s}
+
+/* Build list & glossary */
+.makes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.make{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--panel);text-decoration:none;min-width:0;transition:border-color .2s}
+.make:hover{border-color:var(--orange)}
+.make b{font-family:var(--f-body);font-weight:700;font-size:.98rem}
+.make span{font-size:.82rem;color:var(--text-2)}
+.make em{font-style:normal;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-top:auto}
+.gloss{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.gloss div{background:var(--deep);padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.gloss b{font-size:1.08rem;color:var(--gold)}
+.gloss span{font-size:.86rem;color:var(--text-2)}
+.isese{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start;margin-bottom:28px}
+.isese p{margin:0;color:var(--text-2)}
+
+
+.who{display:flex;align-items:center;gap:8px;margin-left:8px;padding-left:12px;border-left:1px solid var(--line);font-size:.8rem;color:var(--text-2);white-space:nowrap}
+.who a{text-decoration:none;font-size:.8rem;padding:6px 10px;border-radius:8px;border:1px solid var(--line-2);color:var(--text-2)}
+.who a.who__out{border-color:rgba(224,48,80,.5);background:rgba(224,48,80,.1);color:#ff9fb0}
+.who a:hover{color:var(--text)}
+.who button{cursor:pointer;font-size:.8rem;padding:6px 10px;border-radius:8px;border:1px solid rgba(224,48,80,.5);background:rgba(224,48,80,.1);color:#ff9fb0}
+.who button:hover{background:var(--red);color:#fff}
+@media (max-width:1060px){.who{margin:8px 0 0;padding:8px 0 0;border-left:0;border-top:1px solid var(--line);justify-content:space-between}}
+@media (max-width:900px){.gate{grid-template-columns:minmax(0,1fr);align-content:start}.gate__teaser{order:2}}
+
+
+/* ── Ifa Logic System & IfaGates ── */
+.h3{margin:clamp(34px,5vw,52px) 0 8px;font-family:var(--f-display);font-weight:700;font-size:clamp(1.35rem,1.1rem + 1vw,1.85rem);letter-spacing:-.01em}
+.sub--sm{font-size:.96rem;margin-bottom:18px}
+.poles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pole{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;align-items:start;padding:16px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel)}
+.pole b{display:block;font-weight:700;margin-bottom:2px}
+.pole span{font-size:.88rem;color:var(--text-2)}
+.pole__q{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;font-family:var(--f-mono);font-size:1.5rem;font-weight:600}
+.pole--ifa{border-color:rgba(245,197,24,.35)}.pole--ifa .pole__q{color:var(--gold);background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.4)}
+.pole--orisa{border-color:rgba(224,48,80,.4)}.pole--orisa .pole__q{color:#ff8ea2;background:rgba(224,48,80,.1);border:1px solid rgba(224,48,80,.45)}
+.pole--note .pole__q{font-size:1.05rem;color:var(--text-2);border:1px solid var(--line-2)}
+/* Odu marks */
+.om{display:inline-flex;flex-direction:column;gap:4px;align-items:center;justify-content:center}
+.om span{display:flex;gap:6px;height:7px;align-items:center}
+.om span i{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 6px rgba(245,197,24,.6)}
+.om span.d i{background:var(--violet);box-shadow:none}
+.om--lg{gap:7px}.om--lg span{height:11px;gap:10px}.om--lg span i{width:11px;height:11px}
+/* 16 logic systems grid */
+.ils{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;direction:rtl}
+.ils>*{direction:ltr}
+.rtl-note{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+.rtl-note b{color:var(--gold);font-weight:500}
+.il{--c:var(--gold);position:relative;display:flex;flex-direction:column;gap:8px;text-align:left;cursor:pointer;padding:14px 14px 12px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);color:var(--text);min-width:0;transition:border-color .2s,transform .2s}
+.il:hover{border-color:var(--c);transform:translateY(-2px)}
+.il[aria-pressed="true"]{border-color:var(--c);box-shadow:0 0 0 1px var(--c) inset}
+.il__top{display:flex;align-items:center;gap:12px}
+.il__top>span:last-child{display:flex;flex-direction:column;gap:1px;min-width:0}
+.il__n{font-family:var(--f-mono);font-size:.66rem;color:var(--text-3)}
+.il__name{font-family:var(--f-body);font-weight:700;font-size:1.02rem;line-height:1.15}
+.il__logic{font-family:var(--f-mono);font-size:.72rem;color:var(--c)}
+.il__law{margin:0;font-size:.84rem;color:var(--text-2);line-height:1.5}
+.il__foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;padding:3px 7px;border-radius:6px;border:1px solid var(--line-2);color:var(--text-2);white-space:nowrap}
+.chip--g{border-color:color-mix(in srgb,var(--c) 45%,transparent);color:var(--c)}
+.il__bit{font-family:var(--f-mono);font-size:.68rem;color:var(--text-3);margin-left:auto}
+/* IfaGates lab */
+.ig-pr{margin-left:auto;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
+.ig{display:grid;grid-template-columns:minmax(0,1fr) 330px}
+.ig-board-wrap{background:#04070f;padding:clamp(8px,1.6vw,18px);border-bottom:1px solid var(--line)}
+.ig-board-wrap svg{display:block;width:100%;height:auto;max-width:1000px;margin:0 auto;user-select:none;-webkit-user-select:none}
+.ig-labbar{border-top:0}
+.boards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.brd{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:start;padding:16px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel)}
+.brd svg{width:96px;height:auto;display:block}
+.brd b{display:block;font-family:var(--f-display);font-weight:700;font-size:1.08rem;color:var(--gold)}
+.brd .brd__en{display:block;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin:2px 0 6px}
+.brd span:last-child{font-size:.86rem;color:var(--text-2)}
+.ig__list{display:flex;flex-direction:column;gap:4px;padding:10px;border-right:1px solid var(--line);background:rgba(4,7,15,.45);max-height:760px;overflow:auto}
+.ig__pair{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-3);margin:8px 4px 2px}
+.ig__pair:first-child{margin-top:2px}
+.igb{cursor:pointer;display:grid;grid-template-columns:40px minmax(0,1fr);gap:9px;align-items:center;text-align:left;padding:6px 8px;border-radius:9px;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--text);font-size:.8rem}
+.igb:hover{border-color:var(--gold)}
+.igb[aria-selected="true"]{border-color:var(--gold);background:rgba(245,197,24,.1)}
+.igb b{display:block;font-weight:600;font-size:.82rem;line-height:1.2}
+.igb small{display:block;font-size:.68rem;color:var(--text-3)}
+.igb__ico{width:40px;height:22px;color:var(--gold);display:grid;place-items:center;font-family:var(--f-mono);font-size:.82rem;font-weight:600}
+.igb__ico svg{width:40px;height:22px;display:block}
+.qbox{display:inline-grid;place-items:center;min-width:30px;height:20px;padding:0 4px;border:1.6px solid currentColor;border-radius:4px;font-size:.78rem;line-height:1}
+.ig__stage{background:#04070f;border-right:1px solid var(--line);padding:clamp(16px,2.4vw,26px);display:flex;flex-direction:column;gap:16px;min-width:0}
+.ig__head{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ig__title{margin:0;font-family:var(--f-display);font-weight:700;font-size:clamp(1.4rem,1.1rem + 1vw,1.9rem);line-height:1.1}
+.ig__title small{display:block;font-family:var(--f-mono);font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:4px}
+.ig__law{margin:0;color:var(--text-2);font-size:.95rem;max-width:62ch}
+.ig__law b{color:var(--text)}
+.ig__svg{width:100%;max-width:560px;height:auto;display:block;align-self:center}
+.ig__ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+.inb{cursor:pointer;display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border-radius:10px;border:1px solid var(--line-2);background:var(--panel);color:var(--text);font-size:.86rem}
+.inb:hover{border-color:var(--gold)}
+.inb .om{min-width:24px}
+.qs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.qs button{cursor:pointer;font-family:var(--f-mono);font-size:.82rem;padding:7px 10px;border-radius:8px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);color:var(--text)}
+.qs button[aria-pressed="true"]{background:var(--gold);color:#1b1300;border-color:var(--gold)}
+.qs button:hover{border-color:var(--gold)}
+.mx{display:inline-grid;grid-template-columns:auto auto;gap:4px 18px;padding:8px 16px;border-left:2px solid var(--text-2);border-right:2px solid var(--text-2);border-radius:6px;font-family:var(--f-mono);font-size:1.02rem}
+.mx span{text-align:center;min-width:30px}
+.qrow{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center}
+.qstate{display:flex;flex-direction:column;gap:8px;min-width:220px}
+.qbar{display:grid;grid-template-columns:86px minmax(0,1fr) 52px;gap:10px;align-items:center;font-size:.82rem}
+.qbar__t{height:10px;border-radius:999px;background:rgba(150,170,230,.12);overflow:hidden}
+.qbar__t i{display:block;height:100%;background:var(--gold);transition:width .25s}
+.qbar.oy .qbar__t i{background:var(--violet)}
+.qbar span:last-child{font-family:var(--f-mono);font-size:.76rem;color:var(--text-2);text-align:right}
+.amp{font-family:var(--f-mono);font-size:.9rem;text-align:center;color:var(--text)}
+.ig__side .ctl p{margin:0;font-size:.86rem;color:var(--text-2)}
+.ig__side .ctl p b{color:var(--text)}
+.rl{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.rl li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;font-size:.84rem;color:var(--text-2)}
+.rl li i{font-style:normal;color:var(--orange);font-family:var(--f-mono)}
+.rl li b{color:var(--text);font-weight:600}
+.xsel{width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--line-2);background:var(--void);color:var(--text)}
+.ig__eq{margin:0;text-align:center;font-family:var(--f-mono);font-size:.84rem;color:var(--text-2)}
+.ig__eq b{color:var(--gold)}
+.roles{margin-top:22px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.role{display:flex;flex-direction:column;gap:4px;padding:16px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel)}
+.role i{font-style:normal;font-size:1.3rem;color:var(--orange)}
+.role b{font-weight:700}
+.role span{font-size:.86rem;color:var(--text-2)}
+.proj__pair{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-3)}
+@media (max-width:1060px){
+  .ils{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .poles,.roles,.boards{grid-template-columns:minmax(0,1fr)}
+  .ig{grid-template-columns:minmax(0,1fr)}
+  .ig__list{flex-direction:row;flex-wrap:wrap;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
+  .ig__pair{width:100%}
+  .igb{flex:1 1 180px}
+  .ig__stage{border-right:0;border-bottom:1px solid var(--line)}
+  .ig__side{max-height:none}
+}
+@media (max-width:640px){.ils{grid-template-columns:minmax(0,1fr)}.roles{grid-template-columns:minmax(0,1fr)}}
+
+/* Footer */
+.footer{border-top:1px solid var(--line);background:#03050b;padding-block:36px calc(28px + env(safe-area-inset-bottom,0px))}
+.footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.footer nav{display:flex;flex-wrap:wrap;gap:6px 18px}
+.footer a{color:var(--text-2);text-decoration:none;font-size:.9rem}.footer a:hover{color:var(--gold)}
+.footer small{font-family:var(--f-mono);font-size:.72rem;color:var(--text-3)}
+
+/* Responsive */
+@media (max-width:1060px){
+  .hero__grid,.isese{grid-template-columns:minmax(0,1fr)}
+  .projects{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .makes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bench__body{grid-template-columns:minmax(0,1fr)}
+  .tray{flex-direction:row;flex-wrap:wrap;border-right:0;border-bottom:1px solid var(--line)}
+  .tray__h{width:100%;margin:2px}
+  .stage{border-right:0;border-bottom:1px solid var(--line)}
+  .side{max-height:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .side .ctl{border-right:1px solid var(--line)}
+  .reg{grid-template-columns:minmax(0,1fr)}
+  .reg__stage{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (max-width:640px){
+  .projects,.makes,.side,.gloss{grid-template-columns:minmax(0,1fr)}
+  .side .ctl{border-right:0}
+  .lang{margin-left:0;width:100%}.lang button{flex:1}
+  .mark{width:64px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="ground" aria-hidden="true"></div>
+<div id="app">
+
+<header class="header">
+  <div class="wrap">
+    <a href="https://ifainternet.org/" class="brand"><img src="https://ifainternet.org/src/assets/itoe_logo.png" alt="The IFA Internet" width="96" height="34" onerror="this.remove()"></a>
+    <div class="crumb"><span class="crumb__k"><a href="https://ifainternet.org/ifa-labs/">IfaLabs</a> / Ifa Engineering Lab</span><span class="crumb__n">Ilé Arọ́</span></div>
+    <button class="burger" id="burger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav"><span></span><span></span><span></span></button>
+    <nav class="nav" id="nav" aria-label="Main navigation">
+      <a href="#start">Start Tinkering</a>
+      <a href="#ifalogic">Ifa Logic</a>
+      <a href="#logic">Gates &amp; Circuits</a>
+      <a href="#blueprint">Blueprints</a>
+      <a href="#register">Odu Simulator</a>
+      <a href="#yoruba">Engineering in Yoruba</a>
+      <a href="https://ifainternet.org/ifa-labs/" class="cta">← IfaLabs</a>
+      <span class="who" id="who" hidden><span id="who-name"></span><a class="who__acc" id="who-acc" href="/ifa-auth/account.php">Account</a><a class="who__out" id="who-out" href="/ifa-auth/logout.php">Log out</a></span>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div class="hero__text">
+      <div class="badge"><i aria-hidden="true"></i>IfaLabs · Ifa Engineering Lab</div>
+      <h1 class="h1">
+        <span class="h1__main">Ilé Arọ́<span class="vh">:</span></span>
+        <span class="h1__tag">The Digital <span class="h1__isese">Ìṣẹ̀ṣe</span> Workstation</span>
+        <span class="h1__rule" aria-hidden="true"></span>
+        <span class="h1__sub"><span class="gold">IfaCAD</span> and <span class="red">OrisaCAD</span> Playground</span>
+      </h1>
+      <p class="lead">The IfaLab for building Ifa-Based and Orisa-Based circuits, boards, panels, designs, logic gates, models, simulations, architectures and blueprints — with CAD in Yoruba and CAD in IfaLang and OrisaLang. This is the workshop of Ifa-Orisa Engineering, Engineering in Yoruba, and Ìṣèṣe Engineering (Isesengineering).</p>
+      <div class="builds" aria-label="What you can build">
+        <span class="i">Ifa-Based Circuits</span><span class="o">Orisa-Based Circuits</span><span>Boards</span><span>Panels</span><span>Logic Gates</span><span>Models</span><span>Simulations</span><span>Architectures</span><span>Blueprints</span><span class="i">CAD in IfaLang</span><span class="o">CAD in OrisaLang</span><span>CAD in Yoruba</span><span class="i">IfaLogic</span><span class="i">16 IfaGates</span><span>Ọpọ́n-Àrògún</span><span>Ọpọ́n-Ifá</span><span>Ìṣèṣe Engineering</span>
+      </div>
+      <div class="ctas">
+        <a href="#start" class="btn btn--p btn--big">Start Tinkering with Ifa &amp; Orisa</a>
+        <a href="#logic" class="btn btn--g">Open the workbench</a>
+      </div>
+    </div>
+    <div class="intro">
+      <div class="forge intro__media" id="intro">
+        <canvas id="forge" width="600" height="480" aria-hidden="true"></canvas>
+        <button type="button" class="intro__play" id="intro-play" aria-label="Play the Ilé Arọ́ intro video">
+          <span class="intro__btn" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg></span>
+          <span class="intro__lbl"><b>Watch the intro</b><small>Ilé Arọ́: Ìṣẹ̀ṣe Engineering (Isesengineering)</small></span>
+        </button>
+      </div>
+      <p class="intro__cap">Welcome to Ilé Arọ́. <a href="https://youtu.be/snCljLgELqk" target="_blank" rel="noopener">Watch on YouTube ↗</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Start Tinkering ═══ -->
+<section class="section section--alt" id="start">
+  <div class="wrap">
+    <div class="tinker">
+      <div class="eyebrow">Ilé Arọ́ · Starter projects</div>
+      <h2 class="tinker__title">Start Tinkering with <span class="gold">Ifa</span> &amp; <span class="red">Orisa</span></h2>
+      <p class="sub">Pick a project. It opens in the right tool, already set up, with the steps to follow. Every project works in IfaLang, and every circuit has its Dual in OrisaLang.</p>
+      <div class="projects">
+        <article class="proj" style="--c:var(--gold)">
+          <div class="proj__top"><span class="proj__n">01 · Beginner</span><span class="proj__tool">Gates</span></div>
+          <h3>Light the Ogbe lamp</h3>
+          <ol><li>Two switches feed one Àti (AND) gate.</li><li>Tap each switch until it shows a single mark (ı).</li><li>The lamp lights only when both are Ogbe.</li></ol>
+          <button type="button" data-project="ogbe-lamp">Start project</button>
+        </article>
+        <article class="proj" style="--c:var(--violet)">
+          <div class="proj__top"><span class="proj__n">02 · Beginner</span><span class="proj__tool">Circuits</span></div>
+          <h3>Read the Odu</h3>
+          <ol><li>Four switches feed the Odu display.</li><li>Set the marks to show Iwori, then Odi.</li><li>Try all 16 principal Odu.</li></ol>
+          <button type="button" data-project="encoder">Start project</button>
+        </article>
+        <article class="proj" style="--c:var(--cyan)">
+          <div class="proj__top"><span class="proj__n">03 · Intermediate</span><span class="proj__tool">Circuits</span></div>
+          <h3>Add in IfaLang: the half adder</h3>
+          <ol><li>Ọ̀kan péré (XOR) gives the sum.</li><li>Àti (AND) gives the carry.</li><li>Open the truth table to check all four cases.</li></ol>
+          <button type="button" data-project="half-adder">Start project</button>
+        </article>
+        <article class="proj" style="--c:var(--red)">
+          <div class="proj__top"><span class="proj__n">04 · Intermediate</span><span class="proj__tool">Duality</span></div>
+          <h3>Meet the Orisa Dual</h3>
+          <ol><li>Load an Àti (AND) circuit.</li><li>Switch the bench to OrisaLang.</li><li>Every signal flips, and Àti becomes Tàbí (OR).</li></ol>
+          <button type="button" data-project="duality">Start project</button>
+        </article>
+        <article class="proj" style="--c:var(--jade)">
+          <div class="proj__top"><span class="proj__n">05 · Intermediate</span><span class="proj__tool">Blueprints</span></div>
+          <h3>Draft an Ọpọ́nfá pavilion</h3>
+          <ol><li>Four round halls sit on the lobes of the Ifa Infinity.</li><li>Move a hall and watch its dimensions update.</li><li>Export the blueprint as SVG.</li></ol>
+          <button type="button" data-project="pavilion">Start project</button>
+        </article>
+        <article class="proj" style="--c:var(--orange)">
+          <div class="proj__top"><span class="proj__n">06 · Explorer</span><span class="proj__tool">Simulation</span></div>
+          <h3>Count all 256</h3>
+          <ol><li>Two Odu make eight marks: 2⁸ = 256 states.</li><li>Press Run and watch the register count.</li><li>Invert to see each state’s Orisa Dual.</li></ol>
+          <button type="button" data-project="count">Start project</button>
+        </article>
+      </div>
+      <a class="aro-more" href="#ig-projects-h"><span><b>Nine more projects with the 16 IfaGates</b><span>Day and night lamps, the clinic call system, every gate from NAND, qubits on the Ọpọ́n, and more.</span></span><i aria-hidden="true">→</i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ The Ifa Logic System & the 16 IfaGates ═══ -->
+<section class="section" id="ifalogic">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Àrògúnfá · IfaLogic</div>
+      <h2 class="h2">The Ifa Logic System</h2>
+      <p class="sub">IfaLogic is the Logic of Everything, grounded in the 16 principal Odu Ifa. Each Odu is a Law of Nature, so each Odu carries its own logic: Ogbe Logic (OgbeLogic), Oyeku Logic (OyekuLogic), and so on to Ofun Logic (OfunLogic). Each logic rules one of the 16 IfaGates.</p>
+    </div>
+
+    <div class="poles">
+      <div class="pole pole--ifa">
+        <span class="pole__q" aria-hidden="true">∀</span>
+        <div><b>IfaLogic · Àrògúnfá</b><span>Grounded in Ogbe (ı), active energy. It speaks For All (∀): a law that holds everywhere.</span></div>
+      </div>
+      <div class="pole pole--orisa">
+        <span class="pole__q" aria-hidden="true">∃</span>
+        <div><b>OrisaLogic · Àrògúnòòṣà</b><span>The Dual of IfaLogic, grounded in Oyeku (॥), anergy. It speaks There Exists (∃).</span></div>
+      </div>
+      <div class="pole pole--note">
+        <span class="pole__q" aria-hidden="true">ı॥</span>
+        <div><b>Two readings of the same marks</b><span>In circuits, Ilé Arọ́ reads a single mark (ı) as Ogbe energy, 1, as IfaLogic does. The Ifa Periodic Table’s IFABit writes the double mark as 1, so OgbeBit is 0000. Each reading is the other’s Dual.</span></div>
+      </div>
+    </div>
+
+    <h3 class="h3">The 16 Ifa Logic Systems</h3>
+    <p class="sub sub--sm">Each card is one Odu’s Law of Nature, read as logic. The SIDECHRX principles pair the 16 Odu into eight pairs, and each pair rules a gate and its Dual. Tap a card to open its IfaGate in the lab.</p>
+    <p class="rtl-note" aria-label="Read right to left, as in Ifa tradition"><span>← 16 Ofun</span><span>Read right to left, as in Ifa tradition</span><span><b>Ogbe 1</b> →</span></p>
+    <div class="ils" id="ils"></div>
+
+    <h3 class="h3">Boards in Yoruba: Ọpọ́n-Àrògún àti Ọpọ́n-Ifá</h3>
+    <div class="boards">
+      <div class="brd">
+        <svg viewBox="0 0 120 80" aria-hidden="true"><rect x="4" y="6" width="112" height="68" rx="8" fill="#0d3b2e" stroke="#2f6b55" stroke-width="2"/><g fill="none" stroke="#e4efe8" stroke-opacity=".5" stroke-dasharray="3 2"><rect x="12" y="14" width="44" height="26" rx="3"/><rect x="64" y="14" width="44" height="26" rx="3"/><rect x="12" y="44" width="44" height="24" rx="3"/><rect x="64" y="44" width="44" height="24" rx="3"/></g><g fill="#ff3b4f"><circle cx="20" cy="22" r="2.6"/><circle cx="72" cy="22" r="2.6"/><circle cx="20" cy="52" r="2.6"/><circle cx="72" cy="52" r="2.6"/></g><g fill="#39e07a"><circle cx="48" cy="27" r="3"/><circle cx="100" cy="27" r="3"/><circle cx="48" cy="56" r="3"/><circle cx="100" cy="56" r="3"/></g></svg>
+        <div><b>Ọpọ́n-Àrògún</b><span class="brd__en">Logic Board</span><span>A trainer board that lays out logic gates with switches for inputs and lights for outputs. Àrògún is logic; ọpọ́n is a board or tray.</span></div>
+      </div>
+      <div class="brd">
+        <svg viewBox="0 0 120 80" aria-hidden="true"><circle cx="60" cy="40" r="36" fill="#5a3519" stroke="#2a170a" stroke-width="2"/><circle cx="60" cy="40" r="27" fill="#1d1209" stroke="#c48a52" stroke-width="1.5"/><g fill="#c48a52"><circle cx="60" cy="8" r="3"/><circle cx="60" cy="72" r="3"/><circle cx="28" cy="40" r="3"/><circle cx="92" cy="40" r="3"/></g><g fill="#f5c518"><circle cx="54" cy="30" r="2.4"/><circle cx="66" cy="30" r="2.4"/><circle cx="60" cy="38" r="2.4"/><circle cx="54" cy="46" r="2.4"/><circle cx="66" cy="46" r="2.4"/><circle cx="60" cy="54" r="2.4"/></g></svg>
+        <div><b>Ọpọ́n-Ifá</b><span class="brd__en">Ifa Board</span><span>The carved Ifa tray on which the Odu are marked. It is the first board of Ifa logic: 16 Odu, read from the same face.</span></div>
+      </div>
+      <div class="brd">
+        <svg viewBox="0 0 120 80" aria-hidden="true"><rect x="4" y="6" width="112" height="68" rx="6" fill="#0d3b2e" stroke="#2f6b55" stroke-width="2"/><g fill="none" stroke="#b8753a" stroke-width="2.2"><path d="M14 20H40V40H60"/><path d="M14 60H34V48H60"/><path d="M84 44H106V24"/><path d="M84 52H96V66"/></g><rect x="56" y="30" width="30" height="28" rx="2" fill="#111" stroke="#e4efe8" stroke-opacity=".6"/><g fill="#f5c518"><circle cx="14" cy="20" r="3"/><circle cx="14" cy="60" r="3"/><circle cx="106" cy="24" r="3"/><circle cx="96" cy="66" r="3"/></g></svg>
+        <div><b>Ọpọ́n-Àrògún Ayíbírí</b><span class="brd__en">Printed Circuit Board (PCB)</span><span>A logic board with its circuits printed in copper. The circuit board in the workbench below is an Ọpọ́n-Àrògún Ayíbírí.</span></div>
+      </div>
+    </div>
+    <p class="sub sub--sm" style="margin-top:14px">Ọpọ́n-Ifá and the PCB are two boards for the same work: the Ifa tray holds the Odu that the logic comes from, and the PCB holds the gates built from that logic. Below, the 16 IfaGates sit on both.</p>
+
+    <h3 class="h3" id="ifagates-h">The 16 IfaGates on the Ọpọ́n</h3>
+    <p class="sub sub--sm">The 16 IfaGates are the Builders, Connectors, Integrators and Containers of every field, technology and system. Flip a switch on the Ọpọ́n-Àrògún, or switch to the Ọpọ́n-Ifá to see all 16 gates read the same two marks. Tap any gate to open it in the lab.</p>
+    <div class="bench" id="ig-bench">
+      <div class="bench__bar">
+        <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="bench__file">ilé-arọ́ / <b id="ig-file">opon-arogun.ifacad</b></span>
+        <div class="lang" role="group" aria-label="Board">
+          <button type="button" data-bview="aro" aria-pressed="true">Ọpọ́n-Àrògún · Logic Board</button>
+          <button type="button" data-bview="ifa" aria-pressed="false">Ọpọ́n-Ifá · Ifa Board</button>
+        </div>
+      </div>
+      <div class="ig-board-wrap"><svg id="ig-board" viewBox="0 0 1000 780" role="img" aria-label="The 16 IfaGates on a board. Tap a switch to flip an input, or tap a gate to open it in the lab."></svg></div>
+      <div class="bench__bar ig-labbar"><span class="bench__file">IfaGate Lab</span><span class="ig-pr" id="ig-pr"></span></div>
+      <div class="ig">
+        <div class="ig__stage" id="ig-stage" aria-live="polite"></div>
+        <div class="side ig__side" id="ig-side"></div>
+      </div>
+    </div>
+
+    <div class="roles">
+      <div class="role"><i aria-hidden="true">⌂</i><b>Builders</b><span>Gates construct things: alarms, adders, memories, whole computers.</span></div>
+      <div class="role"><i aria-hidden="true">⇄</i><b>Connectors</b><span>Gates join one system to another and decide what passes between them.</span></div>
+      <div class="role"><i aria-hidden="true">⊕</i><b>Integrators</b><span>Gates merge many signals, fields and parts into one working whole.</span></div>
+      <div class="role"><i aria-hidden="true">▣</i><b>Containers</b><span>Gates hold states, data and rules. The 𝒳 gate holds every two-input gate.</span></div>
+    </div>
+
+    <h3 class="h3" id="ig-projects-h">IfaGate projects</h3>
+    <p class="sub sub--sm">One project for each SIDECHRX pair. Each one opens on the workbench or in the lab, already set up.</p>
+    <div class="projects" id="ig-projects"></div>
+  </div>
+</section>
+
+<!-- ═══ Logic & Circuits Workbench ═══ -->
+<section class="section" id="logic">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Tool 1 · Ọpọ́n-Àrògún Ayíbírí · Circuit board (PCB)</div>
+      <h2 class="h2">Logic &amp; Circuits Workbench</h2>
+      <p class="sub">Build Ifa-Based and Orisa-Based circuits. Every signal is an Ifa mark: a single mark (ı) carries Ogbe energy, 1; a double mark (॥) carries Oyeku, 0. Switch the bench to OrisaLang to see the same circuit as its Dual. This board is your Ọpọ́n-Àrògún Ayíbírí, a printed circuit board, and it carries the eight classical IfaGates plus the 𝒳 gate.</p>
+    </div>
+    <div class="bench" id="lg-bench">
+      <div class="bench__bar">
+        <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="bench__file" id="lg-file">ilé-arọ́ / <b>circuit.ifacad</b></span>
+        <div class="lang" role="group" aria-label="Circuit language">
+          <button type="button" data-lang="ifa" aria-pressed="true">IfaLang · IfaCAD</button>
+          <button type="button" data-lang="orisa" aria-pressed="false">OrisaLang · OrisaCAD</button>
+        </div>
+      </div>
+      <div class="bench__body">
+        <div class="tray" role="toolbar" aria-label="Components">
+          <div class="tray__h">Inputs</div>
+          <button type="button" data-add="switch"><b>ı</b><span>Switch<small>Yípadà</small></span></button>
+          <button type="button" data-add="clock"><b>⟲</b><span>Clock<small>Aago</small></span></button>
+          <div class="tray__h">Gates</div>
+          <button type="button" data-add="buf"><b>▷</b><span>Buffer<small>Àtúnwí · Ejiogbe</small></span></button>
+          <button type="button" data-add="not"><b>¬</b><span>NOT<small>Kò · Oyeku</small></span></button>
+          <button type="button" data-add="and"><b>∧</b><span>AND<small>Àti · Iwori</small></span></button>
+          <button type="button" data-add="nand"><b>⊼</b><span>NAND<small>Kò-àti · Odi</small></span></button>
+          <button type="button" data-add="or"><b>∨</b><span>OR<small>Tàbí · Irosun</small></span></button>
+          <button type="button" data-add="nor"><b>⊽</b><span>NOR<small>Kò-tàbí · Owonrin</small></span></button>
+          <button type="button" data-add="xor"><b>⊕</b><span>XOR<small>Ọ̀kan péré · Obara</small></span></button>
+          <button type="button" data-add="xnor"><b>⊙</b><span>XNOR<small>Bákan náà · Okanran</small></span></button>
+          <button type="button" data-add="ifax"><b>𝒳</b><span>𝒳 gate<small>IfaX · Ofun</small></span></button>
+          <div class="tray__h">Outputs</div>
+          <button type="button" data-add="lamp"><b>◉</b><span>Lamp<small>Iná</small></span></button>
+          <button type="button" data-add="odu"><b>⁞</b><span>Odu display<small>Odù</small></span></button>
+        </div>
+        <div class="stage">
+          <svg id="lg-svg" viewBox="0 0 1000 620" aria-label="Circuit board. Drag components, drag from an output port to an input port to wire them, tap switches to flip them.">
+            <defs>
+              <pattern id="lg-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(150,170,230,.07)" stroke-width="1"/></pattern>
+              <pattern id="lg-grid2" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0H0V100" fill="none" stroke="rgba(150,170,230,.13)" stroke-width="1"/></pattern>
+            </defs>
+            <rect width="1000" height="620" fill="#04070f"/><rect width="1000" height="620" fill="url(#lg-grid)"/><rect width="1000" height="620" fill="url(#lg-grid2)"/>
+            <g id="lg-wires"></g>
+            <path id="lg-temp" fill="none" stroke="rgba(236,240,250,.7)" stroke-width="2.5" stroke-dasharray="6 5" d=""/>
+            <g id="lg-parts"></g>
+          </svg>
+          <div class="stage__hint" id="lg-hint">Drag from a right-hand port to a left-hand port to wire. Tap a switch to flip it.</div>
+        </div>
+        <div class="side">
+          <div class="ctl">
+            <div class="ctl__h">Board</div>
+            <div class="btn-row">
+              <button type="button" class="mini" id="lg-run" aria-pressed="false">Run clock</button>
+              <button type="button" class="mini mini--warn" id="lg-del" disabled>Delete selected</button>
+              <button type="button" class="mini" id="lg-undo">Undo</button>
+              <button type="button" class="mini" id="lg-clear">Clear</button>
+            </div>
+            <p class="note" id="lg-sel">Nothing selected. Tap a part or a wire to select it.</p>
+          </div>
+          <div class="ctl" id="lg-xctl" hidden>
+            <div class="ctl__h">𝒳 gate · truth table Odu</div>
+            <select id="lg-xodu" class="xsel" aria-label="Truth table Odu for the selected 𝒳 gate"></select>
+            <p class="note">The four marks, top to bottom, are the outputs for inputs ॥॥, ॥ı, ı॥, ıı.</p>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Example circuits</div>
+            <select id="lg-preset" aria-label="Load an example circuit" style="padding:7px 10px;border-radius:8px;border:1px solid var(--line-2);background:var(--void);color:var(--text)">
+              <option value="">Load an example…</option>
+              <option value="ogbe-lamp">Light the Ogbe lamp (AND)</option>
+              <option value="encoder">Read the Odu (4 switches)</option>
+              <option value="half-adder">Half adder</option>
+              <option value="full-adder">Full adder</option>
+              <option value="duality">De Morgan: OR from AND</option>
+              <option value="blinker">Clock blinker</option>
+              <optgroup label="IfaGate projects">
+                <option value="ig-daynight">Day and night lamps (Buffer, NOT)</option>
+                <option value="ig-nand">Every gate from NAND (Odi)</option>
+                <option value="ig-clinic">Clinic call system (OR, NOR)</option>
+                <option value="ig-stairs">Two-way staircase lamp (XOR, XNOR)</option>
+                <option value="ig-x">Every gate is an Odu (𝒳)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Truth table</div>
+            <div class="tt" id="lg-tt"><p class="note" style="padding:10px">Add switches and outputs to see the table.</p></div>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Reading the marks</div>
+            <dl class="kv" id="lg-key"></dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Blueprint & Design Studio ═══ -->
+<section class="section section--alt" id="blueprint">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Tool 2 · Architectures, panels, designs</div>
+      <h2 class="h2">Blueprint &amp; Design Studio</h2>
+      <p class="sub">Draft architectures, panels, boards and models on a measured grid: one square is one metre. Draw walls, rooms, round halls and the Ifa Infinity itself, in Ifa or Orisa ink, and export your blueprint.</p>
+    </div>
+    <div class="bench" id="bp-bench">
+      <div class="bench__bar">
+        <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="bench__file" id="bp-file">ilé-arọ́ / <b>blueprint.ifacad</b></span>
+        <div class="lang" role="group" aria-label="Ink">
+          <button type="button" data-ink="ifa" aria-pressed="true">Ifa ink</button>
+          <button type="button" data-ink="orisa" aria-pressed="false">Orisa ink</button>
+        </div>
+      </div>
+      <div class="bench__body">
+        <div class="tray" role="toolbar" aria-label="Drawing tools">
+          <div class="tray__h">Tools</div>
+          <button type="button" data-bt="select" aria-pressed="true"><b>↖</b><span>Select<small>Yàn</small></span></button>
+          <button type="button" data-bt="line" aria-pressed="false"><b>╱</b><span>Wall<small>Ògiri</small></span></button>
+          <button type="button" data-bt="rect" aria-pressed="false"><b>▭</b><span>Room / panel<small>Yàrá</small></span></button>
+          <button type="button" data-bt="circle" aria-pressed="false"><b>◯</b><span>Round hall<small>Ọpọ́n</small></span></button>
+          <button type="button" data-bt="inf" aria-pressed="false"><b>∞</b><span>Ifa Infinity<small>Òbìrìkìtí</small></span></button>
+          <button type="button" data-bt="text" aria-pressed="false"><b>T</b><span>Label<small>Àkọlé</small></span></button>
+        </div>
+        <div class="stage">
+          <svg id="bp-svg" viewBox="0 0 1000 640" aria-label="Blueprint sheet">
+            <defs>
+              <pattern id="bp-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(80,140,255,.13)" stroke-width="1"/></pattern>
+              <pattern id="bp-grid2" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0H0V100" fill="none" stroke="rgba(80,140,255,.26)" stroke-width="1"/></pattern>
+            </defs>
+            <rect width="1000" height="640" fill="#06132b"/><rect width="1000" height="640" fill="url(#bp-grid)"/><rect width="1000" height="640" fill="url(#bp-grid2)"/>
+            <g id="bp-shapes"></g>
+            <g id="bp-ui"></g>
+            <g id="bp-tblock" font-family="IBM Plex Mono, monospace" font-size="11" fill="rgba(200,215,255,.8)">
+              <rect x="760" y="580" width="230" height="50" fill="rgba(6,19,43,.9)" stroke="rgba(200,215,255,.5)"/>
+              <text x="770" y="598" font-family="Noto Sans, sans-serif">ILÉ ARỌ́ · IFALABS</text><text x="770" y="616" id="bp-tb-name">BLUEPRINT · SCALE 1 SQ = 1 M</text>
+            </g>
+          </svg>
+          <div class="stage__hint" id="bp-hint">Select a shape to move it, or pick a tool and drag on the sheet.</div>
+        </div>
+        <div class="side">
+          <div class="ctl" id="bp-props" hidden>
+            <div class="ctl__h">Selected · <span id="bp-type">Wall</span></div>
+            <dl class="kv" id="bp-dims"></dl>
+            <label class="field" id="bp-text-wrap" hidden>Label text <input type="text" id="bp-text" maxlength="40"></label>
+            <div class="btn-row"><button type="button" class="mini" id="bp-dup">Duplicate</button><button type="button" class="mini mini--warn" id="bp-del">Delete</button></div>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Sheet</div>
+            <label class="chk"><input type="checkbox" id="bp-snap" checked> Snap to grid (0.5 m)</label>
+            <label class="chk"><input type="checkbox" id="bp-dim" checked> Show dimensions</label>
+            <div class="btn-row"><button type="button" class="mini" id="bp-undo">Undo</button><button type="button" class="mini" id="bp-clear">Clear</button><button type="button" class="mini" id="bp-export">Export SVG</button></div>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Start from</div>
+            <div class="btn-row" style="flex-direction:column;align-items:stretch">
+              <button type="button" class="mini" data-bp-preset="pavilion">Ọpọ́nfá pavilion plan</button>
+              <button type="button" class="mini" data-bp-preset="panel">Odu circuit panel (4 × 4)</button>
+              <button type="button" class="mini" data-bp-preset="plaza">Ifa Infinity plaza</button>
+            </div>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Sheet totals</div>
+            <dl class="kv" id="bp-totals"></dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Odu Register Simulator ═══ -->
+<section class="section" id="register">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Tool 3 · Models &amp; simulations</div>
+      <h2 class="h2">Odu Register Simulator</h2>
+      <p class="sub">Two Odu side by side make eight marks: 2⁸ = 256 states, the 256 Odu Ifa. Read right to left. Tap any mark to flip it, step through the states, or run the register on a clock and watch it count.</p>
+    </div>
+    <div class="bench" id="rg-bench">
+      <div class="bench__bar">
+        <span class="bench__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="bench__file">ilé-arọ́ / <b>odu-register.ifacad</b></span>
+        <div class="lang" role="group" aria-label="Register language">
+          <button type="button" data-rlang="ifa" aria-pressed="true">IfaLang</button>
+          <button type="button" data-rlang="orisa" aria-pressed="false">OrisaLang (Dual)</button>
+        </div>
+      </div>
+      <div class="reg">
+        <div class="reg__stage">
+          <div class="reg__odus" id="rg-odus"></div>
+          <div class="reg__combo" id="rg-combo">Ogbe Meji</div>
+          <div class="reg__bits" id="rg-bits" aria-label="Binary value"></div>
+          <div class="prog" aria-hidden="true"><i id="rg-prog"></i></div>
+        </div>
+        <div class="side" style="max-height:none">
+          <div class="ctl">
+            <div class="ctl__h">State</div>
+            <dl class="kv">
+              <dt>Number</dt><dd id="rg-dec">255</dd>
+              <dt>Binary</dt><dd id="rg-bin">1111 1111</dd>
+              <dt>Hex</dt><dd id="rg-hex">FF</dd>
+              <dt>Position</dt><dd id="rg-pos">256 of 256</dd>
+            </dl>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Operations</div>
+            <div class="btn-row">
+              <button type="button" class="mini" data-op="dec">− 1</button>
+              <button type="button" class="mini" data-op="inc">+ 1</button>
+              <button type="button" class="mini" data-op="rot">Rotate</button>
+              <button type="button" class="mini" data-op="inv">Invert (Dual)</button>
+              <button type="button" class="mini" data-op="swap">Swap Odu</button>
+              <button type="button" class="mini" data-op="rand">Random</button>
+            </div>
+          </div>
+          <div class="ctl">
+            <div class="ctl__h">Clock</div>
+            <div class="btn-row"><button type="button" class="mini" id="rg-run" aria-pressed="false">Run</button>
+              <select id="rg-rule" aria-label="Rule on each tick" style="padding:6px 8px;border-radius:8px;border:1px solid var(--line-2);background:var(--void);color:var(--text);font-size:.8rem">
+                <option value="inc">Count up (+1)</option><option value="dec">Count down (−1)</option><option value="rot">Rotate</option><option value="inv">Invert each tick</option>
+              </select></div>
+            <label class="field">Speed <input type="range" id="rg-speed" min="1" max="20" value="6" style="accent-color:var(--gold)"></label>
+          </div>
+          <div class="ctl">
+            <p class="note">Order of digits: the right Odu first, then the left; within each Odu, top mark first. A single mark (ı) is 1 and a double mark (॥) is 0.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ What you can build ═══ -->
+<section class="section section--alt" id="build">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">In Ilé Arọ́</div>
+      <h2 class="h2">What you can build</h2>
+      <p class="sub">Every build here is an Ifa-Orisa Design: made in IfaLang with IfaCAD, or in OrisaLang with OrisaCAD.</p>
+    </div>
+    <div class="makes">
+      <a class="make" href="#logic"><b>Ifa-Based &amp; Orisa-Based Circuits</b><span>Wire switches, gates and outputs; flip to the Orisa Dual.</span><em>Workbench</em></a>
+      <a class="make" href="#logic"><b>Logic Gates</b><span>Àti, Tàbí, Kò, Ọ̀kan péré, Kò-àti and Kò-tàbí, with live truth tables.</span><em>Workbench</em></a>
+      <a class="make" href="#logic"><b>Boards</b><span>Lay out complete circuit boards: adders, encoders, clocks.</span><em>Workbench</em></a>
+      <a class="make" href="#ifalogic"><b>The Ifa Logic System</b><span>The 16 Ifa Logic Systems, from OgbeLogic to OfunLogic.</span><em>Ifa Logic</em></a>
+      <a class="make" href="#ifagates-h"><b>The 16 IfaGates</b><span>Classical, IfaPauli and 𝒳 gates on the Ọpọ́n-Àrògún and the Ọpọ́n-Ifá.</span><em>IfaGate Lab</em></a>
+      <a class="make" href="#blueprint"><b>Panels</b><span>Draft control panels and Odu panels to scale.</span><em>Blueprint Studio</em></a>
+      <a class="make" href="#blueprint"><b>Designs &amp; Models</b><span>Compose with walls, rooms, round halls and the Ifa Infinity.</span><em>Blueprint Studio</em></a>
+      <a class="make" href="#blueprint"><b>Architectures &amp; Blueprints</b><span>Measured plans in metres, exported as SVG.</span><em>Blueprint Studio</em></a>
+      <a class="make" href="#register"><b>Simulations</b><span>Run the 256-state Odu register on a clock.</span><em>Odu Simulator</em></a>
+      <a class="make" href="#yoruba"><b>CAD in Yoruba</b><span>Every tool carries its Yoruba name.</span><em>Glossary</em></a>
+      <a class="make" href="#logic"><b>CAD in IfaLang &amp; OrisaLang</b><span>Switch any bench between IfaLang and OrisaLang.</span><em>All tools</em></a>
+      <a class="make" href="#yoruba"><b>Ifa-Orisa Engineering</b><span>Engineering grounded in the duality of Ifa and Orisa.</span><em>About</em></a>
+      <a class="make" href="#yoruba"><b>Engineering in Yoruba</b><span>Learn the words of the workshop.</span><em>Glossary</em></a>
+      <a class="make" href="#yoruba"><b>Ìṣèṣe Engineering</b><span>Isesengineering: engineering rooted in Ìṣèṣe.</span><em>About</em></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Engineering in Yoruba ═══ -->
+<section class="section" id="yoruba">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">Ìṣèṣe Engineering · Isesengineering</div>
+      <h2 class="h2">Engineering in Yoruba</h2>
+    </div>
+    <div class="isese">
+      <p><strong>Ifa-Orisa Engineering</strong> builds in two dual languages. Ifaided designs are built in IfaLang, and Orisaided designs are built in OrisaLang. In Ilé Arọ́, every circuit has its Dual: flip each mark, and Àti becomes Tàbí.</p>
+      <p><strong>Ìṣèṣe Engineering (Isesengineering)</strong> is engineering rooted in Ìṣèṣe — Yoruba heritage and its ways of knowing — and spoken in Yoruba. The words below name the parts and tools of this workshop.</p>
+    </div>
+    <div class="gloss">
+      <div><b>Àti</b><span>and · the AND gate</span></div>
+      <div><b>Tàbí</b><span>or · the OR gate</span></div>
+      <div><b>Kò</b><span>not · the NOT gate</span></div>
+      <div><b>Ọ̀kan péré</b><span>only one · the XOR gate</span></div>
+      <div><b>Ọ̀kan · Òdo</b><span>one · zero</span></div>
+      <div><b>Iná</b><span>fire, light · the lamp</span></div>
+      <div><b>Aago</b><span>clock · the clock input</span></div>
+      <div><b>Yípadà</b><span>change, turn · the switch</span></div>
+      <div><b>Ẹ̀rọ</b><span>machine</span></div>
+      <div><b>Ògiri</b><span>wall</span></div>
+      <div><b>Yàrá</b><span>room</span></div>
+      <div><b>Àwòrán</b><span>picture, drawing · a design</span></div>
+      <div><b>Àrògún</b><span>logic</span></div>
+      <div><b>Àrògúnfá · Àrògúnòòṣà</b><span>IfaLogic · OrisaLogic, its Dual</span></div>
+      <div><b>Ìlà àrògún · Ọ̀nàrògún</b><span>logic gate</span></div>
+      <div><b>Ọpọ́n-Àrògún</b><span>logic board</span></div>
+      <div><b>Ọpọ́n-Ifá</b><span>Ifa board · the Ifa tray</span></div>
+      <div><b>Ọpọ́n-Àrògún Ayíbírí</b><span>printed circuit board (PCB)</span></div>
+      <div><b>Bákan náà</b><span>the same · the XNOR gate</span></div>
+      <div><b>Àtúnwí</b><span>repetition · the Buffer gate</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <nav aria-label="Footer"><a href="https://ifainternet.org/ifa-labs/">IfaLabs</a><a href="https://ifainternet.org/ifa-labs/#ise-ona">Iṣẹ́ Ọnà Ayárabíàṣá</a><a href="https://ifainternet.org/ifagram/">IfaDiagram</a><a href="https://playifagames.org/" target="_blank" rel="noopener">Play IfaGames ↗</a><a href="https://toe.cenproject.org/ifalabs-toelabs/" target="_blank" rel="noopener">ToELabs ↗</a></nav>
+    <small>© 2026 Ilé Arọ́ · IfaLabs · The IFA Internet · CENProject</small>
+  </div>
+</footer>
+</div>
+
+<script>
+"use strict";
+const PI = Math.PI;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const go = (id) => document.getElementById(id).scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+
+/* Ifa Infinity geometry — same curve as the IfaDiagram artworks */
+function buildHLobe(t0, t1, a, cx, cy, N) { const p = []; for (let i = 0; i <= N; i++) { const t = t0 + (t1 - t0) * i / N; const c2 = Math.cos(2 * t); if (c2 < 1e-10) continue; const r = a * Math.sqrt(c2); p.push([cx + r * Math.cos(t), cy + r * Math.sin(t)]); } return p; }
+function buildVLobe(t0, t1, a, cx, cy, N) { const p = []; for (let i = 0; i <= N; i++) { const t = t0 + (t1 - t0) * i / N; const m = -Math.cos(2 * t); if (m < 1e-10) continue; const r = a * Math.sqrt(m); p.push([cx + r * Math.cos(t), cy + r * Math.sin(t)]); } return p; }
+function allLobes(a, cx, cy, N = 600) { return [buildHLobe(-PI / 4, PI / 4, a, cx, cy, N), buildHLobe(3 * PI / 4, 5 * PI / 4, a, cx, cy, N), buildVLobe(PI / 4, 3 * PI / 4, a, cx, cy, N), buildVLobe(5 * PI / 4, 7 * PI / 4, a, cx, cy, N)]; }
+function sPts(ctx, pts, lw, rgba, blur) { ctx.save(); ctx.strokeStyle = rgba; ctx.lineWidth = lw; ctx.shadowColor = rgba; ctx.shadowBlur = blur; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke(); ctx.restore(); }
+function gLobe(ctx, pts, s) { sPts(ctx, pts, 44 * s, 'rgba(245,197,24,0.03)', 65 * s); sPts(ctx, pts, 26 * s, 'rgba(245,197,24,0.07)', 44 * s); sPts(ctx, pts, 15 * s, 'rgba(245,197,24,0.16)', 28 * s); sPts(ctx, pts, 7 * s, 'rgba(245,197,24,0.34)', 16 * s); sPts(ctx, pts, 3 * s, 'rgba(245,197,24,0.62)', 8 * s); sPts(ctx, pts, 1.4 * s, 'rgba(245,197,24,0.90)', 4 * s); sPts(ctx, pts, 0.7 * s, 'rgba(255,248,210,0.95)', 2 * s); }
+
+/* The 16 principal Odu: single mark (ı) = 1, double mark (॥) = 0, top row first */
+const XFN = { '0000': 'always 0', '0001': 'AND', '0010': 'A·¬B', '0011': 'A', '0100': '¬A·B', '0101': 'B', '0110': 'XOR', '0111': 'OR', '1000': 'NOR', '1001': 'XNOR', '1010': '¬B', '1011': 'A+¬B', '1100': '¬A', '1101': '¬A+B', '1110': 'NAND', '1111': 'always 1' };
+// OrisaLang Dual of a two-input truth table: f*(a, b) = not f(not a, not b)
+const xDual = (m) => m.split('').reverse().map(c => c === '1' ? '0' : '1').join('');
+const ODU16 = { '1111': 'Ogbe', '0000': 'Oyeku', '0110': 'Iwori', '1001': 'Odi', '1100': 'Irosun', '0011': 'Owonrin', '1000': 'Obara', '0001': 'Okanran', '1110': 'Ogunda', '0111': 'Osa', '0100': 'Ika', '0010': 'Oturupon', '1011': 'Otura', '1101': 'Irete', '1010': 'Ose', '0101': 'Ofun' };
+
+/* Header menu */
+(function () { const b = $('burger'), n = $('nav'); b.addEventListener('click', () => { const o = b.getAttribute('aria-expanded') !== 'true'; b.setAttribute('aria-expanded', o); n.classList.toggle('is-open', o); }); n.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { b.setAttribute('aria-expanded', 'false'); n.classList.remove('is-open'); })); })();
+
+/* ═══ Hero: the Ifa Infinity traced as a circuit board ═══ */
+(function () {
+  const cv = $('forge'); const W = 600, H = 480, dpr = Math.min(devicePixelRatio || 1, 2);
+  cv.width = W * dpr; cv.height = H * dpr; const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const cx = W / 2, cy = H / 2, a = 150, s = a / 200, lobes = allLobes(a, cx, cy, 400);
+  const base = document.createElement('canvas'); base.width = W * dpr; base.height = H * dpr; const b = base.getContext('2d'); b.setTransform(dpr, 0, 0, dpr, 0, 0);
+  b.fillStyle = '#04070f'; b.fillRect(0, 0, W, H);
+  b.strokeStyle = 'rgba(150,170,230,.06)'; b.lineWidth = 1; for (let x = 0; x <= W; x += 20) { b.beginPath(); b.moveTo(x + .5, 0); b.lineTo(x + .5, H); b.stroke(); } for (let y = 0; y <= H; y += 20) { b.beginPath(); b.moveTo(0, y + .5); b.lineTo(W, y + .5); b.stroke(); }
+  const traces = [[[cx + a, cy], [W - 40, cy], [W - 40, 60]], [[cx - a, cy], [40, cy], [40, H - 60]], [[cx, cy - a], [cx, 30], [W - 120, 30]], [[cx, cy + a], [cx, H - 30], [120, H - 30]], [[cx + a * .7, cy - a * .45], [cx + a * .7 + 80, cy - a * .45 - 80], [W - 90, cy - a * .45 - 80]], [[cx - a * .7, cy + a * .45], [cx - a * .7 - 80, cy + a * .45 + 80], [90, cy + a * .45 + 80]]];
+  traces.forEach((t, i) => { b.strokeStyle = i % 2 ? 'rgba(224,48,80,.45)' : 'rgba(240,146,12,.45)'; b.lineWidth = 2; b.beginPath(); t.forEach((p, j) => j ? b.lineTo(p[0], p[1]) : b.moveTo(p[0], p[1])); b.stroke(); const e = t[t.length - 1]; b.fillStyle = '#04070f'; b.strokeStyle = 'rgba(236,240,250,.6)'; b.lineWidth = 1.5; b.beginPath(); b.arc(e[0], e[1], 6, 0, 2 * PI); b.fill(); b.stroke(); });
+  [[70, 70], [W - 150, H - 110]].forEach(([x, y]) => { b.fillStyle = '#0b1226'; b.strokeStyle = 'rgba(150,170,230,.4)'; b.fillRect(x, y, 80, 46); b.strokeRect(x + .5, y + .5, 80, 46); for (let k = 0; k < 4; k++) { b.fillStyle = 'rgba(150,170,230,.5)'; b.fillRect(x + 10 + k * 18, y - 6, 6, 6); b.fillRect(x + 10 + k * 18, y + 46, 6, 6); } b.fillStyle = 'rgba(240,146,12,.85)'; b.font = '600 11px "IBM Plex Mono", monospace'; b.fillText(x < 100 ? 'IFA·01' : 'ORISA·01', x + 12, y + 28); });
+  for (const l of lobes) gLobe(b, l, s);
+  const paths = lobes.map(l => l.filter((_, i) => i % 2 === 0));
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0, 0, W, H); ctx.drawImage(base, 0, 0, W, H);
+    paths.forEach((p, i) => { for (let k = 0; k < 2; k++) { const idx = Math.floor(((t * (0.6 + i * 0.1) + k * 0.5 + i * 0.25) % 1) * p.length); const q = p[idx]; if (!q) continue; ctx.save(); ctx.fillStyle = i % 2 ? '#ff6b85' : '#fff2b8'; ctx.shadowColor = i % 2 ? '#e03050' : '#f5c518'; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(q[0], q[1], 3.2, 0, 2 * PI); ctx.fill(); ctx.restore(); } });
+    ctx.save(); ctx.fillStyle = '#fff8d2'; ctx.shadowColor = '#f5c518'; ctx.shadowBlur = 18; ctx.beginPath(); ctx.arc(cx, cy, 4, 0, 2 * PI); ctx.fill(); ctx.restore();
+    t += 0.0035; if (!reduceMotion) requestAnimationFrame(frame);
+  }
+  frame();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { b.fillStyle = '#0b1226'; });
+})();
+
+/* ═══ Intro video (click to load, so YouTube loads only when asked) ═══ */
+$('intro-play').addEventListener('click', () => {
+  const box = $('intro'), f = document.createElement('iframe');
+  f.src = 'https://www.youtube-nocookie.com/embed/snCljLgELqk?autoplay=1&rel=0&modestbranding=1';
+  f.title = 'Ilé Arọ́: Ìṣẹ̀ṣe Engineering (Isesengineering), intro video';
+  f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  f.allowFullscreen = true; f.referrerPolicy = 'strict-origin-when-cross-origin';
+  box.querySelector('canvas').remove(); $('intro-play').remove(); box.appendChild(f); f.focus();
+});
+
+/* ═══ Tool 1: Logic & Circuits Workbench ═══ */
+const G = {
+  and: { s: '∧', en: 'AND', yo: 'Àti', f: (a, b) => a & b },
+  or: { s: '∨', en: 'OR', yo: 'Tàbí', f: (a, b) => a | b },
+  xor: { s: '⊕', en: 'XOR', yo: 'Ọ̀kan péré', f: (a, b) => a ^ b },
+  nand: { s: '⊼', en: 'NAND', yo: 'Kò-àti', f: (a, b) => 1 - (a & b) },
+  nor: { s: '⊽', en: 'NOR', yo: 'Kò-tàbí', f: (a, b) => 1 - (a | b) },
+  not: { s: '¬', en: 'NOT', yo: 'Kò', f: (a) => 1 - a },
+  xnor: { s: '⊙', en: 'XNOR', yo: 'Bákan náà', f: (a, b) => 1 - (a ^ b) },
+  buf: { s: '▷', en: 'BUFFER', yo: 'Àtúnwí', f: (a) => a },
+  ifax: { s: '𝒳', en: 'IfaX', yo: '𝒳' }
+};
+const DUAL = { and: 'or', or: 'and', xor: 'xnor', xnor: 'xor', nand: 'nor', nor: 'nand', not: 'not', buf: 'buf', ifax: 'ifax' };
+const SZ = { switch: [90, 56], clock: [96, 56], lamp: [84, 76], and: [124, 68], or: [124, 68], xor: [124, 68], nand: [124, 68], nor: [124, 68], xnor: [124, 68], ifax: [124, 68], not: [112, 52], buf: [112, 52], odu: [136, 176] };
+const NIN = { switch: 0, clock: 0, lamp: 1, odu: 4, not: 1, buf: 1, and: 2, or: 2, xor: 2, nand: 2, nor: 2, xnor: 2, ifax: 2 };
+const NOUT = { switch: 1, clock: 1, lamp: 0, odu: 0, not: 1, buf: 1, and: 1, or: 1, xor: 1, nand: 1, nor: 1, xnor: 1, ifax: 1 };
+const INY = { lamp: [38], not: [26], buf: [26], odu: [36, 68, 100, 132], and: [22, 46], or: [22, 46], xor: [22, 46], nand: [22, 46], nor: [22, 46], xnor: [22, 46], ifax: [22, 46] };
+
+/* Standard (distinctive-shape) logic gate symbols, in a part's own coordinates.
+   2-input gates sit in a 124 × 68 box (inputs at y 22 and 46, output at y 34);
+   NOT and Buffer sit in a 112 × 52 box (input and output at y 26). */
+const GATE_SHAPE = {
+  and:  { d: 'M30 9H66A25 25 0 0 1 66 59H30Z', tip: 91, back: 30 },
+  or:   { d: 'M28 9Q44 34 28 59Q66 59 92 34Q66 9 28 9Z', tip: 92, back: 34 },
+  xor:  { d: 'M34 9Q50 34 34 59Q70 59 94 34Q70 9 34 9Z', extra: 'M25 9Q41 34 25 59', tip: 94, back: 31 },
+  buf:  { d: 'M30 8L84 26L30 44Z', tip: 84, back: 30, one: true },
+  box:  { d: 'M30 8H92V60H30Z', tip: 92, back: 30 },
+};
+const GATE_BASE = { and: ['and', 0], nand: ['and', 1], or: ['or', 0], nor: ['or', 1], xor: ['xor', 0], xnor: ['xor', 1], buf: ['buf', 0], not: ['buf', 1], ifax: ['box', 0], ifaxb: ['box', 1] };
+function gateGeom(type) {
+  const [base, bub] = GATE_BASE[type], g = GATE_SHAPE[base];
+  const cy = g.one ? 26 : 34, r = 5.5, out = bub ? g.tip + r * 2 : g.tip;
+  return { g, bub, cy, r, out, ins: g.one ? [26] : [22, 46] };
+}
+// Full gate for the board: input leads, body, inversion bubble, output lead.
+function gateSVG(type, w, o) {
+  const { g, bub, cy, r, out, ins } = gateGeom(type);
+  let s = '';
+  ins.forEach((y, i) => { s += `<path d="M0 ${y}H${g.back}" stroke="${o.inCol[i]}" stroke-width="2.5" stroke-linecap="round"/>`; });
+  s += `<path d="M${out} ${cy}H${w}" stroke="${o.outCol}" stroke-width="2.5" stroke-linecap="round"/>`;
+  if (g.extra) s += `<path d="${g.extra}" fill="none" stroke="${o.stroke}" stroke-width="2.6" stroke-linecap="round"/>`;
+  s += `<path d="${g.d}" fill="#0b1226" stroke="${o.stroke}" stroke-width="2.6" stroke-linejoin="round"/>`;
+  if (bub) s += `<circle cx="${g.tip + r}" cy="${cy}" r="${r}" fill="#0b1226" stroke="${o.stroke}" stroke-width="2.4"/>`;
+  return s;
+}
+// Small icon of the same symbol (for the component tray and anywhere else).
+function gateIcon(type) {
+  const { g, bub, cy, r, out } = gateGeom(type), vb = g.one ? '0 0 112 52' : '0 0 124 68';
+  let s = `<svg class="gate-ico" viewBox="${vb}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">`;
+  (g.one ? [26] : [22, 46]).forEach(y => { s += `<path d="M4 ${y}H${g.back}"/>`; });
+  s += `<path d="M${out} ${cy}H${g.one ? 108 : 120}"/>`;
+  if (g.extra) s += `<path d="${g.extra}"/>`;
+  s += `<path d="${g.d}"/>`;
+  if (bub) s += `<circle cx="${g.tip + r}" cy="${cy}" r="${r}"/>`;
+  return s + '</svg>';
+}
+document.querySelectorAll('.tray button[data-add] b').forEach(b => { const t = b.parentElement.dataset.add; if (GATE_BASE[t] && t !== 'ifax') b.innerHTML = gateIcon(t); });
+
+function evaluate(parts, wires) {
+  const out = {}; parts.forEach(p => out[p.id] = 0);
+  const into = {}; wires.forEach(w => into[w.to + ':' + w.ti] = w);
+  const iv = (p, i) => { const w = into[p.id + ':' + i]; return w ? out[w.from] || 0 : 0; };
+  for (let k = 0; k < 64; k++) {
+    let ch = false;
+    for (const p of parts) {
+      let v;
+      if (p.type === 'switch' || p.type === 'clock') v = p.on ? 1 : 0;
+      else if (p.type === 'lamp' || p.type === 'odu') continue;
+      else if (p.type === 'not') v = 1 - iv(p, 0);
+      else if (p.type === 'buf') v = iv(p, 0);
+      else if (p.type === 'ifax') v = +(p.odu || '0110')[2 * iv(p, 0) + iv(p, 1)];
+      else v = G[p.type].f(iv(p, 0), iv(p, 1));
+      if (out[p.id] !== v) { out[p.id] = v; ch = true; }
+    }
+    if (!ch) break;
+  }
+  const ins = {}; parts.forEach(p => { ins[p.id] = Array.from({ length: NIN[p.type] }, (_, i) => iv(p, i)); });
+  return { out, ins };
+}
+
+const LG = { parts: [], wires: [], sel: null, lang: 'ifa', run: false, next: 1 };
+const lgHist = [];
+const lgSave = () => { lgHist.push(JSON.stringify({ p: LG.parts, w: LG.wires, n: LG.next })); if (lgHist.length > 100) lgHist.shift(); };
+const shown = (v) => LG.lang === 'orisa' ? 1 - v : v;
+const INK = () => LG.lang === 'orisa' ? '#e03050' : '#f5c518';
+const DIM = () => LG.lang === 'orisa' ? '#ff8ea2' : '#a855f7';
+function inPos(p, i) { return [p.x, p.y + INY[p.type][i]]; }
+function outPos(p) { const s = SZ[p.type]; return [p.x + s[0], p.y + s[1] / 2]; }
+function markSVG(cx, cy, v) { return v ? `<circle cx="${cx}" cy="${cy}" r="6.5" fill="${INK()}" style="filter:drop-shadow(0 0 5px ${INK()})"/>` : `<circle cx="${cx - 9}" cy="${cy}" r="5" fill="${DIM()}" opacity=".9"/><circle cx="${cx + 9}" cy="${cy}" r="5" fill="${DIM()}" opacity=".9"/>`; }
+function gateMeta(type) { return G[LG.lang === 'orisa' ? DUAL[type] : type]; }
+
+let lgEval = { out: {}, ins: {} };
+function lgRender() {
+  lgEval = evaluate(LG.parts, LG.wires);
+  const ink = INK();
+  // wires
+  let wh = '';
+  LG.wires.forEach((w, i) => {
+    const a = LG.parts.find(p => p.id === w.from), b = LG.parts.find(p => p.id === w.to); if (!a || !b) return;
+    const [x1, y1] = outPos(a), [x2, y2] = inPos(b, w.ti), dx = Math.max(40, Math.abs(x2 - x1) / 2);
+    const d = `M${x1} ${y1} C${x1 + dx} ${y1} ${x2 - dx} ${y2} ${x2} ${y2}`;
+    const on = shown(lgEval.out[w.from]); const sel = LG.sel && LG.sel.kind === 'wire' && LG.sel.i === i;
+    wh += `<path d="${d}" fill="none" stroke="${on ? ink : 'rgba(150,170,230,.35)'}" stroke-width="${on ? 3.5 : 2.5}" ${on ? `style="filter:drop-shadow(0 0 4px ${ink})"` : ''} ${sel ? 'stroke-dasharray="8 5"' : ''}/>`;
+    if (sel) wh += `<path d="${d}" fill="none" stroke="#ecf0fa" stroke-width="1.2"/>`;
+    wh += `<path d="${d}" fill="none" stroke="transparent" stroke-width="16" data-wire="${i}" style="cursor:pointer"/>`;
+  });
+  $('lg-wires').innerHTML = wh;
+  // parts
+  let ph = '';
+  LG.parts.forEach(p => {
+    const [w, h] = SZ[p.type]; const sel = LG.sel && LG.sel.kind === 'part' && LG.sel.id === p.id;
+    const vOut = shown(lgEval.out[p.id] || 0), ins = (lgEval.ins[p.id] || []).map(shown);
+    const isGate = !!GATE_BASE[p.type];
+    let body = isGate
+      ? `<rect x="-6" y="-4" width="${w + 12}" height="${h + 26}" rx="10" fill="transparent" stroke="${sel ? '#ecf0fa' : 'none'}" stroke-width="1.4" stroke-dasharray="6 4"/>`
+      : `<rect width="${w}" height="${h}" rx="10" fill="#0b1226" stroke="${sel ? '#ecf0fa' : 'rgba(150,170,230,.38)'}" stroke-width="${sel ? 2 : 1.2}"/>`;
+    const txt = (x, y, s, size, col, anchor = 'start', weight = 500, fam = 'Noto Sans') => `<text x="${x}" y="${y}" font-family="${fam}, sans-serif" font-size="${size}" font-weight="${weight}" fill="${col}" text-anchor="${anchor}">${esc(s)}</text>`;
+    if (p.type === 'switch' || p.type === 'clock') {
+      body += txt(10, 18, p.label, 12, '#aab4cd', 'start', 600, 'IBM Plex Mono');
+      body += txt(w - 10, 18, p.type === 'clock' ? '⟲ Aago' : 'Yípadà', 10, '#6e7997', 'end');
+      body += markSVG(w / 2, 37, vOut);
+    } else if (p.type === 'lamp') {
+      body += `<circle cx="${w / 2}" cy="34" r="20" fill="${ins[0] ? ink : '#04070f'}" stroke="${ins[0] ? ink : 'rgba(150,170,230,.45)'}" stroke-width="2" ${ins[0] ? `style="filter:drop-shadow(0 0 10px ${ink})"` : ''}/>`;
+      body += txt(w / 2, 68, p.label + ' · Iná', 10, '#aab4cd', 'middle', 600, 'IBM Plex Mono');
+    } else if (p.type === 'odu') {
+      const bits = ins.join(''); const name = ODU16[bits] || '';
+      body += txt(w - 10, 18, 'Odù', 10, '#6e7997', 'end');
+      body += txt(12, 18, p.label, 11, '#aab4cd', 'start', 600, 'IBM Plex Mono');
+      ins.forEach((v, i) => { body += markSVG(w / 2, INY.odu[i], v); });
+      body += txt(w / 2, h - 12, name, 15, ink, 'middle', 700);
+    } else {
+      const m = gateMeta(p.type), shape = LG.lang === 'orisa' ? DUAL[p.type] : p.type;
+      const dim = 'rgba(150,170,230,.45)';
+      body += gateSVG(shape, w, { stroke: sel ? '#ecf0fa' : ink, inCol: ins.map(v => v ? ink : dim), outCol: vOut ? ink : dim });
+      if (p.type === 'ifax') {
+        const xm = LG.lang === 'orisa' ? xDual(p.odu || '0110') : (p.odu || '0110');
+        body += `<text x="61" y="44" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="24" font-weight="700" fill="${sel ? '#ecf0fa' : ink}">𝒳</text>`;
+        body += `<text x="${w / 2 - 6}" y="${h + 15}" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="700" fill="#ecf0fa">${esc(ODU16[xm] || '')} Meji<tspan font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" fill="#6e7997"> ${esc(XFN[xm] || '')}</tspan></text>`;
+      } else body += `<text x="${w / 2 - 6}" y="${h + 15}" text-anchor="middle" font-family="Noto Sans, sans-serif" font-size="12.5" font-weight="700" fill="#ecf0fa">${esc(m.yo)}<tspan font-family="IBM Plex Mono, monospace" font-size="10" font-weight="500" fill="#6e7997"> ${esc(m.en)}</tspan></text>`;
+    }
+    for (let i = 0; i < NIN[p.type]; i++) { const y = INY[p.type][i]; body += `<circle cx="0" cy="${y}" r="7.5" fill="#04070f" stroke="${ins[i] ? ink : 'rgba(150,170,230,.6)'}" stroke-width="2" data-port="in" data-id="${p.id}" data-i="${i}" style="cursor:crosshair"/>`; }
+    if (NOUT[p.type]) body += `<circle cx="${w}" cy="${h / 2}" r="7.5" fill="${vOut ? ink : '#04070f'}" stroke="${vOut ? ink : 'rgba(150,170,230,.6)'}" stroke-width="2" data-port="out" data-id="${p.id}" style="cursor:crosshair"/>`;
+    ph += `<g class="part" data-id="${p.id}" transform="translate(${p.x} ${p.y})" style="cursor:${p.type === 'switch' ? 'pointer' : 'grab'}">${body}</g>`;
+  });
+  $('lg-parts').innerHTML = ph;
+  lgPanel();
+  store.set('ileAro.logic', { p: LG.parts, w: LG.wires, n: LG.next });
+}
+function lgPanel() {
+  const del = $('lg-del'), sel = $('lg-sel');
+  if (!LG.sel) { del.disabled = true; sel.textContent = 'Nothing selected. Tap a part or a wire to select it.'; }
+  else if (LG.sel.kind === 'wire') { del.disabled = false; sel.textContent = 'Wire selected. Delete it, or drag from its input port to rewire.'; }
+  else { const p = LG.parts.find(q => q.id === LG.sel.id); del.disabled = false; const m = G[p.type]; sel.textContent = (p.label ? p.label + ' · ' : '') + (m ? (LG.lang === 'orisa' ? gateMeta(p.type).yo + ' (' + gateMeta(p.type).en + ') — the Dual of ' + m.yo : m.yo + ' (' + m.en + ')') : { switch: 'Switch · Yípadà', clock: 'Clock · Aago', lamp: 'Lamp · Iná', odu: 'Odu display' }[p.type]) + ' selected.'; if (p.type === 'ifax') sel.textContent = '𝒳 gate (IfaX) selected. Choose its truth-table Odu below.'; }
+  { const p = LG.sel && LG.sel.kind === 'part' ? LG.parts.find(q => q.id === LG.sel.id) : null, xc = $('lg-xctl');
+    xc.hidden = !(p && p.type === 'ifax');
+    if (p && p.type === 'ifax') { const sel = $('lg-xodu'); if (!sel.options.length) sel.innerHTML = Object.keys(ODU16).map(k => `<option value="${k}">${ODU16[k]} Meji · ${k.split('').map(c => c === '1' ? 'ı' : '॥').join(' ')} · ${XFN[k]}</option>`).join(''); sel.value = p.odu || '0110'; } }
+  $('lg-file').innerHTML = 'ilé-arọ́ / <b>circuit.' + (LG.lang === 'orisa' ? 'orisacad' : 'ifacad') + '</b>';
+  $('lg-key').innerHTML = LG.lang === 'ifa'
+    ? '<dt>ı</dt><dd>Single mark: Ogbe energy, 1</dd><dt>॥</dt><dd>Double mark: Oyeku, 0</dd><dt>Lit</dt><dd>A lamp lights on Ogbe</dd>'
+    : '<dt>Dual</dt><dd>Every line is read as its opposite: Ogbe ↔ Oyeku</dd><dt>Gates</dt><dd>Àti ↔ Tàbí · Kò-àti ↔ Kò-tàbí · Ọ̀kan péré ↔ Bákan náà</dd><dt>Odu</dt><dd>Each Odu shows its Dual: Ogbe ↔ Oyeku, Iwori ↔ Odi</dd>';
+  lgTruth();
+}
+function lgTruth() {
+  const box = $('lg-tt');
+  const sw = LG.parts.filter(p => p.type === 'switch').sort((a, b) => a.label.localeCompare(b.label));
+  const outs = LG.parts.filter(p => p.type === 'lamp' || p.type === 'odu');
+  if (!sw.length || !outs.length) { box.innerHTML = '<p class="note" style="padding:10px">Add switches and an output (lamp or Odu display) to see the table.</p>'; return; }
+  if (sw.length > 5) { box.innerHTML = '<p class="note" style="padding:10px">The table shows up to 5 switches. This board has ' + sw.length + '.</p>'; return; }
+  const n = sw.length, rows = [];
+  const cur = sw.map(p => p.on ? 1 : 0).join('');
+  const cell = (v) => `<td class="${v ? 'on' : 'off'}">${v ? 'ı' : '॥'} <small>${v}</small></td>`;
+  for (let r = 0; r < (1 << n); r++) {
+    const bits = sw.map((_, i) => (r >> (n - 1 - i)) & 1);
+    const parts = LG.parts.map(p => { const k = sw.findIndex(s => s.id === p.id); return k >= 0 ? Object.assign({}, p, { on: bits[k] }) : p; });
+    const ev = evaluate(parts, LG.wires);
+    let tr = `<tr class="${bits.join('') === cur ? 'cur' : ''}">` + bits.map(b => cell(shown(b))).join('');
+    outs.forEach(o => { const iv = (ev.ins[o.id] || []).map(shown); if (o.type === 'lamp') tr += cell(iv[0] || 0); else tr += `<td class="on">${ODU16[iv.join('')] || '—'}</td>`; });
+    rows.push(tr + '</tr>');
+  }
+  box.innerHTML = `<table><thead><tr>${sw.map(s => `<th>${esc(s.label)}</th>`).join('')}${outs.map(o => `<th>${esc(o.label)}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`;
+}
+function nextLabel(type) {
+  const have = new Set(LG.parts.filter(p => p.type === type).map(p => p.label));
+  if (type === 'switch') { for (const c of 'ABCDEFGHIJKLMNOPQRSTUVWXYZ') if (!have.has(c)) return c; }
+  const pre = { lamp: 'L', odu: 'D', clock: 'K' }[type] || ''; for (let i = 1; i < 99; i++) if (!have.has(pre + i)) return pre + i;
+  return '';
+}
+function addPart(type, x, y, extra) { const p = Object.assign({ id: LG.next++, type, x, y, on: 0, label: nextLabel(type) }, extra || {}); LG.parts.push(p); return p; }
+document.querySelectorAll('[data-add]').forEach(b => b.addEventListener('click', () => {
+  lgSave(); const k = LG.parts.length % 8; const p = addPart(b.dataset.add, 420 + k * 18, 200 + k * 22);
+  LG.sel = { kind: 'part', id: p.id }; lgRender();
+}));
+
+const lgSvg = $('lg-svg');
+function svgPt(svg, e) { const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const m = svg.getScreenCTM(); return m ? pt.matrixTransform(m.inverse()) : { x: 0, y: 0 }; }
+let lgDrag = null;
+lgSvg.setAttribute('tabindex', '0');
+lgSvg.addEventListener('pointerdown', e => {
+  const p = svgPt(lgSvg, e); const t = e.target;
+  const port = t.closest('[data-port]'), wire = t.closest('[data-wire]'), part = t.closest('.part');
+  lgSvg.setPointerCapture(e.pointerId);
+  if (port && port.dataset.port === 'out') { lgDrag = { kind: 'wire', from: +port.dataset.id }; return; }
+  if (port && port.dataset.port === 'in') {
+    const id = +port.dataset.id, ti = +port.dataset.i, k = LG.wires.findIndex(w => w.to === id && w.ti === ti);
+    if (k >= 0) { lgSave(); const w = LG.wires.splice(k, 1)[0]; lgDrag = { kind: 'wire', from: w.from, saved: true }; lgRender(); }
+    return;
+  }
+  if (wire) { LG.sel = { kind: 'wire', i: +wire.dataset.wire }; lgRender(); return; }
+  if (part) { const id = +part.dataset.id, q = LG.parts.find(x => x.id === id); LG.sel = { kind: 'part', id }; lgDrag = { kind: 'move', id, dx: p.x - q.x, dy: p.y - q.y, sx: p.x, sy: p.y, moved: false, saved: false }; lgRender(); return; }
+  LG.sel = null; lgRender();
+});
+lgSvg.addEventListener('pointermove', e => {
+  if (!lgDrag) return; const p = svgPt(lgSvg, e);
+  if (lgDrag.kind === 'wire') { const a = LG.parts.find(x => x.id === lgDrag.from); const [x1, y1] = outPos(a); const dx = Math.max(40, Math.abs(p.x - x1) / 2); $('lg-temp').setAttribute('d', `M${x1} ${y1} C${x1 + dx} ${y1} ${p.x - dx} ${p.y} ${p.x} ${p.y}`); return; }
+  if (lgDrag.kind === 'move') {
+    if (!lgDrag.moved && Math.hypot(p.x - lgDrag.sx, p.y - lgDrag.sy) < 4) return;
+    if (!lgDrag.saved) { lgSave(); lgDrag.saved = true; } lgDrag.moved = true;
+    const q = LG.parts.find(x => x.id === lgDrag.id), [w, h] = SZ[q.type];
+    q.x = Math.max(8, Math.min(1000 - w - 8, Math.round((p.x - lgDrag.dx) / 10) * 10)); q.y = Math.max(8, Math.min(620 - h - 8, Math.round((p.y - lgDrag.dy) / 10) * 10));
+    lgRender();
+  }
+});
+lgSvg.addEventListener('pointerup', e => {
+  if (!lgDrag) return;
+  if (lgDrag.kind === 'wire') {
+    $('lg-temp').setAttribute('d', '');
+    const el = document.elementFromPoint(e.clientX, e.clientY), port = el && el.closest && el.closest('[data-port="in"]');
+    if (port && +port.dataset.id !== lgDrag.from) {
+      if (!lgDrag.saved) lgSave();
+      const id = +port.dataset.id, ti = +port.dataset.i;
+      LG.wires = LG.wires.filter(w => !(w.to === id && w.ti === ti)); LG.wires.push({ from: lgDrag.from, to: id, ti });
+    }
+    lgDrag = null; lgRender(); return;
+  }
+  if (lgDrag.kind === 'move' && !lgDrag.moved) { const q = LG.parts.find(x => x.id === lgDrag.id); if (q && q.type === 'switch') { lgSave(); q.on = q.on ? 0 : 1; } }
+  lgDrag = null; lgRender();
+});
+lgSvg.addEventListener('pointercancel', () => { lgDrag = null; $('lg-temp').setAttribute('d', ''); });
+function lgDelete() {
+  if (!LG.sel) return; lgSave();
+  if (LG.sel.kind === 'wire') LG.wires.splice(LG.sel.i, 1);
+  else { const id = LG.sel.id; LG.parts = LG.parts.filter(p => p.id !== id); LG.wires = LG.wires.filter(w => w.from !== id && w.to !== id); }
+  LG.sel = null; lgRender();
+}
+lgSvg.addEventListener('keydown', e => { if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); lgDelete(); } if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); lgUndo(); } });
+function lgUndo() { if (!lgHist.length) return; const h = JSON.parse(lgHist.pop()); LG.parts = h.p; LG.wires = h.w; LG.next = h.n; LG.sel = null; lgRender(); }
+$('lg-del').addEventListener('click', lgDelete);
+$('lg-undo').addEventListener('click', lgUndo);
+$('lg-clear').addEventListener('click', () => { if (!LG.parts.length) return; lgSave(); LG.parts = []; LG.wires = []; LG.sel = null; lgRender(); });
+let lgTimer = null;
+function setRun(on) { LG.run = on; $('lg-run').setAttribute('aria-pressed', on); $('lg-run').textContent = on ? 'Pause clock' : 'Run clock'; clearInterval(lgTimer); if (on) lgTimer = setInterval(() => { let any = false; LG.parts.forEach(p => { if (p.type === 'clock') { p.on = p.on ? 0 : 1; any = true; } }); if (any) lgRender(); }, 650); }
+$('lg-run').addEventListener('click', () => setRun(!LG.run));
+function setLang(l) { LG.lang = l; document.querySelectorAll('#lg-bench [data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === l)); $('lg-bench').classList.toggle('mode-orisa', l === 'orisa'); lgRender(); }
+document.querySelectorAll('#lg-bench [data-lang]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+
+function loadLogic(name) {
+  lgSave(); LG.parts = []; LG.wires = []; LG.next = 1; LG.sel = null; setRun(false);
+  const W = (a, b, ti) => LG.wires.push({ from: a.id, to: b.id, ti });
+  if (name === 'ogbe-lamp') { const A = addPart('switch', 90, 190, { on: 1 }), B = addPart('switch', 90, 370), g = addPart('and', 360, 260), L = addPart('lamp', 640, 256); W(A, g, 0); W(B, g, 1); W(g, L, 0); }
+  if (name === 'encoder') { const s = [1, 0, 0, 1].map((on, i) => addPart('switch', 90, 120 + i * 110, { on })); const d = addPart('odu', 520, 170); s.forEach((x, i) => W(x, d, i)); }
+  if (name === 'half-adder') { const A = addPart('switch', 80, 170, { on: 1 }), B = addPart('switch', 80, 390), x = addPart('xor', 350, 150), g = addPart('and', 350, 380), S = addPart('lamp', 650, 146, { label: 'Sum' }), C = addPart('lamp', 650, 376, { label: 'Carry' }); W(A, x, 0); W(B, x, 1); W(A, g, 0); W(B, g, 1); W(x, S, 0); W(g, C, 0); }
+  if (name === 'full-adder') {
+    const A = addPart('switch', 40, 100, { on: 1 }), B = addPart('switch', 40, 260, { on: 1 }), Ci = addPart('switch', 40, 460, { label: 'C' });
+    const x1 = addPart('xor', 220, 110), a1 = addPart('and', 220, 470), x2 = addPart('xor', 450, 150), a2 = addPart('and', 450, 330), o = addPart('or', 660, 400);
+    const S = addPart('lamp', 700, 146, { label: 'Sum' }), C = addPart('lamp', 860, 396, { label: 'Carry' });
+    W(A, x1, 0); W(B, x1, 1); W(A, a1, 0); W(B, a1, 1); W(x1, x2, 0); W(Ci, x2, 1); W(x1, a2, 0); W(Ci, a2, 1); W(x2, S, 0); W(a2, o, 0); W(a1, o, 1); W(o, C, 0);
+  }
+  if (name === 'duality') { const A = addPart('switch', 60, 170), B = addPart('switch', 60, 390), n1 = addPart('not', 230, 172), n2 = addPart('not', 230, 392), g = addPart('and', 440, 270), n3 = addPart('not', 650, 278), L = addPart('lamp', 840, 266); W(A, n1, 0); W(B, n2, 0); W(n1, g, 0); W(n2, g, 1); W(g, n3, 0); W(n3, L, 0); }
+  if (name === 'ig-daynight') { const A = addPart('switch', 90, 270, { on: 1, label: 'Sun' }), b = addPart('buf', 360, 160), n = addPart('not', 360, 380), L1 = addPart('lamp', 640, 146, { label: 'Day' }), L2 = addPart('lamp', 640, 366, { label: 'Night' }); W(A, b, 0); W(A, n, 0); W(b, L1, 0); W(n, L2, 0); }
+  if (name === 'ig-nand') {
+    const A = addPart('switch', 40, 150, { on: 1 }), B = addPart('switch', 40, 420);
+    const n1 = addPart('nand', 220, 50), L1 = addPart('lamp', 450, 46, { label: 'NOT A' });
+    const n2 = addPart('nand', 220, 240), n3 = addPart('nand', 430, 240), L2 = addPart('lamp', 660, 236, { label: 'A·B' });
+    const n4 = addPart('nand', 220, 410), n5 = addPart('nand', 220, 530), n6 = addPart('nand', 450, 470), L3 = addPart('lamp', 680, 466, { label: 'A+B' });
+    W(A, n1, 0); W(A, n1, 1); W(n1, L1, 0); W(A, n2, 0); W(B, n2, 1); W(n2, n3, 0); W(n2, n3, 1); W(n3, L2, 0); W(A, n4, 0); W(A, n4, 1); W(B, n5, 0); W(B, n5, 1); W(n4, n6, 0); W(n5, n6, 1); W(n6, L3, 0);
+  }
+  if (name === 'ig-clinic') { const A = addPart('switch', 50, 90), B = addPart('switch', 50, 260, { on: 1 }), C = addPart('switch', 50, 430, { label: 'C' }), o1 = addPart('or', 260, 150), o2 = addPart('or', 480, 220), r = addPart('nor', 480, 420), L1 = addPart('lamp', 760, 216, { label: 'Nurse' }), L2 = addPart('lamp', 760, 416, { label: 'All calm' }); W(A, o1, 0); W(B, o1, 1); W(o1, o2, 0); W(C, o2, 1); W(o1, r, 0); W(C, r, 1); W(o2, L1, 0); W(r, L2, 0); }
+  if (name === 'ig-stairs') { const A = addPart('switch', 90, 170, { on: 1, label: 'A' }), B = addPart('switch', 90, 390, { label: 'B' }), x = addPart('xor', 360, 160), q = addPart('xnor', 360, 380), L1 = addPart('lamp', 640, 156, { label: 'Stairs' }), L2 = addPart('lamp', 640, 376, { label: 'Same' }); W(A, x, 0); W(B, x, 1); W(A, q, 0); W(B, q, 1); W(x, L1, 0); W(q, L2, 0); }
+  if (name === 'ig-x') { const A = addPart('switch', 90, 170, { on: 1 }), B = addPart('switch', 90, 390), x = addPart('ifax', 360, 160, { odu: '0110' }), q = addPart('xor', 360, 380), L1 = addPart('lamp', 640, 156, { label: '𝒳' }), L2 = addPart('lamp', 640, 376, { label: 'XOR' }); W(A, x, 0); W(B, x, 1); W(A, q, 0); W(B, q, 1); W(x, L1, 0); W(q, L2, 0); LG.sel = { kind: 'part', id: x.id }; }
+  if (name === 'blinker') { const k = addPart('clock', 90, 270), n = addPart('not', 330, 170), L1 = addPart('lamp', 600, 156), L2 = addPart('lamp', 600, 356); W(k, n, 0); W(n, L1, 0); W(k, L2, 0); setRun(true); }
+  lgRender();
+}
+$('lg-xodu').addEventListener('change', e => { const p = LG.sel && LG.parts.find(q => q.id === LG.sel.id); if (p && p.type === 'ifax') { lgSave(); p.odu = e.target.value; lgRender(); } });
+$('lg-preset').addEventListener('change', e => { if (e.target.value) loadLogic(e.target.value); e.target.value = ''; });
+(function () { const s = store.get('ileAro.logic'); if (s && Array.isArray(s.p) && s.p.length) { LG.parts = s.p; LG.wires = s.w || []; LG.next = s.n || (Math.max(0, ...s.p.map(p => p.id)) + 1); lgRender(); } else { loadLogic('ogbe-lamp'); lgHist.length = 0; } })();
+
+/* ═══ Tool 2: Blueprint & Design Studio ═══ */
+const BP = { shapes: [], sel: -1, tool: 'select', ink: 'ifa', snap: true, dim: true };
+const bpHist = []; const bpSave = () => { bpHist.push(JSON.stringify(BP.shapes)); if (bpHist.length > 100) bpHist.shift(); };
+const M = 20; const m = (px) => (px / M).toFixed(1) + ' m';
+const bpCol = (ink) => ink === 'orisa' ? '#ff5470' : '#f5c518';
+const bpSvg = $('bp-svg');
+const BPNAMES = { line: 'Wall', rect: 'Room / panel', circle: 'Round hall', inf: 'Ifa Infinity', text: 'Label' };
+function infPath(s) { return allLobes(s.a, s.cx, s.cy, 90).map(l => 'M' + l.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L')).join(' '); }
+function bbox(s) {
+  if (s.type === 'line') return [Math.min(s.x1, s.x2), Math.min(s.y1, s.y2), Math.abs(s.x2 - s.x1), Math.abs(s.y2 - s.y1)];
+  if (s.type === 'rect') return [s.x, s.y, s.w, s.h];
+  if (s.type === 'circle') return [s.cx - s.r, s.cy - s.r, 2 * s.r, 2 * s.r];
+  if (s.type === 'inf') return [s.cx - s.a, s.cy - s.a, 2 * s.a, 2 * s.a];
+  return [s.x - 4, s.y - 18, Math.max(40, s.t.length * 9), 24];
+}
+function dimText(x, y, t, anchor = 'middle', rot = 0) { return `<text x="${x}" y="${y}" font-family="IBM Plex Mono, monospace" font-size="11" fill="rgba(200,215,255,.85)" text-anchor="${anchor}" ${rot ? `transform="rotate(${rot} ${x} ${y})"` : ''}>${t}</text>`; }
+function bpRender() {
+  let h = '';
+  BP.shapes.forEach((s, i) => {
+    const c = bpCol(s.ink), st = `stroke="${c}" stroke-width="2.5" fill="none"`;
+    let g = '';
+    if (s.type === 'line') { g += `<line x1="${s.x1}" y1="${s.y1}" x2="${s.x2}" y2="${s.y2}" ${st} stroke-width="5" stroke-linecap="round"/>`; if (BP.dim) { const L = Math.hypot(s.x2 - s.x1, s.y2 - s.y1); let ang = Math.atan2(s.y2 - s.y1, s.x2 - s.x1) * 180 / PI; if (ang > 90 || ang < -90) ang += 180; g += dimText((s.x1 + s.x2) / 2, (s.y1 + s.y2) / 2 - 9, m(L), 'middle', ang); } }
+    if (s.type === 'rect') { g += `<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" ${st} fill="${c}" fill-opacity=".06"/>`; if (BP.dim) { g += dimText(s.x + s.w / 2, s.y - 7, m(s.w)); g += dimText(s.x - 7, s.y + s.h / 2, m(s.h), 'middle', -90); } }
+    if (s.type === 'circle') { g += `<circle cx="${s.cx}" cy="${s.cy}" r="${s.r}" ${st} fill="${c}" fill-opacity=".06"/><circle cx="${s.cx}" cy="${s.cy}" r="2" fill="${c}"/>`; if (BP.dim) g += dimText(s.cx, s.cy + 16, 'Ø ' + m(2 * s.r)); }
+    if (s.type === 'inf') { g += `<path d="${infPath(s)}" ${st} style="filter:drop-shadow(0 0 4px ${c})"/><circle cx="${s.cx}" cy="${s.cy}" r="3" fill="${c}"/>`; if (BP.dim) g += dimText(s.cx, s.cy + s.a + 18, 'span ' + m(2 * s.a)); }
+    if (s.type === 'text') g += `<text x="${s.x}" y="${s.y}" font-family="IBM Plex Sans, sans-serif" font-size="16" font-weight="600" fill="${c}">${esc(s.t)}</text>`;
+    const hit = s.type === 'line' ? `<line x1="${s.x1}" y1="${s.y1}" x2="${s.x2}" y2="${s.y2}" stroke="transparent" stroke-width="16"/>` : '';
+    h += `<g data-i="${i}" style="cursor:${BP.tool === 'select' ? 'move' : 'crosshair'}">${g}${hit}</g>`;
+  });
+  $('bp-shapes').innerHTML = h;
+  const s = BP.shapes[BP.sel]; let ui = '';
+  if (s) { const [x, y, w, hh] = bbox(s); ui = `<rect x="${x - 8}" y="${y - 8}" width="${w + 16}" height="${hh + 16}" fill="none" stroke="#ecf0fa" stroke-width="1.2" stroke-dasharray="5 4" pointer-events="none"/>`; }
+  $('bp-ui').innerHTML = ui;
+  bpPanel(); store.set('ileAro.blueprint', BP.shapes);
+}
+function bpPanel() {
+  document.querySelectorAll('[data-bt]').forEach(b => b.setAttribute('aria-pressed', b.dataset.bt === BP.tool));
+  document.querySelectorAll('#bp-bench [data-ink]').forEach(b => b.setAttribute('aria-pressed', b.dataset.ink === BP.ink));
+  $('bp-bench').classList.toggle('mode-orisa', BP.ink === 'orisa');
+  $('bp-file').innerHTML = 'ilé-arọ́ / <b>blueprint.' + (BP.ink === 'orisa' ? 'orisacad' : 'ifacad') + '</b>';
+  const hints = { select: 'Select a shape to move it, or pick a tool and drag on the sheet.', line: 'Drag to draw a wall.', rect: 'Drag from one corner to the opposite corner.', circle: 'Drag from the centre outwards.', inf: 'Drag from the centre outwards to size the Ifa Infinity.', text: 'Tap the sheet to place a label, then edit its text.' };
+  $('bp-hint').textContent = hints[BP.tool];
+  const s = BP.shapes[BP.sel], pr = $('bp-props'); pr.hidden = !s;
+  if (s) {
+    $('bp-type').textContent = BPNAMES[s.type];
+    let d = '';
+    if (s.type === 'line') d = `<dt>Length</dt><dd>${m(Math.hypot(s.x2 - s.x1, s.y2 - s.y1))}</dd>`;
+    if (s.type === 'rect') d = `<dt>Width</dt><dd>${m(s.w)}</dd><dt>Depth</dt><dd>${m(s.h)}</dd><dt>Area</dt><dd>${(s.w * s.h / (M * M)).toFixed(1)} m²</dd>`;
+    if (s.type === 'circle') d = `<dt>Diameter</dt><dd>${m(2 * s.r)}</dd><dt>Area</dt><dd>${(PI * s.r * s.r / (M * M)).toFixed(1)} m²</dd>`;
+    if (s.type === 'inf') d = `<dt>Span</dt><dd>${m(2 * s.a)}</dd><dt>Lobes</dt><dd>4</dd><dt>Area</dt><dd>${(2 * s.a * s.a / (M * M)).toFixed(1)} m²</dd>`;
+    if (s.type === 'text') d = `<dt>Text</dt><dd>${esc(s.t)}</dd>`;
+    $('bp-dims').innerHTML = d;
+    $('bp-text-wrap').hidden = s.type !== 'text'; if (s.type === 'text' && document.activeElement !== $('bp-text')) $('bp-text').value = s.t;
+  }
+  const walls = BP.shapes.filter(x => x.type === 'line'), rooms = BP.shapes.filter(x => x.type === 'rect'), halls = BP.shapes.filter(x => x.type === 'circle');
+  const wl = walls.reduce((t, x) => t + Math.hypot(x.x2 - x.x1, x.y2 - x.y1), 0) / M, ra = rooms.reduce((t, x) => t + x.w * x.h, 0) / (M * M), ha = halls.reduce((t, x) => t + PI * x.r * x.r, 0) / (M * M);
+  $('bp-totals').innerHTML = `<dt>Walls</dt><dd>${walls.length} · ${wl.toFixed(1)} m</dd><dt>Rooms</dt><dd>${rooms.length} · ${ra.toFixed(1)} m²</dd><dt>Halls</dt><dd>${halls.length} · ${ha.toFixed(1)} m²</dd>`;
+}
+const snap = (v) => BP.snap ? Math.round(v / 10) * 10 : Math.round(v);
+let bpDrag = null;
+bpSvg.addEventListener('pointerdown', e => {
+  const p = svgPt(bpSvg, e), x = snap(p.x), y = snap(p.y); bpSvg.setPointerCapture(e.pointerId);
+  if (BP.tool === 'select') {
+    const g = e.target.closest('[data-i]');
+    if (g) { BP.sel = +g.dataset.i; bpDrag = { kind: 'move', last: [x, y], saved: false }; } else BP.sel = -1;
+    bpRender(); return;
+  }
+  bpSave();
+  const ink = BP.ink; let s;
+  if (BP.tool === 'line') s = { type: 'line', x1: x, y1: y, x2: x, y2: y, ink };
+  if (BP.tool === 'rect') s = { type: 'rect', x, y, w: 0, h: 0, ink, ox: x, oy: y };
+  if (BP.tool === 'circle') s = { type: 'circle', cx: x, cy: y, r: 0, ink };
+  if (BP.tool === 'inf') s = { type: 'inf', cx: x, cy: y, a: 0, ink };
+  if (BP.tool === 'text') { s = { type: 'text', x, y, t: 'Label', ink }; BP.shapes.push(s); BP.sel = BP.shapes.length - 1; bpRender(); setTimeout(() => { $('bp-text').focus(); $('bp-text').select(); }, 0); return; }
+  BP.shapes.push(s); BP.sel = BP.shapes.length - 1; bpDrag = { kind: 'create' }; bpRender();
+});
+bpSvg.addEventListener('pointermove', e => {
+  if (!bpDrag) return; const p = svgPt(bpSvg, e), x = snap(p.x), y = snap(p.y), s = BP.shapes[BP.sel]; if (!s) return;
+  if (bpDrag.kind === 'move') {
+    const dx = x - bpDrag.last[0], dy = y - bpDrag.last[1]; if (!dx && !dy) return;
+    if (!bpDrag.saved) { bpSave(); bpDrag.saved = true; }
+    if (s.type === 'line') { s.x1 += dx; s.y1 += dy; s.x2 += dx; s.y2 += dy; } else if (s.type === 'rect' || s.type === 'text') { s.x += dx; s.y += dy; } else { s.cx += dx; s.cy += dy; }
+    bpDrag.last = [x, y];
+  } else {
+    if (s.type === 'line') { s.x2 = x; s.y2 = y; }
+    if (s.type === 'rect') { s.x = Math.min(s.ox, x); s.y = Math.min(s.oy, y); s.w = Math.abs(x - s.ox); s.h = Math.abs(y - s.oy); }
+    if (s.type === 'circle') s.r = snap(Math.hypot(x - s.cx, y - s.cy));
+    if (s.type === 'inf') s.a = snap(Math.hypot(x - s.cx, y - s.cy));
+  }
+  bpRender();
+});
+bpSvg.addEventListener('pointerup', () => {
+  if (bpDrag && bpDrag.kind === 'create') { const s = BP.shapes[BP.sel]; const tiny = s.type === 'line' ? Math.hypot(s.x2 - s.x1, s.y2 - s.y1) < 10 : s.type === 'rect' ? (s.w < 10 || s.h < 10) : s.type === 'circle' ? s.r < 6 : s.a < 20; if (tiny) { BP.shapes.pop(); BP.sel = -1; bpHist.pop(); } else { delete s.ox; delete s.oy; } }
+  bpDrag = null; bpRender();
+});
+bpSvg.setAttribute('tabindex', '0');
+bpSvg.addEventListener('keydown', e => { if ((e.key === 'Delete' || e.key === 'Backspace') && BP.sel >= 0) { e.preventDefault(); bpSave(); BP.shapes.splice(BP.sel, 1); BP.sel = -1; bpRender(); } if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); bpUndo(); } });
+function bpUndo() { if (!bpHist.length) return; BP.shapes = JSON.parse(bpHist.pop()); BP.sel = -1; bpRender(); }
+document.querySelectorAll('[data-bt]').forEach(b => b.addEventListener('click', () => { BP.tool = b.dataset.bt; bpRender(); }));
+document.querySelectorAll('#bp-bench [data-ink]').forEach(b => b.addEventListener('click', () => { BP.ink = b.dataset.ink; const s = BP.shapes[BP.sel]; if (s) { bpSave(); s.ink = BP.ink; } bpRender(); }));
+$('bp-snap').addEventListener('change', e => BP.snap = e.target.checked);
+$('bp-dim').addEventListener('change', e => { BP.dim = e.target.checked; bpRender(); });
+$('bp-undo').addEventListener('click', bpUndo);
+$('bp-clear').addEventListener('click', () => { if (!BP.shapes.length) return; bpSave(); BP.shapes = []; BP.sel = -1; bpRender(); });
+$('bp-dup').addEventListener('click', () => { const s = BP.shapes[BP.sel]; if (!s) return; bpSave(); const c = JSON.parse(JSON.stringify(s)); if (c.type === 'line') { c.x1 += 20; c.x2 += 20; c.y1 += 20; c.y2 += 20; } else if ('cx' in c) { c.cx += 20; c.cy += 20; } else { c.x += 20; c.y += 20; } BP.shapes.push(c); BP.sel = BP.shapes.length - 1; bpRender(); });
+$('bp-del').addEventListener('click', () => { if (BP.sel < 0) return; bpSave(); BP.shapes.splice(BP.sel, 1); BP.sel = -1; bpRender(); });
+$('bp-text').addEventListener('input', e => { const s = BP.shapes[BP.sel]; if (s && s.type === 'text') { s.t = e.target.value || ' '; bpRender(); } });
+$('bp-text').addEventListener('focus', () => bpSave());
+$('bp-export').addEventListener('click', () => {
+  const clone = bpSvg.cloneNode(true); clone.querySelector('#bp-ui').remove(); clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg'); clone.removeAttribute('tabindex');
+  const blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n' + clone.outerHTML], { type: 'image/svg+xml' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ile-aro-blueprint.svg'; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+});
+function bpPreset(name) {
+  bpSave(); BP.sel = -1; const cx = 500, cy = 300, ink = BP.ink;
+  if (name === 'pavilion') { const a = 200; BP.shapes = [{ type: 'rect', x: 140, y: 40, w: 720, h: 520, ink }, { type: 'inf', cx, cy, a, ink }, ...[[1, 0], [0, 1], [-1, 0], [0, -1]].map(([dx, dy]) => ({ type: 'circle', cx: cx + dx * 120, cy: cy + dy * 120, r: 50, ink })), { type: 'circle', cx, cy, r: 20, ink }, { type: 'line', x1: 140, y1: 560, x2: 440, y2: 560, ink }, { type: 'line', x1: 560, y1: 560, x2: 860, y2: 560, ink }, { type: 'text', x: 160, y: 72, t: 'Ọpọ́nfá Pavilion', ink }]; }
+  if (name === 'panel') { BP.shapes = [{ type: 'rect', x: 270, y: 70, w: 460, h: 460, ink }, { type: 'text', x: 280, y: 58, t: 'Odu Panel · 4 × 4', ink }]; for (let r = 0; r < 4; r++) for (let c = 0; c < 4; c++) BP.shapes.push({ type: 'circle', cx: 330 + c * 110, cy: 130 + r * 110, r: 30, ink }); for (let r = 0; r < 4; r++) BP.shapes.push({ type: 'line', x1: 290, y1: 185 + r * 110, x2: 710, y2: 185 + r * 110, ink }); BP.shapes.splice(-1, 1); }
+  if (name === 'plaza') { BP.shapes = [{ type: 'rect', x: 100, y: 40, w: 800, h: 520, ink }, { type: 'inf', cx, cy, a: 220, ink }, { type: 'circle', cx, cy, r: 40, ink }, { type: 'text', x: 120, y: 72, t: 'Ifa Infinity Plaza', ink }]; }
+  BP.tool = 'select'; bpRender();
+}
+document.querySelectorAll('[data-bp-preset]').forEach(b => b.addEventListener('click', () => bpPreset(b.dataset.bpPreset)));
+(function () { const s = store.get('ileAro.blueprint'); if (Array.isArray(s) && s.length) { BP.shapes = s; bpRender(); } else { bpPreset('pavilion'); bpHist.length = 0; } })();
+
+/* ═══ Tool 3: Odu Register Simulator ═══ */
+const RG = { bits: [1, 1, 1, 1, 1, 1, 1, 1], lang: 'ifa', run: false };
+const toVal = (b) => b.reduce((v, x) => v * 2 + x, 0);
+const fromVal = (v) => Array.from({ length: 8 }, (_, i) => (v >> (7 - i)) & 1);
+function rgRender() {
+  const view = RG.lang === 'orisa' ? RG.bits.map(b => 1 - b) : RG.bits.slice();
+  const R = view.slice(0, 4), L = view.slice(4), rn = ODU16[R.join('')], ln = ODU16[L.join('')];
+  const col = (bits, side, idx) => `<div class="odu"><span class="odu__k">${side}</span><div class="odu__marks">${bits.map((b, i) => `<button type="button" class="mark ${b ? '' : 'is-double'}" data-bit="${idx + i}" aria-label="${side} row ${i + 1}: ${b ? 'single mark' : 'double mark'}. Tap to flip.">${b ? '<i></i>' : '<i></i><i></i>'}</button>`).join('')}</div><span class="odu__name">${ODU16[bits.join('')]}</span></div>`;
+  $('rg-odus').innerHTML = col(R, 'Right', 0) + col(L, 'Left', 4);
+  $('rg-combo').textContent = rn === ln ? rn + ' Meji' : rn + ' ' + ln;
+  const v = toVal(view);
+  $('rg-bits').innerHTML = view.map((b, i) => (i === 4 ? '<span class="sep"></span>' : '') + `<span class="${b ? 'on' : ''}">${b}</span>`).join('');
+  $('rg-dec').textContent = v; $('rg-bin').textContent = view.slice(0, 4).join('') + ' ' + view.slice(4).join(''); $('rg-hex').textContent = v.toString(16).toUpperCase().padStart(2, '0'); $('rg-pos').textContent = 'state ' + (v + 1) + ' of 256';
+  $('rg-prog').style.width = ((v + 1) / 256 * 100) + '%';
+  $('rg-bench').classList.toggle('mode-orisa', RG.lang === 'orisa');
+  document.querySelectorAll('[data-rlang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.rlang === RG.lang));
+  $('rg-odus').querySelectorAll('[data-bit]').forEach(b => b.addEventListener('click', () => { const i = +b.dataset.bit; RG.bits[i] = 1 - RG.bits[i]; rgRender(); }));
+}
+function rgOp(op) {
+  let v = toVal(RG.bits);
+  if (op === 'inc') v = (v + 1) % 256; if (op === 'dec') v = (v + 255) % 256;
+  if (op === 'rot') v = ((v << 1) | (v >> 7)) & 255;
+  if (op === 'inv') v = 255 - v;
+  if (op === 'swap') v = ((v & 15) << 4) | (v >> 4);
+  if (op === 'rand') v = Math.floor(Math.random() * 256);
+  RG.bits = fromVal(v); rgRender();
+}
+document.querySelectorAll('[data-op]').forEach(b => b.addEventListener('click', () => rgOp(b.dataset.op)));
+document.querySelectorAll('[data-rlang]').forEach(b => b.addEventListener('click', () => { RG.lang = b.dataset.rlang; rgRender(); }));
+let rgTimer = null;
+function rgSetRun(on) { RG.run = on; $('rg-run').setAttribute('aria-pressed', on); $('rg-run').textContent = on ? 'Pause' : 'Run'; clearInterval(rgTimer); if (on) rgTimer = setInterval(() => rgOp($('rg-rule').value), 1000 / +$('rg-speed').value); }
+$('rg-run').addEventListener('click', () => rgSetRun(!RG.run));
+$('rg-speed').addEventListener('input', () => { if (RG.run) rgSetRun(true); });
+rgRender();
+
+
+/* ═══ The Ifa Logic System, the 16 IfaGates and the two boards ═══
+   Marks: '1' = single mark (ı, Ogbe), '0' = double mark (॥, Oyeku); top row first.
+   IFABit (Ifa Periodic Table) writes the double mark as 1, so it is the complement. */
+const PRINC = ['Symmetry', 'Invariance', 'Duality', 'Emergence', 'Composition', 'Holism', 'Reductionism', 'Structuralism'];
+const ODUS = [
+  { n: 'Ejiogbe', yo: 'Ogbè', logic: 'OgbeLogic', m: '1111', kw: 'Energy · Light · Creation', law: 'Ogbe is pure light and energy: the source from which everything begins.', rule: 'What is, stays as it is. Energy that enters passes on unchanged, so the IfaBuffer copies its input.' },
+  { n: 'Oyeku Meji', yo: 'Ọ̀yẹ̀kú', logic: 'OyekuLogic', m: '0000', kw: 'Void · Night · Transformation', law: 'Oyeku is the night and the void that keeps deep wisdom. Every ending opens a new beginning.', rule: 'Every state turns into its opposite. The IfaNOT gives Oyeku for Ogbe and Ogbe for Oyeku.' },
+  { n: 'Iwori Meji', yo: 'Ìwòrì', logic: 'IworiLogic', m: '0110', kw: 'Wisdom · Mind · Inner eye', law: 'Iwori is the inner eye of the deep thinker, who sees everything before deciding.', rule: 'A conclusion holds only when every input agrees. The IfaAND gives Ogbe only when A and B are both Ogbe.' },
+  { n: 'Odi Meji', yo: 'Òdí', logic: 'OdiLogic', m: '1001', kw: 'Mystery · Hidden · Gestation', law: 'Odi is the seed underground: hidden power that waits for the right moment.', rule: 'Stay active until everything is complete. The IfaNAND gives Oyeku only when both inputs are Ogbe, and its hidden power can build every other gate.' },
+  { n: 'Irosun Meji', yo: 'Ìrosùn', logic: 'IrosunLogic', m: '1100', kw: 'Life force · Healing · Medicine', law: 'Irosun is the river of life force that runs through every living thing and makes it whole.', rule: 'Life flows if any channel is open. The IfaOR gives Ogbe when A or B, or both, is Ogbe.' },
+  { n: 'Owonrin Meji', yo: 'Ọ̀wọ́nrín', logic: 'OwonrinLogic', m: '0011', kw: 'Lightning · Change · Innovation', law: 'Owonrin is lightning: sudden change, invention and technology.', rule: 'The spark comes out of stillness. The IfaNOR gives Ogbe only when every input rests in Oyeku. Like NAND, it can build every gate.' },
+  { n: 'Obara Meji', yo: 'Ọ̀bàrà', logic: 'ObaraLogic', m: '1000', kw: 'Royalty · Leadership · Dignity', law: 'Obara is royal leadership that lifts everyone around it.', rule: 'Exactly one leads. The IfaXOR gives Ogbe when A and B differ, so either input can change the outcome.' },
+  { n: 'Okanran Meji', yo: 'Ọ̀kànràn', logic: 'OkanranLogic', m: '0001', kw: 'Fire · Courage · Breakthrough', law: 'Okanran is the spark of fire, struck when match meets stone.', rule: 'Like meets like and ignites. The IfaXNOR gives Ogbe when A and B are the same: it detects resonance and equality.' },
+  { n: 'Ogunda Meji', yo: 'Ògúndá', logic: 'OgundaLogic', m: '1110', kw: 'Iron · Roads · Technology', law: 'Ogunda is the iron path-opener of Ogun that clears the road to the future.', rule: 'Clear the path without changing the traveller. The IfaPauli Identity (Dual) gate keeps every qubit state as it is, so other gates can follow it.' },
+  { n: 'Osa Meji', yo: 'Ọ̀sá', logic: 'OsaLogic', m: '0111', kw: 'Wind · Speed · Rapid change', law: 'Osa is the whirlwind that changes everything in an instant.', rule: 'Turn everything around at once. The IfaPauli-X gate swaps Oyeku and Ogbe: it is the quantum IfaNOT.' },
+  { n: 'Ika Meji', yo: 'Ìká', logic: 'IkaLogic', m: '0100', kw: 'Strategy · Intelligence · Protection', law: 'Ika is the strategist who thinks ten steps ahead.', rule: 'Move through the hidden dimension. The IfaPauli-Y Dual gate flips the qubit and turns it through the imaginary axis, opposite to Y.' },
+  { n: 'Oturupon Meji', yo: 'Òtúrúpọ̀n', logic: 'OturuponLogic', m: '0010', kw: 'Trials · Strength · Endurance', law: 'Oturupon is the trial that makes you stronger, like a diamond formed under pressure.', rule: 'Be tested, turned and returned stronger. The IfaPauli-Y gate flips the qubit and adds a phase. Apply it twice and you are back where you began.' },
+  { n: 'Otura Meji', yo: 'Òtúrá', logic: 'OturaLogic', m: '1011', kw: 'Sacred word · Creation · Communication', law: 'Otura is the sacred word: what you say shapes what you create.', rule: 'The inner word changes; the outer form stays. The IfaPauli-Z Dual gate marks Oyeku with a minus sign and leaves the chance of each mark unchanged.' },
+  { n: 'Irete Meji', yo: 'Ìrẹtẹ̀', logic: 'IreteLogic', m: '1101', kw: 'Patience · Deep roots · Longevity', law: 'Irete is deep roots and steady persistence, like the Iroko tree.', rule: 'Change begins in the roots, out of sight. The IfaPauli-Z gate marks Ogbe with a minus sign (a phase) without changing what you would measure.' },
+  { n: 'Ose Meji', yo: 'Ọ̀ṣẹ́', logic: 'OseLogic', m: '1010', kw: 'Abundance · Prosperity · Sweetness', law: 'Ose is abundance: blessings that multiply and overflow.', rule: 'Every gate has its overflowing Dual. The IfaX Dual gate (𝒳̄) is any 𝒳 gate with every output flipped.' },
+  { n: 'Ofun Meji', yo: 'Ọ̀fún', logic: 'OfunLogic', m: '0101', kw: 'Completion · Totality · Cosmic law', law: 'Ofun is completion: the universal law that contains all the other Odu.', rule: 'One gate contains all gates. Write any Odu’s four marks as a truth table and the IfaX gate (𝒳) becomes that gate: the 16 Odu are the 16 possible two-input gates.' }
+];
+const IFABIT = (m) => m.split('').map(c => c === '1' ? '0' : '1').join('');
+// The 16 IfaGates, in the order of the 16 Odu (IfaLogic Platform, Part 3)
+const IGATES = [
+  { k: 'buf', name: 'IfaBuffer', en: 'Buffer', kind: 'c', f: (a) => a },
+  { k: 'not', name: 'IfaNOT', en: 'NOT', kind: 'c', f: (a) => 1 - a },
+  { k: 'and', name: 'IfaAND', en: 'AND', kind: 'c', f: (a, b) => a & b },
+  { k: 'nand', name: 'IfaNAND', en: 'NAND', kind: 'c', f: (a, b) => 1 - (a & b) },
+  { k: 'or', name: 'IfaOR', en: 'OR', kind: 'c', f: (a, b) => a | b },
+  { k: 'nor', name: 'IfaNOR', en: 'NOR', kind: 'c', f: (a, b) => 1 - (a | b) },
+  { k: 'xor', name: 'IfaXOR', en: 'XOR', kind: 'c', f: (a, b) => a ^ b },
+  { k: 'xnor', name: 'IfaXNOR', en: 'XNOR', kind: 'c', f: (a, b) => 1 - (a ^ b) },
+  { k: 'Ib', name: 'IfaPauli Identity (Dual)', en: 'Ī', kind: 'q', L: 'Ī' },
+  { k: 'X', name: 'IfaPauli-X', en: 'X', kind: 'q', L: 'X' },
+  { k: 'Yb', name: 'IfaPauli-Y Dual', en: 'Y̅', kind: 'q', L: 'Y̅' },
+  { k: 'Y', name: 'IfaPauli-Y', en: 'Y', kind: 'q', L: 'Y' },
+  { k: 'Zb', name: 'IfaPauli-Z Dual', en: 'Z̅', kind: 'q', L: 'Z̅' },
+  { k: 'Z', name: 'IfaPauli-Z', en: 'Z', kind: 'q', L: 'Z' },
+  { k: 'xb', name: 'IfaX Dual', en: '𝒳̄', kind: 'x', inv: 1 },
+  { k: 'x', name: 'IfaX', en: '𝒳', kind: 'x', inv: 0 }
+];
+// Builders, Connectors, Integrators, Containers: one example of each per gate
+const ROLES = [
+  ['Signal repeaters that carry a message down a long cable or optical fibre unchanged.', 'Links a sensor to a distant screen without altering what it reports.', 'Fans one source out to many: a school bell reaching every classroom.', 'Memory cells hold a value by passing it back to themselves.'],
+  ['Night lamps that switch on when daylight goes.', 'Turns a “stop” from one system into a “go” for another that speaks the opposite signal.', 'With AND or OR it makes NAND and NOR, and from those, every gate.', 'Holds the Dual of a design: flip it to find its opposite.'],
+  ['Two-key safes; cars that start only with the seatbelt fastened.', 'A clinic opens when the doctor is in and the power is on.', 'Joins evidence: a diagnosis needs every sign to agree.', 'Masks that keep only the bits you choose, as in data filtering.'],
+  ['Processors and memory chips can be built from NAND alone.', 'A universal adapter: any logic can be rebuilt from it.', 'NAND flash cells in phones and USB drives store your files.', 'The hidden gate inside almost every chip.'],
+  ['Alarms that ring if any door opens.', 'Many roads to one place: any open route reaches the hospital.', 'Merges many sensors into one alert.', 'Gathers everything that belongs: the union of sets.'],
+  ['“All clear” lights that shine only when no fault is present.', 'Universal like NAND: the Apollo Guidance Computer was built from NOR gates.', 'Waits for stillness across many inputs before it fires.', 'Holds the void state that the spark of change comes out of.'],
+  ['Staircase lights controlled from the top and the bottom.', 'Adds two bits in a calculator: XOR gives the sum.', 'Parity checks protect data as it travels.', 'Encryption: XOR with a key hides a message and XOR again reveals it.'],
+  ['Comparators that light when two values match.', 'Checks each digit of a code against the stored one.', 'Confirms that two copies of the data are identical.', 'Holds resonance: two systems in the same state.'],
+  ['A quantum “wait” step that keeps the road clear for the next gate.', 'Keeps one qubit unchanged while gates act on others.', 'The reference that every other quantum gate is measured against.', 'Holds a state safely through time, as quantum memory aims to.'],
+  ['Flips a qubit from Oyeku to Ogbe in one step.', 'Prepares a qubit in Ogbe before a computation begins.', 'The heart of CNOT, the gate that links two qubits.', 'Swaps the two poles of any two-state system.'],
+  ['Turns a qubit through the hidden (imaginary) axis.', 'The Dual partner of Y: together they cover both directions of the turn.', 'Combines a bit flip and a phase flip in one move.', 'Holds the mirror image of Y’s rotation.'],
+  ['Flips the qubit and adds a phase: tested and transformed.', 'Links a bit flip (X) with a phase flip (Z).', 'Used in quantum error correction to catch combined errors.', 'Apply it twice and you return to the start.'],
+  ['Marks Oyeku with a minus sign: a change in the inner word.', 'The Dual partner of Z, acting on the other pole.', 'Phase marks let qubits interfere and compute together.', 'Holds information in the phase, invisible to a single measurement.'],
+  ['Marks Ogbe with a minus sign without changing the odds.', 'Phase kickback carries information from one qubit to another.', 'Catches phase errors in quantum error correction.', 'Deep roots: the change is real but hidden until qubits interfere.'],
+  ['The complement of any gate you design.', 'Turns an “on” rule into its “off” rule.', 'Pairs with 𝒳 so every function comes with its Dual.', 'Holds the other half of the 16: each Odu’s Dual.'],
+  ['Design any two-input gate by choosing an Odu.', 'One part that can stand in for AND, OR, XOR or any of the 16.', 'Reconfigurable chips (FPGAs) use lookup tables like this.', 'Contains every two-input gate: all 16 Odu.']
+];
+const FN16 = { '0000': 'always Oyeku', '0001': 'AND', '0010': 'A and not B', '0011': 'A (copy A)', '0100': 'not A and B', '0101': 'B (copy B)', '0110': 'XOR', '0111': 'OR', '1000': 'NOR', '1001': 'XNOR', '1010': 'NOT B', '1011': 'A or not B', '1100': 'NOT A', '1101': 'not A or B', '1110': 'NAND', '1111': 'always Ogbe' };
+const odName = (m) => { const i = ODUS.findIndex(o => o.m === m); return i >= 0 ? ODUS[i].n : ''; };
+const inv4 = (m) => m.split('').map(c => c === '1' ? '0' : '1').join('');
+
+// Complex numbers and the IfaPauli matrices. Basis: index 0 = |॥⟩ Oyeku, index 1 = |ı⟩ Ogbe.
+const cx = (re, im = 0) => ({ re, im });
+const cmul = (a, b) => cx(a.re * b.re - a.im * b.im, a.re * b.im + a.im * b.re);
+const cadd = (a, b) => cx(a.re + b.re, a.im + b.im);
+const QM = {
+  Ib: [[cx(1), cx(0)], [cx(0), cx(1)]],
+  X: [[cx(0), cx(1)], [cx(1), cx(0)]],
+  Y: [[cx(0), cx(0, -1)], [cx(0, 1), cx(0)]],
+  Yb: [[cx(0), cx(0, 1)], [cx(0, -1), cx(0)]],
+  Z: [[cx(1), cx(0)], [cx(0), cx(-1)]],
+  Zb: [[cx(-1), cx(0)], [cx(0), cx(1)]]
+};
+const R2 = Math.SQRT1_2;
+const QSTATES = { o: [cx(1), cx(0)], g: [cx(0), cx(1)], p: [cx(R2), cx(R2)], m: [cx(R2), cx(-R2)], i: [cx(R2), cx(0, R2)] };
+const QLABEL = { o: '|॥⟩ Oyeku', g: '|ı⟩ Ogbe', p: '|+⟩', m: '|−⟩', i: '|+i⟩' };
+const qapply = (M, v) => [cadd(cmul(M[0][0], v[0]), cmul(M[0][1], v[1])), cadd(cmul(M[1][0], v[0]), cmul(M[1][1], v[1]))];
+const fnum = (x) => { const r = Math.round(x * 1000) / 1000; if (Math.abs(r - R2) < 1e-3) return '1/√2'; if (Math.abs(r + R2) < 1e-3) return '−1/√2'; return String(r).replace('-', '−'); };
+function cstr(z) {
+  const re = Math.abs(z.re) < 1e-9 ? 0 : z.re, im = Math.abs(z.im) < 1e-9 ? 0 : z.im;
+  if (!im) return fnum(re);
+  if (!re) return (im === 1 ? '' : im === -1 ? '−' : fnum(im)) + 'i';
+  return fnum(re) + (im < 0 ? ' − ' : ' + ') + fnum(Math.abs(im)) + 'i';
+}
+function ketStr(v) {
+  const t = []; [['॥', v[0]], ['ı', v[1]]].forEach(([k, z]) => { if (Math.abs(z.re) < 1e-9 && Math.abs(z.im) < 1e-9) return; let c = cstr(z); if (c === '1') c = ''; else if (c === '−1') c = '−'; t.push((c.includes(' ') ? '(' + c + ')' : c) + '|' + k + '⟩'); });
+  return t.join(' + ').replace('+ −', '− ');
+}
+const prob = (z) => z.re * z.re + z.im * z.im;
+
+// Gate drawing helpers shared by the lab and the boards (124 × 68 coordinate box)
+function qGateSVG(L, o) {
+  return `<path d="M0 34H30" stroke="${o.inCol[0]}" stroke-width="2.5" stroke-linecap="round"/><path d="M92 34H124" stroke="${o.outCol}" stroke-width="2.5" stroke-linecap="round"/>` +
+    `<rect x="30" y="12" width="62" height="44" rx="6" fill="${o.fill || '#0b1226'}" stroke="${o.stroke}" stroke-width="2.6"/>` +
+    `<text x="61" y="42" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="22" font-weight="600" fill="${o.stroke}">${L}</text>`;
+}
+function igShape(i, o) {
+  const g = IGATES[i];
+  if (g.kind === 'c') return gateSVG(g.k, g.k === 'buf' || g.k === 'not' ? 112 : 124, o);
+  if (g.kind === 'q') return qGateSVG(g.L, o);
+  return gateSVG(g.inv ? 'ifaxb' : 'ifax', 124, o) + `<text x="61" y="${g.inv ? 43 : 43}" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="22" font-weight="700" fill="${o.stroke}">𝒳</text>` + (g.inv ? `<path d="M52 18H70" stroke="${o.stroke}" stroke-width="2"/>` : '');
+}
+function igIcon(i) {
+  const g = IGATES[i];
+  if (g.kind === 'c') return gateIcon(g.k);
+  if (g.kind === 'q') return `<span class="qbox">${g.L}</span>`;
+  return `<span class="qbox">${g.inv ? '𝒳̄' : '𝒳'}</span>`;
+}
+function omHTML(m, lg) { return `<span class="om${lg ? ' om--lg' : ''}" aria-label="${m.split('').map(c => c === '1' ? 'single' : 'double').join(', ')}">${m.split('').map(c => c === '1' ? '<span><i></i></span>' : '<span class="d"><i></i><i></i></span>').join('')}</span>`; }
+function markSVGc(cx0, cy0, v, on, off, r = 6) { return v ? `<circle cx="${cx0}" cy="${cy0}" r="${r + 1}" fill="${on}"/>` : `<circle cx="${cx0 - r - 2}" cy="${cy0}" r="${r * .8}" fill="${off}"/><circle cx="${cx0 + r + 2}" cy="${cy0}" r="${r * .8}" fill="${off}"/>`; }
+
+// Shared evaluation for a gate on inputs (a, b); x-gates read their Odu truth table
+const IG = { sel: 2, view: 'aro', a: 1, b: 0, q: 'o', applied: 0, xm: '0110', cells: IGATES.map(() => [1, 0]), A: 1, B: 0 };
+function igEval(i, a, b, xm) {
+  const g = IGATES[i];
+  if (g.kind === 'c') return g.f(a, b);
+  if (g.kind === 'x') { const v = +xm[2 * a + b]; return g.inv ? 1 - v : v; }
+  return null;
+}
+function igQ(i, v) { return qapply(QM[IGATES[i].k], v); }
+
+/* — The 16 Ifa Logic Systems grid — */
+function ilsRender() {
+  $('ils').innerHTML = ODUS.map((o, i) => {
+    const c = i % 2 ? 'var(--violet)' : 'var(--gold)';
+    return `<button type="button" class="il" style="--c:${c}" data-il="${i}" aria-pressed="${IG.sel === i}">
+      <span class="il__top">${omHTML(o.m)}<span><span class="il__n">${String(i + 1).padStart(2, '0')} · ${o.yo}</span><span class="il__name">${o.n}</span><span class="il__logic">${o.logic}</span></span></span>
+      <p class="il__law">${o.law}</p>
+      <p class="il__law"><b style="color:var(--text)">Logic:</b> ${o.rule.split('. ')[0]}.</p>
+      <span class="il__foot"><span class="chip chip--g">${IGATES[i].name}</span><span class="chip">${PRINC[i >> 1]}</span><span class="il__bit">${o.n.split(' ')[0].replace('Ejiogbe', 'Ogbe')}Bit ${IFABIT(o.m)}</span></span>
+    </button>`;
+  }).join('');
+  $('ils').querySelectorAll('[data-il]').forEach(b => b.addEventListener('click', () => { igSelect(+b.dataset.il); go('ifagates-h'); }));
+}
+
+/* — Boards: Ọpọ́n-Àrògún (Logic Board) and Ọpọ́n-Ifá (Ifa Board) — */
+const PCB = { bg1: '#0d3b2e', bg2: '#06231b', cu: '#b8753a', cuOn: '#f5c518', silk: '#e4efe8', silk2: 'rgba(228,239,232,.55)', red: '#ff3b4f', green: '#39e07a', off: '#1b2a24' };
+function led(x, y, on, col, r = 6) { return `<circle cx="${x}" cy="${y}" r="${r + 3}" fill="#0a1712" stroke="rgba(228,239,232,.35)" stroke-width="1"/><circle cx="${x}" cy="${y}" r="${r}" fill="${on ? col : PCB.off}" ${on ? `style="filter:drop-shadow(0 0 6px ${col})"` : ''}/>`; }
+function ledP(x, y, p, col, r = 6) { return `<circle cx="${x}" cy="${y}" r="${r + 3}" fill="#0a1712" stroke="rgba(228,239,232,.35)" stroke-width="1"/><circle cx="${x}" cy="${y}" r="${r}" fill="${PCB.off}"/><circle cx="${x}" cy="${y}" r="${r}" fill="${col}" opacity="${p.toFixed(2)}" ${p > .2 ? `style="filter:drop-shadow(0 0 6px ${col})"` : ''}/>`; }
+function toggle(x, y, on, attr) { return `<g ${attr} style="cursor:pointer"><rect x="${x - 4}" y="${y - 12}" width="34" height="24" fill="transparent"/><rect x="${x}" y="${y - 7}" width="26" height="14" rx="7" fill="${on ? '#2b5d48' : '#13241d'}" stroke="${PCB.silk2}" stroke-width="1.2"/><circle cx="${on ? x + 19 : x + 7}" cy="${y}" r="5.5" fill="${on ? PCB.silk : '#7d8c85'}"/></g>`; }
+function aroBoard() {
+  const W = 1000, CW = 230, CH = 158, G = 15, X0 = 18, Y0 = 70;
+  let s = `<defs><linearGradient id="pcb-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${PCB.bg1}"/><stop offset="1" stop-color="${PCB.bg2}"/></linearGradient>
+    <pattern id="pcb-dot" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".9" fill="rgba(228,239,232,.08)"/></pattern></defs>
+    <rect x="2" y="2" width="${W - 4}" height="${Y0 + 4 * (CH + 12) + 26}" rx="18" fill="url(#pcb-g)" stroke="#2f6b55" stroke-width="2"/><rect x="2" y="2" width="${W - 4}" height="${Y0 + 4 * (CH + 12) + 26}" rx="18" fill="url(#pcb-dot)"/>`;
+  [[22, 22], [W - 22, 22], [22, Y0 + 4 * (CH + 12) + 6], [W - 22, Y0 + 4 * (CH + 12) + 6]].forEach(([x, y]) => { s += `<circle cx="${x}" cy="${y}" r="8" fill="#04070f" stroke="${PCB.cu}" stroke-width="3"/>`; });
+  s += `<text x="44" y="38" font-family="Noto Sans Display, Noto Sans, sans-serif" font-size="20" font-weight="700" fill="${PCB.silk}">Ọpọ́n-Àrògún · IfaGates Logic Board</text><text x="44" y="57" font-family="Noto Sans, sans-serif" font-size="10.5" letter-spacing="1" fill="${PCB.silk2}">16 IFAGATES · ỌPỌ́N-ÀRÒGÚN AYÍBÍRÍ (PCB) · ILÉ ARỌ́ · IFALABS</text>`;
+  s += `<g font-family="IBM Plex Mono, monospace" font-size="10" fill="${PCB.silk2}"><circle cx="${W - 250}" cy="40" r="5" fill="${PCB.red}"/><text x="${W - 240}" y="44">INPUT</text><circle cx="${W - 180}" cy="40" r="5" fill="${PCB.green}"/><text x="${W - 170}" y="44">OUTPUT</text><text x="${W - 100}" y="44">ı = 1 · ॥ = 0</text></g>`;
+  IGATES.forEach((g, i) => {
+    const col = 3 - (i % 4), row = i >> 2, x = X0 + col * (CW + G), y = Y0 + row * (CH + 12), sel = IG.sel === i;
+    const [a, b] = IG.cells[i]; const one = g.k === 'buf' || g.k === 'not' || g.kind === 'q';
+    s += `<g data-cell="${i}" style="cursor:pointer"><rect x="${x}" y="${y}" width="${CW}" height="${CH}" rx="10" fill="${sel ? 'rgba(245,197,24,.08)' : 'rgba(4,20,15,.35)'}" stroke="${sel ? PCB.cuOn : PCB.silk2}" stroke-width="${sel ? 2 : 1}" ${sel ? '' : 'stroke-dasharray="5 4"'}/>`;
+    s += `<text x="${x + 10}" y="${y + 18}" font-family="IBM Plex Sans, sans-serif" font-size="12.5" font-weight="700" fill="${PCB.silk}">${g.name.replace(' (Dual)', ' Dual')}</text><text x="${x + CW - 10}" y="${y + 18}" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="${PCB.silk2}">${String(i + 1).padStart(2, '0')}</text>`;
+    s += `<text x="${x + 10}" y="${y + CH - 10}" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="${PCB.silk2}">${ODUS[i].n.toUpperCase()} · ${ODUS[i].logic}</text></g>`;
+    const gx = x + 58, gy = y + 40, sc = .86;
+    const ys = one ? [gy + sc * (g.kind === 'q' ? 34 : 26)] : [gy + sc * 22, gy + sc * 46];
+    const ins = one ? [a] : [a, b];
+    ins.forEach((v, k) => { s += toggle(x + 8, ys[k], v, `data-sw="${i}:${k}"`) + `<path d="M${x + 34} ${ys[k]}H${gx}" stroke="${v ? PCB.cuOn : PCB.cu}" stroke-width="2.4"/>` + led(x + 46, ys[k], v, PCB.red, 3.2); });
+    let out = null, outY = gy + sc * (g.kind === 'q' ? 34 : one ? 26 : 34);
+    const gw = (g.k === 'buf' || g.k === 'not') ? 112 : 124;
+    if (g.kind === 'q') {
+      const v = igQ(i, a ? QSTATES.g : QSTATES.o);
+      s += `<g transform="translate(${gx} ${gy}) scale(${sc})">${qGateSVG(g.L, { stroke: PCB.silk, inCol: [a ? PCB.cuOn : PCB.cu], outCol: PCB.cu, fill: '#0a1d16' })}</g>`;
+      s += `<path d="M${gx + gw * sc} ${outY}H${x + 186}" stroke="${PCB.cu}" stroke-width="2.4"/>` + ledP(x + 196, outY - 12, prob(v[0]), '#b98cff', 5) + ledP(x + 196, outY + 12, prob(v[1]), PCB.green, 5);
+      s += `<text x="${x + 208}" y="${outY - 8}" font-family="IBM Plex Mono, monospace" font-size="9" fill="${PCB.silk2}">॥</text><text x="${x + 208}" y="${outY + 16}" font-family="IBM Plex Mono, monospace" font-size="9" fill="${PCB.silk2}">ı</text>`;
+      s += `<text x="${x + CW / 2 + 10}" y="${y + CH - 26}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="${PCB.silk}">→ ${ketStr(v)}</text>`;
+    } else {
+      out = igEval(i, a, b, IG.xm);
+      const c = out ? PCB.cuOn : PCB.cu;
+      s += `<g transform="translate(${gx} ${gy}) scale(${sc})">${igShape(i, { stroke: PCB.silk, inCol: ins.map(v => v ? PCB.cuOn : PCB.cu), outCol: c })}</g>`;
+      s += `<path d="M${gx + gw * sc} ${outY}H${x + 190}" stroke="${c}" stroke-width="2.4"/>` + led(x + 200, outY, out, PCB.green, 7);
+      if (g.kind === 'x') s += `<text x="${x + CW / 2 + 10}" y="${y + CH - 26}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="${PCB.silk}">table: ${odName(IG.xm)}</text>`;
+    }
+  });
+  return { vb: `0 0 ${W} ${Y0 + 4 * (CH + 12) + 30}`, svg: s };
+}
+function ifaBoard() {
+  const W = 1000, H = 820, C = [500, 410], RO = 392, RI = 336, RN = 262;
+  let s = `<defs><radialGradient id="opon-w" cx=".5" cy=".5" r=".5"><stop offset=".84" stop-color="#7a4b26"/><stop offset=".92" stop-color="#5a3519"/><stop offset="1" stop-color="#3a2210"/></radialGradient>
+    <radialGradient id="opon-f" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#2a1a0e"/><stop offset="1" stop-color="#140c06"/></radialGradient>
+    <pattern id="iyerosun" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r=".8" fill="rgba(230,190,120,.14)"/><circle cx="8" cy="8" r=".6" fill="rgba(230,190,120,.1)"/></pattern></defs>`;
+  s += `<circle cx="${C[0]}" cy="${C[1]}" r="${RO}" fill="url(#opon-w)" stroke="#2a170a" stroke-width="3"/>`;
+  for (let k = 0; k < 64; k++) { const t = k / 64 * 2 * PI, r = (RO + RI) / 2, x = C[0] + r * Math.cos(t), y = C[1] + r * Math.sin(t), d = t * 180 / PI + 90; s += k % 2 ? `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="none" stroke="#c48a52" stroke-width="2" opacity=".75"/>` : `<rect x="${(x - 4).toFixed(1)}" y="${(y - 13).toFixed(1)}" width="8" height="26" rx="3" fill="#3a2210" stroke="#c48a52" stroke-width="1.2" opacity=".85" transform="rotate(${d.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`; }
+  s += `<circle cx="${C[0]}" cy="${C[1]}" r="${RI}" fill="url(#opon-f)" stroke="#c48a52" stroke-width="2"/><circle cx="${C[0]}" cy="${C[1]}" r="${RI}" fill="url(#iyerosun)"/>`;
+  s += `<circle cx="${C[0]}" cy="${C[1]}" r="${RN}" fill="none" stroke="rgba(245,197,24,.2)" stroke-width="1.5" stroke-dasharray="3 7"/>`;
+  const { A, B } = IG;
+  IGATES.forEach((g, i) => {
+    const t = (-90 + i * 22.5) * PI / 180, x = C[0] + RN * Math.cos(t), y = C[1] + RN * Math.sin(t), sel = IG.sel === i;
+    let on, p = null;
+    if (g.kind === 'q') { const v = igQ(i, A ? QSTATES.g : QSTATES.o); p = prob(v[1]); on = p > .5; } else on = igEval(i, A, B, IG.xm);
+    const ink = on ? '#f5c518' : 'rgba(230,200,150,.55)';
+    s += `<g data-cell="${i}" style="cursor:pointer"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="47" fill="${sel ? '#3a2a12' : '#1d1209'}" stroke="${sel ? '#f5c518' : '#8a5a30'}" stroke-width="${sel ? 3 : 1.6}"/>`;
+    s += `<g transform="translate(${(x - 31).toFixed(1)} ${(y - 30).toFixed(1)}) scale(.5)">${g.kind === 'q' ? qGateSVG(g.L, { stroke: ink, inCol: [ink], outCol: ink, fill: '#1d1209' }) : igShape(i, { stroke: ink, inCol: [ink, ink], outCol: ink, fill: '#1d1209' })}</g>`;
+    s += `<text x="${x.toFixed(1)}" y="${(y + 18).toFixed(1)}" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="10.5" font-weight="700" fill="#f3e3c4">${['Ib', 'Yb', 'Zb'].includes(g.k) ? g.k[0] + ' Dual' : g.kind === 'q' ? g.L : g.kind === 'x' ? (g.inv ? '𝒳 Dual' : '𝒳') : g.name}</text>`;
+    s += `<text x="${x.toFixed(1)}" y="${(y + 31).toFixed(1)}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="rgba(243,227,196,.6)">${ODUS[i].n.replace(' Meji', '')}</text>`;
+    s += p === null ? `<circle cx="${x.toFixed(1)}" cy="${(y - 38).toFixed(1)}" r="5.5" fill="${on ? '#39e07a' : '#2a1d12'}" stroke="#8a5a30" ${on ? 'style="filter:drop-shadow(0 0 6px #39e07a)"' : ''}/>` : `<circle cx="${x.toFixed(1)}" cy="${(y - 38).toFixed(1)}" r="5.5" fill="#2a1d12" stroke="#8a5a30"/><circle cx="${x.toFixed(1)}" cy="${(y - 38).toFixed(1)}" r="5.5" fill="#39e07a" opacity="${p.toFixed(2)}"/>`;
+    s += `</g>`;
+  });
+  // centre: the face of the Ọpọ́n with the two shared inputs
+  s += `<text x="${C[0]}" y="${C[1] - 118}" text-anchor="middle" font-family="Noto Sans Display, Noto Sans, sans-serif" font-size="27" font-weight="700" fill="#f3e3c4">Ọpọ́n-Ifá</text><text x="${C[0]}" y="${C[1] - 96}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="rgba(243,227,196,.6)">THE IFA BOARD · ALL 16 IFAGATES READ A AND B</text>`;
+  [['A', A, C[0] - 70], ['B', B, C[0] + 70]].forEach(([k, v, x]) => {
+    s += `<g data-gsw="${k}" style="cursor:pointer"><rect x="${x - 50}" y="${C[1] - 74}" width="100" height="120" rx="14" fill="#1d1209" stroke="#c48a52" stroke-width="1.6"/><text x="${x}" y="${C[1] - 50}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" font-weight="600" fill="#f3e3c4">${k}</text>${markSVGc(x, C[1] - 12, v, '#f5c518', '#b98cff', 9)}<text x="${x}" y="${C[1] + 30}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="11" fill="rgba(243,227,196,.7)">${v ? 'Ogbe · 1' : 'Oyeku · 0'}</text></g>`;
+  });
+  s += `<text x="${C[0]}" y="${C[1] + 82}" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="rgba(243,227,196,.75)">Tap A or B to change the marks.</text><text x="${C[0]}" y="${C[1] + 100}" text-anchor="middle" font-family="IBM Plex Sans, sans-serif" font-size="12.5" fill="rgba(243,227,196,.75)">Green = Ogbe out. Quantum gates read A as their qubit.</text>`;
+  return { vb: `0 0 ${W} ${H}`, svg: s };
+}
+function boardRender() {
+  const r = IG.view === 'ifa' ? ifaBoard() : aroBoard();
+  const svg = $('ig-board'); svg.setAttribute('viewBox', r.vb); svg.innerHTML = r.svg;
+  document.querySelectorAll('[data-bview]').forEach(b => b.setAttribute('aria-pressed', b.dataset.bview === IG.view));
+  $('ig-file').textContent = IG.view === 'ifa' ? 'opon-ifa.ifacad' : 'opon-arogun.ifacad';
+}
+$('ig-board').addEventListener('click', e => {
+  const sw = e.target.closest('[data-sw]'), gsw = e.target.closest('[data-gsw]'), cell = e.target.closest('[data-cell]');
+  if (sw) { const [i, k] = sw.dataset.sw.split(':').map(Number); IG.cells[i][k] ^= 1; if (IG.sel === i) { IG.a = IG.cells[i][0]; IG.b = IG.cells[i][1]; IG.q = IG.a ? 'g' : 'o'; IG.applied = 0; } boardRender(); if (IG.sel === i) labRender(); return; }
+  if (gsw) { IG[gsw.dataset.gsw] ^= 1; boardRender(); return; }
+  if (cell) igSelect(+cell.dataset.cell, true);
+});
+document.querySelectorAll('[data-bview]').forEach(b => b.addEventListener('click', () => { IG.view = b.dataset.bview; boardRender(); }));
+
+/* — The lab (detail for the selected gate) — */
+function igSelect(i, keepScroll) {
+  IG.sel = i; IG.applied = 0;
+  if (IGATES[i].kind !== 'q') { IG.a = IG.cells[i][0]; IG.b = IG.cells[i][1]; } else IG.q = IG.cells[i][0] ? 'g' : 'o';
+  boardRender(); labRender();
+  $('ils').querySelectorAll('[data-il]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.il === i));
+}
+function labRender() {
+  const i = IG.sel, g = IGATES[i], o = ODUS[i], pair = i >> 1, dual = i ^ 1, ink = '#f5c518', dim = 'rgba(150,170,230,.5)';
+  $('ig-pr').textContent = PRINC[pair] + ' · ' + IGATES[pair * 2].name + ' ↔ ' + IGATES[pair * 2 + 1].name;
+  let st = `<div class="ig__head">${omHTML(o.m, 1)}<h4 class="ig__title"><small>${o.n} · ${o.logic} · ${PRINC[pair]}</small>${g.name} Gate</h4></div>
+    <p class="ig__law"><b>Law of Nature.</b> ${o.law}</p><p class="ig__law"><b>${o.logic}.</b> ${o.rule}</p>`;
+  if (g.kind === 'c' || g.kind === 'x') {
+    const one = g.k === 'buf' || g.k === 'not', a = IG.a, b = IG.b, out = igEval(i, a, b, IG.xm), w = one ? 112 : 124;
+    const ys = one ? [26] : [22, 46], S = 2.4, ox = 150, oy = 18;
+    let sv = `<svg class="ig__svg" viewBox="0 0 560 ${oy * 2 + 68 * S}" role="img" aria-label="${g.name} with inputs ${one ? (a ? 'Ogbe' : 'Oyeku') : (a ? 'Ogbe' : 'Oyeku') + ' and ' + (b ? 'Ogbe' : 'Oyeku')}, output ${out ? 'Ogbe' : 'Oyeku'}">`;
+    sv += `<g transform="translate(${ox} ${oy}) scale(${S})">${igShape(i, { stroke: ink, inCol: (one ? [a] : [a, b]).map(v => v ? ink : dim), outCol: out ? ink : dim })}</g>`;
+    ys.forEach((y, k) => { const v = k ? b : a; sv += `<path d="M84 ${oy + y * S}H${ox}" stroke="${v ? ink : dim}" stroke-width="3"/><g data-lin="${k}" style="cursor:pointer"><rect x="10" y="${oy + y * S - 22}" width="74" height="44" rx="10" fill="#0b1226" stroke="rgba(150,170,230,.4)"/><text x="22" y="${oy + y * S + 5}" font-family="IBM Plex Mono, monospace" font-size="14" fill="#aab4cd">${k ? 'B' : 'A'}</text>${markSVGc(60, oy + y * S, v, ink, '#a855f7', 6)}</g>`; });
+    const yo = oy + (one ? 26 : 34) * S, xo = ox + w * S;
+    sv += `<path d="M${xo} ${yo}H${xo + 30}" stroke="${out ? ink : dim}" stroke-width="3"/><rect x="${xo + 30}" y="${yo - 24}" width="80" height="48" rx="10" fill="${out ? 'rgba(245,197,24,.12)' : '#0b1226'}" stroke="${out ? ink : 'rgba(150,170,230,.4)'}"/>${markSVGc(xo + 70, yo, out, ink, '#a855f7', 7)}</svg>`;
+    st += sv + `<p class="ig__eq">Tap A${one ? '' : ' or B'} to flip its mark. Output: <b>${out ? 'Ogbe (ı) · 1' : 'Oyeku (॥) · 0'}</b></p>`;
+    if (g.kind === 'x') {
+      const shown = g.inv ? inv4(IG.xm) : IG.xm;
+      st += `<p class="ig__eq">Truth table Odu: <b>${odName(IG.xm)}</b> ${omHTML(IG.xm)} ${g.inv ? `→ Dual <b>${odName(shown)}</b> ${omHTML(shown)}` : ''} · this gate is <b>${FN16[shown]}</b></p>`;
+    }
+    // truth table
+    const rows = one ? [[0], [1]] : [[0, 0], [0, 1], [1, 0], [1, 1]];
+    st += `<div class="tt"><table><thead><tr>${one ? '<th>A</th>' : '<th>A</th><th>B</th>'}<th>${g.name}</th></tr></thead><tbody>${rows.map(r => { const v = igEval(i, r[0], r[1] || 0, IG.xm), cur = r[0] === a && (one || r[1] === b); return `<tr class="${cur ? 'cur' : ''}">${r.map(x => `<td class="${x ? 'on' : 'off'}">${x ? 'ı' : '॥'} <small>${x}</small></td>`).join('')}<td class="${v ? 'on' : 'off'}">${v ? 'ı' : '॥'} <small>${v}</small></td></tr>`; }).join('')}</tbody></table></div>`;
+  } else {
+    const M = QM[g.k]; let v = QSTATES[IG.q]; for (let n = 0; n < IG.applied; n++) v = igQ(i, v); const out = igQ(i, v);
+    const S = 2.4, ox = 150, oy = 10;
+    let sv = `<svg class="ig__svg" viewBox="0 0 560 ${oy * 2 + 68 * S}" role="img" aria-label="${g.name} acting on a qubit"><g transform="translate(${ox} ${oy}) scale(${S})">${qGateSVG(g.L, { stroke: ink, inCol: [ink], outCol: ink })}</g>`;
+    sv += `<text x="${ox - 10}" y="${oy + 34 * S + 6}" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="15" fill="#ecf0fa">${ketStr(v)}</text><text x="${ox + 124 * S + 10}" y="${oy + 34 * S + 6}" font-family="IBM Plex Mono, monospace" font-size="15" fill="${ink}">${ketStr(out)}</text></svg>`;
+    st += sv;
+    st += `<div class="qs" role="group" aria-label="Starting qubit state">${Object.keys(QSTATES).map(k => `<button type="button" data-q="${k}" aria-pressed="${IG.q === k && !IG.applied}">${QLABEL[k]}</button>`).join('')}</div>`;
+    st += `<div class="qrow"><div><div class="ctl__h" style="text-align:center;margin-bottom:6px">Matrix</div><div class="mx">${[M[0][0], M[0][1], M[1][0], M[1][1]].map(z => `<span>${cstr(z)}</span>`).join('')}</div></div>
+      <div class="qstate"><div class="ctl__h">Chance of each mark after the gate</div>
+      <div class="qbar oy"><span>॥ Oyeku</span><span class="qbar__t"><i style="width:${(prob(out[0]) * 100).toFixed(0)}%"></i></span><span>${(prob(out[0]) * 100).toFixed(0)}%</span></div>
+      <div class="qbar"><span>ı Ogbe</span><span class="qbar__t"><i style="width:${(prob(out[1]) * 100).toFixed(0)}%"></i></span><span>${(prob(out[1]) * 100).toFixed(0)}%</span></div></div></div>`;
+    st += `<div class="ig__ctl"><button type="button" class="mini" id="ig-again">Apply ${g.L} again</button><button type="button" class="mini" id="ig-reset">Reset</button><span class="note">Applied ${IG.applied + 1} time${IG.applied ? 's' : ''}</span></div>`;
+    st += `<p class="ig__eq">Basis: |॥⟩ is Oyeku (0) and |ı⟩ is Ogbe (1). In Ilé Arọ́ a Dual gate is the gate read through the Orisa Dual, with Ogbe and Oyeku swapped (X·G·X).</p>`;
+  }
+  $('ig-stage').innerHTML = st;
+  // side panel
+  const r = ROLES[i];
+  let sd = `<div class="ctl"><div class="ctl__h">Its Dual</div><p>${g.name} and <b>${IGATES[dual].name}</b> (${ODUS[dual].n}) are the ${PRINC[pair]} pair of the SIDECHRX principles.</p><div class="btn-row"><button type="button" class="mini" data-igs="${dual}">Open ${IGATES[dual].name}</button></div></div>`;
+  if (g.kind === 'x') sd += `<div class="ctl"><div class="ctl__h">Choose the truth table Odu</div><select class="xsel" id="ig-xsel" aria-label="Truth table Odu">${ODUS.map(od => `<option value="${od.m}" ${od.m === IG.xm ? 'selected' : ''}>${od.n} · ${od.m.split('').map(c => c === '1' ? 'ı' : '॥').join(' ')} · ${FN16[od.m]}</option>`).join('')}</select><p>The four marks, top to bottom, are the outputs for inputs ॥॥, ॥ı, ı॥ and ıı.</p></div>`;
+  sd += `<div class="ctl"><div class="ctl__h">Builders · Connectors · Integrators · Containers</div><ul class="rl"><li><i>⌂</i><span><b>Builder.</b> ${r[0]}</span></li><li><i>⇄</i><span><b>Connector.</b> ${r[1]}</span></li><li><i>⊕</i><span><b>Integrator.</b> ${r[2]}</span></li><li><i>▣</i><span><b>Container.</b> ${r[3]}</span></li></ul></div>`;
+  const pj = IGP.find(p => p.pair === pair);
+  sd += `<div class="ctl"><div class="ctl__h">Project</div><p><b>${pj.title}</b></p><div class="btn-row"><button type="button" class="mini" data-igp="${IGP.indexOf(pj)}">Start project</button></div></div>`;
+  $('ig-side').innerHTML = sd;
+  $('ig-stage').querySelectorAll('[data-lin]').forEach(el => el.addEventListener('click', () => { const k = +el.dataset.lin; if (k) IG.b ^= 1; else IG.a ^= 1; IG.cells[i] = [IG.a, IG.b]; boardRender(); labRender(); }));
+  $('ig-stage').querySelectorAll('[data-q]').forEach(el => el.addEventListener('click', () => { IG.q = el.dataset.q; IG.applied = 0; if (el.dataset.q === 'o' || el.dataset.q === 'g') { IG.cells[i][0] = el.dataset.q === 'g' ? 1 : 0; boardRender(); } labRender(); }));
+  if ($('ig-again')) { $('ig-again').addEventListener('click', () => { IG.applied = Math.min(IG.applied + 1, 7); labRender(); }); $('ig-reset').addEventListener('click', () => { IG.applied = 0; labRender(); }); }
+  if ($('ig-xsel')) $('ig-xsel').addEventListener('change', e => { IG.xm = e.target.value; boardRender(); labRender(); });
+  $('ig-side').querySelectorAll('[data-igs]').forEach(el => el.addEventListener('click', () => igSelect(+el.dataset.igs, true)));
+  $('ig-side').querySelectorAll('[data-igp]').forEach(el => el.addEventListener('click', () => igProject(+el.dataset.igp)));
+}
+
+/* — IfaGate projects: one per SIDECHRX pair, plus the Ọpọ́n-Ifá reading — */
+const IGP = [
+  { pair: 0, title: 'Day and night lamps', level: 'Beginner', tool: 'Workbench', steps: ['A Sun switch feeds an IfaBuffer and an IfaNOT.', 'Flip the Sun between Ogbe and Oyeku.', 'The Day lamp follows the Sun; the Night lamp does the opposite.'], act: { wb: 'ig-daynight' } },
+  { pair: 1, title: 'Build every gate from Odi (NAND)', level: 'Intermediate', tool: 'Workbench', steps: ['One IfaNAND fed twice by A makes NOT A.', 'Two IfaNANDs in a row make A AND B.', 'Three IfaNANDs make A OR B. Check all three lamps in the truth table.'], act: { wb: 'ig-nand' } },
+  { pair: 2, title: 'Clinic call system', level: 'Beginner', tool: 'Workbench', steps: ['Three patient buttons, A, B and C, feed two IfaOR gates.', 'Any pressed button lights the Nurse lamp: IrosunLogic.', 'The IfaNOR lights All calm only when no button is pressed: OwonrinLogic.'], act: { wb: 'ig-clinic' } },
+  { pair: 3, title: 'Two-way staircase lamp', level: 'Beginner', tool: 'Workbench', steps: ['Switch A is at the bottom of the stairs, B at the top.', 'The IfaXOR lamp changes whenever either switch flips: ObaraLogic.', 'The IfaXNOR lamp lights when the switches match: OkanranLogic.'], act: { wb: 'ig-stairs' } },
+  { pair: 4, title: 'Open the road', level: 'Explorer', tool: 'Lab', steps: ['Start the IfaPauli-X gate (Osa) on |॥⟩ Oyeku.', 'Apply X once: the qubit becomes Ogbe.', 'Apply it again: back to Oyeku. Compare with Ī (Ogunda), which keeps the road clear.'], act: { lab: 9, q: 'o' } },
+  { pair: 5, title: 'The test that returns you stronger', level: 'Explorer', tool: 'Lab', steps: ['Start the IfaPauli-Y gate (Oturupon) on |॥⟩.', 'Apply Y once: the qubit flips and gains the phase i.', 'Apply it again: you return to |॥⟩. Then try Y̅ (Ika).'], act: { lab: 11, q: 'o' } },
+  { pair: 6, title: 'Hidden roots', level: 'Explorer', tool: 'Lab', steps: ['Start the IfaPauli-Z gate (Irete) on |+⟩, an even mix of ॥ and ı.', 'Apply Z: the state becomes |−⟩, yet each mark still has a 50% chance.', 'The change is in the roots (the phase). Compare Z̅ (Otura).'], act: { lab: 13, q: 'p' } },
+  { pair: 7, title: 'Every gate is an Odu', level: 'Intermediate', tool: 'Workbench', steps: ['An 𝒳 gate set to Iwori Meji sits next to an IfaXOR.', 'Flip A and B: both lamps always agree, so Iwori’s marks are XOR’s truth table.', 'Select the 𝒳 gate and choose another Odu to build a new gate.'], act: { wb: 'ig-x' } },
+  { pair: -1, title: 'Read the Ọpọ́n-Ifá', level: 'Explorer', tool: 'Ifa Board', steps: ['Open the Ifa Board: all 16 IfaGates sit around the tray.', 'Set A and B in the centre of the Ọpọ́n.', 'Read which gates shine. Find the pairs that always disagree.'], act: { board: 'ifa' } }
+];
+function igProject(n) {
+  const a = IGP[n].act;
+  if (a.wb) { setLang('ifa'); loadLogic(a.wb); go('logic'); return; }
+  if (a.lab !== undefined) { IG.view = 'aro'; igSelect(a.lab); IG.q = a.q; IG.applied = 0; labRender(); go('ifagates-h'); return; }
+  if (a.board) { IG.view = a.board; boardRender(); go('ifagates-h'); }
+}
+function igpRender() {
+  const cols = ['var(--gold)', 'var(--violet)', 'var(--red)', 'var(--cyan)', 'var(--jade)', 'var(--orange)', 'var(--gold)', 'var(--violet)', 'var(--orange)'];
+  $('ig-projects').innerHTML = IGP.map((p, n) => `<article class="proj" style="--c:${cols[n]}"><div class="proj__top"><span class="proj__n">${String(n + 1).padStart(2, '0')} · ${p.level}</span><span class="proj__tool">${p.tool}</span></div>
+    <span class="proj__pair">${p.pair >= 0 ? PRINC[p.pair] + ' · ' + IGATES[p.pair * 2].name + ' & ' + IGATES[p.pair * 2 + 1].name : 'All 16 IfaGates'}</span>
+    <h3>${p.title}</h3><ol>${p.steps.map(s => `<li>${s}</li>`).join('')}</ol><button type="button" data-igp="${n}">Start project</button></article>`).join('');
+  $('ig-projects').querySelectorAll('[data-igp]').forEach(b => b.addEventListener('click', () => igProject(+b.dataset.igp)));
+}
+ilsRender(); igpRender(); igSelect(2, true);
+
+/* ═══ Start Tinkering with Ifa & Orisa ═══ */
+document.querySelectorAll('[data-project]').forEach(b => b.addEventListener('click', () => {
+  const p = b.dataset.project;
+  if (['ogbe-lamp', 'encoder', 'half-adder'].includes(p)) { setLang('ifa'); loadLogic(p); go('logic'); }
+  if (p === 'duality') { loadLogic('ogbe-lamp'); setLang('orisa'); go('logic'); }
+  if (p === 'pavilion') { bpPreset('pavilion'); go('blueprint'); }
+  if (p === 'count') { RG.bits = fromVal(0); $('rg-rule').value = 'inc'; rgRender(); rgSetRun(true); go('register'); }
+}));
+
+/* ═══ Yoruba typography: wrap words with tone marks or underdots in .yo ═══ */
+(function () {
+  const HAS = /[À-ɏḀ-ỿ̀-ͯ]/, WORD = /[\p{L}\p{M}’'-]+/gu;
+  const SKIP = 'svg,script,style,select,option,textarea,title,input,.yo,.vh';
+  function wrapText(t) {
+    const v = t.nodeValue; if (!v || !HAS.test(v)) return;
+    const el = t.parentElement; if (!el || el.closest(SKIP)) return;
+    const f = document.createDocumentFragment(); let last = 0, m; WORD.lastIndex = 0;
+    while ((m = WORD.exec(v))) {
+      if (!HAS.test(m[0])) continue;
+      if (m.index > last) f.appendChild(document.createTextNode(v.slice(last, m.index)));
+      const sp = document.createElement('span'); sp.className = 'yo'; sp.lang = 'yo'; sp.textContent = m[0]; f.appendChild(sp);
+      last = m.index + m[0].length;
+    }
+    if (!last) return;
+    if (last < v.length) f.appendChild(document.createTextNode(v.slice(last)));
+    t.replaceWith(f);
+  }
+  function yoWrap(root) {
+    if (root.nodeType === 3) { wrapText(root); return; }
+    if (root.nodeType !== 1 || root.closest(SKIP)) return;
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), list = [];
+    while (w.nextNode()) list.push(w.currentNode);
+    list.forEach(wrapText);
+  }
+  yoWrap(document.body);
+  new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(yoWrap))).observe(document.body, { childList: true, subtree: true });
+})();
+
+/* ═══ Signed-in student (provided by the IFA Academy sign-in on the server) ═══ */
+(function () {
+  const u = window.IFA_USER; if (!u) return;
+  $('who-name').textContent = 'Signed in as ' + u.name;
+  if (u.account) $('who-acc').href = u.account;
+  if (u.logout) $('who-out').href = u.logout;
+  $('who').hidden = false;
+})();
+</script>
+</body>
+</html>

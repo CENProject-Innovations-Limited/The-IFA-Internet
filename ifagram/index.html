@@ -1,67 +1,1093 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IfaDiagram — Ifa Diagram · DiagroE | The IFA Internet</title>
-  <meta name="description" content="IfaDiagram (Ifa Diagram) — the Diagram for Everything (DiagroE). The general Tool and System for Graphical and Visual Languages of the IFA Internet. Also known as ToE Diagram, Energy-Based Diagram, Consciousness Diagram. Core instrument of Ifa Calculus, Ifa Analysis, and IFABOK." />
-  <meta name="keywords" content="IfaDiagram, Ifa Diagram, DiagroE, Diagram for Everything, ToE Diagram, Energy-Based Diagram, Consciousness Diagram, Ifa Visual Language, Ifa Infinity, Ọpọ́n Ifá Infinity, Ọpọ́nfá Infinity, Orisagram, Orisa Diagram, OrisaDiagram, Ifagram Diagrammatic Reasoning with Ifa, Orisagram Diagrammatic Reasoning with Orisa, IfaCategory, OrisaCategory, Category Theory, Higher Category Theory, Infinity Category Theory, Ifa Infinity Category Theory, Duoinfinity Category Theory, Àpólà Odù, Ifa Fractal, Ifa Sigma, Temic Sigma, Squaket Operator, IfaBrackets, Ifa Calculus, Ifa Analysis, IFABOK, IFA Internet, CENProject" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://ifainternet.org/ifagram-ifa-diagram-diagroe/" />
-  <meta name="theme-color" content="#04070f" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IfaDiagram — Ifa Diagram · DiagroE | The IFA Internet</title>
+<meta name="description" content="IfaDiagram (Ifa Diagram) — the Diagram for Everything (DiagroE). The general Tool and System for Graphical and Visual Languages of the IFA Internet. Also known as ToE Diagram, Energy-Based Diagram, Consciousness Diagram. Core instrument of Ifa Calculus, Ifa Analysis, and IFABOK.">
+<meta name="keywords" content="IfaDiagram, Ifa Diagram, DiagroE, Diagram for Everything, ToE Diagram, Energy-Based Diagram, Consciousness Diagram, Ifa Visual Language, Ifa Infinity, Ọpọ́n Ifá Infinity, Ọpọ́nfá Infinity, Orisagram, Orisa Diagram, OrisaDiagram, Ifagram Diagrammatic Reasoning with Ifa, Orisagram Diagrammatic Reasoning with Orisa, IfaCategory, OrisaCategory, Category Theory, Higher Category Theory, Infinity Category Theory, Ifa Infinity Category Theory, Duoinfinity Category Theory, Àpólà Odù, Ifa Fractal, Ifa Sigma, Temic Sigma, Squaket Operator, IfaBrackets, Ifa Calculus, Ifa Analysis, IFABOK, IFA Internet, CENProject">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#04070f">
+<link rel="canonical" href="https://ifainternet.org/ifagram-ifa-diagram-diagroe/">
+<meta property="og:title" content="IfaDiagram — Ifa Diagram · DiagroE | The IFA Internet">
+<meta property="og:description" content="IfaDiagram (Ifa Diagram) — the Diagram for Everything (DiagroE). The general Tool and System for Graphical and Visual Languages of the IFA Internet. Core instrument of Ifa Calculus, Ifa Analysis, and IFABOK.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ifainternet.org/ifagram-ifa-diagram-diagroe/">
+<meta property="og:site_name" content="The IFA Internet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IfaDiagram — Ifa Diagram · DiagroE | The IFA Internet">
+<meta name="twitter:description" content="IfaDiagram (Ifa Diagram) — DiagroE, the Diagram for Everything. Visual Language System of the IFA Internet — Lemniscate Cross, Ifa Fractal, Ifa Sigma, Squaket Operator.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;500;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout concept: an observatory-laboratory. A blueprint field holds each section as an
+   instrument plate; artworks sit in calibrated specimen frames (rulers, registration marks,
+   live readouts). Each plate is tagged with the STEAM disciplines it speaks to, colour-keyed
+   to the IFA Internet's own palette:  S cyan · T violet · E jade · A orange · M gold. */
+:root{
+  --void:#04070f;        /* page ground — matches the artworks' own canvas grounds */
+  --deep:#070c1a;        /* alternate plate */
+  --panel:#0b1226;       /* raised instrument surface */
+  --line:rgba(150,170,230,.13);
+  --line-2:rgba(150,170,230,.26);
+  --text:#ecf0fa; --text-2:#aab4cd; --text-3:#6e7997;
+  --gold:#f5c518; --gold-soft:rgba(245,197,24,.14);
+  --red:#e03050;  --red-soft:rgba(224,48,80,.14);
+  --violet:#a855f7; --cyan:#14b8d4; --jade:#00c87c; --orange:#f0920c;
+  --S:var(--cyan); --T:var(--violet); --E:var(--jade); --A:var(--orange); --M:var(--gold);
+  --f-display:"Sora","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --s-xs:.72rem; --s-sm:.84rem; --s-md:1rem; --s-lg:1.18rem; --s-xl:1.6rem; --s-2xl:clamp(1.9rem,1.3rem + 2.4vw,2.9rem); --s-3xl:clamp(2.8rem,1.6rem + 5vw,5.4rem);
+  --r:14px;
+  --gutter-l:max(20px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(20px, env(safe-area-inset-right, 0px));
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px;background:var(--void)}
+body{margin:0;background:var(--void);color:var(--text);font-family:var(--f-body);font-size:var(--s-md);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+strong{color:var(--text);font-weight:600}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+::selection{background:rgba(245,197,24,.3)}
 
-  <!-- Open Graph -->
-  <meta property="og:type"        content="website" />
-  <meta property="og:url"         content="https://ifainternet.org/ifagram-ifa-diagram-diagroe/" />
-  <meta property="og:title"       content="IfaDiagram — Ifa Diagram · DiagroE | The IFA Internet" />
-  <meta property="og:description" content="IfaDiagram (Ifa Diagram) — the Diagram for Everything (DiagroE). The general Tool and System for Graphical and Visual Languages of the IFA Internet. Core instrument of Ifa Calculus, Ifa Analysis, and IFABOK." />
-  <meta property="og:site_name"   content="The IFA Internet" />
+/* ── Blueprint field (fixed, behind everything) ───────────────────────── */
+.field{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(60rem 40rem at 85% -10%, rgba(245,197,24,.07), transparent 60%),
+    radial-gradient(50rem 40rem at -10% 40%, rgba(20,184,212,.05), transparent 60%),
+    radial-gradient(50rem 40rem at 110% 80%, rgba(168,85,247,.06), transparent 60%),
+    linear-gradient(var(--line) 1px, transparent 1px) 0 0/96px 96px,
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0/96px 96px,
+    linear-gradient(rgba(150,170,230,.05) 1px, transparent 1px) 0 0/24px 24px,
+    linear-gradient(90deg, rgba(150,170,230,.05) 1px, transparent 1px) 0 0/24px 24px,
+    var(--void);
+  -webkit-mask-image:linear-gradient(#000, rgba(0,0,0,.55));mask-image:linear-gradient(#000, rgba(0,0,0,.55))}
+#particles{position:fixed;inset:0;z-index:-1;pointer-events:none;width:100%;height:100%}
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary" />
-  <meta name="twitter:title"       content="IfaDiagram — Ifa Diagram · DiagroE | The IFA Internet" />
-  <meta name="twitter:description" content="IfaDiagram (Ifa Diagram) — DiagroE, the Diagram for Everything. Visual Language System of the IFA Internet — Lemniscate Cross, Ifa Fractal, Ifa Sigma, Squaket Operator." />
+.wrap{max-width:1220px;margin:0 auto;padding-left:var(--gutter-l);padding-right:var(--gutter-r)}
 
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "IfaDiagram",
-    "alternateName": ["Ifa Diagram", "DiagroE", "Diagram for Everything", "ToE Diagram", "Energy-Based Diagram", "Consciousness Diagram", "Ifa Visual Language System"],
-    "description": "IfaDiagram (Ifa Diagram) is the Diagram for Everything (DiagroE) — the general Tool and System for Graphical and Visual Languages of the IFA Internet. Also known as ToE Diagram, Energy-Based Diagram, Consciousness Diagram. Core instrument of Ifa Calculus, Ifa Analysis, and the IFA Body of Knowledge (IFABOK).",
-    "url": "https://ifainternet.org/ifagram-ifa-diagram-diagroe/",
-    "applicationCategory": "EducationApplication",
-    "operatingSystem": "Web",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "isPartOf": {
-      "@type": "WebSite",
-      "name": "The IFA Internet",
-      "url": "https://ifainternet.org"
-    }
-  }
-  </script>
+/* ── Header ───────────────────────────────────────────────────────────── */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(4,7,15,.92)}
+.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(4,7,15,.78);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--line)}
+.header .wrap{display:flex;align-items:center;gap:24px;min-height:66px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0}
+.brand img{height:30px;width:auto}
+.brand__names{display:flex;flex-direction:column;line-height:1.15}
+.brand__k{font-family:var(--f-mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3)}
+.brand__n{font-family:var(--f-display);font-weight:700;font-size:.98rem;letter-spacing:.04em;color:var(--gold);text-transform:uppercase}
+.nav{display:flex;align-items:center;gap:2px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+.nav a{font-size:.82rem;text-decoration:none;color:var(--text-2);padding:7px 10px;border-radius:8px;transition:color .2s,background .2s}
+.nav a:hover{color:var(--text);background:rgba(255,255,255,.05)}
+.nav a.cta{color:#1b1300;background:var(--gold);font-weight:600;margin-left:8px;padding:8px 14px}
+.nav a.cta:hover{background:#ffd84a;color:#1b1300}
+@media (max-width:1060px){.nav{display:none}}
 
-  <link rel="icon" type="image/png" href="../src/assets/itoe_favicon.png" />
-  <link rel="stylesheet" href="./src/styles.css?v=5" />
+/* ── STEAM key ────────────────────────────────────────────────────────── */
+.steam{display:inline-flex;gap:6px;flex-wrap:wrap;align-items:center}
+.st{--c:var(--S);display:inline-flex;align-items:center;gap:6px;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--c);padding:4px 9px 4px 5px;border:1px solid color-mix(in srgb,var(--c) 40%,transparent);border-radius:999px;background:color-mix(in srgb,var(--c) 9%,transparent);white-space:nowrap}
+.st b{display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--c);color:var(--void);font-weight:600;font-size:.66rem;letter-spacing:0}
+.st--S{--c:var(--S)}.st--T{--c:var(--T)}.st--E{--c:var(--E)}.st--A{--c:var(--A)}.st--M{--c:var(--M)}
+
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.hero{padding-block:clamp(40px,7vw,88px) clamp(40px,6vw,72px);position:relative}
+.hero__grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,64px);align-items:center}
+.hero__left{min-width:0;display:flex;flex-direction:column;gap:22px}
+.badge{align-self:flex-start;display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(245,197,24,.35);border-radius:999px;padding:7px 14px;background:rgba(245,197,24,.06)}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.35}}
+.h1{margin:0;display:flex;flex-direction:column;gap:6px}
+.h1__main{font-family:var(--f-display);font-weight:800;font-size:var(--s-3xl);line-height:.95;letter-spacing:-.035em;background:linear-gradient(100deg,#fff6cf 0%,var(--gold) 42%,#f0920c 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.h1__alt{font-family:var(--f-display);font-weight:300;font-size:var(--s-xl);color:var(--gold);letter-spacing:.01em;display:flex;align-items:center;gap:14px}
+.h1__alt::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(245,197,24,.6),transparent)}
+.h1__sub{font-family:var(--f-mono);font-size:var(--s-sm);font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan)}
+.tagline{margin:0;font-family:var(--f-display);font-weight:500;font-size:var(--s-lg);color:var(--text)}
+.yor{margin:0;display:flex;flex-direction:column;gap:2px;padding:14px 18px;border-left:2px solid var(--orange);background:linear-gradient(90deg,rgba(240,146,12,.1),transparent 80%);border-radius:0 10px 10px 0}
+.yor__a{font-family:var(--f-display);font-weight:700;color:var(--orange);font-size:var(--s-lg)}
+.yor__b{font-size:var(--s-sm);color:var(--text-2)}
+.yor__b .play{color:var(--violet);font-weight:500}
+.lead{margin:0;color:var(--text-2);max-width:62ch;text-wrap:pretty}
+.aliases{display:flex;flex-wrap:wrap;gap:8px}
+.alias{--c:var(--gold);font-size:.78rem;padding:5px 12px;border-radius:7px;color:var(--c);border:1px solid color-mix(in srgb,var(--c) 38%,transparent);background:color-mix(in srgb,var(--c) 7%,transparent)}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:.92rem;padding:12px 20px;border-radius:10px;transition:transform .2s,box-shadow .2s,background .2s}
+.btn--p{background:var(--gold);color:#1b1300;box-shadow:0 0 0 1px rgba(245,197,24,.4),0 8px 30px -8px rgba(245,197,24,.6)}
+.btn--p:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(245,197,24,.6),0 12px 36px -8px rgba(245,197,24,.75)}
+.btn--g{color:var(--text);border:1px solid var(--line-2);background:rgba(255,255,255,.02)}
+.btn--g:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Specimen frame: the instrument that holds an artwork untouched */
+.spec{position:relative;background:var(--void);border:1px solid var(--line-2);border-radius:var(--r);padding:28px;display:flex;flex-direction:column;align-items:center;gap:14px;min-width:0}
+.spec::before,.spec::after{content:"";position:absolute;width:18px;height:18px;border-color:var(--gold);border-style:solid;opacity:.75}
+.spec::before{top:10px;left:10px;border-width:1.5px 0 0 1.5px}
+.spec::after{bottom:10px;right:10px;border-width:0 1.5px 1.5px 0}
+.spec__ruler-x,.spec__ruler-y{position:absolute;pointer-events:none;opacity:.55}
+.spec__ruler-x{left:36px;right:36px;top:0;height:8px;background:repeating-linear-gradient(90deg,var(--line-2) 0 1px,transparent 1px 12px),repeating-linear-gradient(90deg,rgba(245,197,24,.55) 0 1px,transparent 1px 60px);background-size:auto 5px,auto 8px;background-repeat:repeat-x}
+.spec__ruler-y{top:36px;bottom:36px;left:0;width:8px;background:repeating-linear-gradient(0deg,var(--line-2) 0 1px,transparent 1px 12px),repeating-linear-gradient(0deg,rgba(245,197,24,.55) 0 1px,transparent 1px 60px);background-size:5px auto,8px auto;background-repeat:repeat-y}
+.spec__art{width:100%;display:flex;justify-content:center;min-width:0}
+.spec__label{font-family:var(--f-display);font-weight:500;color:var(--gold);font-size:var(--s-md);text-align:center}
+.spec__sub{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);text-align:center;max-width:42ch;line-height:1.6}
+.spec--board{background:#020408}
+.spec--red::before,.spec--red::after{border-color:var(--red)}
+.spec--red .spec__label{color:var(--red)}
+.hud{width:100%;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:var(--f-mono);font-size:.68rem;color:var(--text-3);border-top:1px dashed var(--line-2);padding-top:12px;font-variant-numeric:tabular-nums}
+.hud span{white-space:nowrap}.hud em{font-style:normal;color:var(--cyan)}
+.hero .spec{padding:36px 30px 22px}
+.hero canvas{max-width:100%}
+
+/* STEAM spectrum band under hero */
+.band{margin-top:clamp(36px,5vw,56px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:rgba(11,18,38,.55)}
+.band__i{--c:var(--S);padding:16px 18px;display:flex;align-items:center;gap:12px;border-right:1px solid var(--line);position:relative;min-width:0}
+.band__i:last-child{border-right:0}
+.band__i::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--c);opacity:.8}
+.band__i svg{flex-shrink:0;color:var(--c)}
+.band__t{display:flex;flex-direction:column;min-width:0}
+.band__k{font-family:var(--f-display);font-weight:800;color:var(--c);font-size:1.15rem;line-height:1}
+.band__n{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2)}
+
+/* ── Plates (sections) ────────────────────────────────────────────────── */
+.plate{padding-block:clamp(56px,8vw,104px);position:relative;border-top:1px solid var(--line)}
+.plate--alt{background:linear-gradient(180deg,rgba(7,12,26,.85),rgba(7,12,26,.55))}
+.trace{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.trace__eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.trace__eyebrow--violet{color:var(--violet)}.trace__eyebrow--jade{color:var(--jade)}.trace__eyebrow--red{color:var(--red)}
+.trace__wire{flex:1;min-width:40px;height:1px;background:linear-gradient(90deg,var(--line-2),transparent);position:relative}
+.trace__wire::before{content:"";position:absolute;left:0;top:-3px;width:7px;height:7px;border-radius:50%;border:1px solid var(--line-2);background:var(--void)}
+.h2{margin:0 0 14px;font-family:var(--f-display);font-weight:700;font-size:var(--s-2xl);line-height:1.08;letter-spacing:-.02em;text-wrap:balance}
+.acc-gold{color:var(--gold)}.acc-red{color:var(--red)}
+.sub{margin:0;color:var(--text-2);font-size:1.04rem;max-width:64ch;text-wrap:pretty}
+.head-c{text-align:center;display:flex;flex-direction:column;align-items:center;margin-bottom:clamp(32px,5vw,56px)}
+.head-c .trace{justify-content:center}
+.head-c .trace__wire{flex:0 0 60px}
+.head-c .trace__wire--r{transform:scaleX(-1)}
+
+/* Text + visual split */
+.split{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(28px,5vw,64px);align-items:start}
+.split--mirror{grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr)}
+.split--mirror .split__vis{order:-1}
+.split__text{min-width:0}
+.split__vis{position:sticky;top:96px;min-width:0}
+.blocks{display:flex;flex-direction:column;gap:14px;margin-top:30px}
+.blk{display:grid;grid-template-columns:64px minmax(0,1fr);gap:18px;padding:20px 22px;border:1px solid var(--line);border-radius:var(--r);background:rgba(11,18,38,.6);transition:border-color .25s,background .25s}
+.blk:hover{border-color:var(--line-2);background:rgba(11,18,38,.85)}
+.blk__ic{width:64px;height:64px;display:grid;place-items:center;border-radius:12px;border:1px solid rgba(245,197,24,.3);background:rgba(245,197,24,.06);color:var(--gold);font-family:var(--f-display);font-weight:700;font-size:1.5rem;line-height:1}
+.blk__ic--word{font-size:.72rem;letter-spacing:.02em}
+.blk--red .blk__ic{border-color:rgba(224,48,80,.35);background:rgba(224,48,80,.07);color:var(--red)}
+.blk__l{font-family:var(--f-display);font-weight:600;font-size:1.04rem;margin-bottom:6px;color:var(--text)}
+.blk__b{color:var(--text-2);font-size:.95rem}
+.blk__b em{color:var(--text)}
+
+/* ── Key Ifagrams: specimen catalogue ─────────────────────────────────── */
+.cat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{--c:var(--gold);position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden;transition:transform .3s,border-color .3s,box-shadow .3s;min-width:0}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 45%,transparent);box-shadow:0 22px 50px -24px color-mix(in srgb,var(--c) 55%,transparent)}
+.card__stage{position:relative;background:#020408;display:flex;justify-content:center;align-items:center;padding:26px 18px;min-height:300px;border-bottom:1px solid var(--line)}
+.card__stage::before,.card__stage::after{content:"";position:absolute;width:12px;height:12px;border-color:var(--c);border-style:solid;opacity:.6}
+.card__stage::before{top:10px;left:10px;border-width:1px 0 0 1px}
+.card__stage::after{bottom:10px;right:10px;border-width:0 1px 1px 0}
+.card__fig{position:absolute;top:10px;right:12px;font-family:var(--f-mono);font-size:.62rem;letter-spacing:.16em;color:var(--text-3)}
+.card__info{padding:20px 22px 24px;display:flex;flex-direction:column;gap:6px}
+.card__formula{align-self:flex-start;font-family:var(--f-mono);font-size:.74rem;color:var(--c);padding:3px 9px;border-radius:6px;background:color-mix(in srgb,var(--c) 10%,transparent);border:1px solid color-mix(in srgb,var(--c) 28%,transparent)}
+.card__t{margin:4px 0 0;font-family:var(--f-display);font-weight:700;font-size:1.14rem;line-height:1.3}
+.card__s{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;color:var(--c)}
+.card__d{margin:6px 0 0;color:var(--text-2);font-size:.92rem}
+.card--wide{grid-column:1/-1;flex-direction:row}
+.card--wide .card__stage{flex:1.2;border-bottom:0;border-right:1px solid var(--line)}
+.card--wide .card__info{flex:1;justify-content:center;padding:32px}
+.card canvas{max-width:100%}
+.ifagram-svg{width:min(100%,250px);height:auto;display:block}
+.squaket-row{display:flex;align-items:center;justify-content:center;gap:4px}
+
+/* ── Language System: element tiles (periodic-table vernacular) ─────── */
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.tile{--c:var(--gold);position:relative;border:1px solid color-mix(in srgb,var(--c) 32%,transparent);border-radius:var(--r);padding:26px 26px 28px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 10%,transparent),transparent 55%),var(--panel);min-width:0}
+.tile__n{position:absolute;top:16px;right:18px;font-family:var(--f-mono);font-size:.7rem;color:var(--text-3)}
+.tile__sym{width:84px;height:84px;display:grid;place-items:center;border:1.5px solid var(--c);border-radius:10px;font-family:var(--f-display);font-weight:300;font-size:2.6rem;line-height:1;color:var(--c);margin-bottom:22px;text-shadow:0 0 22px color-mix(in srgb,var(--c) 60%,transparent)}
+.tile__t{margin:0 0 8px;font-family:var(--f-display);font-weight:700;font-size:1.12rem}
+.tile__b{margin:0;color:var(--text-2);font-size:.94rem}
+
+/* ── Applications: circuit board ──────────────────────────────────────── */
+.board{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.board::before{content:"";position:absolute;inset:-14px;border-radius:22px;pointer-events:none;
+  background:
+    linear-gradient(90deg,transparent calc(33.33% - 1px),rgba(0,200,124,.18) calc(33.33% - 1px) 33.33%,transparent 33.33% calc(66.66% - 1px),rgba(0,200,124,.18) calc(66.66% - 1px) 66.66%,transparent 66.66%),
+    linear-gradient(transparent calc(50% - 1px),rgba(0,200,124,.18) calc(50% - 1px) 50%,transparent 50%)}
+.app{position:relative;display:flex;flex-direction:column;gap:10px;text-decoration:none;padding:24px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line);transition:border-color .25s,transform .25s;min-width:0}
+.app::before{content:"";position:absolute;top:-4px;left:24px;width:8px;height:8px;border-radius:50%;background:var(--jade);box-shadow:0 0 10px var(--jade)}
+.app:hover{border-color:rgba(0,200,124,.5);transform:translateY(-3px)}
+.app__sym{font-size:1.7rem;line-height:1;height:34px;display:flex;align-items:center}
+.app__t{margin:0;font-family:var(--f-display);font-weight:700;font-size:1.08rem;color:var(--text)}
+.app__b{margin:0;color:var(--text-2);font-size:.92rem;flex:1}
+.app__go{font-family:var(--f-mono);font-size:.76rem;letter-spacing:.08em;color:var(--jade)}
+
+/* ── Ọpọ́nfá IfaConstruction ─────────────────────────────────────────── */
+.constr{margin-top:34px;padding:28px;border-radius:var(--r);border:1px solid rgba(245,197,24,.22);background:
+  linear-gradient(rgba(245,197,24,.04) 1px,transparent 1px) 0 0/22px 22px,
+  linear-gradient(90deg,rgba(245,197,24,.04) 1px,transparent 1px) 0 0/22px 22px,
+  rgba(11,18,38,.7)}
+.constr__t{margin:0 0 14px;font-family:var(--f-display);font-weight:700;font-size:1.3rem;color:var(--gold);display:flex;align-items:center;gap:12px}
+.constr__t::before{content:"";width:22px;height:22px;border:1.5px solid var(--gold);border-radius:50%;box-shadow:inset 0 0 0 5px var(--void),inset 0 0 0 6.5px var(--gold)}
+.constr p{margin:0 0 14px;color:var(--text-2);max-width:68ch}
+.constr p:last-child{margin-bottom:0}
+.text-link{color:var(--cyan);text-decoration:underline;text-decoration-color:rgba(20,184,212,.4);text-underline-offset:3px}
+.eq{font-family:var(--f-mono);font-size:.9em;color:var(--gold);background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.22);padding:1px 8px;border-radius:6px;white-space:nowrap}
+
+/* Gallery — light-table */
+.gal{margin-top:clamp(48px,7vw,80px);border:1px solid var(--line-2);border-radius:20px;padding:clamp(22px,4vw,44px);background:radial-gradient(60% 50% at 50% 0%,rgba(245,197,24,.06),transparent 70%),rgba(7,12,26,.75)}
+.gal__head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;margin-bottom:28px}
+.gal__eb{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--orange)}
+.gal__h{font-family:var(--f-display);font-weight:700;font-size:var(--s-xl);margin:0;text-wrap:balance}
+.gal__h span{color:var(--gold)}
+.toggle{font:inherit;font-family:var(--f-mono);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;color:var(--gold);background:rgba(245,197,24,.08);border:1px solid rgba(245,197,24,.5);border-radius:999px;padding:10px 22px;transition:background .2s,color .2s}
+.toggle:hover,.toggle[aria-pressed="true"]{background:var(--gold);color:#1b1300}
+.mech{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:6px;padding:10px 28px;border-radius:32px;background:rgba(168,85,247,.22);border:1.5px solid rgba(192,132,252,.7);box-shadow:0 0 22px rgba(168,85,247,.3)}
+.mech__a{font-size:1.1rem;font-weight:700;letter-spacing:.04em;color:#e9d5ff;font-family:var(--f-display)}
+.mech__c{margin:0 10px;font-size:1.1rem;color:#c084fc}
+.mech__b{font-size:1rem;font-weight:600;letter-spacing:.06em;color:#d8b4fe}
+.gal__row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.gal__row+.gal__row{margin-top:22px}
+.fig{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#020408;display:flex;flex-direction:column;position:relative}
+.fig--glow{background:radial-gradient(70% 60% at 50% 45%,rgba(245,197,24,.09),transparent 70%),#020408}
+.fig img{width:100%;height:auto}
+.fig figcaption{padding:12px 16px 16px;text-align:center;border-top:1px solid var(--line)}
+.fig__cs{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.fig__c{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+/* Ọ̀ṣẹ́ Odu */
+.oshe{display:flex;flex-direction:column;align-items:center;gap:26px;padding:20px 0 8px}
+.oshe__odu{display:flex;flex-direction:column;gap:18px;padding:30px 44px;border:1px solid var(--line-2);border-radius:16px;background:#020408}
+.oshe__row{display:flex;justify-content:center;gap:28px;animation:rise .6s both}
+.oshe__mark{width:26px;height:26px;border-radius:50%}
+.oshe__row--gold .oshe__mark{background:var(--gold);box-shadow:0 0 18px var(--gold)}
+.oshe__row--violet .oshe__mark{background:var(--violet);box-shadow:0 0 18px var(--violet)}
+@keyframes rise{from{opacity:.2;transform:translateY(8px)}}
+.oshe__name{font-family:var(--f-display);font-weight:800;font-size:2.4rem;color:var(--gold);text-align:center;line-height:1}
+.oshe__desc{color:var(--text-2);text-align:center;max-width:52ch}
+
+/* ── Òrìṣà Ọnà banner: see/hear/feel spectrum ────────────────────────── */
+.ona{position:relative;overflow:hidden;padding-block:clamp(60px,9vw,110px);border-top:1px solid var(--line);background:radial-gradient(70% 90% at 50% 50%,rgba(168,85,247,.14),transparent 70%),#05060f}
+#wave{position:absolute;inset:0;width:100%;height:100%;opacity:.9}
+.ona .wrap{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.ona__t{font-family:var(--f-display);font-weight:800;font-size:var(--s-3xl);line-height:1;letter-spacing:-.03em;background:linear-gradient(90deg,var(--gold),var(--orange) 35%,var(--red) 65%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.ona__p{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-2)}
+.ona__div{width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:8px 0}
+.ona__ph{margin:0;font-family:var(--f-display);font-weight:300;font-size:var(--s-xl);max-width:30ch;line-height:1.35;text-wrap:balance}
+.see{color:var(--cyan);font-weight:600}.hear{color:var(--violet);font-weight:600}.feel{color:var(--orange);font-weight:600}.and{color:var(--text-2)}
+.portal{margin-top:20px;display:inline-flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none;padding:20px 40px;border-radius:999px;border:1px solid rgba(245,197,24,.45);background:rgba(4,7,15,.75);backdrop-filter:blur(6px);transition:transform .25s,box-shadow .25s}
+.portal:hover{transform:scale(1.03);box-shadow:0 0 50px -10px rgba(245,197,24,.55)}
+.portal__orbs{display:flex;gap:8px}
+.portal__orbs i{width:10px;height:10px;border-radius:50%;animation:pulse 1.8s ease-in-out infinite}
+.portal__orbs i:nth-child(1){background:var(--cyan)}.portal__orbs i:nth-child(2){background:var(--violet);animation-delay:.3s}.portal__orbs i:nth-child(3){background:var(--orange);animation-delay:.6s}
+.portal__l{font-family:var(--f-display);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.portal__s{font-family:var(--f-mono);font-size:.72rem;color:var(--text-2)}
+
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.tag{font-size:.78rem;padding:5px 12px;border-radius:7px;color:var(--red);border:1px solid rgba(224,48,80,.38);background:rgba(224,48,80,.07)}
+
+/* ── Footer ───────────────────────────────────────────────────────────── */
+.footer{border-top:1px solid var(--line);background:#03050b;padding-block:56px calc(28px + env(safe-area-inset-bottom,0px))}
+.footer__line{height:2px;margin-top:-57px;margin-bottom:55px;background:linear-gradient(90deg,var(--S),var(--T),var(--E),var(--A),var(--M))}
+.footer__grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px}
+.footer__brand{display:flex;flex-direction:column;gap:10px}
+.footer__logo{display:flex;align-items:center;gap:12px}
+.footer__logo img{height:28px;width:auto}
+.footer__logo span{font-size:.88rem;font-weight:700;color:var(--text-2)}
+.footer__tag{font-family:var(--f-display);font-weight:600;color:var(--gold)}
+.footer__sm{color:var(--text-3);font-size:.88rem;max-width:46ch}
+.footer__sm a{color:var(--gold)}
+.footer__lt{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-3);margin-bottom:12px}
+.footer__links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 20px}
+.footer__links a{color:var(--text-2);text-decoration:none;font-size:.88rem}
+.footer__links a:hover{color:var(--gold)}
+.footer__bottom{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--f-mono);font-size:.72rem;color:var(--text-3)}
+.footer__bottom a{color:var(--gold);text-decoration:none}
+
+/* ── Mobile bar ───────────────────────────────────────────────────────── */
+.mbar{display:none}
+@media (max-width:1060px){
+  .mbar{display:block;position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(4,7,15,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding:6px env(safe-area-inset-right,0px) calc(6px + env(safe-area-inset-bottom,0px)) env(safe-area-inset-left,0px)}
+  .mbar__row{display:flex;overflow-x:auto;scrollbar-width:none;justify-content:space-between}
+  .mbar a{flex:1 0 auto;min-width:58px;display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;font-size:.64rem;color:var(--text-2);padding:4px 6px}
+  .mbar a span{font-size:1.05rem;color:var(--gold);line-height:1.2}
+  .footer{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width:960px){
+  .hero__grid,.split,.split--mirror{grid-template-columns:minmax(0,1fr)}
+  .split--mirror .split__vis{order:0}
+  .split__vis{position:static}
+  .cat,.tiles,.board{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .board::before{display:none}
+  .card--wide{flex-direction:column}
+  .card--wide .card__stage{border-right:0;border-bottom:1px solid var(--line)}
+  .band{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .band__n{display:none}
+  .band__i{justify-content:center;padding:14px 8px}
+}
+@media (max-width:640px){
+  .cat,.tiles,.board,.gal__row,.footer__grid{grid-template-columns:minmax(0,1fr)}
+  .blk{grid-template-columns:48px minmax(0,1fr);gap:14px;padding:16px}
+  .blk__ic{width:48px;height:48px;font-size:1.2rem}
+  .band__i svg{display:none}
+  .spec{padding:24px 14px}
+  .hero .spec{padding:28px 14px 18px}
+  .constr{padding:20px}
+  .mech{padding:10px 16px}
+  .oshe__odu{padding:24px 30px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
 </head>
 <body>
-  <div id="root">
-    <div style="font-family:sans-serif;max-width:860px;margin:0 auto;padding:24px 20px;color:#eee;background:#04070f;min-height:100vh">
-      <h1 style="font-size:1.6rem;color:#f5c518;margin-bottom:8px">IfaDiagram — Ifa Diagram · DiagroE | The IFA Internet</h1>
-      <p style="color:#6a8db4;margin-bottom:16px">Part of The IFA Internet · The IFA Body of Knowledge (IFABOK)</p>
-      <h2 style="font-size:1.1rem;color:#c0cce0;margin-bottom:8px">What is IfaDiagram?</h2>
-      <p style="color:#6a8db4;margin-bottom:12px">IfaDiagram (Ifa Diagram) is the Diagram for Everything (DiagroE) — the general Tool and System for Graphical and Visual Languages of the IFA Internet. It provides standardised symbols, operators, and diagram types for visual communication across all knowledge fields of the IFA Internet. Core instrument of Ifa Calculus, Ifa Analysis, and the IFA Body of Knowledge (IFABOK).</p>
-      <p style="color:#6a8db4;margin-bottom:12px">Also known as: DiagroE (Diagram for Everything), ToE Diagram, Energy-Based Diagram, Consciousness Diagram, Ifa Visual Language System, Orisa Diagram System.</p>
-      <p style="color:#6a8db4">Key Ifagrams include: the Ifa Infinity, the Ifa Fractal (self-similar Ifa Infinity), IfaZero, IfaOne, the Ifa Sigma (Temic Sigma), and the Squaket Operator (IfaBrackets).</p>
-      <h2 style="font-size:1.1rem;color:#c0cce0;margin-top:20px;margin-bottom:8px">Orisagram — Orisa Diagram (OrisaDiagram)</h2>
-      <p style="color:#6a8db4;margin-bottom:12px">Orisagram (Orisa Diagram, OrisaDiagram) is the Dual of Ifagram — the diagrammatic system grounded in Orisa. <em>Ifagram: Diagrammatic Reasoning with Ifa</em> and <em>Orisagram: Diagrammatic Reasoning with Orisa</em> together form the complete DiagroE dual of the IFA Internet.</p>
-      <p style="color:#6a8db4">Ifagram and Orisagram define the dual categorical structures IfaCategory and OrisaCategory, grounded in Category Theory, Higher Category Theory, Infinity Category Theory, Ifa Infinity Category Theory, and Duoinfinity Category Theory. The Àpólà Odù are the Orisa-side dual of the 256 Odu Ifa — the structural units of OrisaCategory.</p>
+<div class="field" aria-hidden="true"></div>
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<!-- ═══ Header ═══ -->
+<header class="header">
+  <div class="wrap">
+    <a href="https://ifainternet.org/" class="brand">
+      <img src="https://ifainternet.org/src/assets/itoe_logo.png" alt="The IFA Internet" width="96" height="34">
+      <span class="brand__names"><span class="brand__k">The IFA Internet</span><span class="brand__n">IfaDiagram</span></span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#definition">IfaDiagram</a>
+      <a href="#ifagrams">Key Ifagrams</a>
+      <a href="#system">Language System</a>
+      <a href="#applications">Applications</a>
+      <a href="#oponifa">Ọpọ́nfá</a>
+      <a href="#orisagram">Orisagram</a>
+      <a href="https://ifainternet.org/ifa-script-the-script-of-everything-scriptoe/ifa-lab/">IfaLab</a>
+      <a href="https://ifainternet.org/ifa-art/">Ifa Art</a>
+      <a href="https://ifainternet.org/ifagram/kids/">Kids &amp; Teens</a>
+      <a href="https://toe.cenproject.org/ifa-calculus-toe-calculus/" class="cta" target="_blank" rel="noopener">Ifa Calculus</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero__grid">
+      <div class="hero__left">
+        <div class="badge"><i aria-hidden="true"></i>The IFA Internet — IfaDiagram Platform</div>
+        <h1 class="h1">
+          <span class="h1__main">IfaDiagram</span>
+          <span class="h1__alt">Ifa Diagram</span>
+          <span class="h1__sub">The Diagram for Everything</span>
+        </h1>
+        <p class="tagline">DiagroE — Ifa Graphical &amp; Visual Language System</p>
+        <p class="yor">
+          <span class="yor__a">Gbàgede Iṣẹ́ Ọnà</span>
+          <span class="yor__b"><span class="play">Ifa-Orisa Playground</span> — Ifarts &amp; Orisarts and IfaDesigns &amp; OrisaDesigns</span>
+        </p>
+        <p class="lead"><strong>IfaDiagram</strong> (Ifagram) is the <strong>DiagroE</strong> — the Diagram for Everything. Also known as <strong>ToE Diagram</strong>, <strong>Energy-Based Diagram</strong>, and <strong>Consciousness Diagram</strong>, Ifa-Diagram is the general Graphical and Visual Language System of the IFA Internet — the core Instrument of Ifa Calculus, Ifa Analysis, and the IFA Body of Knowledge (IFABOK) as a whole.</p>
+        <div class="aliases" aria-label="Also known as">
+          <span class="alias" style="--c:#f5c518">DiagroE — Diagram for Everything</span>
+          <span class="alias" style="--c:#a855f7">ToE Diagram</span>
+          <span class="alias" style="--c:#14b8d4">Energy-Based Diagram</span>
+          <span class="alias" style="--c:#e03050">Consciousness Diagram</span>
+          <span class="alias" style="--c:#00c87c">Ifa Visual Language System</span>
+          <span class="alias" style="--c:#f0920c">Orisa Diagram System</span>
+        </div>
+        <div class="ctas">
+          <a href="#ifagrams" class="btn btn--p">Explore Ifagrams</a>
+          <a href="#definition" class="btn btn--g">What is IfaDiagram</a>
+        </div>
+      </div>
+      <div class="spec" aria-label="The Ifa Infinity">
+        <span class="spec__ruler-x" aria-hidden="true"></span><span class="spec__ruler-y" aria-hidden="true"></span>
+        <div class="spec__art" id="hero-wrap"><canvas id="hero-art" class="hero-lemniscate" aria-hidden="true"></canvas></div>
+        <div class="spec__label">The Ifa Infinity</div>
+        <div class="hud" aria-hidden="true">
+          <span>r² = 2a² cos(2θ)</span>
+          <span>θ <em id="hud-t">0.000</em></span>
+          <span>r <em id="hud-r">0.000</em></span>
+          <span>x,y <em id="hud-xy">0.00, 0.00</em></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="band" aria-hidden="true">
+      <div class="band__i" style="--c:var(--S)">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.3"><ellipse cx="15" cy="15" rx="13" ry="5"/><ellipse cx="15" cy="15" rx="13" ry="5" transform="rotate(60 15 15)"/><ellipse cx="15" cy="15" rx="13" ry="5" transform="rotate(120 15 15)"/><circle cx="15" cy="15" r="2" fill="currentColor"/></svg>
+        <div class="band__t"><span class="band__k">S</span><span class="band__n">Science</span></div>
+      </div>
+      <div class="band__i" style="--c:var(--T)">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M12 9V3M18 9V3M12 27v-6M18 27v-6M9 12H3M9 18H3M27 12h-6M27 18h-6"/><circle cx="15" cy="15" r="2" fill="currentColor"/></svg>
+        <div class="band__t"><span class="band__k">T</span><span class="band__n">Technology</span></div>
+      </div>
+      <div class="band__i" style="--c:var(--E)">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M15 3v4M15 23v4M3 15h4M23 15h4M6.5 6.5l2.8 2.8M20.7 20.7l2.8 2.8M6.5 23.5l2.8-2.8M20.7 9.3l2.8-2.8"/><circle cx="15" cy="15" r="7"/><circle cx="15" cy="15" r="2.5"/></svg>
+        <div class="band__t"><span class="band__k">E</span><span class="band__n">Engineering</span></div>
+      </div>
+      <div class="band__i" style="--c:var(--A)">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 22c4-1 5-6 9-6s4 5 8 5 5-4 5-4"/><path d="M4 12c4-1 5-6 9-6s4 5 8 5 5-4 5-4" opacity=".55"/><circle cx="13" cy="16" r="1.6" fill="currentColor"/></svg>
+        <div class="band__t"><span class="band__k">A</span><span class="band__n">Art</span></div>
+      </div>
+      <div class="band__i" style="--c:var(--M)">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M15 15c-3-4-9-4-9 0s6 4 9 0 9-4 9 0-6 4-9 0z"/><path d="M15 3v24M3 15h24" opacity=".4"/></svg>
+        <div class="band__t"><span class="band__k">M</span><span class="band__n">Mathematics</span></div>
+      </div>
     </div>
   </div>
-  <script src="../lib/react.min.js"></script>
-  <script src="../lib/react-dom.min.js"></script>
-  <script src="../lib/babel.min.js"></script>
-  <script type="text/babel" data-presets="react" src="./src/App2.jsx?v=5"></script>
+</section>
+
+<!-- ═══ Definition ═══ -->
+<section class="plate plate--alt" id="definition">
+  <div class="wrap">
+    <div class="split">
+      <div class="split__text">
+        <div class="trace"><span class="trace__eyebrow">What is IfaDiagram</span><span class="trace__wire"></span><span class="steam"><span class="st st--S"><b>S</b>Science</span><span class="st st--M"><b>M</b>Mathematics</span></span></div>
+        <h2 class="h2">The Diagram for Everything <span class="acc-gold">(DiagroE)</span></h2>
+        <p class="sub">IfaDiagram — ToE Diagram — is the Graphical Language System of the IFA Internet. DiagroE provides the universal diagrammatic toolkit for all knowledge fields, grounded in the Ifa Infinity and the 256 Odu Ifa.</p>
+        <div class="blocks">
+          <div class="blk"><div class="blk__ic blk__ic--word" aria-hidden="true">DiagroE</div><div><div class="blk__l">Diagram for Everything</div><div class="blk__b">DiagroE is the universal diagrammatic system of the IFA Internet — a single, unified visual language capable of representing any field of knowledge, from physics and mathematics to consciousness and culture. Every IfaDiagram is a DiagroE.</div></div></div>
+          <div class="blk"><div class="blk__ic" aria-hidden="true">∞</div><div><div class="blk__l">Energy-Based Foundation</div><div class="blk__b">Representing the Ogbe Energy (Ogbenergy), the Ifa Infinity, the Infinity for Everything (InfinitoE), is the infinity symbol ∞ composed with its Dual 8 forming the foundation of all IfaDiagrams. It is a core meta-Structure used to encode the 256 Odu Ifa and the complete dimensional Matrix of Knowledge on the IFA Internet.</div></div></div>
+          <div class="blk"><div class="blk__ic" aria-hidden="true">⊕</div><div><div class="blk__l">Ifa &amp; Orisa Graphical Languages</div><div class="blk__b">IfaDiagram provides the complete toolkit for both Ifa-based and Orisa-based graphical languages — encompassing symbolic operators, compositional notation (Squaket), summation-integration (Ifa Sigma), and metarepresentation (IfaZero, IfaOne).</div></div></div>
+        </div>
+      </div>
+      <div class="split__vis">
+        <div class="spec">
+          <span class="spec__ruler-x" aria-hidden="true"></span><span class="spec__ruler-y" aria-hidden="true"></span>
+          <div class="spec__art" data-art="sigma"></div>
+          <div class="spec__label">Ifa Sigma — Temic Sigma</div>
+          <div class="spec__sub">Modified Σ · Ifa Script summation operator</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Key Ifagrams ═══ -->
+<section class="plate" id="ifagrams">
+  <div class="wrap">
+    <div class="head-c">
+      <div class="trace"><span class="trace__wire"></span><span class="trace__eyebrow">The Diagram Library</span><span class="trace__wire trace__wire--r"></span></div>
+      <h2 class="h2">Key <span class="acc-gold">Ifagrams</span></h2>
+      <p class="sub">The essential IfaDiagrams (DiagroEs) of the IFA Internet — from the foundational Ifa Infinity to the Ifa Sigma and the Squaket Operator.</p>
+      <div class="steam" style="margin-top:16px"><span class="st st--M"><b>M</b>Mathematics</span><span class="st st--A"><b>A</b>Art</span></div>
+    </div>
+    <div class="cat" id="catalogue"></div>
+  </div>
+</section>
+
+<!-- ═══ Language System ═══ -->
+<section class="plate plate--alt" id="system">
+  <div class="wrap">
+    <div class="head-c">
+      <div class="trace"><span class="trace__wire"></span><span class="trace__eyebrow trace__eyebrow--violet">Graphical Language</span><span class="trace__wire trace__wire--r"></span></div>
+      <h2 class="h2">Ifa Visual <span class="acc-gold">Language System</span></h2>
+      <p class="sub">IfaDiagram is the Graphical Language System of the IFA Internet — a standardised, universal set of visual symbols and operators for all knowledge fields.</p>
+      <div class="steam" style="margin-top:16px"><span class="st st--T"><b>T</b>Technology</span><span class="st st--S"><b>S</b>Science</span></div>
+    </div>
+    <div class="tiles">
+      <div class="tile" style="--c:#f5c518"><span class="tile__n" aria-hidden="true">01</span><div class="tile__sym" aria-hidden="true">∞</div><h3 class="tile__t">Energy-Based Foundation</h3><p class="tile__b">Every IfaDiagram is grounded in the Ogbenergy Symbol — encoding the 256 Odu Ifa, the Binary Structure of Knowledge, and the intersection of all dimensional planes of Existence.</p></div>
+      <div class="tile" style="--c:#a855f7"><span class="tile__n" aria-hidden="true">02</span><div class="tile__sym" aria-hidden="true">Σ</div><h3 class="tile__t">Ifa Graphical Language</h3><p class="tile__b">IfaDiagram serves as the Graphical Language System of the IFA Internet — providing standardised symbols, operators, and diagram types for visual communication across all knowledge fields.</p></div>
+      <div class="tile" style="--c:#14b8d4"><span class="tile__n" aria-hidden="true">03</span><div class="tile__sym" aria-hidden="true">⊕</div><h3 class="tile__t">Composition &amp; Notation</h3><p class="tile__b">Through the Squaket Operator, Ifa Sigma, and IfaBrackets, IfaDiagram provides visual notation for Composition Operations, summation, and integration across all of Ifa Calculus.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Applications ═══ -->
+<section class="plate" id="applications">
+  <div class="wrap">
+    <div class="head-c">
+      <div class="trace"><span class="trace__wire"></span><span class="trace__eyebrow trace__eyebrow--jade">DiagroE in Action</span><span class="trace__wire trace__wire--r"></span></div>
+      <h2 class="h2">Applications of <span class="acc-gold">IfaDiagram</span></h2>
+      <p class="sub">IfaDiagram (DiagroE) is a core instrument across the full IFA Internet — from Ifa Calculus and Ifa Analysis to the entire IFA Body of Knowledge (IFABOK).</p>
+      <div class="steam" style="margin-top:16px"><span class="st st--E"><b>E</b>Engineering</span><span class="st st--T"><b>T</b>Technology</span></div>
+    </div>
+    <div class="board">
+      <a class="app" href="https://toe.cenproject.org/ifa-calculus-toe-calculus/" target="_blank" rel="noopener"><div class="app__sym" style="color:#f5c518" aria-hidden="true">∫</div><h3 class="app__t">Ifa Calculus</h3><p class="app__b">DiagroEs are a core instrument of Ifa Calculus — ToE Calculus. The Ifa Sigma, Squaket Operator, and Ifa Infinity provide the visual framework for all calculus operations.</p><div class="app__go">Explore →</div></a>
+      <a class="app" href="https://ifainternet.org/ifa-analysis/" target="_blank" rel="noopener"><div class="app__sym" style="color:#a855f7" aria-hidden="true">∿</div><h3 class="app__t">Ifa Analysis</h3><p class="app__b">Ifa Diagram provides the graphical language for Ifa Analysis — ToE Analysis. Visual diagrams encode analytical structures, transformations, and energy-field relationships.</p><div class="app__go">Explore →</div></a>
+      <a class="app" href="https://ifainternet.org/"><div class="app__sym" style="color:#14b8d4" aria-hidden="true">◉</div><h3 class="app__t">IFA Body of Knowledge</h3><p class="app__b">As the Diagram for Everything, IfaDiagram is a core instrument across the full IFA Body of Knowledge (IFABOK) — the IFA Internet. Every platform uses DiagroEs.</p><div class="app__go">Explore →</div></a>
+      <a class="app" href="https://ifainternet.org/ifa-art/" target="_blank" rel="noopener"><div class="app__sym" style="color:#f0920c" aria-hidden="true">🎨</div><h3 class="app__t">Ifa Art</h3><p class="app__b">Ifa Art — the visual art platform of the IFA Internet. Ifarts, OrisaArts, and IfaDesigns grounded in the Ifa Graphical Language System and the 256 Odu Ifa.</p><div class="app__go">Explore →</div></a>
+      <a class="app" href="https://ifainternet.org/ifa-art/playground/" target="_blank" rel="noopener"><div class="app__sym" style="color:#a855f7" aria-hidden="true">⊙</div><h3 class="app__t">Ifa Art Playground</h3><p class="app__b">The Ifa Art Playground — an interactive creative space for exploring Ifa-Orisa visual art, IfaDesigns, and the full DiagroE graphical language system.</p><div class="app__go">Explore →</div></a>
+      <a class="app" href="https://ifainternet.org/ifagram/kids/"><div class="app__sym" style="color:#f0920c" aria-hidden="true">🌟</div><h3 class="app__t">Ifagrams for Kids &amp; Teens</h3><p class="app__b">IfaLab For Children — Yoruba cultural designs, Orisa characters, Ifa STEAM education, sounds, and animations (Ifanimations, Orisanimations) for kids and teens aged 4+.</p><div class="app__go">Explore →</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Ọpọ́nfá Infinity ═══ -->
+<section class="plate plate--alt" id="oponifa">
+  <div class="wrap">
+    <div class="split">
+      <div class="split__text">
+        <div class="trace"><span class="trace__eyebrow">Ifa Divination Board Infinity</span><span class="trace__wire"></span><span class="steam"><span class="st st--A"><b>A</b>Art</span><span class="st st--E"><b>E</b>Engineering</span><span class="st st--M"><b>M</b>Mathematics</span></span></div>
+        <h2 class="h2">The Ifa Infinity <span class="acc-gold">(Ọpọ́n Ifá Infinity)</span></h2>
+        <p class="sub">Also known as <strong>Ọpọ́nfá Infinity</strong> — the Ifa Infinity expressed through the Sacred Geometry of the Ọpọ́n Ifá (Ifa Divination Board), i.e., IfaGeometry. Each of the four lobes of the Ifa Infinity is a sacred Ọpọ́n Ifá — four divination boards arranged in the cardinal directions of the Axiomatic Odù Structure, unified by the Ogbenergy.</p>
+        <div class="blocks">
+          <div class="blk"><div class="blk__ic" aria-hidden="true">◉</div><div><div class="blk__l">Ọpọ́n Ifá — The Sacred Divination Board</div><div class="blk__b">The Ọpọ́n Ifá is the sacred circular tray of Ifá divination — the instrument through which Ọrúnmìlà's wisdom is consulted. Carved with ancestral and Orisa figures around its rim, with a flat centre surface for Iyẹrẹ Ifá (divination powder), it is the original DiagroE — the Diagram for Everything in Ifa Tradition.</div></div></div>
+          <div class="blk"><div class="blk__ic" aria-hidden="true">∞</div><div><div class="blk__l">Ọpọ́nfá Infinity — Four Boards, One Infinity</div><div class="blk__b">In the Ọpọ́nfá Infinity, the four lobes of the Ifa Infinity — East, West, North, South — each become an Ọpọ́n Ifá. The Ogbenergy, also known as Ogbergy (in short), connects them as the eternal flow of Àṣẹ across all 256 Odu Ifa and all realms of existence. The IfaBoards face outward — their carved ancestral Figures witnessing the Infinite Field of Potentiality (IfaPotentiality).</div></div></div>
+          <div class="blk"><div class="blk__ic" aria-hidden="true">⊕</div><div><div class="blk__l">The Original Diagram for Everything</div><div class="blk__b">The Ọpọ́nfá Infinity reveals that the Ọpọ́n Ifá is itself a DiagroE. Its circular form, carved ancestral figures, and divination centre encode the full structure of Ifa knowledge — the 256 Odu Ifa, the Orisa Field, and the Totality of Existence (TOE) — unified in the Geometry of the Ifa Infinity.</div></div></div>
+        </div>
+        <div class="constr" id="ifaconstruction">
+          <h3 class="constr__t">IfaConstruction</h3>
+          <p>The 256 Ọpọ́nfá Infinities — one for each Odù Ifá — are built through the <strong>Àmúlù Operation</strong>, also called <strong>IfaComposition</strong>.</p>
+          <p>The process begins with the <strong>Ọpọ́n Ifá</strong> itself, or equivalently the <strong>IfaZero (IfaCircle)</strong>, which represents <strong>Ogbe Energy (Ogbenergy)</strong> — the Primal, Undivided Circle of Àṣẹ.</p>
+          <p>Four such Ọpọ́n Ifá structures are composed together through the Àmúlù Operation, producing the <strong>Òbìrìkìtí</strong> (Dual: <strong>Òkìtìbìrí</strong>) — the Ifa Infinity, meaning Immense Energy.</p>
+          <p>In modern mathematics, a related form appears as the <a href="https://en.wikipedia.org/wiki/Lemniscate" target="_blank" rel="noopener noreferrer" class="text-link">Lemniscate of Bernoulli</a> — constructed by taking the inverse (geometric inversion) of a hyperbola, or equivalently as the locus of points whose product of distances from two fixed foci equals the square of half the distance between them. Its equation is given in Cartesian form as <span class="eq">(x² + y²)² = 2a²(x² − y²)</span>, or in polar form as <span class="eq">r² = 2a² cos(2θ)</span>.</p>
+          <p>However, the Òbìrìkìtí and its Dual Òkìtìbìrí are far older and carry a deeper ontology: they are not merely geometric curves but Expressions of the Composition of Ogbe Energy and Oyeku Anergy (Oyekunergy/Oyekergy) across the Four Cardinal Axes of Odù Ifá System.</p>
+        </div>
+      </div>
+      <div class="split__vis">
+        <div class="spec spec--board">
+          <span class="spec__ruler-x" aria-hidden="true"></span><span class="spec__ruler-y" aria-hidden="true"></span>
+          <div class="spec__art" data-art="opon" data-sz="280"></div>
+          <div class="spec__label">Ọpọ́nfá Infinity</div>
+          <div class="spec__sub">Ọpọ́n Ifá · Four-Lobe Infinity Formation · The Ifa Divination Board Infinity</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="gal">
+      <div class="gal__head">
+        <div class="gal__eb">IfaGeometry · Sacred Design</div>
+        <h3 class="gal__h">Ọpọ́nfá Infinity — <span>IfaBoard Design Reference</span></h3>
+        <button type="button" class="toggle" id="oshe-toggle" aria-pressed="false">Transform → Ọ̀ṣẹ́</button>
+        <div class="mech"><span class="mech__a">Ìṣiròjìnlẹ̀ Iṣẹ́ Ọnà</span><span class="mech__c">:</span><span class="mech__b">Iṣẹ́ Ọnà Mechanics</span></div>
+      </div>
+      <div id="gal-view">
+        <div class="gal__row">
+          <figure class="fig"><img src="https://ifainternet.org/ifagram/src/Opon_Ifa_Infinity.png" alt="Ọpọ́nfá Infinity — Ifa Divination Board Infinity design" width="2800" height="3400" loading="lazy"></figure>
+          <figure class="fig"><img src="https://ifainternet.org/ifagram/src/Oponfa_Ninfinity_Oyekunergy_Non-Glow_v2.png" alt="Ọpọ́nfá Ninfinity — Oyekunergy Non-Glow design" width="2800" height="3400" loading="lazy"></figure>
+        </div>
+        <div class="gal__row">
+          <figure class="fig fig--glow"><img src="https://ifainternet.org/ifagram/src/Opon_Ifa_Infinity_transparent.png" alt="Ọpọ́nfá Infinity — transparent field design" width="2800" height="2560" loading="lazy"><figcaption><div class="fig__cs">Ọpọ́nfá Infinity: Ogbenergy. Glow · IfaGeometry</div></figcaption></figure>
+          <figure class="fig fig--glow"><img src="https://ifainternet.org/ifagram/src/Oponfa_Ninfinity_Oyekunergy_Non-Glow_transparent.png" alt="Ọpọ́nfá Ninfinity — Oyekunergy design on transparent field" width="2800" height="2560" loading="lazy"><figcaption><div class="fig__c">Ọpọ́nfá Ninfinity: Oyekunergy · Non-Glow · OrisaGeometry</div></figcaption></figure>
+        </div>
+      </div>
+      <div id="oshe-view" class="oshe" hidden>
+        <div class="oshe__odu" aria-label="Odu Ifa Ọ̀ṣẹ́">
+          <div class="oshe__row oshe__row--gold" style="animation-delay:0s"><span class="oshe__mark"></span></div>
+          <div class="oshe__row oshe__row--violet" style="animation-delay:.14s"><span class="oshe__mark"></span><span class="oshe__mark"></span></div>
+          <div class="oshe__row oshe__row--gold" style="animation-delay:.28s"><span class="oshe__mark"></span></div>
+          <div class="oshe__row oshe__row--violet" style="animation-delay:.42s"><span class="oshe__mark"></span><span class="oshe__mark"></span></div>
+        </div>
+        <div class="oshe__name">Ọ̀ṣẹ́</div>
+        <div class="oshe__desc">Ọnà Ọ̀ṣẹ́: Energy Patterns (IfaLaw of Nature) Governing the Field and Practice of Iṣẹ́ Ọnà</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Òrìṣà Ọnà ═══ -->
+<div class="ona" aria-label="Òrìṣà Ọnà — See, Hear, and Feel the Energy">
+  <canvas id="wave" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="steam"><span class="st st--S"><b>S</b>Science</span><span class="st st--A"><b>A</b>Art</span></div>
+    <div class="ona__t">Òrìṣà Ọnà</div>
+    <div class="ona__p">Ọnà as Spirit (Energy) of Patterns, Arts, and Designs</div>
+    <div class="ona__div" aria-hidden="true"></div>
+    <p class="ona__ph"><span class="see">See,</span> <span class="hear">Hear,</span> <span class="and">and</span> <span class="feel">Feel</span> the Energy Patterns within Every Language, Every Knowledge</p>
+    <a href="https://ifainternet.org/ifa-script-the-script-of-everything-scriptoe/ifa-lab/" target="_blank" rel="noopener noreferrer" class="portal" aria-label="Enter IfaLab — See, Hear, and Feel the Energy">
+      <span class="portal__orbs" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="portal__l">Enter IfaLab</span>
+      <span class="portal__s"><span class="see">See</span> · <span class="hear">Hear</span> · <span class="feel">Feel</span> the Energy</span>
+    </a>
+  </div>
+</div>
+
+<!-- ═══ Orisagram (mirrored layout: the Dual) ═══ -->
+<section class="plate" id="orisagram">
+  <div class="wrap">
+    <div class="split split--mirror">
+      <div class="split__text">
+        <div class="trace"><span class="trace__eyebrow trace__eyebrow--red">The Dual of Ifagram</span><span class="trace__wire"></span><span class="steam"><span class="st st--M"><b>M</b>Mathematics</span><span class="st st--S"><b>S</b>Science</span></span></div>
+        <h2 class="h2">Orisagram — <span class="acc-red">Orisa Diagram</span></h2>
+        <p class="sub">Also written as <strong>OrisaDiagram</strong> (Orisa Diagram). Orisagram is the Dual of Ifagram — the diagrammatic System grounded in Orisa Principles, mirror to IfaDiagram's Ifa-grounded Foundation. Together they form the complete DiagroE System.</p>
+        <div class="blocks">
+          <div class="blk blk--red"><div class="blk__ic" aria-hidden="true">◈</div><div><div class="blk__l">Diagrammatic Reasoning with Orisa</div><div class="blk__b"><em>Orisagram: Diagrammatic Reasoning with Orisa</em> is the Dual of <em>Ifagram: Diagrammatic Reasoning with Ifa</em>. Where Ifagram encodes knowledge through the Ifa Infinity, the Àpólà Odù Ifa, and the 256 Odu Ifa, Orisagram encodes its Dual — the Orisa Field Structure — through the Orisa Infinity and the Àpólà Odù Orisa.</div></div></div>
+          <div class="blk blk--red"><div class="blk__ic" aria-hidden="true">∞</div><div><div class="blk__l">IfaCategory &amp; OrisaCategory</div><div class="blk__b">Ifagram and Orisagram define the Dual Categorical Structures — <strong>IfaCategory</strong> and <strong>OrisaCategory</strong> — grounded in Category Theory, Ifa-Orisa Category Theory (Category Theory in Ifa-Orisa Language), Higher Category Theory, Infinity Category Theory. Their unified Framework is <strong>Ifa Infinity Category Theory (Duoinfinity Category Theory)</strong>: the Category Theory of Ifa and Orisa in Duality.</div></div></div>
+          <div class="blk blk--red"><div class="blk__ic blk__ic--word" aria-hidden="true">Àpólà</div><div><div class="blk__l">Àpólà Odù: Category Theory in Ifa-OrisaLang</div><div class="blk__b">The <strong>Àpólà Odù</strong> are the 256 Odu Ifa and the 16 Odu Orisa, General Category Theory for every field of knowledge. Orisagram provides the diagrammatic Language for Àpólà Odù, encoding Orisa Field relationships and Dual operations within the full IFA Internet Knowledge System.</div></div></div>
+        </div>
+        <div class="tags" aria-label="Keywords"><span class="tag">The Ifa Infinity (Ọpọ́n Ifá Infinity)</span><span class="tag">Ọpọ́nfá Infinity</span></div>
+      </div>
+      <div class="split__vis">
+        <div class="spec spec--red">
+          <span class="spec__ruler-x" aria-hidden="true"></span><span class="spec__ruler-y" aria-hidden="true"></span>
+          <div class="spec__art" data-art="orisa" data-sz="220"></div>
+          <div class="spec__label">The Orisa Infinity (Ifa Ninifinity)</div>
+          <div class="spec__sub">Non-Infinity · Dual of the Ifa Infinity · OrisaDiagram Foundation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ═══ Footer ═══ -->
+<footer class="footer">
+  <div class="footer__line" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <div class="footer__logo"><img src="https://ifainternet.org/src/assets/itoe_logo.png" alt="The IFA Internet" width="96" height="34"><span>The IFA Internet</span></div>
+        <div class="footer__tag">IfaDiagram — Ifa Diagram · DiagroE</div>
+        <div class="footer__sm">The Diagram for Everything. Part of the IFA Internet &amp; the IFA Body of Knowledge (IFABOK).<br>A <a href="https://cenproject.org" target="_blank" rel="noopener">CENProject</a> initiative.</div>
+      </div>
+      <div>
+        <div class="footer__lt">IfaDiagram</div>
+        <div class="footer__links">
+          <a href="#definition">What is IfaDiagram</a>
+          <a href="#ifagrams">Key Ifagrams</a>
+          <a href="#system">Language System</a>
+          <a href="#applications">Applications</a>
+          <a href="#oponifa">Ọpọ́nfá Infinity</a>
+          <a href="#orisagram">Orisagram · Orisa Diagram</a>
+          <a href="https://ifainternet.org/ifa-script-the-script-of-everything-scriptoe/ifa-lab/">IfaLab · OrisaLab</a>
+          <a href="https://ifainternet.org/ifa-art/">Ifa Art</a>
+          <a href="https://ifainternet.org/ifa-art/playground/">Ifa Art Playground</a>
+          <a href="https://ifainternet.org/ifagram/kids/">Ifagrams for Kids &amp; Teens</a>
+          <a href="https://ifainternet.org/">IFA Internet</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom"><div>© 2026 IfaDiagram · The IFA Internet · CENProject</div><div>Powered by <a href="https://cenproject.org" target="_blank" rel="noopener">CENProject</a></div></div>
+  </div>
+</footer>
+
+<nav class="mbar" aria-label="Mobile navigation">
+  <div class="mbar__row">
+    <a href="https://ifainternet.org/"><span>⌂</span>Home</a>
+    <a href="#definition"><span>∞</span>Diagram</a>
+    <a href="#ifagrams"><span>◉</span>Ifagrams</a>
+    <a href="#system"><span>Σ</span>System</a>
+    <a href="#oponifa"><span>⊙</span>Ọpọ́nfá</a>
+    <a href="#orisagram"><span>◈</span>Orisa</a>
+    <a href="https://ifainternet.org/ifa-script-the-script-of-everything-scriptoe/ifa-lab/"><span>⚗</span>IfaLab</a>
+    <a href="https://ifainternet.org/ifagram/kids/"><span>🌟</span>Kids</a>
+  </div>
+</nav>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   ARTWORK CODE — carried over verbatim from the original App2.jsx
+   (sections A–C). Only the React wrappers are replaced by plain functions;
+   every curve, colour, glow pass, size and proportion is unchanged.
+   ═══════════════════════════════════════════════════════════════════════════ */
+const PI = Math.PI;
+
+function buildHLobe(t0, t1, a, cx, cy, N = 3000) {
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const t = t0 + (t1 - t0) * i / N;
+    const c2 = Math.cos(2 * t);
+    if (c2 < 1e-10) continue;
+    const rho = a * Math.sqrt(c2);
+    pts.push([cx + rho * Math.cos(t), cy + rho * Math.sin(t)]);
+  }
+  return pts;
+}
+function buildVLobe(t0, t1, a, cx, cy, N = 3000) {
+  const pts = [];
+  for (let i = 0; i <= N; i++) {
+    const t = t0 + (t1 - t0) * i / N;
+    const mc2 = -Math.cos(2 * t);
+    if (mc2 < 1e-10) continue;
+    const rho = a * Math.sqrt(mc2);
+    pts.push([cx + rho * Math.cos(t), cy + rho * Math.sin(t)]);
+  }
+  return pts;
+}
+function sPts(ctx, pts, lw, rgba, blur) {
+  if (!pts || !pts.length) return;
+  ctx.save();
+  ctx.strokeStyle = rgba; ctx.lineWidth = lw; ctx.shadowColor = rgba; ctx.shadowBlur = blur;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+  ctx.stroke(); ctx.restore();
+}
+function gLobe(ctx, pts, s) {
+  sPts(ctx, pts, 44 * s, 'rgba(245,197,24,0.03)', 65 * s);
+  sPts(ctx, pts, 26 * s, 'rgba(245,197,24,0.07)', 44 * s);
+  sPts(ctx, pts, 15 * s, 'rgba(245,197,24,0.16)', 28 * s);
+  sPts(ctx, pts, 7 * s, 'rgba(245,197,24,0.34)', 16 * s);
+  sPts(ctx, pts, 3 * s, 'rgba(245,197,24,0.62)', 8 * s);
+  sPts(ctx, pts, 1.4* s, 'rgba(245,197,24,0.90)', 4 * s);
+  sPts(ctx, pts, 0.7* s, 'rgba(255,248,210,0.95)', 2 * s);
+}
+function rLobe(ctx, pts, s) {
+  sPts(ctx, pts, 22 * s, 'rgba(180,10,30,0.025)', 55 * s);
+  sPts(ctx, pts, 12 * s, 'rgba(200,15,40,0.07)', 32 * s);
+  sPts(ctx, pts, 6 * s, 'rgba(210,20,50,0.18)', 16 * s);
+  sPts(ctx, pts, 2.4* s, 'rgba(225,35,65,0.42)', 8 * s);
+  sPts(ctx, pts, 1.2* s, 'rgba(235,55,80,0.72)', 4 * s);
+  sPts(ctx, pts, 0.6* s, 'rgba(255,110,130,0.88)', 1.5* s);
+}
+function allLobes(a, cx, cy) {
+  return [
+    buildHLobe(-PI / 4, PI / 4, a, cx, cy),
+    buildHLobe( 3*PI / 4, 5*PI / 4, a, cx, cy),
+    buildVLobe( PI / 4, 3*PI / 4, a, cx, cy),
+    buildVLobe( 5*PI / 4, 7*PI / 4, a, cx, cy),
+  ];
+}
+function centreNode(ctx, cx, cy, r, gold = true) {
+  const color = gold ? 'rgba(245,197,24,1)' : 'rgba(230,40,65,1)';
+  const fill = gold ? 'rgba(255,248,210,1)' : 'rgba(255,170,185,1)';
+  ctx.save(); ctx.shadowColor = color; ctx.shadowBlur = 22; ctx.fillStyle = fill;
+  ctx.beginPath(); ctx.arc(cx, cy, r, 0, 2 * PI); ctx.fill(); ctx.restore();
+}
+function availWidth(ref, defaultSz) {
+  if (!ref.current) return defaultSz;
+  const p = ref.current.parentElement;
+  const w = p ? p.clientWidth : 0;
+  return w > 0 ? Math.min(defaultSz, Math.floor(w)) : defaultSz;
+}
+function drawOponIfa(ctx, cx, cy, R, rot) {
+  const TAU = 2 * PI;
+  const grad = ctx.createRadialGradient(cx - R * 0.22, cy - R * 0.28, R * 0.08, cx, cy, R);
+  grad.addColorStop(0, '#c98440'); grad.addColorStop(0.60, '#8b5520'); grad.addColorStop(0.88, '#5a3010'); grad.addColorStop(1, '#3a1c06');
+  ctx.save(); ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.fill(); ctx.restore();
+  ctx.save(); ctx.strokeStyle = 'rgba(210,160,80,0.45)'; ctx.lineWidth = R * 0.030;
+  ctx.beginPath(); ctx.arc(cx, cy, R - R * 0.018, 0, TAU); ctx.stroke(); ctx.restore();
+  const INNER = R * 0.58;
+  const iGrad = ctx.createRadialGradient(cx - R*0.10, cy - R*0.12, 0, cx, cy, INNER);
+  iGrad.addColorStop(0, '#d8aa60'); iGrad.addColorStop(0.50, '#b87c32'); iGrad.addColorStop(0.85, '#8a5018'); iGrad.addColorStop(1, '#5c300a');
+  ctx.save(); ctx.fillStyle = iGrad; ctx.beginPath(); ctx.arc(cx, cy, INNER, 0, TAU); ctx.fill(); ctx.restore();
+  const sandGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, INNER * 0.50);
+  sandGrad.addColorStop(0, 'rgba(240,215,150,0.30)'); sandGrad.addColorStop(0.7, 'rgba(195,145,60,0.08)'); sandGrad.addColorStop(1, 'rgba(155,100,30,0.00)');
+  ctx.save(); ctx.fillStyle = sandGrad; ctx.beginPath(); ctx.arc(cx, cy, INNER * 0.50, 0, TAU); ctx.fill(); ctx.restore();
+  ctx.save(); ctx.strokeStyle = 'rgba(35,15,3,0.75)'; ctx.lineWidth = R * 0.022;
+  ctx.beginPath(); ctx.arc(cx, cy, INNER + (R - INNER) * 0.06, 0, TAU); ctx.stroke(); ctx.restore();
+  const N = 8;
+  const RMD = (R * 0.86 + INNER) / 2;
+  const FH = (R - INNER) * 0.74;
+  const FW = FH * 0.58;
+  for (let i = 0; i < N; i++) {
+    const ang = rot + (TAU * i / N);
+    const fx = cx + RMD * Math.cos(ang);
+    const fy = cy + RMD * Math.sin(ang);
+    ctx.save(); ctx.translate(fx, fy); ctx.rotate(ang + PI / 2);
+    ctx.fillStyle = 'rgba(28,12,2,0.88)';
+    ctx.beginPath(); ctx.ellipse(0, -FH * 0.40, FW * 0.31, FH * 0.32, 0, 0, TAU); ctx.fill();
+    ctx.fillRect(-FW * 0.09, -FH * 0.10, FW * 0.18, FH * 0.09);
+    ctx.beginPath();
+    ctx.moveTo(-FW * 0.27, -FH * 0.01); ctx.lineTo( FW * 0.27, -FH * 0.01);
+    ctx.lineTo( FW * 0.20, FH * 0.27); ctx.lineTo(-FW * 0.20, FH * 0.27);
+    ctx.closePath(); ctx.fill();
+    ctx.save(); ctx.translate(-FW * 0.27, FH * 0.03); ctx.rotate(-0.38);
+    ctx.fillRect(-FH * 0.16, -FW * 0.07, FH * 0.16, FW * 0.12); ctx.restore();
+    ctx.save(); ctx.translate(FW * 0.27, FH * 0.03); ctx.rotate(0.38);
+    ctx.fillRect(0, -FW * 0.07, FH * 0.16, FW * 0.12); ctx.restore();
+    ctx.restore();
+  }
+  ctx.save(); ctx.strokeStyle = 'rgba(70,35,8,0.52)'; ctx.lineWidth = R * 0.015; ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.arc(cx, cy, R * 0.20, 0, TAU); ctx.stroke();
+  ctx.lineWidth = R * 0.011;
+  ctx.beginPath(); ctx.moveTo(cx - R*0.12, cy); ctx.lineTo(cx + R*0.12, cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, cy - R*0.12); ctx.lineTo(cx, cy + R*0.12); ctx.stroke();
+  ctx.restore();
+}
+function setupCanvas(ref, sz, bg = '#020408') {
+  const canvas = ref.current;
+  if (!canvas) return null;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = sz * dpr; canvas.height = sz * dpr;
+  canvas.style.width = sz + 'px'; canvas.style.height = sz + 'px';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, sz, sz);
+  return ctx;
+}
+
+/* B. Canvas artworks (same bodies as the original components) */
+function LemniscateCanvas(ref, sz = 280, diagonal = false) {
+  const d = availWidth(ref, sz);
+  const ctx = setupCanvas(ref, d);
+  if (!ctx) return;
+  const cx = d / 2, cy = d / 2, a = d * 0.357, s = a / 200;
+  for (const lobe of allLobes(a, cx, cy)) gLobe(ctx, lobe, s);
+  if (diagonal) {
+    const ext = a * 0.85;
+    gLobe(ctx, [[cx + ext, cy - ext], [cx - ext, cy + ext]], s);
+  }
+  centreNode(ctx, cx, cy, 3.5 * s);
+}
+function FractalCanvas(ref, sz = 280) {
+  const d = availWidth(ref, sz);
+  const ctx = setupCanvas(ref, d, '#01050f');
+  if (!ctx) return;
+  const cx = d / 2, cy = d / 2;
+  const A_MAX = d * 0.382, A_MIN = d * 0.005, NC = 16;
+  for (let i = 0; i < NC; i++) {
+    const a = A_MIN + (A_MAX - A_MIN) * i / (NC - 1);
+    for (const lobe of allLobes(a, cx, cy)) {
+      sPts(ctx, lobe, 1.4, 'rgba(210,25,55,0.28)', 2.5);
+      sPts(ctx, lobe, 0.6, 'rgba(240,70,90,0.45)', 0.8);
+    }
+  }
+  for (const lobe of allLobes(A_MAX, cx, cy)) {
+    sPts(ctx, lobe, 6, 'rgba(200,20,50,0.12)', 18);
+    sPts(ctx, lobe, 3, 'rgba(220,40,65,0.35)', 9);
+    sPts(ctx, lobe, 1.4, 'rgba(235,60,80,0.80)', 4);
+    sPts(ctx, lobe, 0.7, 'rgba(255,120,140,0.95)', 1.5);
+  }
+  centreNode(ctx, cx, cy, d * 0.006, false);
+}
+function MetaCanvas(ref, sz = 220, gold = true) {
+  const d = availWidth(ref, sz);
+  const ctx = setupCanvas(ref, d);
+  if (!ctx) return;
+  const cx = d / 2, cy = d / 2;
+  const MRAD = d * 0.361;
+  const MARR = d * 0.061;
+  const layers = gold ? [
+    [44, 'rgba(245,197,24,0.03)', 65], [26, 'rgba(245,197,24,0.07)', 44], [15, 'rgba(245,197,24,0.16)', 28],
+    [ 7, 'rgba(245,197,24,0.34)', 16], [ 3, 'rgba(245,197,24,0.62)', 8], [1.4,'rgba(245,197,24,0.90)', 4],
+    [0.7,'rgba(255,248,210,0.95)', 2],
+  ] : [
+    [22, 'rgba(180,10,30,0.025)', 55], [12, 'rgba(200,15,40,0.07)', 32], [ 6, 'rgba(210,20,50,0.18)', 16],
+    [2.4,'rgba(225,35,65,0.42)', 8], [1.2,'rgba(235,55,80,0.72)', 4], [0.6,'rgba(255,110,130,0.88)',1.5],
+  ];
+  for (const [lw, color, blur] of layers) {
+    ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.shadowColor = color; ctx.shadowBlur = blur;
+    ctx.beginPath(); ctx.arc(cx, cy, MRAD, 0, 2 * PI); ctx.stroke(); ctx.restore();
+  }
+  const tipX = gold ? cx + MRAD : cx - MRAD;
+  const tipY = cy;
+  const angle = PI / 2;
+  const size = MARR;
+  const arrowLayers = gold
+    ? [['rgba(245,197,24,0.12)', 24], ['rgba(245,197,24,0.45)', 12], ['rgba(245,197,24,0.82)', 5], ['rgba(255,248,210,0.95)', 2]]
+    : [['rgba(200,20,50,0.12)', 24], ['rgba(220,35,65,0.45)', 12], ['rgba(235,55,80,0.86)', 5], ['rgba(255,120,140,0.95)', 2]];
+  for (const [color, blur] of arrowLayers) {
+    ctx.save(); ctx.translate(tipX, tipY); ctx.rotate(angle);
+    ctx.shadowColor = color; ctx.shadowBlur = blur; ctx.fillStyle = color;
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-size, -size * 0.44); ctx.lineTo(-size, size * 0.44);
+    ctx.closePath(); ctx.fill(); ctx.restore();
+  }
+  centreNode(ctx, cx, cy, d * 0.016, gold);
+}
+function HeroLemniscate(canvasRef, wrapEl) {
+  const SZ = wrapEl ? Math.min(440, Math.floor(wrapEl.clientWidth)) : 440;
+  const ctx = setupCanvas(canvasRef, SZ, '#04070f');
+  if (!ctx) return;
+  const cx = SZ / 2, cy = SZ / 2;
+  const a = Math.round(SZ * (155 / 440));
+  const s = a / 200;
+  for (const lobe of allLobes(a, cx, cy)) sPts(ctx, lobe, 60 * s, 'rgba(245,197,24,0.012)', 80 * s);
+  for (const lobe of allLobes(a, cx, cy)) gLobe(ctx, lobe, s);
+  centreNode(ctx, cx, cy, 4 * s);
+  return a;
+}
+function SquaketLemniscate(ref) {
+  const SZ = 180;
+  const d = availWidth(ref, SZ);
+  const ctx = setupCanvas(ref, d);
+  if (!ctx) return;
+  const cx = d / 2, cy = d / 2, a = d * (64 / 180), s = a / 200;
+  for (const lobe of allLobes(a, cx, cy)) gLobe(ctx, lobe, s);
+  centreNode(ctx, cx, cy, 2.2 * s);
+}
+function OrisaLemniscateCanvas(ref, sz = 280) {
+  const d = availWidth(ref, sz);
+  const ctx = setupCanvas(ref, d, '#04070f');
+  if (!ctx) return;
+  const cx = d / 2, cy = d / 2, a = d * 0.357, s = a / 200;
+  for (const lobe of allLobes(a, cx, cy)) rLobe(ctx, lobe, s);
+  const ext = a * 0.85;
+  rLobe(ctx, [[cx + ext, cy - ext], [cx - ext, cy + ext]], s);
+  centreNode(ctx, cx, cy, 3.5 * s, false);
+}
+function OponIfaInfinityCanvas(ref, sz = 280) {
+  const d = availWidth(ref, sz);
+  const ctx = setupCanvas(ref, d, '#020408');
+  if (!ctx) return;
+  const cx = d / 2, cy = d / 2;
+  const a = d * 0.357;
+  const s = a / 200;
+  const lobes = allLobes(a, cx, cy);
+  const R = a * 0.56;
+  const DC = a * 0.50;
+  const rotBase = [PI * 0.08, PI * 0.58, PI * 1.08, PI * 1.58];
+  const lobeData = lobes.map((pts, i) => {
+    const mid = pts[Math.floor(pts.length / 2)];
+    if (!mid) return { pts, ox: 0, oy: 0, rot: rotBase[i] };
+    const dx = mid[0] - cx, dy = mid[1] - cy;
+    const len = Math.sqrt(dx * dx + dy * dy) || 1;
+    return { pts, ox: (dx / len) * DC, oy: (dy / len) * DC, rot: rotBase[i] };
+  });
+  for (const { pts, ox, oy, rot } of lobeData) {
+    if (!pts.length) continue;
+    ctx.save(); ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    ctx.closePath(); ctx.clip();
+    drawOponIfa(ctx, cx + ox, cy + oy, R, rot);
+    ctx.restore();
+  }
+  for (const lobe of lobes) gLobe(ctx, lobe, s);
+  centreNode(ctx, cx, cy, 4 * s);
+}
+
+/* C. SVG artworks — identical paths, strokes and glow layers */
+function glowUses(id, rgb, hi, lastJoin) {
+  const w = [[0.03,44],[0.07,26],[0.16,15],[0.34,7],[0.62,3],[0.90,1.4]];
+  let out = w.map(([o, sw], i) => `<use href="#${id}" stroke="rgba(${rgb},${o.toFixed(2)})" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="${lastJoin && i === 5 ? 'miter' : 'round'}"/>`).join('');
+  out += `<use href="#${id}" stroke="${hi}" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="${lastJoin ? 'miter' : 'round'}"/>`;
+  return out;
+}
+const IfaSigmaSVG = () => `<svg viewBox="0 0 320 340" class="ifagram-svg" style="overflow:visible;background:transparent" aria-label="Ifa Sigma — Temic Sigma"><defs><path id="sp-ig-ID" d="M 292,96 L 292,32 L 70,32 L 70,290 C 70,308 34,318 34,302 M 70,262 L 242,262 C 280,262 296,248 296,202" fill="none" stroke-linecap="round" stroke-linejoin="miter"/></defs>${glowUses('sp-ig-ID','245,197,24','rgba(255,248,210,0.95)',true)}</svg>`;
+function bracket(id, vb, d) {
+  return `<svg viewBox="${vb}" width="72" height="240" style="display:block;overflow:visible" aria-label="${id.includes('squa') ? 'Squa' : 'Ket'} operator"><defs><path id="${id}" d="${d}" fill="none" stroke-linecap="round" stroke-linejoin="round"/></defs>${glowUses(id,'168,85,247','rgba(220,180,255,0.95)',false)}</svg>`;
+}
+const SquaketSVG = () => `<div class="squaket-display"><div class="squaket-row">${bracket('sq-squa-ig','-14 0 124 352','M 96,8 L 52,8 C 0,108 0,244 52,344 L 96,344')}<div><canvas class="ifagram-canvas sq-lem" style="align-self:center"></canvas></div>${bracket('sq-ket-ig','-6 0 120 352','M 6,8 L 50,8 C 102,108 102,244 50,344 L 6,344')}</div></div>`;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE ASSEMBLY (new layout)
+   ═══════════════════════════════════════════════════════════════════════════ */
+const IFAGRAMS = [
+  { type:'lemniscate', title:'The Ifa Infinity (ToE Infinity)', formula:'', sub:'', color:'#f5c518',
+    desc:'The foundational Ifa Diagram — the Ifa Infinity encodes the four-Lobe Axiomatic Structure of the 256 Odu Ifa and the dimensional matrix of all knowledge on the IFA Internet.' },
+  { type:'lemniscate-d', title:'The Ifa Ninifinity (Non-Infinity)', formula:'', sub:'The Dual of Ifa Infinity', color:'#f5c518',
+    desc:'The Ifa Infinity extended with a diagonal axis — representing additional dimensional planes and expanded field intersections within the Ifa knowledge framework.' },
+  { type:'fractal', title:'Ifa Fractal (ToE Fractal)', formula:'', sub:'Self-Similar Ifa Infinity', color:'#e03050',
+    desc:'The Ifa Fractal demonstrates self-similarity across all scales — encoding the recursive, nested structure of Ifa knowledge and reality (nature) where every part contains and reflects the whole.' },
+  { type:'meta-gold', title:'IfaZero', formula:'Circle · Clockwise · Right', sub:'Metarepresentation — 0', color:'#f5c518',
+    desc:'IfaZero is the Metarepresentation of 0 in IfaLang — a clockwise circle with arrowhead at right. It encodes potentiality, the unmanifest origin field, and the state of infinite possibility.' },
+  { type:'meta-red', title:'IfaOne', formula:'Circle · Counterclockwise · Left', sub:'Metarepresentation — 1', color:'#e03050',
+    desc:'IfaOne is the Metarepresentation of 1 in IfaLang — a counterclockwise circle with arrowhead at left. The chiral dual of IfaZero, encoding manifestation, actuality, and emergence.' },
+  { type:'sigma', title:'Ifa Sigma · Temic Sigma', formula:'Amulu(∫, Σ)', sub:'Ifa Script Summation Operator', color:'#f5c518',
+    desc:'The IfaSigma is the Amulu (Composition) of the integral ∫ and the summation Σ — the unified summation-integration operator of Ifa Calculus and the IFA Internet.' },
+  { type:'squaket', title:'Squaket Operator · IfaBrackets', formula:'Squa( · )Ket', sub:'ToE Brackets — BracketoE', color:'#a855f7', wide:true,
+    desc:'The Squaket Operator — IfaBrackets — is the Composition Operation notation. The Squa and Ket brackets generalise quantum bracket notation to all fields of knowledge in the IFA Internet.' },
+];
+
+const renderers = [];   // redraw list, so canvases stay sharp and fit after resize
+function mountCanvas(host, draw) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = 'width:100%;display:flex;justify-content:center';
+  const c = document.createElement('canvas');
+  c.className = 'ifagram-canvas';
+  wrap.appendChild(c); host.appendChild(wrap);
+  const ref = { current: c };
+  const run = () => draw(ref);
+  renderers.push(run); run();
+}
+function mountArt(host, type, sz) {
+  switch (type) {
+    case 'lemniscate':   return mountCanvas(host, r => LemniscateCanvas(r, 280));
+    case 'lemniscate-d': return mountCanvas(host, r => LemniscateCanvas(r, 280, true));
+    case 'fractal':      return mountCanvas(host, r => FractalCanvas(r, 280));
+    case 'meta-gold':    return mountCanvas(host, r => MetaCanvas(r, 220, true));
+    case 'meta-red':     return mountCanvas(host, r => MetaCanvas(r, 220, false));
+    case 'sigma':        host.insertAdjacentHTML('beforeend', IfaSigmaSVG().replace(/sp-ig-ID/g, 'sp-ig-' + Math.random().toString(36).slice(2,7))); return;
+    case 'squaket': {
+      host.insertAdjacentHTML('beforeend', SquaketSVG());
+      const c = host.querySelector('.sq-lem'); const ref = { current: c };
+      const run = () => SquaketLemniscate(ref); renderers.push(run); run(); return;
+    }
+    case 'opon':  return mountCanvas(host, r => OponIfaInfinityCanvas(r, sz || 280));
+    case 'orisa': return mountCanvas(host, r => OrisaLemniscateCanvas(r, sz || 280));
+  }
+}
+
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const cat = document.getElementById('catalogue');
+IFAGRAMS.forEach((ig, i) => {
+  const el = document.createElement('article');
+  el.className = 'card' + (ig.wide ? ' card--wide' : '');
+  el.style.setProperty('--c', ig.color);
+  el.innerHTML =
+    `<div class="card__stage"><span class="card__fig" aria-hidden="true">FIG. ${String(i+1).padStart(2,'0')}</span></div>` +
+    `<div class="card__info">` +
+      (ig.formula ? `<div class="card__formula">${esc(ig.formula)}</div>` : '') +
+      `<h3 class="card__t">${esc(ig.title)}</h3>` +
+      (ig.sub ? `<div class="card__s">${esc(ig.sub)}</div>` : '') +
+      `<p class="card__d">${esc(ig.desc)}</p>` +
+    `</div>`;
+  cat.appendChild(el);
+  mountArt(el.querySelector('.card__stage'), ig.type);
+});
+document.querySelectorAll('[data-art]').forEach(h => mountArt(h, h.dataset.art, +h.dataset.sz || 0));
+
+/* Hero artwork + live polar readout (the HUD sits beside the art, never on it) */
+const heroWrap = document.getElementById('hero-wrap');
+const heroRef = { current: document.getElementById('hero-art') };
+let heroA = 155;
+const drawHero = () => { heroA = HeroLemniscate(heroRef, heroWrap) || heroA; };
+renderers.push(drawHero); drawHero();
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hudT = document.getElementById('hud-t'), hudR = document.getElementById('hud-r'), hudXY = document.getElementById('hud-xy');
+function hudAt(theta) {
+  const c2 = Math.cos(2 * theta), r = c2 > 0 ? Math.sqrt(2) * Math.sqrt(c2) : 0;  // a = 1 (unit lemniscate)
+  hudT.textContent = (((theta % (2*PI)) + 2*PI) % (2*PI)).toFixed(3);
+  hudR.textContent = r.toFixed(3);
+  hudXY.textContent = (r * Math.cos(theta)).toFixed(2) + ', ' + (r * Math.sin(theta)).toFixed(2);
+}
+hudAt(PI / 8);
+if (!reduce) { let th = 0; setInterval(() => { th += 0.035; const t = (th % (PI/2)) - PI/4; hudAt(t + (Math.floor(th / (PI/2)) % 2 ? PI : 0)); }, 60); }
+
+let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => renderers.forEach(f => f()), 150); });
+
+/* Ọ̀ṣẹ́ transform toggle (same behaviour as the original gallery) */
+const tg = document.getElementById('oshe-toggle'), gv = document.getElementById('gal-view'), ov = document.getElementById('oshe-view');
+tg.addEventListener('click', () => {
+  const on = tg.getAttribute('aria-pressed') !== 'true';
+  tg.setAttribute('aria-pressed', on);
+  tg.textContent = on ? 'Back to Gallery' : 'Transform → Ọ̀ṣẹ́';
+  gv.hidden = on; ov.hidden = !on;
+});
+
+/* ── Ambient STEAM field: particles drifting along lemniscate flow lines ── */
+(function () {
+  const cv = document.getElementById('particles'), ctx = cv.getContext('2d');
+  const cols = ['20,184,212', '168,85,247', '0,200,124', '240,146,12', '245,197,24'];
+  let W, H, ps = [];
+  function size() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ps = Array.from({ length: Math.round(Math.min(70, W / 18)) }, (_, i) => ({
+      t: Math.random() * 2 * PI, sp: (0.0006 + Math.random() * 0.0012) * (Math.random() < .5 ? -1 : 1),
+      a: 0.18 + Math.random() * 0.5, cx: Math.random(), cy: Math.random(), c: cols[i % 5], r: 0.6 + Math.random() * 1.3
+    }));
+  }
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    const S = Math.min(W, H) * 0.42;
+    for (const p of ps) {
+      p.t += p.sp;
+      const d = 1 + Math.sin(p.t) ** 2;                         // Bernoulli lemniscate parametrisation
+      const x = p.cx * W + S * p.a * Math.cos(p.t) / d;
+      const y = p.cy * H + S * p.a * Math.sin(p.t) * Math.cos(p.t) / d;
+      ctx.fillStyle = `rgba(${p.c},.55)`; ctx.beginPath(); ctx.arc(x, y, p.r, 0, 2 * PI); ctx.fill();
+    }
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  size(); frame(); addEventListener('resize', size);
+})();
+
+/* ── Òrìṣà Ọnà: See (light) · Hear (sound) · Feel (energy) waveforms ── */
+(function () {
+  const cv = document.getElementById('wave'), ctx = cv.getContext('2d');
+  const waves = [['20,184,212', 1.0, 0.012, 0.9], ['168,85,247', 1.6, 0.018, 1.3], ['240,146,12', 2.3, 0.009, 0.7]];
+  let W, H, t = 0;
+  function size() { const r = cv.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    waves.forEach(([c, f, k, amp], i) => {
+      ctx.beginPath();
+      for (let x = 0; x <= W; x += 4) {
+        const env = Math.sin(PI * x / W);
+        const y = H / 2 + (i - 1) * H * 0.12 + Math.sin(x * k * f + t * (1 + i * .4)) * H * 0.12 * amp * env;
+        x ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+      }
+      ctx.strokeStyle = `rgba(${c},.35)`; ctx.lineWidth = 1.4; ctx.stroke();
+    });
+    t += 0.02;
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  size(); frame(); addEventListener('resize', size);
+})();
+</script>
 </body>
 </html>

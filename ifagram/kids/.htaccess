@@ -1,0 +1,6 @@
+# IFA Academy — students only.
+# Every request in this folder (pages, scripts, styles, images) is checked by the
+# sign-in guard first. Do not remove this file, or the folder becomes public.
+Options -Indexes
+RewriteEngine On
+RewriteRule ^ /ifa-auth/guard.php [L,QSA]

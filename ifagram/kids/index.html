@@ -1,19 +1,900 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ifagrams for Kids &amp; Teens — IfaLab For Children | The IFA Internet</title>
-  <meta name="description" content="Ifagrams for Kids &amp; Teens — IfaLab For Children. Fun Ifa &amp; Orisa animations, STEAM activities, and Yoruba cultural designs for kids ages 4 and above." />
-  <meta name="theme-color" content="#0a0520" />
-  <link rel="icon" type="image/png" href="../../src/assets/itoe_favicon.png" />
-  <link rel="stylesheet" href="./src/styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ifagrams for Kids &amp; Teens — IfaLab For Children | The IFA Internet</title>
+<meta name="description" content="Ifagrams for Kids &amp; Teens — IfaLab For Children. Fun Ifa &amp; Orisa animations, STEAM activities, and Yoruba cultural designs for kids ages 4 and above.">
+<meta name="theme-color" content="#0a0520">
+<link rel="icon" type="image/png" href="https://ifainternet.org/src/assets/itoe_favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Concept: a night-sky science lab for young explorers. Each section is a "lab station"
+   on graph paper; the five STEAM subjects orbit the Ifa board like planets and colour-key
+   every station. Palette = the page's own tokens, unchanged. */
+:root{
+  --bg:#070318; --bg-2:#0d0530; --bg-card:rgba(15,8,40,0.90); --bg-glass:rgba(10,5,32,0.70);
+  --kids-orange:#ff6b35; --kids-yellow:#ffd60a; --kids-green:#06d6a0; --kids-blue:#118ab2;
+  --kids-purple:#9d4edd; --kids-pink:#ff006e; --kids-cyan:#00b4d8;
+  --gold:#f5c518; --red:#e63946;
+  --text-1:#ffffff; --text-2:#c8b8ff; --text-3:#7060a0;
+  --border:rgba(200,180,255,0.12); --border-2:rgba(200,180,255,0.24);
+  --radius:20px; --radius-sm:12px;
+  /* STEAM keys — taken from the page's own STEAM cards */
+  --S:#e63946; --T:#00b4d8; --E:#457b9d; --A:#f5c518; --M:#e8f1ff;
+  --grid:rgba(200,180,255,0.06);
+  --f-display:"Baloo 2","Nunito",system-ui,sans-serif;
+  --f-body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text-1);font-family:var(--f-body);font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--kids-yellow);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px))}
+
+/* Lab-notebook graph paper behind everything */
+.paper{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(48rem 34rem at 12% 8%,rgba(157,78,221,.22),transparent 60%),
+  radial-gradient(40rem 30rem at 92% 30%,rgba(0,180,216,.14),transparent 60%),
+  radial-gradient(44rem 30rem at 50% 105%,rgba(255,0,110,.12),transparent 60%),
+  linear-gradient(var(--grid) 1px,transparent 1px) 0 0/32px 32px,
+  linear-gradient(90deg,var(--grid) 1px,transparent 1px) 0 0/32px 32px,var(--bg)}
+
+/* ── STEAM chips ── */
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chip{--c:var(--S);display:inline-flex;align-items:center;gap:7px;padding:4px 12px 4px 4px;border-radius:999px;background:color-mix(in srgb,var(--c) 14%,transparent);border:1.5px solid color-mix(in srgb,var(--c) 45%,transparent);font-family:var(--f-mono);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.chip b{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#12082e;font-size:.75rem}
+.chip--S{--c:var(--S)}.chip--T{--c:var(--T)}.chip--E{--c:#7fb3d5}.chip--A{--c:var(--A)}.chip--M{--c:var(--M)}
+
+/* ── Header ── */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(7,3,24,.92)}
+.kids-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(7,3,24,.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.kids-header__inner{display:flex;align-items:center;gap:16px;min-height:64px}
+.kids-header__brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.kids-header__logo{height:28px;width:auto}
+.kids-header__label{font-family:var(--f-display);font-weight:800;font-size:1.05rem;color:var(--kids-yellow);line-height:1}
+.kids-header__nav{display:flex;align-items:center;gap:4px;margin-left:auto}
+.kids-header__nav a{text-decoration:none;font-weight:700;font-size:.88rem;color:var(--text-2);padding:7px 12px;border-radius:999px;transition:background .2s,color .2s}
+.kids-header__nav a:hover{background:rgba(200,180,255,.1);color:#fff}
+.kids-header__logout{margin-left:6px;cursor:pointer;font-weight:800;font-size:.85rem;padding:7px 14px;border-radius:999px;border:1.5px solid rgba(255,0,110,.55);background:rgba(255,0,110,.12);color:#ff7ab3}
+.kids-header__logout:hover{background:var(--kids-pink);color:#fff}
+.kids-header__burger{display:none;margin-left:auto;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--border-2);background:var(--bg-glass);cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.kids-header__burger span{display:block;width:20px;height:2.5px;border-radius:2px;background:#fff;transition:transform .2s,opacity .2s}
+.kids-header__burger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.kids-header__burger.open span:nth-child(2){opacity:0}
+.kids-header__burger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+@media (max-width:900px){
+  .kids-header__burger{display:flex}
+  .kids-header__nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;padding:12px max(18px,env(safe-area-inset-right,0px)) 18px max(18px,env(safe-area-inset-left,0px));background:rgba(7,3,24,.97);border-bottom:1px solid var(--border)}
+  .kids-header__nav--open{display:flex}
+  .kids-header__nav a{padding:12px 14px;font-size:1rem}
+  .kids-header__logout{margin:8px 0 0;padding:12px}
+}
+
+/* ── Hero ── */
+.kids-hero{position:relative;overflow:hidden;padding-block:clamp(36px,6vw,80px) clamp(32px,5vw,64px)}
+.starfield{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.starfield__star{position:absolute;border-radius:50%;background:#fff;animation:star-twinkle var(--dur,3s) ease-in-out infinite;animation-delay:var(--delay,0s)}
+@keyframes star-twinkle{0%,100%{opacity:.2}50%{opacity:.8}}
+.kids-hero__content{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(24px,4vw,56px);align-items:center}
+.kids-hero__text{display:flex;flex-direction:column;gap:18px;min-width:0}
+.kids-hero__eyebrow{align-self:flex-start;font-family:var(--f-mono);font-weight:700;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--kids-yellow);padding:7px 14px;border-radius:999px;border:1.5px dashed rgba(255,214,10,.5);background:rgba(255,214,10,.08)}
+.kids-hero__title{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(3rem,1.6rem + 6vw,6rem);line-height:.92;letter-spacing:-.01em;display:flex;flex-direction:column}
+.kids-hero__title-line{display:block;animation:hero-title-in .7s cubic-bezier(.2,.9,.3,1.3) both}
+.kids-hero__title-line--1{color:var(--kids-yellow);text-shadow:0 0 40px rgba(255,214,10,.35)}
+.kids-hero__title-line--2{color:var(--kids-cyan);animation-delay:.12s;text-shadow:0 0 40px rgba(0,180,216,.35)}
+.kids-hero__title-line--3{color:var(--kids-purple);animation-delay:.24s;text-shadow:0 0 40px rgba(157,78,221,.4)}
+@keyframes hero-title-in{from{opacity:.001;transform:translateY(18px) scale(.96)}}
+.kids-hero__badge{align-self:flex-start;font-weight:800;font-size:.92rem;padding:8px 16px;border-radius:12px;background:var(--bg-glass);border:1.5px solid var(--border-2);color:var(--text-2)}
+.kids-hero__desc{margin:0;color:var(--text-2);font-size:1.1rem;max-width:56ch}
+.kids-hero__ctas{display:flex;gap:12px;flex-wrap:wrap}
+.kids-btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:1.08rem;padding:12px 24px;border-radius:999px;transition:transform .18s,box-shadow .18s}
+.kids-btn:hover{transform:translateY(-3px) rotate(-1deg)}
+.kids-btn--primary{background:var(--kids-yellow);color:#22104a;box-shadow:0 6px 0 #b39500,0 14px 30px -10px rgba(255,214,10,.6)}
+.kids-btn--primary:active{transform:translateY(3px);box-shadow:0 2px 0 #b39500}
+.kids-btn--secondary{background:var(--kids-purple);color:#fff;box-shadow:0 6px 0 #6a2ba3,0 14px 30px -10px rgba(157,78,221,.6)}
+.kids-btn--secondary:active{transform:translateY(3px);box-shadow:0 2px 0 #6a2ba3}
+
+/* STEAM orbit lab around the spinning board */
+.kids-hero__board{display:flex;justify-content:center;min-width:0}
+.spin-board-wrap{display:flex;flex-direction:column;align-items:center;gap:20px}
+.lab{--R:186px;position:relative;width:440px;height:440px;max-width:100%;display:grid;place-items:center}
+.lab__ring{position:absolute;width:calc(var(--R)*2);height:calc(var(--R)*2);border-radius:50%;border:1.5px dashed rgba(200,180,255,.22)}
+.lab__ring--2{width:calc(var(--R)*2 - 52px);height:calc(var(--R)*2 - 52px);border-style:solid;border-color:rgba(200,180,255,.08)}
+.lab__orbit{position:absolute;inset:0;animation:lab-turn 48s linear infinite}
+.lab__orb{--c:var(--S);position:absolute;top:50%;left:50%;width:46px;height:46px;margin:-23px;transform:rotate(var(--a)) translateX(var(--R)) rotate(calc(-1 * var(--a)))}
+.lab__orb span{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.35rem;color:#12082e;background:radial-gradient(circle at 35% 30%,#fff 0%,var(--c) 45%,color-mix(in srgb,var(--c) 60%,#000) 100%);box-shadow:0 0 22px color-mix(in srgb,var(--c) 70%,transparent);animation:lab-turn 48s linear infinite reverse}
+@keyframes lab-turn{to{transform:rotate(360deg)}}
+.lab__tick{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(200,180,255,.25) 0 .6deg,transparent .6deg 15deg);-webkit-mask:radial-gradient(circle,transparent calc(var(--R) + 14px),#000 calc(var(--R) + 15px),#000 calc(var(--R) + 22px),transparent calc(var(--R) + 23px));mask:radial-gradient(circle,transparent calc(var(--R) + 14px),#000 calc(var(--R) + 15px),#000 calc(var(--R) + 22px),transparent calc(var(--R) + 23px))}
+
+/* Spin board — original design, unchanged */
+.spin-board{position:relative;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#d4a52a 0%,#8b6914 40%,#5a4209 70%,#2a1f06 100%);border:3px solid rgba(212,165,42,0.5);box-shadow:0 0 40px rgba(212,165,42,0.25),0 0 80px rgba(212,165,42,0.1),inset 0 0 30px rgba(0,0,0,0.5);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:box-shadow .2s;flex-shrink:0;padding:0}
+.spin-board:hover{box-shadow:0 0 60px rgba(212,165,42,0.45),0 0 100px rgba(212,165,42,0.18),inset 0 0 30px rgba(0,0,0,0.5)}
+.spin-board--spinning{animation:spin-board 1s cubic-bezier(0.17,0.67,0.83,0.67) forwards}
+.spin-board__dot{position:absolute;width:12px;height:12px;border-radius:50%;background:rgba(212,165,42,0.75);border:1.5px solid rgba(255,220,100,0.6);box-shadow:0 0 8px rgba(212,165,42,0.6);transform-origin:50% 50%;transform:rotate(var(--dot-angle)) translateX(102px)}
+.spin-board__center{display:flex;align-items:center;justify-content:center;pointer-events:none;user-select:none}
+.spin-board__label{font-size:.95rem;color:var(--text-2);text-align:center;max-width:260px;line-height:1.5;min-height:2.8em;margin:0;padding:10px 16px;border-radius:14px;background:var(--bg-glass);border:1px solid var(--border)}
+@keyframes spin-board{0%{transform:rotate(0deg)}100%{transform:rotate(720deg)}}
+
+/* STEAM element strip */
+.elements{margin-top:clamp(32px,5vw,52px);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.el{--c:var(--S);position:relative;text-decoration:none;display:flex;flex-direction:column;gap:2px;padding:14px 14px 12px;border-radius:14px;background:var(--bg-card);border:2px solid color-mix(in srgb,var(--c) 55%,transparent);transition:transform .18s,box-shadow .18s;min-width:0}
+.el:hover{transform:translateY(-4px);box-shadow:0 10px 30px -10px var(--c)}
+.el__n{position:absolute;top:8px;right:11px;font-family:var(--f-mono);font-size:.68rem;color:var(--text-3)}
+.el__l{font-family:var(--f-display);font-weight:800;font-size:2.2rem;line-height:1;color:var(--c)}
+.el__s{font-weight:800;font-size:.92rem}
+.el__o{font-size:.78rem;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── Sections as lab stations ── */
+.kids-section{position:relative;padding-block:clamp(56px,8vw,96px)}
+.kids-section--alt{background:linear-gradient(180deg,rgba(13,5,48,.75),rgba(13,5,48,.35))}
+.station{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;margin-bottom:clamp(28px,4vw,44px)}
+.kids-section__eyebrow{margin:0;font-family:var(--f-mono);font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--kids-cyan)}
+.kids-section__title{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(2rem,1.4rem + 2.6vw,3.2rem);line-height:1.05;text-wrap:balance}
+.kids-section__title--steam{background:linear-gradient(135deg,var(--kids-green),var(--kids-cyan),var(--kids-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.kids-section__sub{margin:0;color:var(--text-2);font-size:1.08rem;max-width:58ch}
+
+/* ── Orisa cards (circle, emoji, sparkles & animations are original) ── */
+.orisa-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.orisa-card{position:relative;background:var(--bg-card);border:2px solid var(--oc,#9d4edd);border-radius:var(--radius);padding:30px 20px 22px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;transition:transform .22s,box-shadow .22s;text-align:center;overflow:hidden;backdrop-filter:blur(10px);background-color:var(--oc-bg,rgba(15,8,40,0.90));min-width:0}
+.orisa-card::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(color-mix(in srgb,var(--oc) 10%,transparent) 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,color-mix(in srgb,var(--oc) 10%,transparent) 1px,transparent 1px) 0 0/22px 22px;-webkit-mask:linear-gradient(#000,transparent 45%);mask:linear-gradient(#000,transparent 45%)}
+.orisa-card:hover{transform:translateY(-6px);box-shadow:0 12px 48px rgba(0,0,0,0.5),0 0 30px var(--oc,#9d4edd)}
+.orisa-card--active{transform:translateY(-8px) scale(1.03);box-shadow:0 16px 60px rgba(0,0,0,0.6),0 0 40px var(--oc,#9d4edd),0 0 80px var(--oc,#9d4edd),inset 0 0 0 2px var(--oc,#9d4edd);animation:rainbow-bg 1.4s linear infinite;background-size:300% 300%}
+@keyframes rainbow-bg{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.orisa-card__corner{position:absolute;top:12px;left:12px;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.15rem;color:#12082e;background:var(--oc)}
+.orisa-card__circle-wrap{position:relative;width:90px;height:90px;margin-bottom:4px}
+.orisa-card__circle{width:90px;height:90px;border-radius:50%;background:rgba(0,0,0,0.3);border:2px solid var(--oc,#9d4edd);box-shadow:0 0 30px var(--oc,#9d4edd);display:flex;align-items:center;justify-content:center}
+.orisa-card__emoji{font-size:2.4rem;line-height:1;display:block}
+.orisa-card__sparkle{position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;background:var(--oc,#9d4edd);margin:-4px;animation:sparkle-anim 2.4s ease-in-out infinite;animation-delay:calc(var(--sp-deg) / 360 * 2.4s)}
+@keyframes sparkle-anim{0%{opacity:0;transform:rotate(var(--sp-deg)) translateX(44px) rotate(calc(-1 * var(--sp-deg))) scale(0)}50%{opacity:1;transform:rotate(var(--sp-deg)) translateX(44px) rotate(calc(-1 * var(--sp-deg))) scale(1)}100%{opacity:0;transform:rotate(var(--sp-deg)) translateX(44px) rotate(calc(-1 * var(--sp-deg))) scale(0)}}
+.orisa-char--bounce{animation:bounce 1.6s ease-in-out infinite}
+.orisa-char--spin{animation:spin 3s linear infinite}
+.orisa-char--wave{animation:wave 2s ease-in-out infinite}
+.orisa-char--pulse{animation:pulse-glow 2s ease-in-out infinite}
+.orisa-char--twinkle{animation:twinkle 1.8s ease-in-out infinite}
+.orisa-char--lightning{animation:lightning 1.4s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes spin{100%{transform:rotate(360deg)}}
+@keyframes pulse-glow{0%,100%{box-shadow:0 0 20px var(--oc,#9d4edd)}50%{box-shadow:0 0 50px var(--oc,#9d4edd),0 0 80px var(--oc,#9d4edd)}}
+@keyframes twinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+@keyframes wave{0%,100%{transform:translateX(0) rotate(-5deg)}50%{transform:translateX(12px) rotate(5deg)}}
+@keyframes lightning{0%,100%{opacity:1}10%,30%{opacity:.3}20%,40%{opacity:1}}
+.orisa-card__name{margin:4px 0 0;font-family:var(--f-display);font-weight:800;font-size:1.6rem;line-height:1.1;color:var(--oc)}
+.orisa-card__title{margin:0;font-weight:700;color:var(--text-2);font-size:.95rem}
+.orisa-card__badge{font-family:var(--f-mono);font-weight:700;font-size:.72rem;letter-spacing:.06em;padding:4px 12px;border-radius:999px;color:#12082e}
+.orisa-card__desc{margin:4px 0 0;color:var(--text-2);font-size:.95rem}
+.orisa-card__fact{margin:0;width:100%;text-align:left;font-size:.9rem;color:var(--text-1);padding:12px 14px;border-radius:12px;background:rgba(0,0,0,.28);border:1.5px dashed color-mix(in srgb,var(--oc) 45%,transparent)}
+.orisa-card__fact-label{display:block;font-family:var(--f-mono);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--oc);margin-bottom:2px}
+.orisa-card__btn{margin-top:auto;cursor:pointer;font-family:var(--f-display);font-weight:800;font-size:1rem;padding:9px 20px;border-radius:999px;border:2px solid var(--oc);background:color-mix(in srgb,var(--oc) 16%,transparent);color:#fff;display:inline-flex;align-items:center;gap:10px}
+.orisa-card__btn:hover{background:var(--oc);color:#12082e}
+/* Sound-wave meter (science of sound) — moves while the Orisa plays */
+.eq{display:inline-flex;align-items:flex-end;gap:2px;height:14px}
+.eq i{width:3px;height:30%;border-radius:2px;background:currentColor;opacity:.75}
+.orisa-card--active .eq i{animation:eq .5s ease-in-out infinite alternate}
+.eq i:nth-child(2){animation-delay:.12s}.eq i:nth-child(3){animation-delay:.24s}.eq i:nth-child(4){animation-delay:.08s}
+@keyframes eq{to{height:100%}}
+
+/* ── STEAM lab worksheets ── */
+.steam-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:22px}
+.steam-card{grid-column:span 2;--sc:var(--S);position:relative;display:flex;flex-direction:column;border-radius:var(--radius);background:var(--bg-card);border:2px solid color-mix(in srgb,var(--sc) 45%,transparent);overflow:hidden;min-width:0}
+.steam-card:nth-child(4){grid-column:2/span 2}
+.steam-card__header{position:relative;display:flex;align-items:center;gap:14px;padding:20px 20px 18px;background:linear-gradient(135deg,color-mix(in srgb,var(--sc) 26%,transparent),transparent 80%);border-bottom:1.5px dashed color-mix(in srgb,var(--sc) 40%,transparent);overflow:hidden}
+.steam-card__orb{position:absolute;border-radius:50%;background:var(--sc);opacity:.18;pointer-events:none}
+.steam-card__orb--lg{width:120px;height:120px;right:-30px;top:-50px}
+.steam-card__orb--sm{width:40px;height:40px;right:70px;bottom:-18px;opacity:.12}
+.steam-card__letter-badge{position:relative;width:64px;height:64px;flex-shrink:0;border-radius:12px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:2.4rem;line-height:1;color:#12082e;background:var(--sc);box-shadow:0 6px 0 color-mix(in srgb,var(--sc) 55%,#000)}
+.steam-card__letter-badge::after{content:attr(data-n);position:absolute;top:4px;left:6px;font-family:var(--f-mono);font-size:.58rem;font-weight:700;opacity:.7}
+.steam-card__subject{font-family:var(--f-display);font-weight:800;font-size:1.35rem;line-height:1.1}
+.steam-card__orisa-tag{font-size:.85rem;font-weight:700;color:var(--sc)}
+.steam-card__body-wrap{display:flex;flex-direction:column;gap:12px;padding:20px;flex:1}
+.steam-card__title{margin:0;font-family:var(--f-display);font-weight:700;font-size:1.15rem;line-height:1.25}
+.steam-card__body{margin:0;color:var(--text-2);font-size:.95rem}
+.steam-card__activity{margin-top:auto;position:relative;padding:14px 16px 14px 18px;border-radius:12px;background:color-mix(in srgb,var(--sc) 12%,rgba(0,0,0,.25));border:1.5px solid color-mix(in srgb,var(--sc) 40%,transparent);transform:rotate(-.6deg)}
+.steam-card__act-label{display:block;font-family:var(--f-display);font-weight:800;color:var(--sc);font-size:1rem;margin-bottom:2px}
+.steam-card__act-text{font-size:.92rem;color:var(--text-1)}
+
+/* ── Count: number line ── */
+.number-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:14px;position:relative}
+.number-card{background:var(--bg-card);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:18px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .18s,box-shadow .18s,border-color .18s;min-height:110px;cursor:pointer;position:relative}
+.number-card:hover{transform:translateY(-4px);border-color:var(--nc);box-shadow:0 10px 30px -12px var(--nc)}
+.number-card:active{transform:scale(.96)}
+.number-card::before{content:"";position:absolute;top:-1px;left:16px;right:16px;height:4px;border-radius:0 0 4px 4px;background:var(--nc)}
+.number-card__digit{font-family:var(--f-display);font-weight:800;font-size:2.4rem;line-height:1}
+.number-card__word{font-weight:800;font-size:1rem}
+.number-card__dots{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;max-width:60px}
+.number-card__dot{width:7px;height:7px;border-radius:50%;transition:opacity .3s,transform .3s}
+.ruler{margin-top:18px;height:26px;border-radius:8px;border:1px solid var(--border);background:repeating-linear-gradient(90deg,rgba(200,180,255,.35) 0 1px,transparent 1px 10px) bottom/100% 8px no-repeat,repeating-linear-gradient(90deg,rgba(255,214,10,.7) 0 2px,transparent 2px 50px) bottom/100% 16px no-repeat,var(--bg-glass)}
+.ifa-code-box{margin-top:clamp(28px,4vw,44px);border-radius:var(--radius);padding:clamp(20px,3vw,32px);background:linear-gradient(rgba(255,214,10,.05) 1px,transparent 1px) 0 0/20px 20px,linear-gradient(90deg,rgba(255,214,10,.05) 1px,transparent 1px) 0 0/20px 20px,var(--bg-card);border:2px solid rgba(245,197,24,.35)}
+.ifa-code-box__title{margin:0 0 18px;font-family:var(--f-display);font-weight:800;font-size:1.5rem;color:var(--gold)}
+.ifa-code-box__row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,2fr);gap:16px;align-items:stretch}
+.ifa-code-box__item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:18px;border-radius:14px;background:rgba(0,0,0,.25);border:1px solid var(--border)}
+.ifa-code-box__item p{margin:0;color:var(--text-2)}
+.ifa-code-box__item strong{color:#fff}
+.ifa-code-box__item--wide{align-items:flex-start;text-align:left}
+.ifa-code-mark{display:flex;gap:10px;align-items:center;justify-content:center;min-height:24px}
+.ifa-code-mark--single{width:22px;height:22px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold)}
+.ifa-code-mark--double{display:flex;gap:8px}
+.ifa-code-mark--double span{width:16px;height:16px;border-radius:50%;background:var(--kids-purple);box-shadow:0 0 10px var(--kids-purple)}
+
+/* ── Odu patterns ── */
+.odu-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.odu-card{background:var(--bg-card);border:1.5px solid color-mix(in srgb,var(--odu-c) 25%,transparent);border-left:3px solid var(--odu-c,#f5c518);border-radius:var(--radius-sm);padding:18px 16px;display:flex;gap:14px;align-items:flex-start;transition:transform .18s,box-shadow .18s;min-width:0}
+.odu-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px -14px var(--odu-c)}
+.odu-card__marks{display:flex;flex-direction:column;gap:6px;flex-shrink:0;padding:8px 6px;border-radius:10px;background:rgba(0,0,0,.3)}
+.odu-card__row{display:flex;gap:5px;justify-content:center;align-items:center;min-width:36px;min-height:14px}
+.odu-card__mark{display:block;border-radius:50%}
+.odu-card__mark--single{width:14px;height:14px;box-shadow:0 0 8px currentColor}
+.odu-card__mark--double{width:10px;height:10px}
+.odu-card__info{min-width:0}
+.odu-card__name{margin:0 0 4px;font-family:var(--f-display);font-weight:800;font-size:1.2rem;line-height:1.1;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.odu-card__code{font-family:var(--f-mono);font-size:.68rem;font-weight:500;color:var(--text-3);letter-spacing:.08em}
+.odu-card__desc{margin:0;font-size:.88rem;color:var(--text-2)}
+
+/* ── Ifanimation theater (original artwork CSS) ── */
+.stage{position:relative;border-radius:28px;padding:clamp(18px,3vw,32px);background:radial-gradient(60% 70% at 50% 0%,rgba(255,214,10,.10),transparent 70%),rgba(13,5,48,.6);border:1.5px solid var(--border-2)}
+.stage::before{content:"";position:absolute;left:10%;right:10%;top:0;height:3px;border-radius:0 0 3px 3px;background:linear-gradient(90deg,var(--S),var(--T),#7fb3d5,var(--A),var(--M))}
+.ifanim-theater{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.ifanim-card{position:relative;background:var(--bg-card);border:1.5px solid var(--border);border-radius:var(--radius);min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;overflow:hidden;padding:20px 16px 16px}
+.ifanim-card__aura{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.ifanim-char{position:relative;z-index:2;font-size:5rem;line-height:1;display:block}
+.ifanim-label{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.ifanim-label strong{font-size:1.1rem;color:var(--text-1);font-family:var(--f-display);font-weight:800}
+.ifanim-label span{font-size:.68rem;color:var(--text-3);letter-spacing:.05em;font-weight:600;text-transform:uppercase}
+.ifanim-card--sango{border-color:rgba(230,57,70,0.3);background:linear-gradient(180deg,rgba(230,57,70,0.10),var(--bg-card))}
+.ifanim-aura--sango{background:radial-gradient(circle,rgba(230,57,70,0.2) 0%,transparent 65%)}
+.ifanim-ray{position:absolute;width:3px;height:60px;background:linear-gradient(to top,transparent,rgba(230,57,70,0.8),transparent);border-radius:2px;transform-origin:50% 100%}
+.ifanim-ray--1{--ray-deg:0deg;animation:ray-flash 1.4s ease-in-out 0s infinite;transform:rotate(var(--ray-deg)) translateY(-55px)}
+.ifanim-ray--2{--ray-deg:90deg;animation:ray-flash 1.4s ease-in-out .35s infinite;transform:rotate(var(--ray-deg)) translateY(-55px)}
+.ifanim-ray--3{--ray-deg:180deg;animation:ray-flash 1.4s ease-in-out .7s infinite;transform:rotate(var(--ray-deg)) translateY(-55px)}
+.ifanim-ray--4{--ray-deg:270deg;animation:ray-flash 1.4s ease-in-out 1.05s infinite;transform:rotate(var(--ray-deg)) translateY(-55px)}
+.ifanim-char--lightning{animation:lightning 1.4s ease-in-out infinite;font-size:5.5rem}
+.ifanim-card--osun{border-color:rgba(245,197,24,0.3);background:linear-gradient(180deg,rgba(245,197,24,0.08),var(--bg-card))}
+.ifanim-aura--osun{background:radial-gradient(circle,rgba(245,197,24,0.18) 0%,transparent 65%)}
+.ifanim-ring{position:absolute;border-radius:50%;border:2px solid rgba(245,197,24,0.55);animation:ring-expand 2.4s ease-out infinite}
+.ifanim-ring--1{width:60px;height:60px;animation-delay:0s}
+.ifanim-ring--2{width:60px;height:60px;animation-delay:.8s}
+.ifanim-ring--3{width:60px;height:60px;animation-delay:1.6s}
+.ifanim-char--wave{animation:wave 2s ease-in-out infinite}
+.ifanim-card--oya{border-color:rgba(157,78,221,0.3);background:linear-gradient(180deg,rgba(157,78,221,0.10),var(--bg-card))}
+.ifanim-aura--oya{background:radial-gradient(circle,rgba(157,78,221,0.18) 0%,transparent 65%)}
+.ifanim-orbit-ring{position:absolute;width:110px;height:110px;border-radius:50%;border:2px dashed rgba(157,78,221,0.65);animation:orbit-ring-spin 3s linear infinite}
+.ifanim-char--spin{animation:spin 2.5s linear infinite}
+.ifanim-card--esu{border-color:rgba(0,180,216,0.3);background:linear-gradient(180deg,rgba(0,180,216,0.08),var(--bg-card))}
+.ifanim-aura--esu{background:radial-gradient(circle,rgba(0,180,216,0.15) 0%,transparent 65%)}
+.ifanim-orbit{position:absolute;width:10px;height:10px;border-radius:50%;animation:orbit-dot 2s linear infinite}
+.ifanim-orbit--1{background:var(--kids-cyan);--od-start:0deg;--od-r:52px}
+.ifanim-orbit--2{background:var(--kids-pink);--od-start:120deg;--od-r:52px;animation-delay:-.67s}
+.ifanim-orbit--3{background:var(--kids-yellow);--od-start:240deg;--od-r:52px;animation-delay:-1.33s}
+.ifanim-char--bounce{animation:bounce 1.6s ease-in-out infinite}
+@keyframes ring-expand{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.2);opacity:0}}
+@keyframes orbit-dot{0%{transform:rotate(var(--od-start,0deg)) translateX(var(--od-r,36px)) rotate(calc(-1 * var(--od-start,0deg)))}100%{transform:rotate(calc(var(--od-start,0deg) + 360deg)) translateX(var(--od-r,36px)) rotate(calc(-1 * (var(--od-start,0deg) + 360deg)))}}
+@keyframes ray-flash{0%,100%{opacity:.9;transform:rotate(var(--ray-deg)) scaleY(1)}25%,75%{opacity:.2;transform:rotate(var(--ray-deg)) scaleY(.6)}50%{opacity:1;transform:rotate(var(--ray-deg)) scaleY(1.3)}}
+@keyframes orbit-ring-spin{100%{transform:rotate(360deg)}}
+
+/* ── Greetings: speech bubbles ── */
+.greeting-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.greeting-card{position:relative;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:14px;align-items:center;text-align:left;padding:18px 20px;border-radius:22px 22px 22px 6px;background:var(--bg-card);border:2px solid var(--border-2);transition:transform .18s,border-color .18s,box-shadow .18s}
+.greeting-card::after{content:"";position:absolute;left:-2px;bottom:-12px;width:18px;height:14px;background:var(--bg-card);border-left:2px solid var(--border-2);border-bottom:2px solid var(--border-2);border-radius:0 0 0 14px;transform:skewX(-20deg)}
+.greeting-card:hover{transform:translateY(-3px) rotate(-.5deg);border-color:var(--kids-cyan);box-shadow:0 10px 30px -14px var(--kids-cyan)}
+.greeting-card__emoji{grid-row:1/3;font-size:2.2rem;line-height:1}
+.greeting-card__phrase{font-family:var(--f-display);font-weight:800;font-size:1.3rem;line-height:1.15;color:#fff}
+.greeting-card__english{font-size:.92rem;color:var(--text-2)}
+.greeting-card .eq{position:absolute;right:16px;top:16px;color:var(--kids-cyan)}
+.greeting-card.is-playing .eq i{animation:eq .4s ease-in-out infinite alternate}
+
+/* ── Footer ── */
+.kids-footer{border-top:1px solid var(--border);background:rgba(5,2,18,.9);padding-block:36px calc(30px + env(safe-area-inset-bottom,0px));position:relative}
+.kids-footer::before{content:"";position:absolute;top:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--S),var(--T),#7fb3d5,var(--A),var(--M))}
+.kids-footer__inner{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.kids-footer__copy{margin:0;color:var(--text-3);font-size:.9rem}
+.kids-footer__copy a{color:var(--kids-yellow);text-decoration:none}
+.kids-footer__nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px}
+.kids-footer__nav a{color:var(--text-2);text-decoration:none;font-weight:700;font-size:.92rem}
+.kids-footer__nav a:hover{color:var(--kids-yellow)}
+.kids-footer__tagline{margin:0;font-family:var(--f-display);font-weight:700;color:var(--text-2)}
+
+/* ── Mobile bar ── */
+.mobile-bar{display:none}
+@media (max-width:900px){
+  .mobile-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:50;justify-content:space-around;background:rgba(7,3,24,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--border);padding:6px max(6px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+  .mobile-bar__item{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;text-decoration:none;background:none;border:0;cursor:pointer;padding:4px 2px;color:var(--text-2)}
+  .mobile-bar__emoji{font-size:1.2rem;line-height:1.2}
+  .mobile-bar__label{font-size:.66rem;font-weight:800}
+  .kids-footer{padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+}
+
+/* ── Login gate ── */
+.ag-wrap{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:32px max(18px,env(safe-area-inset-right,0px)) 32px max(18px,env(safe-area-inset-left,0px));position:relative;overflow:hidden}
+.ag-orb{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none}
+.ag-orb--a{width:360px;height:360px;background:rgba(157,78,221,.35);top:-80px;left:-80px}
+.ag-orb--b{width:320px;height:320px;background:rgba(0,180,216,.25);bottom:-80px;right:-60px}
+.ag-card{position:relative;width:100%;max-width:420px;padding:34px 30px 26px;border-radius:26px;background:var(--bg-card);border:1.5px solid var(--border-2);box-shadow:0 30px 80px -30px rgba(0,0,0,.8);display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.ag-card::before{content:"";position:absolute;left:24px;right:24px;top:-1px;height:4px;border-radius:0 0 4px 4px;background:linear-gradient(90deg,var(--S),var(--T),#7fb3d5,var(--A),var(--M))}
+.ag-steam{display:flex;gap:6px}
+.ag-steam span{--c:var(--S);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:.85rem;color:#12082e;background:var(--c)}
+.ag-lock{width:64px;height:64px}
+.ag-lock svg{width:100%;height:100%}
+.ag-badge{font-family:var(--f-mono);font-weight:700;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--kids-orange);padding:5px 12px;border-radius:999px;border:1.5px solid rgba(255,107,53,.45);background:rgba(255,107,53,.1)}
+.ag-title{margin:4px 0 0;font-family:var(--f-display);font-weight:800;font-size:1.9rem;line-height:1.1}
+.ag-sub{margin:0;color:var(--text-2)}
+.ag-form{width:100%;display:flex;flex-direction:column;gap:14px;margin-top:8px;text-align:left}
+.ag-field{display:flex;flex-direction:column;gap:6px}
+.ag-label{font-weight:800;font-size:.88rem;color:var(--text-2)}
+.ag-input{width:100%;font:inherit;font-size:1rem;color:#fff;background:rgba(0,0,0,.35);border:1.5px solid var(--border-2);border-radius:12px;padding:12px 14px}
+.ag-input:focus{outline:none;border-color:var(--kids-cyan);box-shadow:0 0 0 3px rgba(0,180,216,.25)}
+.ag-pw-wrap{position:relative}
+.ag-pw-wrap .ag-input{padding-right:48px}
+.ag-pw-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;background:none;cursor:pointer;font-size:1.1rem}
+.ag-error{padding:10px 14px;border-radius:12px;background:rgba(230,57,70,.14);border:1.5px solid rgba(230,57,70,.45);color:#ffb3ba;font-size:.92rem}
+.ag-btn{cursor:pointer;font-family:var(--f-display);font-weight:800;font-size:1.08rem;padding:13px;border-radius:999px;border:0;background:var(--kids-yellow);color:#22104a;box-shadow:0 5px 0 #b39500;display:grid;place-items:center;min-height:50px}
+.ag-btn:disabled{opacity:.45;cursor:not-allowed}
+.ag-spinner{width:20px;height:20px;border-radius:50%;border:3px solid rgba(34,16,74,.3);border-top-color:#22104a;animation:spin .8s linear infinite}
+.ag-back{margin-top:6px;color:var(--text-2);text-decoration:none;font-weight:700;font-size:.92rem}
+.ag-back:hover{color:var(--kids-yellow)}
+
+/* ── Responsive ── */
+@media (max-width:1024px){
+  .ifanim-theater{grid-template-columns:repeat(2,1fr)}
+  .odu-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steam-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .steam-card,.steam-card:nth-child(4){grid-column:auto}
+  .steam-card:nth-child(5){grid-column:1/-1}
+}
+@media (max-width:900px){
+  .kids-hero__content{grid-template-columns:minmax(0,1fr)}
+  .orisa-grid,.greeting-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .elements{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .el__o{display:none}
+  .el{padding:12px 10px}
+  .ifa-code-box__row{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .ifa-code-box__item--wide{grid-column:1/-1}
+}
+@media (max-width:768px){
+  .spin-board{width:180px;height:180px}
+  .spin-board__dot{transform:rotate(var(--dot-angle)) translateX(76px)}
+  .spin-board__center canvas{width:54px!important;height:54px!important}
+  .ifanim-theater{grid-template-columns:1fr 1fr;gap:16px}
+  .lab{--R:142px;width:340px;height:340px}
+  .lab__orb{width:38px;height:38px;margin:-19px}
+  .lab__orb span{font-size:1.1rem}
+}
+@media (max-width:600px){
+  .orisa-grid,.greeting-grid,.odu-grid,.steam-grid{grid-template-columns:minmax(0,1fr)}
+  .steam-card:nth-child(5){grid-column:auto}
+  .el__s,.el__n{display:none}
+  .el{align-items:center;padding:12px 4px}
+  .el__l{font-size:1.9rem}
+}
+@media (max-width:480px){
+  .ifanim-theater{grid-template-columns:1fr}
+  .lab{--R:128px;width:310px;height:310px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
 </head>
 <body>
-  <div id="root"></div>
-  <script src="../../lib/react.min.js"></script>
-  <script src="../../lib/react-dom.min.js"></script>
-  <script src="../../lib/babel.min.js"></script>
-  <script type="text/babel" data-presets="react" src="./src/App.jsx"></script>
+<div class="paper" aria-hidden="true"></div>
+<div id="root"></div>
+
+<!-- ═══ App ═══ -->
+<template id="tpl-app">
+<header class="kids-header">
+  <div class="wrap kids-header__inner">
+    <a href="https://ifainternet.org/ifagram/" class="kids-header__brand" aria-label="Back to IfaDiagram">
+      <img src="https://ifainternet.org/src/assets/itoe_logo.png" alt="IFA Internet logo" class="kids-header__logo" width="96" height="34">
+      <span class="kids-header__label">IfaLab For Children</span>
+    </a>
+    <button class="kids-header__burger" id="burger" aria-label="Toggle navigation" aria-expanded="false"><span></span><span></span><span></span></button>
+    <nav class="kids-header__nav" id="nav" aria-label="Main navigation">
+      <a href="https://ifainternet.org/ifagram/">IfaDiagram</a>
+      <a href="https://ifainternet.org/">IFA Internet</a>
+      <a href="#orisa">Orisa</a>
+      <a href="#steam">STEAM</a>
+      <a href="#count">Count</a>
+      <a href="#patterns">Odu</a>
+      <a href="#animations">Animations</a>
+      <button class="kids-header__logout" data-logout>Log Out</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="kids-hero">
+  <div class="starfield" id="starfield" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="kids-hero__content">
+      <div class="kids-hero__text">
+        <span class="kids-hero__eyebrow">IfaLab For Children ✨</span>
+        <h1 class="kids-hero__title">
+          <span class="kids-hero__title-line kids-hero__title-line--1">Ifagrams</span>
+          <span class="kids-hero__title-line kids-hero__title-line--2">for Kids</span>
+          <span class="kids-hero__title-line kids-hero__title-line--3">&amp; Teens</span>
+        </h1>
+        <div class="kids-hero__badge">Ages 4+ · STEAM Learning · Yoruba Culture</div>
+        <p class="kids-hero__desc">Explore the ancient wisdom of Ifa through fun animations, music, and activities! Meet the Orisa, count in Yoruba, discover Odu Ifa patterns, and learn STEAM the Ifa way — where culture and science come alive together!</p>
+        <div class="kids-hero__ctas">
+          <a href="#orisa" class="kids-btn kids-btn--primary">Meet the Orisa 🌟</a>
+          <a href="#steam" class="kids-btn kids-btn--secondary">Start Learning! 📚</a>
+        </div>
+      </div>
+      <div class="kids-hero__board">
+        <div class="spin-board-wrap">
+          <div class="lab">
+            <div class="lab__tick" aria-hidden="true"></div>
+            <div class="lab__ring" aria-hidden="true"></div>
+            <div class="lab__ring lab__ring--2" aria-hidden="true"></div>
+            <div class="lab__orbit" aria-hidden="true">
+              <div class="lab__orb" style="--a:-90deg;--c:var(--S)"><span>S</span></div>
+              <div class="lab__orb" style="--a:-18deg;--c:var(--T)"><span>T</span></div>
+              <div class="lab__orb" style="--a:54deg;--c:#7fb3d5"><span>E</span></div>
+              <div class="lab__orb" style="--a:126deg;--c:var(--A)"><span>A</span></div>
+              <div class="lab__orb" style="--a:198deg;--c:var(--M)"><span>M</span></div>
+            </div>
+            <button class="spin-board" id="spin-board" aria-label="Spin the Ifa board" title="Click to spin!"></button>
+          </div>
+          <p class="spin-board__label" id="spin-label"><span>Tap to spin the Ifa board! ✨</span></p>
+        </div>
+      </div>
+    </div>
+    <nav class="elements" id="elements" aria-label="STEAM subjects"></nav>
+  </div>
+</section>
+
+<section class="kids-section kids-section--alt" id="orisa">
+  <div class="wrap">
+    <div class="station">
+      <p class="kids-section__eyebrow">Ifa Animations · Ifanimations</p>
+      <h2 class="kids-section__title">Meet the Orisa!</h2>
+      <p class="kids-section__sub">Click on each Orisa to hear their sound! 🔊</p>
+      <div class="chips" aria-hidden="true"><span class="chip chip--S"><b>S</b>Science</span><span class="chip chip--T"><b>T</b>Technology</span><span class="chip chip--E"><b>E</b>Engineering</span><span class="chip chip--M"><b>M</b>Mathematics</span></div>
+    </div>
+    <div class="orisa-grid" id="orisa-grid"></div>
+  </div>
+</section>
+
+<section class="kids-section" id="steam">
+  <div class="wrap">
+    <div class="station">
+      <h2 class="kids-section__title kids-section__title--steam">Ifa STEAM Learning</h2>
+      <p class="kids-section__sub">Science, Technology, Engineering, Art &amp; Mathematics — the Ifa way!</p>
+    </div>
+    <div class="steam-grid" id="steam-grid"></div>
+  </div>
+</section>
+
+<section class="kids-section kids-section--alt" id="count">
+  <div class="wrap">
+    <div class="station">
+      <h2 class="kids-section__title">Count in Yoruba! 🔢</h2>
+      <p class="kids-section__sub">Click a number to hear it in Yoruba!</p>
+      <div class="chips" aria-hidden="true"><span class="chip chip--M"><b>M</b>Mathematics</span></div>
+    </div>
+    <div class="number-grid" id="number-grid"></div>
+    <div class="ruler" aria-hidden="true"></div>
+    <div class="ifa-code-box">
+      <h3 class="ifa-code-box__title">The Ifa Code 🔵</h3>
+      <div class="ifa-code-box__row">
+        <div class="ifa-code-box__item">
+          <div class="ifa-code-mark ifa-code-mark--single" aria-label="Single mark"></div>
+          <p><strong>1 mark (ı)</strong><br>Odd — Yang energy</p>
+        </div>
+        <div class="ifa-code-box__item">
+          <div class="ifa-code-mark ifa-code-mark--double" aria-label="Double mark"><span></span><span></span></div>
+          <p><strong>2 marks (॥)</strong><br>Even — Yin energy</p>
+        </div>
+        <div class="ifa-code-box__item ifa-code-box__item--wide">
+          <p>Every Odu Ifa pattern is 4 rows of these marks — just like binary code uses 0 and 1. That means <strong style="color:#f5c518">256 Odu Ifa = 2⁸</strong> possibilities!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="kids-section" id="patterns">
+  <div class="wrap">
+    <div class="station">
+      <h2 class="kids-section__title">Ifa Patterns — The Odu Ifa</h2>
+      <p class="kids-section__sub">The 256 Odu Ifa begin with these 16 patterns. Can you spot the difference?</p>
+      <div class="chips" aria-hidden="true"><span class="chip chip--M"><b>M</b>Mathematics</span><span class="chip chip--T"><b>T</b>Technology</span></div>
+    </div>
+    <div class="odu-grid" id="odu-grid"></div>
+  </div>
+</section>
+
+<section class="kids-section kids-section--alt" id="animations">
+  <div class="wrap">
+    <div class="station">
+      <h2 class="kids-section__title">Ifanimations &amp; Orisanimations 🎭</h2>
+      <p class="kids-section__sub">Watch the Orisa come alive!</p>
+      <div class="chips" aria-hidden="true"><span class="chip chip--A"><b>A</b>Art</span><span class="chip chip--T"><b>T</b>Technology</span></div>
+    </div>
+    <div class="stage">
+      <div class="ifanim-theater">
+        <div class="ifanim-card ifanim-card--sango">
+          <div class="ifanim-card__aura ifanim-aura--sango" aria-hidden="true">
+            <span class="ifanim-ray ifanim-ray--1"></span><span class="ifanim-ray ifanim-ray--2"></span><span class="ifanim-ray ifanim-ray--3"></span><span class="ifanim-ray ifanim-ray--4"></span>
+          </div>
+          <div class="ifanim-char ifanim-char--lightning" role="img" aria-label="Ṣàngó">⚡</div>
+          <div class="ifanim-label"><strong>Ṣàngó</strong><span>Ifanimation · Orisanimation</span></div>
+        </div>
+        <div class="ifanim-card ifanim-card--osun">
+          <div class="ifanim-card__aura ifanim-aura--osun" aria-hidden="true">
+            <span class="ifanim-ring ifanim-ring--1"></span><span class="ifanim-ring ifanim-ring--2"></span><span class="ifanim-ring ifanim-ring--3"></span>
+          </div>
+          <div class="ifanim-char ifanim-char--wave" role="img" aria-label="Ọ̀ṣun">💛</div>
+          <div class="ifanim-label"><strong>Ọ̀ṣun</strong><span>Ifanimation · Orisanimation</span></div>
+        </div>
+        <div class="ifanim-card ifanim-card--oya">
+          <div class="ifanim-card__aura ifanim-aura--oya" aria-hidden="true"><span class="ifanim-orbit-ring"></span></div>
+          <div class="ifanim-char ifanim-char--spin" role="img" aria-label="Ọya">🌪️</div>
+          <div class="ifanim-label"><strong>Ọya</strong><span>Ifanimation · Orisanimation</span></div>
+        </div>
+        <div class="ifanim-card ifanim-card--esu">
+          <div class="ifanim-card__aura ifanim-aura--esu" aria-hidden="true">
+            <span class="ifanim-orbit ifanim-orbit--1"></span><span class="ifanim-orbit ifanim-orbit--2"></span><span class="ifanim-orbit ifanim-orbit--3"></span>
+          </div>
+          <div class="ifanim-char ifanim-char--bounce" role="img" aria-label="Ẹṣù">🎭</div>
+          <div class="ifanim-label"><strong>Ẹṣù</strong><span>Ifanimation · Orisanimation</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="kids-section" id="greetings">
+  <div class="wrap">
+    <div class="station">
+      <h2 class="kids-section__title">Say Hello in Yoruba! 👋</h2>
+      <p class="kids-section__sub">Click a greeting to hear it!</p>
+      <div class="chips" aria-hidden="true"><span class="chip chip--A"><b>A</b>Art</span><span class="chip chip--S"><b>S</b>Science</span></div>
+    </div>
+    <div class="greeting-grid" id="greeting-grid"></div>
+  </div>
+</section>
+</main>
+
+<footer class="kids-footer">
+  <div class="wrap kids-footer__inner">
+    <p class="kids-footer__copy">© 2026 <a href="https://ifainternet.org/">The IFA Internet</a> · <a href="https://ifainternet.org/">CENProject</a></p>
+    <nav class="kids-footer__nav" aria-label="Footer navigation">
+      <a href="https://ifainternet.org/ifagram/">IfaDiagram</a>
+      <a href="https://ifainternet.org/">IFA Internet</a>
+      <a href="#orisa">Orisa</a>
+      <a href="#steam">STEAM</a>
+      <a href="#greetings">Greetings</a>
+    </nav>
+    <p class="kids-footer__tagline">Ifa wisdom for the next generation 🌍</p>
+  </div>
+</footer>
+
+<nav class="mobile-bar" aria-label="Quick navigation">
+  <a href="#orisa" class="mobile-bar__item"><span class="mobile-bar__emoji" aria-hidden="true">✨</span><span class="mobile-bar__label">Orisa</span></a>
+  <a href="#steam" class="mobile-bar__item"><span class="mobile-bar__emoji" aria-hidden="true">🔬</span><span class="mobile-bar__label">STEAM</span></a>
+  <a href="#count" class="mobile-bar__item"><span class="mobile-bar__emoji" aria-hidden="true">🔢</span><span class="mobile-bar__label">Count</span></a>
+  <a href="#patterns" class="mobile-bar__item"><span class="mobile-bar__emoji" aria-hidden="true">🔵</span><span class="mobile-bar__label">Odu</span></a>
+  <a href="#animations" class="mobile-bar__item"><span class="mobile-bar__emoji" aria-hidden="true">🎭</span><span class="mobile-bar__label">Animate</span></a>
+  <button class="mobile-bar__item mobile-bar__logout" data-logout><span class="mobile-bar__emoji" aria-hidden="true">🔒</span><span class="mobile-bar__label">Log Out</span></button>
+</nav>
+</template>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   A. AUDIO ENGINE — unchanged from the original App.jsx
+   ═══════════════════════════════════════════════════════════════════════════ */
+let _actx = null;
+function getCtx() {
+  if (!_actx) _actx = new (window.AudioContext || window.webkitAudioContext)();
+  if (_actx.state === 'suspended') _actx.resume();
+  return _actx;
+}
+function tone(freq, type = 'sine', dur = 0.5, vol = 0.22, delay = 0) {
+  const ctx = getCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, ctx.currentTime + delay);
+  gain.gain.setValueAtTime(vol, ctx.currentTime + delay);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + dur);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(ctx.currentTime + delay);
+  osc.stop(ctx.currentTime + delay + dur + 0.05);
+}
+function sweep(f0, f1, type, dur, vol, delay = 0) {
+  const ctx = getCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.setValueAtTime(f0, ctx.currentTime + delay);
+  osc.frequency.exponentialRampToValueAtTime(f1, ctx.currentTime + delay + dur);
+  gain.gain.setValueAtTime(vol, ctx.currentTime + delay);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + dur);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(ctx.currentTime + delay);
+  osc.stop(ctx.currentTime + delay + dur + 0.05);
+}
+const SOUNDS = {
+  sango: () => { tone(55, 'sawtooth', 0.6, 0.28, 0); tone(880, 'square', 0.15, 0.18, 0.1); tone(440, 'sawtooth', 0.3, 0.12, 0.08); },
+  osun: () => { [523, 659, 784, 1047].forEach((f, i) => tone(f, 'sine', 0.28, 0.20, i * 0.18)); },
+  ogun: () => { tone(220, 'sawtooth', 0.4, 0.22, 0); tone(440, 'triangle', 0.3, 0.16, 0.05); },
+  obatala: () => { tone(880, 'sine', 0.9, 0.18, 0); tone(1109, 'sine', 0.7, 0.12, 0.05); },
+  oya: () => { sweep(80, 800, 'sawtooth', 0.6, 0.22, 0); },
+  esu: () => { [523, 659, 523, 784, 523].forEach((f, i) => tone(f, 'triangle', 0.18, 0.18, i * 0.12)); },
+  tap: () => { tone(784, 'sine', 0.12, 0.18, 0); },
+  spin: () => { [392, 523, 659, 784, 1047].forEach((f, i) => tone(f, 'sine', 0.22, 0.18, i * 0.08)); },
+  number: (n) => { const scale = [261, 294, 330, 349, 392, 440, 494, 523, 587, 659, 698, 784]; const freq = scale[(n - 1) % scale.length] || 392; tone(freq, 'sine', 0.4, 0.22, 0); },
+  greeting: (freq) => { tone(freq, 'sine', 0.35, 0.20, 0); tone(freq * 1.25, 'sine', 0.25, 0.10, 0.1); }
+};
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   B. DATA — unchanged from the original App.jsx
+   ═══════════════════════════════════════════════════════════════════════════ */
+const ORISA = [
+  { id: 'sango', name: 'Ṣàngó', title: 'Orisa of Thunder & Lightning', emoji: '⚡', color: '#e63946', bgColor: 'rgba(230,57,70,0.13)', soundKey: 'sango', steamSubject: 'Science', steamLetter: 'S', yorubaPhrase: 'Ṣàngó ó!', animType: 'lightning',
+    desc: 'Ṣàngó is the mighty Orisa of thunder, lightning, and storms! He rides the clouds and sends lightning to show his power.',
+    funFact: 'Thunder is the sound that follows lightning — it travels slower than light!' },
+  { id: 'osun', name: 'Ọ̀ṣun', title: 'Orisa of Rivers & Love', emoji: '💛', color: '#f5c518', bgColor: 'rgba(245,197,24,0.13)', soundKey: 'osun', steamSubject: 'Science', steamLetter: 'S', yorubaPhrase: 'Ọ̀ṣun yeyé!', animType: 'wave',
+    desc: 'Ọ̀ṣun is the beautiful Orisa of sweet water, rivers, love, and abundance. She flows with grace and brings joy!',
+    funFact: 'Rivers carry water from mountains all the way to the ocean — just like energy flows!' },
+  { id: 'ogun', name: 'Ògún', title: 'Orisa of Iron & Creativity', emoji: '🔧', color: '#457b9d', bgColor: 'rgba(69,123,157,0.13)', soundKey: 'ogun', steamSubject: 'Engineering', steamLetter: 'E', yorubaPhrase: 'Ògún onílé!', animType: 'pulse',
+    desc: 'Ògún is the strong Orisa of iron, tools, and hard work. He teaches us to build things and work with our hands!',
+    funFact: 'Iron is one of the most useful metals on Earth — it makes bridges, buildings, and tools!' },
+  { id: 'obatala', name: 'Ọbàtálá', title: 'Orisa of Wisdom & Creation', emoji: '⭐', color: '#e8f1ff', bgColor: 'rgba(241,245,249,0.10)', soundKey: 'obatala', steamSubject: 'Mathematics', steamLetter: 'M', yorubaPhrase: 'Ọbàtálá bàbá!', animType: 'twinkle',
+    desc: 'Ọbàtálá is the wise Orisa dressed in pure white. He shapes human beings with love and teaches patience and truth.',
+    funFact: 'Stars in the sky are giant balls of fire — the nearest one is our own Sun!' },
+  { id: 'oya', name: 'Ọya', title: 'Orisa of Wind & Change', emoji: '🌪️', color: '#9d4edd', bgColor: 'rgba(157,78,221,0.13)', soundKey: 'oya', steamSubject: 'Science', steamLetter: 'S', yorubaPhrase: 'Ọya àsà!', animType: 'spin',
+    desc: 'Ọya is the fierce and free Orisa of wind, storms, and transformation. She brings change and new beginnings!',
+    funFact: 'Wind is moving air — it carries seeds, shapes clouds, and powers wind turbines!' },
+  { id: 'esu', name: 'Ẹṣù', title: 'Orisa of Crossroads & Communication', emoji: '🎭', color: '#00b4d8', bgColor: 'rgba(0,180,216,0.13)', soundKey: 'esu', steamSubject: 'Technology', steamLetter: 'T', yorubaPhrase: 'Ẹṣù Ọdàrà!', animType: 'bounce',
+    desc: 'Ẹṣù is the playful and clever Orisa of crossroads, messages, and technology. He connects everything to everything!',
+    funFact: 'Crossroads are where paths meet — the internet is a giant digital crossroads connecting the whole world!' }
+];
+
+const STEAM_CARDS = [
+  { letter: 'S', subject: 'Science', color: '#e63946', orisaName: 'Ṣàngó & Ọya', title: 'Ifa Science — Energy & Nature',
+    body: 'Ifa teaches us to observe the natural world deeply. Ṣàngó shows us electricity and plasma. Ọya teaches us meteorology — the science of weather and atmospheric energy.',
+    activity: 'Activity: Watch a storm safely from inside. Count the seconds between lightning and thunder — every 3 seconds means the lightning is 1 kilometre away!' },
+  { letter: 'T', subject: 'Technology', color: '#00b4d8', orisaName: 'Ẹṣù', title: 'Ifa Technology — Networks & Connection',
+    body: 'Ẹṣù is the Orisa of communication and digital networks. The IFA Internet itself is a Technology project — connecting ancient Ifa wisdom with modern computing!',
+    activity: 'Activity: Draw your own "crossroads" map showing how your home, school, and favourite places are all connected like a network!' },
+  { letter: 'E', subject: 'Engineering', color: '#457b9d', orisaName: 'Ògún', title: 'Ifa Engineering — Build & Create',
+    body: 'Ògún inspires engineering — the art of building and making. From traditional iron-working to modern construction, engineering shapes the physical world around us.',
+    activity: 'Activity: Build a small bridge using only 10 sticks and tape. Test how much weight it can hold — that\'s structural engineering!' },
+  { letter: 'A', subject: 'Art', color: '#f5c518', orisaName: 'Ọ̀ṣun', title: 'Ifa Art — Beauty & Expression',
+    body: 'Ọ̀ṣun is the Orisa of art, beauty, and expression. Ifa itself is an art form — the patterns of Odu Ifa are visual art, and the oral poems (Ese Ifa) are literary art.',
+    activity: 'Activity: Draw your favourite Orisa using only 3 colours. What colours feel right for each one? Colour is a language!' },
+  { letter: 'M', subject: 'Mathematics', color: '#e8f1ff', orisaName: 'Ọbàtálá', title: 'Ifa Mathematics — Patterns & Order',
+    body: 'Ọbàtálá is the Orisa of perfection and order. The 256 Odu Ifa are built from binary patterns — just like computer code! Ifa is one of humanity\'s oldest mathematical systems.',
+    activity: 'Activity: Write numbers 1–8 in binary (ones and twos). Notice how 256 = 2⁸? The 256 Odu Ifa are 8 binary digits!' }
+];
+
+const YORUBA_NUMBERS = [
+  { n: 1, word: 'Ọ̀kan', color: '#e63946' }, { n: 2, word: 'Èjì', color: '#f5c518' }, { n: 3, word: 'Ẹ̀ta', color: '#06d6a0' },
+  { n: 4, word: 'Ẹ̀rin', color: '#118ab2' }, { n: 5, word: 'Àrún', color: '#9d4edd' }, { n: 6, word: 'Ẹ̀fà', color: '#ff006e' },
+  { n: 7, word: 'Èje', color: '#ff6b35' }, { n: 8, word: 'Ẹ̀jọ', color: '#00b4d8' }, { n: 9, word: 'Ẹ̀sàn', color: '#a8dadc' },
+  { n: 10, word: 'Ẹ̀wá', color: '#f5c518' }, { n: 16, word: 'Ẹrìndínlógún', color: '#e63946' }
+];
+
+const YORUBA_GREETINGS = [
+  { phrase: 'Ẹ káàárọ̀', english: 'Good morning', emoji: '🌅', freq: 523 },
+  { phrase: 'Ẹ káàsán', english: 'Good afternoon', emoji: '☀️', freq: 659 },
+  { phrase: 'Ẹ káalẹ̀', english: 'Good evening', emoji: '🌙', freq: 440 },
+  { phrase: 'Báwo ni?', english: 'How are you?', emoji: '👋', freq: 784 },
+  { phrase: 'Mo wà dáadáa', english: 'I am fine', emoji: '😊', freq: 523 },
+  { phrase: 'Ẹ ṣéun', english: 'Thank you', emoji: '🙏', freq: 880 }
+];
+
+const ODU_PATTERNS = [
+  { name: 'Ogbe', marks: [1, 1, 1, 1], color: '#f5c518', desc: 'The first Odu — pure light, beginnings, and the dawn of all things.' },
+  { name: 'Oyeku', marks: [2, 2, 2, 2], color: '#9d4edd', desc: 'The night, endings, and transformation — the shadow side of creation.' },
+  { name: 'Iwori', marks: [2, 1, 1, 2], color: '#00b4d8', desc: 'Inner vision and self-knowledge — looking deeply within yourself.' },
+  { name: 'Odi', marks: [1, 2, 2, 1], color: '#ff006e', desc: 'The womb of creation — hidden things, secrets, and deep mystery.' },
+  { name: 'Irosun', marks: [1, 1, 2, 2], color: '#e63946', desc: 'Blood and life force — the vital energy that flows through all living things.' },
+  { name: 'Owonrin', marks: [2, 2, 1, 1], color: '#ff6b35', desc: 'Chaos and creativity — the energy of sudden change and new possibilities.' },
+  { name: 'Obara', marks: [1, 2, 2, 2], color: '#f5c518', desc: 'Royalty and leadership — the power to rule with wisdom and courage.' },
+  { name: 'Okanran', marks: [2, 2, 2, 1], color: '#06d6a0', desc: 'Conflict and resolution — the dance between opposing forces finding balance.' },
+  { name: 'Ogunda', marks: [1, 1, 1, 2], color: '#2d9e6b', desc: 'The force that clears the path — iron, roads, and the warrior energy that cuts through obstacles.' },
+  { name: 'Osa', marks: [2, 1, 1, 1], color: '#c77dff', desc: 'Swift and unpredictable wind — sudden events and transformations that arrive without warning.' },
+  { name: 'Ika', marks: [2, 1, 2, 2], color: '#5e72b4', desc: 'The clever one who sees around corners — cunning intelligence and protection through wit.' },
+  { name: 'Oturupon', marks: [2, 2, 1, 2], color: '#a07855', desc: 'The forge of character — constraint and difficult trials that build true strength and wisdom.' },
+  { name: 'Otura', marks: [1, 2, 1, 1], color: '#38b2ac', desc: 'The sacred creative word — divine communication and the power of speech to shape reality.' },
+  { name: 'Irete', marks: [1, 1, 2, 1], color: '#22c55e', desc: 'Deep roots and endurance — patience, long life, and the wisdom that grows through perseverance.' },
+  { name: 'Ose', marks: [1, 2, 1, 2], color: '#f97316', desc: 'Abundance and sweetness — fertility, prosperity, and all forms of flourishing and increase.' },
+  { name: 'Ofun', marks: [2, 1, 2, 1], color: '#e2e8f0', desc: 'Cosmic completion and universal law — every ending is an initiation into something new.' }
+];
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   C. IFA INFINITY MINI — canvas drawing unchanged from the original
+   ═══════════════════════════════════════════════════════════════════════════ */
+function IfaInfinityMini(canvas, sz = 72) {
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = sz * dpr; canvas.height = sz * dpr;
+  canvas.style.width = sz + 'px'; canvas.style.height = sz + 'px';
+  canvas.style.display = 'block'; canvas.style.background = 'transparent';
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, sz, sz);
+  const PI = Math.PI;
+  const cx = sz / 2, cy = sz / 2;
+  const a = sz * 0.357;
+  const s = a / 200;
+  function hLobe(t0, t1) { const pts = []; for (let i = 0; i <= 2000; i++) { const t = t0 + (t1 - t0) * i / 2000; const c2 = Math.cos(2 * t); if (c2 < 1e-10) continue; const r = a * Math.sqrt(c2); pts.push([cx + r * Math.cos(t), cy + r * Math.sin(t)]); } return pts; }
+  function vLobe(t0, t1) { const pts = []; for (let i = 0; i <= 2000; i++) { const t = t0 + (t1 - t0) * i / 2000; const mc2 = -Math.cos(2 * t); if (mc2 < 1e-10) continue; const r = a * Math.sqrt(mc2); pts.push([cx + r * Math.cos(t), cy + r * Math.sin(t)]); } return pts; }
+  function stroke(pts, lw, rgba, blur) { if (!pts || !pts.length) return; ctx.save(); ctx.strokeStyle = rgba; ctx.lineWidth = lw; ctx.shadowColor = rgba; ctx.shadowBlur = blur; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.beginPath(); ctx.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]); ctx.stroke(); ctx.restore(); }
+  function glow(pts) {
+    stroke(pts, 44*s, 'rgba(245,197,24,0.03)', 65*s); stroke(pts, 26*s, 'rgba(245,197,24,0.07)', 44*s);
+    stroke(pts, 15*s, 'rgba(245,197,24,0.16)', 28*s); stroke(pts, 7*s, 'rgba(245,197,24,0.34)', 16*s);
+    stroke(pts, 3*s, 'rgba(245,197,24,0.62)', 8*s); stroke(pts, 1.4*s,'rgba(245,197,24,0.90)', 4*s);
+    stroke(pts, 0.7*s,'rgba(255,248,210,0.95)', 2*s);
+  }
+  const lobes = [ hLobe(-PI/4, PI/4), hLobe(3*PI/4, 5*PI/4), vLobe(PI/4, 3*PI/4), vLobe(5*PI/4, 7*PI/4) ];
+  for (const lobe of lobes) glow(lobe);
+  ctx.save(); ctx.shadowColor = 'rgba(245,197,24,1)'; ctx.shadowBlur = 22 * s; ctx.fillStyle = 'rgba(255,248,210,1)';
+  ctx.beginPath(); ctx.arc(cx, cy, 3.5 * s, 0, 2 * PI); ctx.fill(); ctx.restore();
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   E. RENDERING (new layout)
+   ═══════════════════════════════════════════════════════════════════════════ */
+const root = document.getElementById('root');
+const h = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstElementChild; };
+const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+const EQ = '<span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>';
+
+function logout() {
+  // Sign out through the IFA Academy sign-in on the server (also clears this page's remembered sign-in).
+  location.href = (window.IFA_USER && window.IFA_USER.logout) || '/ifa-auth/logout.php';
+}
+
+function showApp() {
+  root.replaceChildren(document.getElementById('tpl-app').content.cloneNode(true));
+
+  // Header burger + logout
+  const burger = document.getElementById('burger'), nav = document.getElementById('nav');
+  burger.addEventListener('click', () => {
+    const open = !burger.classList.contains('open');
+    burger.classList.toggle('open', open); nav.classList.toggle('kids-header__nav--open', open);
+    burger.setAttribute('aria-expanded', open);
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { burger.classList.remove('open'); nav.classList.remove('kids-header__nav--open'); burger.setAttribute('aria-expanded', 'false'); }));
+  root.querySelectorAll('[data-logout]').forEach(b => b.addEventListener('click', () => { burger.classList.remove('open'); nav.classList.remove('kids-header__nav--open'); logout(); }));
+
+  // Starfield (same 30 stars as the original)
+  const sf = document.getElementById('starfield');
+  for (let i = 0; i < 30; i++) {
+    const st = document.createElement('div'); st.className = 'starfield__star';
+    const size = 1 + Math.random() * 2.5;
+    st.style.cssText = `top:${Math.random()*100}%;left:${Math.random()*100}%;width:${size}px;height:${size}px;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s`;
+    sf.appendChild(st);
+  }
+
+  // Spinning board (same behaviour as the original)
+  const board = document.getElementById('spin-board'), label = document.getElementById('spin-label');
+  function buildBoard() {
+    board.innerHTML = Array.from({ length: 8 }, (_, i) => `<span class="spin-board__dot" style="--dot-angle:${i * 45}deg" aria-hidden="true"></span>`).join('') +
+      '<div class="spin-board__center" aria-hidden="true"><canvas></canvas></div>';
+    IfaInfinityMini(board.querySelector('canvas'), 72);
+  }
+  buildBoard();
+  let spinning = false;
+  board.addEventListener('click', () => {
+    if (spinning) return;
+    SOUNDS.spin();
+    spinning = true;
+    label.innerHTML = '<span>Tap to spin the Ifa board! ✨</span>';
+    board.classList.remove('spin-board--spinning'); void board.offsetWidth; board.classList.add('spin-board--spinning');
+    setTimeout(() => {
+      spinning = false;
+      board.classList.remove('spin-board--spinning');
+      const odu = ODU_PATTERNS[Math.floor(Math.random() * ODU_PATTERNS.length)];
+      label.innerHTML = `<strong style="color:${odu.color}">${esc(odu.name)}</strong><span> — ${esc(odu.desc.split('—')[0].trim())}</span>`;
+    }, 1050);
+  });
+
+  // STEAM element strip (links to the STEAM section)
+  const elStrip = document.getElementById('elements');
+  const elColor = { S: 'var(--S)', T: 'var(--T)', E: '#7fb3d5', A: 'var(--A)', M: 'var(--M)' };
+  STEAM_CARDS.forEach((c, i) => {
+    elStrip.appendChild(h(`<a class="el" href="#steam" style="--c:${elColor[c.letter]}"><span class="el__n" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><span class="el__l" aria-hidden="true">${c.letter}</span><span class="el__s">${esc(c.subject)}</span><span class="el__o">${esc(c.orisaName)}</span></a>`));
+  });
+
+  // Orisa cards
+  const og = document.getElementById('orisa-grid');
+  ORISA.forEach(o => {
+    const card = h(`<article class="orisa-card" style="--oc:${o.color};--oc-bg:${o.bgColor}" role="button" tabindex="0" aria-label="${esc(o.name)} — ${esc(o.title)}. Tap to hear sound.">
+      <span class="orisa-card__corner" aria-hidden="true">${o.steamLetter}</span>
+      <div class="orisa-card__circle-wrap">
+        <div class="orisa-card__circle orisa-char--${o.animType}"><span class="orisa-card__emoji" role="img" aria-label="${esc(o.name)}">${o.emoji}</span></div>
+        ${[0, 60, 120, 180, 240, 300].map(d => `<span class="orisa-card__sparkle" style="--sp-deg:${d}deg" aria-hidden="true"></span>`).join('')}
+      </div>
+      <h3 class="orisa-card__name">${esc(o.name)}</h3>
+      <p class="orisa-card__title">${esc(o.title)}</p>
+      <span class="orisa-card__badge" style="background:${o.color}">${o.steamLetter} · ${esc(o.steamSubject)}</span>
+      <p class="orisa-card__desc">${esc(o.desc)}</p>
+      <p class="orisa-card__fact"><span class="orisa-card__fact-label">Fun Fact</span>${esc(o.funFact)}</p>
+      <button class="orisa-card__btn" aria-label="Hear ${esc(o.name)} sound">Tap to Hear! 🔊 ${EQ}</button>
+    </article>`);
+    let timer;
+    const play = (e) => {
+      e.stopPropagation();
+      SOUNDS[o.soundKey]();
+      card.classList.toggle('orisa-card--active');
+      clearTimeout(timer); timer = setTimeout(() => card.classList.remove('orisa-card--active'), 2200);
+    };
+    card.addEventListener('click', play);
+    card.querySelector('.orisa-card__btn').addEventListener('click', play);
+    card.addEventListener('keydown', e => { if (e.target === card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); play(e); } });
+    og.appendChild(card);
+  });
+
+  // STEAM cards
+  const sg = document.getElementById('steam-grid');
+  STEAM_CARDS.forEach((c, i) => {
+    const actText = c.activity.replace(/^Activity:\s*/i, '');
+    sg.appendChild(h(`<article class="steam-card" style="--sc:${c.color}">
+      <div class="steam-card__header">
+        <div class="steam-card__orb steam-card__orb--lg" aria-hidden="true"></div>
+        <div class="steam-card__orb steam-card__orb--sm" aria-hidden="true"></div>
+        <div class="steam-card__letter-badge" data-n="${i + 1}">${c.letter}</div>
+        <div class="steam-card__header-info"><div class="steam-card__subject">${esc(c.subject)}</div><div class="steam-card__orisa-tag">${esc(c.orisaName)}</div></div>
+      </div>
+      <div class="steam-card__body-wrap">
+        <h3 class="steam-card__title">${esc(c.title)}</h3>
+        <p class="steam-card__body">${esc(c.body)}</p>
+        <div class="steam-card__activity"><span class="steam-card__act-label">✨ Try it!</span><span class="steam-card__act-text">${esc(actText)}</span></div>
+      </div>
+    </article>`));
+  });
+
+  // Number cards
+  const ng = document.getElementById('number-grid');
+  YORUBA_NUMBERS.forEach(item => {
+    const dots = Array.from({ length: Math.min(item.n, 10) }, () => `<span class="number-card__dot" style="background:${item.color};opacity:0;transform:scale(0)"></span>`).join('');
+    const btn = h(`<button class="number-card" style="--nc:${item.color}" aria-label="Number ${item.n} — ${esc(item.word)} in Yoruba. Click to hear."><span class="number-card__digit" style="color:${item.color}">${item.n}</span><span class="number-card__word">${esc(item.word)}</span><div class="number-card__dots" aria-hidden="true">${dots}</div></button>`);
+    btn.addEventListener('click', () => SOUNDS.number(item.n));
+    ng.appendChild(btn);
+  });
+  setTimeout(() => {
+    ng.querySelectorAll('.number-card').forEach(card => card.querySelectorAll('.number-card__dot').forEach((d, i) => {
+      d.style.transitionDelay = `${i * 60}ms`; d.style.opacity = '1'; d.style.transform = 'scale(1)';
+    }));
+  }, 50);
+
+  // Odu patterns
+  const odg = document.getElementById('odu-grid');
+  ODU_PATTERNS.forEach(odu => {
+    const rows = odu.marks.map(m => `<div class="odu-card__row">${m === 1
+      ? `<span class="odu-card__mark odu-card__mark--single" style="background:${odu.color};color:${odu.color}"></span>`
+      : `<span class="odu-card__mark odu-card__mark--double" style="background:${odu.color}"></span><span class="odu-card__mark odu-card__mark--double" style="background:${odu.color}"></span>`}</div>`).join('');
+    odg.appendChild(h(`<article class="odu-card" style="--odu-c:${odu.color}">
+      <div class="odu-card__marks">${rows}</div>
+      <div class="odu-card__info"><h4 class="odu-card__name" style="color:${odu.color}">${esc(odu.name)}<span class="odu-card__code" aria-hidden="true">${odu.marks.join('')}</span></h4><p class="odu-card__desc">${esc(odu.desc)}</p></div>
+    </article>`));
+  });
+
+  // Greetings
+  const gg = document.getElementById('greeting-grid');
+  YORUBA_GREETINGS.forEach(g => {
+    const b = h(`<button class="greeting-card" aria-label="${esc(g.phrase)} — ${esc(g.english)}. Click to hear tone."><span class="greeting-card__emoji" role="img" aria-label="${esc(g.english)}">${g.emoji}</span><span class="greeting-card__phrase">${esc(g.phrase)}</span><span class="greeting-card__english">${esc(g.english)}</span>${EQ}</button>`);
+    let t;
+    b.addEventListener('click', () => { SOUNDS.greeting(g.freq); b.classList.add('is-playing'); clearTimeout(t); t = setTimeout(() => b.classList.remove('is-playing'), 450); });
+    gg.appendChild(b);
+  });
+
+  // Redraw the Ifa Infinity mini at the new size when the phone/desktop breakpoint changes
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (!spinning && document.getElementById('spin-board')) { const c = board.querySelector('canvas'); IfaInfinityMini(c, 72); } }, 200); });
+}
+
+/* Boot: the server only sends this page to signed-in, approved students */
+showApp();
+</script>
 </body>
 </html>

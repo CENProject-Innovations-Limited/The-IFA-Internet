@@ -115,66 +115,6 @@ function OyekuSymbol({ size = 52 }) {
     style: { display: 'block', margin: '0 auto' } });
 }
 
-// ── MetaCircleCanvas (IfaZero / IfaOne Metarepresentation) ─────
-function MetaCircleCanvas({ gold = true, size = 44 }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const DPR = window.devicePixelRatio || 1;
-    canvas.width        = size * DPR;
-    canvas.height       = size * DPR;
-    canvas.style.width  = size + 'px';
-    canvas.style.height = size + 'px';
-    const ctx = canvas.getContext('2d');
-    ctx.scale(DPR, DPR);
-    const cx = size / 2, cy = size / 2;
-    const R   = size * 0.360;   /* circle radius  */
-    const ARR = size * 0.135;   /* arrowhead size */
-
-    /* Full-circle glow layers */
-    const circL = gold
-      ? [[2.2,'rgba(245,197,24,0.15)',5],[1.0,'rgba(245,197,24,0.58)',2.5],[0.5,'rgba(255,248,210,0.92)',1]]
-      : [[2.2,'rgba(225,35,65,0.18)', 4],[1.0,'rgba(235,55,80,0.65)', 2.5],[0.5,'rgba(255,120,140,0.88)',1]];
-    for (const [lw, color, blur] of circL) {
-      ctx.save();
-      ctx.strokeStyle = color; ctx.lineWidth = lw;
-      ctx.shadowColor = color; ctx.shadowBlur = blur;
-      ctx.beginPath(); ctx.arc(cx, cy, R, 0, 2 * Math.PI); ctx.stroke();
-      ctx.restore();
-    }
-
-    /* Arrowhead: IfaZero tip at right (cx+R, cy); IfaOne tip at left (cx-R, cy); both angle π/2 (↓) */
-    const tipX = gold ? cx + R : cx - R;
-    const angle = Math.PI / 2;
-    const arrL = gold
-      ? [['rgba(245,197,24,0.42)',7],['rgba(255,248,210,0.92)',1.5]]
-      : [['rgba(225,35,65,0.44)', 6],['rgba(255,120,140,0.90)',1.5]];
-    for (const [color, blur] of arrL) {
-      ctx.save();
-      ctx.translate(tipX, cy); ctx.rotate(angle);
-      ctx.shadowColor = color; ctx.shadowBlur = blur; ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.lineTo(-ARR, -ARR * 0.44);
-      ctx.lineTo(-ARR,  ARR * 0.44);
-      ctx.closePath(); ctx.fill();
-      ctx.restore();
-    }
-
-    /* Centre dot */
-    const dotColor = gold ? 'rgba(245,197,24,1)'  : 'rgba(230,40,65,1)';
-    const dotFill  = gold ? 'rgba(255,248,210,1)' : 'rgba(255,170,185,1)';
-    ctx.save();
-    ctx.shadowColor = dotColor; ctx.shadowBlur = 7;
-    ctx.fillStyle = dotFill;
-    ctx.beginPath(); ctx.arc(cx, cy, 1.8, 0, 2 * Math.PI); ctx.fill();
-    ctx.restore();
-  }, [gold, size]);
-  return React.createElement('canvas', { ref,
-    style: { display:'block', flexShrink:0 } });
-}
-
 // ── Category color map ────────────────────────────────────────
 const CAT_COLOR = {
   math:          '#f5c518',
@@ -197,9 +137,6 @@ const APP_ICON = {
   'ifa-game':           'G',
   'ifa-analysis':       'IA',
   'ifa-mechanics':      'M',
-  'ifagebra':           'IG',
-  'ifa-number':         'IN',
-  'ifa-art':            '🎭',
 };
 
 // ── Header ────────────────────────────────────────────────────
@@ -392,36 +329,6 @@ function MissionSection({ mission }) {
             </div>
           ))}
         </div>
-
-        <div className="mission-manifesto">
-          <p className="mission-manifesto__lead">
-            CENProject is building the Infrastructure for knowledge unification.
-          </p>
-          <p className="mission-manifesto__sub">
-            The IFA Internet is the Ecosystem through which that Infrastructure is researched, taught, represented, and implemented.
-          </p>
-          <blockquote className="mission-manifesto__pull">
-            Ifá is the foundational intellectual source, not the boundary of the project.
-          </blockquote>
-          <p className="mission-manifesto__body">
-            The goal is not to make the world Yoruba.<br />
-            The goal is to contribute a Yoruba-derived approach to one of humanity's oldest challenges:
-          </p>
-          <p className="mission-manifesto__question">
-            How do we organize, integrate, learn, and create knowledge as a coherent whole?
-          </p>
-          <div className="mission-ioe">
-            <span className="mission-ioe__badge">IFA IoE</span>
-            <h3 className="mission-ioe__subtitle">The IFA Internet of Everything</h3>
-            <p className="mission-ioe__body">
-              Using Ifa and Orisa Traditions (IoT) to build the Internet of Everything (IoE) and connect all fields together as One.
-            </p>
-            <p className="mission-ioe__tagline">
-              Africa's knowledge-and-culture <a href="https://cenproject.org/" target="_blank" rel="noopener noreferrer" className="mission-ioe__link">Internet company</a>: the trusted home for learning, playing with and building on Ifá-Orisa Knowledge, Yoruba Knowledge, and African Indigenous Knowledge Systems (AIKS) generally, available in any language and on any device.
-            </p>
-          </div>
-        </div>
-
       </div>
     </section>
   );
@@ -499,7 +406,7 @@ function TOEBitSection() {
       kind: 'Energy',
       accent: '#f5c518',
       bgAccent: 'rgba(245,197,24,0.07)',
-      desc: 'The most fundamental Building Block of Everything (BBoE) — the Universal Building Block of all "building blocks" in modern science. Ogbe is Energy itself: the Primordial, Active, Creative Force.',
+      desc: 'The most fundamental Building Block of Everything (BBoE) — the Universal Building Block of all "building blocks" in modern science. Ogbe is Energy itself: the primordial, active, creative force.',
       reps: [
         {
           symText: 'I',
@@ -529,7 +436,7 @@ function TOEBitSection() {
       kind: 'Anergy',
       accent: '#4361ee',
       bgAccent: 'rgba(0,54,247,0.07)',
-      desc: 'Non-Energy — the Dual of Ogbe. Oyeku is Anergy: the Complementary, Receptive, Potential Force. Together with Ogbe it generates all the remaining 254 Odu Ifa.',
+      desc: 'Non-Energy — the Dual of Ogbe. Oyeku is Anergy: the complementary, receptive, potential force. Together with Ogbe it generates all the remaining 254 Odu Ifa.',
       reps: [
         {
           symText: '‖',
@@ -607,10 +514,22 @@ function TOEBitSection() {
                         <OyekuSymbol size={44} />
                       )}
                       {r.symSvg === 'ifazero' && (
-                        <MetaCircleCanvas gold={true} size={44} />
+                        <img
+                          src="./src/assets/IfaZero.png"
+                          alt="IfaZero Metarepresentation"
+                          className="toebit-sym-img"
+                          loading="lazy"
+                          decoding="async"
+                        />
                       )}
                       {r.symSvg === 'ifaone' && (
-                        <MetaCircleCanvas gold={false} size={44} />
+                        <img
+                          src="./src/assets/IfaOne.png"
+                          alt="IfaOne Metarepresentation"
+                          className="toebit-sym-img"
+                          loading="lazy"
+                          decoding="async"
+                        />
                       )}
                       {r.symText && r.symText}
                     </div>
@@ -713,7 +632,7 @@ function PlatformsSection({ platforms, categories }) {
           <span className="section__eyebrow">Platform Catalog</span>
           <h2 className="section__title">All IFA Platforms</h2>
           <p className="section__desc">
-            64+ Platforms spanning every field ... mathematics, sciences, technology, networking, language, philosophy, education, others — all unified in one Theory of Everything (TOE).
+            40+ Platforms spanning every field ... mathematics, sciences, technology, networking, language, philosophy, education, others — all unified in one Theory of Everything (TOE).
           </p>
         </div>
 
@@ -808,7 +727,8 @@ function NetworkingSection({ networking }) {
           <div className="inet-split__intro">
             <p className="inet-split__lead">
               The IFA Internet is a <strong>natural and conscious Internet</strong> — rooted in the Living Energy of{' '}
-              <strong>Ogbe</strong>, the primal Force of existence. As the Internet of Internets, it provides a Blueprint for every artificial Internets: the classical Internet (the modern Internet), the quantum Internet, and others yet
+              <strong>Ogbe</strong>, the primal Force of existence. As the Internet of Internets, it encompasses all
+              artificial Internets: the classical Internet (the modern Internet), the quantum Internet, and others yet
               to emerge.
             </p>
           </div>
