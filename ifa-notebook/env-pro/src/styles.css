@@ -2430,6 +2430,69 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nb-odu-view-select:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16,185,129,0.08); }
 .nb-odu-view-select option { background: #070e1c; color: #d4e1f5; }
 
+/* ── IfaProgram banner (top panel of Odu cells) ─────────────────────────── */
+.nb-odu-ifaprog-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 14px 5px 16px;
+  background: linear-gradient(90deg,
+    rgba(16, 185, 129, 0.13) 0%,
+    rgba(0, 200, 150, 0.07) 50%,
+    transparent 100%);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.14);
+  overflow: hidden;
+}
+.nb-odu-ifaprog-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(16, 185, 129, 0.04) 0%,
+    transparent 70%);
+  pointer-events: none;
+}
+.nb-odu-ifaprog-banner__accent {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #10b981 0%, #00c896 100%);
+  border-radius: 0 2px 2px 0;
+}
+.nb-odu-ifaprog-banner__icon {
+  font-size: 0.82rem;
+  color: #10b981;
+  line-height: 1;
+  filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.5));
+}
+.nb-odu-ifaprog-banner__title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #10b981;
+  line-height: 1;
+}
+.nb-odu-ifaprog-banner__tag {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: rgba(16, 185, 129, 0.55);
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+.nb-odu-ifaprog-banner__rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.25), transparent);
+}
+.nb-odu-ifaprog-banner__dots {
+  font-size: 0.62rem;
+  color: rgba(16, 185, 129, 0.3);
+  letter-spacing: 0.15em;
+  line-height: 1;
+}
+
 /* ── Odu Matrix (in-cell SVG diagrams) ──────────────────────────────────── */
 .nb-odu-matrix {
   display: flex;
@@ -4526,4 +4589,80 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .nb-save-btn        { min-height: 30px; padding: 3px 8px; font-size: 0.65rem; }
   /* Give the main area more height */
   .env-main           { padding-top: 0; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   Mobile optimisation — Pass 4
+   Fills remaining gaps:
+     • iOS Safari auto-zoom on Odu-view select, AI selects/inputs
+     • Link-reader card stacking + touch-friendly action buttons
+     • AI cell toolbar layout and minimum tap targets
+     • Todo-delete and todo-add touch targets
+     • API key dialog phone layout
+     • File dropdown overflow guard on narrow screens
+     • nb-odu-view-select minimum tap target on tablet/phone
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── iOS auto-zoom: add missing selects/inputs to the ≥ 16px list ─────────── */
+@media (max-width: 480px) {
+  .nb-odu-view-select,
+  .nb-ai-model-select,
+  .nb-ai-key-input,
+  .pro-apikey-input { font-size: 16px !important; }
+}
+
+/* ── Odu view select — minimum tappable height on tablet/phone ─────────────── */
+@media (max-width: 768px) {
+  .nb-odu-view-select { min-height: 32px; padding-top: 4px; padding-bottom: 4px; }
+}
+
+/* ── AI cell: comfortable touch targets ───────────────────────────────────── */
+@media (max-width: 480px) {
+  .nb-ai-run-btn      { min-height: 40px; padding: 8px 16px; font-size: 0.8rem; }
+  .nb-ai-key-btn      { min-height: 36px; padding: 6px 12px; }
+  .nb-ai-set-key-btn  { min-height: 40px; padding: 8px 16px; }
+  .nb-ai-model-select { min-height: 36px; padding: 4px 8px; }
+}
+
+/* ── AI toolbar: stack to column on very narrow phones ───────────────────── */
+@media (max-width: 360px) {
+  .nb-ai-toolbar { flex-direction: column; align-items: stretch; }
+  .nb-ai-run-btn { width: 100%; justify-content: center; }
+  .nb-ai-model-select { width: 100%; }
+}
+
+/* ── Link reader: stack card layout + touch-friendly buttons on phone ───── */
+@media (max-width: 480px) {
+  .nb-link-reader__card    { flex-wrap: wrap; gap: 8px 10px; }
+  .nb-link-reader__meta    { min-width: 0; width: 100%; order: 1; }
+  .nb-link-reader__actions { order: 2; width: 100%; gap: 6px; }
+  .nb-link-reader__btn {
+    flex: 1 1 auto; text-align: center;
+    min-height: 36px; padding: 7px 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+}
+
+/* ── Todo: larger tap targets on touch devices ───────────────────────────── */
+@media (hover: none), (max-width: 768px) {
+  .nb-others__todo-del {
+    min-height: 36px; min-width: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 4px 6px;
+  }
+  .nb-others__todo-add { min-height: 36px; padding: 7px 14px; }
+}
+
+/* ── API key dialog: compact phone layout ────────────────────────────────── */
+@media (max-width: 480px) {
+  .pro-apikey-dialog  { padding: 16px 14px 14px; border-radius: 10px; }
+  .pro-apikey-actions { flex-direction: column; gap: 6px; }
+  .pro-apikey-save,
+  .pro-apikey-cancel  { width: 100%; text-align: center; min-height: 40px; padding: 8px 16px; }
+}
+
+/* ── File dropdown: cap width to prevent overflow on narrow screens ──────── */
+@media (max-width: 480px) {
+  .nb-file-dropdown { max-width: calc(100vw - 20px); }
+  .nb-file-item     { font-size: 0.82rem; }
 }

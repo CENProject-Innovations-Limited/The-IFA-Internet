@@ -3247,6 +3247,18 @@ function NbCell({ cell, idx, active, onFocus, onRun, onDelete, onClear, onMoveUp
           </div>
         </div>
 
+        {/* ── IfaProgram banner — odu cells only ────────────────────────── */}
+        {cell.type === 'odu' && (
+          <div className="nb-odu-ifaprog-banner" aria-label="IfaProgram cell">
+            <span className="nb-odu-ifaprog-banner__accent" aria-hidden="true" />
+            <span className="nb-odu-ifaprog-banner__icon" aria-hidden="true">◈</span>
+            <span className="nb-odu-ifaprog-banner__title">IfaProgram</span>
+            <span className="nb-odu-ifaprog-banner__tag">(IfaProg)</span>
+            <span className="nb-odu-ifaprog-banner__rule" aria-hidden="true" />
+            <span className="nb-odu-ifaprog-banner__dots" aria-hidden="true">· · ·</span>
+          </div>
+        )}
+
         {/* ── Delete confirmation dialog ─────────────────────────────────── */}
         {confirmDelete && (
           <div className="nb-confirm-overlay" onClick={e => e.stopPropagation()}>

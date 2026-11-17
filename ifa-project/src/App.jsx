@@ -351,6 +351,7 @@ function Nav() {
           <a href="#featured" className="ip-nav__link">Featured</a>
           <a href="#games"    className="ip-nav__link">PlayIfa</a>
           <a href="#academy"  className="ip-nav__link">Academy</a>
+          <a href="#superapp" className="ip-nav__link">Alántakùn</a>
           <a href="#all"      className="ip-nav__link">All Projects</a>
           <a href="https://www.playifagames.org/" target="_blank" rel="noopener noreferrer"
              className="ip-nav__link ip-nav__link--cta">PlayIfa Games ↗</a>
@@ -646,6 +647,190 @@ function AllProjectsSection() {
   );
 }
 
+// ─── ALÁNTAKÙN — THE IFAWEB ──────────────────────────────────────────────────
+
+const ALANTAKUN_PLATFORMS = [
+  { name:'PlayIfa Games',   color:'#f0920c' },
+  { name:'IfaProject',      color:'#f5c518' },
+  { name:'Ifa Medicine',    color:'#00c87c' },
+  { name:'Ifa Computing',   color:'#3b9eff' },
+  { name:'Ifa AI — Ifai',   color:'#8b5cf6' },
+  { name:'IfaQuantum',      color:'#00d4ff' },
+  { name:'Ifaltas',         color:'#e9498a' },
+  { name:'Ifa Mathematics', color:'#f5c518' },
+  { name:'IfaGram',         color:'#e9498a' },
+  { name:'Ifa Language',    color:'#00c87c' },
+  { name:'Ebology',         color:'#f0920c' },
+  { name:'IFA Academy',     color:'#8b5cf6' },
+];
+
+function AlantakunWebSVG() {
+  const cx = 200, cy = 200;
+  const spokes = 12;
+  const rings  = [38, 72, 108, 148];
+  const angles = Array.from({ length: spokes }, (_, i) =>
+    (i * (360 / spokes) - 90) * (Math.PI / 180)
+  );
+  const outerR = 148;
+  return (
+    <svg viewBox="0 0 400 400" className="ip-alantakun__svg" fill="none"
+         aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="ag" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor="rgba(245,197,24,0.14)"/>
+          <stop offset="100%" stopColor="transparent"/>
+        </radialGradient>
+        <filter id="aglow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="aglow2" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      {/* Background radial glow */}
+      <circle cx={cx} cy={cy} r={188} fill="url(#ag)"/>
+
+      {/* Web rings — concentric polygons */}
+      {rings.map((r, ri) => (
+        <polygon key={ri}
+          points={angles.map(a => `${cx + r * Math.cos(a)},${cy + r * Math.sin(a)}`).join(' ')}
+          stroke={`rgba(245,197,24,${0.08 + ri * 0.03})`}
+          strokeWidth="0.9" fill="none"
+        />
+      ))}
+
+      {/* Spokes */}
+      {angles.map((a, si) => (
+        <line key={si}
+          x1={cx} y1={cy}
+          x2={cx + outerR * Math.cos(a)} y2={cy + outerR * Math.sin(a)}
+          stroke="rgba(245,197,24,0.1)" strokeWidth="0.8"
+        />
+      ))}
+
+      {/* Platform nodes + connector lines */}
+      {ALANTAKUN_PLATFORMS.map((p, i) => {
+        const a  = (i * (360 / ALANTAKUN_PLATFORMS.length) - 90) * (Math.PI / 180);
+        const px = cx + outerR * Math.cos(a);
+        const py = cy + outerR * Math.sin(a);
+        const shortName = p.name.replace('Ifa ', '').replace(' — Ifai', '').replace('IFA ', '');
+        return (
+          <g key={i} filter="url(#aglow)">
+            <line x1={cx} y1={cy} x2={px} y2={py}
+              stroke={`${p.color}28`} strokeWidth="0.9" strokeDasharray="3 7"/>
+            <circle cx={px} cy={py} r={13}
+              fill={`${p.color}14`} stroke={p.color} strokeWidth="1.1"/>
+            <text x={px} y={py + 4} textAnchor="middle"
+              fill="rgba(255,255,255,0.65)" fontSize="5" fontFamily="monospace">
+              {shortName}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* Center — Alántakùn node */}
+      <circle cx={cx} cy={cy} r={36} fill="rgba(245,197,24,0.07)"
+        stroke="#f5c518" strokeWidth="1.6" filter="url(#aglow2)"
+        className="ip-node--center"/>
+      <circle cx={cx} cy={cy} r={50} fill="none"
+        stroke="#f5c518" strokeWidth="0.4" className="ip-pulse-ring"/>
+      <circle cx={cx} cy={cy} r={68} fill="none"
+        stroke="#f5c518" strokeWidth="0.25" className="ip-pulse-ring"
+        style={{ animationDelay:'1s' }}/>
+      <text x={cx} y={cy - 6} textAnchor="middle"
+        fill="#f5c518" fontSize="8.5" fontWeight="700" fontFamily="monospace">
+        Alántakùn
+      </text>
+      <text x={cx} y={cy + 7} textAnchor="middle"
+        fill="rgba(245,197,24,0.6)" fontSize="6" fontFamily="monospace">
+        IfaWeb
+      </text>
+    </svg>
+  );
+}
+
+function AlantakunSection() {
+  return (
+    <section className="ip-section ip-alantakun" id="superapp">
+      <div className="ip-alantakun__glow" aria-hidden="true"/>
+      <div className="ip-container">
+
+        <div className="ip-alantakun__header">
+          <div className="ip-eyebrow">IFA Internet Superapp</div>
+          <div className="ip-alantakun__status-badge">
+            <span className="ip-alantakun__status-dot"/>
+            Under Development · Deploying Soon
+          </div>
+        </div>
+
+        <h2 className="ip-section-title ip-alantakun__title">
+          Alántakùn — The IfaWeb
+        </h2>
+        <p className="ip-alantakun__yoruba">
+          Ògòdò gbókè odò payínkeke sólóko. Adífá fún Alántakùn, omọ aṣehungbogbo bí idán, bí idán — Ìwòrì Méjì, Ifa's Theory of Networks, Graphs, and Webs.
+        </p>
+        <p className="ip-section-sub">
+          A Single Ecosystem connecting every IFA Internet Platform &amp; Project as One — the unified
+          Gateway to the entire IFA Internet Universe, from PlayIfa Games and Ifa Medicine to Ifagram,
+          Ifa Computing, IfaQuantum, and beyond.
+        </p>
+
+        <div className="ip-alantakun__body">
+
+          {/* SVG web visual */}
+          <div className="ip-alantakun__web">
+            <AlantakunWebSVG />
+          </div>
+
+          {/* Right: description + platform chips */}
+          <div className="ip-alantakun__info">
+            <div className="ip-alantakun__info-block">
+              <div className="ip-alantakun__info-label">Alántakùn: Ifa's Network Theory?</div>
+              <p>
+                Named after the Yoruba word for <strong>spider</strong> — the master Weaver —{' '}
+                <em>"Alántakùn, omọ aṣehungbogbo bí idán, bí idán"</em> is the theory of systems now
+                called networks, webs, and Internetworks (Internets) documented in the Odu Ifa millenia
+                before their development in the modern world.
+              </p>
+              <p>
+                "Alántakùn — The IfaWeb", or simply Alántakùn is the IFA Internet Superapp: a single,
+                unified Interface that weaves every platform, tool, and knowledge system of the IFA
+                Internet into one seamless Ecosystem.
+              </p>
+              <p>
+                One login. One home. Every IfaProject, everywhere.
+              </p>
+            </div>
+            <div className="ip-alantakun__info-block">
+              <div className="ip-alantakun__info-label">What it connects</div>
+              <div className="ip-alantakun__chips">
+                {ALANTAKUN_PLATFORMS.map((p, i) => (
+                  <div key={i} className="ip-alantakun__chip" style={{ '--pc': p.color }}>
+                    <span className="ip-alantakun__chip-dot" aria-hidden="true"/>
+                    {p.name}
+                  </div>
+                ))}
+                <div className="ip-alantakun__chip ip-alantakun__chip--more">
+                  + 50 more platforms
+                </div>
+              </div>
+            </div>
+            <div className="ip-alantakun__cta-row">
+              <span className="ip-alantakun__coming-soon">
+                Coming Soon — IFA Internet Superapp
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── ILẸ́FẸ̀LANGS SPOTLIGHT ──────────────────────────────────────────────────
 
 const ILELANG_GROUPS = [
@@ -745,6 +930,7 @@ function Footer() {
             <a href="#featured">Featured</a>
             <a href="#games">PlayIfa</a>
             <a href="#academy">Academy</a>
+            <a href="#superapp">Alántakùn</a>
             <a href="#all">All Projects</a>
             <a href="../" target="_blank" rel="noopener noreferrer">IFA Internet</a>
             <a href="https://www.playifagames.org/" target="_blank" rel="noopener noreferrer">PlayIfa Games ↗</a>
@@ -775,6 +961,7 @@ function App() {
         <GamesSection />
         <AcademySection />
         <IlefeLangsSpotlight />
+        <AlantakunSection />
         <AllProjectsSection />
       </main>
       <Footer />
