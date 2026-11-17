@@ -10,28 +10,33 @@ const { useState, useEffect, useRef } = React;
 
 // ── Auth — reads live IfaLMS user data from shared localStorage ─────────────
 // IfaLMS stores its state in 'ifaLMS_v2' on the same origin (ifainternet.org),
-// so IfaNote Pro can validate against exactly the same accounts and passwords.
+// so IfaNote Pro used to check passwords in the browser; it no longer does.
 const LMS_STORAGE_KEY   = 'ifaLMS_v2';
 const NOTE_SESSION_KEY  = 'ifanote_pro_user';
 
-const SEED_STUDENTS = [
-  { username: 'admin',    password: 'OrisaIfa22233.', name: 'IFA Academy Admin',  role: 'admin',   status: 'approved' },
-  { username: 'adewale',  password: 'student123',     name: 'Adewale Okafor',     role: 'student', status: 'approved' },
-  { username: 'chiamaka', password: 'student123',     name: 'Chiamaka Nwosu',     role: 'student', status: 'pending'  },
-  { username: 'tayo',     password: 'student123',     name: 'Tayo Adeleke',       role: 'student', status: 'approved' },
-  { username: 'emeka',    password: 'student123',     name: 'Emeka Obi',          role: 'student', status: 'pending'  },
-  { username: 'ngozi',    password: 'student123',     name: 'Ngozi Adeyemi',      role: 'student', status: 'approved' },
-];
+// Sign-in is handled on the server by IFA Academy sign-in (/ifa-auth/).
+// This page keeps no usernames or passwords: it only asks the server who is signed in.
+const AUTH_LOGIN  = '/ifa-auth/login.php';
+const AUTH_LOGOUT = '/ifa-auth/logout.php';
+const AUTH_ME     = '/ifa-auth/me.php';
 
-function getLmsUsers() {
-  try {
-    const raw = localStorage.getItem(LMS_STORAGE_KEY);
-    if (raw) {
-      const state = JSON.parse(raw);
-      if (Array.isArray(state.users)) return state.users;
-    }
-  } catch (e) {}
-  return SEED_STUDENTS;
+// Who is signed in? Protected folders get the answer from the sign-in guard
+// (window.IFA_USER); other pages ask /ifa-auth/me.php. Approved accounts only.
+function authUserFromServer() {
+  const g = window.IFA_USER;
+  if (g && g.username) {
+    return Promise.resolve({ username: g.username, name: g.name || g.username, role: g.role || 'student' });
+  }
+  return fetch(AUTH_ME, { credentials: 'same-origin', cache: 'no-store' })
+    .then(r => (r.ok ? r.json() : { signedIn: false }))
+    .then(d => (d && d.signedIn && d.user && d.user.status === 'approved')
+      ? { username: d.user.username, name: d.user.name || d.user.username, role: d.user.role }
+      : null)
+    .catch(() => null);
+}
+
+function signInUrl() {
+  return AUTH_LOGIN + '?next=' + encodeURIComponent(window.location.pathname);
 }
 
 function getNoteSession() {
@@ -43,26 +48,7 @@ function getNoteSession() {
 }
 
 function SubscriptionGate({ onUnlock }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError]       = useState(false);
-  const [shake, setShake]       = useState(false);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    const users = getLmsUsers();
-    const user  = users.find(
-      u => u.username === username.trim() && u.password === password
-    );
-    if (user) {
-      localStorage.setItem(NOTE_SESSION_KEY, JSON.stringify({ username: user.username, name: user.name }));
-      onUnlock(user.name);
-    } else {
-      setError(true);
-      setShake(true);
-      setTimeout(() => setShake(false), 600);
-    }
-  }
+  const shake = false;
 
   return (
     <div className="sub-gate">
@@ -92,36 +78,10 @@ function SubscriptionGate({ onUnlock }) {
           login details.
         </p>
 
-        <form onSubmit={handleSubmit} className="sub-gate__form">
-          <input
-            type="text"
-            className={`sub-gate__input${error ? ' sub-gate__input--error' : ''}`}
-            placeholder="Username"
-            value={username}
-            onChange={e => { setUsername(e.target.value); setError(false); }}
-            autoComplete="username"
-            spellCheck={false}
-            aria-label="Username"
-          />
-          <input
-            type="password"
-            className={`sub-gate__input${error ? ' sub-gate__input--error' : ''}`}
-            placeholder="Password"
-            value={password}
-            onChange={e => { setPassword(e.target.value); setError(false); }}
-            autoComplete="current-password"
-            aria-label="Password"
-          />
-          <button type="submit" className="sub-gate__btn">
-            Sign in to IfaNote Pro <span className="sub-gate__btn-arrow">→</span>
-          </button>
-        </form>
-
-        {error && (
-          <p className="sub-gate__error" role="alert">
-            ⊗ Invalid username or password — use your IFA Academy login details.
-          </p>
-        )}
+        <a className="sub-gate__btn" href={signInUrl()}
+           style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', textDecoration: 'none' }}>
+          Sign in to IfaNote Pro <span className="sub-gate__btn-arrow">→</span>
+        </a>
 
         <div className="sub-gate__divider" />
 
@@ -5297,8 +5257,18 @@ function App({ onLogout, noteUser }) {
 
 // ── Auth wrapper — keeps all App hooks unconditional ────────────────────────
 function AppRoot() {
-  const [unlocked, setUnlocked] = useState(() => getNoteSession() !== null);
-  const [noteUser, setNoteUser] = useState(() => getNoteSession());
+  const [unlocked, setUnlocked] = useState(false);
+  const [checking, setChecking] = useState(true);
+  const [noteUser, setNoteUser] = useState(null);
+
+  useEffect(() => {
+    authUserFromServer().then(u => {
+      try { if (u) localStorage.setItem(NOTE_SESSION_KEY, JSON.stringify(u)); else localStorage.removeItem(NOTE_SESSION_KEY); } catch (e) {}
+      setNoteUser(u);
+      setUnlocked(!!u);
+      setChecking(false);
+    });
+  }, []);
 
   function handleUnlock() {
     const session = getNoteSession();
@@ -5307,11 +5277,11 @@ function AppRoot() {
   }
 
   function handleLogout() {
-    localStorage.removeItem(NOTE_SESSION_KEY);
-    setNoteUser(null);
-    setUnlocked(false);
+    // Ends the IFA Academy session on the server and clears this browser.
+    window.location.href = AUTH_LOGOUT;
   }
 
+  if (checking) return null;
   if (!unlocked) {
     return <SubscriptionGate onUnlock={handleUnlock} />;
   }
