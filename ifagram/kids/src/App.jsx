@@ -989,69 +989,37 @@ function MobileBar({ onLogout }) {
 // ═══════════════════════════════════════════════════════════════════════════════
 // E. APP ROOT
 // ═══════════════════════════════════════════════════════════════════════════════
-// AUTH GATE — login with IfaLMS credentials
+// AUTH GATE — IFA Academy sign-in (ifa-auth)
 // ═══════════════════════════════════════════════════════════════════════════════
-
-// Fallback credentials (mirrors IfaLMS SEED_USERS). The live source of truth is
-// always ifaLMS_v2 in localStorage — this list only applies on devices that have
-// never loaded IfaLMS yet.
-const KIDS_FALLBACK_USERS = [
-  { id: 'u0', username: 'admin',    password: 'OrisaIfa22233.',    role: 'admin',   status: 'approved' },
-  { id: 'u1', username: 'adewale',  password: 'student123', role: 'student', status: 'approved' },
-  { id: 'u2', username: 'chiamaka', password: 'student123', role: 'student', status: 'pending'  },
-  { id: 'u3', username: 'tayo',     password: 'student123', role: 'student', status: 'approved' },
-  { id: 'u4', username: 'emeka',    password: 'student123', role: 'student', status: 'pending'  },
-  { id: 'u5', username: 'ngozi',    password: 'student123', role: 'student', status: 'approved' },
-];
 
 const KIDS_SESSION_KEY = 'ifakids_session';
 
-function getUsers() {
-  try {
-    const lms = JSON.parse(localStorage.getItem('ifaLMS_v2') || '{}');
-    if (Array.isArray(lms.users) && lms.users.length) return lms.users;
-  } catch (e) {}
-  return KIDS_FALLBACK_USERS;
-}
+// Sign-in is handled on the server by IFA Academy sign-in (/ifa-auth/).
+// This page keeps no usernames or passwords: it only asks the server who is signed in.
+const AUTH_LOGIN  = '/ifa-auth/login.php';
+const AUTH_LOGOUT = '/ifa-auth/logout.php';
+const AUTH_ME     = '/ifa-auth/me.php';
 
-function checkKidsSession() {
-  try {
-    const raw = localStorage.getItem(KIDS_SESSION_KEY);
-    if (!raw) return false;
-    const { userId } = JSON.parse(raw);
-    const user = getUsers().find(u => u.id === userId);
-    if (!user) return false;
-    return user.role === 'admin' || user.status === 'approved';
-  } catch (e) { return false; }
-}
-
-function tryLogin(username, password) {
-  const user = getUsers().find(u => u.username === username && u.password === password);
-  if (!user) return { ok: false, msg: 'Incorrect username or password.' };
-  if (user.status === 'pending') return { ok: false, msg: 'Your account is pending approval. Please contact your IFA Academy instructor.' };
-  try { localStorage.setItem(KIDS_SESSION_KEY, JSON.stringify({ userId: user.id, ts: Date.now() })); } catch (e) {}
-  return { ok: true };
-}
-
-function LoginGate({ onSuccess }) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
-  const [loading, setLoading]   = useState(false);
-  const [showPw, setShowPw]     = useState(false);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setTimeout(() => {
-      const result = tryLogin(username.trim(), password);
-      setLoading(false);
-      if (result.ok) onSuccess();
-      else setError(result.msg);
-    }, 480); // brief simulated delay so it doesn't feel instant
+// Who is signed in? Protected folders get the answer from the sign-in guard
+// (window.IFA_USER); other pages ask /ifa-auth/me.php. Approved accounts only.
+function authUserFromServer() {
+  const g = window.IFA_USER;
+  if (g && g.username) {
+    return Promise.resolve({ username: g.username, name: g.name || g.username, role: g.role || 'student' });
   }
+  return fetch(AUTH_ME, { credentials: 'same-origin', cache: 'no-store' })
+    .then(r => (r.ok ? r.json() : { signedIn: false }))
+    .then(d => (d && d.signedIn && d.user && d.user.status === 'approved')
+      ? { username: d.user.username, name: d.user.name || d.user.username, role: d.user.role }
+      : null)
+    .catch(() => null);
+}
 
+function signInUrl() {
+  return AUTH_LOGIN + '?next=' + encodeURIComponent(window.location.pathname);
+}
+
+function LoginGate() {
   return (
     <div className="ag-wrap">
       <div className="ag-orb ag-orb--a" />
@@ -1069,52 +1037,10 @@ function LoginGate({ onSuccess }) {
         <h1 className="ag-title">Ifagrams for Kids &amp; Teens</h1>
         <p className="ag-sub">Sign in with your Ifacodemy account to continue.</p>
 
-        <form className="ag-form" onSubmit={handleSubmit}>
-          <div className="ag-field">
-            <label className="ag-label" htmlFor="ag-username">Username</label>
-            <input
-              id="ag-username"
-              className="ag-input"
-              type="text"
-              autoComplete="username"
-              placeholder="Enter your username"
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-              disabled={loading}
-            />
-          </div>
-          <div className="ag-field">
-            <label className="ag-label" htmlFor="ag-password">Password</label>
-            <div className="ag-pw-wrap">
-              <input
-                id="ag-password"
-                className="ag-input"
-                type={showPw ? 'text' : 'password'}
-                autoComplete="current-password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                disabled={loading}
-              />
-              <button
-                type="button"
-                className="ag-pw-toggle"
-                onClick={() => setShowPw(v => !v)}
-                aria-label={showPw ? 'Hide password' : 'Show password'}
-              >
-                {showPw ? '🙈' : '👁'}
-              </button>
-            </div>
-          </div>
-          {error && <div className="ag-error">{error}</div>}
-          <button
-            className="ag-btn"
-            type="submit"
-            disabled={loading || !username || !password}
-          >
-            {loading ? <span className="ag-spinner" /> : 'Sign In to Ifacodemy'}
-          </button>
-        </form>
+        <a className="ag-btn" href={signInUrl()}
+           style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
+          Sign In to Ifacodemy
+        </a>
 
         <a className="ag-back" href="../">← Back to Ifagram</a>
       </div>
@@ -1126,17 +1052,20 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(null); // null = checking
 
   useEffect(() => {
-    setLoggedIn(checkKidsSession());
+    authUserFromServer().then(u => {
+      try { if (u) localStorage.setItem(KIDS_SESSION_KEY, JSON.stringify({ username: u.username, ts: Date.now() })); else localStorage.removeItem(KIDS_SESSION_KEY); } catch (e) {}
+      setLoggedIn(!!u);
+    });
   }, []);
 
   if (loggedIn === null) return null; // suppress flash on initial check
 
   function handleLogout() {
-    try { localStorage.removeItem(KIDS_SESSION_KEY); } catch (e) {}
-    setLoggedIn(false);
+    // Ends the IFA Academy session on the server and clears this browser.
+    window.location.href = AUTH_LOGOUT;
   }
 
-  if (!loggedIn) return <LoginGate onSuccess={() => setLoggedIn(true)} />;
+  if (!loggedIn) return <LoginGate />;
 
   return (
     <>

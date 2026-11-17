@@ -26,7 +26,7 @@ function saveState(data) {
 // ─── SEED DATA ────────────────────────────────────────────────────────────────
 
 const SEED_USERS = [
-  { id: 'u0', username: 'admin',    password: 'OrisaIfa22233.',    name: 'IFA Academy Admin',    role: 'admin',   status: 'approved', program: null,     joinDate: '2026-01-01' },
+  { id: 'u0', username: 'admin',    password: 'demo-admin-not-real',    name: 'IFA Academy Admin',    role: 'admin',   status: 'approved', program: null,     joinDate: '2026-01-01' },
   { id: 'u1', username: 'adewale',  password: 'student123', name: 'Adewale Okafor',       role: 'student', status: 'approved', program: 'adults', joinDate: '2026-04-10', enrolled: ['c1', 'c3', 'c7', 'c8', 'c14'] },
   { id: 'u2', username: 'chiamaka', password: 'student123', name: 'Chiamaka Nwosu',       role: 'student', status: 'pending',  program: 'adults', joinDate: '2026-05-10', enrolled: [] },
   { id: 'u3', username: 'tayo',     password: 'student123', name: 'Tayo Adeleke',         role: 'student', status: 'approved', program: 'kids',   joinDate: '2026-03-15', enrolled: ['c2', 'c4', 'c5', 'c14'] },
