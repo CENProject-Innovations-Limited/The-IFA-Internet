@@ -3484,3 +3484,14 @@ body { background: var(--indigo-0); }
 @media (max-width: 480px) {
   .ic-cover-family-grid { grid-template-columns: 1fr; }
 }
+
+/* ─── SIDEBAR TABS ON DESKTOP ─────────────────────────────────────────────────
+   On laptop-height screens the logo, player cards and Ifa Square card used up the
+   sidebar, squeezing the Cover/Roster/Info content to 0px. The sidebar now scrolls
+   as a whole and the tab content always keeps its natural height. */
+@media (min-width: 801px) {
+  .ic-opon-sidebar { overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; scrollbar-color: rgba(201,162,39,0.3) transparent; }
+  .ic-opon-sidebar::-webkit-scrollbar { width: 4px; }
+  .ic-opon-sidebar::-webkit-scrollbar-thumb { background: rgba(201,162,39,0.3); border-radius: 2px; }
+  .ic-opon-tab-body { flex: 1 0 auto; min-height: 0; overflow: visible; }
+}
