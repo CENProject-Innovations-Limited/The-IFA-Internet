@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="yo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The IFA Code Lab</title>
+<meta name="description" content="Ibùdó Ìdánkanwò Odùfá — the IFA Code Lab. Sixteen IfaPL programming languages on the Ifá Binary Tree, for kids, teens and adults, in Yorùbá and English.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&family=Noto+Serif:wght@400;600;700&family=Noto+Sans+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#040810; --ink:#eef0f4; --muted:#9aa6b8; --line:#1d2b40;
+  --gold:#e9b949; --panel:rgba(10,18,32,.88); --bark:#5e3d20;
+}
+*{box-sizing:border-box}
+html,body{margin:0;color:var(--ink);font-family:'Noto Sans',system-ui,sans-serif;background:var(--bg)}
+body{min-height:100vh;background:radial-gradient(ellipse 80% 60% at 50% 32%,#10233a 0%,#081220 50%,#03060c 100%)}
+header{text-align:center;padding:28px 16px 0}
+.eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+h1{font-family:'Noto Serif',serif;font-weight:600;font-size:clamp(24px,4vw,42px);margin:10px 0 6px;line-height:1.3}
+.sub{color:var(--muted);font-size:15px;margin:0}
+main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;max-width:1300px;margin:0 auto;padding:12px 24px 32px;align-items:start}
+@media (max-width:920px){main{grid-template-columns:1fr;padding:8px 16px 24px}}
+svg#tree{width:100%;height:auto;display:block;max-height:84vh;margin:0 auto}
+.controls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:4px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--panel)}
+.seg button{background:none;border:0;color:var(--muted);font:500 13px 'Noto Sans',sans-serif;padding:9px 16px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#1b2d46;color:var(--ink)}
+.seg button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+aside{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h2{font:600 12px 'Noto Sans',sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+.btn{width:100%;border:1px solid #6d5320;background:linear-gradient(#3a2c12,#2a200c);color:#f6dc97;font:600 15px 'Noto Serif',serif;padding:11px 14px;border-radius:10px;cursor:pointer}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.ghost{background:none;border-color:var(--line);color:var(--muted);font:500 14px 'Noto Sans',sans-serif}
+.rows{display:grid;gap:6px;margin:0 0 14px}
+.row{display:grid;grid-template-columns:22px 1fr 34px;align-items:center;gap:10px;height:28px;padding:0 10px;border-radius:8px;background:rgba(255,255,255,.03);color:var(--muted);font-size:13px}
+.row .mk{display:flex;gap:7px;justify-content:center}
+.row .mk i{display:block;width:4px;height:18px;border-radius:2px;background:var(--gold);transform:scaleY(0);transition:transform .35s}
+.row.on .mk i{transform:scaleY(1)}
+.row .lab{text-align:right;color:var(--ink);font-family:'Noto Serif',serif}
+.odu-name{font-family:'Noto Serif',serif;font-size:28px;font-weight:600;margin:0;line-height:1.25}
+.meta{color:var(--muted);font-size:13px;margin:6px 0 14px}
+.detail-grid{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.code{font:600 13px ui-monospace,Menlo,monospace;letter-spacing:.2em;color:var(--ink)}
+.portal{margin-top:16px;padding:14px;border-radius:10px;border:1px dashed #4a5a3c;background:rgba(0,0,0,.2)}
+.portal.live{border-style:solid;border-color:#7a6127;background:rgba(233,185,73,.06)}
+.portal .pk{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
+.portal .a{color:var(--muted);font-size:13px;font-style:italic;margin:0 0 8px}
+.portal .t{font-family:'Noto Serif',serif;font-size:16px;margin:0 0 4px}
+.portal .s{color:var(--muted);font-size:13px;margin:0 0 12px}
+.empty{color:var(--muted);font-size:14px;line-height:1.6;margin:0}
+.legend p{color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 8px}
+.legend p:last-child{margin:0}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:8px 16px 36px;font-family:'Noto Serif',serif;border-top:1px solid var(--line);max-width:1300px;margin:0 auto;padding-top:24px}
+.ft-title{font-size:18px;color:var(--gold);letter-spacing:.06em;margin-bottom:6px}
+.chars{max-width:1300px;margin:0 auto;padding:8px 24px 40px}
+@media (max-width:920px){.chars{padding:8px 16px 32px}}
+.chars-head{text-align:center;margin-bottom:20px}
+.chars-head h2{font-family:'Noto Serif',serif;font-weight:600;font-size:clamp(22px,3vw,30px);margin:8px 0 6px}
+.chars-head .seg{margin-top:14px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.ch{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 12px 14px;text-align:center;cursor:pointer;color:var(--ink);font:inherit;transition:border-color .2s,transform .2s,background .2s}
+.ch:hover{border-color:#5d6e48;transform:translateY(-2px)}
+.ch:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.ch[aria-pressed="true"]{border-color:var(--gold);background:rgba(233,185,73,.08)}
+.ch.ph{border-style:dashed;cursor:default;opacity:.6}
+.ch.ph:hover{transform:none;border-color:var(--line)}
+.ch .n{font-family:'Noto Serif',serif;font-size:16px;font-weight:600;margin:10px 0 2px;line-height:1.3}
+.ch .g{font-size:12px;color:var(--muted);margin:0;line-height:1.4}
+.ch.lv-off,.head.lv-off{opacity:.22}
+.crumbs{font-size:13px;color:var(--muted);margin-bottom:14px}
+.crumbs a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent}
+.crumbs a:hover{color:var(--ink);border-color:var(--muted)}
+.crumbs span{margin:0 6px;opacity:.6}
+.lvls{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}
+.lv{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid #2b4466;color:#a9c4e0;background:rgba(80,140,200,.08)}
+pre.hello{margin:0 0 12px;padding:12px;border-radius:8px;background:#02050a;border:1px solid var(--line);overflow-x:auto;font:13px/1.55 'Noto Sans Mono',ui-monospace,Menlo,Consolas,monospace;color:#d8e6f3;white-space:pre}
+.lvseg{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.lvseg button{border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--muted);font:500 13px 'Noto Sans',sans-serif;padding:9px 6px;border-radius:9px;cursor:pointer;line-height:1.3}
+.lvseg button[aria-pressed="true"]{border-color:var(--gold);color:var(--ink);background:rgba(233,185,73,.08)}
+.lvseg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.ft-links{margin-top:10px;font-family:'Noto Sans',sans-serif}
+.ft-links a{color:var(--muted)}
+.ch .no{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 2px}
+.me-row{display:flex;gap:14px;align-items:center}
+.me-row .n{font-family:'Noto Serif',serif;font-size:20px;font-weight:600;margin:0}
+.me-row .g{color:var(--muted);font-size:13px;margin:2px 0 0}
+.linkbtn{background:none;border:0;color:var(--gold);font:500 13px 'Noto Sans',sans-serif;padding:0;margin-top:12px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+
+/* SVG */
+.edge{fill:none;stroke:#6a4826;stroke-linecap:round;transition:stroke .3s,opacity .3s}
+.edge.lit{stroke:var(--gold)}
+.jn{fill:#3a2814;stroke:#8a6532;stroke-width:1.5;transition:fill .3s,stroke .3s}
+.jn.lit{fill:var(--gold);stroke:#fff3c4}
+#edges{transition:opacity .3s}
+.head{cursor:pointer;transition:transform .9s cubic-bezier(.6,.05,.25,1),opacity .35s}
+.head .body{transition:transform .25s}
+.head:hover .body,.head:focus-visible .body,.head.sel .body{transform:scale(1.14)}
+.head .halo{opacity:.3;transition:opacity .3s}
+.head:hover .halo,.head:focus-visible .halo,.head.lit .halo,.head.sel .halo{opacity:.5}
+.head:focus{outline:none}
+.head .ring{fill:none;stroke:var(--gold);stroke-width:1.5;opacity:0;transition:opacity .3s}
+.head.sel .ring,.head:focus-visible .ring{opacity:1}
+.nm{font-family:'Noto Serif',serif;font-size:15px;fill:var(--ink);text-anchor:middle;paint-order:stroke;stroke:#040810;stroke-width:4px}
+.dim .head:not(.lit):not(.sel){opacity:.28}
+.gm{font:600 11.5px 'Noto Sans',sans-serif;text-anchor:middle;fill:#8fd0e6;paint-order:stroke;stroke:#040810;stroke-width:3px}
+.gm.live{fill:#e9c76a;font-weight:600}
+.gm.open{fill:#5d5a4c;font-style:italic}
+.side-lab{font:600 12px 'Noto Sans',sans-serif;letter-spacing:.2em;fill:#c9a95a;text-anchor:middle}
+@media (prefers-reduced-motion:reduce){.head,.edge,#edges,.row .mk i{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="https://ifainternet.org/ifa-mathematics-toe-mathematics/">IFA Mathematica</a><span>›</span>
+    <a href="https://ifainternet.org/ifa-mathematics-toe-mathematics/ifa-code/">IFA Code</a><span>›</span>
+    <a href="https://ifainternet.org/ifa-mathematics-toe-mathematics/ifa-code/#ifapl">IfaPL · Model 1</a><span>›</span>
+    <span aria-current="page" style="margin:0;opacity:1">Code Lab</span>
+  </nav>
+  <div class="eyebrow">IFA Code · IfaPL — Programming Language · Model 1</div>
+  <h1>Ibùdó Ìdánkanwò Odùfá</h1>
+  <p class="sub" style="font-family:'Noto Serif',serif;font-size:19px;color:var(--ink);margin-bottom:8px">The IFA Code Lab</p>
+  <p class="sub">Sixteen programming languages on the Ifá Binary Tree — learn and build with Ifá and Òrìṣà approaches, in Yorùbá and English</p>
+</header>
+
+<main>
+  <div class="stage">
+    <svg id="tree" viewBox="0 150 1000 860" role="group" aria-label="The Ifá Binary Tree with sixteen IfaPL languages">
+      <defs>
+        <linearGradient id="trunkG" x1="0" x2="1">
+          <stop offset="0" stop-color="#3b2512"/><stop offset=".45" stop-color="#8a5a2e"/><stop offset="1" stop-color="#3b2512"/>
+        </linearGradient>
+        <radialGradient id="groundG"><stop offset="0" stop-color="#1c3550"/><stop offset="1" stop-color="#1c3550" stop-opacity="0"/></radialGradient>
+        <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      </defs>
+      <ellipse cx="500" cy="968" rx="260" ry="26" fill="url(#groundG)"/>
+      <g id="roots"></g>
+      <g id="trunk"></g>
+      <g id="edges"></g>
+      <g id="heads"></g>
+    </svg>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Tree arrangement">
+        <button id="mBin" aria-pressed="true">Binary branching</button>
+        <button id="mSen" aria-pressed="false">Seniority · learning path</button>
+      </div>
+    </div>
+  </div>
+
+  <aside>
+    <section class="card" aria-labelledby="lvH">
+      <h2 id="lvH">Akẹ́kọ̀ọ́ · Learner</h2>
+      <div class="lvseg" role="group" aria-label="Learner level">
+        <button data-lv="all" aria-pressed="true">Gbogbo · All</button>
+        <button data-lv="kids" aria-pressed="false">Ọmọdé · Kids</button>
+        <button data-lv="teens" aria-pressed="false">Ọ̀dọ́ · Teens</button>
+        <button data-lv="adults" aria-pressed="false">Àgbàlagbà · Adults</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="castH">
+      <h2 id="castH" style="text-transform:none;letter-spacing:.08em;font-size:14px">IfaCompute</h2>
+      <div class="rows" id="rows"></div>
+      <button class="btn" id="castBtn">Ṣírò · Compute an Odù</button>
+    </section>
+
+    <section class="card" id="detail" aria-live="polite">
+      <h2>Odù</h2>
+      <p class="empty">Choose a head on the tree, or run IfaCompute, to reveal its Odù and the IfaPL language it holds.</p>
+    </section>
+
+    <section class="card legend">
+      <h2>Reading the tree</h2>
+      <p>Each Odù is four lines, each line a single mark <b>I</b> or a double mark <b>II</b> — 2×2×2×2 = 16 heads.</p>
+      <p>In <b>binary branching</b>, the trunk splits on the first line (I → Ọ̀tún, II → Òsì), then on each following line, so the path from trunk to head spells the Odù.</p>
+      <p>In <b>seniority</b>, heads sit in their traditional order, Ogbè and Ọ̀yẹ̀kú crowning the tree. This order is also the Lab's learning path, from IfaScratch to IfaJulia.</p>
+      <p>Every language is named in IfaLang: the <b>Ifa</b> prefix plus the language it teaches (IfaScratch, IfaPython, IfaJava…).</p>
+    </section>
+  </aside>
+</main>
+
+<section class="chars" id="path" aria-labelledby="pathH">
+  <div class="chars-head">
+    <div class="eyebrow">Ọ̀nà Ẹ̀kọ́ · Learning Path</div>
+    <h2 id="pathH">The 16 languages of the IFA Code Lab</h2>
+    <p class="sub">In seniority order, from Ogbè to Òfún. Pick a learner level above to see where to begin.</p>
+  </div>
+  <div class="cgrid" id="cgrid"></div>
+</section>
+
+<footer>
+  <div class="ft-title">The Ifa Binary Tree</div>
+  <div>Ibùdó Ìdánkanwò Odùfá · The IFA Code Lab</div>
+  <div class="ft-links"><a href="https://ifainternet.org/ifa-mathematics-toe-mathematics/ifa-code/#ifapl">IFA Code · IfaPL — Programming Language · Model 1</a> · IFA Mathematica · The IFA Internet</div>
+</footer>
+
+<script>
+/* ---------- Data ---------- */
+// marks: top line → bottom line. 1 = single mark (I), 0 = double mark (II)
+const ODU = [
+  {rank:1,  slug:'ogbe',     name:'Ogbè',       meji:'Èjì Ogbè',          marks:[1,1,1,1]},
+  {rank:2,  slug:'oyeku',    name:'Ọ̀yẹ̀kú',      meji:'Ọ̀yẹ̀kú Méjì',        marks:[0,0,0,0]},
+  {rank:3,  slug:'iwori',    name:'Ìwòrì',      meji:'Ìwòrì Méjì',        marks:[0,1,1,0]},
+  {rank:4,  slug:'odi',      name:'Òdí',        meji:'Òdí Méjì',          marks:[1,0,0,1]},
+  {rank:5,  slug:'irosun',   name:'Ìrosùn',     meji:'Ìrosùn Méjì',       marks:[1,1,0,0]},
+  {rank:6,  slug:'owonrin',  name:'Ọ̀wọ́nrín',    meji:'Ọ̀wọ́nrín Méjì',      marks:[0,0,1,1]},
+  {rank:7,  slug:'obara',    name:'Ọ̀bàrà',      meji:'Ọ̀bàrà Méjì',        marks:[1,0,0,0]},
+  {rank:8,  slug:'okanran',  name:'Ọ̀kànràn',    meji:'Ọ̀kànràn Méjì',      marks:[0,0,0,1]},
+  {rank:9,  slug:'ogunda',   name:'Ògúndá',     meji:'Ògúndá Méjì',       marks:[1,1,1,0]},
+  {rank:10, slug:'osa',      name:'Ọ̀sá',        meji:'Ọ̀sá Méjì',          marks:[0,1,1,1]},
+  {rank:11, slug:'ika',      name:'Ìká',        meji:'Ìká Méjì',          marks:[0,1,0,0]},
+  {rank:12, slug:'oturupon', name:'Òtúúrúpọ̀n',  meji:'Òtúúrúpọ̀n Méjì',    marks:[0,0,1,0]},
+  {rank:13, slug:'otura',    name:'Òtúrá',      meji:'Òtúrá Méjì',        marks:[1,0,1,1]},
+  {rank:14, slug:'irete',    name:'Ìrẹtẹ̀',      meji:'Ìrẹtẹ̀ Méjì',        marks:[1,1,0,1]},
+  {rank:15, slug:'ose',      name:'Ọ̀ṣẹ́',        meji:'Ọ̀ṣẹ́ Méjì',          marks:[1,0,1,0]},
+  {rank:16, slug:'ofun',     name:'Òfún',       meji:'Òfún Méjì',         marks:[0,1,0,1]},
+];
+
+// The 16 IfaPL languages on the tree, in seniority (learning-path) order.
+// status: 'live' (lab open, set url), 'soon' (coming soon). levels: kids | teens | adults
+const HI = 'Ẹ káàbọ̀ sí Ibùdó Ifá!';
+const PL = [
+  ['IfaScratch','Scratch','Block coding: snap blocks together to make stories, games and animations.',['kids'],
+   'when green flag clicked\n  say ['+HI+'] for (2) seconds'],
+  ['IfaPython','Python','A readable first text language for data, AI and science.',['kids','teens','adults'],
+   'print("'+HI+'")'],
+  ['IfaJavaScript','JavaScript','The language of the web: make pages and apps come alive.',['teens','adults'],
+   'console.log("'+HI+'");'],
+  ['IfaJava','Java','Object-oriented language behind Android and large systems.',['teens','adults'],
+   'public class Ifa {\n  public static void main(String[] args) {\n    System.out.println("'+HI+'");\n  }\n}'],
+  ['IfaC','C','Close to the machine: memory, bits and how computers really work.',['teens','adults'],
+   '#include <stdio.h>\n\nint main(void) {\n  printf("'+HI+'\\n");\n  return 0;\n}'],
+  ['IfaC++','C++','Speed and objects for games, graphics and engines.',['teens','adults'],
+   '#include <iostream>\n\nint main() {\n  std::cout << "'+HI+'" << std::endl;\n}'],
+  ['IfaC#','C#','Games with Unity, desktop apps and the .NET world.',['teens','adults'],
+   'Console.WriteLine("'+HI+'");'],
+  ['IfaGo','Go','A simple, fast language for servers and the cloud.',['adults'],
+   'package main\n\nimport "fmt"\n\nfunc main() {\n  fmt.Println("'+HI+'")\n}'],
+  ['IfaRust','Rust','Safe, fast systems programming.',['adults'],
+   'fn main() {\n    println!("'+HI+'");\n}'],
+  ['IfaSwift','Swift','Apple\'s language for iPhone, iPad and Mac apps.',['kids','teens','adults'],
+   'print("'+HI+'")'],
+  ['IfaKotlin','Kotlin','A modern language for Android apps.',['teens','adults'],
+   'fun main() {\n    println("'+HI+'")\n}'],
+  ['IfaRuby','Ruby','A friendly language for web apps and scripting.',['teens','adults'],
+   'puts "'+HI+'"'],
+  ['IfaPHP','PHP','Server-side language behind many websites.',['teens','adults'],
+   '<?php\necho "'+HI+'";'],
+  ['IfaR','R','Statistics and data visualisation.',['teens','adults'],
+   'print("'+HI+'")'],
+  ['IfaSQL','SQL','Ask questions of databases.',['teens','adults'],
+   "SELECT '"+HI+"' AS kaabo;"],
+  ['IfaJulia','Julia','High-performance scientific and numerical computing.',['adults'],
+   'println("'+HI+'")'],
+];
+const GAMES = Object.fromEntries(ODU.map((o,i) => { const [short, base, desc, levels, hello] = PL[i];
+  return [o.slug, {short, title:short, base, desc, levels, hello, status:'soon', url:''}]; }));
+const LV = {kids:'Ọmọdé · Kids', teens:'Ọ̀dọ́ · Teens', adults:'Àgbàlagbà · Adults'};
+const esc = t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const STATUS = {live:'Ó ti ṣí · Lab open', soon:'Ń bọ̀ · Coming soon'};
+
+/* ---------- Geometry ---------- */
+const C = {x:500, y:640};
+const A0 = 196, A1 = -16;
+const leafAngle = i => A0 - i*(A0-A1)/15;
+const leafR = i => i % 2 ? 428 : 384;
+const RAD = [0, 118, 212, 300];
+const WID = [0, 13, 8.5, 5.5, 3.2];
+const polar = (r,a) => ({x:C.x + r*Math.cos(a*Math.PI/180), y:C.y - r*Math.sin(a*Math.PI/180)});
+const f = n => n.toFixed(1);
+const bits = o => o.marks.join('');
+const binIdx = o => parseInt(bits(o), 2);
+const slotOf = (o, mode) => mode === 'bin' ? binIdx(o)
+  : (o.rank % 2 ? 8 + (o.rank-1)/2 : 7 - (o.rank/2 - 1));
+const nodeAngle = (k,p) => { const span = 16 >> k; return (leafAngle(p*span) + leafAngle(p*span+span-1))/2; };
+function curve(r0,a0,r1,a1){
+  const p = polar(r0,a0), q = polar(r1,a1), d = r1-r0;
+  const c1 = polar(r0+d*.5, a0), c2 = polar(r1-d*.4, a1);
+  return `M${f(p.x)} ${f(p.y)}C${f(c1.x)} ${f(c1.y)} ${f(c2.x)} ${f(c2.y)} ${f(q.x)} ${f(q.y)}`;
+}
+const COLORS = {'11':'#e9b949','10':'#e2783a','01':'#3fbfa9','00':'#a184ea'};
+const colorOf = o => COLORS[bits(o).slice(0,2)];
+
+/* ---------- Static scenery ---------- */
+const $ = id => document.getElementById(id);
+(function scenery(){
+  const hw = y => 13 + (y - C.y)/320*20;
+  let t = `<path d="M${500-hw(965)} 965 C${500-hw(800)} 820 ${500-14} 700 488 ${C.y} L512 ${C.y} C${500+14} 700 ${500+hw(800)} 820 ${500+hw(965)} 965 Z" fill="url(#trunkG)"/>`;
+  for (let y = 656; y < 960; y += 19){
+    const w = hw(y)*.95;
+    t += `<path d="M${f(500-w)} ${y} Q500 ${y+9} ${f(500+w)} ${y}" fill="none" stroke="#2e1c0c" stroke-width="2" opacity=".7"/>`;
+  }
+  $('trunk').innerHTML = t;
+  let r = '';
+  [[-1,150,8],[1,150,8],[-1,95,5],[1,95,5],[-1,210,3],[1,210,3]].forEach(([s,len,w])=>{
+    r += `<path d="M500 962 Q${500+s*len*.4} 975 ${500+s*len} ${972+w}" fill="none" stroke="#3d2712" stroke-width="${w}" stroke-linecap="round"/>`;
+  });
+  $('roots').innerHTML = r;
+})();
+
+/* ---------- Edges ---------- */
+let mode = 'bin';
+function edgesMarkup(m){
+  let s = '';
+  if (m === 'bin'){
+    for (let i = 0; i < 16; i++){
+      const p3 = i >> 1, key = i.toString(2).padStart(4,'0');
+      s += `<path class="edge" data-key="${key}" stroke-width="${WID[4]}" d="${curve(RAD[3], nodeAngle(3,p3), leafR(i), leafAngle(i))}"/>`;
+    }
+    for (let k = 3; k >= 1; k--){
+      for (let p = 0; p < (1<<k); p++){
+        const key = p.toString(2).padStart(k,'0');
+        const a0 = k === 1 ? 90 : nodeAngle(k-1, p>>1);
+        s += `<path class="edge" data-key="${key}" stroke-width="${WID[k]}" d="${curve(RAD[k-1], a0, RAD[k], nodeAngle(k,p))}"/>`;
+      }
+    }
+    for (let k = 1; k <= 3; k++) for (let p = 0; p < (1<<k); p++){
+      const q = polar(RAD[k], nodeAngle(k,p)), key = p.toString(2).padStart(k,'0');
+      s += `<circle class="jn" data-key="${key}" cx="${f(q.x)}" cy="${f(q.y)}" r="${7-k}"/>`;
+    }
+    const L = polar(RAD[1]+12, nodeAngle(1,0)+22), R = polar(RAD[1]+12, nodeAngle(1,1)-22);
+    s += `<text class="side-lab" x="${f(L.x)}" y="${f(L.y)}">ÒSÌ · II</text><text class="side-lab" x="${f(R.x)}" y="${f(R.y)}">Ọ̀TÚN · I</text>`;
+  } else {
+    ODU.forEach(o => { const i = slotOf(o,'sen');
+      s += `<path class="edge" data-key="${bits(o)}" stroke-width="3.6" d="${curve(0, 90, leafR(i), leafAngle(i))}"/>`; });
+    s += `<text class="side-lab" x="330" y="560">ÒSÌ</text><text class="side-lab" x="670" y="560">Ọ̀TÚN</text>`;
+  }
+  s += `<circle cx="${C.x}" cy="${C.y}" r="9" fill="#8a5a2e" stroke="#e9b949" stroke-width="1.5"/>`;
+  return s;
+}
+function drawEdges(){
+  const g = $('edges');
+  g.style.opacity = 0;
+  setTimeout(() => { g.innerHTML = edgesMarkup(mode); g.style.opacity = 1; light(current ? bits(current) : '', !!current); }, 260);
+}
+
+/* ---------- Heads ---------- */
+function marksSVG(m, y0, gap, h, col, colGap){
+  let s = '';
+  m.forEach((b,row) => {
+    const y = y0 + row*gap;
+    [-colGap, colGap].forEach(cx => {
+      (b ? [0] : [-2.6, 2.6]).forEach(dx =>
+        s += `<line x1="${f(cx+dx)}" y1="${f(y)}" x2="${f(cx+dx)}" y2="${f(y+h)}" stroke="${col}" stroke-width="2.2" stroke-linecap="round"/>`);
+    });
+  });
+  return s;
+}
+function headMarkup(o){
+  const col = colorOf(o);
+  let fr = '';
+  for (let j = 0; j < 16; j++){
+    const a = (j*360/16 + 11) * Math.PI/180, L = j % 2 ? 24 : 18;
+    const x2 = Math.cos(a)*L, y2 = Math.sin(a)*L, cx = Math.cos(a+.25)*L*.6, cy = Math.sin(a+.25)*L*.6;
+    fr += `<path d="M${f(Math.cos(a)*5)} ${f(Math.sin(a)*5)}Q${f(cx)} ${f(cy)} ${f(x2)} ${f(y2)}" stroke="${col}" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  }
+  return `<g class="body">
+    <circle class="halo" r="30" fill="${col}" filter="url(#soft)" opacity=".3"/>
+    <circle r="31" fill="transparent"/>
+    ${fr}
+    <circle r="6" fill="${col}"/><circle r="2.4" fill="#0b120d"/>
+    <circle class="ring" r="34"/>
+  </g>
+  <text class="nm" y="44">${o.name}</text>
+  <g>${marksSVG(o.marks, 52, 6.5, 4, col, 8)}</g>
+  <text class="gm ${GAMES[o.slug].status}" y="90">${GAMES[o.slug].status === 'live' ? '● ' : ''}${GAMES[o.slug].short}</text>`;
+}
+const heads = {};
+ODU.forEach(o => {
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('class','head');
+  g.setAttribute('tabindex','0');
+  g.setAttribute('role','button');
+  g.setAttribute('aria-label', `${o.meji}, Odù ${o.rank} of 16 — ${GAMES[o.slug].title}`);
+  g.innerHTML = headMarkup(o);
+  g.addEventListener('click', () => select(o));
+  g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); select(o); } });
+  g.addEventListener('mouseenter', () => { if (!casting) light(bits(o), true); });
+  g.addEventListener('mouseleave', () => { if (!casting) light(current ? bits(current) : '', !!current); });
+  heads[o.slug] = g;
+  $('heads').appendChild(g);
+});
+function placeHeads(){
+  ODU.forEach(o => { const i = slotOf(o, mode), p = polar(leafR(i), leafAngle(i));
+    heads[o.slug].style.transform = `translate(${f(p.x)}px,${f(p.y)}px)`; });
+}
+
+/* ---------- Highlighting ---------- */
+function light(prefix, on){
+  const svg = $('tree');
+  svg.classList.toggle('dim', on && prefix.length > 0);
+  document.querySelectorAll('#edges [data-key]').forEach(el => {
+    const k = el.dataset.key;
+    const lit = on && prefix.length > 0 && (mode === 'bin'
+      ? (k.length <= prefix.length ? prefix.startsWith(k) : k.startsWith(prefix))
+      : k.startsWith(prefix));
+    el.classList.toggle('lit', lit);
+  });
+  ODU.forEach(o => heads[o.slug].classList.toggle('lit', on && prefix.length > 0 && bits(o).startsWith(prefix)));
+}
+
+/* ---------- Detail panel ---------- */
+let current = null;
+function select(o, fromHash){
+  current = o;
+  ODU.forEach(x => heads[x.slug].classList.toggle('sel', x === o));
+  light(bits(o), true);
+  const col = colorOf(o), side = o.marks[0] ? 'Ọ̀tún (right)' : 'Òsì (left)';
+  const g = GAMES[o.slug], ready = g.status === 'live' && g.url;
+  $('detail').innerHTML = `
+    <h2>Odù ${o.rank} of 16</h2>
+    <div class="detail-grid">
+      <svg width="64" height="96" viewBox="-32 -6 64 96" aria-hidden="true">${marksSVG(o.marks, 0, 22, 14, col, 14)}</svg>
+      <div>
+        <p class="odu-name">${o.meji}</p>
+        <p class="meta">${side} · ${o.marks.map(b => b ? 'I' : 'II').join(' ')}</p>
+        <span class="code">${bits(o)}</span>
+      </div>
+    </div>
+    <div class="portal ${g.status}">
+      <p class="pk">IfaPL · Model 1 · built on ${g.base}</p>
+      <p class="t" style="font-size:22px">${g.title}</p>
+      <p class="s">${g.desc}</p>
+      <div class="lvls" style="justify-content:flex-start;margin:0 0 12px">${g.levels.map(l => `<span class="lv">${LV[l]}</span>`).join('')}</div>
+      <p class="pk" style="margin-bottom:6px">Ìkíni àkọ́kọ́ · First program</p>
+      <pre class="hello">${esc(g.hello)}</pre>
+      ${ready ? `<a class="btn" style="display:block;text-align:center;text-decoration:none" href="${g.url}">Wọlé · Open ${g.short} lab</a>`
+              : `<button class="btn ghost" disabled>${STATUS[g.status]}</button>`}
+    </div>`;
+  showRows(o.marks);
+  if (!fromHash) history.replaceState(null, '', '#' + o.slug);
+}
+
+/* ---------- Cast ---------- */
+const rowsEl = $('rows');
+function showRows(m){
+  rowsEl.innerHTML = [0,1,2,3].map(r => {
+    const b = m ? m[r] : null;
+    return `<div class="row ${b === null || b === undefined ? '' : 'on'}"><span>${r+1}</span>
+      <span class="mk">${b === 0 ? '<i></i><i></i>' : '<i></i>'}</span>
+      <span class="lab">${b === null || b === undefined ? '' : (b ? 'I' : 'II')}</span></div>`;
+  }).join('');
+}
+showRows(null);
+let casting = false;
+const sleep = ms => new Promise(r => setTimeout(r, matchMedia('(prefers-reduced-motion: reduce)').matches ? 60 : ms));
+$('castBtn').addEventListener('click', async () => {
+  if (casting) return;
+  casting = true; $('castBtn').disabled = true;
+  current = null;
+  ODU.forEach(x => heads[x.slug].classList.remove('sel'));
+  light('', false);
+  const got = [];
+  showRows(got);
+  await sleep(250);
+  for (let k = 0; k < 4; k++){
+    const r = new Uint8Array(1); crypto.getRandomValues(r);
+    got.push(r[0] & 1);
+    showRows(got);
+    light(got.join(''), true);
+    await sleep(700);
+  }
+  casting = false; $('castBtn').disabled = false;
+  select(ODU.find(o => bits(o) === got.join('')));
+});
+
+/* ---------- Mode ---------- */
+function setMode(m){
+  mode = m;
+  $('mBin').setAttribute('aria-pressed', m === 'bin');
+  $('mSen').setAttribute('aria-pressed', m === 'sen');
+  placeHeads(); drawEdges();
+}
+$('mBin').addEventListener('click', () => setMode('bin'));
+$('mSen').addEventListener('click', () => setMode('sen'));
+
+
+/* ---------- Learning path + learner level ---------- */
+let level = 'all';
+function renderPath(){
+  $('cgrid').innerHTML = ODU.map(o => { const g = GAMES[o.slug], col = colorOf(o);
+    return `<button class="ch" data-slug="${o.slug}">
+      <svg width="40" height="40" viewBox="-20 -4 40 40" aria-hidden="true">${marksSVG(o.marks, 0, 8, 5, col, 7)}</svg>
+      <p class="no">${o.rank} · ${o.name}</p><p class="n">${g.short}</p><p class="g">${g.desc}</p>
+      <div class="lvls">${g.levels.map(l => `<span class="lv">${LV[l].split(' · ')[1]}</span>`).join('')}</div></button>`; }).join('');
+  $('cgrid').querySelectorAll('.ch').forEach(b => b.addEventListener('click', () => {
+    select(ODU.find(o => o.slug === b.dataset.slug));
+    $('detail').scrollIntoView({behavior:'smooth', block:'nearest'});
+  }));
+  applyLevel();
+}
+function applyLevel(){
+  ODU.forEach(o => { const off = level !== 'all' && !GAMES[o.slug].levels.includes(level);
+    heads[o.slug].classList.toggle('lv-off', off);
+    const c = document.querySelector(`.ch[data-slug="${o.slug}"]`); if (c) c.classList.toggle('lv-off', off); });
+  document.querySelectorAll('.lvseg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lv === level));
+}
+document.querySelectorAll('.lvseg button').forEach(b => b.addEventListener('click', () => { level = b.dataset.lv; applyLevel(); }));
+renderPath();
+
+/* ---------- Init ---------- */
+$('edges').innerHTML = edgesMarkup(mode);
+placeHeads();
+const fromHash = ODU.find(o => o.slug === location.hash.slice(1));
+if (fromHash) select(fromHash, true);
+window.addEventListener('hashchange', () => { const o = ODU.find(x => x.slug === location.hash.slice(1)); if (o && o !== current) select(o, true); });
+</script>
+</body>
+</html>

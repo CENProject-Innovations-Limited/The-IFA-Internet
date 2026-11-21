@@ -779,6 +779,21 @@ function IfaPLSection() {
           </div>
         )}
 
+        {/* Model 1: IFA Code Lab */}
+        <div className="ifc-notice ifc-notice--violet" id="ifa-code-lab">
+          <span className="ifc-notice__icon" style={{ color: '#8b5cf6' }}>Lab</span>
+          <div>
+            <strong>Ibùdó Ìdánkanwò Odùfá: The IFA Code Lab</strong> — the Ifa Binary Tree of 16 heads,
+            with a programming language on every branch: IfaScratch, IfaPython, IfaJava, IfaJavaScript and more.
+            An environment for kids, teens and adults to learn and build PLs using Ifa and Orisa
+            Approaches, in Yorùbá and English.{' '}
+            <a href="https://ifainternet.org/ifa-mathematics-toe-mathematics/ifa-code/ifa-code-lab/"
+               className="ifc-link">
+              Enter the IFA Code Lab →
+            </a>
+          </div>
+        </div>
+
         {/* IfaConstruction subsection */}
         <div id="ifaconstruct" className="ifc-model-header">
           <div className="ifc-model-num ifc-model-num--violet">-OEs</div>
